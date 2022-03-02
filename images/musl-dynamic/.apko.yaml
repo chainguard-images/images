@@ -4,3 +4,4 @@ contents:
   packages:
     - musl
     - alpine-baselayout-data
+    - ca-certificates-bundle
