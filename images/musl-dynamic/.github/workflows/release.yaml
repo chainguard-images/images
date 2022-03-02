@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * *'    
+
+name: Create Release
+
+jobs:
+  build:
+    name: Release OCI image
+    runs-on: ubuntu-latest
+
+    # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
+    permissions:
+      id-token: write
+      packages: write
+      contents: read
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: distroless/actions/apko-snapshot@main
+      with:
+        config: .apko.yaml
+        base-tag: ghcr.io/${{ github.repository }}

@@ -1,0 +1,5 @@
+contents:
+  repositories:
+    - http://dl-cdn.alpinelinux.org/alpine/edge/main
+  packages:
+    - alpine-baselayout-data
