@@ -4,3 +4,5 @@ contents:
   packages:
     - alpine-baselayout-data
     - busybox
+    - ssl_client
+    - ca-certificates-bundle
