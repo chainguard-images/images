@@ -3,3 +3,4 @@ contents:
     - http://dl-cdn.alpinelinux.org/alpine/edge/main
   packages:
     - alpine-base
+    - busybox-ifupdown
