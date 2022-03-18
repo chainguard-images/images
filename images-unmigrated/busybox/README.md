@@ -1,13 +1,9 @@
-# static
+# busybox
 
-Base image with just enough files to run static binaries!
+This is an image that contains busybox and musl.
 
-This image is meant to be used as a base image only, and is
-otherwise useless.  It contains the `alpine-baselayout-data`
-package from Alpine, which is just a set of data files needed
-to support glibc and musl static binaries at runtime.
-
-This image can be used with `ko build`, `docker`, etc, but
-is only suitable for running static binaries.
+This image can be used with `ko build`, `docker`, etc, and
+is suitable for running any binaries that only have a dependency
+on musl.
 
 This image is also regenerated nightly.
