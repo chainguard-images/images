@@ -8,6 +8,8 @@ contents:
 
     # busybox gives us a shell we can use, when we need one.
     - busybox
+
+    # ssl_client allows the busybox wget applet to use https.
     - ssl_client
 
 accounts:
