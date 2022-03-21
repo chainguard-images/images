@@ -2,7 +2,19 @@ contents:
   repositories:
     - http://dl-cdn.alpinelinux.org/alpine/edge/main
   packages:
+    # These packages match distroless/static
     - alpine-baselayout-data
+    - ca-certificates-bundle
+
+    # busybox gives us a shell we can use, when we need one.
     - busybox
     - ssl_client
-    - ca-certificates-bundle
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+  run-as: 65532
