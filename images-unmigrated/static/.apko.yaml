@@ -4,3 +4,12 @@ contents:
   packages:
     - alpine-baselayout-data
     - ca-certificates-bundle
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+  run-as: 65532
