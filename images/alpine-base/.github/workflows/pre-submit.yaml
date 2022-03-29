@@ -1,0 +1,35 @@
+name: PreSubmit-Build
+
+on:
+  pull_request:
+
+jobs:
+  build:
+    name: Build OCI image
+    runs-on: ubuntu-latest
+
+    # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
+    permissions:
+      contents: read
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup QEMU
+      uses: docker/setup-qemu-action@v1.2.0
+
+    - name: Generate snapshot date
+      id: snapshot-date
+      run: |
+        echo ::set-output name=date::$(date -u +%Y%m%d)
+      shell: bash
+
+    - uses: distroless/actions/apko-build@main
+      with:
+        config: .apko.yaml
+        tag: alpine-base:${{ steps.snapshot-date.outputs.date }}
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: alpine-base.tar
+        path: ./output.tar
