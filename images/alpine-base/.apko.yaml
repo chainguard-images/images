@@ -1,6 +1,6 @@
 contents:
   repositories:
-    - http://dl-cdn.alpinelinux.org/alpine/edge/main
+    - https://dl-cdn.alpinelinux.org/alpine/edge/main
   packages:
     - alpine-base
     - busybox-ifupdown
