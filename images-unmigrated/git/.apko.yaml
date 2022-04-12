@@ -9,6 +9,9 @@ contents:
     - git-lfs
     - openssh-client
 
+entrypoint:
+  command: /usr/bin/git
+
 accounts:
   groups:
     - groupname: nonroot
