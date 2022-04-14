@@ -5,6 +5,11 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
+  # Allow manually triggered workflows by maintainers without any
+  # parameters to trigger a proactive rebuild (e.g. when a new
+  # apko lands)
+  workflow_dispatch: {}
+
 name: Create Release
 
 # Don't run multiple releases concurrently.
