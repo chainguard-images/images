@@ -29,6 +29,11 @@ jobs:
         config: .apko.yaml
         tag: template:${{ steps.snapshot-date.outputs.date }}
 
+    - uses: distroless/actions/apko-build@main
+      with:
+        config: .apko-root.yaml
+        tag: template:root-${{ steps.snapshot-date.outputs.date }}
+
     - uses: actions/upload-artifact@v3
       with:
         name: template.tar

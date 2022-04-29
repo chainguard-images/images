@@ -1,0 +1,21 @@
+contents:
+  repositories:
+    - https://dl-cdn.alpinelinux.org/alpine/edge/main
+    - https://dl-cdn.alpinelinux.org/alpine/edge/community
+  packages:
+    - alpine-baselayout-data
+    - ca-certificates-bundle
+    - git
+    - git-lfs
+    - openssh-client
+
+entrypoint:
+  command: /usr/bin/git
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532

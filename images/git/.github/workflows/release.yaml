@@ -32,6 +32,13 @@ jobs:
       with:
         config: .apko.yaml
         base-tag: ghcr.io/${{ github.repository }}
+        target-tag: latest
+
+    - uses: distroless/actions/apko-snapshot@main
+      with:
+        config: .apko.yaml
+        base-tag: ghcr.io/${{ github.repository }}
+        target-tag: root
 
     # Post to slack when things fail.
     - if: ${{ failure() }}
