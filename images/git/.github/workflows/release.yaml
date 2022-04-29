@@ -36,7 +36,7 @@ jobs:
 
     - uses: distroless/actions/apko-snapshot@main
       with:
-        config: .apko.yaml
+        config: .apko-root.yaml
         base-tag: ghcr.io/${{ github.repository }}
         target-tag: root
 
