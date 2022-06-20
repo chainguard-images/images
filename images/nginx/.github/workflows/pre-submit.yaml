@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    name: Build OCI image
+    name: Build NGINX OCI image
     runs-on: ubuntu-latest
 
     # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
@@ -24,12 +24,21 @@ jobs:
         echo ::set-output name=date::$(date -u +%Y%m%d)
       shell: bash
 
+
+    - uses: sigstore/cosign-installer@main
+    - uses: chainguard-dev/actions/melange-build@main
+      with:
+        sign-with-temporary-key: true
+
     - uses: distroless/actions/apko-build@main
       with:
-        config: .apko.yaml
-        tag: template:${{ steps.snapshot-date.outputs.date }}
+        config: apko.yaml
+        tag: nginx:${{ steps.snapshot-date.outputs.date }}
+        keyring-append: /github/workspace/melange.rsa.pub
+        archs: x86_64
+        source-date-epoch: ${{ steps.snapshot-date.outputs.epoch }}
 
     - uses: actions/upload-artifact@v3
       with:
-        name: template.tar
+        name: nginx.tar
         path: ./output.tar
