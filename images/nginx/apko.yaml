@@ -1,6 +1,7 @@
 contents:
   repositories:
     - https://dl-cdn.alpinelinux.org/alpine/edge/main
+    - '@local /github/workspace/packages'
   packages:
     - alpine-baselayout-data
     - nginx@local
