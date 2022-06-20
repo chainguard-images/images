@@ -28,9 +28,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - uses: sigstore/cosign-installer@main
+
+    - uses: chainguard-dev/actions/melange-build@main
+      with:
+        sign-with-temporary-key: true
+          
     - uses: distroless/actions/apko-snapshot@main
       with:
-        config: .apko.yaml
+        config: apko.yaml
         base-tag: ghcr.io/${{ github.repository }}
 
     # Post to slack when things fail.
