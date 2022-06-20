@@ -29,6 +29,7 @@ jobs:
     - uses: chainguard-dev/actions/melange-build@main
       with:
         sign-with-temporary-key: true
+        config: melange.yaml   
 
     - uses: distroless/actions/apko-build@main
       with:
