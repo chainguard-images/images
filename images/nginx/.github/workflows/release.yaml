@@ -35,12 +35,12 @@ jobs:
         sign-with-temporary-key: true
         config: melange.yaml
         empty-workspace: true
-          
+
     - uses: distroless/actions/apko-snapshot@main
       with:
         config: apko.yaml
         base-tag: ghcr.io/${{ github.repository }}
-        keyring-append: ${{ github.workspace }}/melange.rsa.pub
+        keyring-append: /github/workspace/melange.rsa.pub
         archs: x86_64
 
 #    # Post to slack when things fail.
