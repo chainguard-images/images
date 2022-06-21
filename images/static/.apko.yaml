@@ -4,6 +4,7 @@ contents:
   packages:
     - alpine-baselayout-data
     - ca-certificates-bundle
+    - tzdata
 
 accounts:
   groups:
