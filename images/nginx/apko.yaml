@@ -16,7 +16,7 @@ accounts:
   run-as: 10000
 
 paths:
-  - path: /bin/s6-svscan/.s6-svscan
+  - path: /s6
     type: directory
     uid: 10000
     gid: 10000
