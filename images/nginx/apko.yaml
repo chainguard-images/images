@@ -15,6 +15,13 @@ accounts:
       uid: 10000
   run-as: 10000
 
+paths:
+  - path: /.s6-svscan
+    type: directory
+    uid: 10000
+    gid: 10000
+    permissions: 0o755
+
 entrypoint:
   type: service-bundle
   services:
