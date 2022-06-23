@@ -34,15 +34,15 @@ jobs:
         base-tag: ghcr.io/${{ github.repository }}
 
     # Post to slack when things fail.
-    - if: ${{ failure() }}
-      uses: rtCamp/action-slack-notify@v2.2.0
-      env:
-        SLACK_ICON: http://github.com/chainguardian.png?size=48
-        SLACK_USERNAME: chainguardian
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_CHANNEL: distroless
-        SLACK_COLOR: '#8E1600'
-        MSG_MINIMAL: 'true'
-        SLACK_TITLE: Releasing ${{ github.repository }} failed.
-        SLACK_MESSAGE: |
-          For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+#    - if: ${{ failure() }}
+#      uses: rtCamp/action-slack-notify@v2.2.0
+#      env:
+#        SLACK_ICON: http://github.com/chainguardian.png?size=48
+#        SLACK_USERNAME: chainguardian
+#        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+#        SLACK_CHANNEL: distroless
+#        SLACK_COLOR: '#8E1600'
+#        MSG_MINIMAL: 'true'
+#        SLACK_TITLE: Releasing ${{ github.repository }} failed.
+#        SLACK_MESSAGE: |
+#          For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
