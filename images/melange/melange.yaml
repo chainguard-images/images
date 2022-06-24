@@ -1,0 +1,48 @@
+  name: melange
+  version: 0.0.1
+  epoch: 0
+  description: "Melange"
+  target-architecture:
+    - aarch64
+  copyright:
+    - paths:
+      - "*"
+      attestation: TODO
+      license: Apache-2.0
+  dependencies:
+    runtime:
+      - bubblewrap
+
+environment:
+  contents:
+    repositories:
+      - https://dl-cdn.alpinelinux.org/alpine/edge/main
+      - https://dl-cdn.alpinelinux.org/alpine/edge/community
+    packages:
+      - alpine-baselayout-data
+      - alpine-base
+      - busybox
+      - build-base
+      - scanelf
+      - ssl_client
+      - ca-certificates-bundle
+      - brotli-dev
+      - gd-dev
+      - geoip-dev
+      - libmaxminddb-dev
+      - libxml2-dev
+      - libxslt-dev
+      - linux-headers
+      - openssl1.1-compat-dev
+      - pcre-dev
+      - pkgconf
+      - zeromq-dev
+      - zlib-dev
+      - go
+      - git
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://github.com/chainguard-dev/melange.git
+  - uses: autoconf/make-install

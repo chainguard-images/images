@@ -1,9 +1,11 @@
 contents:
   repositories:
     - https://dl-cdn.alpinelinux.org/alpine/edge/main
+    - '@local /github/workspace/packages'
   packages:
     - ca-certificates-bundle
     - alpine-baselayout-data
+    - melange@local
 
 accounts:
   groups:
