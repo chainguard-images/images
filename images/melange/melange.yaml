@@ -12,6 +12,7 @@ package:
       license: Apache-2.0
   dependencies:
     runtime:
+      - bubblewrap
 
 environment:
   contents:
@@ -22,22 +23,7 @@ environment:
       - alpine-baselayout-data
       - alpine-base
       - busybox
-      - build-base
-      - scanelf
-      - ssl_client
       - ca-certificates-bundle
-      - brotli-dev
-      - gd-dev
-      - geoip-dev
-      - libmaxminddb-dev
-      - libxml2-dev
-      - libxslt-dev
-      - linux-headers
-      - openssl1.1-compat-dev
-      - pcre-dev
-      - pkgconf
-      - zeromq-dev
-      - zlib-dev
       - go
       - git
 
