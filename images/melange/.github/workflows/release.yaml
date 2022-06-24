@@ -27,10 +27,7 @@ jobs:
       contents: read
 
     steps:
-    - name: Set up GOPATH
-      shell: bash
-      run: |
-        echo "GOROOT=$(go env GOROOT)" >> "$GITHUB_ENV"
+    - uses: actions/setup-go@v3
     - uses: actions/checkout@v3
     - uses: sigstore/cosign-installer@main
     - uses: chainguard-dev/actions/melange-build@main
