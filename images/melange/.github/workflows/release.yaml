@@ -40,7 +40,7 @@ jobs:
     - uses: chainguard-dev/actions/apko-build@main
       with:
         config: apko.yaml
-        base-tag: ghcr.io/${{ github.repository }}
+        tag: ghcr.io/${{ github.repository }}:latest
         keyring-append: /github/workspace/melange.rsa.pub
         archs: x86_64
 
