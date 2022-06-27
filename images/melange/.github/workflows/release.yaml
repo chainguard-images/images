@@ -37,7 +37,7 @@ jobs:
         sign-with-temporary-key: true
         config: melange.yaml 
         empty-workspace: true
-    - uses: distroless/actions/apko-snapshot@main
+    - uses: chainguard-dev/actions/apko-build@main
       with:
         config: apko.yaml
         base-tag: ghcr.io/${{ github.repository }}
