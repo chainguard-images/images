@@ -42,6 +42,7 @@ jobs:
         config: apko.yaml
         base-tag: ghcr.io/${{ github.repository }}
         keyring-append: /github/workspace/melange.rsa.pub
+        archs: x86_64
 
     # Post to slack when things fail.
 #    - if: ${{ failure() }}

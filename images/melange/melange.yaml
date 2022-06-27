@@ -4,7 +4,7 @@ package:
   epoch: 0
   description: "Melange"
   target-architecture:
-    - all
+    - x86_64
   copyright:
     - paths:
       - "*"
