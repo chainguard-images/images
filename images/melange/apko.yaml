@@ -8,9 +8,7 @@ contents:
     - melange@local
 
 archs:
-  - amd64
-  - aarch64
-  - x86_64
+  - all
 accounts:
   groups:
     - groupname: nonroot
