@@ -7,8 +7,6 @@ contents:
     - alpine-baselayout-data
     - melange@local
 
-archs:
-  - all
 accounts:
   groups:
     - groupname: nonroot

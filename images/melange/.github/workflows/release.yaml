@@ -32,11 +32,14 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: sigstore/cosign-installer@main
+    - name: Setup QEMU
+      uses: docker/setup-qemu-action@v1.2.0
     - uses: chainguard-dev/actions/melange-build@main
       with:
         sign-with-temporary-key: true
-        config: melange.yaml 
+        config: melange.yaml
         empty-workspace: true
+        archs: x86_64
     - uses: chainguard-dev/actions/apko-build@main
       with:
         config: apko.yaml
