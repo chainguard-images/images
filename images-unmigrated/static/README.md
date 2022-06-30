@@ -14,10 +14,10 @@ This image is also regenerated nightly.
 
 ## Usage
 
-Here's an example of building a Rust static binary with Docker tooling:
+Here's an example Dockerfile that builds a Rust static binary
+and puts it into the static image:
 
-```
-$ cat Dockerfile
+```Dockerfile
 FROM --platform=x86_64 rust:alpine as build
 
 RUN rustup target add x86_64-unknown-linux-musl
@@ -28,19 +28,26 @@ FROM distroless.dev/static:latest
 
 COPY --from=build /hello /hello
 CMD ["/hello"]
-$ docker build -t rusty-distroless .
+```
+To build and run it:
+
+```bash
+$ docker build -t rusty-distroless --file examples/Dockerfile.rust .
 ...
 $ docker run rusty-distroless
 Hello Distroless
+```
 
+Note the size!
+
+```bash
 $ docker images rusty-distroless
 REPOSITORY         TAG       IMAGE ID       CREATED         SIZE
 rusty-distroless   latest    aff4c01fd4f0   6 minutes ago   6.09MB
 ```
-And a C program:
+And a C static binary:
 
-```
-$ cat Dockerfile
+```Dockerfile
 # syntax=docker/dockerfile:1.4
 FROM gcc:latest as build
 
@@ -54,10 +61,20 @@ FROM distroless.dev/static:latest
 
 COPY --from=build /hello /hello
 CMD ["/hello"]
-$ docker build -t c-distroless .
+```
+
+To build and run it:
+
+```bash
+$ docker build -t c-distroless -f examples/Dockerfile.c .
 ...
 $ docker run c-distroless
 Hello Distroless!
+```
+
+It's even smaller:
+
+```bash
 $ docker images c-distroless
 REPOSITORY     TAG       IMAGE ID       CREATED              SIZE
 c-distroless   latest    f3648380711c   About a minute ago   2.88MB
@@ -72,7 +89,7 @@ All distroless images are signed using [Sigstore](https://www.sigstore.dev/). Th
 using the [cosign](https://github.com/SigStore/cosign) tool:
 
 ```
-COSIGN_EXPERIMENTAL=1 cosign verify distroless.dev/static | jq
+$ COSIGN_EXPERIMENTAL=1 cosign verify distroless.dev/static | jq
 
 Verification for distroless.dev/static:latest --
 The following checks were performed on each of these signatures:
