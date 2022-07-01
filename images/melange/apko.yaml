@@ -8,7 +8,4 @@ contents:
     - melange@local
     - busybox
 
-archs:
-  - all
-
 cmd: /bin/sh -l
