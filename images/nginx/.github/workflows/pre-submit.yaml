@@ -30,26 +30,15 @@ jobs:
       with:
         sign-with-temporary-key: true
         config: melange.yaml
-        archs: x86_64
-
-    - uses: chainguard-dev/actions/melange-build@main
-      with:
-        sign-with-temporary-key: true
-        config: melange.yaml
-        archs: arm64
-
-    - uses: chainguard-dev/actions/melange-build@main
-      with:
-        sign-with-temporary-key: true
-        config: melange.yaml
-        archs: arm/v7
+        empty-workspace: true
+        archs: x86_64,aarch64,armv7
 
     - uses: distroless/actions/apko-build@main
       with:
         config: apko.yaml
         tag: nginx:${{ steps.snapshot-date.outputs.date }}
         keyring-append: /github/workspace/melange.rsa.pub
-        archs: x86_64,arm64,arm/v7
+        archs: x86_64,aarch64,armv7
         source-date-epoch: ${{ steps.snapshot-date.outputs.epoch }}
 
     - uses: actions/upload-artifact@v3

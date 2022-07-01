@@ -29,5 +29,5 @@ entrypoint:
 
 archs:
   - amd64
-  - arm64
-  - arm/v7
+  - aarch64
+  - armv7
