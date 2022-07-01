@@ -4,7 +4,8 @@ contents:
   packages:
     - ca-certificates-bundle
     - alpine-baselayout-data
-
+    - gcc
+    - musl-dev
 accounts:
   groups:
     - groupname: nonroot
