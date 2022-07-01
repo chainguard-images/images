@@ -18,6 +18,13 @@ jobs:
     - name: Setup QEMU
       uses: docker/setup-qemu-action@v2.0.0
 
+    - uses: chainguard-dev/actions/melange-build@main
+      with:
+        sign-with-temporary-key: true
+        config: melange.yaml
+        empty-workspace: true
+        archs: x86_64
+
     - name: Generate snapshot date
       id: snapshot-date
       run: |
@@ -28,6 +35,8 @@ jobs:
       with:
         config: apko.yaml
         tag: template:${{ steps.snapshot-date.outputs.date }}
+        keyring-append: /github/workspace/melange.rsa.pub
+        archs: x86_64
 
     - uses: actions/upload-artifact@v3
       with:

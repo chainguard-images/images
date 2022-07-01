@@ -45,7 +45,6 @@ jobs:
         config: apko.yaml
         tag: ghcr.io/${{ github.repository }}:latest
         keyring-append: /github/workspace/melange.rsa.pub
-        #keyring-append: /home/runner/work/melange/melange/melange.rsa.pub
         archs: x86_64
 
     # Post to slack when things fail.
