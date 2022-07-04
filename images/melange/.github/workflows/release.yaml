@@ -40,12 +40,11 @@ jobs:
         config: melange.yaml
         empty-workspace: true
         archs: x86_64
-    - uses: chainguard-dev/actions/apko-build@main
+    - uses: distroless/actions/apko-snapshot@main
       with:
         config: apko.yaml
-        tag: ghcr.io/${{ github.repository }}:latest
+        base-tag: ghcr.io/${{ github.repository }}
         keyring-append: /github/workspace/melange.rsa.pub
-        archs: x86_64
 
     # Post to slack when things fail.
     - if: ${{ failure() }}
