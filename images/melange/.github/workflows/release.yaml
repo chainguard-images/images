@@ -39,7 +39,6 @@ jobs:
         sign-with-temporary-key: true
         config: melange.yaml
         empty-workspace: true
-        archs: x86_64
     - uses: distroless/actions/apko-snapshot@main
       with:
         config: apko.yaml
