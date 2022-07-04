@@ -4,8 +4,7 @@ contents:
     - '@local /github/workspace/packages'
   packages:
     - ca-certificates-bundle
-    - alpine-baselayout-data
+    - alpine-base
     - melange@local
-    - busybox
 
-cmd: /bin/sh -l
+cmd: /usr/bin/melange
