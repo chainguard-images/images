@@ -5,6 +5,7 @@ contents:
   packages:
     - ca-certificates-bundle
     - alpine-base
+    - bubblewrap
     - melange@local
 
 cmd: /usr/bin/melange
