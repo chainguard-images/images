@@ -34,7 +34,7 @@ jobs:
     - uses: distroless/actions/apko-build@main
       with:
         config: apko.yaml
-        tag: template:${{ steps.snapshot-date.outputs.date }}
+        tag: melange:${{ steps.snapshot-date.outputs.date }}
         keyring-append: /github/workspace/melange.rsa.pub
 
     - uses: actions/upload-artifact@v3
