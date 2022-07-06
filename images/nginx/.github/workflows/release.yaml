@@ -40,9 +40,6 @@ jobs:
         empty-workspace: true
         archs: x86_64,aarch64,armv7
 
-    - name: Setup upterm session
-      uses: lhotari/action-upterm@v1
-
     - uses: distroless/actions/apko-snapshot@main
       with:
         config: apko.yaml
@@ -63,3 +60,8 @@ jobs:
 #        SLACK_TITLE: Releasing ${{ github.repository }} failed.
 #        SLACK_MESSAGE: |
 #          For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+# Enable this for an SSH backdoor:
+#    - if: ${{ failure() }}
+#      name: Setup upterm session
+#      uses: lhotari/action-upterm@v1
