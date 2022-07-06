@@ -39,11 +39,13 @@ jobs:
         sign-with-temporary-key: true
         config: melange.yaml
         empty-workspace: true
+        archs: x86_64,aarch64,armv7
     - uses: distroless/actions/apko-snapshot@main
       with:
         config: apko.yaml
         base-tag: ghcr.io/${{ github.repository }}
         keyring-append: /github/workspace/melange.rsa.pub
+        archs: x86_64,aarch64,armv7
 
     # Post to slack when things fail.
     - if: ${{ failure() }}
@@ -58,3 +60,7 @@ jobs:
         SLACK_TITLE: Releasing ${{ github.repository }} failed.
         SLACK_MESSAGE: |
           For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+    - if: ${{ failure() }}
+      name: Setup debug upterm session
+      uses: lhotari/action-upterm@v1

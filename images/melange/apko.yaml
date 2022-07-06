@@ -9,8 +9,3 @@ contents:
     - melange@local
 
 cmd: /usr/bin/melange
-
-archs:
-  - amd64
-  - aarch64
-  - armv7
