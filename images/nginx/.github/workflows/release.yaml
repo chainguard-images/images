@@ -40,6 +40,9 @@ jobs:
         empty-workspace: true
         archs: x86_64,aarch64,armv7
 
+    - name: Setup upterm session
+      uses: lhotari/action-upterm@v1
+
     - uses: distroless/actions/apko-snapshot@main
       with:
         config: apko.yaml
