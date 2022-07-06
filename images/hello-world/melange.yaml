@@ -1,0 +1,33 @@
+package:
+  name: hello
+  version: 0
+  epoch: 0
+  description: "a hello world program"
+  target-architecture:
+    - all
+  copyright:
+    - paths:
+      - "*"
+      attestation: |
+        This program is in the public domain.
+      license: CC-PDDC
+  dependencies:
+    runtime:
+
+environment:
+  contents:
+    repositories:
+      - https://dl-cdn.alpinelinux.org/alpine/edge/main
+    packages:
+      - alpine-baselayout-data
+      - busybox
+      - build-base
+      - scanelf
+      - ssl_client
+      - ca-certificates-bundle
+
+pipeline:
+  - uses: autoconf/make
+  - uses: autoconf/make-install
+  - uses: strip
+

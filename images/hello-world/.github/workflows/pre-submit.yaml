@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    name: Build OCI image
+    name: Build hello-world OCI image
     runs-on: ubuntu-latest
 
     # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
@@ -24,12 +24,24 @@ jobs:
         echo ::set-output name=date::$(date -u +%Y%m%d)
       shell: bash
 
+
+    - uses: sigstore/cosign-installer@main
+    - uses: chainguard-dev/actions/melange-build@main
+      with:
+        sign-with-temporary-key: true
+        config: melange.yaml
+        empty-workspace: true
+        archs: x86_64,aarch64,armv7
+
     - uses: distroless/actions/apko-build@main
       with:
         config: apko.yaml
-        tag: template:${{ steps.snapshot-date.outputs.date }}
+        tag: hello-world:${{ steps.snapshot-date.outputs.date }}
+        keyring-append: /github/workspace/melange.rsa.pub
+        archs: x86_64,aarch64,armv7
+        source-date-epoch: ${{ steps.snapshot-date.outputs.epoch }}
 
     - uses: actions/upload-artifact@v3
       with:
-        name: template.tar
+        name: hello-world.tar
         path: ./output.tar
