@@ -30,4 +30,5 @@ pipeline:
   - uses: git-checkout
     with:
       repository: https://github.com/chainguard-dev/melange
+  - uses: autoconf/make
   - uses: autoconf/make-install
