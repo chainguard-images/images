@@ -8,4 +8,6 @@ contents:
     - bubblewrap
     - melange@local
 
-cmd: /usr/bin/melange
+entrypoint:
+  command: /usr/bin/melange
+cmd: --help
