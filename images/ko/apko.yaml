@@ -5,6 +5,7 @@ contents:
     - https://dl-cdn.alpinelinux.org/alpine/edge/testing
   packages:
     - alpine-base
+    - build-base
     - go
     - ko
 
