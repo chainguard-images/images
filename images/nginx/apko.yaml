@@ -21,6 +21,11 @@ paths:
     uid: 10000
     gid: 10000
     permissions: 0o755
+  - path: /var/lib/nginx
+    type: directory
+    uid: 10000
+    gid: 10000
+    permissions: 0o755
 
 entrypoint:
   type: service-bundle
