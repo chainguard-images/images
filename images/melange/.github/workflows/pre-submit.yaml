@@ -36,6 +36,7 @@ jobs:
         config: apko.yaml
         tag: melange:${{ steps.snapshot-date.outputs.date }}
         keyring-append: /github/workspace/melange.rsa.pub
+        archs: x86_64
 
     - uses: actions/upload-artifact@v3
       with:
