@@ -1,9 +1,10 @@
-# busybox
+# ko
 
-This is an image that contains busybox and musl.
+This is an image that contains ko, go, and build-base.
 
-This image can be used with `ko build`, `docker`, etc, and
-is suitable for running any binaries that only have a dependency
-on musl.
+This image is designed for use in situations where you would like
+to use `ko` with codebases that have C dependencies where `cgo`
+must be used.  In these cases, staticly linking against musl
+instead of glibc results in smaller binaries.
 
 This image is also regenerated nightly.
