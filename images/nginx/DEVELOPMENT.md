@@ -64,6 +64,9 @@ Now that we have the package, build the image and save it as a tarball called `n
 
 ```
 docker run -v $(pwd):/w  -v $(pwd)/packages:/github/workspace/packages -w /w ghcr.io/chainguard-dev/apko:canary build apko.yaml distroless.dev/nginx:local nginx.tar --debug --build-arch arm64 --use-docker-mediatypes -k melange.rsa.pub
+
+...
+Jul  8 14:41:38.476 [INFO] [arch:aarch64] output Docker image file to nginx.tar
 ```
 
 To run the image, load it from the tarball and run:
@@ -72,3 +75,11 @@ To run the image, load it from the tarball and run:
 docker load < nginx.tar
 docker run distroless.dev/nginx:local
 ```
+
+To make sure the image works, run:
+
+```
+docker run -p 8080:80 distroless.dev/nginx:local
+```
+
+and navigate to `localhost:8080`. You should see the nginx welcome page!

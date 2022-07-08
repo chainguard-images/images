@@ -21,6 +21,18 @@ paths:
     uid: 10000
     gid: 10000
     permissions: 0o755
+  - path: /var/lib/nginx
+    type: directory
+    uid: 10000
+    gid: 10000
+    permissions: 0o755
+    recursive: true
+  - path: /run/nginx
+    uid: 10000
+    gid: 10000
+    type: directory
+    permissions: 0o755
+    recursive: true    
 
 entrypoint:
   type: service-bundle
