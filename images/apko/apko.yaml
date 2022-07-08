@@ -7,4 +7,6 @@ contents:
     - alpine-base
     - apko@local
 
-cmd: /usr/bin/apko
+entrypoint:
+  command: /usr/bin/apko
+cmd: --help
