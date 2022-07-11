@@ -25,6 +25,7 @@ environment:
       - ca-certificates-bundle
       - go
       - git
+      - proot
 
 pipeline:
   - uses: git-checkout

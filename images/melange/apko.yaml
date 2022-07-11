@@ -8,6 +8,13 @@ contents:
     - bubblewrap
     - melange@local
 
+paths:
+  - path: /work
+    type: directory
+    permissions: 0o777
+
+work-dir: /work
+
 entrypoint:
   command: /usr/bin/melange
 cmd: --help
