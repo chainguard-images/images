@@ -29,8 +29,10 @@ To verify an image, download [cosign](https://github.com/sigstore/cosign) and ru
 
 ```
 COSIGN_EXPERIMENTAL=1 cosign verify distroless.dev/php | jq
+```
 
-Verification for distroless.dev/nginx:latest --
+```
+Verification for distroless.dev/php:latest --
 The following checks were performed on each of these signatures:
   - The cosign claims were validated
   - Existence of the claims in the transparency log was verified offline
@@ -39,7 +41,7 @@ The following checks were performed on each of these signatures:
   {
     "critical": {
       "identity": {
-        "docker-reference": "ghcr.io/distroless/nginx"
+        "docker-reference": "ghcr.io/distroless/php"
       },
       "image": {
         "docker-manifest-digest": "sha256:3b28db71687f52741598f4f68d2e4bea8ee86db57d7394337118316d1f4c8b9f"
@@ -48,7 +50,7 @@ The following checks were performed on each of these signatures:
     },
     "optional": {
       "Issuer": "https://token.actions.githubusercontent.com",
-      "Subject": "https://github.com/distroless/nginx/.github/workflows/release.yaml@refs/heads/main",
+      "Subject": "https://github.com/distroless/php/.github/workflows/release.yaml@refs/heads/main",
       "run_attempt": "1",
       "run_id": "2626578822"
       ...
