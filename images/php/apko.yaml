@@ -1,9 +1,17 @@
 contents:
   repositories:
     - https://dl-cdn.alpinelinux.org/alpine/edge/main
+    - https://dl-cdn.alpinelinux.org/alpine/edge/community
   packages:
-    - ca-certificates-bundle
-    - alpine-baselayout-data
+    - alpine-baselayout
+    - php81
+    - php81-common
+
+entrypoint:
+  command: /usr/bin/php81
+
+environment:
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin
 
 accounts:
   groups:
