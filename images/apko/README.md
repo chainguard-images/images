@@ -72,7 +72,7 @@ All distroless images are signed using [Sigstore](https://www.sigstore.dev/). Th
 using the [cosign](https://github.com/SigStore/cosign) tool:
 
 ```
-$ COSIGN\_EXPERIMENTAL=1 cosign verify distroless.dev/apko | jq
+$ COSIGN_EXPERIMENTAL=1 cosign verify distroless.dev/apko | jq
 
 Verification for distroless.dev/apko:latest --
 The following checks were performed on each of these signatures:
