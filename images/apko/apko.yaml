@@ -7,6 +7,13 @@ contents:
     - alpine-base
     - apko@local
 
+paths:
+  - path: /work
+    type: directory
+    permissions: 0o777
+
+work-dir: /work
+
 entrypoint:
   command: /usr/bin/apko
 cmd: --help
