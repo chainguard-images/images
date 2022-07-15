@@ -64,6 +64,7 @@ pipeline:
         --http-fastcgi-temp-path=/var/lib/${{package.name}}/tmp/fastcgi \
         --http-uwsgi-temp-path=/var/lib/${{package.name}}/tmp/uwsgi \
         --http-scgi-temp-path=/var/lib/${{package.name}}/tmp/scgi \
+        --error-log-path="stderr notice"\
         --user=${{package.name}} \
         --group=${{package.name}} \
         --with-threads \
