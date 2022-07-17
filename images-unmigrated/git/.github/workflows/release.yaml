@@ -20,6 +20,10 @@ jobs:
     name: Release OCI image
     runs-on: ubuntu-latest
 
+    outputs:
+      root-refs: ${{ steps.emit-refs.outputs.root-refs }}
+      nonroot-refs: ${{ steps.emit-refs.outputs.nonroot-refs }}
+
     # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
     permissions:
       id-token: write
@@ -28,17 +32,31 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - uses: distroless/actions/apko-snapshot@main
+
+    - id: nonroot
+      uses: distroless/actions/apko-snapshot@main
       with:
         config: .apko.yaml
+        image_refs: nonroot.images
         base-tag: ghcr.io/${{ github.repository }}
         target-tag: latest
 
-    - uses: distroless/actions/apko-snapshot@main
+    - id: root
+      uses: distroless/actions/apko-snapshot@main
       with:
         config: .apko-root.yaml
+        image_refs: root.images
         base-tag: ghcr.io/${{ github.repository }}
         target-tag: root
+
+    - name: Emit Image Refs output
+      id: emit-refs
+      run: |
+        cat root.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]' | jq .
+        echo ::set-output name=root-refs::$(cat root.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]')
+
+        cat nonroot.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]' | jq .
+        echo ::set-output name=nonroot-refs::$(cat nonroot.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]')
 
     # Post to slack when things fail.
     - if: ${{ failure() }}
@@ -53,3 +71,59 @@ jobs:
         SLACK_TITLE: Releasing ${{ github.repository }} failed.
         SLACK_MESSAGE: |
           For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  root-scan:
+    name: Scan root apko images
+    needs: build
+    runs-on: ubuntu-latest
+
+    # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
+    permissions:
+      id-token: write
+      packages: write
+      contents: read
+
+    strategy:
+      matrix:
+        ref: ${{ fromJson(needs.build.outputs.root-refs) }}
+    steps:
+    - run: |
+        echo ${{ matrix.ref }}
+
+    - uses: distroless/actions/vul-scans@main
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ github.token }}
+        image: ${{ matrix.ref }}
+        RUN_SNYK: "false"
+        RUN_GRYPE: "false"
+
+  nonroot-scan:
+    name: Scan nonroot apko images
+    needs: build
+    runs-on: ubuntu-latest
+
+    # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
+    permissions:
+      id-token: write
+      packages: write
+      contents: read
+
+    strategy:
+      matrix:
+        ref: ${{ fromJson(needs.build.outputs.nonroot-refs) }}
+    steps:
+    - run: |
+        echo ${{ matrix.ref }}
+
+    - uses: distroless/actions/vul-scans@main
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ github.token }}
+        image: ${{ matrix.ref }}
+        RUN_SNYK: "false"
+        RUN_GRYPE: "false"
+
+
