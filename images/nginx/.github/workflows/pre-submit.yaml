@@ -52,6 +52,11 @@ jobs:
         source-date-epoch: ${{ steps.snapshot-date.outputs.epoch }}
         additional-tags: ${{ matrix.nginx-version }}
 
+    - name: Smoke Test
+      run: |
+        IMAGE_NAME=$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')
+        IMAGE_NAME=$IMAGE_NAME ./test.sh
+
     - uses: actions/upload-artifact@v3
       with:
         name: nginx.tar
