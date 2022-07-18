@@ -6,6 +6,14 @@ contents:
     - alpine-baselayout-data
     - gcc
     - musl-dev
+
+paths:
+  - path: /work
+    type: directory
+    permissions: 0o777
+
+work-dir: /work
+
 entrypoint:
   command: /usr/bin/gcc
 cmd: --help
