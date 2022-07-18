@@ -33,6 +33,11 @@ jobs:
         config: apko.yaml
         base-tag: ghcr.io/${{ github.repository }}
 
+    - name: Smoke Test
+      run: |
+        IMAGE_NAME=$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')
+        IMAGE_NAME=$IMAGE_NAME ./test.sh
+
     # Post to slack when things fail.
     - if: ${{ failure() }}
       uses: rtCamp/action-slack-notify@v2.2.0
