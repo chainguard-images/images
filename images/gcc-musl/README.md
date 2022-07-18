@@ -66,7 +66,7 @@ This image is built with [apko](https://github.com/chainguard-dev/apko).
 
 All distroless images are signed using [Sigstore](https://www.sigstore.dev/). This can be verified
 using the [cosign](https://github.com/SigStore/cosign) tool:
-<detail>
+<details>
 
 ```
 Verification for distroless.dev/gcc-musl:latest --
@@ -104,4 +104,4 @@ The following checks were performed on each of these signatures:
   }
 ]
 ```
-</detail>
+</details>
