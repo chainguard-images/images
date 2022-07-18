@@ -6,6 +6,7 @@ contents:
     - alpine-baselayout-data
     - gcc
     - musl-dev
+    - breakbreakbreak
 
 paths:
   - path: /work
