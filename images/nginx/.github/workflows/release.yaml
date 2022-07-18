@@ -20,6 +20,15 @@ jobs:
     name: Release OCI image
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        nginx-version: [1.20.2, 1.23.0]
+        include:
+          - nginx-version: 1.20.2
+            sha256: 958876757782190a1653e14dc26dfc7ba263de310e04c113e11e97d1bef45a42
+          - nginx-version: 1.23.0
+            sha256: 820acaa35b9272be9e9e72f6defa4a5f2921824709f8aa4772c78ab31ed94cd1
+
     # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
     permissions:
       id-token: write
@@ -39,6 +48,8 @@ jobs:
         config: melange.yaml
         empty-workspace: true
         archs: x86_64,aarch64,armv7
+        template: "{\"Version\": \"${{ matrix.nginx-version }}\", \"SHA\": \"${{ matrix.sha256 }}\"}"
+
 
     - uses: distroless/actions/apko-snapshot@main
       with:
@@ -46,6 +57,7 @@ jobs:
         base-tag: ghcr.io/${{ github.repository }}
         keyring-append: /github/workspace/melange.rsa.pub
         archs: x86_64,aarch64,armv7
+        additional-tags: ${{ matrix.nginx-version }}
 
     - if: ${{ failure() }}
       uses: rtCamp/action-slack-notify@v2.2.0
