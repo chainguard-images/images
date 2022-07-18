@@ -6,14 +6,14 @@ contents:
     - alpine-baselayout-data
     - gcc
     - musl-dev
-accounts:
-  groups:
-    - groupname: nonroot
-      gid: 65532
-  users:
-    - username: nonroot
-      uid: 65532
-  run-as: 65532
+
+paths:
+  - path: /work
+    type: directory
+    permissions: 0o777
+
+work-dir: /work
+
 entrypoint:
   command: /usr/bin/gcc
 cmd: --help
