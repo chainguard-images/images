@@ -31,7 +31,7 @@ Hello World!
 
 We can also do this all in a multi-stage Dockerfile e.g:
 
-```
+```Dockerfile
 FROM distroless.dev/gcc-musl as build
 
 COPY hello.c /work/hello.c
@@ -46,7 +46,7 @@ CMD ["/hello"]
 And we can also compile statically to be used in environments without musl:
 
 
-```
+```Dockerfile
 FROM distroless.dev/gcc-musl as build
 
 COPY hello.c /work/hello.c
