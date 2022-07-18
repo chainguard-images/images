@@ -30,7 +30,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: distroless/actions/apko-snapshot@main
       with:
-        config: .apko.yaml
+        config: apko.yaml
         base-tag: ghcr.io/${{ github.repository }}
 
     # Post to slack when things fail.
