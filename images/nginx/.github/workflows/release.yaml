@@ -59,6 +59,11 @@ jobs:
         archs: x86_64,aarch64,armv7
         additional-tags: ${{ matrix.nginx-version }}
 
+    - name: Smoke Test
+      run: |
+        IMAGE_NAME=$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')
+        IMAGE_NAME=$IMAGE_NAME ./test.sh
+
     - if: ${{ failure() }}
       uses: rtCamp/action-slack-notify@v2.2.0
       env:
