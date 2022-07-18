@@ -27,7 +27,7 @@ jobs:
     - uses: distroless/actions/apko-build@main
       with:
         config: apko.yaml
-        tag: musl-build:${{ steps.snapshot-date.outputs.date }}
+        tag: gcc-musl:${{ steps.snapshot-date.outputs.date }}
         archs: x86_64
 
     - name: Smoke Test
