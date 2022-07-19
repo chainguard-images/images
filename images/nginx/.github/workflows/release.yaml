@@ -1,3 +1,8 @@
+# Adding/removing/modifying supported Nginx version(s)?
+# Do a search of this file for the string "versionmod"
+# for all the parts of this file which might need changes
+# TODO: minimize the total number of these
+
 on:
   push:
     branches:
@@ -21,10 +26,13 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      image-refs: ${{ steps.emit-refs.outputs.image-refs }}
+      # versionmod
+      image-refs-1-20-2: ${{ steps.emit-refs.outputs.image-refs-1-20-2 }}
+      image-refs-1-23-0: ${{ steps.emit-refs.outputs.image-refs-1-23-0 }}
 
     strategy:
       matrix:
+        # versionmod
         nginx-version: [1.20.2, 1.23.0]
         include:
           - nginx-version: 1.20.2
@@ -53,7 +61,6 @@ jobs:
         archs: x86_64,aarch64,armv7
         template: "{\"Version\": \"${{ matrix.nginx-version }}\", \"SHA\": \"${{ matrix.sha256 }}\"}"
 
-
     - id: apko
       uses: distroless/actions/apko-snapshot@main
       with:
@@ -67,8 +74,18 @@ jobs:
     - name: Emit Image Refs output
       id: emit-refs
       run: |
-        cat apko.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]' | jq .
-        echo ::set-output name=image-refs::$(cat apko.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]')
+        # versionmod
+        versions="1.20.2,1.23.0"
+        echo "cat apko.images | sed 's/\\$/\n/g' | grep -v '^\$' | jq -R -s -c 'split(\"\n\")[:-1]'" > refs-to-json.sh && chmod +x refs-to-json.sh
+        trap "rm -f refs-to-json.sh" EXIT
+        for version in ${versions//,/ }; do
+          if [[ "${version}" == "${{ matrix.nginx-version }}" ]]; then
+            key=image-refs-$(echo ${version} | sed 's|\.|-|g')
+            value=$(./refs-to-json.sh | sed 's|"|\\"|g')
+            echo ::set-output name=${key}::${value}
+            break
+          fi
+        done
 
     - name: Smoke Test
       run: |
@@ -92,9 +109,35 @@ jobs:
       name: Setup debug upterm session
       uses: lhotari/action-upterm@v1
 
+  # Merge the JSON lists of images published in the build job into a single output
+  collect-image-refs:
+    name: Collect image refs
+    needs: build
+    runs-on: ubuntu-latest
+    outputs:
+      image-refs: ${{ steps.combine.outputs.image-refs }}
+    steps:
+    - name: Combine image refs across all versions
+      id: combine
+      run: |
+        rm -f image-refs-*.json
+
+        # versionmod
+        echo "${{ needs.build.outputs.image-refs-1-20-2 }}" > image-refs-1-20-2.json
+        echo "${{ needs.build.outputs.image-refs-1-23-0 }}" > image-refs-1-23-0.json
+
+        jq -c -s '.[]=([.[]]|flatten)|.[0]' image-refs-*.json > image-refs-combined.json
+        echo "Combined image refs:"
+        echo "---------------------------"
+        cat image-refs-combined.json
+        echo "---------------------------"
+
+        echo ::set-output name=image-refs::$(cat image-refs-combined.json)
+        rm -f image-refs-*.json
+
   scan:
     name: Scan apko images
-    needs: build
+    needs: collect-image-refs
     runs-on: ubuntu-latest
 
     # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
@@ -105,7 +148,7 @@ jobs:
 
     strategy:
       matrix:
-        ref: ${{ fromJson(needs.build.outputs.image-refs) }}
+        ref: ${{ fromJson(needs.collect-image-refs.outputs.image-refs) }}
     steps:
     - run: |
         echo ${{ matrix.ref }}
