@@ -26,7 +26,7 @@ jobs:
 
     - uses: distroless/actions/apko-build@main
       with:
-        config: .apko.yaml
+        config: apko.yaml
         tag: busybox:${{ steps.snapshot-date.outputs.date }}
 
     - uses: actions/upload-artifact@v3
