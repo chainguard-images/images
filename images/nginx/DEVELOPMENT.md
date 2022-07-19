@@ -24,7 +24,7 @@ docker run -it -v $(pwd):/w -w /w distroless.dev/melange keygen
 Then, build the apk package:
 
 ```
-docker run -it -v $(pwd):/w -w /w -v $(pwd)/packages:/w/packages --privileged distroless.dev/melange build melange.yaml --arch $ARCH --out-dir /w/packages --empty-workspace --repository-append /w/packages --keyring-append melange.rsa
+docker run -it -v $(pwd):/w -w /w -v $(pwd)/packages:/w/packages --privileged distroless.dev/melange build melange.yaml --arch $ARCH --out-dir /w/packages --empty-workspace --repository-append /w/packages --keyring-append melange.rsa --template '{"Version":"1.20.2", "SHA": "958876757782190a1653e14dc26dfc7ba263de310e04c113e11e97d1bef45a42"}'
 ```
 
 The apk package will be stored locally in `./packages`.
@@ -73,12 +73,6 @@ To run the image, load it from the tarball and run:
 
 ```
 docker load < nginx.tar
-docker run distroless.dev/nginx:local
-```
-
-To make sure the image works, run:
-
-```
 docker run -p 8080:80 distroless.dev/nginx:local
 ```
 
