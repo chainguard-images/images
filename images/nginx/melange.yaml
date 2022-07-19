@@ -94,6 +94,9 @@ pipeline:
         --with-stream_ssl_preread_module
   - uses: autoconf/make
   - uses: autoconf/make-install
+  - name: 'Configure error logging'
+    runs: |
+      echo 'error_log  stderr  notice;' >> ${{targets.destdir}}/etc/nginx/nginx.conf
   - name: 'Create tmp dir'
     runs: mkdir ${{targets.destdir}}/var/lib/${{package.name}}/tmp
   - uses: strip
