@@ -92,6 +92,13 @@ jobs:
         IMAGE_NAME=$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')
         IMAGE_NAME=$IMAGE_NAME ./test.sh
 
+    - name: Additional tags
+      uses: distroless/actions/tag@main
+      with:
+        distroless_image: ghcr.io/${{ github.repository }}:${{ matrix.nginx-version }}
+        docker_image_tag: ${{ matrix.nginx-version }}
+        docker_image: "nginx"
+  
     - if: ${{ failure() }}
       uses: rtCamp/action-slack-notify@v2.2.0
       env:
