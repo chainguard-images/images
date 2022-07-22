@@ -36,7 +36,7 @@ jobs:
     - id: nonroot
       uses: distroless/actions/apko-snapshot@main
       with:
-        config: .apko.yaml
+        config: apko.yaml
         image_refs: nonroot.images
         base-tag: ghcr.io/${{ github.repository }}
         target-tag: latest
@@ -44,7 +44,7 @@ jobs:
     - id: root
       uses: distroless/actions/apko-snapshot@main
       with:
-        config: .apko-root.yaml
+        config: apko-root.yaml
         image_refs: root.images
         base-tag: ghcr.io/${{ github.repository }}
         target-tag: root
