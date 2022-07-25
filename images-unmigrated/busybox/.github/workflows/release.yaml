@@ -78,6 +78,7 @@ jobs:
         echo ${{ matrix.ref }}
 
     - uses: distroless/actions/vul-scans@main
+      id: scans
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
