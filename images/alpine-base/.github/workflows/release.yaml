@@ -35,7 +35,7 @@ jobs:
         base-tag: ghcr.io/${{ github.repository }}
 
       # Post to slack when things fail.
-    - if: ${{ failure() }}
+   - if: ${{ failure() }}
       uses: rtCamp/action-slack-notify@v2.2.0
       env:
         SLACK_ICON: http://github.com/chainguardian.png?size=48
@@ -50,6 +50,7 @@ jobs:
 
   scans:
     name: Scan apko images
+    needs: build
     runs-on: ubuntu-latest
 
     # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
@@ -57,28 +58,34 @@ jobs:
       id-token: write
       packages: write
       contents: read
+
+    strategy:
+      matrix:
+        ref: ${{ fromJson(needs.build.outputs.image-refs) }}
     steps:
+      - run: |
+          echo ${{ matrix.ref }}
+
       - uses: distroless/actions/vul-scans@main
         id: scans
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          image: ${{ steps.snapshot.outputs.digest }}
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          password: ${{ github.token }}
+          image: ${{ matrix.ref }}
           RUN_SNYK: "false"
           RUN_GRYPE: "false"
-          RUN_TRIVY: "true"
-          DOCKER_LOGIN: "true"
+          DOCKER_LOGIN: 'true'
 
       - name: Image Vulnerability scan output
+        shell: bash
         env:
           SNYK_COUNT: ${{ steps.scans.outputs.SNYK_COUNT }}
           GRYPE_COUNT: ${{ steps.scans.outputs.GRYPE_COUNT }}
           TRIVY_COUNT: ${{ steps.scans.outputs.TRIVY_COUNT }}
         run: |
           echo "Image Vulnerability scan output" >> $GITHUB_STEP_SUMMARY
-          echo "Image ID: ${{ env.IMAGE }}" >> $GITHUB_STEP_SUMMARY
+          echo "Image ID: ${{ matrix.ref }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Snyk Count: $SNYK_COUNT" >> $GITHUB_STEP_SUMMARY
           echo "Grype Count: $GRYPE_COUNT" >> $GITHUB_STEP_SUMMARY
@@ -98,5 +105,5 @@ jobs:
             Snyk Count: ${{ steps.scans.outputs.SNYK_COUNT }}
             Grype Count: ${{ steps.scans.outputs.GRYPE_COUNT }}
             Trivy Count: ${{ steps.scans.outputs.TRIVY_COUNT }}
-            Image ID: ${{ env.IMAGE }}
-            For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}        
+            Image ID: ${{ matrix.ref }}
+            For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
