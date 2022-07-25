@@ -85,3 +85,4 @@ jobs:
         image: ${{ matrix.ref }}
         RUN_SNYK: "false"
         RUN_GRYPE: "false"
+        DOCKER_LOGIN: 'true'
