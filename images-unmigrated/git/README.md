@@ -32,7 +32,7 @@ git version 2.37.1
 
 ### Cloning a Repository Locally
 
-Because your local system user's UUID might differ from that of the container image, if you want to clone repositories locally using this image you'll need to set up special permissions for the target dir. Then, you'll be able to set up a volume and have the contents of the cloned repo replicated on your host machine.
+Because your local system user's ID (uid) might differ from that of the container image, if you want to clone repositories locally using this image you'll need to set up special permissions for the target dir. Then, you'll be able to set up a volume and have the contents of the cloned repo replicated on your host machine.
 
 First, create a target directory somewhere in your home folder and set the required permissions:
 
