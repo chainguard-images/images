@@ -27,22 +27,76 @@ jobs:
       contents: read
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
     - uses: distroless/actions/apko-snapshot@main
+      id: snapshot
       with:
         config: .apko.yaml
         base-tag: ghcr.io/${{ github.repository }}
 
-    # Post to slack when things fail.
+      # Post to slack when things fail.
     - if: ${{ failure() }}
       uses: rtCamp/action-slack-notify@v2.2.0
       env:
         SLACK_ICON: http://github.com/chainguardian.png?size=48
         SLACK_USERNAME: chainguardian
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_CHANNEL: distroless
+        SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
+        SLACK_CHANNEL: distroless-alerts
         SLACK_COLOR: '#8E1600'
         MSG_MINIMAL: 'true'
         SLACK_TITLE: Releasing ${{ github.repository }} failed.
         SLACK_MESSAGE: |
           For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  scans:
+    name: Scan apko images
+    runs-on: ubuntu-latest
+
+    # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
+    permissions:
+      id-token: write
+      packages: write
+      contents: read
+    steps:
+      - uses: distroless/actions/vul-scans@main
+        id: scans
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          image: ${{ steps.snapshot.outputs.digest }}
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          RUN_SNYK: "false"
+          RUN_GRYPE: "false"
+          RUN_TRIVY: "true"
+          DOCKER_LOGIN: "true"
+
+      - name: Image Vulnerability scan output
+        env:
+          SNYK_COUNT: ${{ steps.scans.outputs.SNYK_COUNT }}
+          GRYPE_COUNT: ${{ steps.scans.outputs.GRYPE_COUNT }}
+          TRIVY_COUNT: ${{ steps.scans.outputs.TRIVY_COUNT }}
+        run: |
+          echo "Image Vulnerability scan output" >> $GITHUB_STEP_SUMMARY
+          echo "Image ID: ${{ env.IMAGE }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Snyk Count: $SNYK_COUNT" >> $GITHUB_STEP_SUMMARY
+          echo "Grype Count: $GRYPE_COUNT" >> $GITHUB_STEP_SUMMARY
+          echo "Trivy Count: $TRIVY_COUNT" >> $GITHUB_STEP_SUMMARY
+
+      - if: ${{ steps.scans.outputs.TRIVY_COUNT != '0' || steps.scans.outputs.GRYPE_COUNT != '0' || steps.scans.outputs.SNYK_COUNT != '0'  }}
+        uses: rtCamp/action-slack-notify@12e36fc18b0689399306c2e0b3e0f2978b7f1ee7
+        env:
+          SLACK_ICON: http://github.com/chainguardian.png?size=48
+          SLACK_USERNAME: chainguardian
+          SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
+          SLACK_CHANNEL: distroless-alerts
+          SLACK_COLOR: '#8E1600'
+          MSG_MINIMAL: 'false'
+          SLACK_TITLE: Vulnerability Report for ${{ github.repository }}.
+          SLACK_MESSAGE: |
+            Snyk Count: ${{ steps.scans.outputs.SNYK_COUNT }}
+            Grype Count: ${{ steps.scans.outputs.GRYPE_COUNT }}
+            Trivy Count: ${{ steps.scans.outputs.TRIVY_COUNT }}
+            Image ID: ${{ env.IMAGE }}
+            For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}        
