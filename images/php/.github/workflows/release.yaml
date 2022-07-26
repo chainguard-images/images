@@ -20,6 +20,9 @@ jobs:
     name: Release OCI image
     runs-on: ubuntu-latest
 
+    outputs:
+      image-refs: ${{ steps.emit-refs.outputs.image-refs }}
+
     # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
     permissions:
       id-token: write
@@ -33,6 +36,11 @@ jobs:
         config: apko.yaml
         base-tag: ghcr.io/${{ github.repository }}
 
+    - name: Emit Image Refs output
+      id: emit-refs
+      run: |
+          cat apko.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]' | jq .
+          echo ::set-output name=image-refs::$(cat apko.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]')
     # Post to slack when things fail.
     - if: ${{ failure() }}
       uses: rtCamp/action-slack-notify@v2.2.0
