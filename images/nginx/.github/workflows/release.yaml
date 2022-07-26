@@ -1,6 +1,7 @@
 # Adding/removing/modifying supported Nginx version(s)?
 # Do a search of this file for the string "versionmod"
 # for all the parts of this file which might need changes
+# See also "ignored-versions" in version-check.yaml
 # TODO: minimize the total number of these
 
 on:
