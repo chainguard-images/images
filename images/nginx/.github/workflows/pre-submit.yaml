@@ -10,10 +10,10 @@ jobs:
 
     strategy:
       matrix:
-        nginx-version: [1.20.2, 1.23.1]
+        nginx-version: [1.22.0, 1.23.1]
         include:
-          - nginx-version: 1.20.2
-            sha256: 958876757782190a1653e14dc26dfc7ba263de310e04c113e11e97d1bef45a42
+          - nginx-version: 1.22.0
+            sha256: b33d569a6f11a01433a57ce17e83935e953ad4dc77cdd4d40f896c88ac26eb53
           - nginx-version: 1.23.1
             sha256: 5eee1bd1c23e3b9477a45532f1f36ae6178b43d571a9607e6953cef26d5df1e2
 
