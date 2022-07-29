@@ -41,6 +41,11 @@ jobs:
         base-tag: ghcr.io/${{ github.repository }}
         target-tag: latest
 
+    - name: Smoke Test
+      run: |
+        IMAGE_NAME=$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')
+        IMAGE_NAME=$IMAGE_NAME ./test.sh
+
     - id: root
       uses: distroless/actions/apko-snapshot@main
       with:
@@ -48,6 +53,11 @@ jobs:
         image_refs: root.images
         base-tag: ghcr.io/${{ github.repository }}
         target-tag: root
+
+    - name: Smoke Test (root)
+      run: |
+        IMAGE_NAME=$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')
+        IMAGE_NAME=$IMAGE_NAME ./test.sh
 
     - name: Emit Image Refs output
       id: emit-refs
