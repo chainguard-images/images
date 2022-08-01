@@ -47,6 +47,12 @@ jobs:
     - name: Smoke Test
       run: IMAGE_NAME=${{ steps.apko.outputs.digest }} ./test.sh
 
+    - name: Additional tags
+      uses: distroless/actions/tag@main
+      with:
+        distroless_image: ghcr.io/${{ github.repository }}
+        docker_image: "golang"
+
     # Post to slack when things fail.
     - if: ${{ failure() }}
       uses: rtCamp/action-slack-notify@v2.2.0
