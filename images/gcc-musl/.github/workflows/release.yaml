@@ -37,6 +37,7 @@ jobs:
         config: apko.yaml
         base-tag: ghcr.io/${{ github.repository }}
         image_refs: apko.images
+        package-version-tag: gcc
 
     - name: Emit Image Refs output
       id: emit-refs
@@ -46,6 +47,12 @@ jobs:
 
     - name: Smoke Test
       run: IMAGE_NAME=${{ steps.apko.outputs.digest }} ./test.sh
+
+    - name: Additional tags
+      uses: distroless/actions/tag@main
+      with:
+        distroless_image: ghcr.io/${{ github.repository }}
+        docker_image: "gcc"
 
     # Post to slack when things fail.
     - if: ${{ failure() }}
