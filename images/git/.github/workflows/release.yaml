@@ -59,6 +59,12 @@ jobs:
         IMAGE_NAME=$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')
         IMAGE_NAME=$IMAGE_NAME ./test.sh
 
+    - name: Additional tags
+      uses: distroless/actions/tag@main
+      with:
+        distroless_image: ghcr.io/${{ github.repository }}
+        docker_image: "bitnami/git"
+
     - name: Emit Image Refs output
       id: emit-refs
       run: |
