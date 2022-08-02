@@ -35,6 +35,13 @@ jobs:
       with:
         config: apko.yaml
         base-tag: ghcr.io/${{ github.repository }}
+        package-version-tag: php81
+
+    - name: Additional tags
+      uses: distroless/actions/tag@main
+      with:
+        distroless_image: ghcr.io/${{ github.repository }}
+        docker_image: "php"
 
     - name: Emit Image Refs output
       id: emit-refs
