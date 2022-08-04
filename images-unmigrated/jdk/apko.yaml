@@ -1,7 +1,7 @@
 contents:
   repositories:
     - https://dl-cdn.alpinelinux.org/alpine/edge/main
-    - '@local /work/packages'
+    - '@local /github/workspace/packages'
   packages:
     - ca-certificates-bundle
     - alpine-baselayout-data
