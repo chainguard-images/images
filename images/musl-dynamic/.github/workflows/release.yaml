@@ -37,6 +37,7 @@ jobs:
         config: apko.yaml
         base-tag: ghcr.io/${{ github.repository }}
         image_refs: apko.images
+        package-version-tag: musl
 
     - name: Emit Image Refs output
       id: emit-refs
