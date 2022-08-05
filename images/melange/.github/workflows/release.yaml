@@ -25,6 +25,7 @@ jobs:
 
     outputs:
       image-refs: ${{ steps.emit-refs.outputs.image-refs }}
+      melange-version: ${{ steps.melange-version.outputs.melange-version }}
 
     # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
     permissions:
@@ -43,6 +44,16 @@ jobs:
         config: melange.yaml
         empty-workspace: true
         archs: x86_64,aarch64,armv7
+
+    - name: Melange version
+      id: melange-version
+      run: |
+        git clone https://github.com/chainguard-dev/melange.git
+        cd melange
+        git fetch origin
+        MELANGE_VERSION=$(git describe --tags --abbrev=0)
+        echo ::set-output name=melange-version::$MELANGE_VERSION
+
     - id: apko
       uses: distroless/actions/apko-snapshot@main
       with:
@@ -51,6 +62,7 @@ jobs:
         keyring-append: /github/workspace/melange.rsa.pub
         archs: x86_64,aarch64,armv7
         image_refs: apko.images
+        additional-tags: ${{ steps.melange-version.outputs.melange-version }}
 
     - name: Emit Image Refs output
       id: emit-refs
