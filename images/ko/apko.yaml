@@ -9,6 +9,18 @@ contents:
     - go
     - ko
 
+# TODO(jason): This is all the normal archs, except for riscv64.
+# When the apk rebuild for 1.19 is done for riscv64 remove this section so we
+# build this image for all archs again.
+archs:
+- '386'
+- amd64
+- arm64
+- arm/v6
+- arm/v7
+- ppc64le
+- s390x
+
 accounts:
   groups:
     - groupname: nonroot
