@@ -2,5 +2,8 @@ contents:
   repositories:
     - https://dl-cdn.alpinelinux.org/alpine/edge/main
   packages:
-    - alpine-base
-    - busybox-ifupdown
+    - alpine-baselayout-data
+    - alpine-release
+    - apk-tools
+    - busybox
+    - libc-utils
