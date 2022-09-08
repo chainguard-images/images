@@ -1,0 +1,9 @@
+contents:
+  repositories:
+    - https://dl-cdn.alpinelinux.org/alpine/edge/main
+    - https://dl-cdn.alpinelinux.org/alpine/edge/community
+    - '@local /work/packages'
+  packages:
+    - sdk@local
+entrypoint:
+  command: /usr/bin/sdk
