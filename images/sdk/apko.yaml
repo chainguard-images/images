@@ -2,7 +2,7 @@ contents:
   repositories:
     - https://dl-cdn.alpinelinux.org/alpine/edge/main
     - https://dl-cdn.alpinelinux.org/alpine/edge/community
-    - '@local /work/packages'
+    - '@local /github/workspace/packages'
   packages:
     - sdk@local
 entrypoint:

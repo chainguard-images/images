@@ -96,7 +96,9 @@ make apko install
 Then run apko commands as normal:
 
 ```
-apko --help
+apko build --debug \
+  examples/alpine-base.yaml \
+  alpine-base:latest output.tar
 ```
 
 ## Build
@@ -109,12 +111,12 @@ This image is built with [apko](https://github.com/chainguard-dev/apko) and
 Requires Docker
 
 ```
-docker run --rm -v "${PWD}":/work \
+docker run --rm -v "${PWD}":/github/workspace -w /github/workspace \
   distroless.dev/melange keygen
 ```
 
 ```
-docker run --rm --privileged -v "${PWD}":/work \
+docker run --rm --privileged -v "${PWD}":/github/workspace -w /github/workspace \
   distroless.dev/melange build melange.yaml \
   --arch x86_64,arm64 \
   --empty-workspace \
@@ -123,7 +125,7 @@ docker run --rm --privileged -v "${PWD}":/work \
 ```
 
 ```
-docker run --rm -v "${PWD}":/work \
+docker run --rm -v "${PWD}":/github/workspace -w /github/workspace \
     --entrypoint sh \
     distroless.dev/melange -c \
         'cd packages && for d in `find . -type d -mindepth 1`; do \
@@ -136,7 +138,7 @@ docker run --rm -v "${PWD}":/work \
 ```
 
 ```
-docker run --rm -v "${PWD}":/work \
+docker run --rm -v "${PWD}":/github/workspace -w /github/workspace \
     distroless.dev/apko build --debug apko.yaml \
     distroless.dev/sdk output.tar -k melange.rsa.pub \
     --build-arch x86_64,arm64
