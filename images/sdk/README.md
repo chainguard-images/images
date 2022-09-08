@@ -6,6 +6,15 @@ and [apko](https://github.com/chainguard-dev/apko).
 This image is rebuilt nightly from a
 [GitHub action](https://github.com/distroless/sdk/blob/main/.github/workflows/release.yaml).
 
+## Get It!
+
+The SDK image is available on the GHCR and distroless.dev registries:
+
+```
+docker pull distroless.dev/sdk:latest
+docker pull ghcr.io/distroless/sdk:latest
+```
+
 ## Usage
 
 ### With melange
