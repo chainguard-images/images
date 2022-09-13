@@ -6,3 +6,6 @@ contents:
   packages:
     - ca-certificates-bundle
     - wolfi-base
+
+archs:
+- x86_64
