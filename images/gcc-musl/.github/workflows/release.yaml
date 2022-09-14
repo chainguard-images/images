@@ -147,7 +147,7 @@ jobs:
           repo: https://github.com/distroless/gcc-musl
           name: gcc-musl
           location: distroless.dev/gcc-musl
-          description: "Minimal container image for building C applications (which do not require glibc)."\
+          description: "Minimal container image for building C applications (which do not require glibc)."
           exclude-tags: 11.2.1_git20220219-r5,11.2.1_git20220219,12.1.1_git20220630-r1
           output-path: README-GENERATED.md
       - name: Push new README back to the repo
