@@ -251,7 +251,7 @@ jobs:
           repo: https://github.com/distroless/git
           name: git
           location: distroless.dev/git
-          description: "This is a minimal Git image based on Alpine, using up-to-date apks available on the Alpine Community repositories (not built from source). The image contains git, git-lfs, and supporting libraries such as openssh (for ssh-based auth), and ca-certs (for https-based cloning)."
+          description: "This is a minimal Git image based on Alpine, using up-to-date apks available on the Alpine Community repositories (not built from source). The image contains `git`, `git-lfs`, and supporting libraries such as `openssh` (for `ssh`-based auth), and `ca-certs` (for `https`-based cloning)."
           exclude-tags: 20220409,20220410,20220411,20220412,20220413,20220414,20220415,20220416,20220417,20220418,20220419,20220420,20220421,20220422,20220423,20220424,20220425,20220426,20220428,20220429,2.37.1-r0,2.37.1-r1,2.37.1,2.37.1-debian-11-r7,2.37.1-debian-11-r8,2.37.1-debian-11-r9,2.37.1-debian-11-r10,2.37.1-debian-11-r11,2.37.2,2.37.2-debian-11-r0,2.37.2-debian-11-r1,2.37.2-debian-11-r2,2.37.2-debian-11-r3,2.37.2-debian-11-r4,2.37.3-debian-11-r0,2.37.3-debian-11-r1,2.37.3-debian-11-r2,2.37.3-debian-11-r3,2.37.3-debian-11-r4
           output-path: README-GENERATED.md
       - name: Push new README back to the repo
