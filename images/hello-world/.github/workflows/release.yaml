@@ -101,3 +101,35 @@ jobs:
           echo "Snyk Count: $SNYK_COUNT" >> $GITHUB_STEP_SUMMARY
           echo "Grype Count: $GRYPE_COUNT" >> $GITHUB_STEP_SUMMARY
           echo "Trivy Count: $TRIVY_COUNT" >> $GITHUB_STEP_SUMMARY
+
+  generate-readme:
+    name: Generate README
+    needs: scan
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Enable OIDC
+      contents: write
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+      - name: Generate README
+        uses: distroless/readme-generator@main
+        with:
+          repo: https://github.com/distroless/hello-world
+          name: hello-world
+          location: cgr.dev/chainguard/hello-world
+          description: "Hello, world!"
+          output-path: README-GENERATED.md
+      - name: Push new README back to the repo
+        run: |
+          set -x
+          if [[ "$(diff README-GENERATED.md README.md)" == "" ]]; then
+            echo "No diff detected in README. Skipping."
+            exit 0
+          fi
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          mv README-GENERATED.md README.md
+          git add README.md
+          git commit -m "Regenerate README.md" || exit 0
+          git push
