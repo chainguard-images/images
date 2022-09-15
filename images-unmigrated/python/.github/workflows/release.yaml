@@ -135,7 +135,7 @@ jobs:
           repo: https://github.com/distroless/python
           name: python
           location: cgr.dev/chainguard/python
-          description: "This is a minimal Python image based on Alpine, using Python apks available on the Alpine Community repositories (not built from source as of now).<br/><br/>While this image is being developed, we\'ll stick to the latest stable Python version which at this moment is `3.10.7`. Supported versions in the long term are TBD."
+          description: "This is a minimal Python image based on Alpine, using Python apks available on the Alpine Community repositories (not built from source as of now).<br/><br/>While this image is being developed, we\\'ll stick to the latest stable Python version which at this moment is `3.10.7`. Supported versions in the long term are TBD."
           output-path: README-GENERATED.md
       - name: Push new README back to the repo
         run: |
