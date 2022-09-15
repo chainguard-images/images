@@ -154,7 +154,7 @@ jobs:
           repo: https://github.com/distroless/php
           name: php
           location: cgr.dev/chainguard/php
-          description: "This is a minimal PHP image based on Alpine, using PHP apks available on the Alpine Community repositories (not built from source as of now).<br/><br/>While this image is being developed, we'll stick to the latest stable PHP version which at this moment is `8.1`. Supported versions in the long term are TBD."
+          description: "This is a minimal PHP image based on Alpine, using PHP apks available on the Alpine Community repositories (not built from source as of now).<br/><br/>While this image is being developed, we will stick to the latest stable PHP version which at this moment is `8.1`. Supported versions in the long term are TBD."
           exclude-tags: "8.1.8-r3,8.1.9-r0,8.1.9,8.1.9-bullseye,8.1.9-cli,8.1.9-cli-bullseye,8.1.8,8.1.8-bullseye,8.1.8-cli,8.1.8-cli-bullseye"
           output-path: README-GENERATED.md
       - name: Push new README back to the repo
