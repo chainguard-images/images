@@ -2,7 +2,7 @@
 
 This repository contains the source files for the Python distroless image `distroless.dev/python`. 
 
-This is a minimal PHP image based on Alpine, using Python apks available on the Alpine Community repositories (not built from source as of now).
+This is a minimal Python image based on Alpine, using Python apks available on the Alpine Community repositories (not built from source as of now).
 
 ## Python Version
 
