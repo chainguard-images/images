@@ -2,7 +2,7 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail
 
-IMAGE_NAME=${IMAGE_NAME:-"distroless.dev/sdk"}
+IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/sdk"}
 
 docker run --rm --entrypoint bash "${IMAGE_NAME}" -xc \
     'export PATH="/root/go/bin:${PATH}" && \

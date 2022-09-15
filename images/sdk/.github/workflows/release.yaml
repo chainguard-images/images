@@ -137,3 +137,36 @@ jobs:
           Trivy Count: ${{ steps.scans.outputs.TRIVY_COUNT }}
           Image ID: ${{ matrix.ref }}
           For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  generate-readme:
+    name: Generate README
+    needs: scan
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Enable OIDC
+      contents: write
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+      - name: Generate README
+        uses: distroless/readme-generator@main
+        with:
+          repo: https://github.com/distroless/sdk
+          name: sdk
+          location: cgr.dev/chainguard/sdk
+          description: "Development image for [melange](https://github.com/chainguard-dev/melange) and [apko](https://github.com/chainguard-dev/apko)."
+          exclude-tags: 0.0.1-r0
+          output-path: README-GENERATED.md
+      - name: Push new README back to the repo
+        run: |
+          set -x
+          if [[ "$(diff README-GENERATED.md README.md)" == "" ]]; then
+            echo "No diff detected in README. Skipping."
+            exit 0
+          fi
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          mv README-GENERATED.md README.md
+          git add README.md
+          git commit -m "Regenerate README.md" || exit 0
+          git push
