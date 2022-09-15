@@ -42,7 +42,7 @@ int main() { printf("Hello Distroless!"); }
 EOF
 RUN cc -static /hello.c -o /hello
 
-FROM distroless.dev/static:latest
+FROM cgr.dev/chainguard/static:latest
 
 COPY --from=build /hello /hello
 CMD ["/hello"]
@@ -66,4 +66,4 @@ c-distroless   latest    f3648380711c   About a minute ago   2.88MB
 ```
 
 For Go programs, we recommend using [ko](https://github.com/google/ko) and setting
-the `defaultBaseImage` to `distroless.dev/static`.
+the `defaultBaseImage` to `cgr.dev/chainguard/static`.
