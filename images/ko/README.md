@@ -25,7 +25,7 @@ docker pull cgr.dev/chainguard/ko:latest
 
 ## Usage
 
-### Using with CGO
+### With CGO
 
 Navigate to the `example/` directory:
 

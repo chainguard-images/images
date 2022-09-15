@@ -147,7 +147,7 @@ jobs:
           repo: https://github.com/distroless/ko
           name: ko
           location: cgr.dev/chainguard/ko
-          description: "This is an image that contains ko, go, and build-base.<br/>This image is designed for use in situations where you would like to use `ko` with codebases that have C dependencies where `cgo` must be used. In these cases, staticly linking against musl instead of glibc results in smaller binaries."
+          description: "This is an image that contains ko, go, and build-base.<br/><br/>This image is designed for use in situations where you would like to use `ko` with codebases that have C dependencies where `cgo` must be used. In these cases, staticly linking against musl instead of glibc results in smaller binaries."
           exclude-tags: 0.11.2-r1,0.11.2-r0,0.11.2-r2
           output-path: README-GENERATED.md
       - name: Push new README back to the repo
