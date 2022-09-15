@@ -130,3 +130,36 @@ jobs:
             Trivy Count: ${{ steps.scans.outputs.TRIVY_COUNT }}
             Image ID: ${{ matrix.ref }}
             For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  generate-readme:
+    name: Generate README
+    needs: scan
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Enable OIDC
+      contents: write
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+      - name: Generate README
+        uses: distroless/readme-generator@main
+        with:
+          repo: https://github.com/distroless/ko
+          name: ko
+          location: cgr.dev/chainguard/ko
+          description: "This is an image that contains ko, go, and build-base.<br/>This image is designed for use in situations where you would like to use `ko` with codebases that have C dependencies where `cgo` must be used. In these cases, staticly linking against musl instead of glibc results in smaller binaries."
+          exclude-tags: 0.11.2-r1,0.11.2-r0,0.11.2-r2
+          output-path: README-GENERATED.md
+      - name: Push new README back to the repo
+        run: |
+          set -x
+          if [[ "$(diff README-GENERATED.md README.md)" == "" ]]; then
+            echo "No diff detected in README. Skipping."
+            exit 0
+          fi
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          mv README-GENERATED.md README.md
+          git add README.md
+          git commit -m "Regenerate README.md" || exit 0
+          git push
