@@ -7,5 +7,5 @@ contents:
     - ca-certificates-bundle
     - glibc
 
-arch:
+archs:
 - x86_64
