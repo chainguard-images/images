@@ -1,34 +1,32 @@
-# Template Repository for Distroless Images
+# distroless.dev/python
 
-This repository contains some basic files to spin up a new distroless image.
+This repository contains the source files for the Python distroless image `distroless.dev/python`. 
 
-## Image Configuration
+This is a minimal PHP image based on Alpine, using Python apks available on the Alpine Community repositories (not built from source as of now).
 
-To add a new image distribution to the distroless org, create its repository
-by clicking on the
-"[Use this template button](https://github.com/distroless/template/generate)".
-This will create a new repository using the files contained here.
+## Python Version
 
-Modify the sample `apko.yaml` file to define the configuration of the new image:
+While this image is being developed, we'll stick to the latest stable Python version which at this moment is `3.10.7`. Supported versions in the long term are TBD.
 
-```yaml
-contents:
-  repositories:
-    - http://dl-cdn.alpinelinux.org/alpine/edge/main
-  packages:
-    - ca-certificates-bundle
-    - alpine-baselayout-data
+## Usage
+
+To try out the image, run:
+
+```shell
+docker run -iv --rm distroless.dev/python python -VV
 ```
 
-For more information about all the apko configuration options, please check
-the documentation and the [examples](https://github.com/chainguard-dev/apko/tree/main/examples).
+Python version installed 
+```
+Python 3.10.7 (main, Sep 11 2022, 22:42:41) [GCC 12.1.1 20220630]
+```
 
-## Image Readme
+Pip Version installed 
 
-Remember to describe the purpose of the new image by editing the README.md file.
+```shell 
+docker run distroless.dev/python pip -V
+```
 
-## Release Workflow
-
-By default, the new repository will contain a
-[release workflow](.github/workflow/release.yaml) that builds and publishes the
-image every day at midnight.
+```shell
+pip 22.2.2 from /usr/lib/python3.10/site-packages/pip (python 3.10)
+```
