@@ -1,34 +1,15 @@
-# Template Repository for Distroless Images
+# glibc-dynamic
 
-This repository contains some basic files to spin up a new distroless image.
+Base image with just enough to run arbitrary glibc binaries.
 
-## Image Configuration
+This image is meant to be used as just a base image only.  It does not contain
+any programs that can be run, other than `/sbin/ldconfig`.
 
-To add a new image distribution to the distroless org, create its repository
-by clicking on the
-"[Use this template button](https://github.com/distroless/template/generate)".
-This will create a new repository using the files contained here.
+You must bring your own artifacts to use this image, e.g. with a Docker multi-stage
+build.  If you want locale support other than `C.UTF-8`, you must bring your own
+locale data as well.  This may change in the future based on user feedback.
 
-Modify the sample `apko.yaml` file to define the configuration of the new image:
+See also [musl-dynamic](https://github.com/distroless/musl-dynamic) which is an
+equivalent image for running dynamically-linked musl binaries.
 
-```yaml
-contents:
-  repositories:
-    - http://dl-cdn.alpinelinux.org/alpine/edge/main
-  packages:
-    - ca-certificates-bundle
-    - alpine-baselayout-data
-```
-
-For more information about all the apko configuration options, please check
-the documentation and the [examples](https://github.com/chainguard-dev/apko/tree/main/examples).
-
-## Image Readme
-
-Remember to describe the purpose of the new image by editing the README.md file.
-
-## Release Workflow
-
-By default, the new repository will contain a
-[release workflow](.github/workflow/release.yaml) that builds and publishes the
-image every day at midnight.
+This image is regenerated nightly.
