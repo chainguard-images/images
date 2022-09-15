@@ -9,7 +9,7 @@ RUN rustup target add x86_64-unknown-linux-musl
 RUN echo 'fn main() { println!("Hello Distroless"); }' > hello.rs
 RUN rustc --target x86_64-unknown-linux-musl hello.rs
 
-FROM distroless.dev/static:latest
+FROM cgr.dev/chainguard/static:latest
 
 COPY --from=build /hello /hello
 CMD ["/hello"]
