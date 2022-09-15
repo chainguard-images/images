@@ -1,18 +1,30 @@
 # static
 
-Base image with just enough files to run static binaries!
+<!---
+Note: Do NOT edit directly, this file was generated using https://github.com/distroless/readme-generator
+-->
 
-This image is meant to be used as a base image only, and is
-otherwise useless.  It contains the `alpine-baselayout-data`
-package from Alpine, which is just a set of data files needed
-to support glibc and musl static binaries at runtime.
+[![CI status](https://github.com/distroless/static/actions/workflows/release.yaml/badge.svg)](https://github.com/distroless/static/actions/workflows/release.yaml)
 
-This image can be used with `ko build`, `docker`, etc, but
-is only suitable for running static binaries.
+Base image with just enough files to run static binaries!<br/><br/>This image is meant to be used as a base image only, and is otherwise useless.  It contains the `alpine-baselayout-data` package from Alpine, which is just a set of data files needed to support glibc and musl static binaries at runtime.<br/><br/>This image can be used with `ko build`, `docker`, etc, but is only suitable for running static binaries.
 
-This image is also regenerated nightly.
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/static:latest
+```
+
+## Supported tags
+
+| Tag | Digest | Arch |
+| --- | ------ | ---- |
+| `latest` | `sha256:641fa9bbc9ca1ea2a7fcde3838bb69f5eb7b5a11b2164213fdc87cbf55681413`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:641fa9bbc9ca1ea2a7fcde3838bb69f5eb7b5a11b2164213fdc87cbf55681413) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
+
 
 ## Usage
+
 
 Here's an example Dockerfile that builds a Rust static binary
 and puts it into the static image:
@@ -57,7 +69,7 @@ int main() { printf("Hello Distroless!"); }
 EOF
 RUN cc -static /hello.c -o /hello
 
-FROM distroless.dev/static:latest
+FROM cgr.dev/chainguard/static:latest
 
 COPY --from=build /hello /hello
 CMD ["/hello"]
@@ -81,17 +93,24 @@ c-distroless   latest    f3648380711c   About a minute ago   2.88MB
 ```
 
 For Go programs, we recommend using [ko](https://github.com/google/ko) and setting
-the `defaultBaseImage` to `distroless.dev/static`.
+the `defaultBaseImage` to `cgr.dev/chainguard/static`.
+
 
 ## Signing
 
-All distroless images are signed using [Sigstore](https://www.sigstore.dev/). This can be verified
-using the [cosign](https://github.com/SigStore/cosign) tool:
+All distroless images are signed using [Sigstore](https://sigstore.dev)!
+
+<details>
+<br/>
+To verify the image, download <a href="https://github.com/sigstore/cosign">cosign</a> and run:
 
 ```
-$ COSIGN_EXPERIMENTAL=1 cosign verify distroless.dev/static | jq
+COSIGN_EXPERIMENTAL=1 cosign verify cgr.dev/chainguard/static:latest | jq
+```
 
-Verification for distroless.dev/static:latest --
+Output:
+```
+Verification for cgr.dev/chainguard/static:latest --
 The following checks were performed on each of these signatures:
   - The cosign claims were validated
   - Existence of the claims in the transparency log was verified offline
@@ -103,13 +122,39 @@ The following checks were performed on each of these signatures:
         "docker-reference": "ghcr.io/distroless/static"
       },
       "image": {
-        "docker-manifest-digest": "sha256:8fa6b48fcdfd3e9392faa6aab2d7f425c971370812e908fc34c85cdda2eaea9e"
+        "docker-manifest-digest": "sha256:641fa9bbc9ca1ea2a7fcde3838bb69f5eb7b5a11b2164213fdc87cbf55681413"
       },
       "type": "cosign container image signature"
     },
     "optional": {
-	...
+      "1.3.6.1.4.1.57264.1.2": "push",
+      "1.3.6.1.4.1.57264.1.3": "52dc47113006e266b37e8d73fe2cc4d002602efe",
+      "1.3.6.1.4.1.57264.1.4": "Create Release",
+      "1.3.6.1.4.1.57264.1.5": "distroless/static",
+      "1.3.6.1.4.1.57264.1.6": "refs/heads/main",
+      "Bundle": {
+        "SignedEntryTimestamp": "MEQCIBR1J0qfwagOVUnk2HJ3HmAvUqSZK3q6E0bgxePcWU10AiBBZ9DQhbalWcugX/YM9tEFUbNhya33mgbXrLBYK7hdzQ==",
+        "Payload": {
+          "body": "eyJhcGlWZXJzaW9uIjoiMC4wLjEiLCJraW5kIjoiaGFzaGVkcmVrb3JkIiwic3BlYyI6eyJkYXRhIjp7Imhhc2giOnsiYWxnb3JpdGhtIjoic2hhMjU2IiwidmFsdWUiOiI1MTIxOWZiZjYxOWVlNGEwZWZhODNhMjdiNzA1OGY5MmU1NjM1ODM3YzQxNGJhNTA4ZWQ5NjI2MmIyYTlmMjk0In19LCJzaWduYXR1cmUiOnsiY29udGVudCI6Ik1FVUNJQUZYeUp3c2s5bXc4UDh2QkF1T0pJb3Y4WjBzblByMDRNRytVL1orTWhWREFpRUE1amZrNkszRXlBek9vdHpaK1paZVVQR0VTL1V1NHFpd0QyWXZnWlVKUitRPSIsInB1YmxpY0tleSI6eyJjb250ZW50IjoiTFMwdExTMUNSVWRKVGlCRFJWSlVTVVpKUTBGVVJTMHRMUzB0Q2sxSlNVUnRSRU5EUVhnclowRjNTVUpCWjBsVlZtOHZjVUZCV2xGamJrZFNTRXBCV0hrMFYzaDROVGx0TVZCVmQwTm5XVWxMYjFwSmVtb3dSVUYzVFhjS1RucEZWazFDVFVkQk1WVkZRMmhOVFdNeWJHNWpNMUoyWTIxVmRWcEhWakpOVWpSM1NFRlpSRlpSVVVSRmVGWjZZVmRrZW1SSE9YbGFVekZ3WW01U2JBcGpiVEZzV2tkc2FHUkhWWGRJYUdOT1RXcEpkMDlVUlRGTmFrbDZUV3BKTTFkb1kwNU5ha2wzVDFSRk1VMXFTVEJOYWtrelYycEJRVTFHYTNkRmQxbElDa3R2V2tsNmFqQkRRVkZaU1V0dldrbDZhakJFUVZGalJGRm5RVVY0ZUUxd09UUjBWMmwzUzB0SWIwZzFaRzVQYUhvdk1uZ3dhbW94YlhSMWRGcHZTRVFLVmtaM1ZFSnVjazF6TjBJdloySmFRbXh4UzJsa1prUkljRWh5VjFkVUszQmtjM2wzYjFFMFFWcHJVRmRhUm5wYU5VdFBRMEZxTkhkblowazJUVUUwUndwQk1WVmtSSGRGUWk5M1VVVkJkMGxJWjBSQlZFSm5UbFpJVTFWRlJFUkJTMEpuWjNKQ1owVkdRbEZqUkVGNlFXUkNaMDVXU0ZFMFJVWm5VVlZ5U1dwRkNrMTBWVk00UzI4eWFTOUVXbEZHTjNOV1ZrRkhUR3hCZDBoM1dVUldVakJxUWtKbmQwWnZRVlV6T1ZCd2VqRlphMFZhWWpWeFRtcHdTMFpYYVhocE5Ga0tXa1E0ZDFsUldVUldVakJTUVZGSUwwSkdZM2RXV1ZwVVlVaFNNR05JVFRaTWVUbHVZVmhTYjJSWFNYVlpNamwwVERKU2NHTXpVbmxpTW5oc1l6Tk5kZ3BqTTFKb1pFZHNha3g1Tlc1aFdGSnZaRmRKZG1ReU9YbGhNbHB6WWpOa2Vrd3pTbXhpUjFab1l6SlZkV1ZYUm5SaVJVSjVXbGRhZWt3eWFHeFpWMUo2Q2t3eU1XaGhWelIzVDFGWlMwdDNXVUpDUVVkRWRucEJRa0ZSVVhKaFNGSXdZMGhOTmt4NU9UQmlNblJzWW1rMWFGa3pVbkJpTWpWNlRHMWtjR1JIYURFS1dXNVdlbHBZU21waU1qVXdXbGMxTUV4dFRuWmlWRUZUUW1kdmNrSm5SVVZCV1U4dlRVRkZRMEpCVW5ka1dFNXZUVVJaUjBOcGMwZEJVVkZDWnpjNGR3cEJVVTFGUzBSVmVWcEhUVEJPZWtWNFRYcEJkMDV0VlhsT2FscHBUWHBrYkU5SFVUTk5NbHBzVFcxT2FrNUhVWGROUkVreVRVUktiRnB0VlhkSVFWbExDa3QzV1VKQ1FVZEVkbnBCUWtKQlVVOVJNMHBzV1ZoU2JFbEdTbXhpUjFab1l6SlZkMGgzV1V0TGQxbENRa0ZIUkhaNlFVSkNVVkZTV2tkc2VtUklTbllLWWtkV2VtTjVPWHBrUjBZd1lWZE5kMGhSV1V0TGQxbENRa0ZIUkhaNlFVSkNaMUZRWTIxV2JXTjVPVzlhVjBaclkzazVkRmxYYkhWTlNVZExRbWR2Y2dwQ1owVkZRV1JhTlVGblVVTkNTSGRGWldkQ05FRklXVUZEUjBOVE9FTm9VeTh5YUVZd1pFWnlTalJUWTFKWFkxbHlRbGs1ZDNwcVUySmxZVGhKWjFreUNtSXpTVUZCUVVkRVVUQm5kbk5SUVVGQ1FVMUJVbnBDUmtGcFFWTXhPV0ZMVGxCaVdteG1kMnhhTW5aNE1FOXpVV2M0Wnl0RWVEVnNTVTlUU1hoYWFYY0tTV2hRWmtoM1NXaEJTV0UzVFU5YVUyZG9ibGRqVjIxbVJuQTJTMmh2VEVSUVFpdG1LMlUxV0ZoS2RrbG9hRkpvZVM4dmIwMUJiMGREUTNGSFUwMDBPUXBDUVUxRVFUSmpRVTFIVVVOTlNFSkhZbFpOYkZCUU1HUkpXRWR5VEhkcFRIWnBRbGs1U2k4eUszbHRMMHRHTm00NVp5OUdVRlp5WVdNMlFVSXdPV3BDQ25aTVNIbzFTVzF6T0ZKaWRIQm5TWGRPTkc5MGFtNW5SV0Z2YVVSa0wzSk9lV3haVEdwcmVYTjBSVUZLTWt0YU5sVnVMMWQxU1cxWFFYRXlaVlk0WW5JS04xbEJZVXhRU0N0d1VHOVBSWElyV2dvdExTMHRMVVZPUkNCRFJWSlVTVVpKUTBGVVJTMHRMUzB0Q2c9PSJ9fX19",
+          "integratedTime": 1663281191,
+          "logIndex": 3511381,
+          "logID": "c0d23d6ad406973f9559f3ba2d1ca01f84147d8ffc5b8445c224f98b9591801d"
+        }
+      },
+      "Issuer": "https://token.actions.githubusercontent.com",
+      "Subject": "https://github.com/distroless/static/.github/workflows/release.yaml@refs/heads/main",
+      "run_attempt": "1",
+      "run_id": "3064130134",
+      "sha": "52dc47113006e266b37e8d73fe2cc4d002602efe"
     }
   }
 ]
 ```
+
+You can verify that the image was built in Github Actions in this repository from the `Issuer` and `Subject` fields.
+</details>
+
+## Build
+
+This image is built with [apko](https://github.com/chainguard-dev/apko).
+
