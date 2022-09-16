@@ -118,3 +118,35 @@ jobs:
           Trivy Count: ${{ steps.scans.outputs.TRIVY_COUNT }}
           Image ID: ${{ matrix.ref }}
           For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  generate-readme:
+    name: Generate README
+    needs: scan
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Enable OIDC
+      contents: write
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+      - name: Generate README
+        uses: distroless/readme-generator@main
+        with:
+          repo: https://github.com/distroless/glibc-dynamic
+          name: glibc-dynamic
+          location: cgr.dev/chainguard/glibc-dynamic
+          description: "Base image with just enough to run arbitrary glibc binaries.<br/><br/>This image is meant to be used as just a base image only. It does not contain any programs that can be run, other than `/sbin/ldconfig`.<br/><br/>You must bring your own artifacts to use this image, e.g. with a Docker multi-stage build. If you want locale support other than `C.UTF-8`, you must bring your own locale data as well. This may change in the future based on user feedback.<br/><br/>See also [musl-dynamic](https://github.com/distroless/musl-dynamic) which is an equivalent image for running dynamically-linked musl binaries."
+          output-path: README-GENERATED.md
+      - name: Push new README back to the repo
+        run: |
+          set -x
+          if [[ "$(diff README-GENERATED.md README.md)" == "" ]]; then
+            echo "No diff detected in README. Skipping."
+            exit 0
+          fi
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          mv README-GENERATED.md README.md
+          git add README.md
+          git commit -m "Regenerate README.md" || exit 0
+          git push
