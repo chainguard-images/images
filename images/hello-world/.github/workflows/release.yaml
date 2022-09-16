@@ -113,23 +113,11 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v3
       - name: Generate README
-        uses: distroless/readme-generator@main
+        uses: distroless/readme-generator@push-commit
         with:
           repo: https://github.com/distroless/hello-world
           name: hello-world
           location: cgr.dev/chainguard/hello-world
           description: "Hello, world!"
           output-path: README-GENERATED.md
-      - name: Push new README back to the repo
-        run: |
-          set -x
-          if [[ "$(diff README-GENERATED.md README.md)" == "" ]]; then
-            echo "No diff detected in README. Skipping."
-            exit 0
-          fi
-          git config user.name "Automated"
-          git config user.email "actions@users.noreply.github.com"
-          mv README-GENERATED.md README.md
-          git add README.md
-          git commit -m "Regenerate README.md" || exit 0
-          git push
+          push-to-repo: true
