@@ -1,38 +1,57 @@
-# distroless.dev/php
+# php
 
-This repository contains the source files for the PHP distroless image `distroless.dev/php`. This is a minimal PHP image based on Alpine, using PHP apks available on the Alpine Community repositories (not built from source as of now).
+<!---
+Note: Do NOT edit directly, this file was generated using https://github.com/distroless/readme-generator
+-->
 
-## PHP Version
+[![CI status](https://github.com/distroless/php/actions/workflows/release.yaml/badge.svg)](https://github.com/distroless/php/actions/workflows/release.yaml)
 
-While this image is being developed, we'll stick to the latest stable PHP version which at this moment is `8.1`. Supported versions in the long term are TBD.
+This is a minimal PHP image based on Alpine, using PHP apks available on the Alpine Community repositories (not built from source as of now).<br/><br/>While this image is being developed, we will stick to the latest stable PHP version which at this moment is `8.1`. Supported versions in the long term are TBD.
+
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/php:latest
+```
+
+## Supported tags
+
+| Tag | Digest | Arch |
+| --- | ------ | ---- |
+| `8` `8-bullseye` `8-cli` `8-cli-bullseye` `8.1` `8.1-bullseye` `8.1-cli` `8.1-cli-bullseye` `8.1.10` `8.1.10-bullseye` `8.1.10-cli` `8.1.10-cli-bullseye` `8.1.10-r0` `bullseye` `cli` `cli-bullseye` `latest` | `sha256:af9bda5a08fc8a76a01932bcf12825328b2b55fc1c8f2fa8d27701697d331aa6`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:af9bda5a08fc8a76a01932bcf12825328b2b55fc1c8f2fa8d27701697d331aa6) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
+
 
 ## Usage
 
 To try out the image, run:
 
 ```shell
-docker run -iv --rm distroless.dev/php --version
+docker run --rm cgr.dev/chainguard/php --version
 ```
 
-
 ```
-PHP 8.1.8 (cli) (built: Jul  8 2022 13:20:32) (NTS)
+PHP 8.1.10 (cli) (built: Sep  1 2022 16:13:09) (NTS)
 Copyright (c) The PHP Group
-Zend Engine v4.1.8, Copyright (c) Zend Technologies
+Zend Engine v4.1.10, Copyright (c) Zend Technologies
 ```
-
 
 ## Signing
 
 All distroless images are signed using [Sigstore](https://sigstore.dev)!
-To verify an image, download [cosign](https://github.com/sigstore/cosign) and run:
+
+<details>
+<br/>
+To verify the image, download <a href="https://github.com/sigstore/cosign">cosign</a> and run:
 
 ```
-COSIGN_EXPERIMENTAL=1 cosign verify distroless.dev/php | jq
+COSIGN_EXPERIMENTAL=1 cosign verify cgr.dev/chainguard/php:latest | jq
 ```
 
+Output:
 ```
-Verification for distroless.dev/php:latest --
+Verification for cgr.dev/chainguard/php:latest --
 The following checks were performed on each of these signatures:
   - The cosign claims were validated
   - Existence of the claims in the transparency log was verified offline
@@ -44,20 +63,39 @@ The following checks were performed on each of these signatures:
         "docker-reference": "ghcr.io/distroless/php"
       },
       "image": {
-        "docker-manifest-digest": "sha256:3b28db71687f52741598f4f68d2e4bea8ee86db57d7394337118316d1f4c8b9f"
+        "docker-manifest-digest": "sha256:af9bda5a08fc8a76a01932bcf12825328b2b55fc1c8f2fa8d27701697d331aa6"
       },
       "type": "cosign container image signature"
     },
     "optional": {
+      "1.3.6.1.4.1.57264.1.2": "push",
+      "1.3.6.1.4.1.57264.1.3": "b35a65822ee7029b35ff858e65661ab45b1133cf",
+      "1.3.6.1.4.1.57264.1.4": "Create Release",
+      "1.3.6.1.4.1.57264.1.5": "distroless/php",
+      "1.3.6.1.4.1.57264.1.6": "refs/heads/main",
+      "Bundle": {
+        "SignedEntryTimestamp": "MEUCIQDDwN2b6c1cjbtsx5gUUIMHItTLcGv4v4aV0RJEpZmDyQIgSGWAwbv6/qVe4BllwHDPmcavVA+1yjRfrS5QyhYrq6o=",
+        "Payload": {
+          "body": "eyJhcGlWZXJzaW9uIjoiMC4wLjEiLCJraW5kIjoiaGFzaGVkcmVrb3JkIiwic3BlYyI6eyJkYXRhIjp7Imhhc2giOnsiYWxnb3JpdGhtIjoic2hhMjU2IiwidmFsdWUiOiJlMWQ1YmVlYzJkYmIxMGM0MDk3NTQ2ODUyMjA2OThhYTkxZGFkNDE5ODNkZGQ2Zjg5NzIwY2VjNGZkNDA1NGM1In19LCJzaWduYXR1cmUiOnsiY29udGVudCI6Ik1FUUNJQ0h5bkRtMzhhcWhsbGRKUFd6a0VuMWpxcys4RW1CbXBLT3NzTnBDNjVQN0FpQWlNV3U2bU9oa04ySEdnRDhWSkk3Vi9ndUhGYURTeXlKTEEzMjhkTVRtY3c9PSIsInB1YmxpY0tleSI6eyJjb250ZW50IjoiTFMwdExTMUNSVWRKVGlCRFJWSlVTVVpKUTBGVVJTMHRMUzB0Q2sxSlNVUnJha05EUVhocFowRjNTVUpCWjBsVlVIbHVlRlZRWlcxamRUWkZVbU54VEN0UFFuazRSVk5GUldSbmQwTm5XVWxMYjFwSmVtb3dSVUYzVFhjS1RucEZWazFDVFVkQk1WVkZRMmhOVFdNeWJHNWpNMUoyWTIxVmRWcEhWakpOVWpSM1NFRlpSRlpSVVVSRmVGWjZZVmRrZW1SSE9YbGFVekZ3WW01U2JBcGpiVEZzV2tkc2FHUkhWWGRJYUdOT1RXcEpkMDlVUlRGTmFrMTVUbFJOZWxkb1kwNU5ha2wzVDFSRk1VMXFUWHBPVkUxNlYycEJRVTFHYTNkRmQxbElDa3R2V2tsNmFqQkRRVkZaU1V0dldrbDZhakJFUVZGalJGRm5RVVV3ZG1Zck5tUTRTVWRVVWxablJGcHZORXd2VEZFNFFWUXZkM0JMWXpOSE5WUnVNWEVLSzI1RE5HcE1VbUpCV1VsTVFrMXpNMVZtY0VoMVFUQlpkWEkyYnpndlVqQjBTRnB3VVZwQ1VrRjZSbVowY0hoWmIyRlBRMEZxWTNkblowbDZUVUUwUndwQk1WVmtSSGRGUWk5M1VVVkJkMGxJWjBSQlZFSm5UbFpJVTFWRlJFUkJTMEpuWjNKQ1owVkdRbEZqUkVGNlFXUkNaMDVXU0ZFMFJVWm5VVlZNUnpRNENrRlNOVkJ1VDNsVlZWQnBjblpMU0V4WWVuTmxiRVpaZDBoM1dVUldVakJxUWtKbmQwWnZRVlV6T1ZCd2VqRlphMFZhWWpWeFRtcHdTMFpYYVhocE5Ga0tXa1E0ZDFobldVUldVakJTUVZGSUwwSkdVWGRWYjFwUllVaFNNR05JVFRaTWVUbHVZVmhTYjJSWFNYVlpNamwwVERKU2NHTXpVbmxpTW5oc1l6Tk5kZ3BqUjJoM1RIazFibUZZVW05a1YwbDJaREk1ZVdFeVduTmlNMlI2VEROS2JHSkhWbWhqTWxWMVpWZEdkR0pGUW5sYVYxcDZUREpvYkZsWFVucE1NakZvQ21GWE5IZFBVVmxMUzNkWlFrSkJSMFIyZWtGQ1FWRlJjbUZJVWpCalNFMDJUSGs1TUdJeWRHeGlhVFZvV1ROU2NHSXlOWHBNYldSd1pFZG9NVmx1Vm5vS1dsaEthbUl5TlRCYVZ6VXdURzFPZG1KVVFWTkNaMjl5UW1kRlJVRlpUeTlOUVVWRFFrRlNkMlJZVG05TlJGbEhRMmx6UjBGUlVVSm5OemgzUVZGTlJRcExSMGw2VGxkRk1rNVVaM2xOYlZac1RucEJlVTlYU1hwT1YxcHRUMFJWTkZwVVdURk9hbGw0V1ZkSk1FNVhTWGhOVkUxNldUSlpkMGhCV1V0TGQxbENDa0pCUjBSMmVrRkNRa0ZSVDFFelNteFpXRkpzU1VaS2JHSkhWbWhqTWxWM1NFRlpTMHQzV1VKQ1FVZEVkbnBCUWtKUlVVOWFSMng2WkVoS2RtSkhWbm9LWTNrNWQyRklRWGRJVVZsTFMzZFpRa0pCUjBSMmVrRkNRbWRSVUdOdFZtMWplVGx2V2xkR2EyTjVPWFJaVjJ4MVRVbEhTa0puYjNKQ1owVkZRV1JhTlFwQloxRkRRa2h6UldWUlFqTkJTRlZCUTBkRFV6aERhRk12TW1oR01HUkdja28wVTJOU1YyTlpja0paT1hkNmFsTmlaV0U0U1dkWk1tSXpTVUZCUVVkRUNsRXpha3N4ZDBGQlFrRk5RVkpxUWtWQmFVSnJaM2MwV21wNFIyZHphV2s0TVhsTVVsZEhZVTV3VVZsWFZtZFVTbTE0WmxCQmQyZG5WVVJ2WmpWQlNXY0tabGR6Y0ZFM2RtWkVSM2xrWjNkVVVFWjVkMEpDTkRsa1RrVkdaSGx1WTBOU00yTmpPSFpQY21GcFFYZERaMWxKUzI5YVNYcHFNRVZCZDAxRVlVRkJkd3BhVVVsNFFWQk1UVWxYVFZkdGRYWlljVU5tZEhsVE4wbDNWa2gzTDJwcllVczVjSEUxZUN0clRuY3ZjQzlrSzFSRFFqbEZORU1yTHpaallra3dlVlpQQ21kRVNXaEdVVWwzVW1vNGRIUTJRWEZrZUhoR2VXb3dkVGhHUm14bFYwWnJRbFpXYlRSc1JtdG1WRVYyV0RKS1kyNWpVbWhLY0RNek4wbFFOR3hyYTNrS01HVnRUMEp1TkdFS0xTMHRMUzFGVGtRZ1EwVlNWRWxHU1VOQlZFVXRMUzB0TFFvPSJ9fX19",
+          "integratedTime": 1663284354,
+          "logIndex": 3511696,
+          "logID": "c0d23d6ad406973f9559f3ba2d1ca01f84147d8ffc5b8445c224f98b9591801d"
+        }
+      },
       "Issuer": "https://token.actions.githubusercontent.com",
       "Subject": "https://github.com/distroless/php/.github/workflows/release.yaml@refs/heads/main",
       "run_attempt": "1",
-      "run_id": "2626578822"
-      ...
+      "run_id": "3064359896",
+      "sha": "b35a65822ee7029b35ff858e65661ab45b1133cf"
     }
   }
 ]
 ```
 
 You can verify that the image was built in Github Actions in this repository from the `Issuer` and `Subject` fields.
+</details>
+
+## Build
+
+This image is built with [apko](https://github.com/chainguard-dev/apko).
 
