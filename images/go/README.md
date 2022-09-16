@@ -33,10 +33,16 @@ docker pull distroless.dev/go:latest
 To build the Go application in [examples/hello/main.go](examples/hello/main.go)
 using the host architecture:
 
+First create a build output folder writable from within the container
+```
+mkdir out
+chmod go+wrx out
+```
+
 ```
 docker run --rm -v "${PWD}:/work" -w /work/examples/hello \
     -e GOOS="$(go env GOOS)" -e GOARCH="$(go env GOARCH)" \
-    distroless.dev/go build -o /work/hello .
+    distroless.dev/go build -o /work/out/hello .
 ```
 
 The example application will be built to `./hello`:
