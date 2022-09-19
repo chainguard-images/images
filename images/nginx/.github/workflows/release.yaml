@@ -191,21 +191,7 @@ jobs:
           echo "Grype Count: $GRYPE_COUNT" >> $GITHUB_STEP_SUMMARY
           echo "Trivy Count: $TRIVY_COUNT" >> $GITHUB_STEP_SUMMARY
 
-      # Post to slack when things fail.
-      - if: ${{ failure() }}
-        uses: rtCamp/action-slack-notify@v2.2.0
-        env:
-          SLACK_ICON: http://github.com/chainguardian.png?size=48
-          SLACK_USERNAME: chainguardian
-          SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-          SLACK_CHANNEL: distroless-alerts
-          SLACK_COLOR: '#8E1600'
-          MSG_MINIMAL: 'true'
-          SLACK_TITLE: Releasing ${{ github.repository }} failed.
-          SLACK_MESSAGE: |
-            For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
-      - if: ${{ steps.scans.outputs.TRIVY_COUNT != '0' || steps.scans.outputs.GRYPE_COUNT != '0' || steps.scans.outputs.SNYK_COUNT != '0'  }}
+      - if: ${{ failure() || steps.scans.outputs.TRIVY_COUNT != '0' || steps.scans.outputs.GRYPE_COUNT != '0' || steps.scans.outputs.SNYK_COUNT != '0'  }}
         uses: rtCamp/action-slack-notify@12e36fc18b0689399306c2e0b3e0f2978b7f1ee7
         env:
           SLACK_ICON: http://github.com/chainguardian.png?size=48
@@ -235,22 +221,23 @@ jobs:
       - name: Generate README
         uses: distroless/readme-generator@main
         with:
-          repo: https://github.com/distroless/nginx
-          name: nginx
-          location: distroless.dev/nginx
+          repo: https://github.com/${{ github.repository }}
+          name: ${{ github.event.repository.name }}
+          location: cgr.dev/chainguard/${{ github.event.repository.name }}
           description: "A minimal nginx base image rebuilt every night from source."
           exclude-tags: 1.20.2-r0,1.20.2,1.20,1.23.0
-          output-path: README-GENERATED.md
-      - name: Push new README back to the repo
-        run: |
-          set -x
-          if [[ "$(diff README-GENERATED.md README.md)" == "" ]]; then
-            echo "No diff detected in README. Skipping."
-            exit 0
-          fi
-          git config user.name "Automated"
-          git config user.email "actions@users.noreply.github.com"
-          mv README-GENERATED.md README.md
-          git add README.md
-          git commit -m "Regenerate README.md" || exit 0
-          git push
+          push-to-repo: true
+
+      # Post to slack when things fail.
+      - if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2.2.0
+        env:
+          SLACK_ICON: http://github.com/chainguardian.png?size=48
+          SLACK_USERNAME: chainguardian
+          SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
+          SLACK_CHANNEL: distroless-alerts
+          SLACK_COLOR: '#8E1600'
+          MSG_MINIMAL: 'true'
+          SLACK_TITLE: Generating new README for ${{ github.repository }} failed.
+          SLACK_MESSAGE: |
+            For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
