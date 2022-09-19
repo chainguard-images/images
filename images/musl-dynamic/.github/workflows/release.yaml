@@ -84,16 +84,16 @@ jobs:
       matrix:
         ref: ${{ fromJson(needs.build.outputs.image-refs) }}
     steps:
-    - run: |
-        echo ${{ matrix.ref }}
-    - uses: distroless/actions/vul-scans@main
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ github.token }}
-        image: ${{ matrix.ref }}
-        RUN_SNYK: "false"
-        RUN_GRYPE: "false"
+      - run: |
+          echo ${{ matrix.ref }}
+      - uses: distroless/actions/vul-scans@main
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+          image: ${{ matrix.ref }}
+          RUN_SNYK: "false"
+          RUN_GRYPE: "false"
 
       - name: Image Vulnerability scan output
         shell: bash
