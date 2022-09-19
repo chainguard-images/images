@@ -147,6 +147,7 @@ jobs:
           name: ${{ github.event.repository.name }}
           location: cgr.dev/chainguard/${{ github.event.repository.name }}
           description: "Container image for building Go applications."
+          exclude-tags: 1.18,1.18.5,1.18.5-r0,1.19-r0,1.19.0,1.18.4-r2,1.18.4
           push-to-repo: true
 
       # Post to slack when things fail.
