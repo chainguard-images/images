@@ -63,7 +63,7 @@ jobs:
         SLACK_MESSAGE: |
           For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
-  scans:
+  scan:
     name: Scan apko images
     needs: build
     runs-on: ubuntu-latest
@@ -120,7 +120,7 @@ jobs:
         SLACK_MESSAGE: |
           For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
-    - if: ${{ steps.scans.outputs.TRIVY_COUNT != '0' || steps.scans.outputs.GRYPE_COUNT != '0' || steps.scans.outputs.SNYK_COUNT != '0'  }}
+    - if: ${{ failure() || steps.scans.outputs.TRIVY_COUNT != '0' || steps.scans.outputs.GRYPE_COUNT != '0' || steps.scans.outputs.SNYK_COUNT != '0'  }}
       uses: rtCamp/action-slack-notify@12e36fc18b0689399306c2e0b3e0f2978b7f1ee7
       env:
         SLACK_ICON: http://github.com/chainguardian.png?size=48
@@ -139,7 +139,7 @@ jobs:
 
   generate-readme:
     name: Generate README
-    needs: scans
+    needs: scan
     runs-on: ubuntu-latest
     permissions:
       id-token: write # Enable OIDC
@@ -150,22 +150,24 @@ jobs:
       - name: Generate README
         uses: distroless/readme-generator@main
         with:
-          repo: https://github.com/distroless/alpine-base
-          name: alpine-base
-          location: distroless.dev/alpine-base
+          repo: https://github.com/${{ github.repository }}
+          name: ${{ github.event.repository.name }}
+          location: cgr.dev/chainguard/${{ github.event.repository.name }}
           description: "Alpine base image built with distroless tools."
           exclude-tags: 20220304,20220308,20220315,20220328,20220318,20220319,20220320,20220409,20220410,20220421,20220422,20220423,20220424,20220428,20220302,20220306,20220307,20220317,3.17_alpha20220715-r0,3.17_alpha20220809-r0,20220414,20220420,20220303,20220305,20220326,20220329,20220330,20220331,20220401,20220402,20220403,20220310,20220429,20220311,20220312,20220425,20220426,20220412,20220321,20220322,20220323,20220324,20220325,20220404,20220405,20220406,20220407,20220411,20220314,20220415,20220416,20220417,20220418,20220419,3.17_alpha20220809-r1,20220413,20220313,20220316,20220327,20220408
           output-path: README-GENERATED.md
-      - name: Push new README back to the repo
-        run: |
-          set -x
-          if [[ "$(diff README-GENERATED.md README.md)" == "" ]]; then
-            echo "No diff detected in README. Skipping."
-            exit 0
-          fi
-          git config user.name "Automated"
-          git config user.email "actions@users.noreply.github.com"
-          mv README-GENERATED.md README.md
-          git add README.md
-          git commit -m "Regenerate README.md" || exit 0
-          git push
+          push-to-repo: true
+
+      # Post to slack when things fail.
+      - if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2.2.0
+        env:
+          SLACK_ICON: http://github.com/chainguardian.png?size=48
+          SLACK_USERNAME: chainguardian
+          SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
+          SLACK_CHANNEL: distroless-alerts
+          SLACK_COLOR: '#8E1600'
+          MSG_MINIMAL: 'true'
+          SLACK_TITLE: Generating new README for ${{ github.repository }} failed.
+          SLACK_MESSAGE: |
+            For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
