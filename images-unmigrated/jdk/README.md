@@ -1,10 +1,10 @@
 # jdk
 
 <!---
-Note: Do NOT edit directly, this file was generated using https://github.com/distroless/readme-generator
+Note: Do NOT edit directly, this file was generated using https://github.com/chainguard-images/readme-generator
 -->
 
-[![CI status](https://github.com/distroless/jdk/actions/workflows/release.yaml/badge.svg)](https://github.com/distroless/jdk/actions/workflows/release.yaml)
+[![CI status](https://github.com/chainguard-images/jdk/actions/workflows/release.yaml/badge.svg)](https://github.com/chainguard-images/jdk/actions/workflows/release.yaml)
 
 WORK IN PROGRESS
 
@@ -47,7 +47,7 @@ The following checks were performed on each of these signatures:
   {
     "critical": {
       "identity": {
-        "docker-reference": "ghcr.io/distroless/jdk"
+        "docker-reference": "ghcr.io/chainguard-images/jdk"
       },
       "image": {
         "docker-manifest-digest": "sha256:6dff6bd49d1687f003e1d35bfc00f321fd5bb36251d2d69955ca53f304abee94"
@@ -70,7 +70,7 @@ The following checks were performed on each of these signatures:
         }
       },
       "Issuer": "https://token.actions.githubusercontent.com",
-      "Subject": "https://github.com/distroless/jdk/.github/workflows/release.yaml@refs/heads/main",
+      "Subject": "https://github.com/chainguard-images/jdk/.github/workflows/release.yaml@refs/heads/main",
       "run_attempt": "1",
       "run_id": "3085951354",
       "sha": "38ff3422ea0dc4f38f0369bcdecc3e6929d0d1ca"
