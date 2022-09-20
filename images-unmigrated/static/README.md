@@ -1,7 +1,7 @@
 # static
 
 <!---
-Note: Do NOT edit directly, this file was generated using https://github.com/distroless/readme-generator
+Note: Do NOT edit directly, this file was generated using https://github.com/chainguard-images/readme-generator
 -->
 
 [![CI status](https://github.com/chainguard-images/static/actions/workflows/release.yaml/badge.svg)](https://github.com/chainguard-images/static/actions/workflows/release.yaml)
@@ -33,7 +33,7 @@ and puts it into the static image:
 FROM --platform=x86_64 rust:alpine as build
 
 RUN rustup target add x86_64-unknown-linux-musl
-RUN echo 'fn main() { println!("Hello Distroless"); }' > hello.rs
+RUN echo 'fn main() { println!("Hello"); }' > hello.rs
 RUN rustc --target x86_64-unknown-linux-musl hello.rs
 
 FROM cgr.dev/chainguard/static:latest
@@ -47,7 +47,7 @@ To build and run it:
 $ docker build -t rusty-distroless --file examples/Dockerfile.rust .
 ...
 $ docker run rusty-distroless
-Hello Distroless
+Hello@
 ```
 
 Note the size!
