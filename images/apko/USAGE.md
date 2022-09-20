@@ -1,7 +1,7 @@
 ```
-$ docker run -v $PWD:/work distroless.dev/apko build examples/alpine-base.yaml apko-alpine:edge apko-alpine.tar
+$ docker run -v $PWD:/work cgr.dev/chainguard/apko build examples/alpine-base.yaml apko-alpine:edge apko-alpine.tar
 Jul 15 10:35:45.226 [INFO] loading config file: examples/alpine-base.yaml
-Jul 15 10:35:45.246 [INFO] [arch:aarch64] detected git+ssh://github.com/distroless/apko.git as VCS URL
+Jul 15 10:35:45.246 [INFO] [arch:aarch64] detected git+ssh://github.com/chainguard-images/apko.git as VCS URL
 Jul 15 10:35:45.246 [INFO] [arch:aarch64] building image 'apko-alpine:edge'
 Jul 15 10:35:45.246 [INFO] [arch:aarch64] build context:
 Jul 15 10:35:45.246 [INFO] [arch:aarch64]   working directory: /tmp/apko-3633559485

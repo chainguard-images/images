@@ -1,10 +1,10 @@
 # apko
 
 <!---
-Note: Do NOT edit directly, this file was generated using https://github.com/distroless/readme-generator
+Note: Do NOT edit directly, this file was generated using https://github.com/chainguard-images/readme-generator
 -->
 
-[![CI status](https://github.com/distroless/apko/actions/workflows/release.yaml/badge.svg)](https://github.com/distroless/apko/actions/workflows/release.yaml)
+[![CI status](https://github.com/chainguard-images/apko/actions/workflows/release.yaml/badge.svg)](https://github.com/chainguard-images/apko/actions/workflows/release.yaml)
 
 Container image for running [apko](https://github.com/chainguard-dev/apko) container builds.
 
@@ -26,9 +26,9 @@ docker pull cgr.dev/chainguard/apko:latest
 ## Usage
 
 ```
-$ docker run -v $PWD:/work distroless.dev/apko build examples/alpine-base.yaml apko-alpine:edge apko-alpine.tar
+$ docker run -v $PWD:/work cgr.dev/chainguard/apko build examples/alpine-base.yaml apko-alpine:edge apko-alpine.tar
 Jul 15 10:35:45.226 [INFO] loading config file: examples/alpine-base.yaml
-Jul 15 10:35:45.246 [INFO] [arch:aarch64] detected git+ssh://github.com/distroless/apko.git as VCS URL
+Jul 15 10:35:45.246 [INFO] [arch:aarch64] detected git+ssh://github.com/chainguard-images/apko.git as VCS URL
 Jul 15 10:35:45.246 [INFO] [arch:aarch64] building image 'apko-alpine:edge'
 Jul 15 10:35:45.246 [INFO] [arch:aarch64] build context:
 Jul 15 10:35:45.246 [INFO] [arch:aarch64]   working directory: /tmp/apko-3633559485
@@ -95,7 +95,7 @@ The following checks were performed on each of these signatures:
   {
     "critical": {
       "identity": {
-        "docker-reference": "ghcr.io/distroless/apko"
+        "docker-reference": "ghcr.io/chainguard-images/apko"
       },
       "image": {
         "docker-manifest-digest": "sha256:99b18cd7af92d512ee56bb68f85181ed84a9c783f9b7c4d3351787dd684461c7"
@@ -118,7 +118,7 @@ The following checks were performed on each of these signatures:
         }
       },
       "Issuer": "https://token.actions.githubusercontent.com",
-      "Subject": "https://github.com/distroless/apko/.github/workflows/release.yaml@refs/heads/main",
+      "Subject": "https://github.com/chainguard-images/apko/.github/workflows/release.yaml@refs/heads/main",
       "run_attempt": "1",
       "run_id": "3085957213",
       "sha": "d287924eeb4d4525023f112f73e760f0942a6ecf"
