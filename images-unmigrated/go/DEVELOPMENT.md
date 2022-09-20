@@ -1,13 +1,13 @@
-# distroless.dev/go Development
+# cgr.dev/chainguard/go Development
 
-This doc covers building the go distroless image locally with Docker.
+This doc covers building the go image locally with Docker.
 
-## Building distroless.dev/go Locally
+## Building cgr.dev/chainguard/go Locally
 
 First build the image first using apko:
 ```
 docker run --rm -v "${PWD}:/work" -w /work \
-    distroless.dev/apko build apko.yaml distroless.dev/go:devel go.tar
+    cgr.dev/chainguard/apko build apko.yaml cgr.dev/chainguard/go:devel go.tar
 ```
 
 Next, load the image from the tarball:
@@ -19,7 +19,7 @@ Try building something (optionally setting to use your system's `GOOS` / `GOARCH
 ```
 docker run --rm -v "${PWD}:/work" -w /work/examples/hello \
     -e GOOS="$(go env GOOS)" -e GOARCH="$(go env GOARCH)" \
-    distroless.dev/go:devel build -o /work/hello .
+    cgr.dev/chainguard/go:devel build -o /work/hello .
 ```
 
 Finally, try running it:
