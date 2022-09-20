@@ -1,10 +1,10 @@
 # go
 
 <!---
-Note: Do NOT edit directly, this file was generated using https://github.com/distroless/readme-generator
+Note: Do NOT edit directly, this file was generated using https://github.com/chainguard-images/readme-generator
 -->
 
-[![CI status](https://github.com/distroless/go/actions/workflows/release.yaml/badge.svg)](https://github.com/distroless/go/actions/workflows/release.yaml)
+[![CI status](https://github.com/chainguard-images/go/actions/workflows/release.yaml/badge.svg)](https://github.com/chainguard-images/go/actions/workflows/release.yaml)
 
 Container image for building Go applications.
 
@@ -31,7 +31,7 @@ using the host architecture:
 ```
 docker run --rm -v "${PWD}:/work" -w /work/examples/hello \
     -e GOOS="$(go env GOOS)" -e GOARCH="$(go env GOARCH)" \
-    distroless.dev/go build -o /work/hello .
+    cgr.dev/chainguard/go build -o /work/hello .
 ```
 
 The example application will be built to `./hello`:
@@ -64,7 +64,7 @@ The following checks were performed on each of these signatures:
   {
     "critical": {
       "identity": {
-        "docker-reference": "ghcr.io/distroless/go"
+        "docker-reference": "ghcr.io/chainguard-images/go"
       },
       "image": {
         "docker-manifest-digest": "sha256:a0df46918e37535614dac49f7c3ce8c8ec7ca6b28f2a9477f0e2d70f8df5b5d2"
@@ -87,7 +87,7 @@ The following checks were performed on each of these signatures:
         }
       },
       "Issuer": "https://token.actions.githubusercontent.com",
-      "Subject": "https://github.com/distroless/go/.github/workflows/release.yaml@refs/heads/main",
+      "Subject": "https://github.com/chainguard-images/go/.github/workflows/release.yaml@refs/heads/main",
       "run_attempt": "1",
       "run_id": "3085974962",
       "sha": "720ff3813dbbea4437bcf6924a124a0df213f5d2"
