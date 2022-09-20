@@ -36,7 +36,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - uses: distroless/actions/apko-snapshot@main
+    - uses: chainguard-images/actions/apko-snapshot@main
       id: builds
       with:
         config: apko.yaml
@@ -55,7 +55,7 @@ jobs:
         SLACK_ICON: http://github.com/chainguardian.png?size=48
         SLACK_USERNAME: chainguardian
         SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-        SLACK_CHANNEL: distroless-alerts
+        SLACK_CHANNEL: chainguard-images-alerts
         SLACK_COLOR: '#8E1600'
         MSG_MINIMAL: 'true'
         SLACK_TITLE: Releasing ${{ github.repository }} failed.
@@ -80,7 +80,7 @@ jobs:
       - run: |
           echo ${{ matrix.ref }}
 
-      - uses: distroless/actions/vul-scans@main
+      - uses: chainguard-images/actions/vul-scans@main
         id: scans
         with:
           registry: ghcr.io
@@ -111,7 +111,7 @@ jobs:
           SLACK_ICON: http://github.com/chainguardian.png?size=48
           SLACK_USERNAME: chainguardian
           SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-          SLACK_CHANNEL: distroless-alerts
+          SLACK_CHANNEL: chainguard-images-alerts
           SLACK_COLOR: '#8E1600'
           MSG_MINIMAL: 'false'
           SLACK_TITLE: Vulnerability Report for ${{ github.repository }}.
@@ -132,12 +132,16 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v3
+
+      - name: Get Repository name
+        run: echo "REPO_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
       - name: Generate README
-        uses: distroless/readme-generator@main
+        uses: chainguard-images/readme-generator@main
         with:
           repo: https://github.com/${{ github.repository }}
-          name: ${{ github.event.repository.name }}
-          location: cgr.dev/chainguard/${{ github.event.repository.name }}
+          name: ${{ env.REPO_NAME }}
+          location: cgr.dev/chainguard/${{ env.REPO_NAME }}
           description: "This is an image that contains ko, go, and build-base.<br/><br/>This image is designed for use in situations where you would like to use `ko` with codebases that have C dependencies where `cgo` must be used. In these cases, staticly linking against musl instead of glibc results in smaller binaries."
           exclude-tags: 0.11.2-r1,0.11.2-r0,0.11.2-r2
           push-to-repo: true
@@ -149,7 +153,7 @@ jobs:
           SLACK_ICON: http://github.com/chainguardian.png?size=48
           SLACK_USERNAME: chainguardian
           SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-          SLACK_CHANNEL: distroless-alerts
+          SLACK_CHANNEL: chainguard-images-alerts
           SLACK_COLOR: '#8E1600'
           MSG_MINIMAL: 'true'
           SLACK_TITLE: Generating new README for ${{ github.repository }} failed.
