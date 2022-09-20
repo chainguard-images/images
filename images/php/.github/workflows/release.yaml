@@ -36,7 +36,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - uses: distroless/actions/apko-snapshot@main
+    - uses: chainguard-images/actions/apko-snapshot@main
       with:
         config: apko.yaml
         base-tag: ghcr.io/${{ github.repository }}
@@ -46,7 +46,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Additional tags
-      uses: distroless/actions/tag@main
+      uses: chainguard-images/actions/tag@main
       with:
         distroless_image: ghcr.io/${{ github.repository }}
         docker_image: "php"
@@ -63,7 +63,7 @@ jobs:
         SLACK_ICON: http://github.com/chainguardian.png?size=48
         SLACK_USERNAME: chainguardian
         SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-        SLACK_CHANNEL: distroless-alerts
+        SLACK_CHANNEL: chainguard-images-alerts
         SLACK_COLOR: '#8E1600'
         MSG_MINIMAL: 'true'
         SLACK_TITLE: Releasing ${{ github.repository }} failed.
@@ -88,7 +88,7 @@ jobs:
       - run: |
           echo ${{ matrix.ref }}
 
-      - uses: distroless/actions/vul-scans@main
+      - uses: chainguard-images/actions/vul-scans@main
         id: scans
         with:
           registry: ghcr.io
@@ -119,7 +119,7 @@ jobs:
           SLACK_ICON: http://github.com/chainguardian.png?size=48
           SLACK_USERNAME: chainguardian
           SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-          SLACK_CHANNEL: distroless-alerts
+          SLACK_CHANNEL: chainguard-images-alerts
           SLACK_COLOR: '#8E1600'
           MSG_MINIMAL: 'false'
           SLACK_TITLE: Vulnerability Report for ${{ github.repository }}.
@@ -140,12 +140,16 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v3
+
+      - name: Get Repository name
+        run: echo "REPO_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
       - name: Generate README
-        uses: distroless/readme-generator@main
+        uses: chainguard-images/readme-generator@main
         with:
           repo: https://github.com/${{ github.repository }}
-          name: ${{ github.event.repository.name }}
-          location: cgr.dev/chainguard/${{ github.event.repository.name }}
+          name: ${{ env.REPO_NAME }}
+          location: cgr.dev/chainguard/${{ env.REPO_NAME }}
           description: "This is a minimal PHP image based on Alpine, using PHP apks available on the Alpine Community repositories (not built from source as of now).<br/><br/>While this image is being developed, we will stick to the latest stable PHP version which at this moment is `8.1`. Supported versions in the long term are TBD."
           exclude-tags: "8.1.8-r3,8.1.9-r0,8.1.9,8.1.9-bullseye,8.1.9-cli,8.1.9-cli-bullseye,8.1.8,8.1.8-bullseye,8.1.8-cli,8.1.8-cli-bullseye"
           push-to-repo: true
@@ -157,7 +161,7 @@ jobs:
           SLACK_ICON: http://github.com/chainguardian.png?size=48
           SLACK_USERNAME: chainguardian
           SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-          SLACK_CHANNEL: distroless-alerts
+          SLACK_CHANNEL: chainguard-images-alerts
           SLACK_COLOR: '#8E1600'
           MSG_MINIMAL: 'true'
           SLACK_TITLE: Generating new README for ${{ github.repository }} failed.

@@ -1,10 +1,10 @@
 # php
 
 <!---
-Note: Do NOT edit directly, this file was generated using https://github.com/distroless/readme-generator
+Note: Do NOT edit directly, this file was generated using https://github.com/chainguard-images/readme-generator
 -->
 
-[![CI status](https://github.com/distroless/php/actions/workflows/release.yaml/badge.svg)](https://github.com/distroless/php/actions/workflows/release.yaml)
+[![CI status](https://github.com/chainguard-images/php/actions/workflows/release.yaml/badge.svg)](https://github.com/chainguard-images/php/actions/workflows/release.yaml)
 
 This is a minimal PHP image based on Alpine, using PHP apks available on the Alpine Community repositories (not built from source as of now).<br/><br/>While this image is being developed, we will stick to the latest stable PHP version which at this moment is `8.1`. Supported versions in the long term are TBD.
 
@@ -60,7 +60,7 @@ The following checks were performed on each of these signatures:
   {
     "critical": {
       "identity": {
-        "docker-reference": "ghcr.io/distroless/php"
+        "docker-reference": "ghcr.io/chainguard-images/php"
       },
       "image": {
         "docker-manifest-digest": "sha256:6e568a055c20c83d1f3a5f7db7ad2fccc93ce62fcf037f48eff70a160a5b4308"
@@ -83,7 +83,7 @@ The following checks were performed on each of these signatures:
         }
       },
       "Issuer": "https://token.actions.githubusercontent.com",
-      "Subject": "https://github.com/distroless/php/.github/workflows/release.yaml@refs/heads/main",
+      "Subject": "https://github.com/chainguard-images/php/.github/workflows/release.yaml@refs/heads/main",
       "run_attempt": "1",
       "run_id": "3085953647",
       "sha": "0508a56fa6788a04f507707cecd63f0f98f68a24"
