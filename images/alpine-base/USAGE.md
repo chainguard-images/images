@@ -1,5 +1,5 @@
 ```
-docker run distroless.dev/alpine-base echo "hello distroless"
+docker run cgr.dev/chainguard/alpine-base echo "hello"
 ```
 
 See the [examples/](./examples/) directory for how

@@ -2,6 +2,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail
 
-IMAGE_NAME=${IMAGE_NAME:-"distroless.dev/alpine-base"}
+IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/alpine-base"}
 
-docker run ${IMAGE_NAME} echo "hello distroless"
+docker run ${IMAGE_NAME} echo "hello"
