@@ -1,9 +1,9 @@
-ARG BASE=distroless.dev/static
+ARG BASE=cgr.dev/chainguard/static
 
 FROM --platform=x86_64 rust:alpine@sha256:3bcdeab61ea4e01db688277c5565b4bfb845293520d3b5eee7e9acf02ad6902b as build
 
 RUN rustup target add x86_64-unknown-linux-musl
-RUN echo 'fn main() { println!("Hello Distroless"); }' > hello.rs
+RUN echo 'fn main() { println!("Hello"); }' > hello.rs
 RUN rustc --target x86_64-unknown-linux-musl hello.rs
 
 FROM $BASE

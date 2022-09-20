@@ -1,6 +1,6 @@
 #include <stdio.h>
 
 int main() { 
-    printf("Hello Distroless!\n"); 
+    printf("Hello!\n"); 
     return 0;
 }
