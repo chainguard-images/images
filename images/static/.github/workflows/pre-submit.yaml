@@ -25,7 +25,7 @@ jobs:
       shell: bash
 
     - id: apko
-      uses: distroless/actions/apko-build@main
+      uses: chainguard-images/actions/apko-build@main
       with:
         config: apko.yaml
         tag: static:${{ steps.snapshot-date.outputs.date }}
