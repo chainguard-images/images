@@ -1,17 +1,17 @@
-The Git distroless image allows you to run ordinary Git commands in CI/CD pipelines and also locally via Docker.
+The Git image allows you to run ordinary Git commands in CI/CD pipelines and also locally via Docker.
 
 ### Docker Setup
 
 To make sure you have the latest image version available, start by running a `docker pull` command:
 
 ```shell
-docker pull distroless.dev/git
+docker pull cgr.dev/chainguard/git
 ```
 
 Then, run the image with the `--version` flag to make sure it is functional:
 
 ```shell
-docker run -it --rm distroless.dev/git --version
+docker run -it --rm cgr.dev/chainguard/git --version
 ```
 You should get output similar to this:
 
@@ -33,7 +33,7 @@ chmod go+wrx ~/workspace
 Now you can use `docker run` to execute the clone command, using the directory you just set up as a volume share between your local machine and the container image on `/home/git`.
 
 ```shell
-docker run -it -v ~/workspace:/home/git --rm distroless.dev/git clone https://github.com/distroless/git.git
+docker run -it -v ~/workspace:/home/git --rm cgr.dev/chainguard/git clone https://github.com/chainguard-images/git.git
 ```
 
 You should get output like this:

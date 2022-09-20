@@ -1,10 +1,10 @@
 # git
 
 <!---
-Note: Do NOT edit directly, this file was generated using https://github.com/distroless/readme-generator
+Note: Do NOT edit directly, this file was generated using https://github.com/chainguard-images/readme-generator
 -->
 
-[![CI status](https://github.com/distroless/git/actions/workflows/release.yaml/badge.svg)](https://github.com/distroless/git/actions/workflows/release.yaml)
+[![CI status](https://github.com/chainguard-images/git/actions/workflows/release.yaml/badge.svg)](https://github.com/chainguard-images/git/actions/workflows/release.yaml)
 
 This is a minimal Git image based on Alpine, using up-to-date apks available on the Alpine Community repositories (not built from source). The image contains `git`, `git-lfs`, and supporting libraries such as `openssh` (for `ssh`-based auth), and `ca-certs` (for `https`-based cloning).
 
@@ -34,13 +34,13 @@ The Git distroless image allows you to run ordinary Git commands in CI/CD pipeli
 To make sure you have the latest image version available, start by running a `docker pull` command:
 
 ```shell
-docker pull distroless.dev/git
+docker pull cgr.dev/chainguard/git
 ```
 
 Then, run the image with the `--version` flag to make sure it is functional:
 
 ```shell
-docker run -it --rm distroless.dev/git --version
+docker run -it --rm cgr.dev/chainguard/git --version
 ```
 You should get output similar to this:
 
@@ -62,7 +62,7 @@ chmod go+wrx ~/workspace
 Now you can use `docker run` to execute the clone command, using the directory you just set up as a volume share between your local machine and the container image on `/home/git`.
 
 ```shell
-docker run -it -v ~/workspace:/home/git --rm distroless.dev/git clone https://github.com/distroless/git.git
+docker run -it -v ~/workspace:/home/git --rm cgr.dev/chainguard/git clone https://github.com/chainguard-images/git.git
 ```
 
 You should get output like this:
@@ -103,7 +103,7 @@ The following checks were performed on each of these signatures:
   {
     "critical": {
       "identity": {
-        "docker-reference": "ghcr.io/distroless/git"
+        "docker-reference": "ghcr.io/chainguard-images/git"
       },
       "image": {
         "docker-manifest-digest": "sha256:d7502f55a046a769c500c74a8c585642e3a3f876aa2421870eed4cc9d601b451"
@@ -126,7 +126,7 @@ The following checks were performed on each of these signatures:
         }
       },
       "Issuer": "https://token.actions.githubusercontent.com",
-      "Subject": "https://github.com/distroless/git/.github/workflows/release.yaml@refs/heads/main",
+      "Subject": "https://github.com/chainguard-images/git/.github/workflows/release.yaml@refs/heads/main",
       "run_attempt": "1",
       "run_id": "3085957640",
       "sha": "af22ca92d8de12023da7c9587ba5b8ced30be3a9"
