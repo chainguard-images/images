@@ -10,14 +10,14 @@ cd melange
 Run the image, mounting the repo workspace (`--privileged` flag required):
 
 ```
-docker run --privileged --rm -it -v "${PWD}:${PWD}" -w "${PWD}" distroless.dev/sdk
+docker run --privileged --rm -it -v "${PWD}:${PWD}" -w "${PWD}" cgr.dev/chainguard/sdk
 ```
 
 Upon entering the image, you should see the following welcome message:
 
 ```
 
-Welcome to the distroless development environment!
+Welcome to the development environment!
 
 
 [sdk] ❯
@@ -63,14 +63,14 @@ cd apko
 Run the image, mounting the repo workspace:
 
 ```
-docker run --rm -it -v "${PWD}:${PWD}" -w "${PWD}" distroless.dev/sdk
+docker run --rm -it -v "${PWD}:${PWD}" -w "${PWD}" cgr.dev/chainguard/sdk
 ```
 
 Upon entering the image, you should see the following welcome message:
 
 ```
 
-Welcome to the distroless development environment!
+Welcome to the development environment!
 
 
 [sdk] ❯

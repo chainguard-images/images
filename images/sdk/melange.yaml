@@ -2,7 +2,7 @@ package:
   name: sdk
   version: 0.0.1
   epoch: 0
-  description: distroless sdk
+  description: Development tools for melange and apko
   target-architecture:
     - all
   copyright:
@@ -64,7 +64,7 @@ pipeline:
       # sdk entrypoint
       SDK_ENTRYPOINT="${DESTDIR}/usr/bin/sdk"
       echo '#!/bin/bash -e' > "${SDK_ENTRYPOINT}"
-      echo 'printf "\nWelcome to the distroless development environment!\n\n\n"' >> "${SDK_ENTRYPOINT}"
+      echo 'printf "\nWelcome to the development environment!\n\n\n"' >> "${SDK_ENTRYPOINT}"
       echo 'export PS1="[sdk] ❯ "' >> "${SDK_ENTRYPOINT}"
       echo 'export PATH="/root/go/bin:${PATH}"' >> "${SDK_ENTRYPOINT}"
       echo 'bash -i' >> "${SDK_ENTRYPOINT}"
