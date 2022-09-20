@@ -2,7 +2,7 @@ contents:
   repositories:
     - https://dl-cdn.alpinelinux.org/alpine/edge/main
   packages:
-    # These packages match distroless/static
+    # These packages match chainguard-images/static
     - alpine-baselayout-data
     - ca-certificates-bundle
 
