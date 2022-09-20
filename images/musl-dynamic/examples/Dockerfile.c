@@ -1,6 +1,6 @@
-ARG BASE=distroless.dev/musl-dynamic
+ARG BASE=cgr.dev/chainguard/musl-dynamic
 
-FROM distroless.dev/gcc-musl as build
+FROM cgr.dev/chainguard/gcc-musl as build
 
 COPY hello.c /work/hello.c
 RUN cc hello.c -o hello
