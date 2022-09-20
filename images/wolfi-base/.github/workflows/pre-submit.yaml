@@ -24,7 +24,7 @@ jobs:
         echo ::set-output name=date::$(date -u +%Y%m%d)
       shell: bash
 
-    - uses: distroless/actions/apko-build@main
+    - uses: chainguard-images/actions/apko-build@main
       with:
         config: apko.yaml
         tag: template:${{ steps.snapshot-date.outputs.date }}
