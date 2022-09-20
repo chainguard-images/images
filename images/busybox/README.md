@@ -1,10 +1,10 @@
 # busybox
 
 <!---
-Note: Do NOT edit directly, this file was generated using https://github.com/distroless/readme-generator
+Note: Do NOT edit directly, this file was generated using https://github.com/chainguard-images/readme-generator
 -->
 
-[![CI status](https://github.com/distroless/busybox/actions/workflows/release.yaml/badge.svg)](https://github.com/distroless/busybox/actions/workflows/release.yaml)
+[![CI status](https://github.com/chainguard-images/busybox/actions/workflows/release.yaml/badge.svg)](https://github.com/chainguard-images/busybox/actions/workflows/release.yaml)
 
 An image that contains busybox and musl, suitable for running any binaries that only have a dependency on musl.
 
@@ -48,7 +48,7 @@ The following checks were performed on each of these signatures:
   {
     "critical": {
       "identity": {
-        "docker-reference": "ghcr.io/distroless/busybox"
+        "docker-reference": "ghcr.io/chainguard-images/busybox"
       },
       "image": {
         "docker-manifest-digest": "sha256:7065578b2f02eb2996ea3c376d502c2689300b914a8ee145aa583f167ebd8aba"
@@ -71,7 +71,7 @@ The following checks were performed on each of these signatures:
         }
       },
       "Issuer": "https://token.actions.githubusercontent.com",
-      "Subject": "https://github.com/distroless/busybox/.github/workflows/release.yaml@refs/heads/main",
+      "Subject": "https://github.com/chainguard-images/busybox/.github/workflows/release.yaml@refs/heads/main",
       "run_attempt": "1",
       "run_id": "3091196968",
       "sha": "94b514610f97cd7ce787fefdaa3fe3282e22d894"
