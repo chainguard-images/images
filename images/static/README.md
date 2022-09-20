@@ -1,10 +1,10 @@
 # static
 
 <!---
-Note: Do NOT edit directly, this file was generated using https://github.com/distroless/readme-generator
+Note: Do NOT edit directly, this file was generated using https://github.com/chainguard-images/readme-generator
 -->
 
-[![CI status](https://github.com/distroless/static/actions/workflows/release.yaml/badge.svg)](https://github.com/distroless/static/actions/workflows/release.yaml)
+[![CI status](https://github.com/chainguard-images/static/actions/workflows/release.yaml/badge.svg)](https://github.com/chainguard-images/static/actions/workflows/release.yaml)
 
 Base image with just enough files to run static binaries!<br/><br/>This image is meant to be used as a base image only, and is otherwise useless.  It contains the `alpine-baselayout-data` package from Alpine, which is just a set of data files needed to support glibc and musl static binaries at runtime.<br/><br/>This image can be used with `ko build`, `docker`, etc, but is only suitable for running static binaries.
 
@@ -33,7 +33,7 @@ and puts it into the static image:
 FROM --platform=x86_64 rust:alpine as build
 
 RUN rustup target add x86_64-unknown-linux-musl
-RUN echo 'fn main() { println!("Hello Distroless"); }' > hello.rs
+RUN echo 'fn main() { println!("Hello"); }' > hello.rs
 RUN rustc --target x86_64-unknown-linux-musl hello.rs
 
 FROM cgr.dev/chainguard/static:latest
@@ -47,7 +47,7 @@ To build and run it:
 $ docker build -t rusty-distroless --file examples/Dockerfile.rust .
 ...
 $ docker run rusty-distroless
-Hello Distroless
+Hello@
 ```
 
 Note the size!
@@ -119,7 +119,7 @@ The following checks were performed on each of these signatures:
   {
     "critical": {
       "identity": {
-        "docker-reference": "ghcr.io/distroless/static"
+        "docker-reference": "ghcr.io/chainguard-images/static"
       },
       "image": {
         "docker-manifest-digest": "sha256:51de142ee459a23e37377eedd23743bfd6a606ffca0e48aac8f599db7bfa72b1"
@@ -142,7 +142,7 @@ The following checks were performed on each of these signatures:
         }
       },
       "Issuer": "https://token.actions.githubusercontent.com",
-      "Subject": "https://github.com/distroless/static/.github/workflows/release.yaml@refs/heads/main",
+      "Subject": "https://github.com/chainguard-images/static/.github/workflows/release.yaml@refs/heads/main",
       "run_attempt": "1",
       "run_id": "3085956130",
       "sha": "aaf30aaede96e4ed11b487caf76701346a6ba3a9"
