@@ -38,7 +38,7 @@ jobs:
     - uses: actions/checkout@v3
 
     - id: apko
-      uses: distroless/actions/apko-snapshot@main
+      uses: chainguard-images/actions/apko-snapshot@main
       with:
         config: apko.yaml
         image_refs: apko.images
@@ -57,7 +57,7 @@ jobs:
         SLACK_ICON: http://github.com/chainguardian.png?size=48
         SLACK_USERNAME: chainguardian
         SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-        SLACK_CHANNEL: distroless-alerts
+        SLACK_CHANNEL: chainguard-images-alerts
         SLACK_COLOR: '#8E1600'
         MSG_MINIMAL: 'true'
         SLACK_TITLE: Releasing ${{ github.repository }} failed.
@@ -82,7 +82,7 @@ jobs:
     - run: |
         echo ${{ matrix.ref }}
 
-    - uses: distroless/actions/vul-scans@main
+    - uses: chainguard-images/actions/vul-scans@main
       id: scans
       with:
         registry: ghcr.io
@@ -113,7 +113,7 @@ jobs:
         SLACK_ICON: http://github.com/chainguardian.png?size=48
         SLACK_USERNAME: chainguardian
         SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-        SLACK_CHANNEL: distroless-alerts
+        SLACK_CHANNEL: chainguard-images-alerts
         SLACK_COLOR: '#8E1600'
         MSG_MINIMAL: 'false'
         SLACK_TITLE: Vulnerability Report for ${{ github.repository }}.
@@ -134,13 +134,17 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v3
+
+      - name: Get Repository name
+        run: echo "REPO_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
       - name: Generate README
-        uses: distroless/readme-generator@main
+        uses: chainguard-images/readme-generator@main
         with:
           repo: https://github.com/${{ github.repository }}
-          name: ${{ github.event.repository.name }}
-          location: cgr.dev/chainguard/${{ github.event.repository.name }}
-          description: "Base image with just enough to run arbitrary glibc binaries.<br/><br/>This image is meant to be used as just a base image only. It does not contain any programs that can be run, other than `/sbin/ldconfig`.<br/><br/>You must bring your own artifacts to use this image, e.g. with a Docker multi-stage build. If you want locale support other than `C.UTF-8`, you must bring your own locale data as well. This may change in the future based on user feedback.<br/><br/>See also [musl-dynamic](https://github.com/distroless/musl-dynamic) which is an equivalent image for running dynamically-linked musl binaries."
+          name: ${{ env.REPO_NAME }}
+          location: cgr.dev/chainguard/${{ env.REPO_NAME }}
+          description: "Base image with just enough to run arbitrary glibc binaries.<br/><br/>This image is meant to be used as just a base image only. It does not contain any programs that can be run, other than `/sbin/ldconfig`.<br/><br/>You must bring your own artifacts to use this image, e.g. with a Docker multi-stage build. If you want locale support other than `C.UTF-8`, you must bring your own locale data as well. This may change in the future based on user feedback.<br/><br/>See also [musl-dynamic](https://github.com/chainguard-images/musl-dynamic) which is an equivalent image for running dynamically-linked musl binaries."
           push-to-repo: true
 
       # Post to slack when things fail.
@@ -150,7 +154,7 @@ jobs:
           SLACK_ICON: http://github.com/chainguardian.png?size=48
           SLACK_USERNAME: chainguardian
           SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-          SLACK_CHANNEL: distroless-alerts
+          SLACK_CHANNEL: chainguard-images-alerts
           SLACK_COLOR: '#8E1600'
           MSG_MINIMAL: 'true'
           SLACK_TITLE: Generating new README for ${{ github.repository }} failed.
