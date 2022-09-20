@@ -32,7 +32,7 @@ jobs:
         config: melange.yaml
         archs: x86_64,aarch64,armv7
 
-    - uses: distroless/actions/apko-build@main
+    - uses: chainguard-images/actions/apko-build@main
       with:
         config: apko.yaml
         tag: hello-world:${{ steps.snapshot-date.outputs.date }}

@@ -1,10 +1,10 @@
 # hello-world
 
 <!---
-Note: Do NOT edit directly, this file was generated using https://github.com/distroless/readme-generator
+Note: Do NOT edit directly, this file was generated using https://github.com/chainguard-images/readme-generator
 -->
 
-[![CI status](https://github.com/distroless/hello-world/actions/workflows/release.yaml/badge.svg)](https://github.com/distroless/hello-world/actions/workflows/release.yaml)
+[![CI status](https://github.com/chainguard-images/hello-world/actions/workflows/release.yaml/badge.svg)](https://github.com/chainguard-images/hello-world/actions/workflows/release.yaml)
 
 Hello, world!
 
@@ -47,7 +47,7 @@ The following checks were performed on each of these signatures:
   {
     "critical": {
       "identity": {
-        "docker-reference": "ghcr.io/distroless/hello-world"
+        "docker-reference": "ghcr.io/chainguard-images/hello-world"
       },
       "image": {
         "docker-manifest-digest": "sha256:05d8bbeba5df3c1974745417f89d7351d5cd91421d4ff38d799cca4fa69ef65e"
@@ -70,7 +70,7 @@ The following checks were performed on each of these signatures:
         }
       },
       "Issuer": "https://token.actions.githubusercontent.com",
-      "Subject": "https://github.com/distroless/hello-world/.github/workflows/release.yaml@refs/heads/main",
+      "Subject": "https://github.com/chainguard-images/hello-world/.github/workflows/release.yaml@refs/heads/main",
       "run_attempt": "1",
       "run_id": "3085068151",
       "sha": "82d610100f07543752325604865aa7a247b22b52"
