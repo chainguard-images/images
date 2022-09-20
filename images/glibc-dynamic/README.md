@@ -1,12 +1,12 @@
 # glibc-dynamic
 
 <!---
-Note: Do NOT edit directly, this file was generated using https://github.com/distroless/readme-generator
+Note: Do NOT edit directly, this file was generated using https://github.com/chainguard-images/readme-generator
 -->
 
-[![CI status](https://github.com/distroless/glibc-dynamic/actions/workflows/release.yaml/badge.svg)](https://github.com/distroless/glibc-dynamic/actions/workflows/release.yaml)
+[![CI status](https://github.com/chainguard-images/glibc-dynamic/actions/workflows/release.yaml/badge.svg)](https://github.com/chainguard-images/glibc-dynamic/actions/workflows/release.yaml)
 
-Base image with just enough to run arbitrary glibc binaries.<br/><br/>This image is meant to be used as just a base image only. It does not contain any programs that can be run, other than `/sbin/ldconfig`.<br/><br/>You must bring your own artifacts to use this image, e.g. with a Docker multi-stage build. If you want locale support other than `C.UTF-8`, you must bring your own locale data as well. This may change in the future based on user feedback.<br/><br/>See also [musl-dynamic](https://github.com/distroless/musl-dynamic) which is an equivalent image for running dynamically-linked musl binaries.
+Base image with just enough to run arbitrary glibc binaries.<br/><br/>This image is meant to be used as just a base image only. It does not contain any programs that can be run, other than `/sbin/ldconfig`.<br/><br/>You must bring your own artifacts to use this image, e.g. with a Docker multi-stage build. If you want locale support other than `C.UTF-8`, you must bring your own locale data as well. This may change in the future based on user feedback.<br/><br/>See also [musl-dynamic](https://github.com/chainguard-images/musl-dynamic) which is an equivalent image for running dynamically-linked musl binaries.
 
 ## Get It!
 
@@ -47,7 +47,7 @@ The following checks were performed on each of these signatures:
   {
     "critical": {
       "identity": {
-        "docker-reference": "ghcr.io/distroless/glibc-dynamic"
+        "docker-reference": "ghcr.io/chainguard-images/glibc-dynamic"
       },
       "image": {
         "docker-manifest-digest": "sha256:27669455acb18f713cb509ccd51c0b3c7faed0bb11a8adc8d26dd4b6cc694831"
@@ -70,7 +70,7 @@ The following checks were performed on each of these signatures:
         }
       },
       "Issuer": "https://token.actions.githubusercontent.com",
-      "Subject": "https://github.com/distroless/glibc-dynamic/.github/workflows/release.yaml@refs/heads/main",
+      "Subject": "https://github.com/chainguard-images/glibc-dynamic/.github/workflows/release.yaml@refs/heads/main",
       "run_attempt": "1",
       "run_id": "3085988671",
       "sha": "04daa45dbad34721c14a952f8e2aa6d6beb9def9"
