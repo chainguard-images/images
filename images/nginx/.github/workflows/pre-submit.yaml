@@ -43,7 +43,7 @@ jobs:
         archs: x86_64,aarch64,armv7
         template: "{\"Version\": \"${{ matrix.nginx-version }}\", \"SHA\": \"${{ matrix.sha256 }}\"}"
 
-    - uses: distroless/actions/apko-build@main
+    - uses: chainguard-images/actions/apko-build@main
       with:
         config: apko.yaml
         tag: nginx:${{ steps.snapshot-date.outputs.date }}

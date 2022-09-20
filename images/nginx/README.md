@@ -1,10 +1,10 @@
 # nginx
 
 <!---
-Note: Do NOT edit directly, this file was generated using https://github.com/distroless/readme-generator
+Note: Do NOT edit directly, this file was generated using https://github.com/chainguard-images/readme-generator
 -->
 
-[![CI status](https://github.com/distroless/nginx/actions/workflows/release.yaml/badge.svg)](https://github.com/distroless/nginx/actions/workflows/release.yaml)
+[![CI status](https://github.com/chainguard-images/nginx/actions/workflows/release.yaml/badge.svg)](https://github.com/chainguard-images/nginx/actions/workflows/release.yaml)
 
 A minimal nginx base image rebuilt every night from source.
 
@@ -29,7 +29,7 @@ docker pull cgr.dev/chainguard/nginx:latest
 To try out the image, run:
 
 ```
-docker run -p 8080:80 distroless.dev/nginx
+docker run -p 8080:80 cgr.dev/chainguard/nginx
 ```
 
 If you navigate to `localhost:8080`, you should see the nginx welcome page.
@@ -37,7 +37,7 @@ If you navigate to `localhost:8080`, you should see the nginx welcome page.
 To run an example Hello World app, navigate to the root of this repo and run:
 
 ```
-docker run -v $(pwd)/examples/hello-world/site-content:/var/lib/nginx/html -p 8080:80 distroless.dev/nginx
+docker run -v $(pwd)/examples/hello-world/site-content:/var/lib/nginx/html -p 8080:80 cgr.dev/chainguard/nginx
 ```
 
 If you navigate to `localhost:8080`, you should see `Hello World from Nginx Distroless!`.
@@ -67,7 +67,7 @@ The following checks were performed on each of these signatures:
   {
     "critical": {
       "identity": {
-        "docker-reference": "ghcr.io/distroless/nginx"
+        "docker-reference": "ghcr.io/chainguard-images/nginx"
       },
       "image": {
         "docker-manifest-digest": "sha256:d080561bf039aaee4f9de5db2834ec8c9a37b22411ee3f9b46eaa3fca926cf0d"
@@ -90,7 +90,7 @@ The following checks were performed on each of these signatures:
         }
       },
       "Issuer": "https://token.actions.githubusercontent.com",
-      "Subject": "https://github.com/distroless/nginx/.github/workflows/release.yaml@refs/heads/main",
+      "Subject": "https://github.com/chainguard-images/nginx/.github/workflows/release.yaml@refs/heads/main",
       "run_attempt": "1",
       "run_id": "3085954749",
       "sha": "7fd9a62f1870f5aacef33749b2185c3fd8bd1102"
