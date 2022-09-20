@@ -1,3 +1,3 @@
-module github.com/distroless/ko/example
+module github.com/chainguard-images/ko/example
 
 go 1.19
