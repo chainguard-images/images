@@ -2,8 +2,8 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail
 
-IMAGE_NAME=${IMAGE_NAME:-"distroless.dev/git"}
-CLONE_URL=${CLONE_URL:-"https://github.com/distroless/git.git"}
+IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/git"}
+CLONE_URL=${CLONE_URL:-"https://github.com/chainguard-images/git.git"}
 
 CLONEDIR="$(mktemp -d)"
 chmod go+wrx "${CLONEDIR}"
