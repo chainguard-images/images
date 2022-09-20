@@ -2,6 +2,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail
 
-IMAGE_NAME=${IMAGE_NAME:-"distroless.dev/melange"}
+IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/melange"}
 
 docker run $IMAGE_NAME version
