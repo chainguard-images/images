@@ -31,7 +31,7 @@ jobs:
         uses: imjasonh/setup-crane@v0.2
 
       - name: Get list of versions from release-monitoring.org
-        uses: distroless/actions/release-monitoring@main
+        uses: chainguard-images/actions/release-monitoring@main
         id: release-monitoring
         with:
           project-id: ${{ env.project-id }}
@@ -67,7 +67,7 @@ jobs:
           SLACK_ICON: http://github.com/chainguardian.png?size=48
           SLACK_USERNAME: chainguardian
           SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-          SLACK_CHANNEL: distroless-alerts
+          SLACK_CHANNEL: chainguard-images-alerts
           SLACK_COLOR: '#8E1600'
           MSG_MINIMAL: 'true'
           SLACK_TITLE: New untracked versions detected

@@ -68,7 +68,7 @@ jobs:
         template: "{\"Version\": \"${{ matrix.nginx-version }}\", \"SHA\": \"${{ matrix.sha256 }}\"}"
 
     - id: apko
-      uses: distroless/actions/apko-snapshot@main
+      uses: chainguard-images/actions/apko-snapshot@main
       with:
         config: apko.yaml
         base-tag: ghcr.io/${{ github.repository }}
@@ -99,7 +99,7 @@ jobs:
         IMAGE_NAME=$IMAGE_NAME ./test.sh
 
     - name: Additional tags
-      uses: distroless/actions/tag@main
+      uses: chainguard-images/actions/tag@main
       with:
         distroless_image: ghcr.io/${{ github.repository }}:${{ matrix.nginx-version }}
         docker_image_tag: ${{ matrix.nginx-version }}
@@ -111,7 +111,7 @@ jobs:
         SLACK_ICON: http://github.com/chainguardian.png?size=48
         SLACK_USERNAME: chainguardian
         SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-        SLACK_CHANNEL: distroless-alerts
+        SLACK_CHANNEL: chainguard-images-alerts
         SLACK_COLOR: '#8E1600'
         MSG_MINIMAL: 'true'
         SLACK_TITLE: Releasing ${{ github.repository }} failed.
@@ -166,7 +166,7 @@ jobs:
       - run: |
           echo ${{ matrix.ref }}
 
-      - uses: distroless/actions/vul-scans@main
+      - uses: chainguard-images/actions/vul-scans@main
         id: scans
         with:
           registry: ghcr.io
@@ -197,7 +197,7 @@ jobs:
           SLACK_ICON: http://github.com/chainguardian.png?size=48
           SLACK_USERNAME: chainguardian
           SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-          SLACK_CHANNEL: distroless-alerts
+          SLACK_CHANNEL: chainguard-images-alerts
           SLACK_COLOR: '#8E1600'
           MSG_MINIMAL: 'false'
           SLACK_TITLE: Vulnerability Report for ${{ github.repository }}.
@@ -218,12 +218,16 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v3
+
+      - name: Get Repository name
+        run: echo "REPO_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
       - name: Generate README
-        uses: distroless/readme-generator@main
+        uses: chainguard-images/readme-generator@main
         with:
           repo: https://github.com/${{ github.repository }}
-          name: ${{ github.event.repository.name }}
-          location: cgr.dev/chainguard/${{ github.event.repository.name }}
+          name: ${{ env.REPO_NAME }}
+          location: cgr.dev/chainguard/${{ env.REPO_NAME }}
           description: "A minimal nginx base image rebuilt every night from source."
           exclude-tags: 1.20.2-r0,1.20.2,1.20,1.23.0
           push-to-repo: true
@@ -235,7 +239,7 @@ jobs:
           SLACK_ICON: http://github.com/chainguardian.png?size=48
           SLACK_USERNAME: chainguardian
           SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-          SLACK_CHANNEL: distroless-alerts
+          SLACK_CHANNEL: chainguard-images-alerts
           SLACK_COLOR: '#8E1600'
           MSG_MINIMAL: 'true'
           SLACK_TITLE: Generating new README for ${{ github.repository }} failed.
