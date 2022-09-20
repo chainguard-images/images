@@ -1,7 +1,7 @@
 # sdk
 
 <!---
-Note: Do NOT edit directly, this file was generated using https://github.com/distroless/readme-generator
+Note: Do NOT edit directly, this file was generated using https://github.com/chainguard-images/readme-generator
 -->
 
 [![CI status](https://github.com/chainguard-images/sdk/actions/workflows/release.yaml/badge.svg)](https://github.com/chainguard-images/sdk/actions/workflows/release.yaml)
@@ -37,7 +37,7 @@ cd melange
 Run the image, mounting the repo workspace (`--privileged` flag required):
 
 ```
-docker run --privileged --rm -it -v "${PWD}:${PWD}" -w "${PWD}" distroless.dev/sdk
+docker run --privileged --rm -it -v "${PWD}:${PWD}" -w "${PWD}" cgr.dev/chainguard/sdk
 ```
 
 Upon entering the image, you should see the following welcome message:
@@ -90,7 +90,7 @@ cd apko
 Run the image, mounting the repo workspace:
 
 ```
-docker run --rm -it -v "${PWD}:${PWD}" -w "${PWD}" distroless.dev/sdk
+docker run --rm -it -v "${PWD}:${PWD}" -w "${PWD}" cgr.dev/chainguard/sdk
 ```
 
 Upon entering the image, you should see the following welcome message:
