@@ -1,4 +1,4 @@
-ARG BASE=distroless.dev/alpine-base
+ARG BASE=cgr.dev/chainguard/alpine-base
 
 FROM golang:1.18 as build
 WORKDIR /go/src/app

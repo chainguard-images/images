@@ -1,10 +1,10 @@
 # alpine-base
 
 <!---
-Note: Do NOT edit directly, this file was generated using https://github.com/distroless/readme-generator
+Note: Do NOT edit directly, this file was generated using https://github.com/chainguard-images/readme-generator
 -->
 
-[![CI status](https://github.com/distroless/alpine-base/actions/workflows/release.yaml/badge.svg)](https://github.com/distroless/alpine-base/actions/workflows/release.yaml)
+[![CI status](https://github.com/chainguard-images/alpine-base/actions/workflows/release.yaml/badge.svg)](https://github.com/chainguard-images/alpine-base/actions/workflows/release.yaml)
 
 Alpine base image built with distroless tools.
 
@@ -26,7 +26,7 @@ docker pull cgr.dev/chainguard/alpine-base:latest
 ## Usage
 
 ```
-docker run distroless.dev/alpine-base echo "hello distroless"
+docker run cgr.dev/chainguard/alpine-base echo "hello distroless"
 ```
 
 See the [examples/](./examples/) directory for how
@@ -56,7 +56,7 @@ The following checks were performed on each of these signatures:
   {
     "critical": {
       "identity": {
-        "docker-reference": "ghcr.io/distroless/alpine-base"
+        "docker-reference": "ghcr.io/chainguard-images/alpine-base"
       },
       "image": {
         "docker-manifest-digest": "sha256:2953c60807d6070355f57345158f34afdf4f8d1e15d46b5997ba1325170b7b78"
@@ -79,7 +79,7 @@ The following checks were performed on each of these signatures:
         }
       },
       "Issuer": "https://token.actions.githubusercontent.com",
-      "Subject": "https://github.com/distroless/alpine-base/.github/workflows/release.yaml@refs/heads/main",
+      "Subject": "https://github.com/chainguard-images/alpine-base/.github/workflows/release.yaml@refs/heads/main",
       "run_attempt": "1",
       "run_id": "3085952335",
       "sha": "487b8eb17c23150cf9fa421b69de9f58eb419a1d"
