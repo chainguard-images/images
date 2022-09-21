@@ -43,12 +43,22 @@ jobs:
         config: apko.yaml
         image_refs: apko.images
         base-tag: ghcr.io/${{ github.repository }}
+        package-version-tag: gcc
 
     - name: Emit Image Refs output
       id: emit-refs
       run: |
         cat apko.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]' | jq .
         echo ::set-output name=image-refs::$(cat apko.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]')
+
+    - name: Smoke Test
+      run: IMAGE_NAME=${{ steps.apko.outputs.digest }} ./test.sh
+
+    - name: Additional tags
+      uses: chainguard-images/actions/tag@main
+      with:
+        distroless_image: ghcr.io/${{ github.repository }}
+        docker_image: "gcc"
 
     # Post to slack when things fail.
     - if: ${{ failure() }}
@@ -142,7 +152,7 @@ jobs:
           repo: https://github.com/${{ github.repository }}
           name: ${{ env.REPO_NAME }}
           location: cgr.dev/chainguard/${{ env.REPO_NAME }}
-          description: "WORK IN PROGRESS"
+          description: "Minimal container image for building C applications (which require glibc)."
           push-to-repo: true
 
       # Post to slack when things fail.

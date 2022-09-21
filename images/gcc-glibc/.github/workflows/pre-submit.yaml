@@ -27,7 +27,12 @@ jobs:
     - uses: distroless/actions/apko-build@main
       with:
         config: apko.yaml
-        tag: template:${{ steps.snapshot-date.outputs.date }}
+        tag: gcc-glibc:${{ steps.snapshot-date.outputs.date }}
+
+    - name: Smoke Test
+      run: |
+        IMAGE_NAME=$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')
+        IMAGE_NAME=$IMAGE_NAME ./test.sh
 
     - uses: actions/upload-artifact@v3
       with:
