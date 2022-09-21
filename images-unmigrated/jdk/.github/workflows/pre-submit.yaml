@@ -24,10 +24,20 @@ jobs:
         echo ::set-output name=date::$(date -u +%Y%m%d)
       shell: bash
 
+    - uses: sigstore/cosign-installer@main
+    - uses: chainguard-dev/actions/melange-build@main
+      with:
+        sign-with-temporary-key: true
+        config: melange.yaml
+        empty-workspace: true
+        archs: x86_64
+
     - uses: chainguard-images/actions/apko-build@main
       with:
         config: apko.yaml
         tag: template:${{ steps.snapshot-date.outputs.date }}
+        keyring-append: /github/workspace/melange.rsa.pub
+        archs: x86_64,aarch64,armv7
 
     - uses: actions/upload-artifact@v3
       with:
