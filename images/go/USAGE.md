@@ -37,7 +37,7 @@ func main() {
     fmt.Println("Hello Distroless!")
 }
 EOF
-RUN ["go", "build", "-o", "hello", "."]
+RUN go build -o hello .
 
 FROM cgr.dev/chainguard/static:latest
 
