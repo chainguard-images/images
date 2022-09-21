@@ -34,7 +34,7 @@ COPY <<EOF main.go
 package main
 import "fmt"
 func main() {
-    fmt.Println("Hello Distroless!")
+    fmt.Println("Hello World!")
 }
 EOF
 RUN go build -o hello .
@@ -45,31 +45,31 @@ COPY --from=build /work/hello /hello
 CMD ["/hello"]
 ```
 
-Run the following command to build the demo image and tag it as `go-distroless`:
+Run the following command to build the demo image and tag it as `go-hello-world`:
 
 ```shell
-docker build -t go-distroless  .
+docker build -t go-hello-world  .
 ```
 
 Now you can run the image with:
 
 ```shell
-docker run go-distroless
+docker run go-hello-world
 ```
 
 You should get output like this:
 
 ```
-Hello Distroless!
+Hello World!
 ```
 
 It’s worth noting how small the resulting image is:
 
 ```shell
-docker images go-distroless
+docker images go-hello-world
 ```
 
 ```
-REPOSITORY      TAG       IMAGE ID       CREATED          SIZE
-go-distroless   latest    859fedabd532   26 minutes ago   3.21MB
+REPOSITORY       TAG       IMAGE ID       CREATED       SIZE
+go-hello-world   latest    859fedabd532   5 hours ago   3.21MB
 ```
