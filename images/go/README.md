@@ -20,8 +20,8 @@ docker pull cgr.dev/chainguard/go:latest
 
 | Tag | Digest | Arch |
 | --- | ------ | ---- |
-| `1` `1.19` `1.19.1` `1.19.1-r0` `latest` | `sha256:95bb9b3408d1df31a4263ecbb1dd729e87c44dbce39987fa49e0b746590be225`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:95bb9b3408d1df31a4263ecbb1dd729e87c44dbce39987fa49e0b746590be225) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
-| `1.19.1-r0-glibc` | `sha256:9a7fd0a2e45a03766c0c1f2b829b90e1304ec7c38ef6f2ff35dc0e0b7b1b56e7`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:9a7fd0a2e45a03766c0c1f2b829b90e1304ec7c38ef6f2ff35dc0e0b7b1b56e7) | `amd64` |
+| `1` `1.19` `1.19.1` `1.19.1-r0` `latest` | `sha256:89db43095063684819bf0ff4af5a5488e4f6634aa6cbf6244b67af5310d1d9c7`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:89db43095063684819bf0ff4af5a5488e4f6634aa6cbf6244b67af5310d1d9c7) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
+| `1.19.1-r0-glibc` | `sha256:205c39423158682fdbdbcb9175bf62545c43fbef0f062b4efe27abd2f4ad5bb0`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:205c39423158682fdbdbcb9175bf62545c43fbef0f062b4efe27abd2f4ad5bb0) | `amd64` |
 
 
 ## Usage
@@ -62,7 +62,7 @@ COPY <<EOF main.go
 package main
 import "fmt"
 func main() {
-    fmt.Println("Hello Distroless!")
+    fmt.Println("Hello World!")
 }
 EOF
 RUN go build -o hello .
@@ -73,33 +73,33 @@ COPY --from=build /work/hello /hello
 CMD ["/hello"]
 ```
 
-Run the following command to build the demo image and tag it as `go-distroless`:
+Run the following command to build the demo image and tag it as `go-hello-world`:
 
 ```shell
-docker build -t go-distroless  .
+docker build -t go-hello-world  .
 ```
 
 Now you can run the image with:
 
 ```shell
-docker run go-distroless
+docker run go-hello-world
 ```
 
 You should get output like this:
 
 ```
-Hello Distroless!
+Hello World!
 ```
 
 It’s worth noting how small the resulting image is:
 
 ```shell
-docker images go-distroless
+docker images go-hello-world
 ```
 
 ```
-REPOSITORY      TAG       IMAGE ID       CREATED          SIZE
-go-distroless   latest    859fedabd532   26 minutes ago   3.21MB
+REPOSITORY       TAG       IMAGE ID       CREATED       SIZE
+go-hello-world   latest    859fedabd532   5 hours ago   3.21MB
 ```
 
 ## Signing
@@ -128,30 +128,30 @@ The following checks were performed on each of these signatures:
         "docker-reference": "ghcr.io/chainguard-images/go"
       },
       "image": {
-        "docker-manifest-digest": "sha256:95bb9b3408d1df31a4263ecbb1dd729e87c44dbce39987fa49e0b746590be225"
+        "docker-manifest-digest": "sha256:89db43095063684819bf0ff4af5a5488e4f6634aa6cbf6244b67af5310d1d9c7"
       },
       "type": "cosign container image signature"
     },
     "optional": {
       "1.3.6.1.4.1.57264.1.2": "push",
-      "1.3.6.1.4.1.57264.1.3": "536292ab360ae07df4b1ae46338d9ec0db7b50a8",
+      "1.3.6.1.4.1.57264.1.3": "a907936cb2590b56d1f330c794513d8bef6db2c4",
       "1.3.6.1.4.1.57264.1.4": "Create Release",
       "1.3.6.1.4.1.57264.1.5": "chainguard-images/go",
       "1.3.6.1.4.1.57264.1.6": "refs/heads/main",
       "Bundle": {
-        "SignedEntryTimestamp": "MEYCIQCE1NXmh3dHCJCspbDkKvlKi2afv5IgeYvCJBldFRrvCwIhAJ/YmngXwlx5xJ94PIWkGZP6jQcsxplVURnEznge6wL4",
+        "SignedEntryTimestamp": "MEQCIHOihQACYHZ1Wm5W+/zYSLaoqiRYa+jILIotnEyzwjFBAiAKZvwGNEQMI2YLD+1N44sj/hC1+RsWaDLHk3ENyMPTVQ==",
         "Payload": {
-          "body": "eyJhcGlWZXJzaW9uIjoiMC4wLjEiLCJraW5kIjoiaGFzaGVkcmVrb3JkIiwic3BlYyI6eyJkYXRhIjp7Imhhc2giOnsiYWxnb3JpdGhtIjoic2hhMjU2IiwidmFsdWUiOiIwOWE3ZWY3Y2UzYzdlNTljMjBmY2QwNzQxMTMxZTVmNjI1NjNlOTBmZGIxZjIxYmMzZjhmZmQ3NGI1NDE3YjMyIn19LCJzaWduYXR1cmUiOnsiY29udGVudCI6Ik1FVUNJUURPWkd5V1l3QjNINkp3enJiQkQ1VnNUc29jQ1NnQjg2TkhsZXY3RFhFdFBRSWdRc0FPeDYrSDB6Qmw5OTRMMWFpWUt3cHB1TStzRS9iNmZ5QUh6dUFkclQwPSIsInB1YmxpY0tleSI6eyJjb250ZW50IjoiTFMwdExTMUNSVWRKVGlCRFJWSlVTVVpKUTBGVVJTMHRMUzB0Q2sxSlNVUnVla05EUVhsWFowRjNTVUpCWjBsVldHOHdiQzlWU0dJeU5tSTNUVXcwUjBOQ2VHdFRRVEpKSzNwSmQwTm5XVWxMYjFwSmVtb3dSVUYzVFhjS1RucEZWazFDVFVkQk1WVkZRMmhOVFdNeWJHNWpNMUoyWTIxVmRWcEhWakpOVWpSM1NFRlpSRlpSVVVSRmVGWjZZVmRrZW1SSE9YbGFVekZ3WW01U2JBcGpiVEZzV2tkc2FHUkhWWGRJYUdOT1RXcEpkMDlVU1hoTlZGbDZUa1JCZDFkb1kwNU5ha2wzVDFSSmVFMVVXVEJPUkVGM1YycEJRVTFHYTNkRmQxbElDa3R2V2tsNmFqQkRRVkZaU1V0dldrbDZhakJFUVZGalJGRm5RVVZOWTBZeWJIaEpjWE5aYkhKTlIyWlJObXBEVlZsUlltTTVUVFkwYkhVd2VWazJVVXdLTVRWVVRIWTNXSGM1U3pneFNTOTBiWEJrTW5GdU9UbGhWek52V0ZkR2RtVm5SM0ZxZVRSWmN6TkdaV1JsV1dOSk5tRlBRMEZyVVhkblowcEJUVUUwUndwQk1WVmtSSGRGUWk5M1VVVkJkMGxJWjBSQlZFSm5UbFpJVTFWRlJFUkJTMEpuWjNKQ1owVkdRbEZqUkVGNlFXUkNaMDVXU0ZFMFJVWm5VVlV4YkhveENrZFRSa3h3TmpFNWJYbzVhVlk1V21kVFEzaHRZVFZOZDBoM1dVUldVakJxUWtKbmQwWnZRVlV6T1ZCd2VqRlphMFZhWWpWeFRtcHdTMFpYYVhocE5Ga0tXa1E0ZDFwQldVUldVakJTUVZGSUwwSkdiM2RYU1ZwWFlVaFNNR05JVFRaTWVUbHVZVmhTYjJSWFNYVlpNamwwVERKT2IxbFhiSFZhTTFab1kyMVJkQXBoVnpGb1dqSldla3d5WkhaTWVUVnVZVmhTYjJSWFNYWmtNamw1WVRKYWMySXpaSHBNTTBwc1lrZFdhR015VlhWbFYwWjBZa1ZDZVZwWFducE1NbWhzQ2xsWFVucE1NakZvWVZjMGQwOVJXVXRMZDFsQ1FrRkhSSFo2UVVKQlVWRnlZVWhTTUdOSVRUWk1lVGt3WWpKMGJHSnBOV2haTTFKd1lqSTFla3h0WkhBS1pFZG9NVmx1Vm5wYVdFcHFZakkxTUZwWE5UQk1iVTUyWWxSQlUwSm5iM0pDWjBWRlFWbFBMMDFCUlVOQ1FWSjNaRmhPYjAxRVdVZERhWE5IUVZGUlFncG5OemgzUVZGTlJVdEVWWHBPYWtrMVRXMUdhVTE2V1hkWlYxVjNUakpTYlU1SFNYaFpWMVV3VG1wTmVrOUhVVFZhVjAxM1drZEpNMWxxVlhkWlZHZDNDa2hCV1V0TGQxbENRa0ZIUkhaNlFVSkNRVkZQVVROS2JGbFlVbXhKUmtwc1lrZFdhR015VlhkSloxbExTM2RaUWtKQlIwUjJla0ZDUWxGUlZWa3lhR2dLWVZjMWJtUlhSbmxhUXpGd1lsZEdibHBZVFhaYU1qaDNTRkZaUzB0M1dVSkNRVWRFZG5wQlFrSm5VVkJqYlZadFkzazViMXBYUm10amVUbDBXVmRzZFFwTlNVZExRbWR2Y2tKblJVVkJaRm8xUVdkUlEwSklkMFZsWjBJMFFVaFpRVU5IUTFNNFEyaFRMekpvUmpCa1JuSktORk5qVWxkaldYSkNXVGwzZW1wVENtSmxZVGhKWjFreVlqTkpRVUZCUjBSWlQxbHhkMmRCUVVKQlRVRlNla0pHUVdsRlFUUkZlRWRZT0dsTE1rTnRaMWx2WVc5d1YyTm5aMGd3UkRWMVZXWUtPRmxQYW1ack9VcGFTVk5LZW5GSlEwbEdhMFJ6ZFhwMlZTOWljMGN4YVdNelkwSjVOR3RZTWs1QmJDdHFlV1ZyYURsRVNHRXdWREJHZGtSalRVRnZSd3BEUTNGSFUwMDBPVUpCVFVSQk1tZEJUVWRWUTAxRWNHY3pXVzF3TUZOcVEzQkxVelIwUzBkYVZrRTBjMHBMVDNCMlJ6SXdVRWhsTXl0TWRHdHpiRFZxQ25jdllTdElkMlkzZVZrNU9VUmhXbUpaVnpKVVozZEplRUZQWW05d01rOWFNRkpMVW5BMmJEaHNiMlpqVGxSV05HcHVSREZ5Y20xU1FrazNUWEpqUkRZS1lrdzVkakpHTVRac01XWnFiMDVEVDBSUVdIaHlhV1pIT1hjOVBRb3RMUzB0TFVWT1JDQkRSVkpVU1VaSlEwRlVSUzB0TFMwdENnPT0ifX19fQ==",
-          "integratedTime": 1663778065,
-          "logIndex": 3687155,
+          "body": "eyJhcGlWZXJzaW9uIjoiMC4wLjEiLCJraW5kIjoiaGFzaGVkcmVrb3JkIiwic3BlYyI6eyJkYXRhIjp7Imhhc2giOnsiYWxnb3JpdGhtIjoic2hhMjU2IiwidmFsdWUiOiIyYWY2MDgwOTA1YTUzY2JhMDAzYzAzNmFlNjNkNjc3Njc0MjQ4MzRhMDRlNmJkNDc0MWNiOTlmY2Y0YjA4NjM3In19LCJzaWduYXR1cmUiOnsiY29udGVudCI6Ik1FVUNJRzdVUXhKVGxNb1dONTgxdUlZc3EreStHYXpaQlNDRHJtbndXTi8xd28vVEFpRUFzQ0NUVzArSVZVQTNCcTd4Wjc4ayt1UzBDRHVZa0lOMkpsQkNQMCs4NXRnPSIsInB1YmxpY0tleSI6eyJjb250ZW50IjoiTFMwdExTMUNSVWRKVGlCRFJWSlVTVVpKUTBGVVJTMHRMUzB0Q2sxSlNVUnVla05EUVhsaFowRjNTVUpCWjBsVlNUQmlOeXRzTmtNd2QzZDVjelZUU1RCM1VXNVJRaXRRZUcxM2QwTm5XVWxMYjFwSmVtb3dSVUYzVFhjS1RucEZWazFDVFVkQk1WVkZRMmhOVFdNeWJHNWpNMUoyWTIxVmRWcEhWakpOVWpSM1NFRlpSRlpSVVVSRmVGWjZZVmRrZW1SSE9YbGFVekZ3WW01U2JBcGpiVEZzV2tkc2FHUkhWWGRJYUdOT1RXcEpkMDlVU1hoTlZHTXhUbnBCTkZkb1kwNU5ha2wzVDFSSmVFMVVaM2RPZWtFMFYycEJRVTFHYTNkRmQxbElDa3R2V2tsNmFqQkRRVkZaU1V0dldrbDZhakJFUVZGalJGRm5RVVV4VUhwUlVHUlNRamhKYjJFNWJrSklURzV6TW5STFVVSXJibmQ1YVVSTmJFWkRlRzBLYmxnM0x6aHZjR2h6V1dwUlFqVlpUemxaY0ZOaldqQjFlVlZzWVRGdE1FaFlZbmRQVEZFMGJrVmtUM0V6ZG1wUWJXRlBRMEZyVlhkblowcENUVUUwUndwQk1WVmtSSGRGUWk5M1VVVkJkMGxJWjBSQlZFSm5UbFpJVTFWRlJFUkJTMEpuWjNKQ1owVkdRbEZqUkVGNlFXUkNaMDVXU0ZFMFJVWm5VVlZsZHpGMUNqWnZaSEpTVkdobE9IaHRhVkUwZWxrdkt6VmllVFZCZDBoM1dVUldVakJxUWtKbmQwWnZRVlV6T1ZCd2VqRlphMFZhWWpWeFRtcHdTMFpYYVhocE5Ga0tXa1E0ZDFwQldVUldVakJTUVZGSUwwSkdiM2RYU1ZwWFlVaFNNR05JVFRaTWVUbHVZVmhTYjJSWFNYVlpNamwwVERKT2IxbFhiSFZhTTFab1kyMVJkQXBoVnpGb1dqSldla3d5WkhaTWVUVnVZVmhTYjJSWFNYWmtNamw1WVRKYWMySXpaSHBNTTBwc1lrZFdhR015VlhWbFYwWjBZa1ZDZVZwWFducE1NbWhzQ2xsWFVucE1NakZvWVZjMGQwOVJXVXRMZDFsQ1FrRkhSSFo2UVVKQlVWRnlZVWhTTUdOSVRUWk1lVGt3WWpKMGJHSnBOV2haTTFKd1lqSTFla3h0WkhBS1pFZG9NVmx1Vm5wYVdFcHFZakkxTUZwWE5UQk1iVTUyWWxSQlUwSm5iM0pDWjBWRlFWbFBMMDFCUlVOQ1FWSjNaRmhPYjAxRVdVZERhWE5IUVZGUlFncG5OemgzUVZGTlJVdEhSVFZOUkdNMVRYcGFhbGxxU1RGUFZFSnBUbFJhYTAxWFdYcE5la0pxVG5wck1FNVVSWHBhUkdocFdsZFpNbHBIU1hsWmVsRjNDa2hCV1V0TGQxbENRa0ZIUkhaNlFVSkNRVkZQVVROS2JGbFlVbXhKUmtwc1lrZFdhR015VlhkSloxbExTM2RaUWtKQlIwUjJla0ZDUWxGUlZWa3lhR2dLWVZjMWJtUlhSbmxhUXpGd1lsZEdibHBZVFhaYU1qaDNTRkZaUzB0M1dVSkNRVWRFZG5wQlFrSm5VVkJqYlZadFkzazViMXBYUm10amVUbDBXVmRzZFFwTlNVZE1RbWR2Y2tKblJVVkJaRm8xUVdkUlEwSklNRVZsZDBJMVFVaGpRVU5IUTFNNFEyaFRMekpvUmpCa1JuSktORk5qVWxkaldYSkNXVGwzZW1wVENtSmxZVGhKWjFreVlqTkpRVUZCUjBSWlZFcElNMUZCUVVKQlRVRlRSRUpIUVdsRlFYbHBNM2wyWTJaU1RrTlBWMWRZU3pOaUwwZzNSbGxZVlhaeFREWUtPSGRxY2s5elNFNDBlakpqZUdOelEwbFJSRkpqYW5SQ1dVZ3ZWM2N6ZEVoaE5qRnNkalJuVUdFdlNGRkhkMlZ3WTBreU1uUlVNMm95Y1c1WFptcEJTd3BDWjJkeGFHdHFUMUJSVVVSQmQwNXVRVVJDYTBGcVFqRkpiMmxzVERSd1dETkxVWFZuWjBwQ1pqRTRjR0p0U1hFMk16TXJRMDFMZW5WQ2VHczFZbGw1Q25CQ0wyeE1SRFZSTUdwd1dpdDRPR2d4ZGs1RWVVSkpRMDFEV205V1pHaHNVU3R3TlhKcVoxZFFOamRPVFhGc1EwOWplblkxTVhRd1IxWnRNRzh6ZVdvS2J5dHdkWGxLTm5rMFNYQTBSMGt5V1daSWJXdEJNbVFyYjFFOVBRb3RMUzB0TFVWT1JDQkRSVkpVU1VaSlEwRlVSUzB0TFMwdENnPT0ifX19fQ==",
+          "integratedTime": 1663783051,
+          "logIndex": 3691112,
           "logID": "c0d23d6ad406973f9559f3ba2d1ca01f84147d8ffc5b8445c224f98b9591801d"
         }
       },
       "Issuer": "https://token.actions.githubusercontent.com",
       "Subject": "https://github.com/chainguard-images/go/.github/workflows/release.yaml@refs/heads/main",
       "run_attempt": "1",
-      "run_id": "3099437369",
-      "sha": "536292ab360ae07df4b1ae46338d9ec0db7b50a8"
+      "run_id": "3099978530",
+      "sha": "a907936cb2590b56d1f330c794513d8bef6db2c4"
     }
   }
 ]
