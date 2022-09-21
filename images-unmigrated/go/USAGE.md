@@ -1,3 +1,5 @@
+## Host architecture example
+
 To build the Go application in [examples/hello/main.go](examples/hello/main.go)
 using the host architecture:
 
@@ -11,4 +13,63 @@ The example application will be built to `./hello`:
 ```
 $ ./hello
 Hello World!
+```
+
+## Dockerfile example
+
+The following example Dockerfile builds a hello-world program in Go and copies it on top of the `cgr.dev/chainguard/static:latest` base image:
+
+```dockerfile
+# syntax=docker/dockerfile:1.4
+FROM cgr.dev/chainguard/go:latest as build
+
+WORKDIR /work
+
+COPY <<EOF go.mod
+module hello
+go 1.19
+EOF
+
+COPY <<EOF main.go
+package main
+import "fmt"
+func main() {
+    fmt.Println("Hello Distroless!")
+}
+EOF
+RUN ["go", "build", "-o", "hello", "."]
+
+FROM cgr.dev/chainguard/static:latest
+
+COPY --from=build /work/hello /hello
+CMD ["/hello"]
+```
+
+Run the following command to build the demo image and tag it as `go-distroless`:
+
+```shell
+docker build -t go-distroless  .
+```
+
+Now you can run the image with:
+
+```shell
+docker run go-distroless
+```
+
+You should get output like this:
+
+```
+Hello Distroless!
+```
+
+It’s worth noting how small the resulting image is:
+
+```shell
+docker images go-distroless
+```
+
+```
+REPOSITORY      TAG       IMAGE ID       CREATED          SIZE
+go-distroless   latest    859fedabd532   26 minutes ago   3.21MB
 ```
