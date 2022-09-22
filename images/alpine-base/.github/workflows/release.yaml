@@ -157,7 +157,7 @@ jobs:
           repo: https://github.com/${{ github.repository }}
           name: ${{ env.REPO_NAME }}
           location: cgr.dev/chainguard/${{ env.REPO_NAME }}
-          description: "Alpine base image built with [apko](https://github.com/chainguard-dev/apko)."
+          description: "Alpine base image built with [apko](https://github.com/chainguard-dev/apko). Uses packages from the [Alpine distribution](https://www.alpinelinux.org/)."
           exclude-tags: 20220304,20220308,20220315,20220328,20220318,20220319,20220320,20220409,20220410,20220421,20220422,20220423,20220424,20220428,20220302,20220306,20220307,20220317,3.17_alpha20220715-r0,3.17_alpha20220809-r0,20220414,20220420,20220303,20220305,20220326,20220329,20220330,20220331,20220401,20220402,20220403,20220310,20220429,20220311,20220312,20220425,20220426,20220412,20220321,20220322,20220323,20220324,20220325,20220404,20220405,20220406,20220407,20220411,20220314,20220415,20220416,20220417,20220418,20220419,3.17_alpha20220809-r1,20220413,20220313,20220316,20220327,20220408
           output-path: README-GENERATED.md
           push-to-repo: true
