@@ -20,7 +20,7 @@ docker pull cgr.dev/chainguard/glibc-dynamic:latest
 
 | Tag | Digest | Arch |
 | --- | ------ | ---- |
-| `latest` | `sha256:70d8ce2dbd385b1ee0785dbc603a968fc31d8c41e3d64f8d31fc4c43c8375e8c`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:70d8ce2dbd385b1ee0785dbc603a968fc31d8c41e3d64f8d31fc4c43c8375e8c) | `amd64` |
+| `latest` | `sha256:5b34eb9cbf19f84aff853a94fae118fe0181deb8883c3111e4fc4e1a0fc6c062`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:5b34eb9cbf19f84aff853a94fae118fe0181deb8883c3111e4fc4e1a0fc6c062) | `amd64` |
 
 
 
@@ -38,6 +38,98 @@ COSIGN_EXPERIMENTAL=1 cosign verify cgr.dev/chainguard/glibc-dynamic:latest | jq
 
 Output:
 ```
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+tuf: warning using deprecated ecdsa hex-encoded keys
+
 Verification for cgr.dev/chainguard/glibc-dynamic:latest --
 The following checks were performed on each of these signatures:
   - The cosign claims were validated
@@ -50,30 +142,30 @@ The following checks were performed on each of these signatures:
         "docker-reference": "ghcr.io/chainguard-images/glibc-dynamic"
       },
       "image": {
-        "docker-manifest-digest": "sha256:70d8ce2dbd385b1ee0785dbc603a968fc31d8c41e3d64f8d31fc4c43c8375e8c"
+        "docker-manifest-digest": "sha256:5b34eb9cbf19f84aff853a94fae118fe0181deb8883c3111e4fc4e1a0fc6c062"
       },
       "type": "cosign container image signature"
     },
     "optional": {
       "1.3.6.1.4.1.57264.1.2": "schedule",
-      "1.3.6.1.4.1.57264.1.3": "fdadac80f031871243070df2fb04aa455a4147c2",
+      "1.3.6.1.4.1.57264.1.3": "fc3aa1f320ffdbdce77cf6012d8b78305baecf7f",
       "1.3.6.1.4.1.57264.1.4": "Create Release",
       "1.3.6.1.4.1.57264.1.5": "chainguard-images/glibc-dynamic",
       "1.3.6.1.4.1.57264.1.6": "refs/heads/main",
       "Bundle": {
-        "SignedEntryTimestamp": "MEUCIG4I5y/GU1osPpx3WZavDHgtHgG4mQTZVsCobhrnTntoAiEA8VzLz982WTTKwDUwOuX6WGE2P3TXrfKNZ6CZ7lRpKnM=",
+        "SignedEntryTimestamp": "MEYCIQDY4HlC2d1t/rLLD8p4Eudu/6fx2N+rTUqOUGg93PBZzwIhAOE4gGOHX4S1uePJPeZfblCp85eop2fZUvdJzIbJo7P1",
         "Payload": {
-          "body": "eyJhcGlWZXJzaW9uIjoiMC4wLjEiLCJraW5kIjoiaGFzaGVkcmVrb3JkIiwic3BlYyI6eyJkYXRhIjp7Imhhc2giOnsiYWxnb3JpdGhtIjoic2hhMjU2IiwidmFsdWUiOiI3MmY2ZDI1ZmU1MmViMmZmMGQ1YWNmZWQ4OThkYmZjNWI0OWIxZDY1OGNiM2U3YjdkOGJjZDAyM2MwMjY2OTBkIn19LCJzaWduYXR1cmUiOnsiY29udGVudCI6Ik1FUUNJR0k4NlJPQzAwekczOThFR3pnMUVub0ZIamRxMkFXVDB5WitvRXdaWUt3M0FpQkViZFJRT3NiZExpUzhEK1NZUjJTSmtWcEdoTGxZVER6ZGR3M3o2eTRyaFE9PSIsInB1YmxpY0tleSI6eyJjb250ZW50IjoiTFMwdExTMUNSVWRKVGlCRFJWSlVTVVpKUTBGVVJTMHRMUzB0Q2sxSlNVUjFWRU5EUVhvclowRjNTVUpCWjBsVllrMUxZbmhWSzBRMU1USnhaVUpzVERGaE5TOW9SVXh3VFdKVmQwTm5XVWxMYjFwSmVtb3dSVUYzVFhjS1RucEZWazFDVFVkQk1WVkZRMmhOVFdNeWJHNWpNMUoyWTIxVmRWcEhWakpOVWpSM1NFRlpSRlpSVVVSRmVGWjZZVmRrZW1SSE9YbGFVekZ3WW01U2JBcGpiVEZzV2tkc2FHUkhWWGRJYUdOT1RXcEpkMDlVU1hwTlJFa3dUbnBSTlZkb1kwNU5ha2wzVDFSSmVrMUVTVEZPZWxFMVYycEJRVTFHYTNkRmQxbElDa3R2V2tsNmFqQkRRVkZaU1V0dldrbDZhakJFUVZGalJGRm5RVVZwTVZST1VrUTBlVlZ2UkRSTVRsbDJRVFJoU21wSk1sWXliVk5oZVRsbFRsQk1heXNLYkZsMmFtTkZkVFJxT1N0S1ZYWTRZMFJPY0RGVU1GcExhRVpCTDJRNWFYcFNVM2R0YVhCTVJ5OVVhamhwYVhWNlltRlBRMEZzTkhkblowcGhUVUUwUndwQk1WVmtSSGRGUWk5M1VVVkJkMGxJWjBSQlZFSm5UbFpJVTFWRlJFUkJTMEpuWjNKQ1owVkdRbEZqUkVGNlFXUkNaMDVXU0ZFMFJVWm5VVlU1YkV0QkNuWjJVak14ZVVvd2VsazBVak5hVFZOTFdXOVhXVFp2ZDBoM1dVUldVakJxUWtKbmQwWnZRVlV6T1ZCd2VqRlphMFZhWWpWeFRtcHdTMFpYYVhocE5Ga0tXa1E0ZDJKM1dVUldVakJTUVZGSUwwSkhWWGRaTkZwb1lVaFNNR05JVFRaTWVUbHVZVmhTYjJSWFNYVlpNamwwVERKT2IxbFhiSFZhTTFab1kyMVJkQXBoVnpGb1dqSldla3d5WkhOaFYwcHFURmRTTldKdFJuUmhWMDEyVEcxa2NHUkhhREZaYVRrellqTktjbHB0ZUhaa00wMTJZMjFXYzFwWFJucGFVelUxQ2xsWE1YTlJTRXBzV201TmRtRkhWbWhhU0UxMllsZEdjR0pxUVRWQ1oyOXlRbWRGUlVGWlR5OU5RVVZDUWtOMGIyUklVbmRqZW05MlRETlNkbUV5Vm5VS1RHMUdhbVJIYkhaaWJrMTFXakpzTUdGSVZtbGtXRTVzWTIxT2RtSnVVbXhpYmxGMVdUSTVkRTFDV1VkRGFYTkhRVkZSUW1jM09IZEJVVWxGUTBoT2FncGhSMVpyWkZkNGJFMUVXVWREYVhOSFFWRlJRbWMzT0hkQlVVMUZTMGRhYTFsWFVtaFplbWQzV21wQmVrMVVaek5OVkVrd1RYcEJNMDFIVW0xTmJWcHBDazFFVW1oWlZGRXhUbGRGTUUxVVVUTlpla2wzU0VGWlMwdDNXVUpDUVVkRWRucEJRa0pCVVU5Uk0wcHNXVmhTYkVsR1NteGlSMVpvWXpKVmQweFJXVXNLUzNkWlFrSkJSMFIyZWtGQ1FsRlJabGt5YUdoaFZ6VnVaRmRHZVZwRE1YQmlWMFp1V2xoTmRsb3llSEJaYlUxMFdraHNkVmxYTVhCWmVrRmtRbWR2Y2dwQ1owVkZRVmxQTDAxQlJVZENRVGw1V2xkYWVrd3lhR3haVjFKNlRESXhhR0ZYTkhkbldXOUhRMmx6UjBGUlVVSXhibXREUWtGSlJXWkJValpCU0dkQkNtUm5RVWxaU2t4M1MwWk1MMkZGV0ZJd1YzTnVhRXA0UmxwNGFYTkdhak5FVDA1S2REVnlkMmxDYWxwMlkyZEJRVUZaVG05UWJuaFFRVUZCUlVGM1FrZ0tUVVZWUTBsREsyVldPR2hrTUd0eE5qZEliWGN4YjI5aFkyOHhOVTR5YjNWNlVXNVBURmhXVm5KNmNYaFhSRzk2UVdsRlFXcFdTVEkyVGxwYWQwWnRVZ3BKUlM4clQwMU1RbnBxVUhaTGVta3JZMlZqZUdwUWRFdHVWVTkwWmk4d2QwTm5XVWxMYjFwSmVtb3dSVUYzVFVSaFFVRjNXbEZKZUVGTGJERnNkMklyQ20xcVRHeGhPV3hzU0hWRGRtRXJiV28zTUVSaWF6VXliRFJEZW5Kc2Vsa3JNMHQ2T0dKRVkyb3ZkRGRpWkZKb1lYUXJLeTlEY2k5aWJVRkpkMGRKTW5BS2JGaEdkbkZNUVRCU2VYWmFkVzVPYmxkWmJtMDViVXhZT0hWcmFubFVRMUkwZVRoVmMxVnVTVWQzY1ZoT1VUUTJOSGhTYmxvdlprRldSSEpDQ2kwdExTMHRSVTVFSUVORlVsUkpSa2xEUVZSRkxTMHRMUzBLIn19fX0=",
-          "integratedTime": 1663901276,
-          "logIndex": 3784284,
+          "body": "eyJhcGlWZXJzaW9uIjoiMC4wLjEiLCJraW5kIjoiaGFzaGVkcmVrb3JkIiwic3BlYyI6eyJkYXRhIjp7Imhhc2giOnsiYWxnb3JpdGhtIjoic2hhMjU2IiwidmFsdWUiOiJhYjBjYmRhOTljZWZkMzQyZDc2MDliYTM2ZWFkZjAzOTdjYTNlYzE4N2UzM2FiNDJjMGU3YzBlODE0NDQwYmIwIn19LCJzaWduYXR1cmUiOnsiY29udGVudCI6Ik1FVUNJUURwYStvTG5lVVA0UURtVzNlT1VuVzY4V0I3eUhBR252aHkxNmRXZm1ReGtnSWdaU3grWEluaHFlRmJ3OTJsUm9NS1VMSXRaaGhPdFAyR0hHWEQ1bHJNazdBPSIsInB1YmxpY0tleSI6eyJjb250ZW50IjoiTFMwdExTMUNSVWRKVGlCRFJWSlVTVVpKUTBGVVJTMHRMUzB0Q2sxSlNVUjFSRU5EUVhvMlowRjNTVUpCWjBsVlpFNDFhbXMyTlRGMVozRkZSRTFWZG5aWlpHcGtUV0Y2WldSSmQwTm5XVWxMYjFwSmVtb3dSVUYzVFhjS1RucEZWazFDVFVkQk1WVkZRMmhOVFdNeWJHNWpNMUoyWTIxVmRWcEhWakpOVWpSM1NFRlpSRlpSVVVSRmVGWjZZVmRrZW1SSE9YbGFVekZ3WW01U2JBcGpiVEZzV2tkc2FHUkhWWGRJYUdOT1RXcEpkMDlVU1RCTlJFa3hUVVJGTkZkb1kwNU5ha2wzVDFSSk1FMUVUWGROUkVVMFYycEJRVTFHYTNkRmQxbElDa3R2V2tsNmFqQkRRVkZaU1V0dldrbDZhakJFUVZGalJGRm5RVVZ6TW5jMWRWWkpSV1pDU0ZoVGFFWkRhVlIzTTJFek5tUktSWGQ0U2psVk1saGFTRElLVjBOblZFTkJSVUV5TWprNFpVUXJSRGxsY25CQk1VcDVZbVo2ZVRseVNYb3plVk51ZG5sTE9VUlFiRFpUUldsRWFIRlBRMEZzTUhkblowcGFUVUUwUndwQk1WVmtSSGRGUWk5M1VVVkJkMGxJWjBSQlZFSm5UbFpJVTFWRlJFUkJTMEpuWjNKQ1owVkdRbEZqUkVGNlFXUkNaMDVXU0ZFMFJVWm5VVlZFWVVWYUNscFdhV1UzWTNsWlIxQnhVeXRtY1RaaVRtRktla3BGZDBoM1dVUldVakJxUWtKbmQwWnZRVlV6T1ZCd2VqRlphMFZhWWpWeFRtcHdTMFpYYVhocE5Ga0tXa1E0ZDJKM1dVUldVakJTUVZGSUwwSkhWWGRaTkZwb1lVaFNNR05JVFRaTWVUbHVZVmhTYjJSWFNYVlpNamwwVERKT2IxbFhiSFZhTTFab1kyMVJkQXBoVnpGb1dqSldla3d5WkhOaFYwcHFURmRTTldKdFJuUmhWMDEyVEcxa2NHUkhhREZaYVRrellqTktjbHB0ZUhaa00wMTJZMjFXYzFwWFJucGFVelUxQ2xsWE1YTlJTRXBzV201TmRtRkhWbWhhU0UxMllsZEdjR0pxUVRWQ1oyOXlRbWRGUlVGWlR5OU5RVVZDUWtOMGIyUklVbmRqZW05MlRETlNkbUV5Vm5VS1RHMUdhbVJIYkhaaWJrMTFXakpzTUdGSVZtbGtXRTVzWTIxT2RtSnVVbXhpYmxGMVdUSTVkRTFDV1VkRGFYTkhRVkZSUW1jM09IZEJVVWxGUTBoT2FncGhSMVpyWkZkNGJFMUVXVWREYVhOSFFWRlJRbWMzT0hkQlVVMUZTMGRhYWsweVJtaE5WMWw2VFdwQ2JWcHRVbWxhUjA1c1RucGthbHBxV1hkTlZFcHJDazlIU1ROUFJFMTNUbGRLYUZwWFRtMU9NbGwzU0VGWlMwdDNXVUpDUVVkRWRucEJRa0pCVVU5Uk0wcHNXVmhTYkVsR1NteGlSMVpvWXpKVmQweFJXVXNLUzNkWlFrSkJSMFIyZWtGQ1FsRlJabGt5YUdoaFZ6VnVaRmRHZVZwRE1YQmlWMFp1V2xoTmRsb3llSEJaYlUxMFdraHNkVmxYTVhCWmVrRmtRbWR2Y2dwQ1owVkZRVmxQTDAxQlJVZENRVGw1V2xkYWVrd3lhR3haVjFKNlRESXhhR0ZYTkhkbldXdEhRMmx6UjBGUlVVSXhibXREUWtGSlJXVjNValZCU0dOQkNtUlJRVWxaU2t4M1MwWk1MMkZGV0ZJd1YzTnVhRXA0UmxwNGFYTkdhak5FVDA1S2REVnlkMmxDYWxwMlkyZEJRVUZaVG5SYWVVSmlRVUZCUlVGM1FrY0tUVVZSUTBsQ1RuUTNVMkp2YVRKd1ZrdFZlbVJvVGl0VE5pc3ZLMWxVUWpGaVpHcENhVFo0V1VaUk1HSjBlRWxFUVdsQmNrdHZLMEYwVWxSdk5HUm5UZ3AyVVZKMlVVdHZZMmhvWlhkRE1sVnRaMDl1ZEhwVVlteHJOMHRHTTNwQlMwSm5aM0ZvYTJwUFVGRlJSRUYzVG05QlJFSnNRV3BCYWxwQlREQk9aR0pCQ2tORWVVdDRZa1V3Y2t0NFYzSlBZWFJ1VEV0VlVtZFRla2RqY25sR1NIaExiQ3RzVjBwTWVqVk9SRnBaUjBjMVVFVm1OMVJLU2pSRFRWRkRSalE0VFNzS2RGaHlNWFp1VURGUmMwRkdWeTlXTmtkVFdWVjNlbEZ2UWs1WlQzb3hTVGhJY1dKbllreENUMlZxY0hOaVJTOWFabWxLZGpCS2JrZG1jRUU5Q2kwdExTMHRSVTVFSUVORlVsUkpSa2xEUVZSRkxTMHRMUzBLIn19fX0=",
+          "integratedTime": 1663987822,
+          "logIndex": 3852702,
           "logID": "c0d23d6ad406973f9559f3ba2d1ca01f84147d8ffc5b8445c224f98b9591801d"
         }
       },
       "Issuer": "https://token.actions.githubusercontent.com",
       "Subject": "https://github.com/chainguard-images/glibc-dynamic/.github/workflows/release.yaml@refs/heads/main",
       "run_attempt": "1",
-      "run_id": "3110081319",
-      "sha": "fdadac80f031871243070df2fb04aa455a4147c2"
+      "run_id": "3116784907",
+      "sha": "fc3aa1f320ffdbdce77cf6012d8b78305baecf7f"
     }
   }
 ]
