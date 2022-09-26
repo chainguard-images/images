@@ -39,16 +39,8 @@ melange build \
   --arch x86_64,arm64 \
   --empty-workspace \
   --repository-append packages \
-  --keyring-append melange.rsa \
+  --signing-key melange.rsa \
   examples/gnu-hello.yaml
-
-(cd packages && for d in `find . -type d -mindepth 1`; do \
-  ( \
-    cd $d && \
-    apk index -o APKINDEX.tar.gz *.apk && \
-    melange sign-index --signing-key=../../melange.rsa APKINDEX.tar.gz\
-  ) \
-done)
 ```
 
 ### With apko
