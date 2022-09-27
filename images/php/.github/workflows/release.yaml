@@ -45,17 +45,18 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Emit Image Refs output
+      id: emit-refs
+      run: |
+          cat apko.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]' | jq .
+          echo ::set-output name=image-refs::$(cat apko.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]')
+
     - name: Additional tags
       uses: chainguard-images/actions/tag@main
       with:
         distroless_image: ghcr.io/${{ github.repository }}
         docker_image: "php"
 
-    - name: Emit Image Refs output
-      id: emit-refs
-      run: |
-          cat apko.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]' | jq .
-          echo ::set-output name=image-refs::$(cat apko.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]')
     # Post to slack when things fail.
     - if: ${{ failure() }}
       uses: rtCamp/action-slack-notify@v2.2.0
