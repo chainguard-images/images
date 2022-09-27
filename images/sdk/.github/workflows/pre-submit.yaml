@@ -22,7 +22,7 @@ jobs:
       with:
         sign-with-temporary-key: true
         config: melange.yaml
-        empty-workspace: true
+        empty-workspace: false
         archs: x86_64
 
     - name: Generate snapshot date

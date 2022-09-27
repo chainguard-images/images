@@ -46,7 +46,7 @@ jobs:
       with:
         sign-with-temporary-key: true
         config: melange.yaml
-        empty-workspace: true
+        empty-workspace: false
         archs: x86_64,aarch64,armv7
 
     - id: apko
