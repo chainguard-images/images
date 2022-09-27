@@ -66,12 +66,6 @@ jobs:
         IMAGE_NAME=$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')
         IMAGE_NAME=$IMAGE_NAME ./test.sh
 
-    - name: Additional tags
-      uses: chainguard-images/actions/tag@main
-      with:
-        distroless_image: ghcr.io/${{ github.repository }}
-        docker_image: "bitnami/git"
-
     - name: Emit Image Refs output
       id: emit-refs
       run: |
@@ -80,6 +74,12 @@ jobs:
 
         cat nonroot.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]' | jq .
         echo ::set-output name=nonroot-refs::$(cat nonroot.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]')
+
+    - name: Additional tags
+      uses: chainguard-images/actions/tag@main
+      with:
+        distroless_image: ghcr.io/${{ github.repository }}
+        docker_image: "bitnami/git"
 
     # Post to slack when things fail.
     - if: ${{ failure() }}
