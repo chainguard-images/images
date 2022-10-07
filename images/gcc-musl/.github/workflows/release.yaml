@@ -58,6 +58,7 @@ jobs:
       with:
         distroless_image: ghcr.io/${{ github.repository }}
         docker_image: "gcc"
+        excluded_tags: "12.2.1_git20220924"
 
     # Post to slack when things fail.
     - if: ${{ failure() }}
