@@ -20,16 +20,16 @@ docker pull cgr.dev/chainguard/git:latest
 
 | Tag | Digest | Arch |
 | --- | ------ | ---- |
-| `2.37.3-debian-11-r5` | `sha256:5bd9e1bc50745c14199118e2a393a39e54d615444c91c6f09c3763ec8169d129`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:5bd9e1bc50745c14199118e2a393a39e54d615444c91c6f09c3763ec8169d129) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
-| `2.37.3-r0-glibc` | `sha256:0cae1dca60cff441ba2fca98c6c6661280a6824f5b571b68854e079498d47534`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:0cae1dca60cff441ba2fca98c6c6661280a6824f5b571b68854e079498d47534) | `amd64` |
-| `2.37.3-debian-11-r6` | `sha256:fdede9d61b563ccb0a378233218a0040d24b4a97e0418d736708caa8394c7f55`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:fdede9d61b563ccb0a378233218a0040d24b4a97e0418d736708caa8394c7f55) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
-| `2.37.3-debian-11-r7` | `sha256:fecf20ec858defbd6577b95d50e072a3836d8f390e7955a8e9801444c75ca75f`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:fecf20ec858defbd6577b95d50e072a3836d8f390e7955a8e9801444c75ca75f) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
-| `2.37.3-r0-root-glibc` | `sha256:7495620b3272ff609f0f157f05325a55e6922b3248b3bb554da7bb12243e34b4`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:7495620b3272ff609f0f157f05325a55e6922b3248b3bb554da7bb12243e34b4) | `amd64` |
-| `2.37.3-r1` | `sha256:0383d919339f5095c7c81f513cab6523e2fd323d5a524fbef3a89144d117238c`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:0383d919339f5095c7c81f513cab6523e2fd323d5a524fbef3a89144d117238c) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
-| `latest` | `sha256:bd03046759864421029876d44351974580b08463f73509fcc254da0b72fd6343`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:bd03046759864421029876d44351974580b08463f73509fcc254da0b72fd6343) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
-| `2.38.0-r1` `root` | `sha256:b03b2f6112ce5368a8bc14e111b54c8b96a9d78a96581f987991ceaa877f34de`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:b03b2f6112ce5368a8bc14e111b54c8b96a9d78a96581f987991ceaa877f34de) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
 | `2` `2-debian-11` `2.37.3` `2.37.3-debian-11-r9` | `sha256:34a5718f96c5747b52e0cb5f217a2441be29f425ede41e946b6ec646507221e2`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:34a5718f96c5747b52e0cb5f217a2441be29f425ede41e946b6ec646507221e2) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
+| `2.37.3-r0-root-glibc` | `sha256:0a4b3750c02c3b71bb5cf5fa0bd4622655b7e2b224fa1625cf618d0007c85643`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:0a4b3750c02c3b71bb5cf5fa0bd4622655b7e2b224fa1625cf618d0007c85643) | `amd64` |
+| `2.37.3-debian-11-r7` | `sha256:fecf20ec858defbd6577b95d50e072a3836d8f390e7955a8e9801444c75ca75f`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:fecf20ec858defbd6577b95d50e072a3836d8f390e7955a8e9801444c75ca75f) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
+| `2.37.3-r0-glibc` | `sha256:787a242d4b981f89df56ba77d55330888112ccec2ec9fb90c48db8ab972ea1b1`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:787a242d4b981f89df56ba77d55330888112ccec2ec9fb90c48db8ab972ea1b1) | `amd64` |
+| `2.37.3-r1` | `sha256:0383d919339f5095c7c81f513cab6523e2fd323d5a524fbef3a89144d117238c`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:0383d919339f5095c7c81f513cab6523e2fd323d5a524fbef3a89144d117238c) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
+| `latest` | `sha256:8bfb096179bbc73706232958388115ac6f4a8350d0a3c5b7640682fe7a3ac14c`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:8bfb096179bbc73706232958388115ac6f4a8350d0a3c5b7640682fe7a3ac14c) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
+| `2.38.0-r1` `root` | `sha256:dee43d67398e1ed670e48bb2f22d8dd3b5b9e3a4e4ebd57c1972c86ed8519252`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:dee43d67398e1ed670e48bb2f22d8dd3b5b9e3a4e4ebd57c1972c86ed8519252) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
 | `2.37.3-debian-11-r8` `2.37.3-r0` | `sha256:09768f17d6ce9eced953fe8e87d88c8097f867ac487d99048565fc42def493f3`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:09768f17d6ce9eced953fe8e87d88c8097f867ac487d99048565fc42def493f3) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
+| `2.37.3-debian-11-r5` | `sha256:5bd9e1bc50745c14199118e2a393a39e54d615444c91c6f09c3763ec8169d129`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:5bd9e1bc50745c14199118e2a393a39e54d615444c91c6f09c3763ec8169d129) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
+| `2.37.3-debian-11-r6` | `sha256:fdede9d61b563ccb0a378233218a0040d24b4a97e0418d736708caa8394c7f55`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:fdede9d61b563ccb0a378233218a0040d24b4a97e0418d736708caa8394c7f55) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
 
 
 ## Usage
@@ -113,23 +113,23 @@ The following checks were performed on each of these signatures:
         "docker-reference": "ghcr.io/chainguard-images/git"
       },
       "image": {
-        "docker-manifest-digest": "sha256:bd03046759864421029876d44351974580b08463f73509fcc254da0b72fd6343"
+        "docker-manifest-digest": "sha256:8bfb096179bbc73706232958388115ac6f4a8350d0a3c5b7640682fe7a3ac14c"
       },
       "type": "cosign container image signature"
     },
     "optional": {
       "1.3.6.1.4.1.57264.1.1": "https://token.actions.githubusercontent.com",
       "1.3.6.1.4.1.57264.1.2": "schedule",
-      "1.3.6.1.4.1.57264.1.3": "fefe19ee3c72d3e87ea506bf91c63231e0e58edb",
+      "1.3.6.1.4.1.57264.1.3": "0530bd47654f6de36667172894cac6948ad0e2ad",
       "1.3.6.1.4.1.57264.1.4": "Create Release",
       "1.3.6.1.4.1.57264.1.5": "chainguard-images/git",
       "1.3.6.1.4.1.57264.1.6": "refs/heads/main",
       "Bundle": {
-        "SignedEntryTimestamp": "MEQCIBsctRLjVokQUJUJWI12rnZRNw7tOw0qPZ/OYYysTtgLAiA1+ZHg8/10luqNSysu0l84GTSZrER1/Q3umKexHV0cVQ==",
+        "SignedEntryTimestamp": "MEUCIQDlfPK46E3OzCSXps3gR+EKvnUjrrU1gq4wqTzc45itgAIgWWZPkohzRs74pZs+qa7Tfb59mu7xGN8kReZIwyx83ks=",
         "Payload": {
-          "body": "eyJhcGlWZXJzaW9uIjoiMC4wLjEiLCJraW5kIjoiaGFzaGVkcmVrb3JkIiwic3BlYyI6eyJkYXRhIjp7Imhhc2giOnsiYWxnb3JpdGhtIjoic2hhMjU2IiwidmFsdWUiOiJkNmVmYmUwNzhjNDc1MjJmYzY3ZDYzOGRjZmU1YWZhMzlmMzcwYTVjNzYwNTIyMTdiZTBjYzEyODk0YmM3MmMzIn19LCJzaWduYXR1cmUiOnsiY29udGVudCI6Ik1FVUNJSEJwa3dhdkg3ajBtTkd6WVpxZk9MQXBHbVY3Mkl3cjVmSURUNDdUT0gvekFpRUFrMm1STUpyZFZpUzYzeTNnWG9ta3pHc2NWdFNBVzRsbVpNM0xnMTAvZ2JjPSIsInB1YmxpY0tleSI6eyJjb250ZW50IjoiTFMwdExTMUNSVWRKVGlCRFJWSlVTVVpKUTBGVVJTMHRMUzB0Q2sxSlNVUndha05EUVhsMVowRjNTVUpCWjBsVlNDdDNjVVprVVV4MVFrbHFNa1JoTjBzM01rWnRSRGgyWm1aM2QwTm5XVWxMYjFwSmVtb3dSVUYzVFhjS1RucEZWazFDVFVkQk1WVkZRMmhOVFdNeWJHNWpNMUoyWTIxVmRWcEhWakpOVWpSM1NFRlpSRlpSVVVSRmVGWjZZVmRrZW1SSE9YbGFVekZ3WW01U2JBcGpiVEZzV2tkc2FHUkhWWGRJYUdOT1RXcEplRTFFUVRSTlJFbDRUVlJOTkZkb1kwNU5ha2w0VFVSQk5FMUVTWGxOVkUwMFYycEJRVTFHYTNkRmQxbElDa3R2V2tsNmFqQkRRVkZaU1V0dldrbDZhakJFUVZGalJGRm5RVVZJYUVWak16bEpTVFpzUm5kWFRFSXlMMFpRVEVoNVoxWm9NRTlXSzBoTmVtb3pTbWdLVGt4a1JpdDVRMkpUV21jdk9TdERXRVZYVm10SWVXZEpSWEJ1VEVGTFZWVnFSbTB5U2t4SE5ubEZiMWRHY2xZNFYzRlBRMEZyYjNkblowcEhUVUUwUndwQk1WVmtSSGRGUWk5M1VVVkJkMGxJWjBSQlZFSm5UbFpJVTFWRlJFUkJTMEpuWjNKQ1owVkdRbEZqUkVGNlFXUkNaMDVXU0ZFMFJVWm5VVlZ1YTBGakNtTXdWMnBuWkZZek5GVkhWakprU1VoVVdXa3pXa0ZqZDBoM1dVUldVakJxUWtKbmQwWnZRVlV6T1ZCd2VqRlphMFZhWWpWeFRtcHdTMFpYYVhocE5Ga0tXa1E0ZDFwUldVUldVakJTUVZGSUwwSkdjM2RYV1ZwWVlVaFNNR05JVFRaTWVUbHVZVmhTYjJSWFNYVlpNamwwVERKT2IxbFhiSFZhTTFab1kyMVJkQXBoVnpGb1dqSldla3d5WkhCa1F6aDFXakpzTUdGSVZtbE1NMlIyWTIxMGJXSkhPVE5qZVRsNVdsZDRiRmxZVG14TWJteG9ZbGQ0UVdOdFZtMWplVGx2Q2xwWFJtdGplVGwwV1Zkc2RVMUVhMGREYVhOSFFWRlJRbWMzT0hkQlVVVkZTekpvTUdSSVFucFBhVGgyWkVjNWNscFhOSFZaVjA0d1lWYzVkV041Tlc0S1lWaFNiMlJYU2pGak1sWjVXVEk1ZFdSSFZuVmtRelZxWWpJd2QwWm5XVXRMZDFsQ1FrRkhSSFo2UVVKQloxRkpZekpPYjFwWFVqRmlSMVYzVG1kWlN3cExkMWxDUWtGSFJIWjZRVUpCZDFGdldtMVdiVnBVUlRWYVYxVjZXWHBqZVZwRVRteFBSR1JzV1ZSVmQwNXRTbTFQVkVacVRtcE5lVTE2Um14TlIxVXhDazlIVm10WmFrRmpRbWR2Y2tKblJVVkJXVTh2VFVGRlJVSkJOVVJqYlZab1pFZFZaMVZ0Vm5OYVYwWjZXbFJCYWtKbmIzSkNaMFZGUVZsUEwwMUJSVVlLUWtKV2FtRkhSbkJpYldReFdWaEthMHhYYkhSWlYyUnNZM2s1Ym1GWVVYZElVVmxMUzNkWlFrSkJSMFIyZWtGQ1FtZFJVR050Vm0xamVUbHZXbGRHYXdwamVUbDBXVmRzZFUxSlIwdENaMjl5UW1kRlJVRmtXalZCWjFGRFFraDNSV1ZuUWpSQlNGbEJRMGREVXpoRGFGTXZNbWhHTUdSR2NrbzBVMk5TVjJOWkNuSkNXVGwzZW1wVFltVmhPRWxuV1RKaU0wbEJRVUZIUkhSV2VrTkRaMEZCUWtGTlFWSjZRa1pCYVVKMFJqRkxMMmhMYkhOT05ITmhTSEp0VEhJMFZYa0tWMjVLZUZCeVluZzNORzQ0YlhaT1prVlFLMGRFZDBsb1FVcG9XbmhOWmxReVkyUkhhbWx5YVdGUWJWUnlORFpXV2tsMFJsUmxRMVpvU0doV1VuQlFlUXB4UjJsWFRVRnZSME5EY1VkVFRUUTVRa0ZOUkVFeWEwRk5SMWxEVFZGRGN6TnlObFpUVEhjMFpGRjNha1JPWjI0clVHMWpOMHBaTlc0emJsUmtURGxaQ21oWU1ITk9ZMHBuZVdjMmVXRkRORlJGWmtKWVRsazViM015U1dGalIwbERUVkZEVUZGRFpFRlpUVGw2VEdSMlpFcFhhbVZoVTB0QlJpOVdiM0ZqZVVJS09VWm9UM0pxTkZCc09XSjRZVGxHTTI1eWNqUjZWWE5aVWpoWVJWbGpZek52V1ZrOUNpMHRMUzB0UlU1RUlFTkZVbFJKUmtsRFFWUkZMUzB0TFMwSyJ9fX19",
-          "integratedTime": 1665195117,
-          "logIndex": 4667738,
+          "body": "eyJhcGlWZXJzaW9uIjoiMC4wLjEiLCJraW5kIjoiaGFzaGVkcmVrb3JkIiwic3BlYyI6eyJkYXRhIjp7Imhhc2giOnsiYWxnb3JpdGhtIjoic2hhMjU2IiwidmFsdWUiOiJkYjdkZmJhOTNlYTYxMTQwMzI5MDA3MjJlNDYzZGY4YmNkYzA5N2JkMGM3MTYwMWU0NjVkYzBhM2IxMzUxOTJkIn19LCJzaWduYXR1cmUiOnsiY29udGVudCI6Ik1FVUNJUURCK0dnemJCM1dxdVB4SjljU0FYTkhCM1dZR2cvSW0zbHlkVTFnTE03RllBSWdiZkUwbTV3anpqOGcxcGZEeUpCSXhyTmQybmNjVjhXNm1zejFLQzlua000PSIsInB1YmxpY0tleSI6eyJjb250ZW50IjoiTFMwdExTMUNSVWRKVGlCRFJWSlVTVVpKUTBGVVJTMHRMUzB0Q2sxSlNVUndWRU5EUVhsMVowRjNTVUpCWjBsVlJHRnpNR1I0WTIxaU9HNHlaMkZJUW5WTldFTkdZVTVrVG1OVmQwTm5XVWxMYjFwSmVtb3dSVUYzVFhjS1RucEZWazFDVFVkQk1WVkZRMmhOVFdNeWJHNWpNMUoyWTIxVmRWcEhWakpOVWpSM1NFRlpSRlpSVVVSRmVGWjZZVmRrZW1SSE9YbGFVekZ3WW01U2JBcGpiVEZzV2tkc2FHUkhWWGRJYUdOT1RXcEplRTFFUVRWTlJFbDZUMFJGZVZkb1kwNU5ha2w0VFVSQk5VMUVTVEJQUkVWNVYycEJRVTFHYTNkRmQxbElDa3R2V2tsNmFqQkRRVkZaU1V0dldrbDZhakJFUVZGalJGRm5RVVV6TDFWeFMwVjRMMFIxYjJnMFdHUk1PRUZyVjFONldYWk9ZbFo1TUZsWmNsQlRabGNLWVUxRE1tTjRjMGxWT0dsbWEzRlBWMmhXUzJGa1QwNUhTbmRzT0RSR2RtUkdVRWhaYm1rMFpXWnhZMHBuTjBGeE0wdFBRMEZyYjNkblowcEhUVUUwUndwQk1WVmtSSGRGUWk5M1VVVkJkMGxJWjBSQlZFSm5UbFpJVTFWRlJFUkJTMEpuWjNKQ1owVkdRbEZqUkVGNlFXUkNaMDVXU0ZFMFJVWm5VVlY1ZEhnNENubFdTSFJ0VkZKUlkyRnVTbTE2Ym5oNmF6QjNMMFZSZDBoM1dVUldVakJxUWtKbmQwWnZRVlV6T1ZCd2VqRlphMFZhWWpWeFRtcHdTMFpYYVhocE5Ga0tXa1E0ZDFwUldVUldVakJTUVZGSUwwSkdjM2RYV1ZwWVlVaFNNR05JVFRaTWVUbHVZVmhTYjJSWFNYVlpNamwwVERKT2IxbFhiSFZhTTFab1kyMVJkQXBoVnpGb1dqSldla3d5WkhCa1F6aDFXakpzTUdGSVZtbE1NMlIyWTIxMGJXSkhPVE5qZVRsNVdsZDRiRmxZVG14TWJteG9ZbGQ0UVdOdFZtMWplVGx2Q2xwWFJtdGplVGwwV1Zkc2RVMUVhMGREYVhOSFFWRlJRbWMzT0hkQlVVVkZTekpvTUdSSVFucFBhVGgyWkVjNWNscFhOSFZaVjA0d1lWYzVkV041Tlc0S1lWaFNiMlJYU2pGak1sWjVXVEk1ZFdSSFZuVmtRelZxWWpJd2QwWm5XVXRMZDFsQ1FrRkhSSFo2UVVKQloxRkpZekpPYjFwWFVqRmlSMVYzVG1kWlN3cExkMWxDUWtGSFJIWjZRVUpCZDFGdlRVUlZlazFIU210T1JHTXlUbFJTYlU1dFVteE5lbGt5VG1wamVFNTZTVFJQVkZKcVdWZE5NazlVVVRSWlYxRjNDbHBVU21oYVJFRmpRbWR2Y2tKblJVVkJXVTh2VFVGRlJVSkJOVVJqYlZab1pFZFZaMVZ0Vm5OYVYwWjZXbFJCYWtKbmIzSkNaMFZGUVZsUEwwMUJSVVlLUWtKV2FtRkhSbkJpYldReFdWaEthMHhYYkhSWlYyUnNZM2s1Ym1GWVVYZElVVmxMUzNkWlFrSkJSMFIyZWtGQ1FtZFJVR050Vm0xamVUbHZXbGRHYXdwamVUbDBXVmRzZFUxSlIwdENaMjl5UW1kRlJVRmtXalZCWjFGRFFraDNSV1ZuUWpSQlNGbEJRMGREVXpoRGFGTXZNbWhHTUdSR2NrbzBVMk5TVjJOWkNuSkNXVGwzZW1wVFltVmhPRWxuV1RKaU0wbEJRVUZIUkhWd2RIWjFaMEZCUWtGTlFWSjZRa1pCYVVWQmVtbHNXVXBaTVM5RFR5dFNhWE0xS3pSRE1tRUtlaXROTVdGT05YWjNSMk5TZFVGNFZIaFRlV2RuUlUxRFNVRjJURGhMU21aWEwzRjJlVTg0Ym5oeVZtUkpWWGRYV0hJNU0zcGxlVTVZV1dwekwwbGtOUXBGS3psTlRVRnZSME5EY1VkVFRUUTVRa0ZOUkVFeVowRk5SMVZEVFVWTFNESkdhR2RWVlVWa1VVWllTR0ZuYWpWcU1WUkpNMGRuTm05aWFXeFRTbll2Q2pSRVQyUndaazVWYkUwd1FTOHdkRWt6V25JelFrVmpkMFpXYUZSSmQwbDRRVWxXTW5kdVMyRlNjMUkwWlZGSmVXRXZZM0V6YmtKUGJEbHJOM1prYVZNS2NqUnZhVVZ4YVZORFF6Z3pVM2RWY0hoV1pGcHFNWEJIWWpCeGNsSjRSWEZuVVQwOUNpMHRMUzB0UlU1RUlFTkZVbFJKUmtsRFFWUkZMUzB0TFMwSyJ9fX19",
+          "integratedTime": 1665283110,
+          "logIndex": 4728656,
           "logID": "c0d23d6ad406973f9559f3ba2d1ca01f84147d8ffc5b8445c224f98b9591801d"
         }
       },
@@ -138,11 +138,11 @@ The following checks were performed on each of these signatures:
       "githubWorkflowName": "Create Release",
       "githubWorkflowRef": "refs/heads/main",
       "githubWorkflowRepository": "chainguard-images/git",
-      "githubWorkflowSha": "fefe19ee3c72d3e87ea506bf91c63231e0e58edb",
+      "githubWorkflowSha": "0530bd47654f6de36667172894cac6948ad0e2ad",
       "githubWorkflowTrigger": "schedule",
       "run_attempt": "1",
-      "run_id": "3208761248",
-      "sha": "fefe19ee3c72d3e87ea506bf91c63231e0e58edb"
+      "run_id": "3212614757",
+      "sha": "0530bd47654f6de36667172894cac6948ad0e2ad"
     }
   }
 ]
