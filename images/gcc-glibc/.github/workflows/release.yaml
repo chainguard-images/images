@@ -123,7 +123,7 @@ jobs:
         SLACK_ICON: http://github.com/chainguardian.png?size=48
         SLACK_USERNAME: chainguardian
         SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-        SLACK_CHANNEL: distroless-alerts
+        SLACK_CHANNEL: chainguard-images-alerts
         SLACK_COLOR: '#8E1600'
         MSG_MINIMAL: 'false'
         SLACK_TITLE: Vulnerability Report for ${{ github.repository }}.
@@ -162,7 +162,7 @@ jobs:
           SLACK_ICON: http://github.com/chainguardian.png?size=48
           SLACK_USERNAME: chainguardian
           SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-          SLACK_CHANNEL: distroless-alerts
+          SLACK_CHANNEL: chainguard-images-alerts
           SLACK_COLOR: '#8E1600'
           MSG_MINIMAL: 'true'
           SLACK_TITLE: Generating new README for ${{ github.repository }} failed.
