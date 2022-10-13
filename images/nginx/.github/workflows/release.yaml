@@ -88,7 +88,7 @@ jobs:
           if [[ "${version}" == "${{ matrix.nginx-version }}" ]]; then
             key=image-refs-$(echo ${version} | sed 's|\.|-|g')
             value=$(./refs-to-json.sh | sed 's|"|\\"|g')
-            echo ::set-output name=${key}::${value}
+            echo "${key}=${value}" >> $GITHUB_OUTPUT
             break
           fi
         done
@@ -104,7 +104,7 @@ jobs:
         distroless_image: ghcr.io/${{ github.repository }}:${{ matrix.nginx-version }}
         docker_image_tag: ${{ matrix.nginx-version }}
         docker_image: "nginx"
-  
+
     - if: ${{ failure() }}
       uses: rtCamp/action-slack-notify@v2.2.0
       env:
@@ -145,7 +145,7 @@ jobs:
         cat image-refs-combined.json
         echo "---------------------------"
 
-        echo ::set-output name=image-refs::$(cat image-refs-combined.json)
+        echo "image-refs=$(cat image-refs-combined.json)" >> $GITHUB_OUTPUT
         rm -f image-refs-*.json
 
   scan:
