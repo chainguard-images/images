@@ -57,7 +57,7 @@ jobs:
     - uses: sigstore/cosign-installer@main
 
     - name: Setup QEMU
-      uses: docker/setup-qemu-action@v2.0.0
+      uses: docker/setup-qemu-action@v2.1.0
 
     - uses: chainguard-dev/actions/melange-build@main
       with:
