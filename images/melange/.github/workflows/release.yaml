@@ -57,7 +57,7 @@ jobs:
         cd melange
         git fetch origin
         MELANGE_VERSION=$(git describe --tags --abbrev=0)
-        echo ::set-output name=melange-version::$MELANGE_VERSION
+        echo "melange-version=$MELANGE_VERSION" >> $GITHUB_OUTPUT
 
     - id: apko
       uses: chainguard-images/actions/apko-snapshot@main
@@ -73,7 +73,7 @@ jobs:
       id: emit-refs
       run: |
         cat apko.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]' | jq .
-        echo ::set-output name=image-refs::$(cat apko.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]')
+        echo "image-refs=$(cat apko.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
 
     - name: Smoke Test
       run: IMAGE_NAME=${{ steps.apko.outputs.digest }} ./test.sh
