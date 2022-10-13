@@ -70,10 +70,10 @@ jobs:
       id: emit-refs
       run: |
         cat root.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]' | jq .
-        echo ::set-output name=root-refs::$(cat root.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]')
+        echo "root-refs=$(cat root.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
 
         cat nonroot.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]' | jq .
-        echo ::set-output name=nonroot-refs::$(cat nonroot.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]')
+        echo "nonroot-refs=$(cat nonroot.images | sed 's/$/\n/g' | grep -v '^$' | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
 
     - name: Additional tags
       uses: chainguard-images/actions/tag@main
