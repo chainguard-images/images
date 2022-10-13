@@ -97,7 +97,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           image: ${{ matrix.ref }}
           RUN_SNYK: "false"
-          RUN_GRYPE: "false"
+          RUN_GRYPE: "true"
           DOCKER_LOGIN: 'true'
 
       - name: Image Vulnerability scan output
