@@ -153,7 +153,7 @@ jobs:
           name: ${{ env.REPO_NAME }}
           location: cgr.dev/chainguard/${{ env.REPO_NAME }}
           description: "Minimal container image for building C applications (which do not require glibc)."
-          exclude-tags: 11.2.1_git20220219-r5,11.2.1_git20220219,12.1.1_git20220630-r1
+          exclude-tags: 11.2.1_git20220219-r5,11.2.1_git20220219,12.1.1_git20220630-r1,12.1.1_git20220630,12.1.1_git20220630-r6,12.1.1_git20220630-r5,12.2.1_git20220924-r1,12.2.1_git20220924
           push-to-repo: true
 
       # Post to slack when things fail.
