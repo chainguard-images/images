@@ -4,5 +4,7 @@ set -o errexit -o nounset -o errtrace -o pipefail
 
 IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/static"}
 
-docker build --build-arg BASE=${IMAGE_NAME} --tag smoke-test --file examples/Dockerfile.c examples
-docker run smoke-test
+for lang in c golang rust; do
+  docker build --build-arg BASE=${IMAGE_NAME} --tag smoke-test-${lang} --file examples/Dockerfile.${lang} examples
+  docker run smoke-test-${lang}
+done
