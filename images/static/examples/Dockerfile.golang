@@ -1,0 +1,10 @@
+ARG BASE=cgr.dev/chainguard/static
+
+FROM --platform=x86_64 golang:alpine@sha256:f3e683657ddf73726b5717c2ff80cdcd9e9efb7d81f77e4948fada9a10dc7257 AS build
+
+COPY main.go /main.go
+RUN CGO_ENABLED=0 go build -o /hello /main.go
+
+FROM $BASE
+COPY --from=build /hello /hello
+CMD ["/hello"]
