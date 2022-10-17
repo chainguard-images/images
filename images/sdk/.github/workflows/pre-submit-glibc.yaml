@@ -1,11 +1,11 @@
-name: PreSubmit-Build
+name: PreSubmit-Build (glibc)
 
 on:
   pull_request:
 
 jobs:
   build:
-    name: Build OCI image
+    name: Build OCI image (glibc)
     runs-on: ubuntu-latest
 
     # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
@@ -21,7 +21,7 @@ jobs:
     - uses: chainguard-dev/actions/melange-build@main
       with:
         sign-with-temporary-key: true
-        config: melange.yaml
+        config: melange-glibc.yaml
         empty-workspace: false
         archs: x86_64
 
@@ -33,7 +33,7 @@ jobs:
 
     - uses: chainguard-images/actions/apko-build@main
       with:
-        config: apko.yaml
+        config: apko-glibc.yaml
         tag: melange:${{ steps.snapshot-date.outputs.date }}
         keyring-append: /github/workspace/melange.rsa.pub
         archs: x86_64
@@ -44,5 +44,5 @@ jobs:
 
     - uses: actions/upload-artifact@v3
       with:
-        name: sdk.tar
+        name: sdk-glibc.tar
         path: ./output.tar
