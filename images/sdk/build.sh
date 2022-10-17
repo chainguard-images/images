@@ -5,17 +5,7 @@ if [[ "${DESTDIR}" == "" ]]; then
     exit 1
 fi
 
-export PATH="${DESTDIR}/usr/bin:${PATH}"
-
-# TODO: package bubblewrap in melange
-if [[ ! -f bubblewrap-0.6.2.tar.xz ]]; then
-    wget https://github.com/containers/bubblewrap/releases/download/v0.6.2/bubblewrap-0.6.2.tar.xz
-fi
-printf "%s  %s\n" '8a0ec802d1b3e956c5bb0a40a81c9ce0b055a31bf30a8efa547433603b8af20b' bubblewrap-0.6.2.tar.xz | sha256sum -c
-if [[ ! -d bubblewrap-0.6.2 ]]; then
-    tar -xvf bubblewrap-0.6.2.tar.xz
-fi
-(cd bubblewrap-0.6.2/ && ./autogen.sh && make && make install)
+export PATH="${DESTDIR}/usr/bin:/root/go/bin:${PATH}"
 
 # goimports
 go install golang.org/x/tools/cmd/goimports@latest

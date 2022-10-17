@@ -19,8 +19,7 @@ package:
       - git
       - curl
       - bash
-      # TODO: package this in wolfi
-      # - bubblewrap
+      - bubblewrap
 
 environment:
   contents:
@@ -29,12 +28,10 @@ environment:
     repositories:
       - https://packages.wolfi.dev/os
     packages:
-      - build-base
-      - autoconf
-      - busybox
       - ca-certificates-bundle
+      - build-base
+      - busybox
       - go
-      - make
       - git
 
 pipeline:
