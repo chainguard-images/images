@@ -57,8 +57,8 @@ jobs:
           exit_code="0"
           [[ "${untracked_versions}" == "" ]] || exit_code="1"
           set -x
-          echo "::set-output name=untracked-versions::${untracked_versions}"
-          echo "::set-output name=exit-code::${exit_code}"
+          echo "untracked-versions=${untracked_versions}" >> $GITHUB_OUTPUT
+          echo "exit-code=${exit_code}" >> $GITHUB_OUTPUT
 
       - name: Post any untracked versions to Slack
         if: ${{ steps.compare.outputs.untracked-versions != '' }}
