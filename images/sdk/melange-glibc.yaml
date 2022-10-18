@@ -19,20 +19,20 @@ package:
       - git
       - curl
       - bash
+      - busybox
       - bubblewrap
 
 environment:
   contents:
+    keyring:
+      - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
     repositories:
-      - https://dl-cdn.alpinelinux.org/alpine/edge/main
-      - https://dl-cdn.alpinelinux.org/alpine/edge/community
+      - https://packages.wolfi.dev/os
     packages:
-      - alpine-baselayout-data
-      - alpine-base
-      - busybox
       - ca-certificates-bundle
+      - build-base
+      - busybox
       - go
-      - make
       - git
 
 pipeline:
