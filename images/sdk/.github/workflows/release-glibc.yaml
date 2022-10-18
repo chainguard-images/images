@@ -45,7 +45,7 @@ jobs:
     - uses: chainguard-dev/actions/melange-build@main
       with:
         sign-with-temporary-key: true
-        config: melange.yaml
+        config: melange-glibc.yaml
         empty-workspace: false
         archs: x86_64
 
