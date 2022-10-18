@@ -21,6 +21,7 @@ package:
       - bash
       - busybox
       - bubblewrap
+      - tree
 
 environment:
   contents:

@@ -7,6 +7,7 @@ IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/sdk"}
 docker run --rm --entrypoint bash "${IMAGE_NAME}" -xc \
     'export PATH="/root/go/bin:${PATH}" && \
      which goimports &&
+     tree --version &&
      go version &&
      make --version &&
      curl --version &&
