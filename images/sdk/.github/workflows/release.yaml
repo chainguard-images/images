@@ -105,8 +105,6 @@ jobs:
     - uses: chainguard-images/actions/vul-scans@main
       with:
         registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ github.token }}
         image: ${{ matrix.ref }}
         RUN_SNYK: "false"
         RUN_GRYPE: "true"
