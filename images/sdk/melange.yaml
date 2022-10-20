@@ -12,6 +12,8 @@ package:
       license: Apache-2.0
   dependencies:
     runtime:
+      - alpine-baselayout-data
+      - alpine-base
       - ca-certificates-bundle
       - apk-tools
       - make
