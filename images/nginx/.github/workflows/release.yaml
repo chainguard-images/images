@@ -33,16 +33,16 @@ jobs:
 
     outputs:
       # versionmod
-      image-refs-1-22-0: ${{ steps.emit-refs.outputs.image-refs-1-22-0 }}
+      image-refs-1-22-1: ${{ steps.emit-refs.outputs.image-refs-1-22-1 }}
       image-refs-1-23-1: ${{ steps.emit-refs.outputs.image-refs-1-23-1 }}
 
     strategy:
       matrix:
         # versionmod
-        nginx-version: [1.22.0, 1.23.1]
+        nginx-version: [1.22.1, 1.23.1]
         include:
-          - nginx-version: 1.22.0
-            sha256: b33d569a6f11a01433a57ce17e83935e953ad4dc77cdd4d40f896c88ac26eb53
+          - nginx-version: 1.22.1
+            sha256: 9ebb333a9e82b952acd3e2b4aeb1d4ff6406f72491bab6cd9fe69f0dea737f31
           - nginx-version: 1.23.1
             sha256: 5eee1bd1c23e3b9477a45532f1f36ae6178b43d571a9607e6953cef26d5df1e2
 
@@ -81,7 +81,7 @@ jobs:
       id: emit-refs
       run: |
         # versionmod
-        versions="1.22.0,1.23.1"
+        versions="1.22.1,1.23.1"
         echo "cat apko.images | sed 's/\\$/\n/g' | grep -v '^\$' | jq -R -s -c 'split(\"\n\")[:-1]'" > refs-to-json.sh && chmod +x refs-to-json.sh
         trap "rm -f refs-to-json.sh" EXIT
         for version in ${versions//,/ }; do
@@ -136,7 +136,7 @@ jobs:
         rm -f image-refs-*.json
 
         # versionmod
-        echo "${{ needs.build.outputs.image-refs-1-22-0 }}" > image-refs-1-22-0.json
+        echo "${{ needs.build.outputs.image-refs-1-22-1 }}" > image-refs-1-22-1.json
         echo "${{ needs.build.outputs.image-refs-1-23-1 }}" > image-refs-1-23-1.json
 
         jq -c -s '.[]=([.[]]|flatten)|.[0]' image-refs-*.json > image-refs-combined.json
