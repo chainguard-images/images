@@ -93,8 +93,6 @@ jobs:
         id: scans
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
           image: ${{ matrix.ref }}
           RUN_SNYK: "false"
           RUN_GRYPE: "true"
