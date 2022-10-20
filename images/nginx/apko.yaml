@@ -13,6 +13,7 @@ accounts:
   users:
     - username: nginx
       uid: 10000
+      gid: 10000
   run-as: 10000
 
 paths:
