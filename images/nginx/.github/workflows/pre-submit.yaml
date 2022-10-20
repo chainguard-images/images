@@ -10,12 +10,12 @@ jobs:
 
     strategy:
       matrix:
-        nginx-version: [1.22.1, 1.23.1]
+        nginx-version: [1.22.1, 1.23.2]
         include:
           - nginx-version: 1.22.1
             sha256: 9ebb333a9e82b952acd3e2b4aeb1d4ff6406f72491bab6cd9fe69f0dea737f31
-          - nginx-version: 1.23.1
-            sha256: 5eee1bd1c23e3b9477a45532f1f36ae6178b43d571a9607e6953cef26d5df1e2
+          - nginx-version: 1.23.2
+            sha256: a80cc272d3d72aaee70aa8b517b4862a635c0256790434dbfc4d618a999b0b46
 
     # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
     permissions:
