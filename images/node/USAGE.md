@@ -1,1 +1,1 @@
-WORK IN PROGRESS
+Minimal container image for running NodeJS apps

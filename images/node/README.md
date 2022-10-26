@@ -4,7 +4,7 @@
 Note: Do NOT edit directly, this file was generated using https://github.com/chainguard-images/readme-generator
 -->
 
-[![CI status](https://github.com/chainguard-images/template/actions/workflows/release.yaml/badge.svg)](https://github.com/chainguard-images/template/actions/workflows/release.yaml)
+[![CI status](https://github.com/chainguard-images/node/actions/workflows/release.yaml/badge.svg)](https://github.com/chainguard-images/node/actions/workflows/release.yaml)
 
 WORK IN PROGRESS
 
@@ -13,7 +13,7 @@ WORK IN PROGRESS
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/template:latest
+docker pull cgr.dev/chainguard/node:latest
 ```
 
 ## Supported tags
@@ -37,12 +37,12 @@ All Chainguard Images are signed using [Sigstore](https://sigstore.dev)!
 To verify the image, download <a href="https://github.com/sigstore/cosign">cosign</a> and run:
 
 ```
-COSIGN_EXPERIMENTAL=1 cosign verify cgr.dev/chainguard/template:latest | jq
+COSIGN_EXPERIMENTAL=1 cosign verify cgr.dev/chainguard/node:latest | jq
 ```
 
 Output:
 ```
-Verification for cgr.dev/chainguard/template:latest --
+Verification for cgr.dev/chainguard/node:latest --
 The following checks were performed on each of these signatures:
   - The cosign claims were validated
   - Existence of the claims in the transparency log was verified offline
