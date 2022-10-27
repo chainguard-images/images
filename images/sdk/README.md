@@ -21,7 +21,7 @@ docker pull cgr.dev/chainguard/sdk:latest
 | Tag | Digest | Arch |
 | --- | ------ | ---- |
 | `latest` | `sha256:78ec48c5df81daf39c8f8e336896c6a58810da3c39bc72fc4e022cea02304f34`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:78ec48c5df81daf39c8f8e336896c6a58810da3c39bc72fc4e022cea02304f34) | `amd64` `arm64` `armv7` |
-| `0.0.1-r0-glibc` | `sha256:5e2966def595a589b29a509c21070edf9106ad3c9c917c2bb46ec4873b39bfb6`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:5e2966def595a589b29a509c21070edf9106ad3c9c917c2bb46ec4873b39bfb6) |  |
+| `0.0.1-r0-glibc` | `sha256:c539ba0bcd78ed367657822b5f178ff538fcecac3e915617be02082a28b14f0f`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:c539ba0bcd78ed367657822b5f178ff538fcecac3e915617be02082a28b14f0f) |  |
 
 
 ## Usage
