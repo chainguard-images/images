@@ -12,4 +12,4 @@ RUN npm install --production
 
 COPY . .
 
-CMD [ "node", "server.js" ]
+CMD [ "server.js" ]
