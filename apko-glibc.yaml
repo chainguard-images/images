@@ -39,3 +39,6 @@ paths:
 
 archs:
   - x86_64
+  - amd64
+  - aarch64
+  - armv7
