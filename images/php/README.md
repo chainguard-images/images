@@ -20,12 +20,11 @@ docker pull cgr.dev/chainguard/php:latest
 
 | Tag | Digest | Arch |
 | --- | ------ | ---- |
-| `8.1.11` `8.1.11-r2` `latest` | `sha256:68f08d147fcac5c3b5c92020201d2ba8a50f11f55d6ba3c6e4c0e085960f96a3`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:68f08d147fcac5c3b5c92020201d2ba8a50f11f55d6ba3c6e4c0e085960f96a3) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
-| `8` `8-bullseye` `8-cli` `8-cli-bullseye` `8.1` `8.1-bullseye` `8.1-cli` `8.1-cli-bullseye` `bullseye` `cli` `cli-bullseye` | `sha256:347d028014f4050f6abfdee094c411885b5b619d1c2a8052f3b1f0de167083f9`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:347d028014f4050f6abfdee094c411885b5b619d1c2a8052f3b1f0de167083f9) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
+| `8` `8-bullseye` `8-cli` `8-cli-bullseye` `8.1` `8.1-bullseye` `8.1-cli` `8.1-cli-bullseye` `8.1.12` `8.1.12-bullseye` `8.1.12-cli` `8.1.12-cli-bullseye` `8.1.12-r0` `bullseye` `cli` `cli-bullseye` `latest` | `sha256:a24b2790baade548afa2dff86f5211dc1bcd22c70e1ec58cc04196d1c91e0a40`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:a24b2790baade548afa2dff86f5211dc1bcd22c70e1ec58cc04196d1c91e0a40) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
 | `8.1.10` `8.1.10-bullseye` `8.1.10-cli` `8.1.10-cli-bullseye` `8.1.10-r0` | `sha256:5e144068a1ef73b8323543fc3ca0d3d01b752637c690993ff16172f370af4bbd`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:5e144068a1ef73b8323543fc3ca0d3d01b752637c690993ff16172f370af4bbd) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
 | `8.1.11-r0` | `sha256:d46b713a1b507d70e7e471510e4f94013b4a8adcaa3d26f3ee5044d9aef5c9b5`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:d46b713a1b507d70e7e471510e4f94013b4a8adcaa3d26f3ee5044d9aef5c9b5) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
+| `8.1.11` `8.1.11-r2` | `sha256:68f08d147fcac5c3b5c92020201d2ba8a50f11f55d6ba3c6e4c0e085960f96a3`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:68f08d147fcac5c3b5c92020201d2ba8a50f11f55d6ba3c6e4c0e085960f96a3) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
 | `8.1.11-bullseye` `8.1.11-cli` `8.1.11-cli-bullseye` | `sha256:16cbf167b6bf23ad27985c8d85faf2a2db395a2e61c6267041fec1346fa42c6a`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:16cbf167b6bf23ad27985c8d85faf2a2db395a2e61c6267041fec1346fa42c6a) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
-| `8.1.12` `8.1.12-r0` | `sha256:5b6515f8d4e7dd2dc9d81e335477a44297bb03d3bae69e42cbdc372749f48cf0`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:5b6515f8d4e7dd2dc9d81e335477a44297bb03d3bae69e42cbdc372749f48cf0) | `386` `amd64` `arm64` `armv6` `armv7` `ppc64le` `riscv64` `s390x` |
 
 
 ## Usage
@@ -68,23 +67,23 @@ The following checks were performed on each of these signatures:
         "docker-reference": "ghcr.io/chainguard-images/php"
       },
       "image": {
-        "docker-manifest-digest": "sha256:68f08d147fcac5c3b5c92020201d2ba8a50f11f55d6ba3c6e4c0e085960f96a3"
+        "docker-manifest-digest": "sha256:a24b2790baade548afa2dff86f5211dc1bcd22c70e1ec58cc04196d1c91e0a40"
       },
       "type": "cosign container image signature"
     },
     "optional": {
       "1.3.6.1.4.1.57264.1.1": "https://token.actions.githubusercontent.com",
       "1.3.6.1.4.1.57264.1.2": "schedule",
-      "1.3.6.1.4.1.57264.1.3": "076dacff420e7058da267b4dd5b506454f3bc344",
+      "1.3.6.1.4.1.57264.1.3": "d95543f29f9cd2c84cb9ae27663db62013cdabf1",
       "1.3.6.1.4.1.57264.1.4": "Create Release",
       "1.3.6.1.4.1.57264.1.5": "chainguard-images/php",
       "1.3.6.1.4.1.57264.1.6": "refs/heads/main",
       "Bundle": {
-        "SignedEntryTimestamp": "MEUCIH8DfIfepSucG+/T8oh+T4DlG7sGWMKG1D8ZAp6orTcUAiEAyDLz0HDL7v0TKbsKUwiS81FuMGyaAR/YgXGyq5pGSoQ=",
+        "SignedEntryTimestamp": "MEQCIE6v1MaER6uLyZN9tXYxBlZX7BRvjG9XinW6cxGb4DoAAiACYN8or/H48HYinPIrmynIJs88Ri/zulinSkzsIqSReQ==",
         "Payload": {
-          "body": "eyJhcGlWZXJzaW9uIjoiMC4wLjEiLCJraW5kIjoiaGFzaGVkcmVrb3JkIiwic3BlYyI6eyJkYXRhIjp7Imhhc2giOnsiYWxnb3JpdGhtIjoic2hhMjU2IiwidmFsdWUiOiI1OThjMWYzMDg1MGIzYzY4YTIzZmI4MmZlMGY3YmY0MzVlMTA2OWI1MDlmNmJlMWMwYWM4OTlhMzYxYmU5MTM1In19LCJzaWduYXR1cmUiOnsiY29udGVudCI6Ik1FVUNJUUMyQkVwT3BBZ2treTlMN2tXRXQ0TkJ3Sko2SDBGWDlUSEhKWC9oNnZ4Vm93SWdhdzkvdGtXbjgwcXB3M1FJYkoxeDVxcExOU3FDTXA5M3hhYW51LzVlVjBzPSIsInB1YmxpY0tleSI6eyJjb250ZW50IjoiTFMwdExTMUNSVWRKVGlCRFJWSlVTVVpKUTBGVVJTMHRMUzB0Q2sxSlNVUndWRU5EUVhsMVowRjNTVUpCWjBsVlZqaGlWUzlrYUhremExQmxOekprUXpaeVNXaHNSWGRCWm5NMGQwTm5XVWxMYjFwSmVtb3dSVUYzVFhjS1RucEZWazFDVFVkQk1WVkZRMmhOVFdNeWJHNWpNMUoyWTIxVmRWcEhWakpOVWpSM1NFRlpSRlpSVVVSRmVGWjZZVmRrZW1SSE9YbGFVekZ3WW01U2JBcGpiVEZzV2tkc2FHUkhWWGRJYUdOT1RXcEplRTFFVFhkTlJFVXhUbXBSZWxkb1kwNU5ha2w0VFVSTmQwMUVTWGRPYWxGNlYycEJRVTFHYTNkRmQxbElDa3R2V2tsNmFqQkRRVkZaU1V0dldrbDZhakJFUVZGalJGRm5RVVZHVmxaTVluRlVWelJpTTAxSlVrTnJTVEZLVkhoamNFRkhkSFIxUW0xTE9Ha3JWa0lLTXk5TVFUbEZObTlIV1VobVlVMHZlSE15YjJoWk1YTk5MMjQ0WVcxUVlXRnhRV1ZXVjBGMWRGSjVkemRDTDAxNlpUWlBRMEZyYjNkblowcEhUVUUwUndwQk1WVmtSSGRGUWk5M1VVVkJkMGxJWjBSQlZFSm5UbFpJVTFWRlJFUkJTMEpuWjNKQ1owVkdRbEZqUkVGNlFXUkNaMDVXU0ZFMFJVWm5VVlZWVEZCdUNuRk1UU3RsZUVZM1p6RjBWMko2U2tWMlVHTm1UMG8wZDBoM1dVUldVakJxUWtKbmQwWnZRVlV6T1ZCd2VqRlphMFZhWWpWeFRtcHdTMFpYYVhocE5Ga0tXa1E0ZDFwUldVUldVakJTUVZGSUwwSkdjM2RYV1ZwWVlVaFNNR05JVFRaTWVUbHVZVmhTYjJSWFNYVlpNamwwVERKT2IxbFhiSFZhTTFab1kyMVJkQXBoVnpGb1dqSldla3d6UW05alF6aDFXakpzTUdGSVZtbE1NMlIyWTIxMGJXSkhPVE5qZVRsNVdsZDRiRmxZVG14TWJteG9ZbGQ0UVdOdFZtMWplVGx2Q2xwWFJtdGplVGwwV1Zkc2RVMUVhMGREYVhOSFFWRlJRbWMzT0hkQlVVVkZTekpvTUdSSVFucFBhVGgyWkVjNWNscFhOSFZaVjA0d1lWYzVkV041Tlc0S1lWaFNiMlJYU2pGak1sWjVXVEk1ZFdSSFZuVmtRelZxWWpJd2QwWm5XVXRMZDFsQ1FrRkhSSFo2UVVKQloxRkpZekpPYjFwWFVqRmlSMVYzVG1kWlN3cExkMWxDUWtGSFJIWjZRVUpCZDFGdlRVUmpNbHBIUm1wYWJWa3dUV3BDYkU1NlFURlBSMUpvVFdwWk0xbHFVbXRhUkZacFRsUkJNazVFVlRCYWFrNXBDbGw2VFRCT1JFRmpRbWR2Y2tKblJVVkJXVTh2VFVGRlJVSkJOVVJqYlZab1pFZFZaMVZ0Vm5OYVYwWjZXbFJCYWtKbmIzSkNaMFZGUVZsUEwwMUJSVVlLUWtKV2FtRkhSbkJpYldReFdWaEthMHhYYkhSWlYyUnNZM2s1ZDJGSVFYZElVVmxMUzNkWlFrSkJSMFIyZWtGQ1FtZFJVR050Vm0xamVUbHZXbGRHYXdwamVUbDBXVmRzZFUxSlIwdENaMjl5UW1kRlJVRmtXalZCWjFGRFFraDNSV1ZuUWpSQlNGbEJRMGREVXpoRGFGTXZNbWhHTUdSR2NrbzBVMk5TVjJOWkNuSkNXVGwzZW1wVFltVmhPRWxuV1RKaU0wbEJRVUZIUlVwd2MwRnlVVUZCUWtGTlFWSjZRa1pCYVVWQmNFOWhlalJ6Y2tWd1RHUjNabTFNUmsxMFEySUtibmhtWWtRelYyWkhiekI0Y1M5U01uUnpNelZyUmpoRFNVZFNiM1ZwZHpod2QwNDJTQzlETWxSeFNEbE9iakpJYUN0V05FMURNbTlHVnpKd2JVaEtiZ3BQYnpCT1RVRnZSME5EY1VkVFRUUTVRa0ZOUkVFeVowRk5SMVZEVFVSVGFXTkJTakUxVXpCcVVGUnJSMEZQWW10UmRqUlBSR0Z3SzNWSk0wRmlUQ3RaQ25Nd1RFSXlMMkZsTVZKb2QxcDVSV05sV1dOMGVEWXJNekJ1UzBkbFVVbDRRVTlaVlhoWFJDOHliM1Z2VG1SNGJEWklVMXBYY3pJclNHY3dNbXhWVkV3S1FuaGpUamxIWVdJM05IcHFNWE00VG5OSVpIQlZiV1pxYkRCMmMyWnFjbEZaVVQwOUNpMHRMUzB0UlU1RUlFTkZVbFJKUmtsRFFWUkZMUzB0TFMwSyJ9fX19",
-          "integratedTime": 1667095021,
-          "logIndex": 6134472,
+          "body": "eyJhcGlWZXJzaW9uIjoiMC4wLjEiLCJraW5kIjoiaGFzaGVkcmVrb3JkIiwic3BlYyI6eyJkYXRhIjp7Imhhc2giOnsiYWxnb3JpdGhtIjoic2hhMjU2IiwidmFsdWUiOiI1ZDE3YzEwMzY5MTM1YmJjMzljZTAyYzc3ZWQzOTE4ZGRjNTlkY2ZhOThiYTlkNDJkMmZiZDkxZDYyNDg2MzU1In19LCJzaWduYXR1cmUiOnsiY29udGVudCI6Ik1FUUNJQ24vaVljeTU3dGNyQXZldjMyN0VpZlE2d1ZFaHZKajFneHMrWGxkWFNQdkFpQTZ6NmtUNGxEaW5hYks1elBzejhJaVZFaW9WMHc2ejhpVi9LdkJsN0d1aEE9PSIsInB1YmxpY0tleSI6eyJjb250ZW50IjoiTFMwdExTMUNSVWRKVGlCRFJWSlVTVVpKUTBGVVJTMHRMUzB0Q2sxSlNVUndWRU5EUVhsMVowRjNTVUpCWjBsVlVXczNlRzB4Um5Vd2IxY3lhRlY2TTNaMmFXNUVSSE5uYlRSTmQwTm5XVWxMYjFwSmVtb3dSVUYzVFhjS1RucEZWazFDVFVkQk1WVkZRMmhOVFdNeWJHNWpNMUoyWTIxVmRWcEhWakpOVWpSM1NFRlpSRlpSVVVSRmVGWjZZVmRrZW1SSE9YbGFVekZ3WW01U2JBcGpiVEZzV2tkc2FHUkhWWGRJYUdOT1RXcEplRTFFVFhoTlJFVXhUbnBGZVZkb1kwNU5ha2w0VFVSTmVFMUVTWGRPZWtWNVYycEJRVTFHYTNkRmQxbElDa3R2V2tsNmFqQkRRVkZaU1V0dldrbDZhakJFUVZGalJGRm5RVVV4TUM5cE5UVnllbVJRWXprd1FsTm9Za3RuVGxWbmFWbHNNM015UlVjMmEyTjZRWFlLWVhWTGVrRkxZak5oZFhRcmFYWkdWMHBGVVdsaWNFOXhValE0U21oTllsSk5OSG80VDJKTVEyUjNSVlJZTm1GelNUWlBRMEZyYjNkblowcEhUVUUwUndwQk1WVmtSSGRGUWk5M1VVVkJkMGxJWjBSQlZFSm5UbFpJVTFWRlJFUkJTMEpuWjNKQ1owVkdRbEZqUkVGNlFXUkNaMDVXU0ZFMFJVWm5VVlZ2YUZKa0NubHNWRFJaVms5MWRtUTJVV2xhUVU4NGRtVTJNMUJCZDBoM1dVUldVakJxUWtKbmQwWnZRVlV6T1ZCd2VqRlphMFZhWWpWeFRtcHdTMFpYYVhocE5Ga0tXa1E0ZDFwUldVUldVakJTUVZGSUwwSkdjM2RYV1ZwWVlVaFNNR05JVFRaTWVUbHVZVmhTYjJSWFNYVlpNamwwVERKT2IxbFhiSFZhTTFab1kyMVJkQXBoVnpGb1dqSldla3d6UW05alF6aDFXakpzTUdGSVZtbE1NMlIyWTIxMGJXSkhPVE5qZVRsNVdsZDRiRmxZVG14TWJteG9ZbGQ0UVdOdFZtMWplVGx2Q2xwWFJtdGplVGwwV1Zkc2RVMUVhMGREYVhOSFFWRlJRbWMzT0hkQlVVVkZTekpvTUdSSVFucFBhVGgyWkVjNWNscFhOSFZaVjA0d1lWYzVkV041Tlc0S1lWaFNiMlJYU2pGak1sWjVXVEk1ZFdSSFZuVmtRelZxWWpJd2QwWm5XVXRMZDFsQ1FrRkhSSFo2UVVKQloxRkpZekpPYjFwWFVqRmlSMVYzVG1kWlN3cExkMWxDUWtGSFJIWjZRVUpCZDFGdldrUnJNVTVVVVhwYWFrazFXbXBzYWxwRVNtcFBSRkpxV1dwc2FGcFVTVE5PYWxsNldrZEpNazFxUVhoTk1rNXJDbGxYU20xTlZFRmpRbWR2Y2tKblJVVkJXVTh2VFVGRlJVSkJOVVJqYlZab1pFZFZaMVZ0Vm5OYVYwWjZXbFJCYWtKbmIzSkNaMFZGUVZsUEwwMUJSVVlLUWtKV2FtRkhSbkJpYldReFdWaEthMHhYYkhSWlYyUnNZM2s1ZDJGSVFYZElVVmxMUzNkWlFrSkJSMFIyZWtGQ1FtZFJVR050Vm0xamVUbHZXbGRHYXdwamVUbDBXVmRzZFUxSlIwdENaMjl5UW1kRlJVRmtXalZCWjFGRFFraDNSV1ZuUWpSQlNGbEJRMGREVXpoRGFGTXZNbWhHTUdSR2NrbzBVMk5TVjJOWkNuSkNXVGwzZW1wVFltVmhPRWxuV1RKaU0wbEJRVUZIUlVzNFNFNXFkMEZCUWtGTlFWSjZRa1pCYVVWQmFtUkxjMVpZZDFCbmVFaEtWVUpIU2pSVGIzTUtSaXREY2t3elYwTnZTamt6VkhWak9EZEJNbmxwZVZsRFNVYzVjVU40ZUM5cU5XRldibE5GYVUxM1IyTk1OalZEVEhjMmQzSmxjRE5YTVhseFdVUkdRZ3BNV0dSM1RVRnZSME5EY1VkVFRUUTVRa0ZOUkVFeVowRk5SMVZEVFVFckx6UTJVV2RUY2tGWldURjROMkZWVGxCbmFWRnNNR1Y0TUZCb2EwYzBlbEJxQ2tGdlRUZ3lXVUo2VWs5emFtdElVREp3ZW5SelFWcEpiR3huY0hKRFVVbDRRVWx2Y1dwME9XdElLMWc0YjFacU1FczJOeTlvV1UxM01IbGlSSGxPY2tRS2MwdEZjUzlRZDFVclEzbFhWSEV2WXl0VmNtZGtiVEpHYWtaVGNXMUJVMEUwZHowOUNpMHRMUzB0UlU1RUlFTkZVbFJKUmtsRFFWUkZMUzB0TFMwSyJ9fX19",
+          "integratedTime": 1667181455,
+          "logIndex": 6192675,
           "logID": "c0d23d6ad406973f9559f3ba2d1ca01f84147d8ffc5b8445c224f98b9591801d"
         }
       },
@@ -93,11 +92,11 @@ The following checks were performed on each of these signatures:
       "githubWorkflowName": "Create Release",
       "githubWorkflowRef": "refs/heads/main",
       "githubWorkflowRepository": "chainguard-images/php",
-      "githubWorkflowSha": "076dacff420e7058da267b4dd5b506454f3bc344",
+      "githubWorkflowSha": "d95543f29f9cd2c84cb9ae27663db62013cdabf1",
       "githubWorkflowTrigger": "schedule",
       "run_attempt": "1",
-      "run_id": "3353714350",
-      "sha": "076dacff420e7058da267b4dd5b506454f3bc344"
+      "run_id": "3357998657",
+      "sha": "d95543f29f9cd2c84cb9ae27663db62013cdabf1"
     }
   }
 ]
