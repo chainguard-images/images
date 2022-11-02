@@ -9,7 +9,7 @@ docker run -e POSTGRES_PASSWORD=password -ti --name postgres-test cgr.dev/chaing
 
 Alternatively, to persist PostgreSQL data you can mount a volume mapped to the data folder
 ```sh
-docker run -v $PWD/data:/var/lib/postgresql/data -it -e POSTGRES_PASSWORD=password cgr.dev/chainguard/postgres:latest
+docker run -v $PWD/data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=password -ti --name postgres-test cgr.dev/chainguard/postgres:latest
 ```
 
 In a __new__ terminal exec into the running container and use the PosgreSQL to create a DB and Table
