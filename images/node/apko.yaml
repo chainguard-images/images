@@ -16,6 +16,9 @@ paths:
 
 work-dir: /work
 
+environment:
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin
+
 entrypoint:
   command: /usr/bin/node
 cmd: --help
