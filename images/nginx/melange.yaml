@@ -31,7 +31,7 @@ environment:
       - libxml2-dev
       - libxslt-dev
       - linux-headers
-      - openssl1.1-compat-dev
+      - openssl-dev
       - pcre-dev
       - pkgconf
       - zeromq-dev
