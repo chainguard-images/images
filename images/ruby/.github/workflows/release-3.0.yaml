@@ -15,14 +15,14 @@ on:
   # apko lands)
   workflow_dispatch: {}
 
-name: Create Release
+name: Create Release (3.0)
 
 # Don't run multiple releases concurrently.
-concurrency: release
+concurrency: release-3.0
 
 jobs:
   build:
-    name: Release OCI image
+    name: Release OCI image (3.0)
     runs-on: ubuntu-latest
 
     outputs:
@@ -40,9 +40,12 @@ jobs:
     - id: apko
       uses: chainguard-images/actions/apko-snapshot@main
       with:
-        config: apko.yaml
+        config: apko-3.0.yaml
         image_refs: apko.images
         base-tag: ghcr.io/${{ github.repository }}
+        target-tag: latest-3.0
+        tag-suffix: '-3.0'
+
 
     - name: Emit Image Refs output
       id: emit-refs

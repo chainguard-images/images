@@ -1,4 +1,4 @@
-name: PreSubmit-Build
+name: PreSubmit-Build-3.0
 
 on:
   pull_request:
@@ -26,8 +26,8 @@ jobs:
 
     - uses: distroless/actions/apko-build@main
       with:
-        config: apko.yaml
-        tag: template:${{ steps.snapshot-date.outputs.date }}
+        config: apko-3.0.yaml
+        tag: ruby-3.0:${{ steps.snapshot-date.outputs.date }}
 
     - uses: actions/upload-artifact@v3
       with:
