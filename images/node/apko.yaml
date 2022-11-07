@@ -16,7 +16,7 @@ paths:
     type: directory
     permissions: 0o777
     uid: 65532
-    gid: 66632
+    gid: 66532
 
 work-dir: /app
 
