@@ -1,0 +1,31 @@
+contents:
+  repositories:
+    - https://packages.wolfi.dev/os
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  packages:
+    - ca-certificates-bundle
+    - wolfi-baselayout
+    - glibc-locale-en
+    - busybox
+    - bash
+    - openjdk-17
+
+accounts:
+  groups:
+    - groupname: java
+      gid: 65532
+  users:
+    - username: java
+      uid: 65532
+  run-as: java
+
+work-dir: /home/build
+
+environment:
+  LANG: en_US.UTF-8
+  JAVA_HOME: /usr/lib/jvm/openjdk
+
+archs:
+  - x86_64
+  - amd64
