@@ -7,10 +7,10 @@ contents:
     - ca-certificates-bundle
     - wolfi-baselayout
     - busybox
-    - postgresql
-    - postgresql-client
-    - postgresql-oci-entrypoint
-    - libpq
+    - postgresql-11
+    - postgresql-11-client
+    - postgresql-11-oci-entrypoint
+    - libpq-11
     - su-exec
 
 accounts:
