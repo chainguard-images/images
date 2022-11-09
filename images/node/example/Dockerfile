@@ -4,12 +4,10 @@
 FROM cgr.dev/chainguard/node
 ENV NODE_ENV=production
 
-WORKDIR /app
-
-COPY ["package.json", "package-lock.json*", "./"]
+COPY --chown=node:node ["package.json", "package-lock.json*", "./"]
 
 RUN npm install --production
 
-COPY . .
+COPY --chown=node:node . .
 
 CMD [ "server.js" ]
