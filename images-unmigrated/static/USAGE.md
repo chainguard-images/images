@@ -67,3 +67,7 @@ c-cgr        latest    f3648380711c   About a minute ago   2.88MB
 
 For Go programs, we recommend using [ko](https://github.com/google/ko) and setting
 the `defaultBaseImage` to `cgr.dev/chainguard/static`.
+
+## Users
+
+The image has a single user "nonroot" with uid 65532, belonging to gid 65532.
