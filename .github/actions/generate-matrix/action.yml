@@ -1,0 +1,18 @@
+name: generate-matrix
+outputs:
+  matrix:
+    value: ${{ steps.generate-matrix.outputs.matrix }}
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+    - id: generate-matrix
+      shell: bash
+      run: |
+        set -x 
+        (cd monopod/ && go build -o bin/monopod monopod.go)
+        export PATH="${PWD}/monopod/bin:${PATH}"
+        echo "matrix=$(monopod matrix)" >> $GITHUB_OUTPUT

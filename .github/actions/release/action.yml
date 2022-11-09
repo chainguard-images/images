@@ -1,0 +1,28 @@
+name: release
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v3
+    - name: Setup QEMU
+      if: inputs.melangeConfig != ''
+      uses: docker/setup-qemu-action@v2.1.0
+    - id: melange
+      if: inputs.melangeConfig != ''
+      uses: chainguard-dev/actions/melange-build@main
+      with:
+        config: ${{ inputs.melangeConfig }}
+        empty-workspace: true
+        sign-with-temporary-key: true
+        archs: ${{ inputs.melangeArchs }}
+        template: ${{ inputs.melangeTemplate }}
+    - id: apko
+      uses: chainguard-images/actions/apko-snapshot@main
+      with:
+        config: ${{ inputs.apkoConfig }}
+        base-tag: ghcr.io/chainguard-images/${{ inputs.imageName }}
+        target-tag: ${{ inputs.apkoTargetTag }}
+        keyring-append: ${{ inputs.apkoKeyringAppend }}
+        additional-tags: ${{ inputs.apkoAdditionalTags }}
+        package-version-tag: ${{ inputs.apkoPackageVersionTag }}
+        package-version-tag-stem: true
+        package-version-tag-prefix: ${{ inputs.apkoPackageVersionTagPrefix }}
