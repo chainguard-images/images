@@ -8,27 +8,26 @@ contents:
     - wolfi-baselayout
     - glibc-locale-en
     - busybox
-    - maven
-    - openjdk-17
+    - bash
+    - openjdk-17-jre
 
 accounts:
   groups:
-    - groupname: maven
+    - groupname: java
       gid: 65532
   users:
-    - username: maven
+    - username: java
       uid: 65532
-  run-as: maven
+  run-as: java
 
-work-dir: /home/build
+work-dir: /app
 
 entrypoint:
-  command: /usr/bin/mvn
+  command: /usr/bin/java
 
 environment:
   LANG: en_US.UTF-8
-  JAVA_HOME: /usr/lib/jvm/openjdk
+  JAVA_HOME: /usr/lib/jvm/openjdk-jre
 
 archs:
   - x86_64
-  - amd64

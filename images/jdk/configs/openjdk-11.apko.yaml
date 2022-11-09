@@ -9,7 +9,7 @@ contents:
     - glibc-locale-en
     - busybox
     - bash
-    - openjdk-17
+    - openjdk-11
 
 accounts:
   groups:
@@ -28,4 +28,3 @@ environment:
 
 archs:
   - x86_64
-  - amd64
