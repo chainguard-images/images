@@ -1,0 +1,14 @@
+# Copyright 2022 Chainguard, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+spec:
+  authorities:
+    - keyless:
+        identities:
+          - issuer: https://accounts.google.com
+    - keyless:
+        identities:
+          - issuer: https://github.com/login/oauth
+    - key:
+        # allow commits signed by GitHub, e.g. the UI
+        kms: https://github.com/web-flow.gpg
