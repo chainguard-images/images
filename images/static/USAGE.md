@@ -70,4 +70,4 @@ the `defaultBaseImage` to `cgr.dev/chainguard/static`.
 
 ## Users
 
-The image has a single user "nonroot" with uid 65532, belonging to gid 65532.
+The image has a single user `nonroot` with uid `65532`, belonging to gid `65532`.
