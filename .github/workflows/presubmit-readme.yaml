@@ -1,0 +1,19 @@
+on:
+  pull_request:
+concurrency: presubmit-readme
+jobs:
+  readme:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+    - run: |
+        set -x
+        (cd monopod/ && go build -o bin/monopod monopod.go)
+        export PATH="${PWD}/monopod/bin:${PATH}"
+        monopod readme > README.md.tmp
+        diff README.md README.md.tmp || ( \
+          echo "README.md is out-of-date. Please run the following: monopod readme > README.md" && \
+          exit 1 )
