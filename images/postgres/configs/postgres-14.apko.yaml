@@ -1,0 +1,41 @@
+contents:
+  repositories:
+    - https://packages.wolfi.dev/os
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  packages:
+    - ca-certificates-bundle
+    - wolfi-baselayout
+    - busybox
+    - postgresql-14
+    - postgresql-14-client
+    - postgresql-14-oci-entrypoint
+    - libpq-14
+    - su-exec
+
+accounts:
+  groups:
+    - groupname: postgres
+      gid: 70
+  users:
+    - username: postgres
+      uid: 70
+  run-as: root
+
+entrypoint:
+  command: /var/lib/postgres/initdb/postgresql-entrypoint.sh postgres
+
+environment:
+  PGDATA: /var/lib/postgresql/data
+
+work-dir: /home/postgres
+
+paths:
+  - path: /var/lib/postgresql/data
+    type: directory
+    uid: 70
+    gid: 70
+    permissions: 777
+
+archs:
+  - x86_64
