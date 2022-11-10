@@ -1,0 +1,27 @@
+versions:
+  - apko:
+      config: configs/11.apko.yaml
+      extractTagsFrom:
+        package: postgresql
+  - apko:
+      config: configs/12.apko.yaml
+      extractTagsFrom:
+        package: postgresql
+  - apko:
+      config: configs/13.apko.yaml
+      extractTagsFrom:
+        package: postgresql
+  - apko:
+      config: configs/14.apko.yaml
+      extractTagsFrom:
+        package: postgresql
+  - apko:
+      config: configs/15.apko.yaml
+      extractTagsFrom:
+        package: postgresql
+  - apko:
+      config: configs/15.apko.yaml
+      extractTagsFrom:
+        package: postgresql
+      tags:
+        - latest
