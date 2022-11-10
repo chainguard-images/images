@@ -4,12 +4,12 @@ The only mandatory environment variable needed by the PosgreSQL image is `POSTGR
 
 To test and __not__ persist PostgreSQL data run...
 ```sh
-docker run --rm -e POSTGRES_PASSWORD=password -ti --name postgres-test ghcr.io/chainguard-images/postgres:latest
+docker run --rm -e POSTGRES_PASSWORD=password -ti --name postgres-test cgr.dev/chainguard/postgres:latest
 ```
 
 Alternatively, to persist PostgreSQL data you can mount a volume mapped to the data folder
 ```sh
-docker run --rm -v $PWD/data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=password -ti --name postgres-test ghcr.io/chainguard-images/postgres:latest
+docker run --rm -v $PWD/data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=password -ti --name postgres-test cgr.dev/chainguard/postgres:latest
 ```
 
 In a __new__ terminal exec into the running container and use the PosgreSQL client to create a DB and Table
