@@ -20,15 +20,19 @@ docker pull cgr.dev/chainguard/jdk:latest
 
 | Tag | Digest | Arch |
 | --- | ------ | ---- |
-| `openjdk-17` `openjdk-17-20221110` `openjdk-17.0` `openjdk-17.0.5` `openjdk-17.0.5.8` `openjdk-17.0.5.8-r0` | `sha256:78b2d14deafae3a60a72898f410cda21e249d4af7c5317e0b737de29cbbeccfc`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:78b2d14deafae3a60a72898f410cda21e249d4af7c5317e0b737de29cbbeccfc) | `amd64` |
-| `openjdk-11-20221109` | `sha256:01ab33f239cb9bab311ba4fe63b1f85864de6dd6d0b3119ea7d5ec638a1e4e5a`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:01ab33f239cb9bab311ba4fe63b1f85864de6dd6d0b3119ea7d5ec638a1e4e5a) | `amd64` |
-| `openjdk-11` `openjdk-11-20221110` `openjdk-11.0` `openjdk-11.0.17` `openjdk-11.0.17.8` `openjdk-11.0.17.8-r0` | `sha256:31c4733dc8a6957f9dba56f987900c28b3cd949b5a11787682c9898dcc7d6d85`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:31c4733dc8a6957f9dba56f987900c28b3cd949b5a11787682c9898dcc7d6d85) | `amd64` |
-| `openjdk-jre-11-20221109` | `sha256:3805ce10c4eae441ff9a27542dd182477256bc18f537698e5551a18684b5b411`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:3805ce10c4eae441ff9a27542dd182477256bc18f537698e5551a18684b5b411) | `amd64` |
-| `openjdk-jre-17` `openjdk-jre-17-20221110` `openjdk-jre-17.0` `openjdk-jre-17.0.5` `openjdk-jre-17.0.5.8` `openjdk-jre-17.0.5.8-r0` | `sha256:a9d6a64a94aaa91df669f7c882719d26052f9f6c0cdaa6ddffeb018878c838c6`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:a9d6a64a94aaa91df669f7c882719d26052f9f6c0cdaa6ddffeb018878c838c6) | `amd64` |
-| `openjdk-jre-11` `openjdk-jre-11-20221110` `openjdk-jre-11.0` `openjdk-jre-11.0.17` `openjdk-jre-11.0.17.8` `openjdk-jre-11.0.17.8-r0` | `sha256:1716238d84fbfc88eed5b06471194edf4092e94d2c4df4e31cc49b6d3a0f3100`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:1716238d84fbfc88eed5b06471194edf4092e94d2c4df4e31cc49b6d3a0f3100) | `amd64` |
-| `openjdk-17-20221109` | `sha256:ad0036b87381b5a8a91f92be081b5b1a0027f88f52f87664a82b1820c29fe564`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:ad0036b87381b5a8a91f92be081b5b1a0027f88f52f87664a82b1820c29fe564) | `amd64` |
-| `latest` | `sha256:eb0f469d04afe86315c7aa4ba9a4dd42e06098f73a707842b7c95e63ba4edac4`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:eb0f469d04afe86315c7aa4ba9a4dd42e06098f73a707842b7c95e63ba4edac4) |  |
+| `openjdk-jre-11` `openjdk-jre-11-20221111` `openjdk-jre-11.0` `openjdk-jre-11.0.17` `openjdk-jre-11.0.17.8` `openjdk-jre-11.0.17.8-r1` | `sha256:f9a73a99b36fd36fbbefd467d1a6d1d0227248e55bbd14f4e44f3302dbd850a9`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:f9a73a99b36fd36fbbefd467d1a6d1d0227248e55bbd14f4e44f3302dbd850a9) | `amd64` |
+| `openjdk-11-20221110` `openjdk-11.0.17.8-r0` | `sha256:9fa1477171b186efdaa27345de2397bc3e8cfd5eee9b08b5c3dd08ec4bc54281`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:9fa1477171b186efdaa27345de2397bc3e8cfd5eee9b08b5c3dd08ec4bc54281) | `amd64` |
+| `openjdk-11` `openjdk-11-20221111` `openjdk-11.0` `openjdk-11.0.17` `openjdk-11.0.17.8` `openjdk-11.0.17.8-r1` | `sha256:07d6f49c42600d68ffa2d022a767ee8a2bb11330d6ab3909ab5030f87c85a6fc`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:07d6f49c42600d68ffa2d022a767ee8a2bb11330d6ab3909ab5030f87c85a6fc) | `amd64` |
+| `openjdk-17` `openjdk-17-20221111` `openjdk-17.0` `openjdk-17.0.5` `openjdk-17.0.5.8` `openjdk-17.0.5.8-r1` | `sha256:6d978b8a11bd9864f9c9a444be420c47173f1978e448acbce0a901a722d682aa`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:6d978b8a11bd9864f9c9a444be420c47173f1978e448acbce0a901a722d682aa) | `amd64` |
 | `openjdk-jre-17-20221109` | `sha256:35f2836f1afa57fa1064e481d2e10e14c756b98a7a54a37cfdf138ebc564342b`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:35f2836f1afa57fa1064e481d2e10e14c756b98a7a54a37cfdf138ebc564342b) | `amd64` |
+| `openjdk-jre-17` `openjdk-jre-17-20221111` `openjdk-jre-17.0` `openjdk-jre-17.0.5` `openjdk-jre-17.0.5.8` `openjdk-jre-17.0.5.8-r1` | `sha256:89047fc2fdf42d2f141b53fa88f04119579a7e75dc3963f73c41c853161e8480`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:89047fc2fdf42d2f141b53fa88f04119579a7e75dc3963f73c41c853161e8480) | `amd64` |
+| `openjdk-jre-17-20221110` `openjdk-jre-17.0.5.8-r0` | `sha256:3d2094ad4733cb2c5b828f2185e0391d3f8dacc82d1620a3a364aef14658cd90`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:3d2094ad4733cb2c5b828f2185e0391d3f8dacc82d1620a3a364aef14658cd90) | `amd64` |
+| `openjdk-jre-11-20221110` `openjdk-jre-11.0.17.8-r0` | `sha256:04fcbc390c8b4a3d28d6d52fd2feab3bcfb4ebf520a0e7aeb80ab8332927d3ce`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:04fcbc390c8b4a3d28d6d52fd2feab3bcfb4ebf520a0e7aeb80ab8332927d3ce) | `amd64` |
+| `openjdk-11-20221109` | `sha256:01ab33f239cb9bab311ba4fe63b1f85864de6dd6d0b3119ea7d5ec638a1e4e5a`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:01ab33f239cb9bab311ba4fe63b1f85864de6dd6d0b3119ea7d5ec638a1e4e5a) | `amd64` |
+| `openjdk-17-20221109` | `sha256:ad0036b87381b5a8a91f92be081b5b1a0027f88f52f87664a82b1820c29fe564`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:ad0036b87381b5a8a91f92be081b5b1a0027f88f52f87664a82b1820c29fe564) | `amd64` |
+| `openjdk-17-20221110` `openjdk-17.0.5.8-r0` | `sha256:66a1fe47c510762ad8c0e9abedd54c6b19eafd7741817598e4f67d988fb59566`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:66a1fe47c510762ad8c0e9abedd54c6b19eafd7741817598e4f67d988fb59566) | `amd64` |
+| `latest` | `sha256:180eb93a55c6f65b6ddc9b7a7ad064f5fe5613b5c81b372fa85282c0783f5f79`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:180eb93a55c6f65b6ddc9b7a7ad064f5fe5613b5c81b372fa85282c0783f5f79) |  |
+| `openjdk-jre-11-20221109` | `sha256:3805ce10c4eae441ff9a27542dd182477256bc18f537698e5551a18684b5b411`<br/>[View entry in Rekor](https://rekor.tlog.dev/?hash=sha256:3805ce10c4eae441ff9a27542dd182477256bc18f537698e5551a18684b5b411) | `amd64` |
 
 
 
@@ -58,23 +62,23 @@ The following checks were performed on each of these signatures:
         "docker-reference": "ghcr.io/chainguard-images/jdk"
       },
       "image": {
-        "docker-manifest-digest": "sha256:eb0f469d04afe86315c7aa4ba9a4dd42e06098f73a707842b7c95e63ba4edac4"
+        "docker-manifest-digest": "sha256:180eb93a55c6f65b6ddc9b7a7ad064f5fe5613b5c81b372fa85282c0783f5f79"
       },
       "type": "cosign container image signature"
     },
     "optional": {
       "1.3.6.1.4.1.57264.1.1": "https://token.actions.githubusercontent.com",
       "1.3.6.1.4.1.57264.1.2": "schedule",
-      "1.3.6.1.4.1.57264.1.3": "3ffc1ed12894f048cd611d891bf3a129902f0c08",
+      "1.3.6.1.4.1.57264.1.3": "aa5f1b9ce20649680f208afe29a50d170379b720",
       "1.3.6.1.4.1.57264.1.4": "Create Release",
       "1.3.6.1.4.1.57264.1.5": "chainguard-images/jdk",
       "1.3.6.1.4.1.57264.1.6": "refs/heads/main",
       "Bundle": {
-        "SignedEntryTimestamp": "MEUCIC18oBcGcOZVlorfVvROFAB/OtFMZNCigqcCQZNiKjQfAiEAvFiXIorcLCcEV6BfT9JaZ3ipGBNNI4jKKl99M094ygA=",
+        "SignedEntryTimestamp": "MEUCIFbLkF9Q3yvYIaRQ5vjXGdL0e1DRFihGkKRXVffxdeDjAiEA4pRSKaRX+OSY5XlqkqgbjtebYpFO3NZDoTi7hgvFfq8=",
         "Payload": {
-          "body": "eyJhcGlWZXJzaW9uIjoiMC4wLjEiLCJraW5kIjoiaGFzaGVkcmVrb3JkIiwic3BlYyI6eyJkYXRhIjp7Imhhc2giOnsiYWxnb3JpdGhtIjoic2hhMjU2IiwidmFsdWUiOiI3Yzc0NDQ3YmU4NjM1YTk5YTNlYTFjMDQ2YjE5YjY4MDVhMWVmYzVkYjhhMzI0MDg5YWUwNzUxOTU0YWEwZWQ3In19LCJzaWduYXR1cmUiOnsiY29udGVudCI6Ik1FWUNJUUNzMWtKUVg5MUVjSS9nVWZBMUltek9HVXJkTFljQWw4V0xreEhGUm5ENmFRSWhBTGRscFJLZ08rNlhPb0NTV1I3MFFzTkxTdjgrVDEzOTA3QjA3RlgvUkZBQiIsInB1YmxpY0tleSI6eyJjb250ZW50IjoiTFMwdExTMUNSVWRKVGlCRFJWSlVTVVpKUTBGVVJTMHRMUzB0Q2sxSlNVUndSRU5EUVhseFowRjNTVUpCWjBsVlNXNXRTRFJ4YTNsRVVsVXJTM0U0U3pCV2ExWkxXbmwxUjBkSmQwTm5XVWxMYjFwSmVtb3dSVUYzVFhjS1RucEZWazFDVFVkQk1WVkZRMmhOVFdNeWJHNWpNMUoyWTIxVmRWcEhWakpOVWpSM1NFRlpSRlpSVVVSRmVGWjZZVmRrZW1SSE9YbGFVekZ3WW01U2JBcGpiVEZzV2tkc2FHUkhWWGRJYUdOT1RXcEplRTFVUlhkTlJFVXhUbFJCZDFkb1kwNU5ha2w0VFZSRmQwMUVTWGRPVkVGM1YycEJRVTFHYTNkRmQxbElDa3R2V2tsNmFqQkRRVkZaU1V0dldrbDZhakJFUVZGalJGRm5RVVV3TURNeFdEUk5OVzF5VkdoREsyczFjazlWTjA5aldHOVNiVVpOY0VkdFNUVXlURGNLY0ZJeGNGUnJOSGQ2VjFWamVVNUxWVFkyTW5ZNFMxaFZjbk55ZEZOWVdqVjNaWEpXYzBjeVZWcENMME5YTjBsWFUwdFBRMEZyYTNkblowcEdUVUUwUndwQk1WVmtSSGRGUWk5M1VVVkJkMGxJWjBSQlZFSm5UbFpJVTFWRlJFUkJTMEpuWjNKQ1owVkdRbEZqUkVGNlFXUkNaMDVXU0ZFMFJVWm5VVlZGZG5Nd0NtTnBLM0F3Y21wa2VGTTJja2N3ZWxwc1ltZ3ZiMGc0ZDBoM1dVUldVakJxUWtKbmQwWnZRVlV6T1ZCd2VqRlphMFZhWWpWeFRtcHdTMFpYYVhocE5Ga0tXa1E0ZDFwUldVUldVakJTUVZGSUwwSkdjM2RYV1ZwWVlVaFNNR05JVFRaTWVUbHVZVmhTYjJSWFNYVlpNamwwVERKT2IxbFhiSFZhTTFab1kyMVJkQXBoVnpGb1dqSldla3d5Y0d0aGVUaDFXakpzTUdGSVZtbE1NMlIyWTIxMGJXSkhPVE5qZVRsNVdsZDRiRmxZVG14TWJteG9ZbGQ0UVdOdFZtMWplVGx2Q2xwWFJtdGplVGwwV1Zkc2RVMUVhMGREYVhOSFFWRlJRbWMzT0hkQlVVVkZTekpvTUdSSVFucFBhVGgyWkVjNWNscFhOSFZaVjA0d1lWYzVkV041Tlc0S1lWaFNiMlJYU2pGak1sWjVXVEk1ZFdSSFZuVmtRelZxWWpJd2QwWm5XVXRMZDFsQ1FrRkhSSFo2UVVKQloxRkpZekpPYjFwWFVqRmlSMVYzVG1kWlN3cExkMWxDUWtGSFJIWjZRVUpCZDFGdlRUSmFiVmw2Um14YVJFVjVUMFJyTUZwcVFUQlBSMDVyVG1wRmVGcEVaelZOVjBwdFRUSkZlRTFxYXpWTlJFcHRDazFIVFhkUFJFRmpRbWR2Y2tKblJVVkJXVTh2VFVGRlJVSkJOVVJqYlZab1pFZFZaMVZ0Vm5OYVYwWjZXbFJCYWtKbmIzSkNaMFZGUVZsUEwwMUJSVVlLUWtKV2FtRkhSbkJpYldReFdWaEthMHhYYkhSWlYyUnNZM2s1Y1ZwSGMzZElVVmxMUzNkWlFrSkJSMFIyZWtGQ1FtZFJVR050Vm0xamVUbHZXbGRHYXdwamVUbDBXVmRzZFUxSlIwcENaMjl5UW1kRlJVRmtXalZCWjFGRFFraHpSV1ZSUWpOQlNGVkJNMVF3ZDJGellraEZWRXBxUjFJMFkyMVhZek5CY1VwTENsaHlhbVZRU3pNdmFEUndlV2RET0hBM2J6UkJRVUZIUlZoNk9XcEVVVUZCUWtGTlFWSnFRa1ZCYVVKalpGZ3hOMVUwVldkc1ZsUnZMekpOUm5GVlNFVUtlRmg0TkdoNlYxcG5ObUl5TmpaWU5VMXlXbmw0WjBsblQySTNSMFZNUkdGbU5YUkdPVzFYU0dzeVRsSXJlakIwVkVwc1ZqTlZUekJ2T1ZkdVRqaHlUQXBzY2poM1EyZFpTVXR2V2tsNmFqQkZRWGROUkdGQlFYZGFVVWwzVkZKbGFreExibWhLY2tNM01sZFhUVVpRWTFrelZVTnpZaXR6Wm1ScGVUZHhXalJLQ2pKdFkzUlVaVGRDY1d0TmVGVk9UREJJWTJSYU9EZHZRa3RDVDFSQmFrVkJhMUF5ZFhGMWQwaFFkbTVYWWtFclJVUnVNWEI2TlRrdlQyNUZiVlpqYTJJS05HUjVSMGxGTUd0dU5XdFFOeTk2U1d4alRHUjJTaTlTYms5VGVrRkpjVmdLTFMwdExTMUZUa1FnUTBWU1ZFbEdTVU5CVkVVdExTMHRMUW89In19fX0=",
-          "integratedTime": 1668045303,
-          "logIndex": 6806896,
+          "body": "eyJhcGlWZXJzaW9uIjoiMC4wLjEiLCJraW5kIjoiaGFzaGVkcmVrb3JkIiwic3BlYyI6eyJkYXRhIjp7Imhhc2giOnsiYWxnb3JpdGhtIjoic2hhMjU2IiwidmFsdWUiOiI1MWYwY2MzYjhiNTU0MGY3MDM1ZjYxMjNkMDJiNDU4YTI0ZjU4OGNjYTMyZjQwMzhhZjVmYjVjZWE3MWU0Nzg4In19LCJzaWduYXR1cmUiOnsiY29udGVudCI6Ik1FWUNJUURBZmphZWpXc3RZMGJpMXlObExxZDR3bjRqSFBiM3VBOEd6c1ZHWHlRSlpBSWhBUFNVc01LT1U4ZGRzU1lMWmtUZFpVNGJqQ3dqSmpZWkMwTG5oKzdmcWVMWiIsInB1YmxpY0tleSI6eyJjb250ZW50IjoiTFMwdExTMUNSVWRKVGlCRFJWSlVTVVpKUTBGVVJTMHRMUzB0Q2sxSlNVUndWRU5EUVhsMVowRjNTVUpCWjBsVlNUWm5jbUpOVEhCdVVVWkRSbVp2ZGpSaWJuaHNiV2MyUkdWTmQwTm5XVWxMYjFwSmVtb3dSVUYzVFhjS1RucEZWazFDVFVkQk1WVkZRMmhOVFdNeWJHNWpNMUoyWTIxVmRWcEhWakpOVWpSM1NFRlpSRlpSVVVSRmVGWjZZVmRrZW1SSE9YbGFVekZ3WW01U2JBcGpiVEZzV2tkc2FHUkhWWGRJYUdOT1RXcEplRTFVUlhoTlJFVXhUbFJKZDFkb1kwNU5ha2w0VFZSRmVFMUVTWGRPVkVsM1YycEJRVTFHYTNkRmQxbElDa3R2V2tsNmFqQkRRVkZaU1V0dldrbDZhakJFUVZGalJGRm5RVVZXZVhRNEsyNHpWVkJJU1dOVFVUbEZSMEYzTkdzdk9YaFJLM1JYUVRKRWFWVjVhRFVLVm5relRreHBNWGw0UVV0cFJIUlRXWEUzUkVZelJETlhPR2h3WkU5YVVHcFZSVkZ0TkVSdFpHZHdTM2Q2U0ZNeGNHRlBRMEZyYjNkblowcEhUVUUwUndwQk1WVmtSSGRGUWk5M1VVVkJkMGxJWjBSQlZFSm5UbFpJVTFWRlJFUkJTMEpuWjNKQ1owVkdRbEZqUkVGNlFXUkNaMDVXU0ZFMFJVWm5VVlV2Vmpsc0Npc3lSM0JzVFhObVJEZG1LMUpLTkROalZuUlJNa0pyZDBoM1dVUldVakJxUWtKbmQwWnZRVlV6T1ZCd2VqRlphMFZhWWpWeFRtcHdTMFpYYVhocE5Ga0tXa1E0ZDFwUldVUldVakJTUVZGSUwwSkdjM2RYV1ZwWVlVaFNNR05JVFRaTWVUbHVZVmhTYjJSWFNYVlpNamwwVERKT2IxbFhiSFZhTTFab1kyMVJkQXBoVnpGb1dqSldla3d5Y0d0aGVUaDFXakpzTUdGSVZtbE1NMlIyWTIxMGJXSkhPVE5qZVRsNVdsZDRiRmxZVG14TWJteG9ZbGQ0UVdOdFZtMWplVGx2Q2xwWFJtdGplVGwwV1Zkc2RVMUVhMGREYVhOSFFWRlJRbWMzT0hkQlVVVkZTekpvTUdSSVFucFBhVGgyWkVjNWNscFhOSFZaVjA0d1lWYzVkV041Tlc0S1lWaFNiMlJYU2pGak1sWjVXVEk1ZFdSSFZuVmtRelZxWWpJd2QwWm5XVXRMZDFsQ1FrRkhSSFo2UVVKQloxRkpZekpPYjFwWFVqRmlSMVYzVG1kWlN3cExkMWxDUWtGSFJIWjZRVUpCZDFGdldWZEZNVnBxUm1sUFYwNXNUV3BCTWs1RWF6SlBSRUp0VFdwQk5GbFhXbXhOYW14b1RsUkNhMDFVWTNkTmVtTTFDbGxxWTNsTlJFRmpRbWR2Y2tKblJVVkJXVTh2VFVGRlJVSkJOVVJqYlZab1pFZFZaMVZ0Vm5OYVYwWjZXbFJCYWtKbmIzSkNaMFZGUVZsUEwwMUJSVVlLUWtKV2FtRkhSbkJpYldReFdWaEthMHhYYkhSWlYyUnNZM2s1Y1ZwSGMzZElVVmxMUzNkWlFrSkJSMFIyZWtGQ1FtZFJVR050Vm0xamVUbHZXbGRHYXdwamVUbDBXVmRzZFUxSlIwdENaMjl5UW1kRlJVRmtXalZCWjFGRFFraDNSV1ZuUWpSQlNGbEJNMVF3ZDJGellraEZWRXBxUjFJMFkyMVhZek5CY1VwTENsaHlhbVZRU3pNdmFEUndlV2RET0hBM2J6UkJRVUZIUlZwSFdVMVVRVUZCUWtGTlFWSjZRa1pCYVVJMVFuUkdZbXBuWTFkcE9UZE1jWGhhY1ZGYVVERUtOMHRQZW1wdldrZG9ibEl3TUhSd1ZVeGFMM1pKUVVsb1FVdGhUMkp0ZUV0dFZuZFJUM1kyZFVWcVpWUllTazlyVFRac1duSmxTamhQY0VkWk56QnFZZ28zU0c5S1RVRnZSME5EY1VkVFRUUTVRa0ZOUkVFeVowRk5SMVZEVFVSTldFeEhTeXRCU1VWc1ZHaFdPSHBQWTNoNFYwTXZXa1ZVZENzM09HcGpiWEJ0Q25rd01tVlBObVJ4ZUZwak5pdDRTV2RUY1UxalZUTXhlSGxaU0dOVlVVbDRRVkJwTW5sdWNuUm9lbUZpTHk5Q0x6bFZhRU5QYjFWaU1GcGpTV2hMUkdZS1EzQkRWamRxY1hOQlpXWktTM1pJTXpacU9YUkpVMWhaY205SVJ6TXpjakJUUVQwOUNpMHRMUzB0UlU1RUlFTkZVbFJKUmtsRFFWUkZMUzB0TFMwSyJ9fX19",
+          "integratedTime": 1668131721,
+          "logIndex": 6850029,
           "logID": "c0d23d6ad406973f9559f3ba2d1ca01f84147d8ffc5b8445c224f98b9591801d"
         }
       },
@@ -83,11 +87,11 @@ The following checks were performed on each of these signatures:
       "githubWorkflowName": "Create Release",
       "githubWorkflowRef": "refs/heads/main",
       "githubWorkflowRepository": "chainguard-images/jdk",
-      "githubWorkflowSha": "3ffc1ed12894f048cd611d891bf3a129902f0c08",
+      "githubWorkflowSha": "aa5f1b9ce20649680f208afe29a50d170379b720",
       "githubWorkflowTrigger": "schedule",
       "run_attempt": "1",
-      "run_id": "3433336870",
-      "sha": "3ffc1ed12894f048cd611d891bf3a129902f0c08"
+      "run_id": "3441875835",
+      "sha": "aa5f1b9ce20649680f208afe29a50d170379b720"
     }
   }
 ]
