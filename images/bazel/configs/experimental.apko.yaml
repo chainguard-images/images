@@ -1,0 +1,34 @@
+contents:
+  repositories:
+    - https://packages.wolfi.dev/os
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  packages:
+    - ca-certificates-bundle
+    - wolfi-baselayout
+    - openjdk-17
+    - bash
+    - busybox
+    - gcc
+    - git
+    - bazel-5
+
+accounts:
+  groups:
+    - groupname: bazel
+      gid: 65532
+  users:
+    - username: bazel
+      uid: 65532
+  run-as: bazel
+
+entrypoint:
+  command: /usr/bin/bazel
+
+environment:
+  JAVA_HOME: /usr/lib/jvm/openjdk
+
+work-dir: /home/bazel
+
+archs:
+  - x86_64
