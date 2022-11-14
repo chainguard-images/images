@@ -2,6 +2,7 @@ package commands
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -54,7 +55,15 @@ func (i *readmeImpl) Do() error {
 		}
 		imageToTagMap[image.ImageName] = append(imageToTagMap[image.ImageName], s)
 	}
-	for k, v := range imageToTagMap {
+	keys := []string{}
+	for k := range imageToTagMap {
+		keys = append(keys, k)
+	}
+	sort.Slice(keys, func(i, j int) bool {
+		return keys[i] < keys[j]
+	})
+	for _, k := range keys {
+		v := imageToTagMap[k]
 		fmt.Printf("| [%s](./%s/%s) | `cgr.dev/chainguard/%s` | %s |\n",
 			k, constants.ImagesDirName, k, k, strings.Join(v, ", "))
 	}
