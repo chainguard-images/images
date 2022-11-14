@@ -8,5 +8,10 @@ versions:
       config: configs/openjdk-17.apko.yaml
       extractTagsFrom:
         package: maven
+        prefix: openjdk-17-
+  - apko:
+      config: configs/openjdk-17.apko.yaml
+      extractTagsFrom:
+        package: maven
       tags:
         - latest
