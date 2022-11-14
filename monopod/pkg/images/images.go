@@ -1,6 +1,7 @@
 package images
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -21,23 +22,24 @@ type Image struct {
 	ApkoTargetTag               string `json:"apkoTargetTag"`
 	ApkoPackageVersionTag       string `json:"apkoPackageVersionTag"`
 	ApkoPackageVersionTagPrefix string `json:"apkoPackageVersionTagPrefix"`
+	TestCommand                 string `json:"testCommand"`
 }
 
 type ImageManifest struct {
-	Versions []ImageManifestVersion `yaml:"versions"`
+	Variants []ImageManifestVariant `yaml:"versions"`
 }
 
-type ImageManifestVersion struct {
-	Apko ImageManifestVersionApko `yaml:"apko"`
+type ImageManifestVariant struct {
+	Apko ImageManifestVariantApko `yaml:"apko"`
 }
 
-type ImageManifestVersionApko struct {
+type ImageManifestVariantApko struct {
 	Config          string                                  `yaml:"config"`
-	ExtractTagsFrom ImageManifestVersionApkoExtractTagsFrom `yaml:"extractTagsFrom"`
+	ExtractTagsFrom ImageManifestVariantApkoExtractTagsFrom `yaml:"extractTagsFrom"`
 	Tags            []string                                `yaml:"tags"`
 }
 
-type ImageManifestVersionApkoExtractTagsFrom struct {
+type ImageManifestVariantApkoExtractTagsFrom struct {
 	Package string `yaml:"package"`
 	Prefix  string `yaml:"prefix"`
 }
@@ -48,6 +50,7 @@ func ListAll() ([]Image, error) {
 	if err != nil {
 		return nil, err
 	}
+	seen := map[string]bool{}
 	for _, imageDir := range imageDirs {
 		if !imageDir.IsDir() {
 			continue
@@ -62,10 +65,24 @@ func ListAll() ([]Image, error) {
 		if err := yaml.Unmarshal(b, &m); err != nil {
 			return nil, err
 		}
-		for _, version := range m.Versions {
-			apkoConfig := filepath.Join(constants.ImagesDirName, imageName, version.Apko.Config)
+		for _, variant := range m.Variants {
+			apkoConfig := filepath.Join(constants.ImagesDirName, imageName, variant.Apko.Config)
 			apkoTargetTag := strings.Split(filepath.Base(apkoConfig), ".")[0]
-			apkoAdditionalTags := strings.Join(version.Apko.Tags, ",")
+			apkoAdditionalTags := strings.Join(variant.Apko.Tags, ",")
+
+			// Ensure that we dont have duplicate entries for any image/variant combo
+			seenKey := fmt.Sprintf("%s--%s", imageName, apkoTargetTag)
+			if _, ok := seen[seenKey]; ok {
+				return nil, fmt.Errorf("more than one variant with image=%s tag=%s", imageName, apkoTargetTag)
+			}
+			seen[seenKey] = true
+
+			testCommand := ""
+			testScriptFilename := filepath.Join(constants.ImagesDirName, imageName, constants.DefaultTestScriptFilename)
+			if _, err := os.Stat(testScriptFilename); err == nil {
+				testCommand = testScriptFilename
+			}
+
 			i := Image{
 				ImageName:                   imageName,
 				MelangeConfig:               "", // TODO
@@ -75,8 +92,9 @@ func ListAll() ([]Image, error) {
 				ApkoKeyringAppend:           "", // TODO
 				ApkoTargetTag:               apkoTargetTag,
 				ApkoAdditionalTags:          apkoAdditionalTags,
-				ApkoPackageVersionTag:       version.Apko.ExtractTagsFrom.Package,
-				ApkoPackageVersionTagPrefix: version.Apko.ExtractTagsFrom.Prefix,
+				ApkoPackageVersionTag:       variant.Apko.ExtractTagsFrom.Package,
+				ApkoPackageVersionTagPrefix: variant.Apko.ExtractTagsFrom.Prefix,
+				TestCommand:                 testCommand,
 			}
 			allImages = append(allImages, i)
 		}

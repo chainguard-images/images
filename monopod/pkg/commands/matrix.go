@@ -3,10 +3,12 @@ package commands
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/spf13/cobra"
 
 	"github.com/chainguard-images/images/monopod/pkg/commands/options"
+	"github.com/chainguard-images/images/monopod/pkg/constants"
 	"github.com/chainguard-images/images/monopod/pkg/images"
 )
 
@@ -19,7 +21,9 @@ func Matrix() *cobra.Command {
 monopod matrix
 `,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			impl := &matrixImpl{}
+			impl := &matrixImpl{
+				ModifiedFiles: mo.ModifiedFiles,
+			}
 			return impl.Do()
 		},
 	}
@@ -27,7 +31,9 @@ monopod matrix
 	return cmd
 }
 
-type matrixImpl struct{}
+type matrixImpl struct {
+	ModifiedFiles string
+}
 
 type matrixResponse struct {
 	Include []images.Image `json:"include"`
@@ -37,6 +43,29 @@ func (i *matrixImpl) Do() error {
 	allImages, err := images.ListAll()
 	if err != nil {
 		return err
+	}
+	if i.ModifiedFiles != "" {
+		includeImages := map[string]bool{}
+		modifiedFiles := strings.Split(i.ModifiedFiles, ",")
+		for _, filename := range modifiedFiles {
+			// If any changes detected in .github/ or monopod/, must build all
+			if strings.HasPrefix(filename, fmt.Sprintf("%s/", constants.GithubActionsDirName)) ||
+				strings.HasPrefix(filename, fmt.Sprintf("%s/", constants.MonopodDirName)) {
+				break
+			}
+			if strings.HasPrefix(filename, fmt.Sprintf("%s/", constants.ImagesDirName)) {
+				includeImages[strings.Split(filename, "/")[1]] = true
+			}
+		}
+		if len(includeImages) > 0 {
+			allImagesNew := []images.Image{}
+			for _, image := range allImages {
+				if _, ok := includeImages[image.ImageName]; ok {
+					allImagesNew = append(allImagesNew, image)
+				}
+			}
+			allImages = allImagesNew
+		}
 	}
 	response := matrixResponse{Include: allImages}
 	b, err := json.Marshal(&response)
