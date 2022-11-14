@@ -1,0 +1,32 @@
+name: build-image
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v3
+    - name: Setup QEMU
+      if: inputs.melangeConfig != ''
+      uses: docker/setup-qemu-action@v2.1.0
+    - id: melange
+      if: inputs.melangeConfig != ''
+      uses: chainguard-dev/actions/melange-build@main
+      with:
+        config: ${{ inputs.melangeConfig }}
+        empty-workspace: true
+        sign-with-temporary-key: true
+        archs: ${{ inputs.melangeArchs }}
+        template: ${{ inputs.melangeTemplate }}
+    - id: apko
+      uses: chainguard-images/actions/apko-build@main
+      with:
+        config: ${{ inputs.apkoConfig }}
+        tag: ${{ inputs.imageName }}:${{ github.sha }}
+        keyring-append: ${{ inputs.apkoKeyringAppend }}
+        additional-tags: ${{ inputs.apkoAdditionalTags }}
+    - name: Smoke test
+      id: smoketest
+      if: inputs.testCommand != ''
+      shell: bash
+      run: |
+        set -x
+        IMAGE_NAME="$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')" \
+          ${{ inputs.testCommand }}

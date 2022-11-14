@@ -1,11 +1,6 @@
 on:
-  push:
-    branches:
-      - main
-  schedule:
-    - cron: '0 0 * * *'
-  workflow_dispatch: {}
-concurrency: release
+  pull_request:
+concurrency: presubmit-build
 jobs:
   generate-matrix:
     runs-on: ubuntu-latest
@@ -13,19 +8,21 @@ jobs:
       matrix: ${{ steps.generate-matrix.outputs.matrix }}
     steps:
     - uses: actions/checkout@v3
+    - id: files
+      uses: jitterbit/get-changed-files@b17fbb00bdc0c0f63fcf166580804b4d2cdc2a42 # v1
+      with:
+        format: csv
     - id: generate-matrix
       uses: ./.github/actions/generate-matrix
+      with:
+        modified-files: ${{ steps.files.outputs.all }}
   build:
     runs-on: ubuntu-latest
     needs: generate-matrix
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
-    permissions:
-      id-token: write
-      packages: write
-      contents: read
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/release-image
+      - uses: ./.github/actions/build-image
         with: ${{ matrix }}

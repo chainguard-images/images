@@ -15,4 +15,4 @@ runs:
         set -x 
         (cd monopod/ && go build -o bin/monopod monopod.go)
         export PATH="${PWD}/monopod/bin:${PATH}"
-        echo "matrix=$(monopod matrix)" >> $GITHUB_OUTPUT
+        echo "matrix=$(monopod matrix --modified-files=${{ inputs.modified-files }})" >> $GITHUB_OUTPUT

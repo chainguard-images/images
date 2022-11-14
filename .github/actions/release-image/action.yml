@@ -1,4 +1,4 @@
-name: release
+name: release-image
 runs:
   using: composite
   steps:
@@ -26,3 +26,11 @@ runs:
         package-version-tag: ${{ inputs.apkoPackageVersionTag }}
         package-version-tag-stem: true
         package-version-tag-prefix: ${{ inputs.apkoPackageVersionTagPrefix }}
+    - name: Smoke test
+      id: smoketest
+      if: inputs.testCommand != ''
+      shell: bash
+      run: |
+        set -x
+        IMAGE_NAME="${{ steps.apko.outputs.digest }}" \
+          ${{ inputs.testCommand }}
