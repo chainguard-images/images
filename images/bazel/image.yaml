@@ -2,5 +2,5 @@ versions:
   - apko:
       config: configs/experimental.apko.yaml
       extractTagsFrom:
-        package: jenkins
+        package: bazel-5
         prefix: experimental-
