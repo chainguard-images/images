@@ -3,6 +3,7 @@ package images
 import (
 	"fmt"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 
@@ -19,6 +20,7 @@ type Image struct {
 	ApkoConfig                  string `json:"apkoConfig"`
 	ApkoKeyringAppend           string `json:"apkoKeyringAppend"`
 	ApkoAdditionalTags          string `json:"apkoAdditionalTags"`
+	ApkoBaseTag                 string `json:"apkoBaseTag"`
 	ApkoTargetTag               string `json:"apkoTargetTag"`
 	ApkoPackageVersionTag       string `json:"apkoPackageVersionTag"`
 	ApkoPackageVersionTagPrefix string `json:"apkoPackageVersionTagPrefix"`
@@ -26,6 +28,7 @@ type Image struct {
 }
 
 type ImageManifest struct {
+	Registry string                 `yaml:"registry"`
 	Variants []ImageManifestVariant `yaml:"versions"`
 }
 
@@ -83,6 +86,13 @@ func ListAll() ([]Image, error) {
 				testCommand = testScriptFilename
 			}
 
+			var apkoBaseTag string
+			if m.Registry != "" {
+				apkoBaseTag = path.Join(m.Registry, imageName)
+			} else {
+				apkoBaseTag = path.Join(constants.DefaultRegistry, imageName)
+			}
+
 			i := Image{
 				ImageName:                   imageName,
 				MelangeConfig:               "", // TODO
@@ -90,6 +100,7 @@ func ListAll() ([]Image, error) {
 				MelangeTemplate:             "", // TODO
 				ApkoConfig:                  apkoConfig,
 				ApkoKeyringAppend:           "", // TODO
+				ApkoBaseTag:                 apkoBaseTag,
 				ApkoTargetTag:               apkoTargetTag,
 				ApkoAdditionalTags:          apkoAdditionalTags,
 				ApkoPackageVersionTag:       variant.Apko.ExtractTagsFrom.Package,
