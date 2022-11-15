@@ -12,6 +12,7 @@ runs:
         repository: ${{ inputs.repository }}
         ref: ${{ inputs.ref }}
         token: ${{ inputs.token }}
+        path: monopod-setup-gha
     - uses: actions/setup-go@v3
       with:
         go-version: 1.19
@@ -19,7 +20,8 @@ runs:
       shell: bash
       run: |
         set -x
-        (cd monopod/ && go build -o /tmp/bin/monopod monopod.go)
+        (cd monopod-setup-gha/monopod/ && go build -o /tmp/bin/monopod monopod.go)
+        rm -rf monopod-setup-gha/
     - uses: actions/checkout@v3
     - id: verify-readme
       shell: bash
