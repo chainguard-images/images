@@ -23,13 +23,13 @@ runs:
       if: startsWith(inputs.apkoBaseTag, 'gcr.io/')
       uses: google-github-actions/auth@c4799db9111fba4461e9f9da8732e5057b394f72 #v0
       with:
-        workload_identity_provider: ${{ secrets.GCRAUTH_WORKLOAD_IDENTITY_PROVIDER }}
-        service_account: ${{ secrets.GCRAUTH_SERVICE_ACCOUNT }}
+        workload_identity_provider: ${{ inputs.gcrAuthWorkloadIdentityProvider }}
+        service_account: ${{ inputs.gcrAuthServiceAccount }}
     - id: gcrauth2
       if: startsWith(inputs.apkoBaseTag, 'gcr.io/')
       uses: google-github-actions/setup-gcloud@877d4953d2c70a0ba7ef3290ae968eb24af233bb #v0.6.0
       with:
-        project_id: ${{ secrets.GCRAUTH_PROJECT_ID }}
+        project_id: ${{ inputs.gcrAuthProjectId }}
         install_components: beta
 
     # Build and push

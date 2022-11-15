@@ -15,15 +15,22 @@ runs:
         repository: ${{ inputs.repository }}
         ref: ${{ inputs.ref }}
         token: ${{ inputs.token }}
+        path: monopod-setup-gha
     - uses: actions/setup-go@v3
       with:
         go-version: 1.19
+    - id: monopod
+      shell: bash
+      run: |
+        set -x
+        (cd monopod-setup-gha/monopod/ && go build -o /tmp/bin/monopod monopod.go)
+        rm -rf monopod-setup-gha/
+    - uses: actions/checkout@v3
     - id: generate-matrix
       shell: bash
       run: |
         set -x 
-        (cd monopod/ && go build -o bin/monopod monopod.go)
-        export PATH="${PWD}/monopod/bin:${PATH}"
+        export PATH="/tmp/bin:${PATH}"
         echo "matrix=$(monopod matrix --modified-files=${{ inputs.modified-files }})" >> $GITHUB_OUTPUT
     - name: Touch actions file to prevent postrun failure
       if: always()
