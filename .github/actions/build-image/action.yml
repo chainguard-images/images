@@ -30,3 +30,9 @@ runs:
         set -x
         IMAGE_NAME="$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')" \
           ${{ inputs.testCommand }}
+    - name: Touch actions file to prevent postrun failure
+      if: always()
+      shell: bash
+      run: |
+        [[ -d .github/actions/build-image/action.yml ]] || ( \
+          mkdir -p .github/actions/build-image/ && echo 'runs: {using: composite, steps: []}' > .github/actions/build-image/action.yml )

@@ -41,6 +41,7 @@ func (i *readmeImpl) Do() error {
 	fmt.Println("| Image | Ref | Variants |")
 	fmt.Println("| ----- | ----| -------- |")
 	imageToTagMap := map[string][]string{}
+	imageToRefMap := map[string]string{}
 	for _, image := range allImages {
 		if _, ok := imageToTagMap[image.ImageName]; !ok {
 			imageToTagMap[image.ImageName] = []string{}
@@ -54,6 +55,7 @@ func (i *readmeImpl) Do() error {
 			s = fmt.Sprintf("%s (%s)", s, strings.Join(tmp, " / "))
 		}
 		imageToTagMap[image.ImageName] = append(imageToTagMap[image.ImageName], s)
+		imageToRefMap[image.ImageName] = strings.Replace(image.ApkoBaseTag, constants.DefaultRegistry, constants.DefaultRegistryFrontend, 1)
 	}
 	keys := []string{}
 	for k := range imageToTagMap {
@@ -64,8 +66,8 @@ func (i *readmeImpl) Do() error {
 	})
 	for _, k := range keys {
 		v := imageToTagMap[k]
-		fmt.Printf("| [%s](./%s/%s) | `cgr.dev/chainguard/%s` | %s |\n",
-			k, constants.ImagesDirName, k, k, strings.Join(v, ", "))
+		fmt.Printf("| [%s](./%s/%s) | `%s` | %s |\n",
+			k, constants.ImagesDirName, k, imageToRefMap[k], strings.Join(v, ", "))
 	}
 	return nil
 }
