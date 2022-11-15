@@ -19,7 +19,7 @@ runs:
       uses: chainguard-images/actions/apko-snapshot@main
       with:
         config: ${{ inputs.apkoConfig }}
-        base-tag: ghcr.io/chainguard-images/${{ inputs.imageName }}
+        base-tag: ${{ inputs.apkoBaseTag }}
         target-tag: ${{ inputs.apkoTargetTag }}
         keyring-append: ${{ inputs.apkoKeyringAppend }}
         additional-tags: ${{ inputs.apkoAdditionalTags }}
