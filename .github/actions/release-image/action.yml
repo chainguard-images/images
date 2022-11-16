@@ -31,6 +31,11 @@ runs:
       with:
         project_id: ${{ inputs.gcrAuthProjectId }}
         install_components: beta
+    - id: gcrauth3
+      if: startsWith(inputs.apkoBaseTag, 'gcr.io/')
+      shell: bash
+      run: |
+        gcloud auth configure-docker
 
     # Build and push
     - id: apko
