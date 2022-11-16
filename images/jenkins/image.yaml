@@ -1,0 +1,3 @@
+versions:
+  - apko:
+      config: configs/experimental.apko.yaml
