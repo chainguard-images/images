@@ -1,0 +1,45 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+  packages:
+    - busybox
+    - ca-certificates-bundle
+    - nghttp2
+    - nodejs
+
+# By convention, Node apps run in an /app directory, which should be owned by
+# the non-root node user.
+paths:
+  - path: /app
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+
+work-dir: /app
+
+environment:
+  # By convention, Node apps look to the NODE_PORT env var to determine what
+  # port to listen on. Default to a high port since the user runs as non-root.
+  NODE_PORT: 3000
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin
+
+entrypoint:
+  command: /usr/bin/node
+cmd: --help
+
+# By convention, the official Docker node image defines a `node` user, but
+# doesn't run as it unless the image based on it specifies that user.
+accounts:
+  groups:
+    - groupname: node
+      gid: 65532
+  users:
+    - username: node
+      uid: 65532
+  run-as: 65532
+
+archs:
+- x86_64
