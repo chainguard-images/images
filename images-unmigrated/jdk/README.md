@@ -5,7 +5,7 @@
 WORK IN PROGRESS.
 
 These images are currently being migrated to a new set-up. Pulling images from
-`cgr.dev/chainguard/jdk` will pull new Wolfi (glibc) based images, which do match the images built
+`cgr.dev/chainguard/jdk` will pull new Wolfi (glibc) based images, which do not match the images built
 from `apko.yaml` in this repository. 
 
 ## Get It!
