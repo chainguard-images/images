@@ -21,7 +21,9 @@ func Readme() *cobra.Command {
 monopod readme
 `,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			impl := &readmeImpl{}
+			impl := &readmeImpl{
+				BadgeRootUrl: ro.BadgeRootUrl,
+			}
 			return impl.Do()
 		},
 	}
@@ -29,7 +31,9 @@ monopod readme
 	return cmd
 }
 
-type readmeImpl struct{}
+type readmeImpl struct {
+	BadgeRootUrl string
+}
 
 func (i *readmeImpl) Do() error {
 	allImages, err := images.ListAll()
@@ -38,36 +42,65 @@ func (i *readmeImpl) Do() error {
 	}
 	fmt.Println("# Chainguard Images")
 	fmt.Println("")
-	fmt.Println("| Image | Ref | Variants |")
-	fmt.Println("| ----- | ----| -------- |")
-	imageToTagMap := map[string][]string{}
-	imageToRefMap := map[string]string{}
-	for _, image := range allImages {
-		if _, ok := imageToTagMap[image.ImageName]; !ok {
-			imageToTagMap[image.ImageName] = []string{}
-		}
-		s := fmt.Sprintf("[%s](./%s)", image.ApkoTargetTag, image.ApkoConfig)
-		if image.ApkoAdditionalTags != "" {
-			tmp := []string{}
-			for _, tag := range strings.Split(image.ApkoAdditionalTags, ",") {
-				tmp = append(tmp, fmt.Sprintf("`%s`", tag))
+	fmt.Printf("| Name | OCI Reference |")
+	if i.BadgeRootUrl != "" {
+		fmt.Printf(" Variants/Tags | Known CVEs* |")
+	}
+	fmt.Printf("\n")
+	fmt.Printf("| ----- | ----- |")
+	if i.BadgeRootUrl != "" {
+		fmt.Printf("  -------- | -------- |")
+	}
+	fmt.Printf("\n")
+	imageToReferenceMap := map[string]string{}
+	imageToBadgeMap := map[string][]string{}
+	imageToHasLatestMap := map[string]bool{}
+	if i.BadgeRootUrl != "" {
+		for _, image := range allImages {
+			if _, ok := imageToBadgeMap[image.ImageName]; !ok {
+				imageToBadgeMap[image.ImageName] = []string{}
 			}
-			s = fmt.Sprintf("%s (%s)", s, strings.Join(tmp, " / "))
+			s := fmt.Sprintf("[![](%s/%s.build.status.%s.svg)](%s)", i.BadgeRootUrl, image.ImageName, image.ApkoTargetTag, image.ApkoConfig)
+			imageToBadgeMap[image.ImageName] = append(imageToBadgeMap[image.ImageName], s)
+			imageToReferenceMap[image.ImageName] = strings.Replace(image.ApkoBaseTag, constants.DefaultRegistry, constants.DefaultRegistryFrontend, 1)
+			for _, tag := range strings.Split(image.ApkoAdditionalTags, ",") {
+				// TODO: support images with multiple extra tags (not just latest)
+				if tag == "latest" {
+					imageToHasLatestMap[image.ImageName] = true
+					break
+				}
+			}
 		}
-		imageToTagMap[image.ImageName] = append(imageToTagMap[image.ImageName], s)
-		imageToRefMap[image.ImageName] = strings.Replace(image.ApkoBaseTag, constants.DefaultRegistry, constants.DefaultRegistryFrontend, 1)
 	}
 	keys := []string{}
-	for k := range imageToTagMap {
+	for k := range imageToBadgeMap {
 		keys = append(keys, k)
 	}
 	sort.Slice(keys, func(i, j int) bool {
 		return keys[i] < keys[j]
 	})
 	for _, k := range keys {
-		v := imageToTagMap[k]
-		fmt.Printf("| [%s](./%s/%s) | `%s` | %s |\n",
-			k, constants.ImagesDirName, k, imageToRefMap[k], strings.Join(v, ", "))
+		v := imageToBadgeMap[k]
+		sort.Slice(v, func(i, j int) bool {
+			return v[i] < v[j]
+		})
+		reference := imageToReferenceMap[k]
+		fmt.Printf("| [%s](./%s/%s) | `%s` |", k, constants.ImagesDirName, k, reference)
+		// TODO: show all badges
+		if i.BadgeRootUrl != "" {
+			buildBadges := strings.Join(v, "<br/>")
+			cveBadges := "-"
+			// TODO: support images with multiple extra tags (not just latest)
+			if v, ok := imageToHasLatestMap[k]; ok && v {
+				cveBadges = fmt.Sprintf("![](%s/%s.scan.grype.latest.svg)<br/>![](%s/%s.scan.trivy.latest.svg)",
+					i.BadgeRootUrl, k, i.BadgeRootUrl, k)
+			}
+			fmt.Printf(" %s | %s |", buildBadges, cveBadges)
+		}
+		fmt.Printf("\n")
+	}
+	if i.BadgeRootUrl != "" {
+		fmt.Printf("\n<sub>\\*CVE data refers to `latest` variants</sub>\n")
 	}
 	return nil
 }
