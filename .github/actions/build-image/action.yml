@@ -34,5 +34,5 @@ runs:
       if: always()
       shell: bash
       run: |
-        [[ -d .github/actions/build-image/action.yml ]] || ( \
+        set -x && [[ -f .github/actions/build-image/action.yml ]] || ( \
           mkdir -p .github/actions/build-image/ && echo 'runs: {using: composite, steps: []}' > .github/actions/build-image/action.yml )

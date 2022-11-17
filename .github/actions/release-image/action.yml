@@ -1,4 +1,9 @@
 name: release-image
+inputs:
+  slackWebhookUrl:
+    default: ''
+  gcsBucketName:
+    default: ''
 runs:
   using: composite
   steps:
@@ -60,9 +65,104 @@ runs:
         IMAGE_NAME="${{ steps.apko.outputs.digest }}" \
           ${{ inputs.testCommand }}
 
+    # Generate build status badge from shields.io and save it in ./badges-output/
+    - if: always()
+      name: BADGINATOR-5000.sh
+      shell: bash
+      env:
+        NAME: ${{ inputs.imageName }}
+        VARIANT: ${{ inputs.apkoTargetTag }}
+        TAGS: ${{ inputs.apkoAdditionalTags }}
+      run: |
+        set -x
+        cat <<EOF > BADGINATOR-5000.sh
+        BADGE_COLOR="\$1"
+        BADGE_MESSAGE="\$2"
+        BADGE_LABEL="$VARIANT"
+        FILENAME_LATEST="$NAME.build.status.latest.svg"
+        FILENAME_VARIANT="$NAME.build.status.$VARIANT.svg"
+        [[ "$TAGS" == "" ]] || BADGE_LABEL="\$BADGE_LABEL ($TAGS)"
+        mkdir -p badges-output
+        curl -v -L -o "badges-output/\$FILENAME_VARIANT" "https://img.shields.io/static/v1?label=\$BADGE_LABEL&message=\$BADGE_MESSAGE&color=\$BADGE_COLOR"
+        [[ "$TAGS" != "latest" ]] || cp "badges-output/\$FILENAME_VARIANT" "badges-output/\$FILENAME_LATEST"
+        EOF
+    - if: failure()
+      shell: bash
+      run: |
+        set -x && trap "rm -f BADGINATOR-5000.sh" EXIT && bash -ex BADGINATOR-5000.sh critical failing
+    - if: success()
+      shell: bash
+      run: |
+        set -x && trap "rm -f BADGINATOR-5000.sh" EXIT && bash -ex BADGINATOR-5000.sh success passing
+
+    # TODO: Slack notification if build failing
+    - uses: slackapi/slack-github-action@007b2c3c751a190b6f0f040e47ed024deaa72844 #v1.23.0
+      # if: failure() && inputs.slackWebhookUrl != ''
+      # TODO: enable this
+      if: failure() && inputs.slackWebhookUrl == 'TEMPORARILYDISABLED'
+      id: slack
+      with:
+        payload: '{"text": "${{ inputs.imageName }} ${{ inputs.apkoTargetTag }} failed: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
+      env:
+        SLACK_WEBHOOK_URL: ${{ inputs.slackWebhookUrl }}
+        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+    # Scan (only working for GHCR/latest images for now)
+    - uses: chainguard-images/actions/vul-scans@main
+      id: scans
+      # TODO: support for multiple tags in inputs.apkoAdditionalTags
+      if: startsWith(inputs.apkoBaseTag, 'ghcr.io/') && inputs.apkoAdditionalTags == 'latest'
+      with:
+        registry: ghcr.io
+        image: ${{ inputs.apkoBaseTag }}
+        RUN_SNYK: 'false'
+        RUN_GRYPE: 'true'
+        DOCKER_LOGIN: 'true'
+    
+    # Save scan badges in ./badges-output/ (only working for GHCR/latest images for now)
+    - name: Create scan badges
+      # TODO: support for multiple tags in inputs.apkoAdditionalTags
+      if: startsWith(inputs.apkoBaseTag, 'ghcr.io/') && inputs.apkoAdditionalTags == 'latest'
+      shell: bash
+      env:
+        NAME: ${{ inputs.imageName }}
+        GRYPE_COUNT: ${{ steps.scans.outputs.GRYPE_COUNT }}
+        TRIVY_COUNT: ${{ steps.scans.outputs.TRIVY_COUNT }}
+      run: |
+        set -x
+        GRYPE_COLOR="success" && [[ "$GRYPE_COUNT" == "0" ]] || GRYPE_COLOR="yellow"
+        curl -v -L -o "badges-output/$NAME.scan.grype.latest.svg" "https://img.shields.io/static/v1?label=grype&message=$GRYPE_COUNT&color=$GRYPE_COLOR"
+        TRIVY_COLOR="success" && [[ "$TRIVY_COUNT" == "0" ]] || TRIVY_COLOR="yellow"
+        curl -v -L -o "badges-output/$NAME.scan.trivy.latest.svg" "https://img.shields.io/static/v1?label=trivy&message=$TRIVY_COUNT&color=$TRIVY_COLOR"
+
+    # Upload badges from ./badges-output/
+    - uses: actions/upload-artifact@v3
+      with:
+        name: badges
+        path: badges-output
+
+    # TODO: Upload badges to GCS bucket (if specified)
+    - id: gcsauth1
+      if: inputs.gcsBucketName != ''
+      uses: google-github-actions/auth@c4799db9111fba4461e9f9da8732e5057b394f72 #v0
+      with:
+        workload_identity_provider: ${{ inputs.gcsAuthWorkloadIdentityProvider }}
+        service_account: ${{ inputs.gcsAuthServiceAccount }}
+    - id: gcsauth2
+      if: inputs.gcsBucketName != ''
+      uses: google-github-actions/setup-gcloud@877d4953d2c70a0ba7ef3290ae968eb24af233bb #v0.6.0
+      with:
+        project_id: ${{ inputs.gcsAuthProjectId }}
+        install_components: beta
+    - id: gcsupload1
+      if: inputs.gcsBucketName != ''
+      shell: bash
+      run: |
+        gsutil rsync badges-output/ gs://${{ inputs.gcsBucketName }}/badges
+
     - name: Touch actions file to prevent postrun failure
       if: always()
       shell: bash
       run: |
-        [[ -d .github/actions/release-image/action.yml ]] || ( \
+        set -x && [[ -f .github/actions/release-image/action.yml ]] || ( \
           mkdir -p .github/actions/release-image/ && echo 'runs: {using: composite, steps: []}' > .github/actions/release-image/action.yml )
