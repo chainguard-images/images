@@ -1,0 +1,63 @@
+name: PreSubmit-Build
+
+on:
+  pull_request:
+
+jobs:
+  build:
+    name: Build NGINX OCI image
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        nginx-version: [1.22.1, 1.23.2]
+        include:
+          - nginx-version: 1.22.1
+            sha256: 9ebb333a9e82b952acd3e2b4aeb1d4ff6406f72491bab6cd9fe69f0dea737f31
+          - nginx-version: 1.23.2
+            sha256: a80cc272d3d72aaee70aa8b517b4862a635c0256790434dbfc4d618a999b0b46
+
+    # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
+    permissions:
+      contents: read
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup QEMU
+      uses: docker/setup-qemu-action@v2.1.0
+
+    - name: Generate snapshot date
+      id: snapshot-date
+      run: |
+        echo "date=$(date -u +%Y%m%d)" >> $GITHUB_OUTPUT
+      shell: bash
+
+
+    - uses: sigstore/cosign-installer@main
+    - uses: chainguard-dev/actions/melange-build@main
+      with:
+        sign-with-temporary-key: true
+        config: melange.yaml
+        empty-workspace: true
+        archs: x86_64,aarch64,armv7
+        template: "{\"Version\": \"${{ matrix.nginx-version }}\", \"SHA\": \"${{ matrix.sha256 }}\"}"
+
+    - uses: chainguard-images/actions/apko-build@main
+      with:
+        config: apko.yaml
+        tag: nginx:${{ steps.snapshot-date.outputs.date }}
+        keyring-append: /github/workspace/melange.rsa.pub
+        archs: x86_64,aarch64,armv7
+        source-date-epoch: ${{ steps.snapshot-date.outputs.epoch }}
+        additional-tags: ${{ matrix.nginx-version }}
+
+    - name: Smoke Test
+      run: |
+        IMAGE_NAME=$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')
+        IMAGE_NAME=$IMAGE_NAME ./test.sh
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: nginx.tar
+        path: ./output.tar
