@@ -1,0 +1,5 @@
+versions:
+  - apko:
+      config: configs/testing.apko.yaml
+    melange:
+      config: configs/testing.melange.yaml
