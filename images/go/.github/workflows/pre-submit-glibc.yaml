@@ -1,0 +1,41 @@
+name: PreSubmit-Build (glibc)
+
+on:
+  pull_request:
+
+jobs:
+  build:
+    name: Build OCI image (glibc)
+    runs-on: ubuntu-latest
+
+    # https://docs.github.com/en/actions/reference/authentication-in-a-workflow
+    permissions:
+      contents: read
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup QEMU
+      uses: docker/setup-qemu-action@v2.1.0
+
+    - name: Generate snapshot date
+      id: snapshot-date
+      run: |
+        echo "date=$(date -u +%Y%m%d)" >> $GITHUB_OUTPUT
+      shell: bash
+
+    - uses: chainguard-images/actions/apko-build@main
+      with:
+        config: apko-glibc.yaml
+        tag: go:${{ steps.snapshot-date.outputs.date }}
+        archs: x86_64
+
+    - name: Smoke Test
+      run: |
+        IMAGE_NAME=$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')
+        IMAGE_NAME=$IMAGE_NAME ./test.sh
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: go-glibc.tar
+        path: ./output.tar
