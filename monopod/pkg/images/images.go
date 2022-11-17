@@ -107,7 +107,7 @@ func ListAll() ([]Image, error) {
 			melangeArchs := ""
 			apkoKeyringAppend := ""
 			if variant.Melange.Config != "" {
-				melangeConfig = variant.Melange.Config
+				melangeConfig = filepath.Join(constants.ImagesDirName, imageName, variant.Melange.Config)
 				apkoKeyringAppend = constants.DefaultApkoKeyringAppend
 				var a ApkoManifest
 				b, err := os.ReadFile(apkoConfig)
