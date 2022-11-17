@@ -33,7 +33,8 @@ type ImageManifest struct {
 }
 
 type ImageManifestVariant struct {
-	Apko ImageManifestVariantApko `yaml:"apko"`
+	Apko    ImageManifestVariantApko    `yaml:"apko"`
+	Melange ImageManifestVariantMelange `yaml:"melange"`
 }
 
 type ImageManifestVariantApko struct {
@@ -42,9 +43,18 @@ type ImageManifestVariantApko struct {
 	Tags            []string                                `yaml:"tags"`
 }
 
+type ImageManifestVariantMelange struct {
+	Config string `yaml:"config"`
+}
+
 type ImageManifestVariantApkoExtractTagsFrom struct {
 	Package string `yaml:"package"`
 	Prefix  string `yaml:"prefix"`
+}
+
+// Our miniature schema of the Apko manifest so we dont have to import it here
+type ApkoManifest struct {
+	Archs []string `yaml:"archs"`
 }
 
 func ListAll() ([]Image, error) {
@@ -93,13 +103,30 @@ func ListAll() ([]Image, error) {
 				apkoBaseTag = path.Join(constants.DefaultRegistry, imageName)
 			}
 
+			melangeConfig := ""
+			melangeArchs := ""
+			apkoKeyringAppend := ""
+			if variant.Melange.Config != "" {
+				melangeConfig = variant.Melange.Config
+				apkoKeyringAppend = constants.DefaultApkoKeyringAppend
+				var a ApkoManifest
+				b, err := os.ReadFile(apkoConfig)
+				if err != nil {
+					return nil, err
+				}
+				if err := yaml.Unmarshal(b, &a); err != nil {
+					return nil, err
+				}
+				melangeArchs = strings.Join(a.Archs, ",")
+			}
+
 			i := Image{
 				ImageName:                   imageName,
-				MelangeConfig:               "", // TODO
-				MelangeArchs:                "", // TODO
-				MelangeTemplate:             "", // TODO
+				MelangeConfig:               melangeConfig, // TODO
+				MelangeArchs:                melangeArchs,  // TODO
+				MelangeTemplate:             "",            // TODO
 				ApkoConfig:                  apkoConfig,
-				ApkoKeyringAppend:           "", // TODO
+				ApkoKeyringAppend:           apkoKeyringAppend, // TODO
 				ApkoBaseTag:                 apkoBaseTag,
 				ApkoTargetTag:               apkoTargetTag,
 				ApkoAdditionalTags:          apkoAdditionalTags,
