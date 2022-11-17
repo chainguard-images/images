@@ -2,7 +2,11 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail
 
-IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/sdk"}
+IMAGE_NAME=${IMAGE_NAME:-"unset"}
+if [[ "${IMAGE_NAME}" == "unset" ]]; then
+    echo "Must set IMAGE_NAME in the environment. Exiting."
+    exit 1
+fi
 
 docker run --rm --entrypoint bash "${IMAGE_NAME}" -xc \
     'export PATH="/root/go/bin:${PATH}" && \
