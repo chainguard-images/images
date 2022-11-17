@@ -1,0 +1,37 @@
+package:
+  name: melange
+  version: 0.0.1
+  epoch: 0
+  description: "Melange"
+  target-architecture:
+    - all
+  copyright:
+    - paths:
+      - "*"
+      attestation: TODO
+      license: Apache-2.0
+  dependencies:
+    runtime:
+
+environment:
+  contents:
+    repositories:
+      - https://dl-cdn.alpinelinux.org/alpine/edge/main
+      - https://dl-cdn.alpinelinux.org/alpine/edge/community
+      - https://dl-cdn.alpinelinux.org/alpine/edge/testing
+    packages:
+      - alpine-baselayout-data
+      - alpine-base
+      - busybox
+      - ca-certificates-bundle
+      - go
+      - git
+      - proot
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://github.com/chainguard-dev/melange
+  - runs: |
+      make melange
+  - uses: autoconf/make-install
