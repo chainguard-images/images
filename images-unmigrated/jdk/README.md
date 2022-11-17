@@ -1,12 +1,12 @@
 # jdk
 
-<!---
-Note: Do NOT edit directly, this file was generated using https://github.com/chainguard-images/readme-generator
--->
-
 [![CI status](https://github.com/chainguard-images/jdk/actions/workflows/release.yaml/badge.svg)](https://github.com/chainguard-images/jdk/actions/workflows/release.yaml)
 
-WORK IN PROGRESS
+WORK IN PROGRESS.
+
+These images are currently being migrated to a new set-up. Pulling images from
+`cgr.dev/chainguard/jdk` will pull new Wolfi (glibc) based images, which do not match the images built
+from `apko.yaml` in this repository. 
 
 ## Get It!
 
