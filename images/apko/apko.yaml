@@ -1,0 +1,19 @@
+contents:
+  repositories:
+    - https://dl-cdn.alpinelinux.org/alpine/edge/main
+    - '@local /github/workspace/packages'
+  packages:
+    - ca-certificates-bundle
+    - alpine-base
+    - apko@local
+
+paths:
+  - path: /work
+    type: directory
+    permissions: 0o777
+
+work-dir: /work
+
+entrypoint:
+  command: /usr/bin/apko
+cmd: --help
