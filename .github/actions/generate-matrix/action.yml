@@ -36,5 +36,5 @@ runs:
       if: always()
       shell: bash
       run: |
-        [[ -d .github/actions/generate-matrix/action.yml ]] || ( \
+        set -x && [[ -f .github/actions/generate-matrix/action.yml ]] || ( \
           mkdir -p .github/actions/generate-matrix/ && echo 'runs: {using: composite, steps: []}' > .github/actions/generate-matrix/action.yml )

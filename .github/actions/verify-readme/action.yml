@@ -4,6 +4,8 @@ inputs:
     default: ${{ github.repository }}
   token:
     default: ${{ github.token }}
+  gcsBucketName:
+    default: ''
 runs:
   using: composite
   steps:
@@ -28,7 +30,11 @@ runs:
       run: |
         set -x
         export PATH="/tmp/bin:${PATH}"
-        monopod readme > README.md.tmp
+        BADGE_ROOT_URL=""
+        if [[ "${{ inputs.gcsBucketName }}" != "" ]]; then
+          BADGE_ROOT_URL="https://storage.googleapis.com/${{ inputs.gcsBucketName }}/badges"
+        fi
+        monopod readme --badge-root-url="${BADGE_ROOT_URL}" > README.md.tmp
         diff README.md README.md.tmp || ( \
           echo "README.md is out-of-date. Please run the following: monopod readme > README.md" && \
           exit 1 )
@@ -36,5 +42,5 @@ runs:
       if: always()
       shell: bash
       run: |
-        [[ -d .github/actions/verify-readme/action.yml ]] || ( \
+        set -x && [[ -f .github/actions/verify-readme/action.yml ]] || ( \
           mkdir -p .github/actions/verify-readme/ && echo 'runs: {using: composite, steps: []}' > .github/actions/verify-readme/action.yml )
