@@ -147,17 +147,16 @@ chmod +x images/superimg/test.sh
 Whether you are adding a new image or new image variant (or removing one),
 you will need to regenerate the README file or else CI will complain.
 
-First, build `monopod` and add it to your PATH:
+First, install `monopod`. (This assumes that your `$GOBIN` is in your `$PATH`.)
 
-```
-(cd monopod/ && go build -o bin/monopod monopod.go)
-export PATH="${PWD}/monopod/bin:${PATH}"
+```shell
+(cd monopod && go install)
 ```
 
 Run the following to regenerate the README:
 
 ```
-monopod readme > README.md 
+monopod readme > README.md
 ```
 
 Then check in the modified README to git.
