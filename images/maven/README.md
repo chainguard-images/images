@@ -27,7 +27,7 @@ Select the following options:
 6. __Dependencies__: choose your dependencies, e.g. `Spring Web`
 7. __Generate__: Hit that generate button!
 
-![Spring Initializr](../../docs/png/spring_initializr.png)
+![Spring Initializr](docs/png/spring_initializr.png)
 
 
 Go to your downloaded zip file, unzip
@@ -66,7 +66,7 @@ Now visit the Spring Boot Application in your browser using the same port mapped
 
 e.g http://localhost:8080/
 
-![Spring Whitelabel](../../docs/png/spring_whitelabel.png)
+![Spring Whitelabel](docs/png/spring_whitelabel.png)
 
 Note this is the expected Spring Whitelabel error page.
 
@@ -116,7 +116,7 @@ Again visit the Spring Boot Whitelabel page in your browser
 
 e.g. http://localhost:8080/
 
-![Spring Whitelabel](../../docs/png/spring_whitelabel.png)
+![Spring Whitelabel](docs/png/spring_whitelabel.png)
 
 ### What's inside?
 
