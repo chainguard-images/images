@@ -24,7 +24,8 @@ type Image struct {
 	ApkoTargetTag               string `json:"apkoTargetTag"`
 	ApkoPackageVersionTag       string `json:"apkoPackageVersionTag"`
 	ApkoPackageVersionTagPrefix string `json:"apkoPackageVersionTagPrefix"`
-	TestCommand                 string `json:"testCommand"`
+	TestCommandExe              string `json:"testCommandExe"`
+	TestCommandDir              string `json:"testCommandDir"`
 }
 
 type ImageManifest struct {
@@ -90,10 +91,12 @@ func ListAll() ([]Image, error) {
 			}
 			seen[seenKey] = true
 
-			testCommand := ""
+			testCommandExe := ""
+			testCommandDir := ""
 			testScriptFilename := filepath.Join(constants.ImagesDirName, imageName, constants.DefaultTestScriptFilename)
 			if _, err := os.Stat(testScriptFilename); err == nil {
-				testCommand = testScriptFilename
+				testCommandExe = fmt.Sprintf("./%s", constants.DefaultTestScriptFilename)
+				testCommandDir = filepath.Join(constants.ImagesDirName, imageName)
 			}
 
 			var apkoBaseTag string
@@ -132,7 +135,8 @@ func ListAll() ([]Image, error) {
 				ApkoAdditionalTags:          apkoAdditionalTags,
 				ApkoPackageVersionTag:       variant.Apko.ExtractTagsFrom.Package,
 				ApkoPackageVersionTagPrefix: variant.Apko.ExtractTagsFrom.Prefix,
-				TestCommand:                 testCommand,
+				TestCommandExe:              testCommandExe,
+				TestCommandDir:              testCommandDir,
 			}
 			allImages = append(allImages, i)
 		}
