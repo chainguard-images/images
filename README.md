@@ -2,6 +2,7 @@
 
 | Name | OCI Reference | Variants/Tags | Known CVEs* |
 | ----- | ----- |  -------- | -------- |
+| [apko](./images/apko) | `cgr.dev/chainguard/apko` | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/apko.build.status.migration.svg)](images/apko/configs/migration.apko.yaml) | - |
 | [busybox](./images/busybox) | `cgr.dev/chainguard/busybox` | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/busybox.build.status.migration.svg)](images/busybox/configs/migration.apko.yaml) | - |
 | [gcc-glibc](./images/gcc-glibc) | `cgr.dev/chainguard/gcc-glibc` | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/gcc-glibc.build.status.migration.svg)](images/gcc-glibc/configs/migration.apko.yaml) | - |
 | [gcc-musl](./images/gcc-musl) | `cgr.dev/chainguard/gcc-musl` | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/gcc-musl.build.status.migration.svg)](images/gcc-musl/configs/migration.apko.yaml) | - |
