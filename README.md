@@ -18,5 +18,6 @@
 | [ruby](./images/ruby) | `cgr.dev/chainguard/ruby` | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/ruby.build.status.migration-30.svg)](images/ruby/configs/migration-30.apko.yaml)<br/>[![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/ruby.build.status.migration-31.svg)](images/ruby/configs/migration-31.apko.yaml) | - |
 | [sdk](./images/sdk) | `cgr.dev/chainguard/sdk` | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/sdk.build.status.dev-alpine.svg)](images/sdk/configs/dev-alpine.apko.yaml)<br/>[![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/sdk.build.status.dev-wolfi.svg)](images/sdk/configs/dev-wolfi.apko.yaml) | - |
 | [static](./images/static) | `cgr.dev/chainguard/static` | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/static.build.status.migration.svg)](images/static/configs/migration.apko.yaml) | - |
+| [wolfi-base](./images/wolfi-base) | `cgr.dev/chainguard/wolfi-base` | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/wolfi-base.build.status.migration.svg)](images/wolfi-base/configs/migration.apko.yaml) | - |
 
 <sub>\*CVE data refers to `latest` variants</sub>
