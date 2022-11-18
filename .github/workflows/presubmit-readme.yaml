@@ -1,6 +1,5 @@
 on:
   pull_request:
-concurrency: presubmit-readme
 jobs:
   readme:
     runs-on: ubuntu-latest

@@ -1,6 +1,5 @@
 on:
   pull_request:
-concurrency: presubmit-build
 jobs:
   generate-matrix:
     runs-on: ubuntu-latest
