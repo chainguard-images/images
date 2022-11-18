@@ -1,0 +1,5 @@
+versions:
+  - melange:
+      config: configs/migration.melange.yaml
+    apko:
+      config: configs/migration.apko.yaml
