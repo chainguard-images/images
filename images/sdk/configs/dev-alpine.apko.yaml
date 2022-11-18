@@ -7,3 +7,7 @@ contents:
     - sdk@local
 entrypoint:
   command: /usr/bin/sdk
+
+archs:
+  - x86_64
+  - arm64
