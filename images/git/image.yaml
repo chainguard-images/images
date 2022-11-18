@@ -1,0 +1,12 @@
+versions:
+  - apko:
+      config: configs/migration-nonroot.apko.yaml
+      extractTagsFrom:
+        package: git
+        prefix: migration-nonroot-
+
+  - apko:
+      config: configs/migration-root.apko.yaml
+      extractTagsFrom:
+        package: git
+        prefix: migration-root-
