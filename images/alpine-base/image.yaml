@@ -1,0 +1,6 @@
+versions:
+  - apko:
+      # The path to the apko configuration. This filename is
+      # used to determine the primary image tag ("alpine-base:migration")
+      config: configs/migration.apko.yaml
+
