@@ -3,6 +3,7 @@
 | Name | OCI Reference | Variants/Tags | Known CVEs* |
 | ----- | ----- |  -------- | -------- |
 | [busybox](./images/busybox) | `cgr.dev/chainguard/busybox` | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/busybox.build.status.migration.svg)](images/busybox/configs/migration.apko.yaml) | - |
+| [gcc-glibc](./images/gcc-glibc) | `cgr.dev/chainguard/gcc-glibc` | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/gcc-glibc.build.status.migration.svg)](images/gcc-glibc/configs/migration.apko.yaml) | - |
 | [gcc-musl](./images/gcc-musl) | `cgr.dev/chainguard/gcc-musl` | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/gcc-musl.build.status.migration.svg)](images/gcc-musl/configs/migration.apko.yaml) | - |
 | [git](./images/git) | `cgr.dev/chainguard/git` | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/git.build.status.migration-nonroot.svg)](images/git/configs/migration-nonroot.apko.yaml)<br/>[![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/git.build.status.migration-root.svg)](images/git/configs/migration-root.apko.yaml) | - |
 | [go](./images/go) | `cgr.dev/chainguard/go` | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/go.build.status.migration.svg)](images/go/configs/migration.apko.yaml) | - |
