@@ -137,25 +137,26 @@ runs:
 
     # Upload badges from ./badges-output/
     - uses: actions/upload-artifact@v3
+      if: always()
       with:
         name: badges
         path: badges-output
 
     # TODO: Upload badges to GCS bucket (if specified)
     - id: gcsauth1
-      if: inputs.gcsBucketName != ''
+      if: always() && inputs.gcsBucketName != ''
       uses: google-github-actions/auth@c4799db9111fba4461e9f9da8732e5057b394f72 #v0
       with:
         workload_identity_provider: ${{ inputs.gcsAuthWorkloadIdentityProvider }}
         service_account: ${{ inputs.gcsAuthServiceAccount }}
     - id: gcsauth2
-      if: inputs.gcsBucketName != ''
+      if: always() && inputs.gcsBucketName != ''
       uses: google-github-actions/setup-gcloud@877d4953d2c70a0ba7ef3290ae968eb24af233bb #v0.6.0
       with:
         project_id: ${{ inputs.gcsAuthProjectId }}
         install_components: beta
     - id: gcsupload1
-      if: inputs.gcsBucketName != ''
+      if: always() && inputs.gcsBucketName != ''
       shell: bash
       run: |
         gsutil rsync badges-output/ gs://${{ inputs.gcsBucketName }}/badges
