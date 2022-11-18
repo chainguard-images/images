@@ -1,0 +1,6 @@
+versions:
+  - apko:
+      config: configs/migration.apko.yaml
+      extractTagsFrom:
+        package: gcc
+        prefix: migration-
