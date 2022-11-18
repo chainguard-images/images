@@ -24,12 +24,13 @@ runs:
         additional-tags: ${{ inputs.apkoAdditionalTags }}
     - name: Smoke test
       id: smoketest
-      if: inputs.testCommand != ''
+      if: inputs.testCommandExe != ''
       shell: bash
       run: |
         set -x
-        IMAGE_NAME="$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')" \
-          ${{ inputs.testCommand }}
+        export IMAGE_NAME="$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')"
+        cd "${{ inputs.testCommandDir }}"
+        ${{ inputs.testCommandExe }}
     - name: Touch actions file to prevent postrun failure
       if: always()
       shell: bash
