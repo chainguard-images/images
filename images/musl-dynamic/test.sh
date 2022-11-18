@@ -8,5 +8,5 @@ if [[ "${IMAGE_NAME}" == "unset" ]]; then
     exit 1
 fi
 
-docker build --build-arg BASE=${IMAGE_NAME} --tag smoke-test --file examples/Dockerfile.c examples
+docker build --build-arg BASE="${IMAGE_NAME}" --tag smoke-test --file examples/Dockerfile.c examples
 docker run smoke-test
