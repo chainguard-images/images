@@ -1,3 +1,5 @@
+# node
+
 Minimal container image for running NodeJS apps
 
 The image specifies a default non-root `node` user (UID 65532), and a working directory at `/app`, owned by that `node` user, and accessible to all users.
@@ -6,7 +8,7 @@ It specifies `NODE_PORT=3000` by default.
 
 ### Example
 
-Navigate to the `example/` directory:
+Navigate to the [`example/`](./example/) directory:
 
 ```
 cd example/
