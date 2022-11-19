@@ -2,6 +2,7 @@
 
 | Name | OCI Reference | Variants/Tags | Known CVEs* |
 | ----- | ----- |  -------- | -------- |
+| [alpine-base](./images/alpine-base) | `cgr.dev/chainguard/alpine-base` | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/alpine-base.build.status.migration.svg)](images/alpine-base/configs/migration.apko.yaml) | - |
 | [busybox](./images/busybox) | `cgr.dev/chainguard/busybox` | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/busybox.build.status.migration.svg)](images/busybox/configs/migration.apko.yaml) | - |
 | [gcc-glibc](./images/gcc-glibc) | `cgr.dev/chainguard/gcc-glibc` | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/gcc-glibc.build.status.migration.svg)](images/gcc-glibc/configs/migration.apko.yaml) | - |
 | [gcc-musl](./images/gcc-musl) | `cgr.dev/chainguard/gcc-musl` | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/gcc-musl.build.status.migration.svg)](images/gcc-musl/configs/migration.apko.yaml) | - |
