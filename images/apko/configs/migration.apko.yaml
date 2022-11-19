@@ -17,3 +17,8 @@ work-dir: /work
 entrypoint:
   command: /usr/bin/apko
 cmd: --help
+
+archs:
+  - x86_64
+  - aarch64
+  - armv7
