@@ -20,10 +20,6 @@ entrypoint:
 cmd: --help
 
 archs:
-- '386'
-- amd64
-- arm64
-- arm/v6
-- arm/v7
-- ppc64le
-- s390x
+  - x86_64
+  - aarch64
+  - armv7
