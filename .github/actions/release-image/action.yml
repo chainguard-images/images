@@ -112,29 +112,13 @@ runs:
     - uses: chainguard-images/actions/vul-scans@main
       id: scans
       # TODO: support for multiple tags in inputs.apkoAdditionalTags
-      if: startsWith(inputs.apkoBaseTag, 'ghcr.io/') && inputs.apkoAdditionalTags == 'latest'
+      if: startsWith(inputs.apkoBaseTag, 'ghcr.io/')
       with:
         registry: ghcr.io
         image: ${{ inputs.apkoBaseTag }}
         RUN_SNYK: 'false'
         RUN_GRYPE: 'true'
         DOCKER_LOGIN: 'true'
-    
-    # Save scan badges in ./badges-output/ (only working for GHCR/latest images for now)
-    - name: Create scan badges
-      # TODO: support for multiple tags in inputs.apkoAdditionalTags
-      if: startsWith(inputs.apkoBaseTag, 'ghcr.io/') && inputs.apkoAdditionalTags == 'latest'
-      shell: bash
-      env:
-        NAME: ${{ inputs.imageName }}
-        GRYPE_COUNT: ${{ steps.scans.outputs.GRYPE_COUNT }}
-        TRIVY_COUNT: ${{ steps.scans.outputs.TRIVY_COUNT }}
-      run: |
-        set -x
-        GRYPE_COLOR="success" && [[ "$GRYPE_COUNT" == "0" ]] || GRYPE_COLOR="yellow"
-        curl -v -L -o "badges-output/$NAME.scan.grype.latest.svg" "https://img.shields.io/static/v1?label=grype&message=$GRYPE_COUNT&color=$GRYPE_COLOR"
-        TRIVY_COLOR="success" && [[ "$TRIVY_COUNT" == "0" ]] || TRIVY_COLOR="yellow"
-        curl -v -L -o "badges-output/$NAME.scan.trivy.latest.svg" "https://img.shields.io/static/v1?label=trivy&message=$TRIVY_COUNT&color=$TRIVY_COLOR"
 
     # Upload badges from ./badges-output/
     - uses: actions/upload-artifact@v3
