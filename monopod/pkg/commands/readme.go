@@ -44,12 +44,12 @@ func (i *readmeImpl) Do() error {
 	fmt.Println("")
 	fmt.Printf("| Name | OCI Reference |")
 	if i.BadgeRootUrl != "" {
-		fmt.Printf(" Variants/Tags | Known CVEs* |")
+		fmt.Printf(" Variants/Tags |")
 	}
 	fmt.Printf("\n")
 	fmt.Printf("| ----- | ----- |")
 	if i.BadgeRootUrl != "" {
-		fmt.Printf("  -------- | -------- |")
+		fmt.Printf("  -------- |")
 	}
 	fmt.Printf("\n")
 	imageToReferenceMap := map[string]string{}
@@ -86,21 +86,10 @@ func (i *readmeImpl) Do() error {
 		})
 		reference := imageToReferenceMap[k]
 		fmt.Printf("| [%s](./%s/%s) | `%s` |", k, constants.ImagesDirName, k, reference)
-		// TODO: show all badges
 		if i.BadgeRootUrl != "" {
-			buildBadges := strings.Join(v, "<br/>")
-			cveBadges := "-"
-			// TODO: support images with multiple extra tags (not just latest)
-			if v, ok := imageToHasLatestMap[k]; ok && v {
-				cveBadges = fmt.Sprintf("![](%s/%s.scan.grype.latest.svg)<br/>![](%s/%s.scan.trivy.latest.svg)",
-					i.BadgeRootUrl, k, i.BadgeRootUrl, k)
-			}
-			fmt.Printf(" %s | %s |", buildBadges, cveBadges)
+			fmt.Printf(" %s |", strings.Join(v, "<br/>"))
 		}
 		fmt.Printf("\n")
-	}
-	if i.BadgeRootUrl != "" {
-		fmt.Printf("\n<sub>\\*CVE data refers to `latest` variants</sub>\n")
 	}
 	return nil
 }
