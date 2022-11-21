@@ -66,6 +66,17 @@ runs:
         cd "${{ inputs.testCommandDir }}"
         ${{ inputs.testCommandExe }}
 
+    # Scan
+    - uses: chainguard-images/actions/vul-scans@main
+      id: scans
+      if: startsWith(inputs.apkoBaseTag, 'ghcr.io/')
+      with:
+        registry: ghcr.io
+        image: ${{ steps.apko.outputs.digest }}
+        RUN_SNYK: 'false'
+        RUN_GRYPE: 'true'
+        DOCKER_LOGIN: 'true'
+
     # Generate build status badge from shields.io and save it in ./badges-output/
     - if: always()
       name: BADGINATOR-5000.sh
@@ -107,18 +118,6 @@ runs:
       env:
         SLACK_WEBHOOK_URL: ${{ inputs.slackWebhookUrl }}
         SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
-
-    # Scan (only working for GHCR/latest images for now)
-    - uses: chainguard-images/actions/vul-scans@main
-      id: scans
-      # TODO: support for multiple tags in inputs.apkoAdditionalTags
-      if: startsWith(inputs.apkoBaseTag, 'ghcr.io/')
-      with:
-        registry: ghcr.io
-        image: ${{ inputs.apkoBaseTag }}
-        RUN_SNYK: 'false'
-        RUN_GRYPE: 'true'
-        DOCKER_LOGIN: 'true'
 
     # Upload badges from ./badges-output/
     - uses: actions/upload-artifact@v3
