@@ -15,4 +15,6 @@ const (
 	DefaultRegistryFrontend = "cgr.dev/chainguard"
 
 	DefaultApkoKeyringAppend = "/github/workspace/melange.rsa.pub"
+
+	RegistryUI = "https://registry-ui.chainguard.app"
 )
