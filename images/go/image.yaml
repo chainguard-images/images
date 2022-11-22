@@ -4,5 +4,7 @@ versions:
       extractTagsFrom:
         package: go
         prefix: migration-
-      tags:
-        - latest
+  - apko:
+      config: configs/latest.apko.yaml
+      extractTagsFrom:
+        package: go
