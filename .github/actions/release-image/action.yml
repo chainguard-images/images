@@ -89,23 +89,22 @@ runs:
         set -x
         cat <<EOF > BADGINATOR-5000.sh
         BADGE_COLOR="\$1"
-        BADGE_MESSAGE="\$2"
         BADGE_LABEL="$VARIANT"
         FILENAME_LATEST="$NAME.build.status.latest.svg"
         FILENAME_VARIANT="$NAME.build.status.$VARIANT.svg"
         [[ "$TAGS" == "" ]] || BADGE_LABEL="\$BADGE_LABEL%20%28$TAGS%29"
         mkdir -p badges-output
-        curl -v -L -o "badges-output/\$FILENAME_VARIANT" "https://img.shields.io/static/v1?label=\$BADGE_LABEL&message=\$BADGE_MESSAGE&color=\$BADGE_COLOR"
+        curl -v -L -o "badges-output/\$FILENAME_VARIANT" "https://img.shields.io/static/v1?label=\$BADGE_LABEL&message=%20&color=\$BADGE_COLOR"
         [[ "$TAGS" != "latest" ]] || cp "badges-output/\$FILENAME_VARIANT" "badges-output/\$FILENAME_LATEST"
         EOF
     - if: failure()
       shell: bash
       run: |
-        set -x && trap "rm -f BADGINATOR-5000.sh" EXIT && bash -ex BADGINATOR-5000.sh critical failing
+        set -x && trap "rm -f BADGINATOR-5000.sh" EXIT && bash -ex BADGINATOR-5000.sh critical
     - if: success()
       shell: bash
       run: |
-        set -x && trap "rm -f BADGINATOR-5000.sh" EXIT && bash -ex BADGINATOR-5000.sh success passing
+        set -x && trap "rm -f BADGINATOR-5000.sh" EXIT && bash -ex BADGINATOR-5000.sh success
 
     # TODO: Slack notification if build failing
     - uses: slackapi/slack-github-action@007b2c3c751a190b6f0f040e47ed024deaa72844 #v1.23.0

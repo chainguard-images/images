@@ -31,7 +31,7 @@ runs:
       run: |
         set -x 
         export PATH="/tmp/bin:${PATH}"
-        echo "matrix=$(monopod matrix --modified-files=${{ inputs.modified-files }})" >> $GITHUB_OUTPUT
+        echo "matrix=$(monopod matrix --modified-files=${{ inputs.modified-files }} --melange-mode=${{ inputs.melange-mode }})" >> $GITHUB_OUTPUT
     - name: Touch actions file to prevent postrun failure
       if: always()
       shell: bash
