@@ -23,6 +23,7 @@ monopod matrix
 		RunE: func(cmd *cobra.Command, args []string) error {
 			impl := &matrixImpl{
 				ModifiedFiles: mo.ModifiedFiles,
+				MelangeMode:   mo.MelangeMode,
 			}
 			return impl.Do()
 		},
@@ -33,6 +34,7 @@ monopod matrix
 
 type matrixImpl struct {
 	ModifiedFiles string
+	MelangeMode   string
 }
 
 type matrixResponse struct {
@@ -44,6 +46,8 @@ func (i *matrixImpl) Do() error {
 	if err != nil {
 		return err
 	}
+
+	// Filter for only images affected by this change
 	if i.ModifiedFiles != "" {
 		includeImages := map[string]bool{}
 		modifiedFiles := strings.Split(i.ModifiedFiles, ",")
@@ -67,6 +71,19 @@ func (i *matrixImpl) Do() error {
 			allImages = allImagesNew
 		}
 	}
+
+	// Exclude ("none") or isolate ("only") custom melange builds
+	if i.MelangeMode == "only" || i.MelangeMode == "none" {
+		allImagesNew := []images.Image{}
+		for _, image := range allImages {
+			if (image.MelangeConfig != "" && i.MelangeMode == "only") ||
+				(image.MelangeConfig == "" && i.MelangeMode == "none") {
+				allImagesNew = append(allImagesNew, image)
+			}
+		}
+		allImages = allImagesNew
+	}
+
 	response := matrixResponse{Include: allImages}
 	b, err := json.Marshal(&response)
 	if err != nil {

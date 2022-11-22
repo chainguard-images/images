@@ -60,9 +60,15 @@ func (i *readmeImpl) Do() error {
 			if _, ok := imageToBadgeMap[image.ImageName]; !ok {
 				imageToBadgeMap[image.ImageName] = []string{}
 			}
-			s := fmt.Sprintf("[![](%s/%s.build.status.%s.svg)](%s)", i.BadgeRootUrl, image.ImageName, image.ApkoTargetTag, image.ApkoConfig)
+			link := image.ApkoConfig
+			ref := strings.Replace(image.ApkoBaseTag, constants.DefaultRegistry, constants.DefaultRegistryFrontend, 1)
+			if strings.HasPrefix(ref, fmt.Sprintf("%s/", constants.DefaultRegistryFrontend)) {
+				// Only point to Registry UI for public images
+				link = fmt.Sprintf("%s/?image=%s:%s", constants.RegistryUI, ref, image.ApkoTargetTag)
+			}
+			s := fmt.Sprintf("[![](%s/%s.build.status.%s.svg)](%s)", i.BadgeRootUrl, image.ImageName, image.ApkoTargetTag, link)
 			imageToBadgeMap[image.ImageName] = append(imageToBadgeMap[image.ImageName], s)
-			imageToReferenceMap[image.ImageName] = strings.Replace(image.ApkoBaseTag, constants.DefaultRegistry, constants.DefaultRegistryFrontend, 1)
+			imageToReferenceMap[image.ImageName] = ref
 			for _, tag := range strings.Split(image.ApkoAdditionalTags, ",") {
 				// TODO: support images with multiple extra tags (not just latest)
 				if tag == "latest" {
