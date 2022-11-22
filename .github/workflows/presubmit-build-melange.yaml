@@ -1,7 +1,12 @@
+# This build only runs if you add the "melange" label to a PR
 on:
   pull_request:
+    branches:
+      - main
+    types: [labeled]
 jobs:
-  presubmit-matrix:
+  presubmit-matrix-melange:
+    if: contains(github.event.pull_request.labels.*.name, 'melange')
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.generate-matrix.outputs.matrix }}
@@ -15,20 +20,21 @@ jobs:
       uses: ./.github/actions/generate-matrix
       with:
         modified-files: ${{ steps.files.outputs.all }}
-        melange-mode: none
-  presubmit-build:
+        melange-mode: only
+  presubmit-build-melange:
+    if: contains(github.event.pull_request.labels.*.name, 'melange')
     runs-on: ubuntu-latest
-    needs: presubmit-matrix
+    needs: presubmit-matrix-melange
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.presubmit-matrix.outputs.matrix) }}
+      matrix: ${{ fromJson(needs.presubmit-matrix-melange.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/build-image
         with: ${{ matrix }}
-  presubmit-roundup:
+  presubmit-roundup-melange:
     runs-on: ubuntu-latest
-    needs: presubmit-build
+    needs: presubmit-build-melange
     steps:
       - run: |
           echo "all matrix jobs completed"
