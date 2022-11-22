@@ -5,3 +5,8 @@ versions:
         package: go
         prefix: migration-
 
+  - apko:
+      config: configs/kcduk.apko.yaml
+      extractTagsFrom:
+        package: go
+        prefix: kcduk-
