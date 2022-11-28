@@ -45,6 +45,7 @@ jobs:
       id-token: write
       packages: write
       contents: read
+      actions: read
     steps:
       - uses: actions/checkout@v3
       - id: release-image-inputs
