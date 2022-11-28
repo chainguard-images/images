@@ -1,9 +1,11 @@
 versions:
   - apko:
-      config: configs/dev-alpine.apko.yaml
+      config: configs/latest.apko.yaml
+      tags:
+        - alpine
     melange:
-      config: configs/dev-alpine.melange.yaml
+      config: configs/latest.melange.yaml
   - apko:
-      config: configs/dev-wolfi.apko.yaml
+      config: configs/wolfi.apko.yaml
     melange:
-      config: configs/dev-wolfi.melange.yaml
+      config: configs/wolfi.melange.yaml
