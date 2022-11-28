@@ -1,6 +1,6 @@
 package:
   name: nginx
-  version: {{ .Version }}
+  version: 1.23.2
   epoch: 0
   description: "the nginx webserver"
   target-architecture:
@@ -49,7 +49,7 @@ pipeline:
   - uses: fetch
     with:
       uri: https://nginx.org/download/${{package.name}}-${{package.version}}.tar.gz
-      expected-sha256: {{ .SHA }}
+      expected-sha256: a80cc272d3d72aaee70aa8b517b4862a635c0256790434dbfc4d618a999b0b46
   - name: 'Configure nginx'
     runs: |
       ./configure \
