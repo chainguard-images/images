@@ -1,19 +1,9 @@
 versions:
   - apko:
-      config: configs/openjdk-jre-11.apko.yaml
-      extractTagsFrom:
-        package: openjdk-11-jre
-        prefix: openjdk-jre-
-  - apko:
       config: configs/openjdk-11.apko.yaml
       extractTagsFrom:
         package: openjdk-11
         prefix: openjdk-
-  - apko:
-      config: configs/openjdk-jre-17.apko.yaml
-      extractTagsFrom:
-        package: openjdk-17-jre
-        prefix: openjdk-jre-
   - apko:
       config: configs/openjdk-17.apko.yaml
       extractTagsFrom:
