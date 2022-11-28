@@ -95,7 +95,9 @@ runs:
         [[ "$TAGS" == "" ]] || BADGE_LABEL="\$BADGE_LABEL%20%28$TAGS%29"
         mkdir -p badges-output
         curl -v -L -o "badges-output/\$FILENAME_VARIANT" "https://img.shields.io/static/v1?label=\$BADGE_LABEL&message=%20&color=\$BADGE_COLOR"
-        [[ "$TAGS" != "latest" ]] || cp "badges-output/\$FILENAME_VARIANT" "badges-output/\$FILENAME_LATEST"
+        if [[ "$TAGS" == "latest" && "\$FILENAME_VARIANT" != "\$FILENAME_LATEST" ]]; then
+          cp "badges-output/\$FILENAME_VARIANT" "badges-output/\$FILENAME_LATEST"
+        fi
         EOF
     - if: failure()
       shell: bash
