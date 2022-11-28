@@ -108,14 +108,33 @@ runs:
       run: |
         set -x && trap "rm -f BADGINATOR-5000.sh" EXIT && bash -ex BADGINATOR-5000.sh success
 
-    # TODO: Slack notification if build failing
+    # There is currently no way to obtain the job ID for a single matrix leg, so we have to
+    # try to hit the GitHub API and match the job based on the name, then extract the html_url
+    # See the following issue for more details: https://github.com/orgs/community/discussions/40291
+    - shell: bash
+      if: failure() && inputs.slackWebhookUrl != ''
+      id: slacklink
+      run: |
+        set -x
+        function get_actions_job_url {
+          curl -vL -H "Authorization: Bearer ${{ github.token }}" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs" \
+            | jq -r ".jobs[] | select(.name | contains(\"${1}\")) | .html_url"
+        }
+        if [[ "${{ inputs.melangeConfig }}" != "" ]]; then
+          export ACTIONS_URL="$(get_actions_job_url ${{ inputs.melangeConfig }})"
+        else
+          export ACTIONS_URL="$(get_actions_job_url ${{ inputs.apkoConfig }})"
+        fi
+        export ACTIONS_URL="${ACTIONS_URL:-https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}}"
+        echo "link=${ACTIONS_URL}" >> $GITHUB_OUTPUT
+
+    # Slack notification if build failing
     - uses: slackapi/slack-github-action@007b2c3c751a190b6f0f040e47ed024deaa72844 #v1.23.0
-      # if: failure() && inputs.slackWebhookUrl != ''
-      # TODO: enable this
-      if: failure() && inputs.slackWebhookUrl == 'TEMPORARILYDISABLED'
+      if: failure() && inputs.slackWebhookUrl != ''
       id: slack
       with:
-        payload: '{"text": "${{ inputs.imageName }} ${{ inputs.apkoTargetTag }} failed: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
+        payload: '{"text": "${{ inputs.imageName }} ${{ inputs.apkoTargetTag }} failed: ${{ steps.slacklink.outputs.link }}"}'
       env:
         SLACK_WEBHOOK_URL: ${{ inputs.slackWebhookUrl }}
         SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
