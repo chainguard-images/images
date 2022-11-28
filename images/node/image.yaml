@@ -2,4 +2,4 @@ versions:
   - apko:
       extractTagsFrom:
         package: nodejs
-      config: configs/migration.apko.yaml
+      config: configs/latest.apko.yaml
