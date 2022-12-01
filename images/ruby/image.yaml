@@ -1,11 +1,12 @@
 versions:
   - apko:
-      config: configs/migration-30.apko.yaml
-      extractTagsFrom:
-        package: ruby-3.0
-        prefix: migration-30-
+      config: configs/latest-3.1.apko.yaml
+      tags:
+        - latest
+        - 3.1
   - apko:
-      config: configs/migration-31.apko.yaml
-      extractTagsFrom:
-        package: ruby-3.1
-        prefix: migration-31-
+      config: configs/latest-3.0.apko.yaml
+      tags:
+        - 3.0
+      # Note: Cannot use extractTagsFrom, since the "3" tag would
+      # conflict between versions 3.0 and 3.1
