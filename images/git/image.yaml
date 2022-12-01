@@ -1,12 +1,24 @@
 versions:
   - apko:
-      config: configs/migration-nonroot.apko.yaml
+      config: configs/latest.apko.yaml
       extractTagsFrom:
         package: git
-        prefix: migration-nonroot-
-
+      tags:
+        - latest-nonroot
   - apko:
-      config: configs/migration-root.apko.yaml
+      config: configs/latest-root.apko.yaml
       extractTagsFrom:
         package: git
-        prefix: migration-root-
+        prefix: root-
+  - apko:
+      config: configs/latest-glibc.apko.yaml
+      extractTagsFrom:
+        package: git
+        prefix: glibc-
+      tags:
+        - latest-glibc-nonroot
+  - apko:
+      config: configs/latest-glibc-root.apko.yaml
+      extractTagsFrom:
+        package: git
+        prefix: glibc-root-
