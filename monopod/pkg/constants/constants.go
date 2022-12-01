@@ -17,4 +17,6 @@ const (
 	DefaultApkoKeyringAppend = "/github/workspace/melange.rsa.pub"
 
 	RegistryUI = "https://registry-ui.chainguard.app"
+
+	ApkoYamlFileExtension = ".apko.yaml"
 )
