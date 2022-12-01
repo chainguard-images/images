@@ -1,6 +1,3 @@
 versions:
   - apko:
-      # The path to the apko configuration. This filename is
-      # used to determine the primary image tag ("wolfi-base")
-      config: configs/migration.apko.yaml
-
+      config: configs/latest.apko.yaml

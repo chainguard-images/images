@@ -81,7 +81,7 @@ func ListAll() ([]Image, error) {
 		}
 		for _, variant := range m.Variants {
 			apkoConfig := filepath.Join(constants.ImagesDirName, imageName, variant.Apko.Config)
-			apkoTargetTag := strings.Split(filepath.Base(apkoConfig), ".")[0]
+			apkoTargetTag := strings.Replace(filepath.Base(apkoConfig), constants.ApkoYamlFileExtension, "", 1)
 			apkoAdditionalTags := strings.Join(variant.Apko.Tags, ",")
 
 			// Ensure that we dont have duplicate entries for any image/variant combo
