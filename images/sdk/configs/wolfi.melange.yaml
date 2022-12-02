@@ -56,8 +56,8 @@ pipeline:
 
       # go build/module cache
       mkdir "${DESTDIR}/root"
-      mv /root/.cache "${DESTDIR}/root/.cache"
-      mv /root/go "${DESTDIR}/root/go"
+      mv ${HOME}/.cache "${DESTDIR}/root/.cache"
+      mv ${HOME}/go "${DESTDIR}/root/go"
 
       # sdk entrypoint
       SDK_ENTRYPOINT="${DESTDIR}/usr/bin/sdk"
