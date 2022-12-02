@@ -1,6 +1,10 @@
 versions:
   - apko:
-      config: configs/migration.apko.yaml
+      config: configs/latest.apko.yaml
       extractTagsFrom:
-        package: python
-        prefix: migration-
+        package: python3
+  - apko:
+      config: configs/latest-glibc.apko.yaml
+      extractTagsFrom:
+        package: python3
+        prefix: glibc-

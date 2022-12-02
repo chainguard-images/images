@@ -1,6 +1,10 @@
 versions:
   - apko:
-      config: configs/migration.apko.yaml
+      config: configs/latest.apko.yaml
       extractTagsFrom:
         package: busybox
-        prefix: migration-
+  - apko:
+      config: configs/latest-glibc.apko.yaml
+      extractTagsFrom:
+        package: busybox
+        prefix: glibc-
