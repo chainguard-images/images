@@ -54,6 +54,20 @@ runs:
         package-version-tag: ${{ inputs.apkoPackageVersionTag }}
         package-version-tag-stem: true
         package-version-tag-prefix: ${{ inputs.apkoPackageVersionTagPrefix }}
+    - name: Extract the digests for each architecture
+      id: extract
+      shell: bash
+      run: |
+        for combo in `crane manifest ${{ steps.apko.outputs.digest }} | jq -r '.manifests[] | .platform.architecture + .platform.variant + "_" + .digest'`; do
+          arch="$(echo "${combo}" | cut -d "_" -f1)"
+          digest="$(echo "${combo}" | cut -d "_" -f2)"
+          output="digest-${arch}=${{ inputs.apkoBaseTag }}@${digest}"
+          echo "Adding GitHub step output: ${output}"
+          echo "${output}" >> $GITHUB_OUTPUT
+        done
+        output="digest-index=${{ steps.apko.outputs.digest }}"
+        echo "Adding GitHub step output: ${output}"
+        echo "${output}" >> $GITHUB_OUTPUT
 
     # Test image
     - name: Smoke test
@@ -62,20 +76,75 @@ runs:
       shell: bash
       run: |
         set -x
-        export IMAGE_NAME="${{ steps.apko.outputs.digest }}"
+        export IMAGE_NAME="${{ steps.extract.outputs.digest-index }}"
         cd "${{ inputs.testCommandDir }}"
         ${{ inputs.testCommandExe }}
 
-    # Scan
+    # Scan - first each of the architectures, then the index
+    # TODO: improve this - make a single action that runs multiple, or run in matrix at top level
     - uses: chainguard-images/actions/vul-scans@main
-      id: scans
-      if: startsWith(inputs.apkoBaseTag, 'ghcr.io/')
+      id: scan-386
+      if: steps.extract.outputs.digest-386 != ''
       with:
-        registry: ghcr.io
-        image: ${{ steps.apko.outputs.digest }}
+        image: ${{ steps.extract.outputs.digest-386 }}
         RUN_SNYK: 'false'
-        RUN_GRYPE: 'true'
-        DOCKER_LOGIN: 'true'
+        DOCKER_LOGIN: 'false'
+    - uses: chainguard-images/actions/vul-scans@main
+      id: scan-amd64
+      if: steps.extract.outputs.digest-amd64 != ''
+      with:
+        image: ${{ steps.extract.outputs.digest-amd64 }}
+        RUN_SNYK: 'false'
+        DOCKER_LOGIN: 'false'
+    - uses: chainguard-images/actions/vul-scans@main
+      id: scan-arm64
+      if: steps.extract.outputs.digest-arm64 != ''
+      with:
+        image: ${{ steps.extract.outputs.digest-arm64 }}
+        RUN_SNYK: 'false'
+        DOCKER_LOGIN: 'false'
+    - uses: chainguard-images/actions/vul-scans@main
+      id: scan-armv6
+      if: steps.extract.outputs.digest-armv6 != ''
+      with:
+        image: ${{ steps.extract.outputs.digest-armv6 }}
+        RUN_SNYK: 'false'
+        DOCKER_LOGIN: 'false'
+    - uses: chainguard-images/actions/vul-scans@main
+      id: scan-armv7
+      if: steps.extract.outputs.digest-armv7 != ''
+      with:
+        image: ${{ steps.extract.outputs.digest-armv7 }}
+        RUN_SNYK: 'false'
+        DOCKER_LOGIN: 'false'
+    - uses: chainguard-images/actions/vul-scans@main
+      id: scan-ppc64le
+      if: steps.extract.outputs.digest-ppc64le != ''
+      with:
+        image: ${{ steps.extract.outputs.digest-ppc64le }}
+        RUN_SNYK: 'false'
+        DOCKER_LOGIN: 'false'
+    - uses: chainguard-images/actions/vul-scans@main
+      id: scan-riscv64
+      if: steps.extract.outputs.digest-riscv64 != ''
+      with:
+        image: ${{ steps.extract.outputs.digest-riscv64 }}
+        RUN_SNYK: 'false'
+        DOCKER_LOGIN: 'false'
+    - uses: chainguard-images/actions/vul-scans@main
+      id: scan-s390x
+      if: steps.extract.outputs.digest-s390x != ''
+      with:
+        image: ${{ steps.extract.outputs.digest-s390x }}
+        RUN_SNYK: 'false'
+        DOCKER_LOGIN: 'false'
+    - uses: chainguard-images/actions/vul-scans@main
+      id: scan-index
+      if: steps.extract.outputs.digest-index != ''
+      with:
+        image: ${{ steps.extract.outputs.digest-index }}
+        RUN_SNYK: 'false'
+        DOCKER_LOGIN: 'false'
 
     # Generate build status badge from shields.io and save it in ./badges-output/
     - if: always()
