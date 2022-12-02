@@ -1,5 +1,10 @@
 versions:
   - apko:
       extractTagsFrom:
-        package: php81
+        package: php
       config: configs/latest.apko.yaml
+  - apko:
+      extractTagsFrom:
+        package: php
+        prefix: dev-
+      config: configs/latest-dev.apko.yaml

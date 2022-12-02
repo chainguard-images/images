@@ -5,7 +5,9 @@ contents:
     - https://packages.wolfi.dev/os
   packages:
     - wolfi-baselayout
+    - busybox
     - php
+    - composer
 
 entrypoint:
   command: /bin/php
