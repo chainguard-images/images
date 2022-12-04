@@ -80,13 +80,13 @@ runs:
         cd "${{ inputs.testCommandDir }}"
         ${{ inputs.testCommandExe }}
 
-    # Scan - first each of the architectures, then the index
+    # Scan - first index, then amd64, then arm64, then others
     # TODO: improve this - make a single action that runs multiple, or run in matrix at top level
     - uses: chainguard-images/actions/vul-scans@main
-      id: scan-386
-      if: steps.extract.outputs.digest-386 != ''
+      id: scan-index
+      if: steps.extract.outputs.digest-index != ''
       with:
-        image: ${{ steps.extract.outputs.digest-386 }}
+        image: ${{ steps.extract.outputs.digest-index }}
         RUN_SNYK: 'false'
         DOCKER_LOGIN: 'false'
     - uses: chainguard-images/actions/vul-scans@main
@@ -101,6 +101,13 @@ runs:
       if: steps.extract.outputs.digest-arm64 != ''
       with:
         image: ${{ steps.extract.outputs.digest-arm64 }}
+        RUN_SNYK: 'false'
+        DOCKER_LOGIN: 'false'
+    - uses: chainguard-images/actions/vul-scans@main
+      id: scan-386
+      if: steps.extract.outputs.digest-386 != ''
+      with:
+        image: ${{ steps.extract.outputs.digest-386 }}
         RUN_SNYK: 'false'
         DOCKER_LOGIN: 'false'
     - uses: chainguard-images/actions/vul-scans@main
@@ -136,13 +143,6 @@ runs:
       if: steps.extract.outputs.digest-s390x != ''
       with:
         image: ${{ steps.extract.outputs.digest-s390x }}
-        RUN_SNYK: 'false'
-        DOCKER_LOGIN: 'false'
-    - uses: chainguard-images/actions/vul-scans@main
-      id: scan-index
-      if: steps.extract.outputs.digest-index != ''
-      with:
-        image: ${{ steps.extract.outputs.digest-index }}
         RUN_SNYK: 'false'
         DOCKER_LOGIN: 'false'
 
