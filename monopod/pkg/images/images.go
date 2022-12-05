@@ -13,20 +13,21 @@ import (
 )
 
 type Image struct {
-	ImageName                   string `json:"imageName"`
-	ImageStatus                 string `json:"imageStatus"`
-	MelangeConfig               string `json:"melangeConfig"`
-	MelangeArchs                string `json:"melangeArchs"`
-	MelangeTemplate             string `json:"melangeTemplate"`
-	ApkoConfig                  string `json:"apkoConfig"`
-	ApkoKeyringAppend           string `json:"apkoKeyringAppend"`
-	ApkoAdditionalTags          string `json:"apkoAdditionalTags"`
-	ApkoBaseTag                 string `json:"apkoBaseTag"`
-	ApkoTargetTag               string `json:"apkoTargetTag"`
-	ApkoPackageVersionTag       string `json:"apkoPackageVersionTag"`
-	ApkoPackageVersionTagPrefix string `json:"apkoPackageVersionTagPrefix"`
-	TestCommandExe              string `json:"testCommandExe"`
-	TestCommandDir              string `json:"testCommandDir"`
+	ImageName                    string `json:"imageName"`
+	ImageStatus                  string `json:"imageStatus"`
+	MelangeConfig                string `json:"melangeConfig"`
+	MelangeArchs                 string `json:"melangeArchs"`
+	MelangeTemplate              string `json:"melangeTemplate"`
+	ApkoConfig                   string `json:"apkoConfig"`
+	ApkoKeyringAppend            string `json:"apkoKeyringAppend"`
+	ApkoAdditionalTags           string `json:"apkoAdditionalTags"`
+	ApkoBaseTag                  string `json:"apkoBaseTag"`
+	ApkoTargetTag                string `json:"apkoTargetTag"`
+	ApkoPackageVersionTag        string `json:"apkoPackageVersionTag"`
+	ApkoPackageVersionTagPrefix  string `json:"apkoPackageVersionTagPrefix"`
+	TestCommandExe               string `json:"testCommandExe"`
+	TestCommandDir               string `json:"testCommandDir"`
+	ContainerStructureTestConfig string `json:"containerStructureTestConfig"`
 }
 
 type ImageManifest struct {
@@ -105,6 +106,12 @@ func ListAll() ([]Image, error) {
 				testCommandDir = filepath.Join(constants.ImagesDirName, imageName)
 			}
 
+			containerStructureTestConfig := ""
+			structureTestConfigFile := filepath.Join(constants.ImagesDirName, imageName, constants.DefaultContainerStructureTestConfigFileName)
+			if _, err := os.Stat(structureTestConfigFile); err == nil {
+				containerStructureTestConfig = structureTestConfigFile
+			}
+
 			var apkoBaseTag string
 			if m.Registry != "" {
 				apkoBaseTag = path.Join(m.Registry, imageName)
@@ -130,20 +137,21 @@ func ListAll() ([]Image, error) {
 			}
 
 			i := Image{
-				ImageName:                   imageName,
-				ImageStatus:                 imageStatus,
-				MelangeConfig:               melangeConfig, // TODO
-				MelangeArchs:                melangeArchs,  // TODO
-				MelangeTemplate:             "",            // TODO
-				ApkoConfig:                  apkoConfig,
-				ApkoKeyringAppend:           apkoKeyringAppend, // TODO
-				ApkoBaseTag:                 apkoBaseTag,
-				ApkoTargetTag:               apkoTargetTag,
-				ApkoAdditionalTags:          apkoAdditionalTags,
-				ApkoPackageVersionTag:       variant.Apko.ExtractTagsFrom.Package,
-				ApkoPackageVersionTagPrefix: variant.Apko.ExtractTagsFrom.Prefix,
-				TestCommandExe:              testCommandExe,
-				TestCommandDir:              testCommandDir,
+				ImageName:                    imageName,
+				ImageStatus:                  imageStatus,
+				MelangeConfig:                melangeConfig, // TODO
+				MelangeArchs:                 melangeArchs,  // TODO
+				MelangeTemplate:              "",            // TODO
+				ApkoConfig:                   apkoConfig,
+				ApkoKeyringAppend:            apkoKeyringAppend, // TODO
+				ApkoBaseTag:                  apkoBaseTag,
+				ApkoTargetTag:                apkoTargetTag,
+				ApkoAdditionalTags:           apkoAdditionalTags,
+				ApkoPackageVersionTag:        variant.Apko.ExtractTagsFrom.Package,
+				ApkoPackageVersionTagPrefix:  variant.Apko.ExtractTagsFrom.Prefix,
+				TestCommandExe:               testCommandExe,
+				TestCommandDir:               testCommandDir,
+				ContainerStructureTestConfig: containerStructureTestConfig,
 			}
 			allImages = append(allImages, i)
 		}

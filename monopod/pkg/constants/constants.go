@@ -10,6 +10,8 @@ const (
 
 	DefaultTestScriptFilename = "test.sh"
 
+	DefaultContainerStructureTestConfigFileName = "structure.yaml"
+
 	DefaultRegistry = "ghcr.io/chainguard-images"
 
 	DefaultRegistryFrontend = "cgr.dev/chainguard"

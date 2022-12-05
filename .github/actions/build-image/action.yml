@@ -31,6 +31,19 @@ runs:
         export IMAGE_NAME="$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')"
         cd "${{ inputs.testCommandDir }}"
         ${{ inputs.testCommandExe }}
+    - name: Setup container structure test
+      uses: ./.github/actions/setup-container-structure-test
+      if: inputs.containerStructureTestConfig != ''
+    - name: Run container structure test
+      id: containerstructuretest
+      if: inputs.containerStructureTestConfig != ''
+      shell: bash
+      run: |
+        set -x
+        export IMAGE_NAME="$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')"
+        container-structure-test test \
+          --image $IMAGE_NAME \
+          --config ${{ inputs.containerStructureTestConfig }}
     - name: Touch actions file to prevent postrun failure
       if: always()
       shell: bash

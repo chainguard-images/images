@@ -1,0 +1,14 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  envVars:
+    - key: LANG
+      value: en_US.UTF-8
+    - key: JAVA_HOME
+      value: /usr/lib/jvm/openjdk-jre
+
+commandTests:
+  - name: "java command is registered."
+    command: "java"
+    args: ["-version"]
+    expectedError: ["OpenJDK Runtime Environment*"]
