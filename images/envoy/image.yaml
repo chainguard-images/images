@@ -1,0 +1,8 @@
+versions:
+  - apko:
+      config: configs/experimental.apko.yaml
+      extractTagsFrom:
+        package: envoy
+        prefix: experimental-
+      tags:
+        - latest
