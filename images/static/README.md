@@ -1,3 +1,21 @@
+# static
+
+
+Base image with just enough files to run static binaries!
+
+This image is meant to be used as a base image only, and is otherwise useless.  It contains the `alpine-baselayout-data` package from Alpine, which is just a set of data files needed to support glibc and musl static binaries at runtime.
+
+This image can be used with `ko build`, `docker`, etc, but is only suitable for running completely static binaries, such as with `go build` with `CGO_ENABLED=0`. See [musl-dynamic](https://github.com/chainguard-images/images/musl-dynamic) and [glibc-dynamic](https://github.com/chainguard-images/images/glibc-dynamic) for images with the C standard library included.
+
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/static:latest
+```
+
+## Usage
 
 Here's an example Dockerfile that builds a Rust static binary
 and puts it into the static image:

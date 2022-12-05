@@ -1,3 +1,17 @@
+# gcc-musl
+
+Minimal container image for building C applications (which do not require glibc).
+
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/gcc-musl:latest
+```
+
+## Usage
+
 To build the C application in [examples/hello/main.c](examples/hello/main.c):
 
 ```

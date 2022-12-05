@@ -1,3 +1,19 @@
+# python
+
+This is a minimal Python image based on Alpine, using Python apks available on the Alpine Community repositories (not built from source as of now).
+
+While this image is being developed, we will stick to the latest stable Python version. Supported versions in the long term are TBD.
+
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/python:latest
+```
+
+## Usage
+
 To try out the image, run:
 
 ```shell

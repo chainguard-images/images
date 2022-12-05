@@ -1,3 +1,19 @@
+# ko
+
+This is an image that contains ko, go, and build-base.
+
+This image is designed for use in situations where you would like to use `ko` with codebases that have C dependencies where `cgo` must be used. In these cases, staticly linking against musl instead of glibc results in smaller binaries.
+
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/ko:latest
+```
+
+# Usage
+
 ### Using with CGO
 
 Navigate to the `example/` directory:

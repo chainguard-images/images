@@ -6,7 +6,15 @@ The image specifies a default non-root `node` user (UID 65532), and a working di
 
 It specifies `NODE_PORT=3000` by default.
 
-### Example
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/node:latest
+```
+
+## Usage Example
 
 Navigate to the [`example/`](./example/) directory:
 

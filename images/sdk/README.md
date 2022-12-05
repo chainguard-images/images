@@ -1,3 +1,17 @@
+# sdk
+
+Development image for [melange](https://github.com/chainguard-dev/melange) and [apko](https://github.com/chainguard-dev/apko).
+
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/sdk:latest
+```
+
+## Usage
+
 ### With melange
 
 Clone down your development fork/branch:

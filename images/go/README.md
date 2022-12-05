@@ -1,3 +1,17 @@
+# go
+
+Container image for building Go applications.
+
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/go:latest
+```
+
+## Usage
+
 ## Host architecture example
 
 To build the Go application in [examples/hello/main.go](examples/hello/main.go)
