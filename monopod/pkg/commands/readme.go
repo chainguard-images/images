@@ -42,17 +42,18 @@ func (i *readmeImpl) Do() error {
 	}
 	fmt.Println("# Chainguard Images")
 	fmt.Println("")
-	fmt.Printf("| Name | OCI Reference |")
+	fmt.Printf("| Name | OCI Reference | Status |")
 	if i.BadgeRootUrl != "" {
 		fmt.Printf(" Variants/Tags |")
 	}
 	fmt.Printf("\n")
-	fmt.Printf("| ----- | ----- |")
+	fmt.Printf("| ----- | ----- | ----- |")
 	if i.BadgeRootUrl != "" {
 		fmt.Printf("  -------- |")
 	}
 	fmt.Printf("\n")
 	imageToReferenceMap := map[string]string{}
+	imageToStatusMap := map[string]string{}
 	imageToBadgeMap := map[string][]string{}
 	imageToHasLatestMap := map[string]bool{}
 	if i.BadgeRootUrl != "" {
@@ -69,6 +70,7 @@ func (i *readmeImpl) Do() error {
 			s := fmt.Sprintf("[![](%s/%s.build.status.%s.svg)](%s)", i.BadgeRootUrl, image.ImageName, image.ApkoTargetTag, link)
 			imageToBadgeMap[image.ImageName] = append(imageToBadgeMap[image.ImageName], s)
 			imageToReferenceMap[image.ImageName] = ref
+			imageToStatusMap[image.ImageName] = image.ImageStatus
 			for _, tag := range strings.Split(image.ApkoAdditionalTags, ",") {
 				// TODO: support images with multiple extra tags (not just latest)
 				if tag == "latest" {
@@ -91,7 +93,8 @@ func (i *readmeImpl) Do() error {
 			return v[i] < v[j]
 		})
 		reference := imageToReferenceMap[k]
-		fmt.Printf("| [%s](./%s/%s) | `%s` |", k, constants.ImagesDirName, k, reference)
+		status := imageToStatusMap[k]
+		fmt.Printf("| [%s](./%s/%s) | `%s` | %s |", k, constants.ImagesDirName, k, reference, status)
 		if i.BadgeRootUrl != "" {
 			fmt.Printf(" %s |", strings.Join(v, "<br/>"))
 		}
