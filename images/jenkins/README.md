@@ -1,4 +1,16 @@
-## Using Jenkins
+# Jenkins
+
+Minimal Jenkins container image. **Currently experimental.**
+
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/jenkins:latest
+```
+
+## Usage
 
 This is an experimental image and subject to change.  We welcome all feedback.
 

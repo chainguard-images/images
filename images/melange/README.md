@@ -1,3 +1,15 @@
+# melange
+
+Container image for running [melange](https://github.com/chainguard-dev/melange) workflows to build APK packages.
+
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/melange:latest
+```
+
 To build the melange workflow in [examples](examples/gnu-hello.yaml):
 
 ```

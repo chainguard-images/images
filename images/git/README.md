@@ -1,3 +1,23 @@
+# git
+
+This is a minimal Git image based. The image contains `git`, `git-lfs`, and supporting libraries such as `openssh` (for `ssh`-based auth), and `ca-certs` (for `https`-based cloning). Both Wolfi (glibc) and Alpine (musl) versions are available.
+
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/git:latest
+```
+
+Or for the glibc version:
+
+```
+docker pull cgr.dev/chainguard/git:latest-glibc
+```
+
+## Usage
+
 The Git image allows you to run ordinary Git commands in CI/CD pipelines and also locally via Docker.
 
 ### Docker Setup

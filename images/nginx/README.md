@@ -1,3 +1,17 @@
+# nginx
+
+A minimal nginx base image rebuilt every night from source.
+
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/nginx:latest
+```
+
+## Usage
+
 To try out the image, run:
 
 ```

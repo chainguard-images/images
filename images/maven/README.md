@@ -1,3 +1,15 @@
+# Maven
+
+Minimal image with Maven build system. **EXPERIMENTAL**
+
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/maven:latest
+```
+
 ## Using Maven
 
 Chainguard Maven images come with different versions of OpenJDK, ensure you choose the correct image tag for your application needs.  In these examples we will use a Chainguard Maven image based on OpenJDK 17.

@@ -1,4 +1,16 @@
-## Using PostgreSQL
+# postgres
+
+Minimal PostgreSQL image. **EXPERIMENTAL**
+
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/postgres:latest
+```
+
+## Usage
 
 The only mandatory environment variable needed by the PosgreSQL image is `POSTGRES_PASSWORD`
 
