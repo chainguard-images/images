@@ -1,0 +1,11 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+  packages:
+    - wait-for-it
+entrypoint:
+  command: /usr/bin/wait-for-it
+archs:
+- x86_64
