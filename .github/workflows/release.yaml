@@ -55,7 +55,7 @@ jobs:
           EXTRA_INPUT_GCS_AUTH_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCS_AUTH_WORKLOAD_IDENTITY_PROVIDER }}
           EXTRA_INPUT_GCS_AUTH_SERVICE_ACCOUNT: ${{ secrets.GCS_AUTH_SERVICE_ACCOUNT }}
           EXTRA_INPUT_GCS_AUTH_PROJECT_ID: ${{ secrets.GCS_AUTH_PROJECT_ID }}
-          EXTRA_INPUT_GCS_BUCKET_NAME: ${{ secrets.GCS_BUCKET_NAME }}
+          EXTRA_INPUT_GCS_BUCKET_NAME: chainguard-images-build-outputs
         run: |
           # convert env vars beginning with "EXTRA_INPUT_"
           # to camelcased input variables passed to next step
