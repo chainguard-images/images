@@ -19,4 +19,6 @@ const (
 	RegistryUI = "https://registry-ui.chainguard.app"
 
 	ApkoYamlFileExtension = ".apko.yaml"
+
+	DefaultImageStatus = "stable"
 )

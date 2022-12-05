@@ -7,5 +7,5 @@
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/bazel:experimental
+docker pull cgr.dev/chainguard/bazel
 ```

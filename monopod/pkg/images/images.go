@@ -14,6 +14,7 @@ import (
 
 type Image struct {
 	ImageName                   string `json:"imageName"`
+	ImageStatus                 string `json:"imageStatus"`
 	MelangeConfig               string `json:"melangeConfig"`
 	MelangeArchs                string `json:"melangeArchs"`
 	MelangeTemplate             string `json:"melangeTemplate"`
@@ -30,6 +31,7 @@ type Image struct {
 
 type ImageManifest struct {
 	Registry string                 `yaml:"registry"`
+	Status   string                 `yaml:"status"`
 	Variants []ImageManifestVariant `yaml:"versions"`
 }
 
@@ -79,6 +81,10 @@ func ListAll() ([]Image, error) {
 		if err := yaml.Unmarshal(b, &m); err != nil {
 			return nil, err
 		}
+		imageStatus := m.Status
+		if imageStatus == "" {
+			imageStatus = constants.DefaultImageStatus
+		}
 		for _, variant := range m.Variants {
 			apkoConfig := filepath.Join(constants.ImagesDirName, imageName, variant.Apko.Config)
 			apkoTargetTag := strings.Replace(filepath.Base(apkoConfig), constants.ApkoYamlFileExtension, "", 1)
@@ -125,6 +131,7 @@ func ListAll() ([]Image, error) {
 
 			i := Image{
 				ImageName:                   imageName,
+				ImageStatus:                 imageStatus,
 				MelangeConfig:               melangeConfig, // TODO
 				MelangeArchs:                melangeArchs,  // TODO
 				MelangeTemplate:             "",            // TODO
