@@ -1,14 +1,20 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   repositories:
-    - https://packages.wolfi.dev/os
+    - https://dl-cdn.alpinelinux.org/alpine/edge/main
+    - https://dl-cdn.alpinelinux.org/alpine/edge/community
   packages:
-    - wolfi-baselayout
-    - php
+    - alpine-baselayout
+    - php81
+    - php81-common
+    - php81-curl
+    - php81-openssl
+    - php81-xml
+    - php81-pdo
+    - php81-sqlite3
+    - php81-phar
 
 entrypoint:
-  command: /bin/php
+  command: /usr/bin/php81
 
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin
