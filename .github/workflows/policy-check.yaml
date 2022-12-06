@@ -1,0 +1,43 @@
+on:
+  schedule:
+    # 2 hours after release job
+    - cron: '0 2 * * *'
+  workflow_dispatch: {}
+concurrency: release
+jobs:
+  policy-check-generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.generate-matrix.outputs.matrix }}
+    steps:
+    - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+    - id: generate-matrix
+      uses: ./.github/actions/generate-matrix
+  policy-check-image:
+    runs-on: ubuntu-latest
+    needs: policy-check-generate-matrix
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.policy-check-generate-matrix.outputs.matrix) }}
+    permissions:
+      actions: read
+    steps:
+      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+      - id: policy-check-image-inputs
+        name: Add additional inputs for policy-check-image action
+        env:
+          EXTRA_INPUT_SLACK_WEBHOOK_URL: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
+        run: |
+          # convert env vars beginning with "EXTRA_INPUT_"
+          # to camelcased input variables passed to next step
+          set -x
+          echo '${{ toJSON(matrix) }}' > inputs.json
+          for kv in `env | grep '^EXTRA_INPUT_' | sed 's/^EXTRA_INPUT_//'`; do
+            k="$(echo "${kv}" | cut -d "=" -f1 | tr '[:upper:]' '[:lower:]' | sed -r 's/(.)_+(.)/\1\U\2/g;s/^[a-z]/\U&/' | sed 's/.*/\l&/')"
+            v="$(echo "${kv}" | cut -d "=" -f2)"
+            cat inputs.json | jq -c '. + {'${k}': "'${v}'"}' > inputs.json.tmp
+            mv inputs.json.tmp inputs.json
+          done
+          echo "policy-check-image-inputs=$(cat inputs.json | tr -d '\n')" >> $GITHUB_OUTPUT
+      - uses: ./.github/actions/policy-check-image
+        with: ${{ fromJSON(steps.policy-check-image-inputs.outputs.policy-check-image-inputs) }}

@@ -193,7 +193,7 @@ runs:
         set -x
         function get_actions_job_url {
           curl -vL -H "Authorization: Bearer ${{ github.token }}" \
-            "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs?per_page=100" \
             | jq -r ".jobs[] | select(.name | contains(\"${1}\")) | .html_url"
         }
         if [[ "${{ inputs.melangeConfig }}" != "" ]]; then
@@ -209,7 +209,7 @@ runs:
       if: failure() && inputs.slackWebhookUrl != ''
       id: slack
       with:
-        payload: '{"text": "${{ inputs.imageName }} ${{ inputs.apkoTargetTag }} failed: ${{ steps.slacklink.outputs.link }}"}'
+        payload: '{"text": "[release-image] ${{ inputs.imageName }} ${{ inputs.apkoTargetTag }} failed: ${{ steps.slacklink.outputs.link }}"}'
       env:
         SLACK_WEBHOOK_URL: ${{ inputs.slackWebhookUrl }}
         SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK

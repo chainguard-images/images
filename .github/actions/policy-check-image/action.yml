@@ -1,0 +1,88 @@
+name: policy-check-image
+inputs:
+  slackWebhookUrl:
+    default: ''
+runs:
+  using: composite
+  steps:
+    # Note: this matches what is currently used for policy-controller
+    - uses: actions/setup-go@d0a58c1c4d2b25278816e339b944508c875f3613
+      with:
+        go-version: '1.18'
+        check-latest: true
+    - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
+      with:
+        repository: sigstore/policy-controller
+        path: ${{github.workspace}}/policy-controller
+    - name: Build the policy-tester CLI
+      shell: bash
+      run: |
+        (cd policy-controller/ && make policy-tester && mv policy-tester /tmp/policy-tester)
+    - uses: imjasonh/setup-crane@v0.1
+    - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+    - name: Determine image ref
+      shell: bash
+      run: |
+        set -x
+
+        BASE_TAG="$(echo "${{ inputs.apkoBaseTag }}" | sed 's|ghcr\.io/chainguard-images/|cgr\.dev/chainguard/|')"
+        REF="${BASE_TAG}:${{ inputs.apkoTargetTag }}"
+
+        # First check the policy against the image index
+        for policy in `find policies -name *.yaml`; do
+          echo "Checking image index against ${policy} ..."
+          /tmp/policy-tester \
+            --policy "${policy}" \
+            --image "${REF}"
+        done
+
+        # Next check the policy against each architecture image manifest
+        for combo in `crane manifest ${REF} | jq -r '.manifests[] | .platform.architecture + .platform.variant + "_" + .digest'`; do
+          arch="$(echo "${combo}" | cut -d "_" -f1)"
+          digest="$(echo "${combo}" | cut -d "_" -f2)"
+          arch_ref="${BASE_TAG}@${digest}"
+          for policy in `find policies -name *.yaml`; do
+            echo "Checking image manifest (${arch}) against ${policy} ..."
+            /tmp/policy-tester \
+              --policy "${policy}" \
+              --image "${arch_ref}"
+          done
+        done
+
+    # There is currently no way to obtain the job ID for a single matrix leg, so we have to
+    # try to hit the GitHub API and match the job based on the name, then extract the html_url
+    # See the following issue for more details: https://github.com/orgs/community/discussions/40291
+    - shell: bash
+      if: failure() && inputs.slackWebhookUrl != ''
+      id: slacklink
+      run: |
+        set -x
+        function get_actions_job_url {
+          curl -vL -H "Authorization: Bearer ${{ github.token }}" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs?per_page=100" \
+            | jq -r ".jobs[] | select(.name | contains(\"${1}\")) | .html_url"
+        }
+        if [[ "${{ inputs.melangeConfig }}" != "" ]]; then
+          export ACTIONS_URL="$(get_actions_job_url ${{ inputs.melangeConfig }})"
+        else
+          export ACTIONS_URL="$(get_actions_job_url ${{ inputs.apkoConfig }})"
+        fi
+        export ACTIONS_URL="${ACTIONS_URL:-https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}}"
+        echo "link=${ACTIONS_URL}" >> $GITHUB_OUTPUT
+
+    # Slack notification if build failing
+    - uses: slackapi/slack-github-action@007b2c3c751a190b6f0f040e47ed024deaa72844 # v1.23.0
+      if: failure() && inputs.slackWebhookUrl != ''
+      id: slack
+      with:
+        payload: '{"text": "[policy-check] ${{ inputs.imageName }} ${{ inputs.apkoTargetTag }} failed: ${{ steps.slacklink.outputs.link }}"}'
+      env:
+        SLACK_WEBHOOK_URL: ${{ inputs.slackWebhookUrl }}
+        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+    - name: Touch actions file to prevent postrun failure
+      if: always()
+      shell: bash
+      run: |
+        set -x && [[ -f .github/actions/policy-check-image/action.yml ]] || ( \
+          mkdir -p .github/actions/policy-check-image/ && echo 'runs: {using: composite, steps: []}' > .github/actions/policy-check-image/action.yml )

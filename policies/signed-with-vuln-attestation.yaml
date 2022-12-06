@@ -1,0 +1,23 @@
+apiVersion: policy.sigstore.dev/v1beta1
+kind: ClusterImagePolicy
+metadata:
+  name: is-signed-with-vuln-attestation
+spec:
+  images:
+    - glob: cgr.dev/chainguard/*
+  authorities:
+    - name: keyless-authority
+      keyless:
+        identities:
+          - issuer: https://token.actions.githubusercontent.com
+            subject: https://github.com/chainguard-images/images/.github/workflows/release.yaml@refs/heads/main
+        url: https://fulcio.sigstore.dev
+      ctlog:
+        url: https://rekor.sigstore.dev
+      attestations:
+        - name: must-have-vuln-report
+          predicateType: vuln
+          policy:
+            type: cue
+            data: |
+              predicateType: "cosign.sigstore.dev/attestation/vuln/v1"
