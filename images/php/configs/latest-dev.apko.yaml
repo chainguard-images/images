@@ -12,6 +12,8 @@ contents:
     - php81-pdo
     - php81-sqlite3
     - php81-phar
+    - composer
+    - busybox
 
 entrypoint:
   command: /usr/bin/php81
