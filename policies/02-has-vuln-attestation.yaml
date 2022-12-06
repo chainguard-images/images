@@ -1,0 +1,61 @@
+apiVersion: policy.sigstore.dev/v1beta1
+kind: ClusterImagePolicy
+metadata:
+  name: has-vuln-attestation
+spec:
+  images:
+    - glob: cgr.dev/chainguard/*
+  authorities:
+    - name: keyless-authority
+      keyless:
+        url: https://fulcio.sigstore.dev
+        identities:
+          - issuer: https://token.actions.githubusercontent.com
+            subject: https://github.com/chainguard-images/images/.github/workflows/release.yaml@refs/heads/main
+      ctlog:
+        url: https://rekor.sigstore.dev
+      attestations:
+        - name: must-have-vuln-attestation
+          predicateType: vuln
+          policy:
+            type: cue
+            data: |
+              predicateType: "cosign.sigstore.dev/attestation/vuln/v1"
+
+      # TODO: Use attestation below instead to also require no high severity CVEs
+      # attestations:
+      #   - name: must-have-vuln-attestation-with-no-high-severity-cves
+      #     predicateType: vuln
+      #     policy:
+      #       type: cue
+      #       data: |
+      #         import (
+      #           "list"
+      #           "strings"
+      #           "strconv"
+      #         )
+      #         predicateType: "cosign.sigstore.dev/attestation/vuln/v1"
+      #         predicate: {
+      #           scanner: {
+      #             result: {
+      #               runs: [...{
+      #                 tool: {
+      #                   driver: {
+      #                     rules: [...{
+      #                       id: id
+      #                         properties: {
+      #                           "security-severity": string
+      #                           severityFloat: strconv.ParseFloat(properties."security-severity", 16)
+      #                           if severityFloat > 9.0 {
+      #                             expectedError: "no error",
+      #                             err: strings.Join(["Error: contains high severity vulnerability", id, properties."security-severity"], " ")
+      #                             expectedError: err
+      #                           }
+      #                         }
+      #                     }]
+      #                   }
+      #                 }
+      #               }]
+      #             }
+      #           }
+      #         }
