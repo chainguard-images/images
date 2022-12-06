@@ -3,7 +3,7 @@ on:
     # 2 hours after release job
     - cron: '0 2 * * *'
   workflow_dispatch: {}
-concurrency: release
+concurrency: policy-check
 jobs:
   policy-check-generate-matrix:
     runs-on: ubuntu-latest
