@@ -1,5 +1,20 @@
 versions:
   - apko:
       extractTagsFrom:
-        package: php81
+        package: php
       config: configs/latest.apko.yaml
+  - apko:
+      extractTagsFrom:
+        package: php
+        prefix: dev-
+      config: configs/latest-dev.apko.yaml
+  - apko:
+      extractTagsFrom:
+        package: php
+        prefix: glibc-
+      config: configs/latest-glibc.apko.yaml
+  - apko:
+      extractTagsFrom:
+        package: php
+        prefix: glibc-dev-
+      config: configs/latest-glibc-dev.apko.yaml
