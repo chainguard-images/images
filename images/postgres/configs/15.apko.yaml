@@ -10,6 +10,7 @@ contents:
     - postgresql-15
     - postgresql-15-client
     - postgresql-15-oci-entrypoint
+    - postgresql-15-contrib
     - libpq-15
     - su-exec
 
