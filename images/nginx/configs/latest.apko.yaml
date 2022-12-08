@@ -4,6 +4,7 @@ contents:
     - '@local /github/workspace/packages'
   packages:
     - alpine-baselayout-data
+    - alpine-release
     - nginx@local
 
 accounts:
@@ -44,11 +45,3 @@ archs:
   - amd64
   - aarch64
   - armv7
-
-os-release:
-  name: Alpine Linux
-  id: alpine
-  version-id: 3.17
-  pretty-name: Alpine Linux 3.17
-  home-url: https://alpinelinux.org/
-  bug-report-url: https://gitlab.alpinelinux.org/alpine/aports/-/issues

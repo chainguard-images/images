@@ -3,12 +3,13 @@ contents:
     - https://dl-cdn.alpinelinux.org/alpine/edge/main
     - https://dl-cdn.alpinelinux.org/alpine/edge/community
   packages:
-    - ca-certificates-bundle
     - alpine-baselayout-data
-    - gcc
-    - musl-dev
+    - alpine-release
     - busybox
+    - ca-certificates-bundle
+    - gcc
     - go
+    - musl-dev
 accounts:
   groups:
     - groupname: nonroot
@@ -22,11 +23,3 @@ accounts:
 entrypoint:
   command: /usr/bin/go
 cmd: help
-
-os-release:
-  name: Alpine Linux
-  id: alpine
-  version-id: 3.17
-  pretty-name: Alpine Linux 3.17
-  home-url: https://alpinelinux.org/
-  bug-report-url: https://gitlab.alpinelinux.org/alpine/aports/-/issues
