@@ -4,6 +4,7 @@ contents:
   packages:
     - ca-certificates-bundle
     - alpine-baselayout-data
+    - alpine-release
     - gcc
     - musl-dev
     - busybox

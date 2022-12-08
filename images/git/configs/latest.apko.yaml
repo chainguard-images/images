@@ -4,6 +4,7 @@ contents:
     - https://dl-cdn.alpinelinux.org/alpine/edge/community
   packages:
     - alpine-baselayout-data
+    - alpine-release
     - ca-certificates-bundle
     - git
     - git-lfs
