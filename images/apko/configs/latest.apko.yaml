@@ -5,7 +5,6 @@ contents:
   packages:
     - ca-certificates-bundle
     - alpine-base
-    - alpine-release
     - apko@local
 
 paths:
