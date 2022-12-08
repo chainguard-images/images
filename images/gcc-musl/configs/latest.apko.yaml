@@ -18,3 +18,11 @@ work-dir: /work
 entrypoint:
   command: /usr/bin/gcc
 cmd: --help
+
+os-release:
+  name: Alpine Linux
+  id: alpine
+  version-id: 3.17
+  pretty-name: Alpine Linux 3.17
+  home-url: https://alpinelinux.org/
+  bug-report-url: https://gitlab.alpinelinux.org/alpine/aports/-/issues
