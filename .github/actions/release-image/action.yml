@@ -166,18 +166,6 @@ runs:
         VARIANT: ${{ inputs.apkoTargetTag }}
       run: |
         set -x
-
-        # Create the TAGS var based on apko.tags file
-        # (ignore tags suffixed with the date for now)
-        TAGS=""
-        for line in `cat apko.tags`; do
-          tag="$(echo "${line}" | cut -d: -f2)"
-          if [[ "${tag}" != "${VARIANT}" ]] && [[ ! "${tag}" =~ -[0-9]{8} ]]; then
-            TAGS="${TAGS},${tag}"
-          fi
-        done
-        export TAGS="$(echo "${TAGS}" | sed 's/^,//')"
-
         cat <<EOF > BADGINATOR-5000.sh
         BADGE_COLOR="\$1"
         BADGE_LABEL="$VARIANT"
@@ -189,7 +177,6 @@ runs:
         fi
         FILENAME_LATEST="$NAME.build.status.latest.svg"
         FILENAME_VARIANT="$NAME.build.status.$VARIANT.svg"
-        [[ "$TAGS" == "" ]] || BADGE_LABEL="\$BADGE_LABEL%20%28$TAGS%29"
         mkdir -p badges-output
         curl -v -L -o "badges-output/\$FILENAME_VARIANT" "https://img.shields.io/static/v1?label=\$BADGE_LABEL&message=%20&color=\$BADGE_COLOR&logo=\$BADGE_LOGO"
         EOF
