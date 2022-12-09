@@ -15,6 +15,15 @@ entrypoint:
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin
 
+paths:
+  - path: /app
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+
+work-dir: /app
+
 accounts:
   groups:
     - groupname: php
@@ -26,4 +35,3 @@ accounts:
 
 archs:
   - x86_64
-
