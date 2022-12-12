@@ -27,7 +27,7 @@ Zend Engine v4.1.10, Copyright (c) Zend Technologies
 
 ### Application Setup for End Users
 
-When creating a Dockerfile to extend from these images, the recommended approach is to set up a multi-stage build so that you're able to install your Composer dependencies on a separate environment and then copy the files over to a distroless image.
+When creating a Dockerfile to extend from these images, the recommended approach is to set up a multi-stage build so that you're able to install your Composer dependencies on a separate environment and then copy the files over to a smaller production image.
 
 The following example demonstrates how to do that:
 
