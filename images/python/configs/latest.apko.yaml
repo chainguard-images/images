@@ -3,10 +3,11 @@ contents:
     - https://dl-cdn.alpinelinux.org/alpine/edge/main
     - https://dl-cdn.alpinelinux.org/alpine/edge/community
   packages:
-    - ca-certificates-bundle
     - alpine-baselayout-data
-    - python3
+    - alpine-release
+    - ca-certificates-bundle
     - py3-pip
+    - python3
 accounts:
   groups:
     - groupname: nonroot

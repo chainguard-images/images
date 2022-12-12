@@ -4,6 +4,7 @@ contents:
     - '@local /github/workspace/packages'
   packages:
     - alpine-baselayout-data
+    - alpine-release
     - nginx@local
 
 accounts:

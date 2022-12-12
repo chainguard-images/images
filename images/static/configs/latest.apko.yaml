@@ -3,6 +3,7 @@ contents:
     - https://dl-cdn.alpinelinux.org/alpine/edge/main
   packages:
     - alpine-baselayout-data
+    - alpine-release
     - ca-certificates-bundle
     - tzdata
 

@@ -54,6 +54,8 @@ runs:
         package-version-tag: ${{ inputs.apkoPackageVersionTag }}
         package-version-tag-stem: true
         package-version-tag-prefix: ${{ inputs.apkoPackageVersionTagPrefix }}
+        stage_tags: apko.tags
+
     - name: Extract the digests for each architecture
       id: extract
       shell: bash
@@ -84,7 +86,6 @@ runs:
     # TODO: improve this - make a single action that runs multiple, or run in matrix at top level
     - uses: chainguard-images/actions/vul-scans@main
       id: scan-index
-      if: steps.extract.outputs.digest-index != ''
       with:
         image: ${{ steps.extract.outputs.digest-index }}
         RUN_SNYK: 'false'
@@ -146,6 +147,16 @@ runs:
         RUN_SNYK: 'false'
         DOCKER_LOGIN: 'false'
 
+    # Tag the image last, after all tests passing and
+    # SBOMs, attestations, etc. have all been attached
+    - name: Add image tags
+      id: tag
+      shell: bash
+      run: |
+        set -x
+        REF="${{ steps.extract.outputs.digest-index }}"
+        for tag in `cat apko.tags`; do crane cp "${REF}" "${tag}"; done
+
     # Generate build status badge from shields.io and save it in ./badges-output/
     - if: always()
       name: BADGINATOR-5000.sh
@@ -153,7 +164,6 @@ runs:
       env:
         NAME: ${{ inputs.imageName }}
         VARIANT: ${{ inputs.apkoTargetTag }}
-        TAGS: ${{ inputs.apkoAdditionalTags }}
       run: |
         set -x
         cat <<EOF > BADGINATOR-5000.sh
@@ -167,12 +177,8 @@ runs:
         fi
         FILENAME_LATEST="$NAME.build.status.latest.svg"
         FILENAME_VARIANT="$NAME.build.status.$VARIANT.svg"
-        [[ "$TAGS" == "" ]] || BADGE_LABEL="\$BADGE_LABEL%20%28$TAGS%29"
         mkdir -p badges-output
         curl -v -L -o "badges-output/\$FILENAME_VARIANT" "https://img.shields.io/static/v1?label=\$BADGE_LABEL&message=%20&color=\$BADGE_COLOR&logo=\$BADGE_LOGO"
-        if [[ "$TAGS" == "latest" && "\$FILENAME_VARIANT" != "\$FILENAME_LATEST" ]]; then
-          cp "badges-output/\$FILENAME_VARIANT" "badges-output/\$FILENAME_LATEST"
-        fi
         EOF
     - if: failure()
       shell: bash

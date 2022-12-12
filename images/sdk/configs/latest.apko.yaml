@@ -4,6 +4,7 @@ contents:
     - https://dl-cdn.alpinelinux.org/alpine/edge/community
     - '@local /github/workspace/packages'
   packages:
+    - alpine-release
     - sdk@local
 entrypoint:
   command: /usr/bin/sdk

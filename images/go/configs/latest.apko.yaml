@@ -3,12 +3,13 @@ contents:
     - https://dl-cdn.alpinelinux.org/alpine/edge/main
     - https://dl-cdn.alpinelinux.org/alpine/edge/community
   packages:
-    - ca-certificates-bundle
     - alpine-baselayout-data
-    - gcc
-    - musl-dev
+    - alpine-release
     - busybox
+    - ca-certificates-bundle
+    - gcc
     - go
+    - musl-dev
 accounts:
   groups:
     - groupname: nonroot
