@@ -5,6 +5,7 @@ contents:
     - https://packages.wolfi.dev/os
   packages:
     - wolfi-baselayout
+    - ca-certificates-bundle
     - busybox
     - php
     - composer

@@ -4,6 +4,7 @@ contents:
     - https://dl-cdn.alpinelinux.org/alpine/edge/community
   packages:
     - alpine-baselayout
+    - ca-certificates-bundle
     - alpine-release
     - php81
     - php81-common

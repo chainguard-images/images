@@ -5,7 +5,9 @@ contents:
     - https://packages.wolfi.dev/os
   packages:
     - wolfi-baselayout
+    - ca-certificates-bundle
     - php
+
 
 entrypoint:
   command: /bin/php
