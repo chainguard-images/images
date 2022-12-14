@@ -8,4 +8,9 @@ contents:
 entrypoint:
   command: /usr/bin/wait-for-it
 archs:
-- x86_64
+- '386'
+- amd64
+- arm64
+- arm/v6
+- arm/v7
+- ppc64le
