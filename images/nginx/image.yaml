@@ -1,6 +1,7 @@
 versions:
   - melange:
-      config: configs/latest.melange.yaml
+      configs:
+        - configs/latest.melange.yaml
     apko:
       config: configs/latest.apko.yaml
       extractTagsFrom:
@@ -8,7 +9,8 @@ versions:
       tags:
         - mainline
   - melange:
-      config: configs/stable.melange.yaml
+      configs:
+        - configs/stable.melange.yaml
     apko:
       config: configs/stable.apko.yaml
       # Note: cannot extract tags from nginx package

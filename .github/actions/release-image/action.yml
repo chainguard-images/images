@@ -17,7 +17,7 @@ runs:
       if: inputs.melangeConfig != ''
       uses: chainguard-dev/actions/melange-build@main
       with:
-        config: ${{ inputs.melangeConfig }}
+        multi-config: ${{ inputs.melangeConfig }}
         empty-workspace: true
         sign-with-temporary-key: true
         archs: ${{ inputs.melangeArchs }}
