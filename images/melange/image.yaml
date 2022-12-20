@@ -1,5 +1,6 @@
 versions:
   - melange:
-      config: configs/latest.melange.yaml
+      configs:
+        - configs/latest.melange.yaml
     apko:
       config: configs/latest.apko.yaml

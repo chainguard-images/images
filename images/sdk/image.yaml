@@ -1,11 +1,14 @@
 versions:
-  - apko:
+  - melange:
+      configs:
+        - configs/latest.melange.yaml
+    apko:
       config: configs/latest.apko.yaml
       tags:
         - alpine
-    melange:
-      config: configs/latest.melange.yaml
-  - apko:
+
+  - melange:
+      configs:
+        - configs/wolfi.melange.yaml
+    apko:
       config: configs/wolfi.apko.yaml
-    melange:
-      config: configs/wolfi.melange.yaml
