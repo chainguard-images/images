@@ -47,8 +47,7 @@ type ImageManifestVariantApko struct {
 }
 
 type ImageManifestVariantMelange struct {
-	Config      string   `yaml:"config"`
-	MultiConfig []string `yaml:"configs"`
+	Configs []string `yaml:"configs"`
 }
 
 type ImageManifestVariantApkoExtractTagsFrom struct {
@@ -117,14 +116,8 @@ func ListAll() ([]Image, error) {
 			melangeArchs := ""
 			apkoKeyringAppend := ""
 
-			// If using the old "config" field vs "configs" (single config vs multi),
-			// use this as an array
-			melangeMultiConfig := variant.Melange.MultiConfig
-			if variant.Melange.Config != "" {
-				melangeMultiConfig = []string{variant.Melange.Config}
-			}
-
-			if len(melangeMultiConfig) > 0 {
+			melangeConfigs := variant.Melange.Configs
+			if len(melangeConfigs) > 0 {
 				apkoKeyringAppend = constants.DefaultApkoKeyringAppend
 				var a ApkoManifest
 				b, err := os.ReadFile(apkoConfig)
@@ -136,7 +129,7 @@ func ListAll() ([]Image, error) {
 				}
 				melangeArchs = strings.Join(a.Archs, ",")
 				tmp := []string{}
-				for _, config := range melangeMultiConfig {
+				for _, config := range melangeConfigs {
 					tmp = append(tmp, filepath.Join(constants.ImagesDirName, imageName, config))
 				}
 				melangeConfig = strings.Join(tmp, ",")
