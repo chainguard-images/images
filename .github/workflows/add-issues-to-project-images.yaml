@@ -4,7 +4,6 @@ on:
   issues:
     types:
       - opened
-      - labeled
 
 jobs:
   add-to-project:
@@ -15,4 +14,3 @@ jobs:
         with:
           project-url: https://github.com/orgs/chainguard-dev/projects/22
           github-token: ${{ secrets.PROJECT_WRITE }}
-          labeled: images
