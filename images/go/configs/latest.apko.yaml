@@ -8,6 +8,7 @@ contents:
     - busybox
     - ca-certificates-bundle
     - gcc
+    - git
     - go
     - musl-dev
 accounts:
