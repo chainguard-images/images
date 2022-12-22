@@ -32,3 +32,4 @@ work-dir: /home/bazel
 
 archs:
   - x86_64
+  - aarch64

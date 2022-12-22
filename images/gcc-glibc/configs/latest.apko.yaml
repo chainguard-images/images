@@ -21,3 +21,4 @@ cmd: --help
 
 archs:
 - x86_64
+- aarch64
