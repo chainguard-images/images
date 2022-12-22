@@ -5,6 +5,7 @@ contents:
     - '@local /github/workspace/packages'
   packages:
     - alpine-release
+    - ca-certificates-bundle
     - sdk@local
 entrypoint:
   command: /usr/bin/sdk
