@@ -17,7 +17,7 @@ docker pull cgr.dev/chainguard/go:latest
 To build the Go application in [examples/hello/main.go](examples/hello/main.go)
 using the host architecture:
 
-```
+```sh
 docker run --rm -v "${PWD}:/work" -w /work/examples/hello \
     -e GOOS="$(go env GOOS)" -e GOARCH="$(go env GOARCH)" \
     cgr.dev/chainguard/go build -o /work/hello .
