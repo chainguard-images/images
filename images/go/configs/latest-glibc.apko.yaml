@@ -9,6 +9,7 @@ contents:
     - build-base
     - git
     - go
+    - openssh
 
 accounts:
   groups:
