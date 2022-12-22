@@ -9,3 +9,4 @@ entrypoint:
   command: /usr/bin/wait-for-it
 archs:
 - x86_64
+- aarch64
