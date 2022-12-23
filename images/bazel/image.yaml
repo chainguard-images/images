@@ -3,4 +3,4 @@ versions:
   - apko:
       config: configs/latest.apko.yaml
       extractTagsFrom:
-        package: bazel-5
+        package: bazel-6
