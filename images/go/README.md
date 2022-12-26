@@ -29,6 +29,13 @@ $ ./hello
 Hello World!
 ```
 
+## Secure-by-default Features
+
+In Go 1.20, we default to using the new `GODEBUG` settings of `tarinsecurepath=0` and `zipinsecurepath=0`.
+These can be disabled by clearing the `GODEBUG` environment variable, or by setting them to `1`.
+
+Learn more about these settings in the [Go release notes](https://tip.golang.org/doc/go1.20).
+
 ## Dockerfile example
 
 The following example Dockerfile builds a hello-world program in Go and copies it on top of the `cgr.dev/chainguard/static:latest` base image:
