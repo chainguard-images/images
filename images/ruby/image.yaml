@@ -1,8 +1,12 @@
 versions:
   - apko:
-      config: configs/latest-3.1.apko.yaml
+      config: configs/latest-3.2.apko.yaml
       tags:
         - latest
+        - 3.2
+  - apko:
+      config: configs/latest-3.1.apko.yaml
+      tags:
         - 3.1
   - apko:
       config: configs/latest-3.0.apko.yaml
