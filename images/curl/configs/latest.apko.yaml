@@ -1,0 +1,20 @@
+contents:
+  repositories:
+    - https://packages.wolfi.dev/os
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  packages:
+    - curl
+
+entrypoint:
+  command: /usr/bin/curl
+
+accounts:
+  groups:
+    - groupname: curl
+      gid: 65532
+  users:
+    - username: curl
+      uid: 65532
+      gid: 65532
+  run-as: 65532
