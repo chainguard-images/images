@@ -1,0 +1,14 @@
+contents:
+  repositories:
+    - https://packages.wolfi.dev/os
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  packages:
+    - prometheus
+
+entrypoint:
+  command: prometheus
+
+archs:
+  - x86_64
+  - aarch64
