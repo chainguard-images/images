@@ -41,3 +41,11 @@ docker run -p 2379:2379 -p 2380:2380 --rm cgr.dev/chainguard/etcd
 {"level":"info","ts":"2022-12-27T15:56:52.694Z","caller":"embed/etcd.go:586","msg":"serving peer traffic","address":"127.0.0.1:2380"}
 {"level":"info","ts":"2022-12-27T15:56:52.696Z","caller":"embed/etcd.go:558","msg":"cmux::serve","address":"127.0.0.1:2380"}
 ```
+
+## Users and Directories
+
+By default this image runs as a non-root user named `etcd` with a uid of 65532.
+The default data directory for this image is `/var/lib/etcd`, and that directory is write-able by the `etcd` user.
+
+If you change the user, UID, or data directory, you'll need to ensure the user running the etcd process has permissions to that
+directory.
