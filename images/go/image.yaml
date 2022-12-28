@@ -8,3 +8,8 @@ versions:
       extractTagsFrom:
         package: go
         prefix: glibc-
+  - apko:
+      config: configs/1.20.apko.yaml
+      # Cannot use extractTagsFrom because it would conflict
+      tags:
+        - 1.20rc1
