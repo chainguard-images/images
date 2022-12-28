@@ -11,7 +11,7 @@ contents:
     - busybox
     - gcc
     - git
-    - bazel-5
+    - bazel-6
 
 accounts:
   groups:
