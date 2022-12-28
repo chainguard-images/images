@@ -15,16 +15,16 @@ jobs:
     - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
     # For nightly builds, build every image
     - id: generate-matrix-schedule
-      if: ${{ github.event_name == 'schedule' }}
+      if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'}}
       uses: ./.github/actions/generate-matrix
     # On push to main branch, only build images necessary
     - id: files
-      if: ${{ github.event_name != 'schedule' }}
+      if: ${{ github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' }}
       uses: jitterbit/get-changed-files@b17fbb00bdc0c0f63fcf166580804b4d2cdc2a42 # v1
       with:
         format: csv
     - id: generate-matrix-main
-      if: ${{ github.event_name != 'schedule' }}
+      if: ${{ github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' }}
       uses: ./.github/actions/generate-matrix
       with:
         modified-files: ${{ steps.files.outputs.all }}
