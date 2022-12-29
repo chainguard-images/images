@@ -7,8 +7,7 @@ contents:
     - ca-certificates-bundle
     - wolfi-base
 
-entrypoint:
-  command: /bin/sh -l
+cmd: /bin/sh -l
 
 archs:
 - x86_64
