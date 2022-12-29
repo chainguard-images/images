@@ -1,0 +1,6 @@
+status: experimental
+versions:
+  - apko:
+      extractTagsFrom:
+        package: deno
+      config: configs/latest.apko.yaml
