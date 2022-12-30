@@ -1,17 +1,16 @@
 contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   repositories:
-    - https://dl-cdn.alpinelinux.org/alpine/edge/main
-    - https://dl-cdn.alpinelinux.org/alpine/edge/community
+    - https://packages.wolfi.dev/os
   packages:
-    - alpine-baselayout-data
-    - alpine-release
-    - busybox
     - ca-certificates-bundle
-    - gcc
+    - busybox
+    - build-base
     - git
     - go
-    - musl-dev
     - openssh
+
 accounts:
   groups:
     - groupname: nonroot
@@ -20,8 +19,13 @@ accounts:
     - username: nonroot
       uid: 65532
       gid: 65532
-  # TODO: this should run as 65532
   run-as: 0
+
 entrypoint:
   command: /usr/bin/go
+
 cmd: help
+
+archs:
+- x86_64
+- aarch64

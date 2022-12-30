@@ -12,6 +12,11 @@ docker pull cgr.dev/chainguard/go:latest
 
 ## Usage
 
+**NOTE**: As of 12/30/2022, the default go image uses Wolfi, which is glibc based.
+
+If you were using this image before and are now running into trouble, the musl/Alpine based image is
+still available at `cgr.dev/chainguard/go:latest-musl`.
+
 ## Host architecture example
 
 To build the Go application in [examples/hello/main.go](examples/hello/main.go)
