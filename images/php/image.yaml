@@ -11,10 +11,10 @@ versions:
   - apko:
       extractTagsFrom:
         package: php
-        prefix: glibc-
-      config: configs/latest-glibc.apko.yaml
+        prefix: musl-
+      config: configs/latest-musl.apko.yaml
   - apko:
       extractTagsFrom:
         package: php
-        prefix: glibc-dev-
-      config: configs/latest-glibc-dev.apko.yaml
+        prefix: musl-dev-
+      config: configs/latest-musl-dev.apko.yaml

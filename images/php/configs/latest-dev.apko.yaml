@@ -1,24 +1,20 @@
 contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   repositories:
-    - https://dl-cdn.alpinelinux.org/alpine/edge/main
-    - https://dl-cdn.alpinelinux.org/alpine/edge/community
+    - https://packages.wolfi.dev/os
   packages:
-    - alpine-baselayout
+    - wolfi-baselayout
     - ca-certificates-bundle
-    - alpine-release
-    - php81
-    - php81-common
-    - php81-curl
-    - php81-openssl
-    - php81-xml
-    - php81-pdo
-    - php81-sqlite3
-    - php81-phar
-    - composer
     - busybox
+    - php
+    - composer
 
 entrypoint:
-  command: /usr/bin/php81
+  command: /bin/php
+
+environment:
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin
 
 paths:
   - path: /app
@@ -29,9 +25,6 @@ paths:
 
 work-dir: /app
 
-environment:
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin
-
 accounts:
   groups:
     - groupname: php
@@ -40,3 +33,7 @@ accounts:
     - username: php
       uid: 65532
       gid: 65532
+
+archs:
+  - x86_64
+  - aarch64
