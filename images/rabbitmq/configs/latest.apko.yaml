@@ -1,0 +1,47 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+  packages:
+    - rabbitmq-server
+
+paths:
+  - path: /app
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+  - path: /var/lib/rabbitmq/mnesia
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
+  - path: /var/log/rabbitmq
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
+
+entrypoint:
+  command: /usr/sbin/rabbitmq-server
+
+environment:
+  RABBITMQ_CONFIG_FILE: /etc/rabbitmq/rabbitmq.conf
+  RABBITMQ_ADVANCED_CONFIG_FILE: /etc/rabbitmq/advanced.config
+  RABBITMQ_CONF_ENV_FILE: /etc/rabbitmq/rabbitmq-env.conf
+
+# By convention, the official Docker node image defines a `node` user, but
+# doesn't run as it unless the image based on it specifies that user.
+accounts:
+  groups:
+    - groupname: rabbitmq
+      gid: 65532
+  users:
+    - username: rabbitmq
+      uid: 65532
+  run-as: 65532
+
+archs:
+- x86_64
+- aarch64
