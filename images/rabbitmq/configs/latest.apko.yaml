@@ -5,6 +5,7 @@ contents:
     - https://packages.wolfi.dev/os
   packages:
     - rabbitmq-server
+    - wolfi-baselayout
 
 paths:
   - path: /app

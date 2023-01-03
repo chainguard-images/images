@@ -6,6 +6,7 @@ contents:
   packages:
     - ca-certificates-bundle
     - wolfi-base
+    - wolfi-baselayout
 
 entrypoint:
   command: /bin/sh -l

@@ -10,6 +10,7 @@ contents:
     - git
     - openssh
     - go-1.20
+    - wolfi-baselayout
 
 environment:
   GODEBUG: tarinsecurepath=0,zipinsecurepath=0
