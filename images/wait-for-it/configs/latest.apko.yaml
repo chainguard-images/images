@@ -5,6 +5,7 @@ contents:
     - https://packages.wolfi.dev/os
   packages:
     - wait-for-it
+    - wolfi-baselayout
 entrypoint:
   command: /usr/bin/wait-for-it
 archs:

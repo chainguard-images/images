@@ -5,6 +5,7 @@ contents:
     - https://packages.wolfi.dev/os
   packages:
     - deno
+    - wolfi-baselayout
 
 # By convention, Deno apps run in an /app directory, which should be owned by
 # the non-root deno user.

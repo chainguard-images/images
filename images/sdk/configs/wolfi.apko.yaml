@@ -6,6 +6,7 @@ contents:
     - '@local /github/workspace/packages'
   packages:
     - sdk@local
+    - wolfi-baselayout
 entrypoint:
   command: /usr/bin/sdk
 
