@@ -1,10 +1,20 @@
 versions:
   - apko:
+      extractTagsFrom:
+        package: python3
       config: configs/latest.apko.yaml
-      extractTagsFrom:
-        package: python3
   - apko:
-      config: configs/latest-glibc.apko.yaml
       extractTagsFrom:
         package: python3
-        prefix: glibc-
+        prefix: dev-
+      config: configs/latest-dev.apko.yaml
+  - apko:
+      extractTagsFrom:
+        package: python3
+        prefix: musl-
+      config: configs/latest-musl.apko.yaml
+  - apko:
+      extractTagsFrom:
+        package: python3
+        prefix: musl-dev-
+      config: configs/latest-musl-dev.apko.yaml
