@@ -68,6 +68,11 @@ jobs:
             mv inputs.json.tmp inputs.json
           done
           echo "release-image-inputs=$(cat inputs.json | tr -d '\n')" >> $GITHUB_OUTPUT
+      # Sleep a random amount of time up to 2 minutes.
+      # This staggers our pushes, to hopefully avoid hitting rate limits.
+      # See https://github.com/chainguard-images/images/issues/173
+      - name: Random Sleep
+        run: sleep $(( ( RANDOM % 120 )  + 1 ))
       - uses: ./.github/actions/release-image
         with: ${{ fromJSON(steps.release-image-inputs.outputs.release-image-inputs) }}
       - uses: ./.github/actions/policy-check-image
