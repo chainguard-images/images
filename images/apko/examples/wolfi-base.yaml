@@ -1,8 +1,8 @@
 contents:
   repositories:
-    - https://dl-cdn.alpinelinux.org/alpine/edge/main
+    - https://packages.wolfi.dev/os
   packages:
-    - alpine-base
+    - wolfi-base
 
 cmd: /bin/sh -l
   

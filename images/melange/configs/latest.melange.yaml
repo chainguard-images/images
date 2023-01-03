@@ -16,12 +16,9 @@ package:
 environment:
   contents:
     repositories:
-      - https://dl-cdn.alpinelinux.org/alpine/edge/main
-      - https://dl-cdn.alpinelinux.org/alpine/edge/community
-      - https://dl-cdn.alpinelinux.org/alpine/edge/testing
+      - https://packages.wolfi.dev/os
     packages:
-      - alpine-baselayout-data
-      - alpine-base
+      - wolfi-base
       - busybox
       - ca-certificates-bundle
       - go
