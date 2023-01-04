@@ -1,25 +1,18 @@
 contents:
   repositories:
-    - https://dl-cdn.alpinelinux.org/alpine/edge/main
-    - https://dl-cdn.alpinelinux.org/alpine/edge/community
-    - https://dl-cdn.alpinelinux.org/alpine/edge/testing
+    - https://packages.wolfi.dev/os
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
-    - alpine-base
+    - busybox
+    - wolfi-baselayout
     - build-base
     - go
     - ko
 
-# TODO(jason): This is all the normal archs, except for riscv64.
-# When the apk rebuild for 1.19 is done for riscv64 remove this section so we
-# build this image for all archs again.
 archs:
-- '386'
 - amd64
 - arm64
-- arm/v6
-- arm/v7
-- ppc64le
-- s390x
 
 accounts:
   groups:
