@@ -1,8 +1,11 @@
 contents:
   repositories:
     - https://packages.wolfi.dev/os
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
     - busybox
+    - wolfi-baselayout
     - build-base
     - go
     - ko
