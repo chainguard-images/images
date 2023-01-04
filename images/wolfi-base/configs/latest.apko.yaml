@@ -8,8 +8,7 @@ contents:
     - wolfi-base
     - wolfi-baselayout
 
-entrypoint:
-  command: /bin/sh -l
+cmd: /bin/sh -l
 
 archs:
 - x86_64
