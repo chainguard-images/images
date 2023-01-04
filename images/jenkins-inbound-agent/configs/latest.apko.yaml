@@ -1,0 +1,34 @@
+contents:
+  repositories:
+    - https://packages.wolfi.dev/os
+    - '@local ./packages'
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  packages:
+    - ca-certificates-bundle
+    - wolfi-baselayout
+    - openjdk-17-jre
+    - busybox
+    - inbound-agent@local
+
+accounts:
+  groups:
+    - groupname: jenkins
+      gid: 65532
+  users:
+    - username: jenkins
+      uid: 65532
+  run-as: jenkins
+  recursive: true
+
+work-dir: /app
+
+entrypoint:
+  command: /usr/local/bin/jenkins-agent
+
+environment:
+  LANG: en_US.UTF-8
+  JAVA_HOME: /usr/lib/jvm/openjdk-jre
+
+archs:
+  - x86_64
