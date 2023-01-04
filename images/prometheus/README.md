@@ -1,4 +1,12 @@
-# Prometheus
+<!--monopod:start-->
+# prometheus
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/prometheus` |
+| **Variants/Tags** | `latest` |
+---
+<!--monopod:end-->
 
 Minimal Prometheus Image
 

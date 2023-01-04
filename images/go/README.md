@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # go
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/go` |
+| **Variants/Tags** | `latest`, `latest-musl`, `1.20` |
+---
+<!--monopod:end-->
 
 Container image for building Go applications.
 

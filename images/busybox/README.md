@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # busybox
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/busybox` |
+| **Variants/Tags** | `latest`, `latest-glibc` |
+---
+<!--monopod:end-->
 
 Container image with only busybox and libc (available in both musl and glibc variants). Suitable for running any binaries that only have a dependency on glibc/musl.
 

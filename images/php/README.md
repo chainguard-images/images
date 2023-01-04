@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # php
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/php` |
+| **Variants/Tags** | `latest`, `latest-dev`, `latest-musl`, `latest-musl-dev` |
+---
+<!--monopod:end-->
 
 Minimalist PHP images for building and running PHP applications (CLI).
 

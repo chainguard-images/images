@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # jdk
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/jdk` |
+| **Variants/Tags** | `openjdk-11`, `openjdk-17` |
+---
+<!--monopod:end-->
 
 Java JDK image using OpenJDK via [Adoptium Temurin](https://adoptium.net/en-GB/temurin/) sources.
 

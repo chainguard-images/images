@@ -35,10 +35,7 @@ runs:
         if [[ "${{ inputs.gcsBucketName }}" != "" ]]; then
           BADGE_ROOT_URL="https://storage.googleapis.com/${{ inputs.gcsBucketName }}/badges"
         fi
-        monopod readme --badge-root-url="${BADGE_ROOT_URL}" > README.md.tmp
-        diff README.md README.md.tmp || ( \
-          echo "README.md is out-of-date. Please run the following: monopod readme > README.md" && \
-          exit 1 )
+        monopod readme --check --badge-root-url="${BADGE_ROOT_URL}"
     - name: Touch actions file to prevent postrun failure
       if: always()
       shell: bash
