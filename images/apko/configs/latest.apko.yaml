@@ -1,10 +1,10 @@
 contents:
   repositories:
-    - https://dl-cdn.alpinelinux.org/alpine/edge/main
+    - https://packages.wolfi.dev/os
     - '@local /github/workspace/packages'
   packages:
     - ca-certificates-bundle
-    - alpine-base
+    - wolfi-base
     - apko@local
 
 paths:
@@ -21,4 +21,3 @@ cmd: --help
 archs:
   - x86_64
   - aarch64
-  - armv7

@@ -1,15 +1,15 @@
 contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   repositories:
-    - https://dl-cdn.alpinelinux.org/alpine/edge/main
-    - https://dl-cdn.alpinelinux.org/alpine/edge/community
+    - https://packages.wolfi.dev/os
     - '@local /github/workspace/packages'
   packages:
-    - alpine-release
-    - ca-certificates-bundle
     - sdk@local
+    - wolfi-baselayout
 entrypoint:
   command: /usr/bin/sdk
 
 archs:
   - x86_64
-  - arm64
+  - aarch64
