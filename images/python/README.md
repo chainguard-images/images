@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # python
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/python` |
+| **Variants/Tags** | `latest`, `latest-dev`, `latest-musl`, `latest-musl-dev` |
+---
+<!--monopod:end-->
 
 This is a minimal Python image based on Wolfi.
 

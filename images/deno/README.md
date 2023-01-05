@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # deno
+| | |
+| - | - |
+| **Status** | experimental |
+| **OCI Reference** | `cgr.dev/chainguard/deno` |
+| **Variants/Tags** | `latest` |
+---
+<!--monopod:end-->
 
 Minimal container image for running deno apps
 

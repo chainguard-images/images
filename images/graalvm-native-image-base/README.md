@@ -1,5 +1,12 @@
+<!--monopod:start-->
 # graalvm-native-image-base
-
+| | |
+| - | - |
+| **Status** | experimental |
+| **OCI Reference** | `cgr.dev/chainguard/graalvm-native-image-base` |
+| **Variants/Tags** | `latest` |
+---
+<!--monopod:end-->
 
 Base image with just enough files to run native GraalVM native-image binaries.
 

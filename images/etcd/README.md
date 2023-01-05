@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # etcd
+| | |
+| - | - |
+| **Status** | experimental |
+| **OCI Reference** | `cgr.dev/chainguard/etcd` |
+| **Variants/Tags** | `latest` |
+---
+<!--monopod:end-->
 
 [etcd](https://github.com/etcd-io/etcd) Distributed reliable key-value store for the most critical data of a distributed system
 

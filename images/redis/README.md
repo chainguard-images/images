@@ -1,4 +1,12 @@
-# Redis
+<!--monopod:start-->
+# redis
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/redis` |
+| **Variants/Tags** | `latest` |
+---
+<!--monopod:end-->
 
 [Redis](https://github.com/redis/redis) Redis is an in-memory database that persists on disk. The data model is key-value, but many different kind of values are supported: Strings, Lists, Sets, Sorted Sets, Hashes, Streams, HyperLogLogs, Bitmaps.
 

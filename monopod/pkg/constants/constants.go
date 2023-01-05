@@ -21,4 +21,8 @@ const (
 	ApkoYamlFileExtension = ".apko.yaml"
 
 	DefaultImageStatus = "stable"
+
+	ImageReadmeGenStartComment = "<!--monopod:start-->"
+
+	ImageReadmeGenEndComment = "<!--monopod:end-->"
 )

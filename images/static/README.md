@@ -1,5 +1,12 @@
+<!--monopod:start-->
 # static
-
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/static` |
+| **Variants/Tags** | `latest`, `latest-glibc` |
+---
+<!--monopod:end-->
 
 Base image with just enough files to run static binaries!
 

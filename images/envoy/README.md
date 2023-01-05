@@ -1,4 +1,12 @@
-# Envoy
+<!--monopod:start-->
+# envoy
+| | |
+| - | - |
+| **Status** | experimental |
+| **OCI Reference** | `cgr.dev/chainguard/envoy` |
+| **Variants/Tags** | `latest` |
+---
+<!--monopod:end-->
 
 [Envoy](https://github.com/envoyproxy/envoy) Cloud-native high-performance edge/middle/service proxy
 

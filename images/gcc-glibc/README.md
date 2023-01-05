@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # gcc-glibc
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/gcc-glibc` |
+| **Variants/Tags** | `latest` |
+---
+<!--monopod:end-->
 
 Minimal container image for building C applications (which require glibc).
 

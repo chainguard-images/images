@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # gcc-musl
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/gcc-musl` |
+| **Variants/Tags** | `latest` |
+---
+<!--monopod:end-->
 
 Minimal container image for building C applications (which do not require glibc).
 

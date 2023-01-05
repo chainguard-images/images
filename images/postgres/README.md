@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # postgres
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/postgres` |
+| **Variants/Tags** | `15` |
+---
+<!--monopod:end-->
 
 Minimal PostgreSQL image. **EXPERIMENTAL**
 

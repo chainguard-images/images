@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # curl
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/curl` |
+| **Variants/Tags** | `latest` |
+---
+<!--monopod:end-->
 
 This is a minimal curl image base.
 
