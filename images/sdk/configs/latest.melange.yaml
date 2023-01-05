@@ -22,6 +22,8 @@ package:
       - busybox
       - bubblewrap
       - tree
+      - wolfi-baselayout
+      - alpine-keys
 
 environment:
   contents:
