@@ -22,6 +22,7 @@ package:
       - busybox
       - bubblewrap
       - tree
+      - python3
 
 environment:
   contents:
@@ -35,8 +36,31 @@ environment:
       - busybox
       - go
       - git
+      - python3
 
 pipeline:
+  # Install gcloud and gsutil for either x86_64 or aarch64, but no other architectures.
+  - if: ${{build.arch}} == "x86_64"
+    uses: fetch
+    with:
+      uri: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-410.0.0-linux-x86_64.tar.gz
+      expected-sha256: de3525b315d7ea3c3696eba466ddd97313ccad45f6f684bcdd9224374baa6c08
+  - if: ${{build.arch}} == "x86_64"
+    runs: |
+      install.sh
+      install -m755 bin/gcloud "${{targets.destdir}}"/bin/gcloud
+      install -m755 bin/gsutil "${{targets.destdir}}"/bin/gsutil
+  - if: ${{build.arch}} == "aarch64"
+    uses: fetch
+    with:
+      uri: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-410.0.0-linux-arm.tar.gz
+      expected-sha256: ce382528da5f5d5daf84f63ec4289ed60069e78f0cd8d9fa11c46ae5993854ea
+  - if: ${{build.arch}} == "aarch64"
+    runs: |
+      install.sh
+      install -m755 bin/gcloud "${{targets.destdir}}"/bin/gcloud
+      install -m755 bin/gsutil "${{targets.destdir}}"/bin/gsutil
+
   - runs: |
       set -x
 
