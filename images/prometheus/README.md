@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/prometheus` |
-| **Variants/Tags** | `latest` (`latest`) |
+| **Variants/Tags** | `latest` |
 ---
 <!--monopod:end-->
 
