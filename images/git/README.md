@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/git` |
-| **Variants/Tags** | `latest`, `latest-root`, `latest-glibc`, `latest-glibc-root` |
+| **Variants/Tags** | `latest` (`latest-nonroot`), `latest-root`, `latest-glibc` (`latest-glibc-nonroot`), `latest-glibc-root` |
 ---
 <!--monopod:end-->
 

@@ -82,7 +82,15 @@ func (i *readmeImpl) check() error {
 	for _, image := range allImages {
 		imageToStatusMap[image.ImageName] = image.ImageStatus
 		imageToReferenceMap[image.ImageName] = fmt.Sprintf("`%s`", strings.Replace(image.ApkoBaseTag, constants.DefaultRegistry, constants.DefaultRegistryFrontend, 1))
-		imageToVariantMap[image.ImageName] = append(imageToVariantMap[image.ImageName], fmt.Sprintf("`%s`", image.ApkoTargetTag))
+		variant := fmt.Sprintf("`%s`", image.ApkoTargetTag)
+		if image.ApkoAdditionalTags != "" {
+			tmp := []string{}
+			for _, tag := range strings.Split(image.ApkoAdditionalTags, ",") {
+				tmp = append(tmp, fmt.Sprintf("`%s`", tag))
+			}
+			variant = fmt.Sprintf("%s (%s)", variant, strings.Join(tmp, " / "))
+		}
+		imageToVariantMap[image.ImageName] = append(imageToVariantMap[image.ImageName], variant)
 	}
 	keys := []string{}
 	for k := range imageToVariantMap {
@@ -151,7 +159,15 @@ func (i *readmeImpl) fixAllReadmes() error {
 	for _, image := range allImages {
 		imageToStatusMap[image.ImageName] = image.ImageStatus
 		imageToReferenceMap[image.ImageName] = fmt.Sprintf("`%s`", strings.Replace(image.ApkoBaseTag, constants.DefaultRegistry, constants.DefaultRegistryFrontend, 1))
-		imageToVariantMap[image.ImageName] = append(imageToVariantMap[image.ImageName], fmt.Sprintf("`%s`", image.ApkoTargetTag))
+		variant := fmt.Sprintf("`%s`", image.ApkoTargetTag)
+		if image.ApkoAdditionalTags != "" {
+			tmp := []string{}
+			for _, tag := range strings.Split(image.ApkoAdditionalTags, ",") {
+				tmp = append(tmp, fmt.Sprintf("`%s`", tag))
+			}
+			variant = fmt.Sprintf("%s (%s)", variant, strings.Join(tmp, " / "))
+		}
+		imageToVariantMap[image.ImageName] = append(imageToVariantMap[image.ImageName], variant)
 	}
 	keys := []string{}
 	for k := range imageToVariantMap {

@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/maven` |
-| **Variants/Tags** | `openjdk-11`, `openjdk-17` |
+| **Variants/Tags** | `openjdk-11`, `openjdk-17` (`latest`) |
 ---
 <!--monopod:end-->
 
