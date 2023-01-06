@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/postgres` |
-| **Variants/Tags** | `15` |
+| **Variants/Tags** | `15` (`latest`) |
 ---
 <!--monopod:end-->
 

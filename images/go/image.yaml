@@ -1,15 +1,16 @@
 versions:
   - apko:
       config: configs/latest.apko.yaml
-      extractTagsFrom:
-        package: go
+      tags:
+        - latest-glibc
+        - 1.19
   - apko:
       config: configs/latest-musl.apko.yaml
-      extractTagsFrom:
-        package: go
-        prefix: musl-
+      tags:
+        - 1.19-musl
   - apko:
       config: configs/1.20.apko.yaml
-      # Cannot use extractTagsFrom because it would conflict
       tags:
         - 1.20rc1
+        - 1.20-glibc
+        - 1.20rc1-glibc

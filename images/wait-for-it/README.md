@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/wait-for-it` |
-| **Variants/Tags** | `latest` |
+| **Variants/Tags** | `latest` (`latest`) |
 ---
 <!--monopod:end-->
 

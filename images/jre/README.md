@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/jre` |
-| **Variants/Tags** | `openjdk-jre-11`, `openjdk-jre-17` |
+| **Variants/Tags** | `openjdk-jre-11`, `openjdk-jre-17` (`latest`) |
 ---
 <!--monopod:end-->
 
