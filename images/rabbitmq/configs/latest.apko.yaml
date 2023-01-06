@@ -15,14 +15,26 @@ paths:
     gid: 65532
   - path: /var/lib/rabbitmq/mnesia
     type: directory
-    permissions: 0o755
+    permissions: 0o777
     uid: 65532
     gid: 65532
   - path: /var/log/rabbitmq
     type: directory
-    permissions: 0o755
+    permissions: 0o777
     uid: 65532
     gid: 65532
+  - path: /home/rabbitmq
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+  - path: /var/log/rabbitmq/rabbit
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+
+work-dir: /var/lib/rabbitmq
 
 entrypoint:
   command: /usr/sbin/rabbitmq-server
@@ -31,6 +43,7 @@ environment:
   RABBITMQ_CONFIG_FILE: /etc/rabbitmq/rabbitmq.conf
   RABBITMQ_ADVANCED_CONFIG_FILE: /etc/rabbitmq/advanced.config
   RABBITMQ_CONF_ENV_FILE: /etc/rabbitmq/rabbitmq-env.conf
+  HOME: /var/lib/rabbitmq
 
 # By convention, the official Docker node image defines a `node` user, but
 # doesn't run as it unless the image based on it specifies that user.
