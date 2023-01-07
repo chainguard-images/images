@@ -2,7 +2,7 @@
 # graalvm-native-image-base
 | | |
 | - | - |
-| **Status** | experimental |
+| **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/graalvm-native-image-base` |
 | **Variants/Tags** | `latest` |
 ---
