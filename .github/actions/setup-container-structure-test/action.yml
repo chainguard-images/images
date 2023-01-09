@@ -1,0 +1,40 @@
+name: Setup container-structure-test
+description: |
+  This action sets up container-structure-test
+
+inputs:
+  version:
+    description: container-structure-test version
+    required: false
+    default: "v1.14.0"
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: Install container-structure-test
+      shell: bash
+      run: |
+        function download() {
+          CLI_VERSION=${{ inputs.version }}
+          BASE_URL="https://github.com/GoogleContainerTools/container-structure-test/releases/download"
+          case "$(echo $RUNNER_OS-$RUNNER_ARCH | awk '{print tolower($0)}')" in
+          linux-x64)    OS_ARCH=linux-amd64;;
+          linux-arm64)  OS_ARCH=linux-arm64;;
+          macos-x64)    OS_ARCH=darwin-amd64;;
+          macos-arm64)  OS_ARCH=darwin-arm64;;
+          windows-x64)  OS_ARCH=windows-amd64;;
+          *)
+            echo Unsupported RUNNER_ARCH \"$RUNNER_ARCH\" & RUNNER_OS \"$RUNNER_OS\"
+            exit -1
+            ;;
+          esac
+
+          DOWNLOAD_URL=${BASE_URL}/${CLI_VERSION}/container-structure-test-${OS_ARCH}
+          echo "Downloading container-structure-test using $DOWNLOAD_URL ..."
+          curl -L -s -o container-structure-test $DOWNLOAD_URL
+          chmod +x container-structure-test
+        }
+
+        download
+        echo "$(pwd)" >> $GITHUB_PATH
