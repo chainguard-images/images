@@ -11,9 +11,10 @@ runs:
       uses: chainguard-dev/actions/melange-build@main
       with:
         multi-config: ${{ inputs.melangeConfig }}
-        empty-workspace: true
+        empty-workspace: ${{ inputs.melangeEmptyWorkspace }}
+        workdir: ${{ inputs.melangeWorkdir }}
         sign-with-temporary-key: true
-        archs: ${{ inputs.melangeArchs }}
+        archs: x86_64 # To speed up CI, just build for x86_64 ${{ inputs.melangeArchs }}
         template: ${{ inputs.melangeTemplate }}
     - id: apko
       uses: chainguard-images/actions/apko-build@main
@@ -22,6 +23,7 @@ runs:
         tag: ${{ inputs.imageName }}:${{ github.sha }}
         keyring-append: ${{ inputs.apkoKeyringAppend }}
         additional-tags: ${{ inputs.apkoAdditionalTags }}
+        archs: x86_64 # To speed up CI, just build for x86_64 ${{ inputs.melangeArchs }}
     - name: Smoke test
       id: smoketest
       if: inputs.testCommandExe != ''
