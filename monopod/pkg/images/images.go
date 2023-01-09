@@ -18,6 +18,8 @@ type Image struct {
 	MelangeConfig               string `json:"melangeConfig"`
 	MelangeArchs                string `json:"melangeArchs"`
 	MelangeTemplate             string `json:"melangeTemplate"`
+	MelangeEmptyWorkspace       bool   `json:"melangeEmptyWorkspace"`
+	MelangeWorkdir              string `json:"melangeWorkdir"`
 	ApkoConfig                  string `json:"apkoConfig"`
 	ApkoKeyringAppend           string `json:"apkoKeyringAppend"`
 	ApkoAdditionalTags          string `json:"apkoAdditionalTags"`
@@ -48,6 +50,7 @@ type ImageManifestVariantApko struct {
 
 type ImageManifestVariantMelange struct {
 	Configs []string `yaml:"configs"`
+	Mount   bool     `yaml:"mount"`
 }
 
 type ImageManifestVariantApkoExtractTagsFrom struct {
@@ -116,6 +119,15 @@ func ListAll() ([]Image, error) {
 			melangeArchs := ""
 			apkoKeyringAppend := ""
 
+			// If non-empty workspace for melange build, specify
+			// the image dir as the workdir for melange build
+			melangeWorkdir := ""
+			melangeEmptyWorkspace := true
+			if variant.Melange.Mount {
+				melangeEmptyWorkspace = false
+				melangeWorkdir = filepath.Join(constants.ImagesDirName, imageName)
+			}
+
 			melangeConfigs := variant.Melange.Configs
 			if len(melangeConfigs) > 0 {
 				apkoKeyringAppend = constants.DefaultApkoKeyringAppend
@@ -130,7 +142,11 @@ func ListAll() ([]Image, error) {
 				melangeArchs = strings.Join(a.Archs, ",")
 				tmp := []string{}
 				for _, config := range melangeConfigs {
-					tmp = append(tmp, filepath.Join(constants.ImagesDirName, imageName, config))
+					if melangeEmptyWorkspace {
+						tmp = append(tmp, filepath.Join(constants.ImagesDirName, imageName, config))
+					} else {
+						tmp = append(tmp, config)
+					}
 				}
 				melangeConfig = strings.Join(tmp, ",")
 			}
@@ -141,6 +157,8 @@ func ListAll() ([]Image, error) {
 				MelangeConfig:               melangeConfig, // TODO
 				MelangeArchs:                melangeArchs,  // TODO
 				MelangeTemplate:             "",            // TODO
+				MelangeEmptyWorkspace:       melangeEmptyWorkspace,
+				MelangeWorkdir:              melangeWorkdir,
 				ApkoConfig:                  apkoConfig,
 				ApkoKeyringAppend:           apkoKeyringAppend, // TODO
 				ApkoBaseTag:                 apkoBaseTag,

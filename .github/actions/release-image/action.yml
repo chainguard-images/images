@@ -18,7 +18,8 @@ runs:
       uses: chainguard-dev/actions/melange-build@main
       with:
         multi-config: ${{ inputs.melangeConfig }}
-        empty-workspace: true
+        empty-workspace: ${{ inputs.melangeEmptyWorkspace }}
+        workdir: ${{ inputs.melangeWorkdir }}
         sign-with-temporary-key: true
         archs: ${{ inputs.melangeArchs }}
         template: ${{ inputs.melangeTemplate }}
