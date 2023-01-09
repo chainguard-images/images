@@ -6,33 +6,34 @@ contents:
   packages:
     - rabbitmq-server
     - wolfi-baselayout
+    - bash
 
 paths:
   - path: /app
     type: directory
     permissions: 0o777
-    uid: 65532
-    gid: 65532
+    uid: 999
+    gid: 999
   - path: /var/lib/rabbitmq/mnesia
     type: directory
     permissions: 0o777
-    uid: 65532
-    gid: 65532
+    uid: 999
+    gid: 999
   - path: /var/log/rabbitmq
     type: directory
     permissions: 0o777
-    uid: 65532
-    gid: 65532
+    uid: 999
+    gid: 999
   - path: /home/rabbitmq
     type: directory
     permissions: 0o777
-    uid: 65532
-    gid: 65532
+    uid: 999
+    gid: 999
   - path: /var/log/rabbitmq/rabbit
     type: directory
     permissions: 0o777
-    uid: 65532
-    gid: 65532
+    uid: 999
+    gid: 999
 
 work-dir: /var/lib/rabbitmq
 
@@ -50,11 +51,11 @@ environment:
 accounts:
   groups:
     - groupname: rabbitmq
-      gid: 65532
+      gid: 999
   users:
     - username: rabbitmq
-      uid: 65532
-  run-as: 65532
+      uid: 999
+  run-as: 999
 
 archs:
 - x86_64
