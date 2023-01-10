@@ -6,7 +6,6 @@ contents:
     - alpine-baselayout-data
     - alpine-release
     - ca-certificates-bundle
-    - py3-pip
     - python3
 accounts:
   groups:
