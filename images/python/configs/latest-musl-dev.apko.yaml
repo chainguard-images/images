@@ -8,6 +8,7 @@ contents:
     - ca-certificates-bundle
     - py3-pip
     - python3
+    - busybox
 accounts:
   groups:
     - groupname: nonroot

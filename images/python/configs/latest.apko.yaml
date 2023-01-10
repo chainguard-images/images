@@ -6,7 +6,6 @@ contents:
   packages:
     - ca-certificates-bundle
     - python3
-    - py3-pip
     - wolfi-baselayout
 
 accounts:
