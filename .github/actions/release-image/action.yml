@@ -4,6 +4,12 @@ inputs:
     default: ''
   gcsBucketName:
     default: ''
+  runGrype:
+    default: 'true'
+  runSnyk:
+    default: 'false'
+  runTrivy:
+    default: 'true'
 runs:
   using: composite
   steps:
@@ -89,27 +95,36 @@ runs:
       id: scan-index
       with:
         image: ${{ steps.extract.outputs.digest-index }}
-        RUN_SNYK: 'false'
+        RUN_GRYPE: ${{ inputs.runGrype }}
+        RUN_SNYK: ${{ inputs.runSnyk }}
+        RUN_TRIVY: ${{ inputs.runTrivy }}
         DOCKER_LOGIN: 'false'
     - uses: chainguard-images/actions/vul-scans@main
       id: scan-amd64
       if: steps.extract.outputs.digest-amd64 != ''
       with:
         image: ${{ steps.extract.outputs.digest-amd64 }}
-        RUN_SNYK: 'false'
+        RUN_GRYPE: ${{ inputs.runGrype }}
+        RUN_SNYK: ${{ inputs.runSnyk }}
+        RUN_TRIVY: ${{ inputs.runTrivy }}
         DOCKER_LOGIN: 'false'
     - uses: chainguard-images/actions/vul-scans@main
       id: scan-arm64
       if: steps.extract.outputs.digest-arm64 != ''
       with:
         image: ${{ steps.extract.outputs.digest-arm64 }}
-        RUN_SNYK: 'false'
+        RUN_GRYPE: ${{ inputs.runGrype }}
+        RUN_SNYK: ${{ inputs.runSnyk }}
+        RUN_TRIVY: ${{ inputs.runTrivy }}
         DOCKER_LOGIN: 'false'
     - uses: chainguard-images/actions/vul-scans@main
       id: scan-386
       if: steps.extract.outputs.digest-386 != ''
       with:
         image: ${{ steps.extract.outputs.digest-386 }}
+        RUN_GRYPE: ${{ inputs.runGrype }}
+        RUN_SNYK: ${{ inputs.runSnyk }}
+        RUN_TRIVY: ${{ inputs.runTrivy }}
         RUN_SNYK: 'false'
         DOCKER_LOGIN: 'false'
     - uses: chainguard-images/actions/vul-scans@main
@@ -117,6 +132,9 @@ runs:
       if: steps.extract.outputs.digest-armv6 != ''
       with:
         image: ${{ steps.extract.outputs.digest-armv6 }}
+        RUN_GRYPE: ${{ inputs.runGrype }}
+        RUN_SNYK: ${{ inputs.runSnyk }}
+        RUN_TRIVY: ${{ inputs.runTrivy }}
         RUN_SNYK: 'false'
         DOCKER_LOGIN: 'false'
     - uses: chainguard-images/actions/vul-scans@main
@@ -124,6 +142,9 @@ runs:
       if: steps.extract.outputs.digest-armv7 != ''
       with:
         image: ${{ steps.extract.outputs.digest-armv7 }}
+        RUN_GRYPE: ${{ inputs.runGrype }}
+        RUN_SNYK: ${{ inputs.runSnyk }}
+        RUN_TRIVY: ${{ inputs.runTrivy }}
         RUN_SNYK: 'false'
         DOCKER_LOGIN: 'false'
     - uses: chainguard-images/actions/vul-scans@main
@@ -131,6 +152,9 @@ runs:
       if: steps.extract.outputs.digest-ppc64le != ''
       with:
         image: ${{ steps.extract.outputs.digest-ppc64le }}
+        RUN_GRYPE: ${{ inputs.runGrype }}
+        RUN_SNYK: ${{ inputs.runSnyk }}
+        RUN_TRIVY: ${{ inputs.runTrivy }}
         RUN_SNYK: 'false'
         DOCKER_LOGIN: 'false'
     - uses: chainguard-images/actions/vul-scans@main
@@ -138,6 +162,9 @@ runs:
       if: steps.extract.outputs.digest-riscv64 != ''
       with:
         image: ${{ steps.extract.outputs.digest-riscv64 }}
+        RUN_GRYPE: ${{ inputs.runGrype }}
+        RUN_SNYK: ${{ inputs.runSnyk }}
+        RUN_TRIVY: ${{ inputs.runTrivy }}
         RUN_SNYK: 'false'
         DOCKER_LOGIN: 'false'
     - uses: chainguard-images/actions/vul-scans@main
@@ -145,6 +172,9 @@ runs:
       if: steps.extract.outputs.digest-s390x != ''
       with:
         image: ${{ steps.extract.outputs.digest-s390x }}
+        RUN_GRYPE: ${{ inputs.runGrype }}
+        RUN_SNYK: ${{ inputs.runSnyk }}
+        RUN_TRIVY: ${{ inputs.runTrivy }}
         RUN_SNYK: 'false'
         DOCKER_LOGIN: 'false'
 
