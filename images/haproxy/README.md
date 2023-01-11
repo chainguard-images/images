@@ -29,6 +29,11 @@ Please refer to [upstream's excellent (and comprehensive) documentation](https:/
 To test configuration file:
 
 ```
-docker run -it --rm -v "$(pwd)/my-test-config.cfg:/etc/haproxy/haproxy.cfg" --name haproxy-syntax-check cgr.dev/chainguard/haproxy haproxy -c -f /etc/haproxy/haproxy.cfg
+docker run -it --rm -v "$(pwd)/haproxy.cfg:/etc/haproxy/haproxy.cfg" --name haproxy-syntax-check cgr.dev/chainguard/haproxy haproxy -c -f /etc/haproxy/haproxy.cfg
 ```
 
+In order for the container to work, you need to mount your custom `haproxy.cfg` file in the container. The following example runs HAProxy with a custom configuration file:
+
+```
+docker run -it --rm -v "$(pwd)/haproxy.cfg:/etc/haproxy/haproxy.cfg" cgr.dev/chainguard/haproxy haproxy -f /etc/haproxy/haproxy.cfg
+```
