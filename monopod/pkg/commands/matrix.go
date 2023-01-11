@@ -3,6 +3,7 @@ package commands
 import (
 	"encoding/json"
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -24,6 +25,7 @@ monopod matrix
 			impl := &matrixImpl{
 				ModifiedFiles: mo.ModifiedFiles,
 				MelangeMode:   mo.MelangeMode,
+				UniqueImages:  mo.UniqueImages,
 			}
 			return impl.Do()
 		},
@@ -35,6 +37,7 @@ monopod matrix
 type matrixImpl struct {
 	ModifiedFiles string
 	MelangeMode   string
+	UniqueImages  bool
 }
 
 type matrixResponse struct {
@@ -82,6 +85,44 @@ func (i *matrixImpl) Do() error {
 			}
 		}
 		allImages = allImagesNew
+	}
+
+	// Return a different type of structure if --unique-images is provided,
+	// designed specifically for getting dynamic list of tags later
+	if i.UniqueImages {
+		uniqueRef := map[string]string{}
+		uniqueKeys := map[string][]string{}
+		for _, image := range allImages {
+			if _, ok := uniqueKeys[image.ImageName]; !ok {
+				uniqueKeys[image.ImageName] = []string{}
+			}
+			additionalTags := []string{}
+			if image.ApkoAdditionalTags != "" {
+				additionalTags = strings.Split(image.ApkoAdditionalTags, ",")
+			}
+			if image.ApkoPackageVersionTag != "" {
+				additionalTags = append(additionalTags, fmt.Sprintf("EXTRACT_%s_%s", image.ApkoPackageVersionTagPrefix, image.ApkoPackageVersionTag))
+			}
+			uniqueKeys[image.ImageName] = append(uniqueKeys[image.ImageName],
+				fmt.Sprintf("%s[%s]", image.ApkoTargetTag, strings.Join(additionalTags, ",")))
+			uniqueRef[image.ImageName] = image.ApkoBaseTag
+		}
+		keys := []string{}
+		for k := range uniqueKeys {
+			keys = append(keys, k)
+		}
+		sort.Slice(keys, func(i, j int) bool {
+			return keys[i] < keys[j]
+		})
+		tmp := []images.Image{}
+		for _, k := range keys {
+			tmp = append(tmp, images.Image{
+				ImageName:          k,
+				ApkoBaseTag:        uniqueRef[k],
+				ApkoAdditionalTags: strings.Join(uniqueKeys[k], ","),
+			})
+		}
+		allImages = tmp
 	}
 
 	response := matrixResponse{Include: allImages}

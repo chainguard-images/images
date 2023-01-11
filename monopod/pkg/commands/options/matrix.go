@@ -8,6 +8,7 @@ import (
 type MatrixOptions struct {
 	ModifiedFiles string
 	MelangeMode   string
+	UniqueImages  bool
 }
 
 func (o *MatrixOptions) AddFlags(cmd *cobra.Command) {
@@ -15,4 +16,6 @@ func (o *MatrixOptions) AddFlags(cmd *cobra.Command) {
 		"a comma-separated list of files modified in the repo")
 	cmd.Flags().StringVar(&o.MelangeMode, "melange-mode", "",
 		"mode for custom melange builds. Modes: only, none")
+	cmd.Flags().BoolVar(&o.UniqueImages, "unique-images", false,
+		"different type of matrix, just the unique image names")
 }

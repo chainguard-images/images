@@ -2,6 +2,8 @@ name: generate-matrix
 outputs:
   matrix:
     value: ${{ steps.generate-matrix.outputs.matrix }}
+  matrix-unique-images:
+    value: ${{ steps.generate-matrix.outputs.matrix-unique-images }}
 inputs:
   repository:
     default: ${{ github.repository }}
@@ -32,6 +34,7 @@ runs:
         set -x
         export PATH="/tmp/bin:${PATH}"
         echo "matrix=$(monopod matrix --modified-files=${{ inputs.modified-files }} --melange-mode=${{ inputs.melange-mode }})" >> $GITHUB_OUTPUT
+        echo "matrix-unique-images=$(monopod matrix --modified-files=${{ inputs.modified-files }} --melange-mode=${{ inputs.melange-mode }} --unique-images)" >> $GITHUB_OUTPUT
     - name: Touch actions file to prevent postrun failure
       if: always()
       shell: bash
