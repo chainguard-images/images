@@ -124,6 +124,5 @@ jobs:
             mv inputs.json.tmp inputs.json
           done
           echo "image-svgs-inputs=$(cat inputs.json | tr -d '\n')" >> $GITHUB_OUTPUT
-      - name: whoopsies
-        run: |
-          echo "${{ steps.image-svgs-inputs.outputs.image-svgs-inputs }}"
+      - uses: ./.github/actions/image-svg
+        with: ${{ fromJSON(steps.image-svgs-inputs.outputs.image-svgs-inputs) }}
