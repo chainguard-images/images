@@ -125,7 +125,6 @@ runs:
         RUN_GRYPE: ${{ inputs.runGrype }}
         RUN_SNYK: ${{ inputs.runSnyk }}
         RUN_TRIVY: ${{ inputs.runTrivy }}
-        RUN_SNYK: 'false'
         DOCKER_LOGIN: 'false'
     - uses: chainguard-images/actions/vul-scans@main
       id: scan-armv6
@@ -135,7 +134,6 @@ runs:
         RUN_GRYPE: ${{ inputs.runGrype }}
         RUN_SNYK: ${{ inputs.runSnyk }}
         RUN_TRIVY: ${{ inputs.runTrivy }}
-        RUN_SNYK: 'false'
         DOCKER_LOGIN: 'false'
     - uses: chainguard-images/actions/vul-scans@main
       id: scan-armv7
@@ -145,7 +143,6 @@ runs:
         RUN_GRYPE: ${{ inputs.runGrype }}
         RUN_SNYK: ${{ inputs.runSnyk }}
         RUN_TRIVY: ${{ inputs.runTrivy }}
-        RUN_SNYK: 'false'
         DOCKER_LOGIN: 'false'
     - uses: chainguard-images/actions/vul-scans@main
       id: scan-ppc64le
@@ -155,7 +152,6 @@ runs:
         RUN_GRYPE: ${{ inputs.runGrype }}
         RUN_SNYK: ${{ inputs.runSnyk }}
         RUN_TRIVY: ${{ inputs.runTrivy }}
-        RUN_SNYK: 'false'
         DOCKER_LOGIN: 'false'
     - uses: chainguard-images/actions/vul-scans@main
       id: scan-riscv64
@@ -165,7 +161,6 @@ runs:
         RUN_GRYPE: ${{ inputs.runGrype }}
         RUN_SNYK: ${{ inputs.runSnyk }}
         RUN_TRIVY: ${{ inputs.runTrivy }}
-        RUN_SNYK: 'false'
         DOCKER_LOGIN: 'false'
     - uses: chainguard-images/actions/vul-scans@main
       id: scan-s390x
@@ -175,7 +170,6 @@ runs:
         RUN_GRYPE: ${{ inputs.runGrype }}
         RUN_SNYK: ${{ inputs.runSnyk }}
         RUN_TRIVY: ${{ inputs.runTrivy }}
-        RUN_SNYK: 'false'
         DOCKER_LOGIN: 'false'
 
     # Tag the image last, after all tests passing and
