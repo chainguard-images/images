@@ -32,19 +32,19 @@ runs:
 
     # If publishing to GCR, setup OIDC->SA auth
     - id: gcrauth1
-      if: startsWith(inputs.apkoBaseTag, 'gcr.io/')
+      if: contains(inputs.apkoBaseTag, 'gcr.io/') || contains(inputs.apkoBaseTag, 'pkg.dev/')
       uses: google-github-actions/auth@ef5d53e30bbcd8d0836f4288f5e50ff3e086997d # v1.0.0
       with:
         workload_identity_provider: ${{ inputs.gcrAuthWorkloadIdentityProvider }}
         service_account: ${{ inputs.gcrAuthServiceAccount }}
     - id: gcrauth2
-      if: startsWith(inputs.apkoBaseTag, 'gcr.io/')
+      if: contains(inputs.apkoBaseTag, 'gcr.io/') || contains(inputs.apkoBaseTag, 'pkg.dev/')
       uses: google-github-actions/setup-gcloud@d51b5346f85640ec2aa2fa057354d2b82c2fcbce # v1.0.1
       with:
         project_id: ${{ inputs.gcrAuthProjectId }}
         install_components: beta
     - id: gcrauth3
-      if: startsWith(inputs.apkoBaseTag, 'gcr.io/')
+      if: contains(inputs.apkoBaseTag, 'gcr.io/') || contains(inputs.apkoBaseTag, 'pkg.dev/')
       shell: bash
       run: |
         gcloud auth configure-docker
