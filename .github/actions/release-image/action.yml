@@ -47,7 +47,7 @@ runs:
       if: contains(inputs.apkoBaseTag, 'gcr.io/') || contains(inputs.apkoBaseTag, 'pkg.dev/')
       shell: bash
       run: |
-        gcloud auth configure-docker
+        gcloud auth configure-docker "$(echo ${{ inputs.apkoBaseTag }} | cut -d / -f 1)"
 
     # Build and push
     - id: apko
