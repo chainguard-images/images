@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | experimental |
 | **OCI Reference** | `cgr.dev/chainguard/rust` |
-| **Variants/Tags** | <picture><img src="https://storage.googleapis.com/chainguard-images-build-outputs/badges/summary/rust.svg"/></picture> |
+| **Variants/Tags** | <picture><img src="https://storage.googleapis.com/chainguard-images-build-outputs/summary/rust.svg"/></picture> |
 ---
 <!--monopod:end-->
 

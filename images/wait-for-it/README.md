@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/wait-for-it` |
-| **Variants/Tags** | <picture><img src="https://storage.googleapis.com/chainguard-images-build-outputs/badges/summary/wait-for-it.svg"/></picture> |
+| **Variants/Tags** | <picture><img src="https://storage.googleapis.com/chainguard-images-build-outputs/summary/wait-for-it.svg"/></picture> |
 ---
 <!--monopod:end-->
 

@@ -15,6 +15,7 @@ import (
 type Image struct {
 	ImageName                   string `json:"imageName"`
 	ImageStatus                 string `json:"imageStatus"`
+	ImageSummaryJson            string `json:"imageSummaryJson"`
 	MelangeConfig               string `json:"melangeConfig"`
 	MelangeArchs                string `json:"melangeArchs"`
 	MelangeTemplate             string `json:"melangeTemplate"`
@@ -29,7 +30,6 @@ type Image struct {
 	ApkoPackageVersionTagPrefix string `json:"apkoPackageVersionTagPrefix"`
 	TestCommandExe              string `json:"testCommandExe"`
 	TestCommandDir              string `json:"testCommandDir"`
-	Status                      string `json:"status"`
 }
 
 type ImageManifest struct {
@@ -155,6 +155,7 @@ func ListAll() ([]Image, error) {
 			i := Image{
 				ImageName:                   imageName,
 				ImageStatus:                 imageStatus,
+				ImageSummaryJson:            "",
 				MelangeConfig:               melangeConfig, // TODO
 				MelangeArchs:                melangeArchs,  // TODO
 				MelangeTemplate:             "",            // TODO
@@ -169,7 +170,6 @@ func ListAll() ([]Image, error) {
 				ApkoPackageVersionTagPrefix: variant.Apko.ExtractTagsFrom.Prefix,
 				TestCommandExe:              testCommandExe,
 				TestCommandDir:              testCommandDir,
-				Status:                      imageStatus,
 			}
 			allImages = append(allImages, i)
 		}

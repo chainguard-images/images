@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/jre` |
-| **Variants/Tags** | <picture><img src="https://storage.googleapis.com/chainguard-images-build-outputs/badges/summary/jre.svg"/></picture> |
+| **Variants/Tags** | <picture><img src="https://storage.googleapis.com/chainguard-images-build-outputs/summary/jre.svg"/></picture> |
 ---
 <!--monopod:end-->
 

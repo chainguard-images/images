@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | experimental |
 | **OCI Reference** | `cgr.dev/chainguard/envoy` |
-| **Variants/Tags** | <picture><img src="https://storage.googleapis.com/chainguard-images-build-outputs/badges/summary/envoy.svg"/></picture> |
+| **Variants/Tags** | <picture><img src="https://storage.googleapis.com/chainguard-images-build-outputs/summary/envoy.svg"/></picture> |
 ---
 <!--monopod:end-->
 

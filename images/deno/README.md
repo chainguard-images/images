@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | experimental |
 | **OCI Reference** | `cgr.dev/chainguard/deno` |
-| **Variants/Tags** | <picture><img src="https://storage.googleapis.com/chainguard-images-build-outputs/badges/summary/deno.svg"/></picture> |
+| **Variants/Tags** | <picture><img src="https://storage.googleapis.com/chainguard-images-build-outputs/summary/deno.svg"/></picture> |
 ---
 <!--monopod:end-->
 

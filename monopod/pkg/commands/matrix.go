@@ -44,6 +44,24 @@ type matrixResponse struct {
 	Include []images.Image `json:"include"`
 }
 
+type imageSummaryTagDynamic struct {
+	Package  string   `json:"package"`
+	Prefix   string   `json:"prefix"`
+	Resolved []string `json:"resolved"`
+}
+
+type imageSummaryTag struct {
+	Primary string                 `json:"primary"`
+	Static  []string               `json:"static"`
+	Dynamic imageSummaryTagDynamic `json:"dynamic"`
+}
+
+type imageSummary struct {
+	Ref    string            `json:"ref"`
+	Status string            `json:"status"`
+	Tags   []imageSummaryTag `json:"tags"`
+}
+
 func (i *matrixImpl) Do() error {
 	allImages, err := images.ListAll()
 	if err != nil {
@@ -92,25 +110,25 @@ func (i *matrixImpl) Do() error {
 	if i.UniqueImages {
 		uniqueRef := map[string]string{}
 		uniqueStatus := map[string]string{}
-		uniqueKeys := map[string][]string{}
+		uniqueTags := map[string][]imageSummaryTag{}
 		for _, image := range allImages {
-			if _, ok := uniqueKeys[image.ImageName]; !ok {
-				uniqueKeys[image.ImageName] = []string{}
+			if _, ok := uniqueTags[image.ImageName]; !ok {
+				uniqueTags[image.ImageName] = []imageSummaryTag{}
 			}
-			additionalTags := []string{}
-			if image.ApkoAdditionalTags != "" {
-				additionalTags = strings.Split(image.ApkoAdditionalTags, ",")
-			}
-			if image.ApkoPackageVersionTag != "" {
-				additionalTags = append(additionalTags, fmt.Sprintf("EXTRACT_%s_%s", image.ApkoPackageVersionTagPrefix, image.ApkoPackageVersionTag))
-			}
-			uniqueKeys[image.ImageName] = append(uniqueKeys[image.ImageName],
-				fmt.Sprintf("%s[%s]", image.ApkoTargetTag, strings.Join(additionalTags, ",")))
+			uniqueTags[image.ImageName] = append(uniqueTags[image.ImageName], imageSummaryTag{
+				Primary: image.ApkoTargetTag,
+				Static:  strings.Split(image.ApkoAdditionalTags, ","),
+				Dynamic: imageSummaryTagDynamic{
+					Package:  image.ApkoPackageVersionTag,
+					Prefix:   image.ApkoPackageVersionTagPrefix,
+					Resolved: []string{},
+				},
+			})
 			uniqueRef[image.ImageName] = strings.Replace(image.ApkoBaseTag, constants.DefaultRegistry, constants.DefaultRegistryFrontend, 1)
-			uniqueStatus[image.ImageName] = image.Status
+			uniqueStatus[image.ImageName] = image.ImageStatus
 		}
 		keys := []string{}
-		for k := range uniqueKeys {
+		for k := range uniqueTags {
 			keys = append(keys, k)
 		}
 		sort.Slice(keys, func(i, j int) bool {
@@ -118,11 +136,19 @@ func (i *matrixImpl) Do() error {
 		})
 		tmp := []images.Image{}
 		for _, k := range keys {
+			summary := imageSummary{
+				Status: uniqueStatus[k],
+				Ref:    uniqueRef[k],
+				Tags:   uniqueTags[k],
+			}
+			b, err := json.Marshal(&summary)
+			if err != nil {
+				return err
+			}
 			tmp = append(tmp, images.Image{
-				ImageName:          k,
-				ApkoBaseTag:        uniqueRef[k],
-				ApkoAdditionalTags: strings.Join(uniqueKeys[k], ","),
-				Status:             uniqueStatus[k],
+				ImageName:        k,
+				ImageSummaryJson: string(b),
+				ApkoBaseTag:      uniqueRef[k],
 			})
 		}
 		allImages = tmp
