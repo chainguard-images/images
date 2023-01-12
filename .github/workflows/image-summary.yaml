@@ -1,7 +1,4 @@
 on:
-  push:
-    branches:
-      - tags-svg
   schedule:
     # 3 hours after release job
     - cron: '0 3 * * *'
