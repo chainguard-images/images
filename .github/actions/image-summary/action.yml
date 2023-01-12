@@ -32,7 +32,7 @@ runs:
     - id: create-image-summary
       shell: bash
       run: |
-        echo "${{ inputs.imageSummaryJson }}" > summary.json
+        echo '${{ inputs.imageSummaryJson }}' > summary.json
 
         # TODO: augment .[].tags.dynamic.resolved
 
