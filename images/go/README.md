@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/go` |
-| **Variants/Tags** | `latest` (`latest-glibc` / `1.19`), `latest-musl` (`1.19-musl`), `1.20` (`1.20rc1` / `1.20-glibc` / `1.20rc1-glibc`) |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/go.svg) |
 ---
 <!--monopod:end-->
 

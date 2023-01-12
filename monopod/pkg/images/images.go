@@ -15,6 +15,7 @@ import (
 type Image struct {
 	ImageName                   string `json:"imageName"`
 	ImageStatus                 string `json:"imageStatus"`
+	ImageSummaryJson            string `json:"imageSummaryJson"`
 	MelangeConfig               string `json:"melangeConfig"`
 	MelangeArchs                string `json:"melangeArchs"`
 	MelangeTemplate             string `json:"melangeTemplate"`
@@ -154,6 +155,7 @@ func ListAll() ([]Image, error) {
 			i := Image{
 				ImageName:                   imageName,
 				ImageStatus:                 imageStatus,
+				ImageSummaryJson:            "",
 				MelangeConfig:               melangeConfig, // TODO
 				MelangeArchs:                melangeArchs,  // TODO
 				MelangeTemplate:             "",            // TODO

@@ -26,6 +26,7 @@ monopod readme
 		RunE: func(cmd *cobra.Command, args []string) error {
 			impl := &readmeImpl{
 				BadgeRootUrl:       ro.BadgeRootUrl,
+				SummaryRootUrl:     ro.SummaryRootUrl,
 				RootReadmeToStdout: ro.RootReadmeToStdout,
 				Check:              ro.Check,
 			}
@@ -38,6 +39,7 @@ monopod readme
 
 type readmeImpl struct {
 	BadgeRootUrl       string
+	SummaryRootUrl     string
 	RootReadmeToStdout bool
 	Check              bool
 }
@@ -104,7 +106,7 @@ func (i *readmeImpl) check() error {
 		readmeInsert := fmt.Sprintf("# %s\n| | |\n| - | - |\n", k)
 		readmeInsert += fmt.Sprintf("| **Status** | %s |\n", imageToStatusMap[k])
 		readmeInsert += fmt.Sprintf("| **OCI Reference** | %s |\n", imageToReferenceMap[k])
-		readmeInsert += fmt.Sprintf("| **Variants/Tags** | %s |\n", strings.Join(imageToVariantMap[k], ", "))
+		readmeInsert += fmt.Sprintf("| **Variants/Tags** | %s |\n", fmt.Sprintf("![](%s/%s.svg)", i.SummaryRootUrl, k))
 		readmeInsert += "---"
 
 		filename := path.Join(constants.ImagesDirName, k, "README.md")
@@ -181,7 +183,7 @@ func (i *readmeImpl) fixAllReadmes() error {
 		readmeInsert := fmt.Sprintf("# %s\n| | |\n| - | - |\n", k)
 		readmeInsert += fmt.Sprintf("| **Status** | %s |\n", imageToStatusMap[k])
 		readmeInsert += fmt.Sprintf("| **OCI Reference** | %s |\n", imageToReferenceMap[k])
-		readmeInsert += fmt.Sprintf("| **Variants/Tags** | %s |\n", strings.Join(imageToVariantMap[k], ", "))
+		readmeInsert += fmt.Sprintf("| **Variants/Tags** | %s |\n", fmt.Sprintf("![](%s/%s.svg)", i.SummaryRootUrl, k))
 		readmeInsert += "---"
 		padded := fmt.Sprintf("%s\n%s\n%s\n", constants.ImageReadmeGenStartComment, readmeInsert, constants.ImageReadmeGenEndComment)
 
