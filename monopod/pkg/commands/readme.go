@@ -104,7 +104,7 @@ func (i *readmeImpl) check() error {
 		readmeInsert := fmt.Sprintf("# %s\n| | |\n| - | - |\n", k)
 		readmeInsert += fmt.Sprintf("| **Status** | %s |\n", imageToStatusMap[k])
 		readmeInsert += fmt.Sprintf("| **OCI Reference** | %s |\n", imageToReferenceMap[k])
-		readmeInsert += fmt.Sprintf("| **Variants/Tags** | %s |\n", strings.Join(imageToVariantMap[k], ", "))
+		readmeInsert += fmt.Sprintf("| **Variants/Tags** | %s |\n", fmt.Sprintf("<picture><img src=\"%s/summary/%s.svg\"/></picture>", i.BadgeRootUrl, k))
 		readmeInsert += "---"
 
 		filename := path.Join(constants.ImagesDirName, k, "README.md")
@@ -181,7 +181,7 @@ func (i *readmeImpl) fixAllReadmes() error {
 		readmeInsert := fmt.Sprintf("# %s\n| | |\n| - | - |\n", k)
 		readmeInsert += fmt.Sprintf("| **Status** | %s |\n", imageToStatusMap[k])
 		readmeInsert += fmt.Sprintf("| **OCI Reference** | %s |\n", imageToReferenceMap[k])
-		readmeInsert += fmt.Sprintf("| **Variants/Tags** | %s |\n", strings.Join(imageToVariantMap[k], ", "))
+		readmeInsert += fmt.Sprintf("| **Variants/Tags** | %s |\n", fmt.Sprintf("<picture><img src=\"%s/summary/%s.svg\"/></picture>", i.BadgeRootUrl, k))
 		readmeInsert += "---"
 		padded := fmt.Sprintf("%s\n%s\n%s\n", constants.ImageReadmeGenStartComment, readmeInsert, constants.ImageReadmeGenEndComment)
 

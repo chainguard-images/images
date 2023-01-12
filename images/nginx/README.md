@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/nginx` |
-| **Variants/Tags** | `latest` (`mainline`), `stable` (`1.22.1-r0` / `1.22`) |
+| **Variants/Tags** | <picture><img src="https://storage.googleapis.com/chainguard-images-build-outputs/badges/summary/nginx.svg"/></picture> |
 ---
 <!--monopod:end-->
 

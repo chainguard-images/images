@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/postgres` |
-| **Variants/Tags** | `15` (`latest`) |
+| **Variants/Tags** | <picture><img src="https://storage.googleapis.com/chainguard-images-build-outputs/badges/summary/postgres.svg"/></picture> |
 ---
 <!--monopod:end-->
 

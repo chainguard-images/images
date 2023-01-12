@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | experimental |
 | **OCI Reference** | `cgr.dev/chainguard/etcd` |
-| **Variants/Tags** | `latest` |
+| **Variants/Tags** | <picture><img src="https://storage.googleapis.com/chainguard-images-build-outputs/badges/summary/etcd.svg"/></picture> |
 ---
 <!--monopod:end-->
 

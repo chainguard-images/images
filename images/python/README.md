@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/python` |
-| **Variants/Tags** | `latest`, `latest-dev`, `latest-musl`, `latest-musl-dev` |
+| **Variants/Tags** | <picture><img src="https://storage.googleapis.com/chainguard-images-build-outputs/badges/summary/python.svg"/></picture> |
 ---
 <!--monopod:end-->
 

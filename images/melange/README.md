@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/melange` |
-| **Variants/Tags** | `latest` |
+| **Variants/Tags** | <picture><img src="https://storage.googleapis.com/chainguard-images-build-outputs/badges/summary/melange.svg"/></picture> |
 ---
 <!--monopod:end-->
 

@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/ko` |
-| **Variants/Tags** | `latest` |
+| **Variants/Tags** | <picture><img src="https://storage.googleapis.com/chainguard-images-build-outputs/badges/summary/ko.svg"/></picture> |
 ---
 <!--monopod:end-->
 
