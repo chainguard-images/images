@@ -91,6 +91,7 @@ func (i *matrixImpl) Do() error {
 	// designed specifically for getting dynamic list of tags later
 	if i.UniqueImages {
 		uniqueRef := map[string]string{}
+		uniqueStatus := map[string]string{}
 		uniqueKeys := map[string][]string{}
 		for _, image := range allImages {
 			if _, ok := uniqueKeys[image.ImageName]; !ok {
@@ -106,6 +107,7 @@ func (i *matrixImpl) Do() error {
 			uniqueKeys[image.ImageName] = append(uniqueKeys[image.ImageName],
 				fmt.Sprintf("%s[%s]", image.ApkoTargetTag, strings.Join(additionalTags, ",")))
 			uniqueRef[image.ImageName] = image.ApkoBaseTag
+			uniqueStatus[image.ImageName] = image.Status
 		}
 		keys := []string{}
 		for k := range uniqueKeys {
@@ -120,6 +122,7 @@ func (i *matrixImpl) Do() error {
 				ImageName:          k,
 				ApkoBaseTag:        uniqueRef[k],
 				ApkoAdditionalTags: strings.Join(uniqueKeys[k], ","),
+				Status:             uniqueStatus[k],
 			})
 		}
 		allImages = tmp

@@ -25,7 +25,8 @@ runs:
       run: |
         rm -rf image-summary-output/
         mkdir image-summary-output/
-        echo '{"hello": "world"}' > "image-summary-output/${{ inputs.imageName }}.json"
+        echo '{"status": "${{ inputs.status }}", "ref": "${{ inputs.apkoBaseTag }}", "tags": []}' \
+          > "image-summary-output/${{ inputs.imageName }}.json"
 
     - id: gcsupload1
       if: inputs.gcsBucketName != ''
