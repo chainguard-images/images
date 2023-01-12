@@ -106,7 +106,7 @@ func (i *matrixImpl) Do() error {
 			}
 			uniqueKeys[image.ImageName] = append(uniqueKeys[image.ImageName],
 				fmt.Sprintf("%s[%s]", image.ApkoTargetTag, strings.Join(additionalTags, ",")))
-			uniqueRef[image.ImageName] = image.ApkoBaseTag
+			uniqueRef[image.ImageName] = strings.Replace(image.ApkoBaseTag, constants.DefaultRegistry, constants.DefaultRegistryFrontend, 1)
 			uniqueStatus[image.ImageName] = image.Status
 		}
 		keys := []string{}
