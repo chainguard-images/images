@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | experimental |
 | **OCI Reference** | `cgr.dev/chainguard/bazel` |
-| **Variants/Tags** | `latest` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/bazel.svg) |
 ---
 <!--monopod:end-->
 

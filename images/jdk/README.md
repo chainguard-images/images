@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/jdk` |
-| **Variants/Tags** | `openjdk-11`, `openjdk-17` (`latest`) |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/jdk.svg) |
 ---
 <!--monopod:end-->
 

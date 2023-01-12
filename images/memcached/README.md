@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | experimental |
 | **OCI Reference** | `cgr.dev/chainguard/memcached` |
-| **Variants/Tags** | `latest` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/memcached.svg) |
 ---
 <!--monopod:end-->
 

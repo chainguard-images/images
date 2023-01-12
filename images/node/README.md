@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/node` |
-| **Variants/Tags** | `latest` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/node.svg) |
 ---
 <!--monopod:end-->
 

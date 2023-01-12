@@ -4,7 +4,7 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/ruby` |
-| **Variants/Tags** | `latest-3.2` (`latest` / `3.2`), `latest-3.1` (`3.1`), `latest-3.0` (`3.0`) |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/ruby.svg) |
 ---
 <!--monopod:end-->
 
