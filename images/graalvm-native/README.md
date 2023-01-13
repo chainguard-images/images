@@ -1,10 +1,10 @@
 <!--monopod:start-->
-# graalvm-native-image-base
+# graalvm-native
 | | |
 | - | - |
 | **Status** | stable |
-| **OCI Reference** | `cgr.dev/chainguard/graalvm-native-image-base` |
-| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/graalvm-native-image-base.svg) |
+| **OCI Reference** | `cgr.dev/chainguard/graalvm-native` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/graalvm-native.svg) |
 ---
 <!--monopod:end-->
 
@@ -19,7 +19,7 @@ This image is meant to be used as a base image only, and is otherwise useless.  
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/graalvm-native-image-base:latest
+docker pull cgr.dev/chainguard/graalvm-native:latest
 ```
 
 ## Users
