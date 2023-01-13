@@ -30,10 +30,11 @@ type Image struct {
 	ApkoPackageVersionTagPrefix string `json:"apkoPackageVersionTagPrefix"`
 	TestCommandExe              string `json:"testCommandExe"`
 	TestCommandDir              string `json:"testCommandDir"`
+	ExcludeTags                 string `json:"excludeTags"`
 }
 
 type ImageManifest struct {
-	Registry string                 `yaml:"registry"`
+	Ref      string                 `yaml:"ref"`
 	Status   string                 `yaml:"status"`
 	Variants []ImageManifestVariant `yaml:"versions"`
 }
@@ -55,8 +56,9 @@ type ImageManifestVariantMelange struct {
 }
 
 type ImageManifestVariantApkoExtractTagsFrom struct {
-	Package string `yaml:"package"`
-	Prefix  string `yaml:"prefix"`
+	Package string   `yaml:"package"`
+	Prefix  string   `yaml:"prefix"`
+	Exclude []string `yaml:"exclude"`
 }
 
 // Our miniature schema of the Apko manifest so we dont have to import it here
@@ -110,8 +112,8 @@ func ListAll() ([]Image, error) {
 			}
 
 			var apkoBaseTag string
-			if m.Registry != "" {
-				apkoBaseTag = path.Join(m.Registry, imageName)
+			if m.Ref != "" {
+				apkoBaseTag = m.Ref
 			} else {
 				apkoBaseTag = path.Join(constants.DefaultRegistry, imageName)
 			}
@@ -170,6 +172,7 @@ func ListAll() ([]Image, error) {
 				ApkoPackageVersionTagPrefix: variant.Apko.ExtractTagsFrom.Prefix,
 				TestCommandExe:              testCommandExe,
 				TestCommandDir:              testCommandDir,
+				ExcludeTags:                 strings.Join(variant.Apko.ExtractTagsFrom.Exclude, ","),
 			}
 			allImages = append(allImages, i)
 		}

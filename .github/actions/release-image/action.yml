@@ -180,7 +180,20 @@ runs:
       run: |
         set -x
         REF="${{ steps.extract.outputs.digest-index }}"
-        for tag in `cat apko.tags`; do crane cp "${REF}" "${tag}"; done
+        EXCLUDE_TAGS="${{ inputs.excludeTags }}"
+        for tag in `cat apko.tags`; do
+          skip=0
+          for exclude_tag in ${EXCLUDE_TAGS//,/ }; do
+            if [[ "${tag}" == "${{ inputs.apkoBaseTag }}:${exclude_tag}" ]]; then
+              skip=1
+              break
+            fi
+          done
+          if [[ "${skip}" == "1" ]]; then
+            echo "Intentionally excluding copy to ${tag}."
+          fi
+          crane cp "${REF}" "${tag}"
+        done
 
     # Generate build status badge from shields.io and save it in ./badges-output/
     - if: always()

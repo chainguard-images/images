@@ -156,6 +156,16 @@ func (i *matrixImpl) Do() error {
 			})
 		}
 		allImages = tmp
+
+		// Ensure no duplicate refs so images do not overwrite each other
+		seen := map[string]bool{}
+		for _, image := range allImages {
+			ref := image.ApkoBaseTag
+			if _, ok := seen[ref]; ok {
+				return fmt.Errorf("duplicate entry for ref %s", ref)
+			}
+			seen[ref] = true
+		}
 	}
 
 	response := matrixResponse{Include: allImages}
