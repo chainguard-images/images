@@ -4,7 +4,13 @@ on:
       - main
   schedule:
     - cron: '0 0 * * *'
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      only:
+        description: 'Specific image name to build'
+        type: string
+        required: false
+        default: ''
 concurrency: release
 jobs:
   generate-matrix:
@@ -14,9 +20,15 @@ jobs:
       matrix-unique-images: ${{ steps.generate-matrix.outputs.matrix-unique-images }}
     steps:
     - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
-    # For nightly builds, build every image
+    # For manual builds, build only the image requested
     - id: generate-matrix-schedule
-      if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'}}
+      if: ${{ github.event_name == 'workflow_dispatch' && inputs.only != '' }}
+      uses: ./.github/actions/generate-matrix
+      with:
+        modified-files: images/${{ inputs.only }}/image.yaml
+    # For nightly builds, build every image (or on manual with no "only" input)
+    - id: generate-matrix-schedule
+      if: ${{ github.event_name == 'schedule' || ( github.event_name == 'workflow_dispatch' && inputs.only == '' ) }}
       uses: ./.github/actions/generate-matrix
     # On push to main branch, only build images necessary
     - id: files
