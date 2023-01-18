@@ -1,20 +1,27 @@
 versions:
   - melange:
       configs:
-        - configs/latest.melange.yaml
+        - configs/latest-musl.melange.yaml
     apko:
+      config: configs/latest-musl.apko.yaml
+      extractTagsFrom:
+        package: nginx
+      tags:
+        - mainline-musl
+  - melange:
+      configs:
+        - configs/stable-musl.melange.yaml
+    apko:
+      config: configs/stable-musl.apko.yaml
+      # Note: cannot extract tags from nginx package
+      # since the "1" tag would conflict with above
+      tags:
+        - 1.22.1-r0-musl
+        - 1.22-musl
+  - apko:
       config: configs/latest.apko.yaml
       extractTagsFrom:
         package: nginx
       tags:
         - mainline
-  - melange:
-      configs:
-        - configs/stable.melange.yaml
-    apko:
-      config: configs/stable.apko.yaml
-      # Note: cannot extract tags from nginx package
-      # since the "1" tag would conflict with above
-      tags:
-        - 1.22.1-r0
-        - 1.22
+        - latest-glibc
