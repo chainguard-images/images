@@ -21,7 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
     # For manual builds, build only the image requested
-    - id: generate-matrix-schedule
+    - id: generate-matrix-manual
       if: ${{ github.event_name == 'workflow_dispatch' && inputs.only != '' }}
       uses: ./.github/actions/generate-matrix
       with:
@@ -44,11 +44,13 @@ jobs:
     - id: generate-matrix
       run: |
         set -x
-        trap "rm -f matrix.json" EXIT
-        echo '${{ steps.generate-matrix-schedule.outputs.matrix }}' > matrix.json
+        trap "rm -f matrix.json matrix-unique-images.json" EXIT
+        echo '${{ steps.generate-matrix-manual.outputs.matrix }}' > matrix.json
+        [[ "$(cat matrix.json)" != "" ]] || echo '${{ steps.generate-matrix-schedule.outputs.matrix }}' > matrix.json
         [[ "$(cat matrix.json)" != "" ]] || echo '${{ steps.generate-matrix-main.outputs.matrix }}' > matrix.json
         echo "matrix=$(cat matrix.json)" >> $GITHUB_OUTPUT
-        echo '${{ steps.generate-matrix-schedule.outputs.matrix-unique-images }}' > matrix-unique-images.json
+        echo '${{ steps.generate-matrix-manual.outputs.matrix-unique-images }}' > matrix-unique-images.json
+        [[ "$(cat matrix-unique-images.json)" != "" ]] || echo '${{ steps.generate-matrix-schedule.outputs.matrix-unique-images }}' > matrix-unique-images.json
         [[ "$(cat matrix-unique-images.json)" != "" ]] || echo '${{ steps.generate-matrix-main.outputs.matrix-unique-images }}' > matrix-unique-images.json
         echo "matrix-unique-images=$(cat matrix-unique-images.json)" >> $GITHUB_OUTPUT
   build:
