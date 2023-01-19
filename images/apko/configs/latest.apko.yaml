@@ -3,12 +3,11 @@ contents:
     - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   repositories:
     - https://packages.wolfi.dev/os
-    - '@local /github/workspace/packages'
   packages:
     - alpine-keys
     - ca-certificates-bundle
     - wolfi-base
-    - apko@local
+    - apko
 
 paths:
   - path: /work
