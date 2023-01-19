@@ -4,9 +4,9 @@ contents:
   repositories:
     - https://packages.wolfi.dev/os
   packages:
-    - alpine-keys
     - ca-certificates-bundle
     - wolfi-base
+    - alpine-keys
     - apko
 
 paths:
