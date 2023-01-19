@@ -42,6 +42,12 @@ paths:
     type: directory
     permissions: 0o755
     recursive: true
+  - path: /var/lib/nginx/logs
+    uid: 65532
+    gid: 65532
+    type: directory
+    permissions: 0o755
+    recursive: true
   - path: /var/lib/nginx/tmp
     uid: 65532
     gid: 65532
