@@ -1,0 +1,47 @@
+contents:
+  repositories:
+    - https://dl-cdn.alpinelinux.org/alpine/edge/main
+    - '@local /github/workspace/packages'
+  packages:
+    - alpine-baselayout-data
+    - alpine-release
+    - nginx@local
+
+accounts:
+  groups:
+    - groupname: nginx
+      gid: 10000
+  users:
+    - username: nginx
+      uid: 10000
+      gid: 10000
+  run-as: 10000
+
+paths:
+  - path: /s6
+    type: directory
+    uid: 10000
+    gid: 10000
+    permissions: 0o755
+  - path: /var/lib/nginx
+    type: directory
+    uid: 10000
+    gid: 10000
+    permissions: 0o755
+    recursive: true
+  - path: /run/nginx
+    uid: 10000
+    gid: 10000
+    type: directory
+    permissions: 0o755
+    recursive: true    
+
+entrypoint:
+  type: service-bundle
+  services:
+    nginx: /usr/sbin/nginx -c /etc/nginx/nginx.conf -g "daemon off;"
+
+archs:
+  - amd64
+  - aarch64
+  - armv7
