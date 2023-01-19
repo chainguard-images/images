@@ -1,6 +1,5 @@
 versions:
-  - melange:
-      configs:
-        - configs/latest.melange.yaml
-    apko:
+  - apko:
       config: configs/latest.apko.yaml
+      extractTagsFrom:
+        package: melange

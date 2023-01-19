@@ -23,6 +23,7 @@ type Image struct {
 	MelangeWorkdir              string `json:"melangeWorkdir"`
 	ApkoConfig                  string `json:"apkoConfig"`
 	ApkoKeyringAppend           string `json:"apkoKeyringAppend"`
+	ApkoRepositoryAppend        string `json:"apkoRepositoryAppend"`
 	ApkoAdditionalTags          string `json:"apkoAdditionalTags"`
 	ApkoBaseTag                 string `json:"apkoBaseTag"`
 	ApkoTargetTag               string `json:"apkoTargetTag"`
@@ -121,6 +122,7 @@ func ListAll() ([]Image, error) {
 			melangeConfig := ""
 			melangeArchs := ""
 			apkoKeyringAppend := ""
+			apkoRepositoryAppend := ""
 
 			// If non-empty workspace for melange build, specify
 			// the image dir as the workdir for melange build
@@ -134,6 +136,7 @@ func ListAll() ([]Image, error) {
 			melangeConfigs := variant.Melange.Configs
 			if len(melangeConfigs) > 0 {
 				apkoKeyringAppend = constants.DefaultApkoKeyringAppend
+				apkoRepositoryAppend = constants.DefaultApkoRepositoryAppend
 				var a ApkoManifest
 				b, err := os.ReadFile(apkoConfig)
 				if err != nil {
@@ -164,7 +167,8 @@ func ListAll() ([]Image, error) {
 				MelangeEmptyWorkspace:       melangeEmptyWorkspace,
 				MelangeWorkdir:              melangeWorkdir,
 				ApkoConfig:                  apkoConfig,
-				ApkoKeyringAppend:           apkoKeyringAppend, // TODO
+				ApkoKeyringAppend:           apkoKeyringAppend,
+				ApkoRepositoryAppend:        apkoRepositoryAppend,
 				ApkoBaseTag:                 apkoBaseTag,
 				ApkoTargetTag:               apkoTargetTag,
 				ApkoAdditionalTags:          apkoAdditionalTags,

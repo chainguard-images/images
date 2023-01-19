@@ -22,6 +22,7 @@ runs:
         config: ${{ inputs.apkoConfig }}
         tag: ${{ inputs.imageName }}:${{ github.sha }}
         keyring-append: ${{ inputs.apkoKeyringAppend }}
+        repository-append: ${{ inputs.apkoRepositoryAppend }}
         additional-tags: ${{ inputs.apkoAdditionalTags }}
         archs: x86_64 # To speed up CI, just build for x86_64 ${{ inputs.melangeArchs }}
     - name: Smoke test
