@@ -57,6 +57,7 @@ runs:
         base-tag: ${{ inputs.apkoBaseTag }}
         target-tag: ${{ inputs.apkoTargetTag }}
         keyring-append: ${{ inputs.apkoKeyringAppend }}
+        repository-append: ${{ inputs.apkoRepositoryAppend }}
         additional-tags: ${{ inputs.apkoAdditionalTags }}
         package-version-tag: ${{ inputs.apkoPackageVersionTag }}
         package-version-tag-stem: true
