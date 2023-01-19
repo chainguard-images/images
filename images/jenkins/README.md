@@ -1,4 +1,12 @@
-# Jenkins
+<!--monopod:start-->
+# jenkins
+| | |
+| - | - |
+| **Status** | experimental |
+| **OCI Reference** | `cgr.dev/chainguard/jenkins` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/jenkins.svg) |
+---
+<!--monopod:end-->
 
 Minimal Jenkins container image. **Currently experimental.**
 

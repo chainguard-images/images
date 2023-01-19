@@ -1,4 +1,12 @@
-# RabbitMQ
+<!--monopod:start-->
+# rabbitmq
+| | |
+| - | - |
+| **Status** | experimental |
+| **OCI Reference** | `cgr.dev/chainguard/rabbitmq` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/rabbitmq.svg) |
+---
+<!--monopod:end-->
 
 [RabbitMQ](https://github.com/rabbitmq/rabbitmq-server) RabbitMQ is a message broker.
 

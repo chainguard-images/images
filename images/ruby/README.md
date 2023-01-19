@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # ruby
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/ruby` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/ruby.svg) |
+---
+<!--monopod:end-->
 
 Minimal ruby image. **EXPERIMENTAL**.
 

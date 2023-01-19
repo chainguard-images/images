@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # ko
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/ko` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/ko.svg) |
+---
+<!--monopod:end-->
 
 This is an image that contains ko, go, and build-base.
 

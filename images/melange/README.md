@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # melange
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/melange` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/melange.svg) |
+---
+<!--monopod:end-->
 
 Container image for running [melange](https://github.com/chainguard-dev/melange) workflows to build APK packages.
 

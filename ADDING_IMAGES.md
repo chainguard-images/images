@@ -153,10 +153,17 @@ First, install `monopod`. (This assumes that your `$GOBIN` is in your `$PATH`.)
 (cd monopod && go install)
 ```
 
-Run the following to regenerate the README:
+Run the following to regenerate the README.md at the root of the repo, as well as each individual image README.md:
 
 ```
-monopod readme > README.md
+monopod readme
 ```
 
-Then check in the modified README to git.
+Then check in all modified README.md files to git.
+
+If you wish to check that everything is up-to-date,
+you can use the `--check` flag:
+
+```
+monopod readme --check
+```

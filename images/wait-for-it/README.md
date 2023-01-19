@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # wait-for-it
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/wait-for-it` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/wait-for-it.svg) |
+---
+<!--monopod:end-->
 
 Container image for testing whether a service is listening on an address/port combination.
 

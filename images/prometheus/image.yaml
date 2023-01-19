@@ -3,5 +3,3 @@ versions:
       config: configs/latest.apko.yaml
       extractTagsFrom:
         package: prometheus
-      tags:
-        - latest

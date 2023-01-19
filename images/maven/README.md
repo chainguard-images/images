@@ -1,4 +1,12 @@
-# Maven
+<!--monopod:start-->
+# maven
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/maven` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/maven.svg) |
+---
+<!--monopod:end-->
 
 Minimal image with Maven build system. **EXPERIMENTAL**
 
@@ -141,4 +149,3 @@ docker images | grep my-chainguard-springboot-app
 ```
 
 You can also check for vulnerabilities using your favorite scanner.
-

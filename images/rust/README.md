@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # rust
+| | |
+| - | - |
+| **Status** | experimental |
+| **OCI Reference** | `cgr.dev/chainguard/rust` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/rust.svg) |
+---
+<!--monopod:end-->
 
 Minimal rust image. **EXPERIMENTAL**.
 

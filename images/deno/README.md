@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # deno
+| | |
+| - | - |
+| **Status** | experimental |
+| **OCI Reference** | `cgr.dev/chainguard/deno` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/deno.svg) |
+---
+<!--monopod:end-->
 
 Minimal container image for running deno apps
 

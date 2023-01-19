@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # node
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/node` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/node.svg) |
+---
+<!--monopod:end-->
 
 Minimal container image for running NodeJS apps
 

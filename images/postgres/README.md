@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # postgres
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/postgres` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/postgres.svg) |
+---
+<!--monopod:end-->
 
 Minimal PostgreSQL image. **EXPERIMENTAL**
 

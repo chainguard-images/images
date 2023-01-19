@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # musl-dynamic
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/musl-dynamic` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/musl-dynamic.svg) |
+---
+<!--monopod:end-->
 
 Base image with just enough files to run static binaries!
 

@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # jre
+| | |
+| - | - |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/jre` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/jre.svg) |
+---
+<!--monopod:end-->
 
 Java JRE image using OpenJDK via [Adoptium Temurin](https://adoptium.net/en-GB/temurin/) sources.
 

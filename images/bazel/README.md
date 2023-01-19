@@ -1,4 +1,12 @@
+<!--monopod:start-->
 # bazel
+| | |
+| - | - |
+| **Status** | experimental |
+| **OCI Reference** | `cgr.dev/chainguard/bazel` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/bazel.svg) |
+---
+<!--monopod:end-->
 
 [Bazel](https://github.com/bazelbuild/bazel) - A fast, scalable, multi-language and extensible build system.
 

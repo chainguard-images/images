@@ -15,9 +15,12 @@ import (
 type Image struct {
 	ImageName                   string `json:"imageName"`
 	ImageStatus                 string `json:"imageStatus"`
+	ImageSummaryJson            string `json:"imageSummaryJson"`
 	MelangeConfig               string `json:"melangeConfig"`
 	MelangeArchs                string `json:"melangeArchs"`
 	MelangeTemplate             string `json:"melangeTemplate"`
+	MelangeEmptyWorkspace       bool   `json:"melangeEmptyWorkspace"`
+	MelangeWorkdir              string `json:"melangeWorkdir"`
 	ApkoConfig                  string `json:"apkoConfig"`
 	ApkoKeyringAppend           string `json:"apkoKeyringAppend"`
 	ApkoAdditionalTags          string `json:"apkoAdditionalTags"`
@@ -27,10 +30,11 @@ type Image struct {
 	ApkoPackageVersionTagPrefix string `json:"apkoPackageVersionTagPrefix"`
 	TestCommandExe              string `json:"testCommandExe"`
 	TestCommandDir              string `json:"testCommandDir"`
+	ExcludeTags                 string `json:"excludeTags"`
 }
 
 type ImageManifest struct {
-	Registry string                 `yaml:"registry"`
+	Ref      string                 `yaml:"ref"`
 	Status   string                 `yaml:"status"`
 	Variants []ImageManifestVariant `yaml:"versions"`
 }
@@ -48,11 +52,13 @@ type ImageManifestVariantApko struct {
 
 type ImageManifestVariantMelange struct {
 	Configs []string `yaml:"configs"`
+	Mount   bool     `yaml:"mount"`
 }
 
 type ImageManifestVariantApkoExtractTagsFrom struct {
-	Package string `yaml:"package"`
-	Prefix  string `yaml:"prefix"`
+	Package string   `yaml:"package"`
+	Prefix  string   `yaml:"prefix"`
+	Exclude []string `yaml:"exclude"`
 }
 
 // Our miniature schema of the Apko manifest so we dont have to import it here
@@ -106,8 +112,8 @@ func ListAll() ([]Image, error) {
 			}
 
 			var apkoBaseTag string
-			if m.Registry != "" {
-				apkoBaseTag = path.Join(m.Registry, imageName)
+			if m.Ref != "" {
+				apkoBaseTag = m.Ref
 			} else {
 				apkoBaseTag = path.Join(constants.DefaultRegistry, imageName)
 			}
@@ -115,6 +121,15 @@ func ListAll() ([]Image, error) {
 			melangeConfig := ""
 			melangeArchs := ""
 			apkoKeyringAppend := ""
+
+			// If non-empty workspace for melange build, specify
+			// the image dir as the workdir for melange build
+			melangeWorkdir := ""
+			melangeEmptyWorkspace := true
+			if variant.Melange.Mount {
+				melangeEmptyWorkspace = false
+				melangeWorkdir = filepath.Join(constants.ImagesDirName, imageName)
+			}
 
 			melangeConfigs := variant.Melange.Configs
 			if len(melangeConfigs) > 0 {
@@ -130,7 +145,11 @@ func ListAll() ([]Image, error) {
 				melangeArchs = strings.Join(a.Archs, ",")
 				tmp := []string{}
 				for _, config := range melangeConfigs {
-					tmp = append(tmp, filepath.Join(constants.ImagesDirName, imageName, config))
+					if melangeEmptyWorkspace {
+						tmp = append(tmp, filepath.Join(constants.ImagesDirName, imageName, config))
+					} else {
+						tmp = append(tmp, config)
+					}
 				}
 				melangeConfig = strings.Join(tmp, ",")
 			}
@@ -138,9 +157,12 @@ func ListAll() ([]Image, error) {
 			i := Image{
 				ImageName:                   imageName,
 				ImageStatus:                 imageStatus,
+				ImageSummaryJson:            "",
 				MelangeConfig:               melangeConfig, // TODO
 				MelangeArchs:                melangeArchs,  // TODO
 				MelangeTemplate:             "",            // TODO
+				MelangeEmptyWorkspace:       melangeEmptyWorkspace,
+				MelangeWorkdir:              melangeWorkdir,
 				ApkoConfig:                  apkoConfig,
 				ApkoKeyringAppend:           apkoKeyringAppend, // TODO
 				ApkoBaseTag:                 apkoBaseTag,
@@ -150,6 +172,7 @@ func ListAll() ([]Image, error) {
 				ApkoPackageVersionTagPrefix: variant.Apko.ExtractTagsFrom.Prefix,
 				TestCommandExe:              testCommandExe,
 				TestCommandDir:              testCommandDir,
+				ExcludeTags:                 strings.Join(variant.Apko.ExtractTagsFrom.Exclude, ","),
 			}
 			allImages = append(allImages, i)
 		}
