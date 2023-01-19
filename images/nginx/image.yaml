@@ -1,5 +1,20 @@
 versions:
-  - apko:
+  - melange:
+      configs:
+        - configs/latest.melange.yaml
+    apko:
       config: configs/latest.apko.yaml
       extractTagsFrom:
         package: nginx
+      tags:
+        - mainline
+  - melange:
+      configs:
+        - configs/stable.melange.yaml
+    apko:
+      config: configs/stable.apko.yaml
+      # Note: cannot extract tags from nginx package
+      # since the "1" tag would conflict with above
+      tags:
+        - 1.22.1-r0
+        - 1.22

@@ -1,12 +1,11 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   repositories:
-    - https://packages.wolfi.dev/os
+    - https://dl-cdn.alpinelinux.org/alpine/edge/main
+    - '@local /github/workspace/packages'
   packages:
-    - ca-certificates-bundle
-    - wolfi-base
-    - nginx
+    - alpine-baselayout-data
+    - alpine-release
+    - nginx@local
 
 accounts:
   groups:
@@ -43,5 +42,6 @@ entrypoint:
     nginx: /usr/sbin/nginx -c /etc/nginx/nginx.conf -g "daemon off;"
 
 archs:
-  - x86_64
+  - amd64
   - aarch64
+  - armv7
