@@ -20,11 +20,6 @@ docker pull cgr.dev/chainguard/nginx:latest
 
 ## Usage
 
-**NOTE**: As of 18/1/2023, the default nginx image uses Wolfi, which is glibc based.
-
-If you were using this image before and are now running into trouble, the musl/Alpine based image is
-still available at `cgr.dev/chainguard/nginx:latest-musl`.
-
 To try out the image, run:
 
 ```
