@@ -4,7 +4,7 @@ versions:
       extractTagsFrom:
         package: busybox
   - apko:
-      config: configs/latest-glibc.apko.yaml
+      config: configs/latest-musl.apko.yaml
       extractTagsFrom:
         package: busybox
-        prefix: glibc-
+        prefix: musl-

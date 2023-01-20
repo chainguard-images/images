@@ -11,14 +11,14 @@ versions:
         package: git
         prefix: root-
   - apko:
-      config: configs/latest-glibc.apko.yaml
+      config: configs/latest-musl.apko.yaml
       extractTagsFrom:
         package: git
-        prefix: glibc-
+        prefix: musl-
       tags:
-        - latest-glibc-nonroot
+        - latest-musl-nonroot
   - apko:
-      config: configs/latest-glibc-root.apko.yaml
+      config: configs/latest-musl-root.apko.yaml
       extractTagsFrom:
         package: git
-        prefix: glibc-root-
+        prefix: musl-root-
