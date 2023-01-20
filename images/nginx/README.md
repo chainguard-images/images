@@ -35,3 +35,9 @@ docker run -v $(pwd)/examples/hello-world/site-content:/var/lib/nginx/html -p 80
 ```
 
 If you navigate to `localhost:8080`, you should see `Hello World from Nginx!`.
+
+To use a custom `nginx.conf` you can mount the file into the container
+
+```
+docker run -v $(pwd)/$CUSTOM_NGINX_CONF_DIRECTORY/nginx.conf:/etc/nginx/nginx.conf -p 8080:80 cgr.dev/chainguard/nginx
+```
