@@ -6,6 +6,7 @@ contents:
   packages:
     - curl
     - wolfi-baselayout
+    - libcurl-rustls4
 
 entrypoint:
   command: /usr/bin/curl
