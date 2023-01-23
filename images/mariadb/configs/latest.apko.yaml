@@ -1,0 +1,48 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+  packages:
+    - mariadb
+    - mariadb-oci-entrypoint
+    - wolfi-baselayout
+    - tzdata
+
+accounts:
+  groups:
+    - groupname: mysql
+      gid: 65532
+  users:
+    - username: mysql
+      uid: 65532
+  run-as: mysql
+
+entrypoint:
+  command: /usr/local/bin/docker-entrypoint.sh mariadbd
+
+paths:
+  - path: /var/lib/mysql
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+  - path: /var/tmp
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+  - path: /run/mysqld
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+  - path: /docker-entrypoint-initdb.d
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+
+archs:
+- x86_64
+- aarch64
