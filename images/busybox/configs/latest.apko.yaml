@@ -5,6 +5,7 @@ contents:
     # These packages match chainguard-images/static
     - alpine-baselayout-data
     - ca-certificates-bundle
+    - alpine-release
 
     # busybox gives us a shell we can use, when we need one.
     - busybox
