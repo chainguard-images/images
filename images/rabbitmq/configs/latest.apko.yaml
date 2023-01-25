@@ -13,6 +13,12 @@ contents:
     # - su-exec do we need this?
 
 paths:
+  - path: /var/lib/rabbitmq
+    type: directory
+    permissions: 0o777
+    uid: 999
+    gid: 999
+    resursive: true
   - path: /app
     type: directory
     permissions: 0o777
