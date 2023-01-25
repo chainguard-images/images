@@ -7,6 +7,10 @@ contents:
     - rabbitmq-server
     - wolfi-baselayout
     - bash
+    - glibc-locale-en
+    - tzdata
+    # - procps do we need this?
+    # - su-exec do we need this?
 
 paths:
   - path: /app
@@ -45,6 +49,8 @@ environment:
   RABBITMQ_ADVANCED_CONFIG_FILE: /etc/rabbitmq/advanced.config
   RABBITMQ_CONF_ENV_FILE: /etc/rabbitmq/rabbitmq-env.conf
   HOME: /var/lib/rabbitmq
+  LANG: en_US.UTF-8
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin:/usr/lib/rabbitmq/bin/
 
 # By convention, the official Docker node image defines a `node` user, but
 # doesn't run as it unless the image based on it specifies that user.
