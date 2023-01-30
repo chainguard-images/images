@@ -8,13 +8,3 @@ versions:
         package: php
         prefix: dev-
       config: configs/latest-dev.apko.yaml
-  - apko:
-      extractTagsFrom:
-        package: php
-        prefix: musl-
-      config: configs/latest-musl.apko.yaml
-  - apko:
-      extractTagsFrom:
-        package: php
-        prefix: musl-dev-
-      config: configs/latest-musl-dev.apko.yaml

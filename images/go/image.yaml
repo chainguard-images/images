@@ -1,16 +1,11 @@
 versions:
   - apko:
       config: configs/latest.apko.yaml
-      tags:
-        - latest-glibc
-        - 1.19
-  - apko:
-      config: configs/latest-musl.apko.yaml
-      tags:
-        - 1.19-musl
+      extractTagsFrom:
+        package: go
   - apko:
       config: configs/1.20.apko.yaml
-      tags:
-        - 1.20rc1
-        - 1.20-glibc
-        - 1.20rc1-glibc
+      extractTagsFrom:
+        package: go-1.20
+        exclude:
+          - 1

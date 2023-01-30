@@ -8,13 +8,3 @@ versions:
         package: python3
         prefix: dev-
       config: configs/latest-dev.apko.yaml
-  - apko:
-      extractTagsFrom:
-        package: python3
-        prefix: musl-
-      config: configs/latest-musl.apko.yaml
-  - apko:
-      extractTagsFrom:
-        package: python3
-        prefix: musl-dev-
-      config: configs/latest-musl-dev.apko.yaml
