@@ -28,5 +28,5 @@ entrypoint:
 cmd: help
 
 archs:
-- x86_64
-- aarch64
+  - x86_64
+  - aarch64
