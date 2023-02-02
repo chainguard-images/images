@@ -8,7 +8,7 @@
 ---
 <!--monopod:end-->
 
-Minimalist Wolfi-based PHP images for building and running PHP applications. Includes both `cli` and `fpm` variants.
+Minimalist Wolfi-based PHP images for building and running PHP applications. Includes both `dev` and `fpm` variants.
 
 - [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/php)
 - [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/php/getting-started-php/)
