@@ -8,8 +8,8 @@ contents:
     - busybox
     - build-base
     - git
-    - go-1.19
     - openssh
+    - go-1.20
     - wolfi-baselayout
 
 accounts:
@@ -22,11 +22,14 @@ accounts:
       gid: 65532
   run-as: 0
 
+environment:
+  GODEBUG: tarinsecurepath=0,zipinsecurepath=0
+
 entrypoint:
   command: /usr/bin/go
 
 cmd: help
 
 archs:
-- x86_64
-- aarch64
+  - x86_64
+  - aarch64
