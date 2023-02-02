@@ -8,3 +8,8 @@ versions:
         package: php
         prefix: dev-
       config: configs/latest-dev.apko.yaml
+  - apko:
+      extractTagsFrom:
+        package: php
+        prefix: fpm-
+      config: configs/latest-fpm.apko.yaml

@@ -1,0 +1,40 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+  packages:
+    - wolfi-baselayout
+    - ca-certificates-bundle
+    - php
+    - php-fpm
+
+environment:
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin
+
+paths:
+  - path: /app
+    type: directory
+    permissions: 0o777
+    uid: 10000
+    gid: 10000
+
+work-dir: /app
+
+accounts:
+  groups:
+    - groupname: php
+      gid: 10000
+  users:
+    - username: php
+      uid: 10000
+  run-as: 10000
+
+entrypoint:
+  type: service-bundle
+  services:
+    php-fpm: /usr/bin/php-fpm -p /
+
+archs:
+  - x86_64
+  - aarch64
