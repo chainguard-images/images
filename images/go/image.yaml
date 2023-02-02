@@ -6,12 +6,12 @@ versions:
         exclude:
           - 1
   - apko:
-      config: configs/latest.apko.yaml
+      config: configs/1.19.apko.yaml
       extractTagsFrom:
         package: go-1.19
-  - apko:
-      config: configs/1.20.apko.yaml
-      extractTagsFrom:
-        package: go-1.20
         exclude:
           - 1
+  - apko:
+      config: configs/latest.apko.yaml
+      extractTagsFrom:
+        package: go-1.20

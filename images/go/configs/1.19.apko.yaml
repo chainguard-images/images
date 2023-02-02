@@ -1,23 +1,32 @@
 contents:
-  repositories:
-    - https://packages.wolfi.dev/os
   keyring:
     - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
   packages:
     - ca-certificates-bundle
     - busybox
     - build-base
     - git
+    - go-1.19
     - openssh
-    - go-1.20
     - wolfi-baselayout
 
-environment:
-  GODEBUG: tarinsecurepath=0,zipinsecurepath=0
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 0
+
 entrypoint:
   command: /usr/bin/go
+
 cmd: help
 
 archs:
-  - x86_64
-  - aarch64
+- x86_64
+- aarch64
