@@ -2,7 +2,6 @@
 
 | Name | OCI Reference | Status | Variants/Tags |
 | ----- | ----- | ----- |  -------- |
-| [alpine-base](./images/alpine-base) | `cgr.dev/chainguard/alpine-base` | stable | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/alpine-base.build.status.latest.svg)](https://registry-ui.chainguard.app/?image=cgr.dev/chainguard/alpine-base:latest) |
 | [apko](./images/apko) | `cgr.dev/chainguard/apko` | stable | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/apko.build.status.latest.svg)](https://registry-ui.chainguard.app/?image=cgr.dev/chainguard/apko:latest) |
 | [bazel](./images/bazel) | `cgr.dev/chainguard/bazel` | experimental | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/bazel.build.status.latest.svg)](https://registry-ui.chainguard.app/?image=cgr.dev/chainguard/bazel:latest) |
 | [busybox](./images/busybox) | `cgr.dev/chainguard/busybox` | stable | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/busybox.build.status.latest-glibc.svg)](https://registry-ui.chainguard.app/?image=cgr.dev/chainguard/busybox:latest-glibc)<br/>[![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/busybox.build.status.latest.svg)](https://registry-ui.chainguard.app/?image=cgr.dev/chainguard/busybox:latest) |
