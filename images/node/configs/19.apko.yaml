@@ -26,6 +26,7 @@ environment:
   # port to listen on. Default to a high port since the user runs as non-root.
   NODE_PORT: 3000
   PATH: /usr/sbin:/sbin:/usr/bin:/bin
+  NPM_CONFIG_UPDATE_NOTIFIER: false # Disables npm update notifications
 
 entrypoint:
   command: /usr/bin/node
