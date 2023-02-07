@@ -204,7 +204,6 @@ runs:
         NAME: ${{ inputs.imageName }}
         VARIANT: ${{ inputs.apkoTargetTag }}
       run: |
-        set -x
         cat <<EOF > BADGINATOR-5000.sh
         BADGE_COLOR="\$1"
         BADGE_LABEL="$VARIANT"
@@ -217,7 +216,7 @@ runs:
         FILENAME_LATEST="$NAME.build.status.latest.svg"
         FILENAME_VARIANT="$NAME.build.status.$VARIANT.svg"
         mkdir -p badges-output
-        curl -v -L -o "badges-output/\$FILENAME_VARIANT" "https://img.shields.io/static/v1?label=\$BADGE_LABEL&message=%20&color=\$BADGE_COLOR&logo=\$BADGE_LOGO"
+        curl -s -L -o "badges-output/\$FILENAME_VARIANT" "https://img.shields.io/static/v1?label=\$BADGE_LABEL&message=%20&color=\$BADGE_COLOR&logo=\$BADGE_LOGO"
         EOF
     - if: failure()
       shell: bash
@@ -235,9 +234,8 @@ runs:
       if: failure() && inputs.slackWebhookUrl != ''
       id: slacklink
       run: |
-        set -x
         function get_actions_job_url {
-          curl -vL -H "Authorization: Bearer ${{ github.token }}" \
+          curl -s -L -H "Authorization: Bearer ${{ github.token }}" \
             "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs?per_page=100" \
             | jq -r ".jobs[] | select(.name | contains(\"${1}\")) | .html_url"
         }
