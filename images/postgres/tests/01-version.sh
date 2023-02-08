@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
 
-set -x
-set -o errexit -o nounset -o errtrace -o pipefail
+set -o errexit -o nounset -o errtrace -o pipefail -x
 
-IMAGE_NAME=${IMAGE_NAME:-"unset"}
-if [[ "${IMAGE_NAME}" == "unset" ]]; then
-    echo "Must set IMAGE_NAME in the environment. Exiting."
-    exit 1
-fi
+IMAGE_DIR="$(basename "$(cd "$(dirname ${BASH_SOURCE[0]})/.." && pwd )")"
+IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/${IMAGE_DIR}:latest"}
 
 docker run --rm "${IMAGE_NAME}" --version \
     | grep '^postgres (PostgreSQL) '

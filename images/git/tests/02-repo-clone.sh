@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-set -o errexit -o nounset -o errtrace -o pipefail
+set -o errexit -o nounset -o errtrace -o pipefail -x
 
-IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/git"}
+IMAGE_DIR="$(basename "$(cd "$(dirname ${BASH_SOURCE[0]})/.." && pwd )")"
+IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/${IMAGE_DIR}:latest"}
+
 CLONE_URL=${CLONE_URL:-"https://github.com/chainguard-images/git.git"}
 
 CLONEDIR="$(mktemp -d)"
