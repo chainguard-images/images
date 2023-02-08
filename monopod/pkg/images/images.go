@@ -107,7 +107,12 @@ func ListAll() ([]Image, error) {
 			testCommandExe := ""
 			testCommandDir := ""
 			testScriptFilename := filepath.Join(constants.ImagesDirName, imageName, constants.DefaultTestScriptFilename)
-			if _, err := os.Stat(testScriptFilename); err == nil {
+			testScriptsDirname := filepath.Join(constants.ImagesDirName, imageName, constants.DefaultTestDirname)
+			if _, err := os.Stat(testScriptsDirname); err == nil {
+				// For loop to run all the .sh files found in the tests/ directory
+				testCommandExe = fmt.Sprintf("(set -ex; for x in $(find %s -mindepth 1 -name '*.sh'); do ./$x; done)", constants.DefaultTestDirname)
+				testCommandDir = filepath.Join(constants.ImagesDirName, imageName)
+			} else if _, err := os.Stat(testScriptFilename); err == nil {
 				testCommandExe = fmt.Sprintf("./%s", constants.DefaultTestScriptFilename)
 				testCommandDir = filepath.Join(constants.ImagesDirName, imageName)
 			}
