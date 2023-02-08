@@ -9,6 +9,7 @@ const (
 	MonopodDirName = "monopod"
 
 	DefaultTestScriptFilename = "test.sh"
+	DefaultTestDirname        = "tests"
 
 	DefaultRegistry = "ghcr.io/chainguard-images"
 
