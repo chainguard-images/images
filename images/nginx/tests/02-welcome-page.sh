@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-set -o errexit -o nounset -o errtrace -o pipefail
+set -o errexit -o nounset -o errtrace -o pipefail -x
 
-IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/nginx"}
+IMAGE_DIR="$(basename "$(cd "$(dirname ${BASH_SOURCE[0]})/.." && pwd )")"
+IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/${IMAGE_DIR}:latest"}
+
 CONTAINER_NAME=${CONTAINER_NAME:-"nginx-smoketest-$(date +%s)"}
 
 docker run -p 8080:80 -d --name $CONTAINER_NAME $IMAGE_NAME

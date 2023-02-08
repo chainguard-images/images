@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-set -o errexit -o nounset -o errtrace -o pipefail -x
+set -o errexit -o nounset -o errtrace -o pipefail -x -x
 
 IMAGE_DIR="$(basename "$(cd "$(dirname ${BASH_SOURCE[0]})/.." && pwd )")"
 IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/${IMAGE_DIR}:latest"}
 
-docker run $IMAGE_NAME help
+docker run --rm "${IMAGE_NAME}" -h google.com -p 80

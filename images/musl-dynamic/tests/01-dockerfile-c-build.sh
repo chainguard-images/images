@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
-set -o errexit -o nounset -o errtrace -o pipefail
+set -o errexit -o nounset -o errtrace -o pipefail -x
 
-IMAGE_NAME=${IMAGE_NAME:-"unset"}
-if [[ "${IMAGE_NAME}" == "unset" ]]; then
-    echo "Must set IMAGE_NAME in the environment. Exiting."
-    exit 1
-fi
+IMAGE_DIR="$(basename "$(cd "$(dirname ${BASH_SOURCE[0]})/.." && pwd )")"
+IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/${IMAGE_DIR}:latest"}
+
+cd "$(dirname ${BASH_SOURCE[0]})/.."
 
 docker build --build-arg BASE="${IMAGE_NAME}" --tag smoke-test --file examples/Dockerfile.c examples
-docker run smoke-test
+docker run --rm smoke-test
