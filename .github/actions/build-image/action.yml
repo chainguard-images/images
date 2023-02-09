@@ -2,7 +2,13 @@ name: build-image
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+    - if: inputs.overrideCheckoutRef == ''
+      uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+    - if: inputs.overrideCheckoutRef != ''
+      uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+      with:
+        clean: false
+        ref: ${{ inputs.overrideCheckoutRef }}
     - name: Setup QEMU
       if: inputs.melangeConfig != ''
       uses: docker/setup-qemu-action@e81a89b1732b9c48d79cd809d8d81d79c4647a18 # v2.1.0
