@@ -15,7 +15,8 @@ runs:
     - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
       with:
         repository: ${{ inputs.repository }}
-        ref: ${{ inputs.ref }}
+        # ref: ${{ inputs.ref }}
+        ref: matrix_override_checkout ## DONT MERGE
         token: ${{ inputs.token }}
         path: monopod-setup-gha
     - uses: actions/setup-go@v3
@@ -27,7 +28,12 @@ runs:
         set -x
         (cd monopod-setup-gha/monopod/ && go build -o /tmp/bin/monopod monopod.go)
         rm -rf monopod-setup-gha/
-    - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+    - if: inputs.overrideCheckoutRef == ''
+      uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+    - if: inputs.overrideCheckoutRef != ''
+      uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+      with:
+        ref: ${{ inputs.overrideCheckoutRef}}
     - id: generate-matrix
       shell: bash
       run: |
