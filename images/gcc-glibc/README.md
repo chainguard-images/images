@@ -5,6 +5,9 @@
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/gcc-glibc` |
 | **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/gcc-glibc.svg) |
+
+*[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
 ---
 <!--monopod:end-->
 

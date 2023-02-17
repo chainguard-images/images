@@ -5,6 +5,9 @@
 | **Status** | experimental |
 | **OCI Reference** | `cgr.dev/chainguard/bazel` |
 | **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/bazel.svg) |
+
+*[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
 ---
 <!--monopod:end-->
 
