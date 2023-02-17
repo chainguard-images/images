@@ -107,6 +107,7 @@ func (i *readmeImpl) check() error {
 		readmeInsert += fmt.Sprintf("| **Status** | %s |\n", imageToStatusMap[k])
 		readmeInsert += fmt.Sprintf("| **OCI Reference** | %s |\n", imageToReferenceMap[k])
 		readmeInsert += fmt.Sprintf("| **Variants/Tags** | %s |\n", fmt.Sprintf("![](%s/%s.svg)", i.SummaryRootUrl, k))
+		readmeInsert += "\n*[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*\n\n"
 		readmeInsert += "---"
 
 		filename := path.Join(constants.ImagesDirName, k, "README.md")
@@ -184,6 +185,7 @@ func (i *readmeImpl) fixAllReadmes() error {
 		readmeInsert += fmt.Sprintf("| **Status** | %s |\n", imageToStatusMap[k])
 		readmeInsert += fmt.Sprintf("| **OCI Reference** | %s |\n", imageToReferenceMap[k])
 		readmeInsert += fmt.Sprintf("| **Variants/Tags** | %s |\n", fmt.Sprintf("![](%s/%s.svg)", i.SummaryRootUrl, k))
+		readmeInsert += "\n*[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*\n\n"
 		readmeInsert += "---"
 		padded := fmt.Sprintf("%s\n%s\n%s\n", constants.ImageReadmeGenStartComment, readmeInsert, constants.ImageReadmeGenEndComment)
 

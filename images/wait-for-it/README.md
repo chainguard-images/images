@@ -5,6 +5,9 @@
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/wait-for-it` |
 | **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/wait-for-it.svg) |
+
+*[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
 ---
 <!--monopod:end-->
 

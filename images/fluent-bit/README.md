@@ -5,6 +5,9 @@
 | **Status** | experimental |
 | **OCI Reference** | `cgr.dev/chainguard/fluent-bit` |
 | **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/fluent-bit.svg) |
+
+*[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
 ---
 <!--monopod:end-->
 
