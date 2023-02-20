@@ -8,7 +8,9 @@ contents:
     - wolfi-baselayout
     - glibc-locale-en
     - busybox
-    - openjdk-11
+    - bash
+    - apk-tools
+    - openjdk-17
 
 accounts:
   groups:
