@@ -7,7 +7,3 @@ versions:
       config: configs/19.apko.yaml
       extractTagsFrom:
         package: nodejs-19
-  - apko:
-      config: configs/16.apko.yaml
-      extractTagsFrom:
-        package: nodejs-16
