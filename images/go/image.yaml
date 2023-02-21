@@ -13,11 +13,9 @@ versions:
       config: configs/1.19-dev.apko.yaml
       extractTagsFrom:
         package: go-1.19
-        prefix: dev-
         exclude:
           - 1
   - apko:
       config: configs/latest-dev.apko.yaml
-      extractTagsFrom:
-        prefix: dev-
-        package: go-1.20
+      tags:
+        - 1.20-dev
