@@ -195,7 +195,7 @@ The kill command should return immediately (not in 10s).
 
 Follow the example of other images such as [static](https://github.com/chainguard-images/images/tree/main/images/static#usage). Try to keep a new user in mind - what do they need to know? What questions are they likely to have?
 
-Remember users will likely have used the official Docker image. If our image works noticeably differently, document the differences.
+Remember users will likely have used other popular images. If our image works noticeably differently, document the differences.
 
 
 ### Usage Example
@@ -288,6 +288,6 @@ Other tests that should be considered:
 * Check if environment variables are needed e.g. to set data locations
 * Ensure the image responds to SIGTERM
     *  `docker kill $(docker run -d --rm cgr.dev/chainguard/nginx)`
-* Documentation. At least on par with Docker Hub. Include usage example.
+* Documentation. Let's make this excellent. Include usage example.
 * Error logs write to stderr and normal logs to stdout. DO NOT write to file.
 * Include tests, at the very least a basic smoke test.
