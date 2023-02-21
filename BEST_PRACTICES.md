@@ -162,7 +162,7 @@ The [postgres image documentation](https://github.com/chainguard-images/images/t
     To test and not persist PostgreSQL data run...
 
 ```
-    docker run --rm -e POSTGRES_PASSWORD=password -ti --name postgres-test cgr.dev/chainguard/postgres:latest
+docker run --rm -e POSTGRES_PASSWORD=password -ti --name postgres-test cgr.dev/chainguard/postgres:latest
 ```
 
 
@@ -178,15 +178,16 @@ environment:
 
 Please test that the image handles signals properly. In particular check that SIGTERM is handled and the container quits immediately (if it’s not handled Docker will wait 10s before reaping). You can test this as follows:
 
- ` ❯ docker run -d --name test cgr.dev/chainguard/nginx`
+```
+❯ docker run -d --name test cgr.dev/chainguard/nginx
+```
 
 
 ```
-  9987b2f37044b72460956f1821bbba0499e0e724d2987f870099976601cf701b
-  ❯ docker kill test
-  test
+9987b2f37044b72460956f1821bbba0499e0e724d2987f870099976601cf701b
+❯ docker kill test
+test
 ```
-
 
 The kill command should return immediately (not in 10s).
 
@@ -279,12 +280,11 @@ Other tests that should be considered:
 * Consider where and how the image deviates from popular alternatives. Is there a good reason and is it documented?
 * Add annotations e.g:
 
-        ```
         annotations:
           "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
           "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/busybox/ #use the academy site here
           "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/bazel #use github here
-        ```
+
 * Check if environment variables are needed e.g. to set data locations
 * Ensure the image responds to SIGTERM
     *  `docker kill $(docker run -d --rm cgr.dev/chainguard/nginx)`
