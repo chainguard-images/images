@@ -1,26 +1,26 @@
 # Image Guidelines and Best Practices
 
 
-# Experimental and Stable {#experimental-and-stable}
+## Experimental and Stable {#experimental-and-stable}
 
 Images that are not ready for production use should be marked as ‘Experimental’via the [images.yaml configuration file](https://github.com/chainguard-images/images/blob/main/images/rabbitmq/image.yaml).  Once an image has seen enough usage without issue it will be removed.
 
 We realize ‘enough usage’ leaves a lot of ambiguity.  This is intentional as some images are simple enough we can feel confident in them without using the experimental tag, while others may need to be validated with more usage. 
 
 
-# Version Availability {#version-availability}
+## Version Availability {#version-availability}
 
 Our policy is to provide the most recent two minor versions for free download. (The `latest` tag will point to the most recent minor version). This also includes any relevant variants e.g. `dev` images.  On a case by case basis some other tags e.g. `experimental` may be made available for free.
 
 Older versions and other variants are available through the [commercial suite of Chainguard Images](https://www.chainguard.dev/chainguard-images).
 
 
-## Architectures {#architectures}
+### Architectures {#architectures}
 
 At the moment, images should be built for `aarch64` and `x86_64`. We hope to add more architectures in the future.
 
 
-# Tagging {#tagging}
+## Tagging {#tagging}
 
 Each image must have the following tags:
 
@@ -46,7 +46,7 @@ Images may have special tags for optional dependencies and variants. Where it ma
 Note that _version_ tags come before _variant_ tags. So it’s `acme:latest-dev` and `acme:1.2.3-nonroot`, not `acme:dev-latest` etc.
 
 
-# Users {#users}
+## Users {#users}
 
 The user account a Chainguard Image runs as is configured in the `apko.yaml` file.  
 
@@ -83,7 +83,7 @@ accounts:
 
 
 
-## Setting the User to Run {#setting-the-user-to-run}
+### Setting the User to Run {#setting-the-user-to-run}
 
 By default Images should run as a non-root user account - as well as being best security practice, it is often enforced in some environments such as OpenShift. 
 
@@ -99,12 +99,12 @@ By default Images should run as a non-root user account - as well as being best 
 In some cases it may be more user friendly to run as root (for example we had multiple issues trying to run the Go image as `nonroot`). In these cases, make sure there is still a `nonroot` user in the image so it can be easily changed and add docs on how to do so (e.g. ``docker run –user nonroot …``). Also consider making a `nonroot` tag variant that runs as the `nonroot` user. 
 
 
-## Switching User {#switching-user}
+### Switching User {#switching-user}
 
 Another common requirement is to start a container as root and switch to a less privileged user after performing an operation requiring elevated privileges. We see this in the PostgreSQL image, which runs an entrypoint script as root on startup to create a database if it doesn’t exist. After creating the DB (which requires elevated privileges),  the script uses the `suexec` utility to switch to the `postgres` user when starting the main DB process.
 
 
-# CMD and ENTRYPOINT {#cmd-and-entrypoint}
+## CMD and ENTRYPOINT {#cmd-and-entrypoint}
 
 This can get confusing. Basically, in _Docker terminology_, the [CMD](https://docs.docker.com/engine/reference/builder/#cmd) is passed as an argument to [ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint) as the command to run in the container when it starts. If the ENTRYPOINT isn’t set, commands will still get interpreted with `/bin/sh -c`. For this reason, base images like alpine, debian and wolfi-base don’t set an entrypoint but commands like `docker run cgr.dev/chainguard/wolfi-base ls` still work as expected.
 
@@ -137,12 +137,12 @@ Set the ENTRYPOINT and CMD as follows:
 * Try to have a close experience to any popular equivalent images
 
 
-# Process Managers / Supervisors / Init System {#process-managers-supervisors-init-system}
+## Process Managers / Supervisors / Init System {#process-managers-supervisors-init-system}
 
 In most cases this shouldn’t be necessary, but occasionally you may find an image needs to use a process manager or init system, perhaps for handling multiple processes, logging or signals. Docker bundles [tini ](https://github.com/krallin/tini)for this reason, and we bundle [s6](https://skarnet.org/software/s6/s6-supervise.html). See the [apko docs](https://github.com/chainguard-dev/apko/blob/main/docs/apko_file.md#entrypoint-top-level-element) for usage.
 
 
-# Labels and Annotations  {#labels-and-annotations}
+## Labels and Annotations  {#labels-and-annotations}
 
 _NOTE: Annotations/Labels are currently broken in apko but this should be fixed soon. They can still be added to the config._
 
@@ -162,7 +162,7 @@ Please add any annotations that are missing here - it’s an easy way to add val
 These are based on the OCI default annotations here [https://github.com/opencontainers/image-spec/blob/main/annotations.md](https://github.com/opencontainers/image-spec/blob/main/annotations.md). 
 
 
-# Environment Variables {#environment-variables}
+## Environment Variables {#environment-variables}
 
 Consider adding environment variables to expose configuration options. In cloud native environments it is typically much easier to set an environment variable (and have it vary per container) than it is to mount a configuration file or even pass arguments to an executable.
 
@@ -194,7 +194,7 @@ environment:
 
 
 
-# Signals {#signals}
+## Signals {#signals}
 
 Please test that the image handles signals properly. In particular check that SIGTERM is handled and the container quits immediately (if it’s not handled Docker will wait 10s before reaping). You can test this as follows:
 
@@ -211,24 +211,24 @@ Please test that the image handles signals properly. In particular check that SI
 The kill command should return immediately (not in 10s).
 
 
-# Documentation {#documentation}
+## Documentation {#documentation}
 
 Follow the example of other images such as [static](https://github.com/chainguard-images/images/tree/main/images/static#usage). Try to keep a new user in mind - what do they need to know? What questions are they likely to have?
 
 Remember users will likely have used the official Docker image. If our image works noticeably differently, document the differences.
 
 
-## Usage Example {#usage-example}
+### Usage Example {#usage-example}
 
 Add examples of using the image. Ideally there should be links to code examples. Check the [static image as good example](https://github.com/chainguard-images/images/tree/main/images/static#usage) for a base image. And note the [code examples also available](https://github.com/chainguard-images/images/tree/main/images/static/examples).
 
 
-# Logs {#logs}
+## Logs {#logs}
 
 Error logs should be streamed to `stderr`. Normal logging should be streamed to `stdout`. DO NOT write logs to file as they will eat up disk over time; better to stream and let the user store or ignore it.
 
 
-# Tests {#tests}
+## Tests {#tests}
 
 Each image should have end-to-end tests verifying the basic functionality is working. Tests are added by including shell scripts in the tests directory, which will be run as part of CI. The absolute minimum test is running the image and ensuring it doesn’t crash. For example, [postgres](https://github.com/chainguard-images/images/blob/main/images/postgres/test.sh) currently includes the test:
 
@@ -276,9 +276,9 @@ Other tests that should be considered:
 * Connecting via another container
 
 
-# Appendix {#appendix}
+## Appendix {#appendix}
 
-## Checklist {#checklist}
+### Checklist {#checklist}
 
 
 * Image is marked experimental or stable as appropriate
