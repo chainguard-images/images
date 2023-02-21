@@ -133,7 +133,7 @@ In most cases this shouldn’t be necessary, but occasionally you may find an im
 
 ## Labels and Annotations  {#labels-and-annotations}
 
-_NOTE: Annotations/Labels are currently broken in apko but this should be fixed soon. They can still be added to the config._
+_NOTE: Annotations/Labels are [currently broken](https://github.com/chainguard-dev/apko/issues/481) in apko but this should be fixed soon. They can still be added to the config._
 
 Set the following annotations on the images using apko:
 
