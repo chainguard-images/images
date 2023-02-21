@@ -27,7 +27,7 @@ Each image must have the following tags:
 
 * **latest**: `latest` is an awful naming convention, but it’s what we have. Latest should point to the _newest stable_ version of the image we have. It **should not** be an edge or nightly release, despite the name. 
 * **semver:** where possible there should be semver tags for each image, with a tag for each level. For example at the time of writing we have `redis:7.0.8` which is currently the same image as `redis:7.0` and `redis:7`. We only support the last two minor versions for free images. Be careful to make sure that the major version (e.g. `acme:4`) points to the latest minor (e.g. `acme:4.2` not `acme:4.1`). This should be largely handled automatically by our tooling.
-* **dev: **(note *not* `debug` or `full`) variant image that includes apk-tools and a shell, as well as any relevant development tools for the image or ecosystem (e.g language package managers like “pip” or debugging tools). As the image includes apk tools, it can be extended easily in a Dockerfile and extra utilities can be added when debugging inside a container. Easiest way to make this variant is to add wolfi-base which includes apk-tools and busybox.
+* **dev:** (note *not* `debug` or `full`) variant image that includes apk-tools and a shell, as well as any relevant development tools for the image or ecosystem (e.g language package managers like “pip” or debugging tools). As the image includes apk tools, it can be extended easily in a Dockerfile and extra utilities can be added when debugging inside a container. Easiest way to make this variant is to add wolfi-base which includes apk-tools and busybox.
 
 For software with popular named versions:
 
@@ -38,7 +38,7 @@ For software with popular named versions:
 Occasionally we use the following tags if required:
 
 * **glibc/musl**: The vast majority of images should not need to use these tags and will only provide the wolfi glibc version. In some of our older images like “static” these tags are used to signify the wolfi/alpine versions of images.
-* **nonroot: **Our images should run as a `nonroot` user by default. If this causes usability issues (as with our go image), consider making the default image run as root and adding a `nonroot` variant, or vice-versa (leaving nonroot as default and adding a root variant). Try to keep things simple - only have this variant if nonroot doesn’t work for a large number of users.
+* **nonroot:** Our images should run as a `nonroot` user by default. If this causes usability issues (as with our go image), consider making the default image run as root and adding a `nonroot` variant, or vice-versa (leaving nonroot as default and adding a root variant). Try to keep things simple - only have this variant if nonroot doesn’t work for a large number of users.
 
 Images may have special tags for optional dependencies and variants. Where it makes sense these can be folded into the `dev` image, otherwise special tags can be used - for example see the `fpm` variant for PHP and the JDK variants for maven.
 
