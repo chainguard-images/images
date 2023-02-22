@@ -3,6 +3,9 @@
 This document describes the standards expected for Chainguard images in order to provide users with
 a consistent and smooth experience. New images must meet these standards or document why they deviate.
 
+The audience for this document is primarily Chainguard staff, but most of the guidance is applicable
+to anyone creating images with apko.
+
 ## Experimental and Stable
 
 Images that are not ready for production use should be marked as ‘Experimental’via the [images.yaml configuration file](https://github.com/chainguard-images/images/blob/main/images/rabbitmq/image.yaml).  Once an image has seen enough usage without issue it will be removed.
