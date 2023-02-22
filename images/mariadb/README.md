@@ -5,6 +5,9 @@
 | **Status** | experimental |
 | **OCI Reference** | `cgr.dev/chainguard/mariadb` |
 | **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/mariadb.svg) |
+
+*[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
 ---
 <!--monopod:end-->
 
@@ -57,7 +60,44 @@ Mon Jan 23 03:47:21 UTC 2023 [Note] [Entrypoint]: Database files initialized
 Version: '10.6.11-MariaDB'  socket: '/run/mysqld/mysqld.sock'  port: 3306  MariaDB Server
 ```
 
-
 ## Users and Directories
 
-By default this image runs as a non-root user named `mysql` with a uid of 65532.
+By default, this image runs as a non-root user named `mysql` with a uid of 65532.
+
+## Environment Variables
+
+You can use environment variables to create a new database and user upon initialization, and also to set up the root account password.
+
+- `MARIADB_ROOT_PASSWORD`: Sets the password for MariaDB's root superuser account. If this variable is not set, you'll need to use either `MARIADB_RANDOM_ROOT_PASSWORD` or `MARIADB_ALLOW_EMPTY_ROOT_PASSWORD` in order to initialize the database successfully.
+- `MARIADB_RANDOM_ROOT_PASSWORD`: A non-zero value sets up a random password for the root superuser account. 
+- `MARIADB_ALLOW_EMPTY_ROOT_PASSWORD`: A non-zero value allows for an empty root password.
+- `MARIADB_DATABASE`: Creates a new database upon initialization.
+- `MARIADB_USER`: Together with `MARIADB_PASSOWORD`, this environment variable can be used to create a new database user and grant them full access to the database defined by `MARIADB_DATABASE`.
+- `MARIADB_PASSWORD`: This should be used in conjunction with the `MARIADB_USER` environment variable to set up the database user's password.
+
+## Docker Compose Example
+
+This `docker-compose.yaml` sets up a MariaDB database with a default database and user. Other services can be added to create a local multi-node environment for development and tests.
+
+```yaml
+version: "3.7"
+services:
+  mariadb:
+    image: cgr.dev/chainguard/mariadb
+    restart: unless-stopped
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: yes
+      MARIADB_USER: user
+      MARIADB_PASSWORD: password
+      MARIADB_DATABASE: test
+    ports:
+      - 3306:3306
+    volumes:
+      - ./:/app
+    networks:
+      - wolfi
+
+networks:
+  wolfi:
+    driver: bridge
+```

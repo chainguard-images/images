@@ -119,24 +119,24 @@ versions:
 
 ## Smoke testing
 
-If a file is found at `images/<name>/test.sh`, CI will automatically run it as part of testing your image.
+If a directory is found at `images/<name>/tests/`, CI will automatically run
+each script found here in alphabetical order as part of testing your image.
+
+Alternatively, if a file is found at `images/<name>/test.sh`, this single test will be run.
 
 The environment variable `IMAGE_NAME` will be present, pointing to the image that has been built. You should start your `test.sh` file with something similar to the following:
 
 ```sh
 #!/usr/bin/env bash
 
-set -x
-set -o errexit -o nounset -o errtrace -o pipefail
+set -o errexit -o nounset -o errtrace -o pipefail -x
 
-IMAGE_NAME=${IMAGE_NAME:-"unset"}
-if [[ "${IMAGE_NAME}" == "unset" ]]; then
-    echo "Must set IMAGE_NAME in the environment. Exiting."
-    exit 1
-fi
+IMAGE_DIR="$(basename "$(cd "$(dirname ${BASH_SOURCE[0]})/.." && pwd )")"
+IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/${IMAGE_DIR}:latest"}
+
 ```
 
-Also, be sure to make the script executable:
+Also, be sure to make the script(s) executable:
 
 ```
 chmod +x images/superimg/test.sh

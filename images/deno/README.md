@@ -5,6 +5,9 @@
 | **Status** | experimental |
 | **OCI Reference** | `cgr.dev/chainguard/deno` |
 | **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/deno.svg) |
+
+*[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
 ---
 <!--monopod:end-->
 

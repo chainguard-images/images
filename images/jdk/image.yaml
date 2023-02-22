@@ -11,3 +11,9 @@ versions:
       extractTagsFrom:
         package: openjdk-11
         prefix: openjdk-
+  - apko:
+      config: configs/latest-dev.apko.yaml
+      tags:
+        - openjdk-17-dev
+  - apko:
+      config: configs/openjdk-11-dev.apko.yaml

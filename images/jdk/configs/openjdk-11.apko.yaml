@@ -8,7 +8,6 @@ contents:
     - wolfi-baselayout
     - glibc-locale-en
     - busybox
-    - bash
     - openjdk-11
 
 accounts:

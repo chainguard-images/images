@@ -1,10 +1,16 @@
 versions:
   - apko:
       extractTagsFrom:
-        package: python3
+        package: python-3.10
+        exclude:
+          - 3
+      config: configs/3.10.apko.yaml
+  - apko:
+      extractTagsFrom:
+        package: python-3.11
       config: configs/latest.apko.yaml
   - apko:
       extractTagsFrom:
-        package: python3
+        package: python-3.11
         prefix: dev-
       config: configs/latest-dev.apko.yaml
