@@ -120,21 +120,19 @@ runs:
         ${{ inputs.testCommandExe }}
 
     # Create docker config for use by rumble
-    - id: gcrauth4
-      if: contains(inputs.apkoBaseTag, 'gcr.io/') || contains(inputs.apkoBaseTag, 'pkg.dev/')
+    - id: rumble-docker-config
       shell: bash
       run: |
         REGISTRY_HOSTNAME="$(echo ${{ inputs.apkoBaseTag }} | cut -d / -f 1)"
         export DOCKER_CONFIG="${PWD}/.docker-rumble"
         mkdir -p "${DOCKER_CONFIG}"
         echo '{}' > "${DOCKER_CONFIG}/config.json"
-        gcloud auth print-access-token | \
-          docker login -u oauth2accesstoken --password-stdin "https://${REGISTRY_HOSTNAME}"
-    - id: rumble-docker-config
-      shell: bash
-      run: |
-        if [[ -d "${PWD}/.docker-rumble" ]]; then
-          echo "docker-config=.docker-rumble" >> $GITHUB_OUTPUT
+        if [[ "${REGISTRY_HOSTNAME}" == *"gcr.io" || "${REGISTRY_HOSTNAME}" == *"pkg.dev" ]]; then
+          gcloud auth print-access-token | \
+            docker login -u oauth2accesstoken --password-stdin "https://${REGISTRY_HOSTNAME}"
+        else
+          echo "${{ github.token }}" | \
+            docker login -u "${{ github.repository_owner }}" --password-stdin "https://ghcr.io"
         fi
 
     # Scan - first index, then amd64, then arm64, then others
@@ -144,125 +142,125 @@ runs:
       with:
         image: ${{ steps.extract.outputs.digest-index }}
         scanner: trivy
-        docker-config: ${{ steps.rumble-docker-config.outputs.docker-config }}
+        docker-config: .docker-rumble
     - uses: chainguard-dev/rumble@main
       id: scan-index-grype
       with:
         image: ${{ steps.extract.outputs.digest-index }}
         scanner: grype
-        docker-config: ${{ steps.rumble-docker-config.outputs.docker-config }}
+        docker-config: .docker-rumble
     - uses: chainguard-dev/rumble@main
       id: scan-amd64-trivy
       if: steps.extract.outputs.digest-amd64 != ''
       with:
         image: ${{ steps.extract.outputs.digest-amd64 }}
         scanner: trivy
-        docker-config: ${{ steps.rumble-docker-config.outputs.docker-config }}
+        docker-config: .docker-rumble
     - uses: chainguard-dev/rumble@main
       id: scan-amd64-grype
       if: steps.extract.outputs.digest-amd64 != ''
       with:
         image: ${{ steps.extract.outputs.digest-amd64 }}
         scanner: grype
-        docker-config: ${{ steps.rumble-docker-config.outputs.docker-config }}
+        docker-config: .docker-rumble
     - uses: chainguard-dev/rumble@main
       id: scan-arm64-trivy
       if: steps.extract.outputs.digest-arm64 != ''
       with:
         image: ${{ steps.extract.outputs.digest-arm64 }}
         scanner: trivy
-        docker-config: ${{ steps.rumble-docker-config.outputs.docker-config }}
+        docker-config: .docker-rumble
     - uses: chainguard-dev/rumble@main
       id: scan-arm64-grype
       if: steps.extract.outputs.digest-arm64 != ''
       with:
         image: ${{ steps.extract.outputs.digest-arm64 }}
         scanner: grype
-        docker-config: ${{ steps.rumble-docker-config.outputs.docker-config }}
+        docker-config: .docker-rumble
     - uses: chainguard-dev/rumble@main
       id: scan-386-trivy
       if: steps.extract.outputs.digest-386 != ''
       with:
         image: ${{ steps.extract.outputs.digest-386 }}
         scanner: trivy
-        docker-config: ${{ steps.rumble-docker-config.outputs.docker-config }}
+        docker-config: .docker-rumble
     - uses: chainguard-dev/rumble@main
       id: scan-386-grype
       if: steps.extract.outputs.digest-386 != ''
       with:
         image: ${{ steps.extract.outputs.digest-386 }}
         scanner: grype
-        docker-config: ${{ steps.rumble-docker-config.outputs.docker-config }}
+        docker-config: .docker-rumble
     - uses: chainguard-dev/rumble@main
       id: scan-armv6-trivy
       if: steps.extract.outputs.digest-armv6 != ''
       with:
         image: ${{ steps.extract.outputs.digest-armv6 }}
         scanner: trivy
-        docker-config: ${{ steps.rumble-docker-config.outputs.docker-config }}
+        docker-config: .docker-rumble
     - uses: chainguard-dev/rumble@main
       id: scan-armv6-grype
       if: steps.extract.outputs.digest-armv6 != ''
       with:
         image: ${{ steps.extract.outputs.digest-armv6 }}
         scanner: grype
-        docker-config: ${{ steps.rumble-docker-config.outputs.docker-config }}
+        docker-config: .docker-rumble
     - uses: chainguard-dev/rumble@main
       id: scan-armv7-trivy
       if: steps.extract.outputs.digest-armv7 != ''
       with:
         image: ${{ steps.extract.outputs.digest-armv7 }}
         scanner: trivy
-        docker-config: ${{ steps.rumble-docker-config.outputs.docker-config }}
+        docker-config: .docker-rumble
     - uses: chainguard-dev/rumble@main
       id: scan-armv7-grype
       if: steps.extract.outputs.digest-armv7 != ''
       with:
         image: ${{ steps.extract.outputs.digest-armv7 }}
         scanner: grype
-        docker-config: ${{ steps.rumble-docker-config.outputs.docker-config }}
+        docker-config: .docker-rumble
     - uses: chainguard-dev/rumble@main
       id: scan-ppc64le-trivy
       if: steps.extract.outputs.digest-ppc64le != ''
       with:
         image: ${{ steps.extract.outputs.digest-ppc64le }}
         scanner: trivy
-        docker-config: ${{ steps.rumble-docker-config.outputs.docker-config }}
+        docker-config: .docker-rumble
     - uses: chainguard-dev/rumble@main
       id: scan-ppc64le-grype
       if: steps.extract.outputs.digest-ppc64le != ''
       with:
         image: ${{ steps.extract.outputs.digest-ppc64le }}
         scanner: grype
-        docker-config: ${{ steps.rumble-docker-config.outputs.docker-config }}
+        docker-config: .docker-rumble
     - uses: chainguard-dev/rumble@main
       id: scan-riscv64-trivy
       if: steps.extract.outputs.digest-riscv64 != ''
       with:
         image: ${{ steps.extract.outputs.digest-riscv64 }}
         scanner: trivy
-        docker-config: ${{ steps.rumble-docker-config.outputs.docker-config }}
+        docker-config: .docker-rumble
     - uses: chainguard-dev/rumble@main
       id: scan-riscv64-grype
       if: steps.extract.outputs.digest-riscv64 != ''
       with:
         image: ${{ steps.extract.outputs.digest-riscv64 }}
         scanner: grype
-        docker-config: ${{ steps.rumble-docker-config.outputs.docker-config }}
+        docker-config: .docker-rumble
     - uses: chainguard-dev/rumble@main
       id: scan-s390x-trivy
       if: steps.extract.outputs.digest-s390x != ''
       with:
         image: ${{ steps.extract.outputs.digest-s390x }}
         scanner: trivy
-        docker-config: ${{ steps.rumble-docker-config.outputs.docker-config }}
+        docker-config: .docker-rumble
     - uses: chainguard-dev/rumble@main
       id: scan-s390x-grype
       if: steps.extract.outputs.digest-s390x != ''
       with:
         image: ${{ steps.extract.outputs.digest-s390x }}
         scanner: grype
-        docker-config: ${{ steps.rumble-docker-config.outputs.docker-config }}
+        docker-config: .docker-rumble
 
     # Tag the image last, after all tests passing and
     # SBOMs, attestations, etc. have all been attached
