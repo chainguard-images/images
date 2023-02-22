@@ -13,7 +13,6 @@ runs:
         cat >./custom-image.apko.yaml <<EOL
         contents:
           packages:
-            - glibc # TODO: fix policy-controller-tester package to not need this or automatically require it
             - ca-certificates-bundle
             - crane
             - policy-controller-tester
