@@ -5,20 +5,43 @@ inputs:
 runs:
   using: composite
   steps:
-    # Note: this matches what is currently used for policy-controller
-    - uses: actions/setup-go@d0a58c1c4d2b25278816e339b944508c875f3613
-      with:
-        go-version: '1.18'
-        check-latest: true
-    - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
-      with:
-        repository: sigstore/policy-controller
-        path: ${{github.workspace}}/policy-controller
-    - name: Build the policy-tester CLI
+    - name: Build and image with policy-tester and crane
       shell: bash
       run: |
-        (cd policy-controller/ && make policy-tester && mv policy-tester /tmp/policy-tester)
-    - uses: imjasonh/setup-crane@v0.1
+        trap "rm -rf custom-image.tar custom-image.apko.yaml" EXIT
+
+        cat >./custom-image.apko.yaml <<EOL
+        contents:
+          packages:
+            - ca-certificates-bundle
+            - crane
+            - policy-controller-tester
+        EOL
+
+        docker run --rm -v "${PWD}:/work" \
+          cgr.dev/chainguard/apko:latest \
+          build --debug \
+          --build-arch=amd64 --sbom=false \
+          --repository-append=https://packages.wolfi.dev/os \
+          --keyring-append=https://packages.wolfi.dev/os/wolfi-signing.rsa.pub \
+          /work/custom-image.apko.yaml \
+          custom-image:latest \
+          custom-image.tar
+
+        docker load < custom-image.tar
+
+        cat >/tmp/custom-image <<EOL
+        #!/usr/bin/env bash
+        set -e
+        docker run --rm --platform=linux/amd64 \
+          -v "${PWD}:/work" -w /work --entrypoint "\$(basename "\$0")" \
+          custom-image:latest \$@
+        EOL
+
+        chmod +x /tmp/custom-image
+        cp /tmp/custom-image /tmp/policy-tester
+        cp /tmp/custom-image /tmp/crane
+
     - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
     - name: Determine image ref
       shell: bash
@@ -37,7 +60,7 @@ runs:
         done
 
         # Next check the policy against each architecture image manifest
-        for combo in `crane manifest ${REF} | jq -r '.manifests[] | .platform.architecture + .platform.variant + "_" + .digest'`; do
+        for combo in `/tmp/crane manifest ${REF} | jq -r '.manifests[] | .platform.architecture + .platform.variant + "_" + .digest'`; do
           arch="$(echo "${combo}" | cut -d "_" -f1)"
           digest="$(echo "${combo}" | cut -d "_" -f2)"
           arch_ref="${BASE_TAG}@${digest}"
