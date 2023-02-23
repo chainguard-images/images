@@ -310,11 +310,11 @@ runs:
     - if: failure()
       shell: bash
       run: |
-        set -x && trap "rm -f BADGINATOR-5000.sh" EXIT && bash -ex BADGINATOR-5000.sh critical
+        trap "rm -f BADGINATOR-5000.sh" EXIT && bash -e BADGINATOR-5000.sh critical
     - if: success()
       shell: bash
       run: |
-        set -x && trap "rm -f BADGINATOR-5000.sh" EXIT && bash -ex BADGINATOR-5000.sh success
+        trap "rm -f BADGINATOR-5000.sh" EXIT && bash -e BADGINATOR-5000.sh success
 
     # There is currently no way to obtain the job ID for a single matrix leg, so we have to
     # try to hit the GitHub API and match the job based on the name, then extract the html_url
