@@ -1,0 +1,15 @@
+name: External Bug/Feedback report
+description: Use this form to file an issue or feature request for one of our Chainguard Images
+title: "Describe the issue/request"
+labels: ["needs-triage"]
+body:
+  - type: textarea
+    id: affected-image
+    attributes:
+      label: "Which image/versions are related to this issue/feature request?"
+  - type: textarea
+    id: issue-details
+    attributes:
+      label: "Issue/Feature description"
+      description: "Tell us about the issue you are having or the feature you'd like."
+      placeholder: "For issues please include information such as environment (OS, version, shell), any commands used, logs output."
