@@ -7,6 +7,7 @@ contents:
     - ca-certificates-bundle
     - wolfi-baselayout
     - glibc-locale-en
+    - busybox
     - bash
     - apk-tools
     - openjdk-17-jre
