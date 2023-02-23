@@ -35,7 +35,7 @@ If you have an apko.yaml file in this PR you need to follow this checklist, othe
 - [ ]  The last two minor versions are available
 - [ ]  The latest tag points to the newest stable version
 - [ ]  There is a dev tag available that includes a shell and apk tools (by depending on 'wolfi-base')
-- [ ]  The image runs as `nonroot `and GID/UID are set to 65532
+- [ ]  The image runs as `nonroot` and GID/UID are set to 65532
   - [ ]  Alternatively the username and GID/UID may be a commonly used one from the ecosystem e.g: postgres
   - [ ]  See above for exceptions to nonroot rule
 - [ ]  ENTRYPOINT
