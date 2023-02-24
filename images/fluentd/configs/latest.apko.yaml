@@ -1,0 +1,83 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+    - '@local /github/workspace/packages'
+  packages:
+    - wolfi-baselayout
+    - ca-certificates-bundle
+    - ruby3.2-oj
+    - ruby3.2-protocol-http
+    - ruby3.2-serverengine
+    - ruby3.2-sigdump
+    - ruby3.2-tzinfo-data
+    - ruby3.2-tzinfo
+    - ruby3.2-async-http
+    - ruby3.2-async-io
+    - ruby3.2-async-pool
+    - ruby3.2-console
+    - ruby3.2-cool.io
+    - ruby3.2-fiber-local
+    - ruby3.2-msgpack
+    - ruby3.2-protocol-hpack
+    - ruby3.2-protocol-http1
+    - ruby3.2-protocol-http2
+    - ruby3.2-strptime
+    - ruby3.2-timers
+    - ruby3.2-webrick=1.7.0-r0
+    - ruby3.2-yajl-ruby
+    - ruby3.2-traces
+    - ruby3.2-io-event
+    - ruby3.2-http_parser.rb
+    - ruby3.2-concurrent-ruby
+    - ruby3.2-async
+    - ruby3.2-fluentd
+
+entrypoint:
+  command: /usr/bin/fluentd
+
+environment:
+  FLUENTD_CONF: "fluent.conf"
+  LD_PRELOAD: ""
+
+accounts:
+  groups:
+    - groupname: fluent
+      gid: 1001
+  users:
+    - username: fluent
+      uid: 1001
+      gid: 1001
+  run-as: fluent
+
+paths:
+  - path: /fluentd/log
+    type: directory
+    uid: 1001
+    gid: 1001
+    permissions: 0o755
+
+  - path: /fluentd/etc
+    type: directory
+    uid: 1001
+    gid: 1001
+    permissions: 0o755
+
+  - path: /fluentd/plugins
+    type: directory
+    uid: 1001
+    gid: 1001
+    permissions: 0o755
+
+    # Set the fluent.conf to an empty file so the image doesn't fail when
+    # no options are supplied
+  - path: /etc/fluent/fluent.conf
+    type: empty-file
+    uid: 1001
+    gid: 1001
+    permissions: 0o644
+
+archs:
+  - x86_64
+  - aarch64
