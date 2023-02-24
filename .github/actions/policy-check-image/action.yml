@@ -19,7 +19,7 @@ runs:
         EOL
 
         docker run --rm -v "${PWD}:/work" \
-          cgr.dev/chainguard/apko:latest \
+          cgr.dev/chainguard/apko:latest-20230222 \
           build --debug \
           --build-arch=amd64 --sbom=false \
           --repository-append=https://packages.wolfi.dev/os \
