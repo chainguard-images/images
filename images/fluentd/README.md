@@ -25,24 +25,10 @@ docker pull cgr.dev/chainguard/fluentd
 
 Run a Fluentd instance that will receive messages over TCP port 24224 through the Forward protocol, and send the messages to the STDOUT interface in JSON format
 
-First echo this into a fluent.conf
-
-```
-<source>
-  @type forward
-  port 24224
-  bind 0.0.0.0
-</source>
-
-<match *.*>
-  @type stdout
-</match>
-```
-
-Then run the fluentd container and mount the fluent.conf
+Run the fluentd container and mount the fluent.conf in [examples/](./examples/)
 
 ```sh
-docker run --rm -p 127.0.0.1:24224:24224 -v $PWD/fluent.conf:/etc/fluent/fluent.conf cgr.dev/chainguard/fluentd
+docker run --rm -p 127.0.0.1:24224:24224 -v ${PWD}/examples/basic_docker.conf:/etc/fluent/fluent.conf cgr.dev/chainguard/fluentd
 ```
 
 In another terminal try sending some logs to fluentd with another container
@@ -68,4 +54,12 @@ The Fluentd container should receive the message and print it to stdout:
 2023-02-24 17:06:32.824689854 +0000 fluent.info: {"port":24224,"bind":"0.0.0.0","message":"listening port port=24224 bind=\"0.0.0.0\""}
 2023-02-24 17:06:32.825323737 +0000 fluent.info: {"worker":0,"message":"fluentd worker is now running worker=0"}
 2023-02-24 17:06:54.000000000 +0000 docker.eb2613ef91b4: {"container_id":"eb2613ef91b4fa0989b7af9f3b1310bc4de6c13aae5ee42901d553e81b575045","container_name":"/focused_fermat","source":"stdout","log":"Hello Fluentd!"}
+```
+
+## Using the -dev variant
+
+The `-dev` variant contains a shell and tools like `apk` to allow users to easily debug and modify the image. The `-dev` variant uses the same entrypoint as the regular image so if you want to get a shell make sure to override the entrypoint like so.
+
+```sh
+docker run --rm --entrypoint 'sh' cgr.dev/chainguard/fluentd
 ```
