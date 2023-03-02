@@ -11,17 +11,14 @@
 ---
 <!--monopod:end-->
 
-Minimal rust image. **EXPERIMENTAL**.
+Minimal Wolfi-based Rust image for building Rust applications. **EXPERIMENTAL**.
 
-## Get It!
+- [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/rust)
+- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/rust/provenance_info/)
 
-The image is available on `cgr.dev`:
+## Image Variants
 
-```
-docker pull cgr.dev/chainguard/rust:latest
-```
-
-## Tools
+Our `latest` tag use the most recent build of the [Wolfi Rust](https://github.com/wolfi-dev/os/blob/main/rust.yaml) package.
 
 This image contains the tools needed to build Rust code.
 This includes:
@@ -32,10 +29,23 @@ This includes:
 * `rustlldb`
 * And more!
 
-This image also includes a shell for compatiblity with most `cargo` package installations.
+This image also includes a shell for compatibility with most `cargo` package installations.
 This image **is not** intended to be used as a runtime image, only as a build tool.
 
-## Usage
+### Rust Version
+This will automatically pull the image to your local system and execute the command `rustc --version`:
+
+```shell
+docker run --rm cgr.dev/chainguard/rust --version
+```
+
+You should get output similar to this:
+
+```
+rustc 1.67.1 (d5a82bbd2 2023-02-07) (built from a source tarball)
+```
+
+## Application Setup for End Users
 
 For runtime, you can use a multi-stage Dockerfile or similar technique to run your compiled binaries on
 an even more slimmed down image.
@@ -95,3 +105,5 @@ dlorenc@DANIELs-MacBook-Air rust-web-app % docker run foo /usr/local/bin/shop
 {"@t":"2022-12-30T15:27:10Z","@l":"INFO","module_path":"rocket::config::config","@m":"cli colors: \u001b[1;49;39mtrue\u001b[0m"}
 {"@t":"2022-12-30T15:27:10Z","@l":"INFO","module_path":"rocket::rocket","@m":"📬 \u001b[35mRoutes\u001b[0m:"}
 ```
+
+If you're interested in enterprise support, SLAs, and access to older tags, [get in touch](https://www.chainguard.dev/chainguard-images).
