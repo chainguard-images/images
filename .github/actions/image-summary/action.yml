@@ -27,7 +27,7 @@ runs:
         gcloud auth configure-docker "$(echo ${{ inputs.apkoBaseTag }} | cut -d / -f 1)"
 
     - name: Setup cosign
-      uses: sigstore/cosign-installer@main
+      uses: sigstore/cosign-installer@v3
 
     - id: create-image-summary
       shell: bash
