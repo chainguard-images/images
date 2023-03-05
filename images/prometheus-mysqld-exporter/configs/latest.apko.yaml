@@ -1,0 +1,25 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+  packages:
+    - prometheus-mysqld-exporter
+    - wolfi-base
+    - ca-certificates-bundle
+    - busybox
+
+accounts:
+  groups:
+    - groupname: mysqld_exporter
+      gid: 65532
+  users:
+    - username: mysqld_exporter
+      uid: 65532
+  run-as: 65532
+
+entrypoint:
+  command: /usr/bin/mysqld_exporter
+
+archs:
+- x86_64
