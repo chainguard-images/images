@@ -22,8 +22,6 @@ Our `latest` tag uses the most recent build of the [Wolfi Cosign](https://github
 
 - `latest`: This is an image for running `cosign` commands. It does not include a shell or other applications.
 
-Starting in April, accessing older tags will require authentication.
-
 ### Cosign Version
 This will automatically pull the image to your local system and execute the command `cosign version`:
 
@@ -42,12 +40,7 @@ You should see output similar to this:
  \______| \______/  |_______/    |__|  \______| |__| \__|
 cosign: A tool for Container Signing, Verification and Storage in an OCI registry.
 
-GitVersion:    2.0.0
-GitCommit:     unknown
-GitTreeState:  unknown
-BuildDate:     unknown
-GoVersion:     go1.20.1
-Compiler:      gc
+...
 Platform:      linux/arm64
 ```
 
