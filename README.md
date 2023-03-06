@@ -3,6 +3,7 @@
 | Name | OCI Reference | Status | Variants/Tags |
 | ----- | ----- | ----- |  -------- |
 | [apko](./images/apko) | `cgr.dev/chainguard/apko` | stable | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/apko.build.status.latest.svg)](https://registry-ui.chainguard.app/?image=cgr.dev/chainguard/apko:latest) |
+| [bash](./images/bash) | `cgr.dev/chainguard/bash` | stable | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/bash.build.status.latest.svg)](https://registry-ui.chainguard.app/?image=cgr.dev/chainguard/bash:latest) |
 | [bazel](./images/bazel) | `cgr.dev/chainguard/bazel` | experimental | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/bazel.build.status.latest.svg)](https://registry-ui.chainguard.app/?image=cgr.dev/chainguard/bazel:latest) |
 | [busybox](./images/busybox) | `cgr.dev/chainguard/busybox` | stable | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/busybox.build.status.latest-glibc.svg)](https://registry-ui.chainguard.app/?image=cgr.dev/chainguard/busybox:latest-glibc)<br/>[![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/busybox.build.status.latest.svg)](https://registry-ui.chainguard.app/?image=cgr.dev/chainguard/busybox:latest) |
 | [cc-dynamic](./images/cc-dynamic) | `cgr.dev/chainguard/cc-dynamic` | stable | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/cc-dynamic.build.status.latest.svg)](https://registry-ui.chainguard.app/?image=cgr.dev/chainguard/cc-dynamic:latest) |
