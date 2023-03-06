@@ -1,0 +1,18 @@
+contents:
+  repositories:
+    - https://packages.wolfi.dev/os
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  packages:
+    - curl
+    - wolfi-baselayout
+    - bash
+    - busybox
+    - ca-certificates-bundle
+
+entrypoint:
+  command: /bin/bash -c
+
+archs:
+- x86_64
+- aarch64
