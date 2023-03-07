@@ -8,6 +8,10 @@ contents:
     - python-3.10
     - wolfi-baselayout
 
+
+entrypoint:
+  command: python3
+
 accounts:
   groups:
     - groupname: nonroot

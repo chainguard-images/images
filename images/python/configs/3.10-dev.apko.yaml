@@ -11,6 +11,10 @@ contents:
     - apk-tools
     - bash
 
+
+entrypoint:
+  command: python3
+
 accounts:
   groups:
     - groupname: nonroot
