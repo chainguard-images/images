@@ -16,7 +16,7 @@ spec:
         url: https://rekor.sigstore.dev
       attestations:
         - name: must-have-vuln-attestation
-          predicateType: vuln
+          predicateType: "https://cosign.sigstore.dev/attestation/vuln/v1"
           policy:
             type: cue
             data: |
