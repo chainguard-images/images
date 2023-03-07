@@ -5,7 +5,7 @@ contents:
     - https://packages.wolfi.dev/os
   packages:
     - ca-certificates-bundle
-    - python3.11
+    - python-3.11
     - wolfi-baselayout
 
 accounts:
