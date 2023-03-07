@@ -7,7 +7,7 @@ contents:
     - ca-certificates-bundle
     - python-3.10
     - wolfi-baselayout
-    - py3-pip
+    - py3.10-pip
     - apk-tools
     - bash
 

@@ -5,8 +5,8 @@ contents:
     - https://packages.wolfi.dev/os
   packages:
     - ca-certificates-bundle
-    - python3
-    - py3-pip
+    - python3.11
+    - py3.11-pip
     - apk-tools
     - bash
     - wolfi-baselayout
