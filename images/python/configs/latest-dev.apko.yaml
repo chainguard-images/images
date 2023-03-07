@@ -13,7 +13,7 @@ contents:
     - busybox
 
 entrypoint:
-  command: python3
+  command: /usr/bin/python
 
 accounts:
   groups:

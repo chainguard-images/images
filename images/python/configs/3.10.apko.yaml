@@ -8,9 +8,8 @@ contents:
     - python-3.10
     - wolfi-baselayout
 
-
 entrypoint:
-  command: python3
+  command: /usr/bin/python
 
 accounts:
   groups:
