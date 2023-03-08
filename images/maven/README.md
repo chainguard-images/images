@@ -11,7 +11,11 @@
 ---
 <!--monopod:end-->
 
-Minimal image with Maven build system. **EXPERIMENTAL**
+Minimal image with Maven build system.
+
+- [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/maven)
+- [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/maven/overview/#use-maven)
+- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/maven/provenance_info/)
 
 ## Get It!
 
@@ -25,16 +29,12 @@ docker pull cgr.dev/chainguard/maven:latest
 
 Chainguard Maven images come with different versions of OpenJDK, ensure you choose the correct image tag for your application needs.  In these examples we will use a Chainguard Maven image based on OpenJDK 17.
 
-__NOTE__: if you are running Docker on Mac M1 you may experience intermittent container high CPU and container / JVM crashes.  There have been [reports](https://github.com/metanorma/metanorma-docker/issues/126) of this behaviour and also affects non Chainguard images.  It is expected that using `arm` based images will address the problem which is in development for Chainguard images.  When running the examples below you might experince maven builds hanging.  If you do, you can `docker ps` and `docker kill $PID` and retry.  This is not an ideal experience and will be improved.
-
 Check the maven version
 ```
 docker run --rm --platform=linux/amd64 cgr.dev/chainguard/maven:openjdk-17 --version
 ```
 
 ### Examples
-
-_Note_ in the examples below when working with Docker we are using the flag `--platform=linux/amd64` as this has been tested on a Mac M1.  You may not need this flag and therefore can be removed during your steps.
 
 #### SpringBoot
 

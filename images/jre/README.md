@@ -11,7 +11,11 @@
 ---
 <!--monopod:end-->
 
-Java JRE image using OpenJDK via [Adoptium Temurin](https://adoptium.net/en-GB/temurin/) sources.
+Minimalist Wolfi-based Java JRE image using OpenJDK.  Used for running Java applications.
+
+- [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jre)
+- [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jre/overview/#use-it)
+- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jre/provenance_info/)
 
 ## Get It!
 

@@ -11,7 +11,11 @@
 ---
 <!--monopod:end-->
 
-Java JDK image using OpenJDK via [Adoptium Temurin](https://adoptium.net/en-GB/temurin/) sources.
+Minimalist Wolfi-based Java JDK image using OpenJDK.  Used for compiling Java applications.
+
+- [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jdk)
+- [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jdk/overview/#use-it)
+- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jdk/provenance_info/)
 
 ## Get It!
 
