@@ -10,6 +10,7 @@
 
 ---
 <!--monopod:end-->
+
 Minimalist Wolfi-based Cosign images for signing and verifying images using Sigstore.
 
 - [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/cosign)
