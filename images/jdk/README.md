@@ -50,7 +50,7 @@ FROM cgr.dev/chainguard/jdk:openjdk-17
 COPY HelloWolfi.java /home/build/
 RUN /usr/lib/jvm/openjdk/bin/javac HelloWolfi.java
 
-FROM cgr.dev/chainguard/jre:openjdk-jre-17
+FROM cgr.dev/chainguard/jre:openjdk-17
 
 COPY --from=0 /home/build/HelloWolfi.class /app/
 CMD ["HelloWolfi"]
