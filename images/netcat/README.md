@@ -2,7 +2,7 @@
 # netcat
 | | |
 | - | - |
-| **Status** | stable |
+| **Status** | experimental |
 | **OCI Reference** | `cgr.dev/chainguard/netcat` |
 | **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/netcat.svg) |
 
