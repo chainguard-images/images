@@ -14,7 +14,7 @@
 Container image with only busybox and libc (available in both musl and glibc variants). Suitable for running any binaries that only have a dependency on glibc/musl.
 
 - [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/busybox)
-- [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/busybox/getting-started-php/)
+- [Usage](https://github.com/chainguard-images/images/blob/main/images/busybox/README.md#usage)
 - [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/busybox/provenance_info/)
 
 ## Image Variants
