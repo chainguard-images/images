@@ -18,7 +18,7 @@ Minimal Wolfi-based Rust image for building Rust applications. **EXPERIMENTAL**.
 
 ## Image Variants
 
-Our `latest` tag use the most recent build of the [Wolfi Rust](https://github.com/wolfi-dev/os/blob/main/rust.yaml) package.
+Our `latest` tag uses the most recent build of the [Wolfi Rust](https://github.com/wolfi-dev/os/blob/main/rust.yaml) package.
 
 This image contains the tools needed to build Rust code.
 This includes:
