@@ -32,7 +32,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/busybox:latest
 ```
 
-## Test it
+## Usage
 
 We are going to run a simple hello world to make sure things are working either on the musl or glibc one:
 
