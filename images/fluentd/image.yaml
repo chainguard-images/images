@@ -1,11 +1,21 @@
 status: experimental
 versions:
   - apko:
+      config: configs/latest.apko.yaml
+      extractTagsFrom:
+        package: ruby3.2-fluentd14
+
+  - apko:
+      config: configs/latest-dev.apko.yaml
+      extractTagsFrom:
+        package: ruby3.2-fluentd14
+
+  - apko:
       config: configs/edge.apko.yaml
       extractTagsFrom:
-        package: ruby3.2-fluentd
+        package: ruby3.2-fluentd15
 
   - apko:
       config: configs/edge-dev.apko.yaml
       extractTagsFrom:
-        package: ruby3.2-fluentd
+        package: ruby3.2-fluentd15

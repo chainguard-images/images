@@ -7,7 +7,7 @@ contents:
   packages:
     - wolfi-baselayout
     - ca-certificates-bundle
-    - ruby3.2-fluentd15
+    - ruby3.2-fluentd14
 
 entrypoint:
   type: service-bundle
