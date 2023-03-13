@@ -36,7 +36,7 @@ paths:
     type: directory
     uid: 70
     gid: 70
-    permissions: 777
+    permissions: 0o777
 
 archs:
   - x86_64

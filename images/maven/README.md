@@ -11,7 +11,11 @@
 ---
 <!--monopod:end-->
 
-Minimal image with Maven build system. **EXPERIMENTAL**
+Minimal image with Maven build system.
+
+- [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/maven)
+- [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/maven/overview/#use-maven)
+- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/maven/provenance_info/)
 
 ## Get It!
 
@@ -25,16 +29,12 @@ docker pull cgr.dev/chainguard/maven:latest
 
 Chainguard Maven images come with different versions of OpenJDK, ensure you choose the correct image tag for your application needs.  In these examples we will use a Chainguard Maven image based on OpenJDK 17.
 
-__NOTE__: if you are running Docker on Mac M1 you may experience intermittent container high CPU and container / JVM crashes.  There have been [reports](https://github.com/metanorma/metanorma-docker/issues/126) of this behaviour and also affects non Chainguard images.  It is expected that using `arm` based images will address the problem which is in development for Chainguard images.  When running the examples below you might experince maven builds hanging.  If you do, you can `docker ps` and `docker kill $PID` and retry.  This is not an ideal experience and will be improved.
-
 Check the maven version
 ```
 docker run --rm --platform=linux/amd64 cgr.dev/chainguard/maven:openjdk-17 --version
 ```
 
 ### Examples
-
-_Note_ in the examples below when working with Docker we are using the flag `--platform=linux/amd64` as this has been tested on a Mac M1.  You may not need this flag and therefore can be removed during your steps.
 
 #### SpringBoot
 
@@ -82,7 +82,7 @@ Let's run the application using the Chainguard OpenJDK JRE image.  _Note_ there'
 Choose the Chainguard OpenJDK JRE image tag that matches your application's Java version selected when generating your Spring Boot application above.
 
 ```
-docker run --platform=linux/amd64 --rm -p 8080:8080 -v ${PWD}/target:/app/ cgr.dev/chainguard/jre:openjdk-jre-17 -jar /app/demo-0.0.1-SNAPSHOT.jar
+docker run --platform=linux/amd64 --rm -p 8080:8080 -v ${PWD}/target:/app/ cgr.dev/chainguard/jre:openjdk-17 -jar /app/demo-0.0.1-SNAPSHOT.jar
 ```
 
 Now visit the Spring Boot Application in your browser using the same port mapped in the docker command above.
@@ -118,7 +118,7 @@ COPY . ./
 
 RUN mvn install
 
-FROM cgr.dev/chainguard/jre:openjdk-jre-17
+FROM cgr.dev/chainguard/jre:openjdk-17
 
 COPY --from=0 /home/build/target/demo-*.jar /app/demo.jar
 

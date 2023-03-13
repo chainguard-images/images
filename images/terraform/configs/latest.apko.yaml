@@ -1,0 +1,31 @@
+contents:
+  repositories:
+    - https://packages.wolfi.dev/os
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  packages:
+    - terraform
+    - wolfi-baselayout
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/terraform/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/terraform 
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+  run-as: nonroot
+
+entrypoint:
+  command: /usr/bin/terraform
+
+cmd: --help
+
+archs:
+  - x86_64
+  - aarch64
