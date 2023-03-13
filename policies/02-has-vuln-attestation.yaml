@@ -16,11 +16,11 @@ spec:
         url: https://rekor.sigstore.dev
       attestations:
         - name: must-have-vuln-attestation
-          predicateType: vuln
+          predicateType: "https://cosign.sigstore.dev/attestation/vuln/v1"
           policy:
             type: cue
             data: |
-              predicateType: "cosign.sigstore.dev/attestation/vuln/v1"
+              predicateType: "https://cosign.sigstore.dev/attestation/vuln/v1"
 
       # TODO: Use attestation below instead to also require no high severity CVEs
       # attestations:
@@ -34,7 +34,7 @@ spec:
       #           "strings"
       #           "strconv"
       #         )
-      #         predicateType: "cosign.sigstore.dev/attestation/vuln/v1"
+      #         predicateType: "https://cosign.sigstore.dev/attestation/vuln/v1"
       #         predicate: {
       #           scanner: {
       #             result: {
