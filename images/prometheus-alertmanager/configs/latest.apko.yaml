@@ -28,4 +28,5 @@ entrypoint:
 cmd: --config.file=/etc/alertmanager/alertmanager.yml --storage.path=/alertmanager
 
 archs:
-- x86_64
+  - x86_64
+  - aarch64
