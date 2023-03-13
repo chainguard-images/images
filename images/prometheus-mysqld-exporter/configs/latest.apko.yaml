@@ -22,4 +22,5 @@ entrypoint:
   command: /usr/bin/mysqld_exporter
 
 archs:
-- x86_64
+  - x86_64
+  - aarch64
