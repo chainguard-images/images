@@ -19,23 +19,23 @@ runs:
         EOL
 
         docker run --rm -v "${PWD}:/work" \
-          cgr.dev/chainguard/apko:latest-20230222 \
+          ghcr.io/wolfi-dev/apko:latest \
           build --debug \
-          --build-arch=amd64 --sbom=false \
+          --arch=amd64 --sbom=false \
           --repository-append=https://packages.wolfi.dev/os \
           --keyring-append=https://packages.wolfi.dev/os/wolfi-signing.rsa.pub \
           /work/custom-image.apko.yaml \
           custom-image:latest \
           custom-image.tar
 
-        docker load < custom-image.tar
+        IMAGE_NAME=$(docker load < custom-image.tar | grep "Loaded image" | sed 's/^Loaded image: //')
 
         cat >/tmp/custom-image <<EOL
         #!/usr/bin/env bash
         set -e
-        docker run --rm --platform=linux/amd64 \
+        docker run --rm \
           -v "${PWD}:/work" -w /work --entrypoint "\$(basename "\$0")" \
-          custom-image:latest \$@
+          "${IMAGE_NAME}" \$@
         EOL
 
         chmod +x /tmp/custom-image

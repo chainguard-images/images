@@ -1,6 +1,6 @@
-status: stable
+status: experimental
 versions:
   - apko:
       config: configs/latest.apko.yaml
       extractTagsFrom:
-        package: jenkins
+        package: netcat-openbsd

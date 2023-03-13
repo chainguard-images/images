@@ -5,12 +5,11 @@ contents:
     - https://packages.wolfi.dev/os
   packages:
     - ca-certificates-bundle
-    - python-3.11
-    - py3.11-pip
+    - python-3.10
+    - wolfi-baselayout
+    - py3.10-pip
     - apk-tools
     - bash
-    - wolfi-baselayout
-    - busybox
 
 entrypoint:
   command: /usr/bin/python

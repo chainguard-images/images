@@ -11,7 +11,11 @@
 ---
 <!--monopod:end-->
 
-Java JRE image using OpenJDK via [Adoptium Temurin](https://adoptium.net/en-GB/temurin/) sources.
+Minimalist Wolfi-based Java JRE image using OpenJDK.  Used for running Java applications.
+
+- [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jre)
+- [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jre/overview/#use-it)
+- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jre/provenance_info/)
 
 ## Get It!
 
@@ -45,7 +49,7 @@ FROM cgr.dev/chainguard/jdk:openjdk-17
 COPY HelloWolfi.java /home/build/
 RUN /usr/lib/jvm/openjdk/bin/javac HelloWolfi.java
 
-FROM cgr.dev/chainguard/jre:openjdk-jre-17
+FROM cgr.dev/chainguard/jre:openjdk-17
 
 COPY --from=0 /home/build/HelloWolfi.class /app/
 CMD ["HelloWolfi"]
