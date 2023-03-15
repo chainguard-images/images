@@ -30,6 +30,7 @@ options:
           - glibc
           - glibc-dev
           - gcc
+          - busybox
   python-3-11-dev:
     contents:
       packages:
@@ -38,3 +39,4 @@ options:
           - glibc
           - glibc-dev
           - gcc
+          - busybox
