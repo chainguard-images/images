@@ -73,6 +73,7 @@ runs:
           yq -M 'del(.options)' "${{ inputs.apkoConfig }}" > "${{ inputs.apkoConfig }}.tmp"
           mv "${{ inputs.apkoConfig }}.tmp" "${{ inputs.apkoConfig }}"
         fi
+        echo "" >> "${{ inputs.apkoConfig }}" # For configs missing trailing newline
         yq -M '{"options": .}' tmp.yaml >> "${{ inputs.apkoConfig }}"
         rm -f tmp.yaml
     - id: apko
