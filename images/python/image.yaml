@@ -31,6 +31,7 @@ options:
           - glibc-dev
           - gcc
           - busybox
+          - apk-tools
   python-3-11-dev:
     contents:
       packages:
@@ -40,3 +41,4 @@ options:
           - glibc-dev
           - gcc
           - busybox
+          - apk-tools
