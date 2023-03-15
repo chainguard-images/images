@@ -47,6 +47,8 @@ type matrixResponse struct {
 type imageSummaryTagDynamic struct {
 	Package  string   `json:"package"`
 	Prefix   string   `json:"prefix"`
+	Suffix   string   `json:"suffix"`
+	Exclude  []string `json:"exclude"`
 	Resolved []string `json:"resolved"`
 }
 
@@ -119,12 +121,21 @@ func (i *matrixImpl) Do() error {
 			if image.ApkoAdditionalTags != "" {
 				static = strings.Split(image.ApkoAdditionalTags, ",")
 			}
+			exclude := []string{}
+			for _, x := range strings.Split(image.ExcludeTags, ",") {
+				t := image.ApkoPackageVersionTagPrefix + x + image.ApkoTargetTagSuffix
+				if t != "" && t != image.ApkoTargetTagSuffix {
+					exclude = append(exclude, t)
+				}
+			}
 			uniqueTags[image.ImageName] = append(uniqueTags[image.ImageName], imageSummaryTag{
 				Primary: image.ApkoTargetTag,
 				Static:  static,
 				Dynamic: imageSummaryTagDynamic{
 					Package:  image.ApkoPackageVersionTag,
 					Prefix:   image.ApkoPackageVersionTagPrefix,
+					Suffix:   image.ApkoTargetTagSuffix,
+					Exclude:  exclude,
 					Resolved: []string{},
 				},
 			})
