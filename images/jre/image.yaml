@@ -6,6 +6,10 @@ versions:
         prefix: openjdk
       tags:
         - openjdk-17 # TODO: deprecate this old tag
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
   - apko:
       config: configs/openjdk-11.apko.yaml
       extractTagsFrom:
@@ -13,17 +17,7 @@ versions:
         prefix: openjdk
       tags:
         - openjdk-11 # TODO: deprecate this old tag
-  - apko:
-      config: configs/latest-dev.apko.yaml
-      extractTagsFrom:
-        package: openjdk-17
-        prefix: openjdk
-      tags:
-        - openjdk-17-dev
-  - apko:
-      config: configs/openjdk-11-dev.apko.yaml
-      extractTagsFrom:
-        package: openjdk-11
-        prefix: openjdk
-      tags:
-        - openjdk-11-dev
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
