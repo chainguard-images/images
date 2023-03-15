@@ -5,17 +5,15 @@ versions:
         package: go-1.19
         exclude:
           - 1
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
   - apko:
       config: configs/latest.apko.yaml
       extractTagsFrom:
         package: go-1.20
-  - apko:
-      config: configs/1.19-dev.apko.yaml
-      extractTagsFrom:
-        package: go-1.19
-        exclude:
-          - 1
-  - apko:
-      config: configs/latest-dev.apko.yaml
-      tags:
-        - 1.20-dev
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev

@@ -27,8 +27,10 @@ type Image struct {
 	ApkoAdditionalTags          string `json:"apkoAdditionalTags"`
 	ApkoBaseTag                 string `json:"apkoBaseTag"`
 	ApkoTargetTag               string `json:"apkoTargetTag"`
+	ApkoTargetTagSuffix         string `json:"apkoTargetTagSuffix"`
 	ApkoPackageVersionTag       string `json:"apkoPackageVersionTag"`
 	ApkoPackageVersionTagPrefix string `json:"apkoPackageVersionTagPrefix"`
+	ApkoBuildOptions            string `json:"apkoBuildOptions"`
 	TestCommandExe              string `json:"testCommandExe"`
 	TestCommandDir              string `json:"testCommandDir"`
 	ExcludeTags                 string `json:"excludeTags"`
@@ -49,6 +51,12 @@ type ImageManifestVariantApko struct {
 	Config          string                                  `yaml:"config"`
 	ExtractTagsFrom ImageManifestVariantApkoExtractTagsFrom `yaml:"extractTagsFrom"`
 	Tags            []string                                `yaml:"tags"`
+	Subvariants     []ImageManifestVariantApkoSubvariant    `yaml:"subvariants"`
+}
+
+type ImageManifestVariantApkoSubvariant struct {
+	Suffix  string   `yaml:"suffix"`
+	Options []string `yaml:"options"`
 }
 
 type ImageManifestVariantMelange struct {
@@ -65,6 +73,11 @@ type ImageManifestVariantApkoExtractTagsFrom struct {
 // Our miniature schema of the Apko manifest so we dont have to import it here
 type ApkoManifest struct {
 	Archs []string `yaml:"archs"`
+}
+
+type variantIterator struct {
+	Variant    ImageManifestVariant
+	Subvariant ImageManifestVariantApkoSubvariant
 }
 
 func ListAll() ([]Image, error) {
@@ -92,10 +105,31 @@ func ListAll() ([]Image, error) {
 		if imageStatus == "" {
 			imageStatus = constants.DefaultImageStatus
 		}
+		variants := []variantIterator{}
 		for _, variant := range m.Variants {
+			variants = append(variants, variantIterator{
+				Variant: variant,
+			})
+			for _, subvariant := range variant.Apko.Subvariants {
+				variants = append(variants, variantIterator{
+					Variant:    variant,
+					Subvariant: subvariant,
+				})
+			}
+		}
+		for _, iterator := range variants {
+			variant := iterator.Variant
+			subvariant := iterator.Subvariant
 			apkoConfig := filepath.Join(constants.ImagesDirName, imageName, variant.Apko.Config)
 			apkoTargetTag := strings.Replace(filepath.Base(apkoConfig), constants.ApkoYamlFileExtension, "", 1)
 			apkoAdditionalTags := strings.Join(variant.Apko.Tags, ",")
+			apkoTargetTagSuffix := ""
+			apkoBuildOptions := ""
+			if subvariant.Suffix != "" {
+				apkoTargetTag = apkoTargetTag + subvariant.Suffix
+				apkoTargetTagSuffix = subvariant.Suffix
+				apkoBuildOptions = strings.Join(subvariant.Options, ",")
+			}
 
 			// Ensure that we dont have duplicate entries for any image/variant combo
 			seenKey := fmt.Sprintf("%s--%s", imageName, apkoTargetTag)
@@ -176,9 +210,11 @@ func ListAll() ([]Image, error) {
 				ApkoRepositoryAppend:        apkoRepositoryAppend,
 				ApkoBaseTag:                 apkoBaseTag,
 				ApkoTargetTag:               apkoTargetTag,
+				ApkoTargetTagSuffix:         apkoTargetTagSuffix,
 				ApkoAdditionalTags:          apkoAdditionalTags,
 				ApkoPackageVersionTag:       variant.Apko.ExtractTagsFrom.Package,
 				ApkoPackageVersionTagPrefix: variant.Apko.ExtractTagsFrom.Prefix,
+				ApkoBuildOptions:            apkoBuildOptions,
 				TestCommandExe:              testCommandExe,
 				TestCommandDir:              testCommandDir,
 				ExcludeTags:                 strings.Join(variant.Apko.ExtractTagsFrom.Exclude, ","),

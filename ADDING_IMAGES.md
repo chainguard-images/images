@@ -8,6 +8,7 @@ to imply the image you are working with.
 Table of contents:
 - [Adding a brand new image](#adding-a-brand-new-image)
 - [Adding a new image variant](#adding-a-new-image-variant)
+- [Subvariants](#subvariants)
 - [Smoke testing](#smoke-testing)
 - [The image.yaml file](#the-imageyaml-file)
 - [Regenerating the README](#regenerating-the-readme)
@@ -81,6 +82,54 @@ To add a new image variant, simply update
 
 Be sure that the apko config etc. exists too.
 
+## Subvariants
+
+By including a `subvariants` section for an image, you can produce multiple
+images from the same variant (e.g. a "dev" variant).
+
+In most cases, this can be achieved with something like below:
+
+```yaml
+versions:
+  - apko:
+      config: configs/latest.apko.yaml
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
+```
+
+This tells apko to add `--build-option dev` to the build. This option
+is defined in [globals.yaml](./globals.yaml).
+
+In some instances, a specific image may need more than the baseline for
+the `dev` option (e.g. composer for PHP). To add a custom option for
+a given image, you can achieve so with something like the following:
+
+```yaml
+versions:
+  - apko:
+      config: configs/latest.apko.yaml
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
+            - php-dev
+options:
+  php-dev:
+    contents:
+      packages:
+        add:
+          - composer
+```
+
+This tells apko to add 2 build options
+(`--build-option dev` and `--build-option php-dev`).
+
+The will result in both the packages defined by the `dev` in
+[globals.yaml](./globals.yaml), as well as the packages defined in
+the image-specific `php-dev` option above to be added to the image
+at build time.
 
 ## The image.yaml file
 
@@ -115,6 +164,13 @@ versions:
       # These are explicit static tags to add to the image
       tags:
         - latest
+
+      # Subvariants of this image with additional build options
+      # and a unique tag suffix
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
 ```
 
 ## Smoke testing

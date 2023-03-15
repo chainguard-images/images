@@ -4,8 +4,7 @@ versions:
       extractTagsFrom:
         package: zookeeper
       config: configs/latest.apko.yaml
-  - apko:
-      extractTagsFrom:
-        package: zookeeper
-        prefix: dev-
-      config: configs/latest-dev.apko.yaml
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev

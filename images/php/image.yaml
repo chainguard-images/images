@@ -3,13 +3,28 @@ versions:
       extractTagsFrom:
         package: php
       config: configs/latest.apko.yaml
-  - apko:
-      extractTagsFrom:
-        package: php
-        prefix: dev-
-      config: configs/latest-dev.apko.yaml
-  - apko:
-      extractTagsFrom:
-        package: php
-        prefix: fpm-
-      config: configs/latest-fpm.apko.yaml
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
+            - php-dev
+        - suffix: -fpm
+          options:
+            - php-fpm
+
+# Options specific to this image
+options:
+  php-dev:
+    contents:
+      packages:
+        add:
+          - composer
+  php-fpm:
+    contents:
+      packages:
+        add:
+          - php-fpm
+    entrypoint:
+      type: service-bundle
+      services:
+        php-fpm: /usr/bin/php-fpm -p /
