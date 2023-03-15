@@ -61,7 +61,7 @@ runs:
                     skip="true"
                     break
                   fi
-                fi
+                done
                 if [[ "skip" == "false" ]]; then
                   if [[ "${all_dynamic_versions}" == "" ]]; then
                     all_dynamic_versions="${t}"
