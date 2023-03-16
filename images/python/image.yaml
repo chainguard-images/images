@@ -26,19 +26,13 @@ options:
     contents:
       packages:
         add:
+          - build-base
           - py3.10-pip
-          - glibc
-          - glibc-dev
-          - gcc
-          - busybox
-          - apk-tools
+          - python-3.10-dev
   python-3-11-dev:
     contents:
       packages:
         add:
+          - build-base
           - py3.11-pip
-          - glibc
-          - glibc-dev
-          - gcc
-          - busybox
-          - apk-tools
+          - python-3.11-dev
