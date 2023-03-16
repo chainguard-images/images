@@ -19,7 +19,7 @@ jobs:
       matrix: ${{ steps.generate-matrix.outputs.matrix }}
       matrix-unique-images: ${{ steps.generate-matrix.outputs.matrix-unique-images }}
     steps:
-    - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+    - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
     # For manual builds, build only the image requested
     - id: generate-matrix-manual
       if: ${{ github.event_name == 'workflow_dispatch' && inputs.only != '' }}
@@ -65,7 +65,7 @@ jobs:
       contents: read
       actions: read
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
       - id: release-image-inputs
         name: Add additional inputs for release-image action
         env:
@@ -107,7 +107,7 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
       - id: image-summary-inputs
         name: Add additional inputs for image-summary action
         env:
