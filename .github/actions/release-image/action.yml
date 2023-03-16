@@ -306,13 +306,16 @@ runs:
               break
             fi
           done
-          if [[ "${skip}" == "1" ]]; then
+          if [[ "${skip}" == "0" ]]; then
+            # Do not add suffix to target tag or target tag + date
+            # (these aleady have suffix, e.g. "1.19-dev" or "1.19-dev-20230315")
+            if ! [[ "${tag}" == "${{ inputs.apkoTargetTag }}" || "${tag}" =~ ^"{{ inputs.apkoTargetTag }}"-[0-9]{7}$ ]]; then
+              tag="${tag}${{ inputs.apkoTargetTagSuffix }}"
+            fi
+            crane cp "${REF}" "${tag}"
+          else
             echo "Intentionally excluding copy to ${tag}."
           fi
-          if [[ "${tag}" != "${{ inputs.apkoTargetTag }}" ]]; then
-            tag="${tag}${{ inputs.apkoTargetTagSuffix }}"
-          fi
-          crane cp "${REF}" "${tag}"
         done
 
     # Generate build status badge from shields.io and save it in ./badges-output/
