@@ -92,8 +92,8 @@ runs:
       shell: bash
       run: |
         set -x
-        export IMAGE_NAME="${{ inputs.imageName }}:${{ github.sha }}-${{ inputs.apkoTargetTag }}"
-        docker tag "$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')" "${IMAGE_NAME}" || true
+        export IMAGE_NAME="$(docker load < output.tar | grep "Loaded image" | sed 's/^Loaded image: //')"
+        export IMAGE_TAG_SUFFIX="${{ inputs.apkoTargetTagSuffix }}"
         cd "${{ inputs.testCommandDir }}"
         ${{ inputs.testCommandExe }}
     - name: Touch actions file to prevent postrun failure
