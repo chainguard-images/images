@@ -294,9 +294,6 @@ runs:
       uses: chainguard-dev/actions/setup-chainctl@main
       if: inputs.chainguardIdentity != ''
       with:
-        # This allows chainguard-images/images to publish images to cgr.dev/chainguard
-        # We maintain this identity here:
-        # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
         identity: ${{ inputs.chainguardIdentity }}
 
     # Tag the image last, after all tests passing and
