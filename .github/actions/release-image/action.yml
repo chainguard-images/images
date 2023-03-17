@@ -375,7 +375,7 @@ runs:
         }
         # TODO: support specific matrix leg for subvariants (they have same apkoConfig input as parent)
         ACTIONS_URL=""
-        if [[ "${{ inputs.apkoTargetTagSuffix }}" != "" ]]; then
+        if [[ "${{ inputs.apkoTargetTagSuffix }}" == "" ]]; then
           if [[ "${{ inputs.melangeConfig }}" != "" ]]; then
             ACTIONS_URL="$(get_actions_job_url ${{ inputs.melangeConfig }})"
           else
