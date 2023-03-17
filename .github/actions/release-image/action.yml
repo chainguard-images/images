@@ -15,14 +15,6 @@ runs:
   steps:
     - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
 
-    - name: Setup chainctl
-      uses: chainguard-dev/actions/setup-chainctl@main
-      with:
-        # This allows chainguard-images/images to publish images to cgr.dev/chainguard
-        # We maintain this identity here:
-        # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
-        identity: "720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f"
-
     # optionally fetch a gcs bucket to be used by melange and apko builds
     - id: gcsfetchauth1
       if: inputs.gcsFetchBucketName != ''
@@ -297,6 +289,15 @@ runs:
         scanner: grype
         docker-config: .docker-rumble
 
+    - name: Setup chainctl
+      uses: chainguard-dev/actions/setup-chainctl@main
+      if: contains(inputs.apkoBaseTag, 'ghcr.io/chainguard-images/')
+      with:
+        # This allows chainguard-images/images to publish images to cgr.dev/chainguard
+        # We maintain this identity here:
+        # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
+        identity: "720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f"
+
     # Tag the image last, after all tests passing and
     # SBOMs, attestations, etc. have all been attached
     - name: Add image tags
@@ -321,6 +322,11 @@ runs:
               tag="${tag}${{ inputs.apkoTargetTagSuffix }}"
             fi
             crane cp "${REF}" "${tag}"
+            # For public images, copy them over to Chainguard registry
+            if [[ "${REF}" =~ ghcr.io/chainguard-images/ ]]; then
+              CGR_REF="$(echo "${tag}" | sed 's|ghcr.io/chainguard-images/|registry.enforce.dev/chainguard/|')"
+              cosign copy -f "${REF}" "${CGR_REF}"
+            fi
           else
             echo "Intentionally excluding copy to ${tag}."
           fi
