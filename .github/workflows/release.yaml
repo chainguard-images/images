@@ -74,6 +74,10 @@ jobs:
           EXTRA_INPUT_GCS_AUTH_SERVICE_ACCOUNT: ${{ secrets.GCS_AUTH_SERVICE_ACCOUNT }}
           EXTRA_INPUT_GCS_AUTH_PROJECT_ID: ${{ secrets.GCS_AUTH_PROJECT_ID }}
           EXTRA_INPUT_GCS_BUCKET_NAME: chainguard-images-build-outputs
+          # This allows chainguard-images/images to publish images to cgr.dev/chainguard
+          # We maintain this identity here:
+          # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
+          EXTRA_INPUT_CHAINGUARD_IDENTITY: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
         run: |
           # convert env vars beginning with "EXTRA_INPUT_"
           # to camelcased input variables passed to next step
@@ -116,10 +120,6 @@ jobs:
           EXTRA_INPUT_GCS_AUTH_SERVICE_ACCOUNT: ${{ secrets.GCS_AUTH_SERVICE_ACCOUNT }}
           EXTRA_INPUT_GCS_AUTH_PROJECT_ID: ${{ secrets.GCS_AUTH_PROJECT_ID }}
           EXTRA_INPUT_GCS_BUCKET_NAME: chainguard-images-build-outputs
-          # This allows chainguard-images/images to publish images to cgr.dev/chainguard
-          # We maintain this identity here:
-          # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
-          EXTRA_INPUT_CHAINGUARD_IDENTITY: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
         run: |
           # convert env vars beginning with "EXTRA_INPUT_"
           # to camelcased input variables passed to next step
