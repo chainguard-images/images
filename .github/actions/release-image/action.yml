@@ -292,12 +292,12 @@ runs:
 
     - name: Setup chainctl
       uses: chainguard-dev/actions/setup-chainctl@main
-      if: contains(inputs.apkoBaseTag, 'ghcr.io/chainguard-images/')
+      if: inputs.chainguardIdentity != ''
       with:
         # This allows chainguard-images/images to publish images to cgr.dev/chainguard
         # We maintain this identity here:
         # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
-        identity: "720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f"
+        identity: ${{ inputs.chainguardIdentity }}
 
     # Tag the image last, after all tests passing and
     # SBOMs, attestations, etc. have all been attached
@@ -324,8 +324,8 @@ runs:
             fi
             crane cp "${REF}" "${tag}"
             # For public images, copy them over to Chainguard registry
-            if [[ "${REF}" =~ ghcr.io/chainguard-images/ ]]; then
-              CGR_REF="$(echo "${tag}" | sed 's|ghcr.io/chainguard-images/|registry.enforce.dev/chainguard/|')"
+            if [[ "${{ inputs.chainguardNamespace }}" != "" ]]; then
+              CGR_REF="registry.enforce.dev/${{ inputs.chainguardNamespace }}/$(basename "${tag}")"
               cosign copy -f "${REF}" "${CGR_REF}"
             fi
           else
