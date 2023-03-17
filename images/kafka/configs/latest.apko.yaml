@@ -1,0 +1,43 @@
+contents:
+  repositories:
+    - https://packages.wolfi.dev/os
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  packages:
+    - ca-certificates-bundle
+    - wolfi-baselayout
+    - bash
+    - busybox
+    - kafka
+accounts:
+  groups:
+    - groupname: kafka
+      gid: 65532
+  users:
+    - username: kafka
+      uid: 65532
+  run-as: kafka
+  recursive: true
+
+# While logging to disk isn't a best practice for containers, Kafka handles it's own rotation by default.
+# Most other kafka images use this same configuration, so this is the principle of least-surprise.
+# Most kafka users will configure their own logging in the server.properties file as well.
+paths:
+  - path: /usr/lib/kafka/logs
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
+
+entrypoint:
+  command: /usr/lib/kafka/bin/kafka-server-start.sh
+cmd: /usr/lib/kafka/config/server.properties
+
+archs:
+  - x86_64
+  - aarch64
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/kafka/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/kafka
