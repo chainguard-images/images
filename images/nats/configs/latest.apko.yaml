@@ -6,8 +6,6 @@ contents:
   packages:
     - ca-certificates-bundle
     - wolfi-baselayout
-    - nats
-    - nsc
     - nats-server
 
 accounts:

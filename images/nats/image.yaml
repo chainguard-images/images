@@ -8,3 +8,11 @@ versions:
         - suffix: -dev
           options:
             - dev
+            - nats-dev
+options:
+  nats-dev:
+    contents:
+      packages:
+        add:
+          - nats
+          - nsc
