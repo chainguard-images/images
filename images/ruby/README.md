@@ -11,7 +11,7 @@
 ---
 <!--monopod:end-->
 
-Minimal ruby image. **EXPERIMENTAL**.
+Minimal ruby base image.
 
 ## Get It!
 
