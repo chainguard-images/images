@@ -316,7 +316,7 @@ runs:
           if [[ "${skip}" == "0" ]]; then
             # Do not add suffix to target tag or target tag + date
             # (these aleady have suffix, e.g. "1.19-dev" or "1.19-dev-20230315")
-            if ! [[ "${tag}" == "${{ inputs.apkoTargetTag }}" || "${tag}" =~ ^"{{ inputs.apkoTargetTag }}"-[0-9]{7}$ ]]; then
+            if ! [[ "${tag}" == "${{ inputs.apkoBaseTag }}:${{ inputs.apkoTargetTag }}" || "${tag}" =~ ^"${{ inputs.apkoBaseTag }}:${{ inputs.apkoTargetTag }}"-[0-9]{8}$ ]]; then
               tag="${tag}${{ inputs.apkoTargetTagSuffix }}"
             fi
             crane cp "${REF}" "${tag}"
