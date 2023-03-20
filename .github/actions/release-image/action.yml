@@ -119,6 +119,7 @@ runs:
         package-version-tag-prefix: ${{ inputs.apkoPackageVersionTagPrefix }}
         stage_tags: apko.tags
         build-options: ${{ inputs.apkoBuildOptions }}
+        sbom-attest: true
 
     - name: Extract the digests for each architecture
       id: extract
