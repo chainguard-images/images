@@ -24,7 +24,7 @@ cmd: server -dev
 
 archs:
   - x86_64
-  - aarch64p
+  - aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
