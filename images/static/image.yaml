@@ -1,5 +1,9 @@
 versions:
   - apko:
       config: configs/latest.apko.yaml
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
   - apko:
       config: configs/latest-glibc.apko.yaml
