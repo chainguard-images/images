@@ -78,6 +78,32 @@ runs:
         REGISTRY_HOSTNAME="$(echo ${{ inputs.apkoBaseTag }} | cut -d / -f 1)"
         gcloud auth configure-docker "${REGISTRY_HOSTNAME}"
 
+    - id: inject-build-options
+      shell: bash
+      run: |
+        yaml_files_with_options_key="globals.yaml"
+        # If the repo using this action doesn't have an globals.yaml, use the public chainguard one
+        if [[ ! -f "globals.yaml" ]]; then
+          curl -sLO https://raw.githubusercontent.com/chainguard-images/images/main/globals.yaml
+        fi
+        if [[ "$(cat "images/${{ inputs.imageName }}/image.yaml" | yq '.options')" != "null" ]]; then
+          yaml_files_with_options_key="${yaml_files_with_options_key} images/${{ inputs.imageName }}/image.yaml"
+        fi
+        if [[ "$(cat ${{ inputs.apkoConfig }} | yq '.options')" != "null" ]]; then
+          yaml_files_with_options_key="${yaml_files_with_options_key} ${{ inputs.apkoConfig }}"
+        fi
+        echo "Combining options sourced from the following file(s): ${yaml_files_with_options_key}"
+        # Use yq to combine all files' options sections together
+        yq -M eval-all '.options as $item ireduce ({}; . * $item)' ${yaml_files_with_options_key} > tmp.yaml
+        # If the original file has options, remove them before appending
+        if [[ "$(cat "images/${{ inputs.imageName }}/image.yaml" | yq '.options')" != "null" ]]; then
+          yq -M 'del(.options)' "${{ inputs.apkoConfig }}" > "${{ inputs.apkoConfig }}.tmp"
+          mv "${{ inputs.apkoConfig }}.tmp" "${{ inputs.apkoConfig }}"
+        fi
+        echo "" >> "${{ inputs.apkoConfig }}" # For configs missing trailing newline
+        yq -M '{"options": .}' tmp.yaml >> "${{ inputs.apkoConfig }}"
+        rm -f tmp.yaml
+
     # Build and push
     - id: apko
       uses: chainguard-images/actions/apko-snapshot@main
@@ -92,6 +118,8 @@ runs:
         package-version-tag-stem: true
         package-version-tag-prefix: ${{ inputs.apkoPackageVersionTagPrefix }}
         stage_tags: apko.tags
+        build-options: ${{ inputs.apkoBuildOptions }}
+        sbom-attest: true
 
     - name: Extract the digests for each architecture
       id: extract
@@ -116,6 +144,7 @@ runs:
       run: |
         set -x
         export IMAGE_NAME="${{ steps.extract.outputs.digest-index }}"
+        export IMAGE_TAG_SUFFIX="${{ inputs.apkoTargetTagSuffix }}"
         cd "${{ inputs.testCommandDir }}"
         ${{ inputs.testCommandExe }}
 
@@ -262,6 +291,12 @@ runs:
         scanner: grype
         docker-config: .docker-rumble
 
+    - name: Setup chainctl
+      uses: chainguard-dev/actions/setup-chainctl@main
+      if: inputs.chainguardIdentity != ''
+      with:
+        identity: ${{ inputs.chainguardIdentity }}
+
     # Tag the image last, after all tests passing and
     # SBOMs, attestations, etc. have all been attached
     - name: Add image tags
@@ -279,10 +314,21 @@ runs:
               break
             fi
           done
-          if [[ "${skip}" == "1" ]]; then
+          if [[ "${skip}" == "0" ]]; then
+            # Do not add suffix to target tag or target tag + date
+            # (these aleady have suffix, e.g. "1.19-dev" or "1.19-dev-20230315")
+            if ! [[ "${tag}" == "${{ inputs.apkoBaseTag }}:${{ inputs.apkoTargetTag }}" || "${tag}" =~ ^"${{ inputs.apkoBaseTag }}:${{ inputs.apkoTargetTag }}"-[0-9]{8}$ ]]; then
+              tag="${tag}${{ inputs.apkoTargetTagSuffix }}"
+            fi
+            crane cp "${REF}" "${tag}"
+            # For public images, copy them over to Chainguard registry
+            if [[ "${{ inputs.chainguardNamespace }}" != "" ]]; then
+              CGR_REF="registry.enforce.dev/${{ inputs.chainguardNamespace }}/$(basename "${tag}")"
+              cosign copy -f "${REF}" "${CGR_REF}"
+            fi
+          else
             echo "Intentionally excluding copy to ${tag}."
           fi
-          crane cp "${REF}" "${tag}"
         done
 
     # Generate build status badge from shields.io and save it in ./badges-output/
@@ -328,12 +374,16 @@ runs:
             "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs?per_page=100" \
             | jq -r ".jobs[] | select(.name | contains(\"${1}\")) | .html_url"
         }
-        if [[ "${{ inputs.melangeConfig }}" != "" ]]; then
-          export ACTIONS_URL="$(get_actions_job_url ${{ inputs.melangeConfig }})"
-        else
-          export ACTIONS_URL="$(get_actions_job_url ${{ inputs.apkoConfig }})"
+        # TODO: support specific matrix leg for subvariants (they have same apkoConfig input as parent)
+        ACTIONS_URL=""
+        if [[ "${{ inputs.apkoTargetTagSuffix }}" == "" ]]; then
+          if [[ "${{ inputs.melangeConfig }}" != "" ]]; then
+            ACTIONS_URL="$(get_actions_job_url ${{ inputs.melangeConfig }})"
+          else
+            ACTIONS_URL="$(get_actions_job_url ${{ inputs.apkoConfig }})"
+          fi
         fi
-        export ACTIONS_URL="${ACTIONS_URL:-https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}}"
+        ACTIONS_URL="${ACTIONS_URL:-https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}}"
         echo "link=${ACTIONS_URL}" >> $GITHUB_OUTPUT
 
     # Slack notification if build failing

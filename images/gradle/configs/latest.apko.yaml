@@ -8,25 +8,25 @@ contents:
     - wolfi-baselayout
     - glibc-locale-en
     - busybox
-    - bash
-    - apk-tools
-    - openjdk-17
+    - gradle-8
 
 accounts:
   groups:
-    - groupname: java
+    - groupname: gradle
       gid: 65532
   users:
-    - username: java
+    - username: gradle
       uid: 65532
-  run-as: java
+  run-as: gradle
   recursive: true
 
 work-dir: /home/build
 
+entrypoint:
+  command: /usr/bin/gradle
+
 environment:
   LANG: en_US.UTF-8
-  JAVA_HOME: /usr/lib/jvm/openjdk
 
 paths:
   - path: /home/build

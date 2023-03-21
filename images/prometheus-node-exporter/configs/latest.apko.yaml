@@ -4,31 +4,21 @@ contents:
   keyring:
     - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
-    - ca-certificates-bundle
+    - prometheus-node-exporter
     - wolfi-baselayout
-    - glibc-locale-en
     - busybox
-    - bash
-    - apk-tools
-    - openjdk-17-jre
 
 accounts:
   groups:
-    - groupname: java
+    - groupname: node_exporter
       gid: 65532
   users:
-    - username: java
+    - username: node_exporter
       uid: 65532
-  run-as: java
-
-work-dir: /app
+  run-as: 65532
 
 entrypoint:
-  command: /usr/bin/java
-
-environment:
-  LANG: en_US.UTF-8
-  JAVA_HOME: /usr/lib/jvm/openjdk-jre
+  command: /usr/bin/node_exporter
 
 archs:
   - x86_64

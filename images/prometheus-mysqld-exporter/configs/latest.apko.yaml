@@ -4,33 +4,22 @@ contents:
   repositories:
     - https://packages.wolfi.dev/os
   packages:
+    - prometheus-mysqld-exporter
+    - wolfi-base
     - ca-certificates-bundle
     - busybox
-    - build-base
-    - git
-    - openssh
-    - go-1.20
-    - bash
-    - apk-tools
-    - wolfi-baselayout
 
 accounts:
   groups:
-    - groupname: nonroot
+    - groupname: mysqld_exporter
       gid: 65532
   users:
-    - username: nonroot
+    - username: mysqld_exporter
       uid: 65532
-      gid: 65532
-  run-as: 0
-
-environment:
-  GODEBUG: tarinsecurepath=0,zipinsecurepath=0
+  run-as: 65532
 
 entrypoint:
-  command: /usr/bin/go
-
-cmd: help
+  command: /usr/bin/mysqld_exporter
 
 archs:
   - x86_64

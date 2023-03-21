@@ -4,12 +4,8 @@ contents:
   repositories:
     - https://packages.wolfi.dev/os
   packages:
-    - ca-certificates-bundle
-    - python3
-    - py3-pip
     - wolfi-baselayout
-    - busybox
-
+    - netcat-openbsd
 accounts:
   groups:
     - groupname: nonroot
@@ -19,6 +15,11 @@ accounts:
       uid: 65532
       gid: 65532
   run-as: 65532
+
+entrypoint:
+  command: /usr/bin/nc
+cmd: -h
+work-dir: /home/nc
 
 archs:
 - x86_64

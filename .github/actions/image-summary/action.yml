@@ -27,7 +27,7 @@ runs:
         gcloud auth configure-docker "$(echo ${{ inputs.apkoBaseTag }} | cut -d / -f 1)"
 
     - name: Setup cosign
-      uses: sigstore/cosign-installer@main
+      uses: sigstore/cosign-installer@v3
 
     - id: create-image-summary
       shell: bash
@@ -45,6 +45,7 @@ runs:
             if [[ "${version}" != "" ]]; then
               all_dynamic_versions=""
               prefix="$(echo "${line}" | jq -r .dynamic.prefix)"
+              suffix="$(echo "${line}" | jq -r .dynamic.suffix)"
               version_no_epoch="$(echo "${version}" | cut -d- -f1)"
               tmp=""
               for v in ${version_no_epoch//./ }; do
@@ -53,16 +54,42 @@ runs:
                 else
                   tmp="${tmp}.${v}"
                 fi
-                if [[ "${all_dynamic_versions}" == "" ]]; then
-                  all_dynamic_versions="${prefix}${tmp}"
-                else
-                  all_dynamic_versions="${all_dynamic_versions},${prefix}${tmp}"
+                t="${prefix}${tmp}${suffix}"
+                skip=0
+                for exclude in $(echo "${line}" | jq -r .dynamic.exclude[]); do
+                  if [[ "${t}" == "${exclude}" ]]; then
+                    skip=1
+                    break
+                  fi
+                done
+                if [[ "${skip}" == "0" ]]; then
+                  if [[ "${all_dynamic_versions}" == "" ]]; then
+                    all_dynamic_versions="${t}"
+                  else
+                    all_dynamic_versions="${all_dynamic_versions},${t}"
+                  fi
                 fi
               done
-              all_dynamic_versions="${all_dynamic_versions},${prefix}${version}"
-              resolved="$(printf "${all_dynamic_versions}" | jq -R -c '.|split(",")')"
-              cat summary.json | jq '.tags['${i}'].dynamic.resolved = '${resolved}'' > summary.json.tmp
-              mv summary.json.tmp summary.json
+              t="${prefix}${version}${suffix}"
+              skip=0
+              for exclude in $(echo "${line}" | jq -r .dynamic.exclude[]); do
+                if [[ "${t}" == "${exclude}" ]]; then
+                  skip=1
+                  break
+                fi
+              done
+              if [[ "${skip}" == "0" ]]; then
+                if [[ "${all_dynamic_versions}" == "" ]]; then
+                  all_dynamic_versions="${t}"
+                else
+                  all_dynamic_versions="${all_dynamic_versions},${t}"
+                fi
+              fi
+              if [[ "${all_dynamic_versions}" != "" ]]; then
+                resolved="$(printf "${all_dynamic_versions}" | jq -R -c '.|split(",")')"
+                cat summary.json | jq '.tags['${i}'].dynamic.resolved = '${resolved}'' > summary.json.tmp
+                mv summary.json.tmp summary.json
+              fi
             fi
           fi
           i=$((i+1))

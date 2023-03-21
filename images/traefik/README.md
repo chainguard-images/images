@@ -27,7 +27,7 @@ The default Traefik ports are 80 and 8080.
 
 There is no default configuration in the image, but you can use a sample one like this:
 
-```toml
+```yaml
 ## traefik.yml
 
 
@@ -36,7 +36,7 @@ api:
   insecure: true
 ```
 
-Save the configuration file from above as `traefik.toml`, then run:
+Save the configuration file from above as `traefik.yml`, then run:
 
 ```sh
 docker run -v $PWD:/etc  -p 80:80 -p 8080:8080 cgr.dev/chainguard/traefik  --configFile=/etc/traefik.yml

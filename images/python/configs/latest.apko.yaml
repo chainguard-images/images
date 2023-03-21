@@ -5,8 +5,12 @@ contents:
     - https://packages.wolfi.dev/os
   packages:
     - ca-certificates-bundle
-    - python3
+    - python-3.11
     - wolfi-baselayout
+
+
+entrypoint:
+  command: /usr/bin/python
 
 accounts:
   groups:

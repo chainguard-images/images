@@ -22,7 +22,7 @@ Minimalist Wolfi-based PHP images for building and running PHP applications. Inc
 Our `latest` tags use the most recent build of the [Wolfi PHP](https://github.com/wolfi-dev/os/blob/main/php.yaml) package. The following tagged variants are available without authentication:
 
 - `latest`: This is a distroless image for running command-line PHP applications. It does not include Composer or busybox, so no shell will be available.
-- `latest-dev`: This is a development / builder image that includes Composer and busybox.
+- `latest-dev`: This is a development / builder image that includes Composer, apk-tools, and busybox. This variant allows you to customize your final image with additional Wolfi packages.
 - `latest-fpm`: This is the distroless `php-fpm` image variant, designed to be used together with our [Nginx](https://edu.chainguard.dev/chainguard/chainguard-images/reference/nginx) image. 
 
 Starting in April, accessing older tags will require authentication.
