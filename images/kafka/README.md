@@ -21,7 +21,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/kafka:latest
 ```
 
-## Using NATS
+## Using KAFKA
 
 Chainguard Kafka images include the `kafka-server-*` scripts which can be used to start up or configure Kafka or it's dependencies.
 The full list of scripts is available here:
