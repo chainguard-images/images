@@ -296,7 +296,8 @@ runs:
       if: inputs.chainguardIdentity != ''
       with:
         identity: ${{ inputs.chainguardIdentity }}
-    - run: |
+    - if: inputs.chainguardIdentity != ''
+      run: |
         chainctl config set platform.registry https://cgr.dev
         chainctl auth configure-docker --identity ${{ inputs.chainguardIdentity }}
 
