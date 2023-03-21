@@ -4,18 +4,28 @@ versions:
       config: configs/latest.apko.yaml
       extractTagsFrom:
         package: ruby3.2-fluentd14
-
-  - apko:
-      config: configs/latest-dev.apko.yaml
-      extractTagsFrom:
-        package: ruby3.2-fluentd14
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
+            - ruby-3.2-dev
 
   - apko:
       config: configs/edge.apko.yaml
       extractTagsFrom:
         package: ruby3.2-fluentd15
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
+            - ruby-3.2-dev
 
-  - apko:
-      config: configs/edge-dev.apko.yaml
-      extractTagsFrom:
-        package: ruby3.2-fluentd15
+# Options specific to this image
+options:
+  ruby-3.2-dev:
+    contents:
+      packages:
+        add:
+          - build-base
+          - ruby3.2-bundler
+          - ruby-3.2-dev
