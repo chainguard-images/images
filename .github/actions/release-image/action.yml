@@ -323,7 +323,7 @@ runs:
             crane cp "${REF}" "${tag}"
             # For public images, copy them over to Chainguard registry
             if [[ "${{ inputs.chainguardNamespace }}" != "" ]]; then
-              CGR_REF="registry.enforce.dev/${{ inputs.chainguardNamespace }}/$(basename "${tag}")"
+              CGR_REF="cgr.dev/${{ inputs.chainguardNamespace }}/$(basename "${tag}")"
               cosign copy -f "${REF}" "${CGR_REF}"
             fi
           else
