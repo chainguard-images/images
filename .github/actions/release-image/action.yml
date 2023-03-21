@@ -296,6 +296,9 @@ runs:
       if: inputs.chainguardIdentity != ''
       with:
         identity: ${{ inputs.chainguardIdentity }}
+    - run: |
+        chainctl config set platform.registry https://cgr.dev
+        chainctl auth configure-docker --identity ${{ inputs.chainguardIdentity }}
 
     # Tag the image last, after all tests passing and
     # SBOMs, attestations, etc. have all been attached
