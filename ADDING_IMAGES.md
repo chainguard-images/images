@@ -198,6 +198,18 @@ Also, be sure to make the script(s) executable:
 chmod +x images/superimg/test.sh
 ```
 
+## Functional testing
+
+In the same scripts as the section above, you may place the following comment
+somewhere at the top of the script:
+
+```
+# monopod:tag:functional
+```
+
+This will indicate that this test requires a kind cluster, and will run
+separately from other tests.
+
 ## Regenerating the README
 
 Whether you are adding a new image or new image variant (or removing one),

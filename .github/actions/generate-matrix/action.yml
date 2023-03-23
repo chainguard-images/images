@@ -38,8 +38,8 @@ runs:
       run: |
         set -x
         export PATH="/tmp/bin:${PATH}"
-        echo "matrix=$(monopod matrix --modified-files=${{ inputs.modified-files }} --melange-mode=${{ inputs.melange-mode }})" >> $GITHUB_OUTPUT
-        echo "matrix-unique-images=$(monopod matrix --modified-files=${{ inputs.modified-files }} --melange-mode=${{ inputs.melange-mode }} --unique-images)" >> $GITHUB_OUTPUT
+        echo "matrix=$(monopod matrix --modified-files=${{ inputs.modified-files }} --melange-mode=${{ inputs.melange-mode }} --test-tags=${{ inputs.test-tags }})" >> $GITHUB_OUTPUT
+        echo "matrix-unique-images=$(monopod matrix --modified-files=${{ inputs.modified-files }} --melange-mode=${{ inputs.melange-mode }} --test-tags=${{ inputs.test-tags }} --unique-images)" >> $GITHUB_OUTPUT
     - name: Touch actions file to prevent postrun failure
       if: always()
       shell: bash
