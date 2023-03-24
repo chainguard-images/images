@@ -58,11 +58,11 @@ jobs:
       - uses: chainguard-images/actions/apko-publish@main
         with:
           config: ${{ matrix.apkoConfig }}
-          tag: ${{ steps.registry-ip.outputs.ip }}:5000/testing/${{ matrix.imageName }}:${{ matrix.apkoTargetTag }}
+          tag: ${{ steps.registry-ip.outputs.ip }}:5000/${{ matrix.imageName }}:${{ matrix.apkoTargetTag }}
       - name: Run functional tests
         run: |
           set -x
-          export IMAGE_NAME="registry.local:5000/testing/${{ matrix.imageName }}:${{ matrix.apkoTargetTag }}"
+          export IMAGE_NAME="registry.local:5000/${{ matrix.imageName }}:${{ matrix.apkoTargetTag }}"
           export IMAGE_TAG_SUFFIX="${{ matrix.apkoTargetTagSuffix }}"
           cd "${{ matrix.testCommandDir }}"
           ${{ matrix.testCommandExe }}

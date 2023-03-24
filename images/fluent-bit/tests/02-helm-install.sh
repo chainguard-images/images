@@ -5,7 +5,7 @@
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 IMAGE_DIR="$(basename "$(cd "$(dirname ${BASH_SOURCE[0]})/.." && pwd )")"
-IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/${IMAGE_DIR}:latest"}
+IMAGE_NAME=${IMAGE_NAME:-"registry.local:5000/${IMAGE_DIR}:latest"}
 
 IMAGE_REPOSITORY="$(echo "${IMAGE_NAME}" | cut -d: -f1)"
 IMAGE_TAG="$(echo "${IMAGE_NAME}" | cut -d: -f2)"
