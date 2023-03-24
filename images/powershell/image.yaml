@@ -1,0 +1,15 @@
+status: experimental
+versions:
+  - apko:
+      config: configs/latest.apko.yaml
+      extractTagsFrom:
+        package: powershell
+      tags:
+        - latest
+  - apko:
+      config: configs/latest-root.apko.yaml
+      extractTagsFrom:
+        package: powershell
+        prefix: root-
+      tags:
+        - root-latest
