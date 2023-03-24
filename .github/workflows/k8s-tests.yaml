@@ -11,7 +11,7 @@ on:
         type: string
         required: false
         default: ''
-concurrency: functional-tests
+concurrency: k8s-tests
 jobs:
   generate-matrix:
     runs-on: ubuntu-latest
@@ -23,13 +23,13 @@ jobs:
       if: ${{ inputs.only != '' }}
       uses: ./.github/actions/generate-matrix
       with:
-        test-tags: functional
+        test-tags: k8s
         modified-files: images/${{ inputs.only }}/image.yaml
     - id: generate-matrix-without-inputs
       if: ${{ inputs.only == '' }}
       uses: ./.github/actions/generate-matrix
       with:
-        test-tags: functional
+        test-tags: k8s
     - id: generate-matrix
       run: |
         set -x
@@ -59,7 +59,7 @@ jobs:
         with:
           config: ${{ matrix.apkoConfig }}
           tag: ${{ steps.registry-ip.outputs.ip }}:5000/${{ matrix.imageName }}:${{ matrix.apkoTargetTag }}
-      - name: Run functional tests
+      - name: Run k8s tests
         run: |
           set -x
           export IMAGE_NAME="registry.local:5000/${{ matrix.imageName }}:${{ matrix.apkoTargetTag }}"
