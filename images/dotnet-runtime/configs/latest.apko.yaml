@@ -1,0 +1,26 @@
+contents:
+  repositories:
+    - https://packages.wolfi.dev/os
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  packages:
+    - dotnet-7
+    - dotnet-7-runtime
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+  run-as: nonroot
+  recursive: true
+
+archs:
+  - x86_64
+  - aarch64
+
+entrypoint:
+  command: /usr/bin/dotnet
+cmd: --help
