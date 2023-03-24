@@ -10,6 +10,7 @@ Table of contents:
 - [Adding a new image variant](#adding-a-new-image-variant)
 - [Subvariants](#subvariants)
 - [Smoke testing](#smoke-testing)
+- [Kubernetes testing](#smoke-testing)
 - [The image.yaml file](#the-imageyaml-file)
 - [Regenerating the README](#regenerating-the-readme)
 
@@ -198,13 +199,13 @@ Also, be sure to make the script(s) executable:
 chmod +x images/superimg/test.sh
 ```
 
-## Functional testing
+## Kubernetes testing
 
 In the same scripts as the section above, you may place the following comment
 somewhere at the top of the script:
 
 ```
-# monopod:tag:functional
+# monopod:tag:k8s
 ```
 
 This will indicate that this test requires a kind cluster, and will run
