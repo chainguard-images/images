@@ -326,6 +326,11 @@ runs:
               tag="${tag}${{ inputs.apkoTargetTagSuffix }}"
             fi
             crane cp "${REF}" "${tag}"
+            # Mirror image to alternate destination
+            if [[ "${{ inputs.mirror }}" != "" ]]; then
+              MIRROR_REF="${{ inputs.mirror }}/$(basename "${tag}")"
+              cosign copy -f "${REF}" "${MIRROR_REF}"
+            fi
           else
             echo "Intentionally excluding copy to ${tag}."
           fi
