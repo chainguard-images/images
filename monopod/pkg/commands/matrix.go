@@ -145,7 +145,7 @@ func (i *matrixImpl) Do() error {
 					Resolved: []string{},
 				},
 			})
-			uniqueRef[image.ImageName] = strings.Replace(image.ApkoBaseTag, constants.DefaultRegistry, constants.DefaultRegistryFrontend, 1)
+			uniqueRef[image.ImageName] = image.ApkoBaseTag
 			uniqueStatus[image.ImageName] = image.ImageStatus
 		}
 		keys := []string{}

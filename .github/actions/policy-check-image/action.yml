@@ -48,7 +48,7 @@ runs:
       run: |
         set -x
 
-        BASE_TAG="$(echo "${{ inputs.apkoBaseTag }}" | sed 's|ghcr\.io/chainguard-images/|cgr\.dev/chainguard/|')"
+        BASE_TAG="${{ inputs.apkoBaseTag }}"
         REF="${BASE_TAG}:${{ inputs.apkoTargetTag }}"
 
         # First check the policy against the image index
