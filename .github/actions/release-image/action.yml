@@ -58,13 +58,6 @@ runs:
         archs: ${{ inputs.melangeArchs }}
         template: ${{ inputs.melangeTemplate }}
 
-    # If publishing to Chainguard registry (cgr.dev), setup auth
-    - id: cgrauth1
-      if: contains(inputs.apkoBaseTag, 'cgr.dev/') && inputs.chainguardIdentity != ''
-      uses: chainguard-dev/actions/setup-chainctl@main
-      with:
-        identity: ${{ inputs.chainguardIdentity }}
-
     # If publishing to GCR, setup OIDC->SA auth
     - id: gcrauth1
       if: contains(inputs.apkoBaseTag, 'gcr.io/') || contains(inputs.apkoBaseTag, 'pkg.dev/')
@@ -163,11 +156,7 @@ runs:
         export DOCKER_CONFIG="${PWD}/.docker-rumble"
         mkdir -p "${DOCKER_CONFIG}"
         echo '{}' > "${DOCKER_CONFIG}/config.json"
-        if [[ "${REGISTRY_HOSTNAME}" == "cgr.dev" ]]; then
-          CRED_HELPER_GET_RESPONSE="$(echo "cgr.dev" | docker-credential-cgr get)"
-          echo "$(echo "${CRED_HELPER_GET_RESPONSE}" | jq -r .Secret)" | \
-            docker login -u "$(echo "${CRED_HELPER_GET_RESPONSE}" | jq -r .Username)" --password-stdin "https://cgr.dev"
-        elif [[ "${REGISTRY_HOSTNAME}" == *"gcr.io" || "${REGISTRY_HOSTNAME}" == *"pkg.dev" ]]; then
+        if [[ "${REGISTRY_HOSTNAME}" == *"gcr.io" || "${REGISTRY_HOSTNAME}" == *"pkg.dev" ]]; then
           gcloud auth print-access-token | \
             docker login -u oauth2accesstoken --password-stdin "https://${REGISTRY_HOSTNAME}"
         else
@@ -302,6 +291,11 @@ runs:
         scanner: grype
         docker-config: .docker-rumble
 
+    - uses: chainguard-dev/actions/setup-chainctl@main
+      if: inputs.chainguardIdentity != ''
+      with:
+        identity: ${{ inputs.chainguardIdentity }}
+
     # Tag the image last, after all tests passing and
     # SBOMs, attestations, etc. have all been attached
     - name: Add image tags
@@ -326,10 +320,10 @@ runs:
               tag="${tag}${{ inputs.apkoTargetTagSuffix }}"
             fi
             crane cp "${REF}" "${tag}"
-            # Mirror image to alternate destination
-            if [[ "${{ inputs.mirror }}" != "" ]]; then
-              MIRROR_REF="${{ inputs.mirror }}/$(basename "${tag}")"
-              cosign copy -f "${REF}" "${MIRROR_REF}"
+            # For public images, copy them over to Chainguard registry
+            if [[ "${{ inputs.chainguardNamespace }}" != "" ]]; then
+              CGR_REF="cgr.dev/${{ inputs.chainguardNamespace }}/$(basename "${tag}")"
+              cosign copy -f "${REF}" "${CGR_REF}"
             fi
           else
             echo "Intentionally excluding copy to ${tag}."

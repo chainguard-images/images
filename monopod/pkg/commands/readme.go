@@ -83,7 +83,7 @@ func (i *readmeImpl) check() error {
 	imageToVariantMap := map[string][]string{}
 	for _, image := range allImages {
 		imageToStatusMap[image.ImageName] = image.ImageStatus
-		imageToReferenceMap[image.ImageName] = fmt.Sprintf("`%s`", image.ApkoBaseTag)
+		imageToReferenceMap[image.ImageName] = fmt.Sprintf("`%s`", strings.Replace(image.ApkoBaseTag, constants.DefaultRegistry, constants.DefaultRegistryFrontend, 1))
 		variant := fmt.Sprintf("`%s`", image.ApkoTargetTag)
 		if image.ApkoAdditionalTags != "" {
 			tmp := []string{}
@@ -161,7 +161,7 @@ func (i *readmeImpl) fixAllReadmes() error {
 	imageToVariantMap := map[string][]string{}
 	for _, image := range allImages {
 		imageToStatusMap[image.ImageName] = image.ImageStatus
-		imageToReferenceMap[image.ImageName] = fmt.Sprintf("`%s`", image.ApkoBaseTag)
+		imageToReferenceMap[image.ImageName] = fmt.Sprintf("`%s`", strings.Replace(image.ApkoBaseTag, constants.DefaultRegistry, constants.DefaultRegistryFrontend, 1))
 		variant := fmt.Sprintf("`%s`", image.ApkoTargetTag)
 		if image.ApkoAdditionalTags != "" {
 			tmp := []string{}
@@ -259,8 +259,8 @@ func getRootReadmeContents(allImages []images.Image, badgeRootUrl string) ([]byt
 				imageToBadgeMap[image.ImageName] = []string{}
 			}
 			link := image.ApkoConfig
-			ref := image.ApkoBaseTag
-			if strings.HasPrefix(ref, fmt.Sprintf("%s/", constants.DefaultRegistry)) {
+			ref := strings.Replace(image.ApkoBaseTag, constants.DefaultRegistry, constants.DefaultRegistryFrontend, 1)
+			if strings.HasPrefix(ref, fmt.Sprintf("%s/", constants.DefaultRegistryFrontend)) {
 				// Only point to Registry UI for public images
 				link = fmt.Sprintf("%s/?image=%s:%s", constants.RegistryUI, ref, image.ApkoTargetTag)
 			}
