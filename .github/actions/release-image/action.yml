@@ -65,6 +65,7 @@ runs:
       with:
         identity: ${{ inputs.chainguardIdentity }}
     - id: cgrauth2
+      shell: bash
       run: |
         set +x
         REGISTRY_HOSTNAME="$(echo ${{ inputs.apkoBaseTag }} | cut -d / -f 1)"
