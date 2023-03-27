@@ -11,14 +11,33 @@
 ---
 <!--monopod:end-->
 
-[Redis](https://github.com/redis/redis) Redis is an in-memory database that persists on disk. The data model is key-value, but many different kind of values are supported: Strings, Lists, Sets, Sorted Sets, Hashes, Streams, HyperLogLogs, Bitmaps.
+Minimalist Wolfi-based [Redis](https://github.com/redis/redis) image.
 
-## Get It!
+Redis is an in-memory database that persists on disk.
 
-The image is available on `cgr.dev`:
+The data model is key-value, but many different kind of values are supported: Strings, Lists, Sets, Sorted Sets, Hashes, Streams, HyperLogLogs, Bitmaps.
+
+- [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/redis)
+- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/redis/provenance_info/)
+
+## Image Variants 
+
+Our `latest` tag use the most recent build of the [Wolfi Redis](https://github.com/wolfi-dev/os/blob/main/redis.yaml) package.
+The `latest` tagged variant is a distroless image for running Redis.
+
+Starting in April, accessing older tags will require authentication.
+
+## Redis Version
+This will automatically pull the image to your local system and execute the command `redis --version`:
+
+```shell
+docker run --rm cgr.dev/chainguard/redis --version
+```
+
+You should see output similar to this:
 
 ```
-docker pull cgr.dev/chainguard/redis
+Redis server v=7.0.8 sha=00000000:0 malloc=libc bits=64 build=736cb94cbb0b299
 ```
 
 ## Using Redis
