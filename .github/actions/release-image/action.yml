@@ -64,6 +64,22 @@ runs:
       uses: chainguard-dev/actions/setup-chainctl@main
       with:
         identity: ${{ inputs.chainguardIdentity }}
+    - id: cgrauth2
+      run: |
+        set +x
+        REGISTRY_HOSTNAME="$(echo ${{ inputs.apkoBaseTag }} | cut -d / -f 1)"
+        if [[ "${REGISTRY_HOSTNAME}" != "cgr.dev" ]]; then
+          echo "Target is not cgr.dev, skipping."
+          exit 0
+        fi
+        echo "Adding cgr.dev credentials to outputs."
+        CRED_HELPER_GET_RESPONSE="$(echo "cgr.dev" | docker-credential-cgr get)"
+        CGR_USER="$(echo "${CRED_HELPER_GET_RESPONSE}" | jq -r .Username)"
+        CGR_PASS="$(echo "${CRED_HELPER_GET_RESPONSE}" | jq -r .Secret)"
+        echo "::add-mask::${CGR_USER}"
+        echo "::add-mask::${CGR_PASS}"
+        echo "username=${CGR_USER}" >> $GITHUB_OUTPUT
+        echo "password=${CGR_PASS}" >> $GITHUB_OUTPUT
 
     # If publishing to GCR, setup OIDC->SA auth
     - id: gcrauth1
@@ -127,6 +143,8 @@ runs:
         stage_tags: apko.tags
         build-options: ${{ inputs.apkoBuildOptions }}
         sbom-attest: true
+        generic-user: ${{ steps.cgrauth2.outputs.username }}
+        generic-pass: ${{ steps.cgrauth2.outputs.password }}
 
     - name: Extract the digests for each architecture
       id: extract
