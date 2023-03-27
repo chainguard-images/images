@@ -185,7 +185,7 @@ runs:
         if [[ "${REGISTRY_HOSTNAME}" == "cgr.dev" ]]; then
           CRED_HELPER_GET_RESPONSE="$(echo "cgr.dev" | docker-credential-cgr get)"
           echo "$(echo "${CRED_HELPER_GET_RESPONSE}" | jq -r .Secret)" | \
-            docker login -u "$(echo "${CRED_HELPER_GET_RESPONSE}" | jq -r .Username)" --password-stdin "https://cgr.dev"
+            crane login -u "$(echo "${CRED_HELPER_GET_RESPONSE}" | jq -r .Username)" --password-stdin "cgr.dev"
         elif [[ "${REGISTRY_HOSTNAME}" == *"gcr.io" || "${REGISTRY_HOSTNAME}" == *"pkg.dev" ]]; then
           gcloud auth print-access-token | \
             docker login -u oauth2accesstoken --password-stdin "https://${REGISTRY_HOSTNAME}"
