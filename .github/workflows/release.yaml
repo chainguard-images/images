@@ -19,7 +19,7 @@ jobs:
       matrix: ${{ steps.generate-matrix.outputs.matrix }}
       matrix-unique-images: ${{ steps.generate-matrix.outputs.matrix-unique-images }}
     steps:
-    - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+    - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
     # For manual builds, build only the image requested
     - id: generate-matrix-manual
       if: ${{ github.event_name == 'workflow_dispatch' && inputs.only != '' }}
@@ -65,7 +65,7 @@ jobs:
       contents: read
       actions: read
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
       - id: release-image-inputs
         name: Add additional inputs for release-image action
         env:
@@ -74,6 +74,12 @@ jobs:
           EXTRA_INPUT_GCS_AUTH_SERVICE_ACCOUNT: ${{ secrets.GCS_AUTH_SERVICE_ACCOUNT }}
           EXTRA_INPUT_GCS_AUTH_PROJECT_ID: ${{ secrets.GCS_AUTH_PROJECT_ID }}
           EXTRA_INPUT_GCS_BUCKET_NAME: chainguard-images-build-outputs
+          # This allows chainguard-images/images to publish images to cgr.dev/chainguard
+          # We maintain this identity here:
+          # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
+          EXTRA_INPUT_CHAINGUARD_IDENTITY: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
+          # Repo to mirror all images to
+          EXTRA_INPUT_MIRROR: ghcr.io/chainguard-images
         run: |
           # convert env vars beginning with "EXTRA_INPUT_"
           # to camelcased input variables passed to next step
@@ -86,11 +92,14 @@ jobs:
             mv inputs.json.tmp inputs.json
           done
           echo "release-image-inputs=$(cat inputs.json | tr -d '\n')" >> $GITHUB_OUTPUT
-      # Sleep a random amount of time up to 2 minutes.
+      # Sleep a random amount of time up to 10 minutes.
       # This staggers our pushes, to hopefully avoid hitting rate limits.
       # See https://github.com/chainguard-images/images/issues/173
       - name: Random Sleep
-        run: sleep $(( ( RANDOM % 120 )  + 1 ))
+        run: |
+          rand=$(( ( RANDOM % 600 )  + 1 ))
+          echo "sleeping $rand seconds..."
+          sleep $rand
       - uses: ./.github/actions/release-image
         with: ${{ fromJSON(steps.release-image-inputs.outputs.release-image-inputs) }}
       - uses: ./.github/actions/policy-check-image
@@ -107,7 +116,7 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
       - id: image-summary-inputs
         name: Add additional inputs for image-summary action
         env:

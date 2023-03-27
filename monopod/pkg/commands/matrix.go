@@ -23,6 +23,7 @@ monopod matrix
 `,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			impl := &matrixImpl{
+				TestTags:      mo.TestTags,
 				ModifiedFiles: mo.ModifiedFiles,
 				MelangeMode:   mo.MelangeMode,
 				UniqueImages:  mo.UniqueImages,
@@ -35,6 +36,7 @@ monopod matrix
 }
 
 type matrixImpl struct {
+	TestTags      string
 	ModifiedFiles string
 	MelangeMode   string
 	UniqueImages  bool
@@ -47,6 +49,8 @@ type matrixResponse struct {
 type imageSummaryTagDynamic struct {
 	Package  string   `json:"package"`
 	Prefix   string   `json:"prefix"`
+	Suffix   string   `json:"suffix"`
+	Exclude  []string `json:"exclude"`
 	Resolved []string `json:"resolved"`
 }
 
@@ -63,7 +67,11 @@ type imageSummary struct {
 }
 
 func (i *matrixImpl) Do() error {
-	allImages, err := images.ListAll()
+	testTags := []string{}
+	if i.TestTags != "" {
+		testTags = strings.Split(i.TestTags, "")
+	}
+	allImages, err := images.ListAll(images.WithTestTags(testTags))
 	if err != nil {
 		return err
 	}
@@ -119,16 +127,25 @@ func (i *matrixImpl) Do() error {
 			if image.ApkoAdditionalTags != "" {
 				static = strings.Split(image.ApkoAdditionalTags, ",")
 			}
+			exclude := []string{}
+			for _, x := range strings.Split(image.ExcludeTags, ",") {
+				t := image.ApkoPackageVersionTagPrefix + x + image.ApkoTargetTagSuffix
+				if t != "" && t != image.ApkoTargetTagSuffix {
+					exclude = append(exclude, t)
+				}
+			}
 			uniqueTags[image.ImageName] = append(uniqueTags[image.ImageName], imageSummaryTag{
 				Primary: image.ApkoTargetTag,
 				Static:  static,
 				Dynamic: imageSummaryTagDynamic{
 					Package:  image.ApkoPackageVersionTag,
 					Prefix:   image.ApkoPackageVersionTagPrefix,
+					Suffix:   image.ApkoTargetTagSuffix,
+					Exclude:  exclude,
 					Resolved: []string{},
 				},
 			})
-			uniqueRef[image.ImageName] = strings.Replace(image.ApkoBaseTag, constants.DefaultRegistry, constants.DefaultRegistryFrontend, 1)
+			uniqueRef[image.ImageName] = image.ApkoBaseTag
 			uniqueStatus[image.ImageName] = image.ImageStatus
 		}
 		keys := []string{}

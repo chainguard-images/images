@@ -1,16 +1,38 @@
 versions:
   - apko:
+      config: configs/3.10.apko.yaml
       extractTagsFrom:
         package: python-3.10
         exclude:
           - 3
-      config: configs/3.10.apko.yaml
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
+            - python-3-10-dev
   - apko:
-      extractTagsFrom:
-        package: python-3.11
       config: configs/latest.apko.yaml
-  - apko:
       extractTagsFrom:
         package: python-3.11
-        prefix: dev-
-      config: configs/latest-dev.apko.yaml
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
+            - python-3-11-dev
+
+# Options specific to this image
+options:
+  python-3-10-dev:
+    contents:
+      packages:
+        add:
+          - build-base
+          - py3.10-pip
+          - python-3.10-dev
+  python-3-11-dev:
+    contents:
+      packages:
+        add:
+          - build-base
+          - py3.11-pip
+          - python-3.11-dev

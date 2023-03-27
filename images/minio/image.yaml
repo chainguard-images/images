@@ -1,0 +1,10 @@
+status: experimental
+versions:
+  - apko:
+      config: configs/latest.apko.yaml
+      extractTagsFrom:
+        package: minio
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev

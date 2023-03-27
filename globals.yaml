@@ -1,0 +1,10 @@
+# Global options passed for every build (to enable "dev" variants etc.)
+options:
+  dev:
+    contents:
+      packages:
+        add:
+          - apk-tools
+          - bash
+          - busybox
+          - git
