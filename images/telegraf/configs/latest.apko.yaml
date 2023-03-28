@@ -1,0 +1,31 @@
+contents:
+  repositories:
+    - https://packages.wolfi.dev/os
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  packages:
+    - ca-certificates-bundle
+    - wolfi-baselayout
+    - telegraf
+
+accounts:
+  groups:
+    - groupname: telegraf
+      gid: 65532
+  users:
+    - username: telegraf
+      uid: 65532
+  run-as: telegraf
+  recursive: true
+
+entrypoint:
+  command: /usr/bin/telegraf
+
+archs:
+  - x86_64
+  - aarch64
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/telegraf/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/telegraf

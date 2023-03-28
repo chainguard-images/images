@@ -11,9 +11,7 @@ const (
 	DefaultTestScriptFilename = "test.sh"
 	DefaultTestDirname        = "tests"
 
-	DefaultRegistry = "ghcr.io/chainguard-images"
-
-	DefaultRegistryFrontend = "cgr.dev/chainguard"
+	DefaultRegistry = "cgr.dev/chainguard"
 
 	DefaultApkoKeyringAppend = "/github/workspace/melange.rsa.pub"
 
