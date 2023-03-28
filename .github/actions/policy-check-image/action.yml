@@ -52,7 +52,7 @@ runs:
         REF="${BASE_TAG}:${{ inputs.apkoTargetTag }}"
 
         # First check the policy against the image index
-        for policy in `find policies -name '*.yaml'`; do
+        for policy in `find policies -name '*.yaml' | sort`; do
           echo "Checking image index against ${policy} ..."
           /tmp/policy-tester \
             --policy "${policy}" \
@@ -64,7 +64,7 @@ runs:
           arch="$(echo "${combo}" | cut -d "_" -f1)"
           digest="$(echo "${combo}" | cut -d "_" -f2)"
           arch_ref="${BASE_TAG}@${digest}"
-          for policy in `find policies -name '*.yaml'`; do
+          for policy in `find policies -name '*.yaml' | sort`; do
             echo "Checking image manifest (${arch}) against ${policy} ..."
             /tmp/policy-tester \
               --policy "${policy}" \
