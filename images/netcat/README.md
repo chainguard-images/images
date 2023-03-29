@@ -24,7 +24,7 @@ docker pull cgr.dev/chainguard/netcat:latest
 ## Usage
 
 ```
-docker run --rm -ti ghcr.io/chainguard/netcat -zv google.com 443
+docker run --rm -ti cgr.dev/chainguard/netcat -zv google.com 443
 ```
 
 See [here](https://manpages.debian.org/unstable/netcat-openbsd/nc.1.en.html) for more invocation details.
