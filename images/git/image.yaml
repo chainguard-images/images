@@ -5,11 +5,10 @@ versions:
         package: git
       tags:
         - latest-nonroot
-  - apko:
-      config: configs/latest-root.apko.yaml
-      extractTagsFrom:
-        package: git
-        prefix: root-
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
   - apko:
       config: configs/latest-glibc.apko.yaml
       extractTagsFrom:
@@ -17,6 +16,16 @@ versions:
         prefix: glibc-
       tags:
         - latest-glibc-nonroot
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
+
+  - apko:
+      config: configs/latest-root.apko.yaml
+      extractTagsFrom:
+        package: git
+        prefix: root-
   - apko:
       config: configs/latest-glibc-root.apko.yaml
       extractTagsFrom:
