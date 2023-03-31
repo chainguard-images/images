@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -o errexit -o nounset -o errtrace -o pipefail -x
+
+IMAGE_DIR="$(basename "$(cd "$(dirname ${BASH_SOURCE[0]})/.." && pwd )")"
+IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/${IMAGE_DIR}:latest"}
+
+# We want nginx to shutdown gracefully. It should get the SIGQUIT signal.
+LOGFILE=$(mktemp)
+ID=$(docker run --rm -d $IMAGE_NAME)
+docker attach $ID 2> $LOGFILE &
+sleep 5
+docker stop $ID 
+grep "SIGQUIT" $LOGFILE
+grep "gracefully shutting down" $LOGFILE 
