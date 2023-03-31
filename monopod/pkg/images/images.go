@@ -36,12 +36,14 @@ type Image struct {
 	TestCommandExe              string `json:"testCommandExe"`
 	TestCommandDir              string `json:"testCommandDir"`
 	ExcludeTags                 string `json:"excludeTags"`
+	ExcludeContact              bool   `json:"-"`
 }
 
 type ImageManifest struct {
-	Ref      string                 `yaml:"ref"`
-	Status   string                 `yaml:"status"`
-	Variants []ImageManifestVariant `yaml:"versions"`
+	Ref            string                 `yaml:"ref"`
+	Status         string                 `yaml:"status"`
+	ExcludeContact bool                   `yaml:"excludeContact"`
+	Variants       []ImageManifestVariant `yaml:"versions"`
 }
 
 type ImageManifestVariant struct {
@@ -51,6 +53,7 @@ type ImageManifestVariant struct {
 
 type ImageManifestVariantApko struct {
 	Config          string                                  `yaml:"config"`
+	Options         []string                                `yaml:"options"`
 	ExtractTagsFrom ImageManifestVariantApkoExtractTagsFrom `yaml:"extractTagsFrom"`
 	Tags            []string                                `yaml:"tags"`
 	Subvariants     []ImageManifestVariantApkoSubvariant    `yaml:"subvariants"`
@@ -127,6 +130,7 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 		if imageStatus == "" {
 			imageStatus = constants.DefaultImageStatus
 		}
+		imageExcludeContact := m.ExcludeContact
 		variants := []variantIterator{}
 		for _, variant := range m.Variants {
 			variants = append(variants, variantIterator{
@@ -146,11 +150,15 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 			apkoTargetTag := strings.Replace(filepath.Base(apkoConfig), constants.ApkoYamlFileExtension, "", 1)
 			apkoAdditionalTags := strings.Join(variant.Apko.Tags, ",")
 			apkoTargetTagSuffix := ""
-			apkoBuildOptions := ""
+			apkoBuildOptions := strings.Join(iterator.Variant.Apko.Options, ",")
 			if subvariant.Suffix != "" {
 				apkoTargetTag = apkoTargetTag + subvariant.Suffix
 				apkoTargetTagSuffix = subvariant.Suffix
-				apkoBuildOptions = strings.Join(subvariant.Options, ",")
+				if apkoBuildOptions != "" {
+					apkoBuildOptions = strings.Join([]string{apkoBuildOptions, strings.Join(subvariant.Options, ",")}, ",")
+				} else {
+					apkoBuildOptions = strings.Join(subvariant.Options, ",")
+				}
 			}
 
 			// Ensure that we dont have duplicate entries for any image/variant combo
@@ -278,6 +286,7 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 				TestCommandExe:              testCommandExe,
 				TestCommandDir:              testCommandDir,
 				ExcludeTags:                 strings.Join(variant.Apko.ExtractTagsFrom.Exclude, ","),
+				ExcludeContact:              imageExcludeContact,
 			}
 			allImages = append(allImages, i)
 		}
