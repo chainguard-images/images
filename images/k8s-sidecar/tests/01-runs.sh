@@ -7,4 +7,4 @@ IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/${IMAGE_DIR}:latest"}
 
 # The image needs to be in a cluster to run, so we'll look for the right error message.
 set +o pipefail
-docker run --rm "${IMAGE_NAME}" 2>&1 | grep "Starting collector
+docker run --rm "${IMAGE_NAME}" 2>&1 | grep "Starting collector"
