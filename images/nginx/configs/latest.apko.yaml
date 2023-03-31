@@ -50,7 +50,9 @@ paths:
     recursive: true
 
 entrypoint:
-    command: /usr/sbin/nginx -c /etc/nginx/nginx.conf -g "daemon off;"
+    command: /usr/sbin/nginx 
+
+cmd: -c /etc/nginx/nginx.conf -g "daemon off;"
 
 stop-signal: SIGQUIT
 
