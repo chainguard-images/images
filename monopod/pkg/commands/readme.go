@@ -79,10 +79,12 @@ func (i *readmeImpl) check() error {
 	}
 
 	imageToStatusMap := map[string]string{}
+	imageToExcludeContactMap := map[string]bool{}
 	imageToReferenceMap := map[string]string{}
 	imageToVariantMap := map[string][]string{}
 	for _, image := range allImages {
 		imageToStatusMap[image.ImageName] = image.ImageStatus
+		imageToExcludeContactMap[image.ImageName] = image.ExcludeContact
 		imageToReferenceMap[image.ImageName] = fmt.Sprintf("`%s`", image.ApkoBaseTag)
 		variant := fmt.Sprintf("`%s`", image.ApkoTargetTag)
 		if image.ApkoAdditionalTags != "" {
@@ -106,8 +108,10 @@ func (i *readmeImpl) check() error {
 		readmeInsert := fmt.Sprintf("# %s\n| | |\n| - | - |\n", k)
 		readmeInsert += fmt.Sprintf("| **Status** | %s |\n", imageToStatusMap[k])
 		readmeInsert += fmt.Sprintf("| **OCI Reference** | %s |\n", imageToReferenceMap[k])
-		readmeInsert += fmt.Sprintf("| **Variants/Tags** | %s |\n", fmt.Sprintf("![](%s/%s.svg)", i.SummaryRootUrl, k))
-		readmeInsert += "\n*[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*\n\n"
+		readmeInsert += fmt.Sprintf("| **Variants/Tags** | %s |\n\n", fmt.Sprintf("![](%s/%s.svg)", i.SummaryRootUrl, k))
+		if !imageToExcludeContactMap[k] {
+			readmeInsert += "*[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*\n\n"
+		}
 		readmeInsert += "---"
 
 		filename := path.Join(constants.ImagesDirName, k, "README.md")
@@ -157,10 +161,12 @@ func (i *readmeImpl) fixAllReadmes() error {
 
 	// Individual image README.md files
 	imageToStatusMap := map[string]string{}
+	imageToExcludeContactMap := map[string]bool{}
 	imageToReferenceMap := map[string]string{}
 	imageToVariantMap := map[string][]string{}
 	for _, image := range allImages {
 		imageToStatusMap[image.ImageName] = image.ImageStatus
+		imageToExcludeContactMap[image.ImageName] = image.ExcludeContact
 		imageToReferenceMap[image.ImageName] = fmt.Sprintf("`%s`", image.ApkoBaseTag)
 		variant := fmt.Sprintf("`%s`", image.ApkoTargetTag)
 		if image.ApkoAdditionalTags != "" {
@@ -184,11 +190,12 @@ func (i *readmeImpl) fixAllReadmes() error {
 		readmeInsert := fmt.Sprintf("# %s\n| | |\n| - | - |\n", k)
 		readmeInsert += fmt.Sprintf("| **Status** | %s |\n", imageToStatusMap[k])
 		readmeInsert += fmt.Sprintf("| **OCI Reference** | %s |\n", imageToReferenceMap[k])
-		readmeInsert += fmt.Sprintf("| **Variants/Tags** | %s |\n", fmt.Sprintf("![](%s/%s.svg)", i.SummaryRootUrl, k))
-		readmeInsert += "\n*[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*\n\n"
+		readmeInsert += fmt.Sprintf("| **Variants/Tags** | %s |\n\n", fmt.Sprintf("![](%s/%s.svg)", i.SummaryRootUrl, k))
+		if !imageToExcludeContactMap[k] {
+			readmeInsert += "*[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*\n\n"
+		}
 		readmeInsert += "---"
 		padded := fmt.Sprintf("%s\n%s\n%s\n", constants.ImageReadmeGenStartComment, readmeInsert, constants.ImageReadmeGenEndComment)
-
 		filename := path.Join(constants.ImagesDirName, k, "README.md")
 		existingContent, err := os.ReadFile(filename)
 		if err != nil {
