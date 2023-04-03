@@ -4,3 +4,14 @@ versions:
       config: configs/latest.apko.yaml
       extractTagsFrom:
         package: rust
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
+            - rust-dev
+options:
+  rust-dev:
+    contents:
+      packages:
+        add:
+          - rustup
