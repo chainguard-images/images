@@ -48,10 +48,13 @@ paths:
     type: directory
     permissions: 0o755
     recursive: true
+
 entrypoint:
-  type: service-bundle
-  services:
-    nginx: /usr/sbin/nginx -c /etc/nginx/nginx.conf -g "daemon off;"
+    command: /usr/sbin/nginx 
+
+cmd: -c /etc/nginx/nginx.conf -g "daemon off;"
+
+stop-signal: SIGQUIT
 
 archs:
   - x86_64

@@ -1,0 +1,19 @@
+on:
+  workflow_dispatch:
+
+jobs:
+  withdraw:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
+      - uses: chainguard-dev/actions/setup-chainctl@main
+        with:
+          identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
+      - uses: imjasonh/setup-crane@v0.3
+      - run: |
+          for img in $(grep -v '\#' withdrawn-images.txt); do
+            echo "DRY RUN: crane delete $img || true"
+          done

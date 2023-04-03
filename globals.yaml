@@ -8,3 +8,8 @@ options:
           - bash
           - busybox
           - git
+  chainguard:
+    contents:
+      packages:
+        add:
+          - chainguard-baselayout
