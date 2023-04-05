@@ -5,6 +5,7 @@ contents:
     - https://packages.wolfi.dev/os
   packages:
     - memcached
+    - wolfi-baselayout
 
 accounts:
   groups:

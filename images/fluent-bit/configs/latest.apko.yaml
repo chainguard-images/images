@@ -4,8 +4,8 @@ contents:
   keyring:
     - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
-    - wolfi-baselayout
     - fluent-bit
+    - wolfi-baselayout
 
 accounts:
   groups:

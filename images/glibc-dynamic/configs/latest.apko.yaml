@@ -6,6 +6,7 @@ contents:
   packages:
     - ca-certificates-bundle
     - glibc
+    - wolfi-baselayout
 
 archs:
 - x86_64

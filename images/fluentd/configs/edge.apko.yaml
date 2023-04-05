@@ -5,9 +5,9 @@ contents:
     - https://packages.wolfi.dev/os
   packages:
     - glibc
-    - wolfi-baselayout
     - ca-certificates-bundle
     - ruby3.2-fluentd15
+    - wolfi-baselayout
 
 entrypoint:
   type: service-bundle

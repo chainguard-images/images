@@ -9,6 +9,7 @@ contents:
     - dotnet-7-sdk
     - aspnet-7-runtime
     - aspnet-7-targeting-pack
+    - wolfi-baselayout
 
 accounts:
   groups:

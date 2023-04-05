@@ -4,9 +4,9 @@ contents:
   repositories:
     - https://packages.wolfi.dev/os
   packages:
-    - wolfi-baselayout
     - ca-certificates-bundle
     - ruby3.2-fluentd14
+    - wolfi-baselayout
 
 entrypoint:
   type: service-bundle

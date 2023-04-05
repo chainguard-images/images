@@ -5,10 +5,10 @@ contents:
     - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
     - ca-certificates-bundle
-    - wolfi-baselayout
     - glibc-locale-en
     - busybox
     - gradle-8
+    - wolfi-baselayout
 
 accounts:
   groups:
