@@ -8,9 +8,9 @@ jobs:
     steps:
     - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
     - id: files
-      uses: jitterbit/get-changed-files@b17fbb00bdc0c0f63fcf166580804b4d2cdc2a42 # v1
+      uses: tj-actions/changed-files@79adacd43ea069e57037edc891ea8d33013bc3da # v35.7.11
       with:
-        format: csv
+        separator: ','
     - id: generate-matrix
       uses: ./.github/actions/generate-matrix
       with:

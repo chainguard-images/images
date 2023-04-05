@@ -33,9 +33,9 @@ jobs:
     # On push to main branch, only build images necessary
     - id: files
       if: ${{ github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' }}
-      uses: jitterbit/get-changed-files@b17fbb00bdc0c0f63fcf166580804b4d2cdc2a42 # v1
+      uses: tj-actions/changed-files@79adacd43ea069e57037edc891ea8d33013bc3da # v35.7.11
       with:
-        format: csv
+        separator: ','
     - id: generate-matrix-main
       if: ${{ github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' }}
       uses: ./.github/actions/generate-matrix
