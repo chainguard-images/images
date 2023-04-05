@@ -4,8 +4,10 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-IMAGE_DIR="$(basename "$(cd "$(dirname ${BASH_SOURCE[0]})/.." && pwd )")"
-IMAGE_NAME=${IMAGE_NAME:-"registry.local:5000/${IMAGE_DIR}:latest"}
+if [[ "${IMAGE_NAME}" == "" ]]; then
+    echo "Must set IMAGE_NAME environment variable. Exiting."
+    exit 1
+fi
 
 IMAGE_REPOSITORY="$(echo "${IMAGE_NAME}" | cut -d: -f1)"
 IMAGE_TAG="$(echo "${IMAGE_NAME}" | cut -d: -f2)"
