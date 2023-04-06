@@ -5,11 +5,11 @@ contents:
     - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
     - ca-certificates-bundle
-    - wolfi-baselayout
     - su-exec
     - envoy
     - envoy-oci-entrypoint
     - envoy-config
+    - wolfi-baselayout
 
 accounts:
   groups:

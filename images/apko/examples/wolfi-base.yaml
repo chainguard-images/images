@@ -3,6 +3,7 @@ contents:
     - https://packages.wolfi.dev/os
   packages:
     - wolfi-base
+    - wolfi-baselayout
 
 cmd: /bin/sh -l
   

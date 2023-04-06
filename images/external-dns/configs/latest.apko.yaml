@@ -5,8 +5,8 @@ contents:
     - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
     - ca-certificates-bundle
-    - wolfi-baselayout
     - external-dns
+    - wolfi-baselayout
 
 accounts:
   groups:

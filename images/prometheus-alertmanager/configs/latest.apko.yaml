@@ -8,6 +8,7 @@ contents:
     - wolfi-base
     - ca-certificates-bundle
     - busybox
+    - wolfi-baselayout
 paths:
   - path: /alertmanager
     type: directory

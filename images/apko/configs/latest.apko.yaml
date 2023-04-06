@@ -8,6 +8,7 @@ contents:
     - wolfi-base
     - alpine-keys
     - apko
+    - wolfi-baselayout
 
 paths:
   - path: /work

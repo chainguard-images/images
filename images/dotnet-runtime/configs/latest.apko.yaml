@@ -6,6 +6,7 @@ contents:
   packages:
     - dotnet-7
     - dotnet-7-runtime
+    - wolfi-baselayout
 
 accounts:
   groups:

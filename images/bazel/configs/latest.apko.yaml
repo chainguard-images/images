@@ -5,13 +5,13 @@ contents:
     - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
     - ca-certificates-bundle
-    - wolfi-baselayout
     - openjdk-17
     - bash
     - busybox
     - gcc
     - git
     - bazel-6
+    - wolfi-baselayout
 
 accounts:
   groups:
