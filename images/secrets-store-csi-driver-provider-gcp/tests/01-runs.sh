@@ -2,8 +2,10 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-IMAGE_DIR="$(basename "$(cd "$(dirname ${BASH_SOURCE[0]})/.." && pwd )")"
-IMAGE_NAME=${IMAGE_NAME:-"cgr.dev/chainguard/${IMAGE_DIR}:latest"}
+if [[ "${IMAGE_NAME}" == "" ]]; then
+    echo "Must set IMAGE_NAME environment variable. Exiting."
+    exit 1
+fi
 
 # Help exits with 1 for some reason, so disable pipefail
 set +o pipefail
