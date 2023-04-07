@@ -10,10 +10,6 @@ contents:
     - go
     - ko
 
-archs:
-- amd64
-- arm64
-
 accounts:
   groups:
     - groupname: nonroot
@@ -26,3 +22,7 @@ accounts:
 
 entrypoint:
   command: /usr/bin/ko
+
+archs:
+  - x86_64
+  - aarch64
