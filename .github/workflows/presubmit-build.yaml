@@ -14,7 +14,7 @@ jobs:
     - id: generate-matrix
       uses: ./.github/actions/generate-matrix
       with:
-        modified-files: ${{ steps.files.outputs.all }}
+        modified-files: ${{ steps.files.outputs.all_changed_files }}
         melange-mode: none
   presubmit-build:
     runs-on: ubuntu-latest
