@@ -6,6 +6,7 @@ contents:
   packages:
     - ca-certificates-bundle
     - wolfi-baselayout
+    - glibc-locale-en
     - busybox
     - postgresql-15
     - postgresql-15-client
