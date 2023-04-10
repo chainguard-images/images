@@ -33,7 +33,7 @@ The web browser can be viewed locally over that port by mapping that in with `-p
 To test:
 
 ```shell
-% docker run cgr.dev/chainguard/prometheus:latest -p 9090:9090 --config.file=/etc/prometheus/prometheus.yml
+% docker run -p 9090:9090 cgr.dev/chainguard/prometheus:latest --config.file=/etc/prometheus/prometheus.yml
 ts=2022-12-27T02:32:45.181Z caller=main.go:512 level=info msg="No time or size retention was set so using the default time retention" duration=15d
 ts=2022-12-27T02:32:45.181Z caller=main.go:556 level=info msg="Starting Prometheus Server" mode=server version="(version=2.41.0, branch=master, revision=WolfiLinux)"
 ts=2022-12-27T02:32:45.181Z caller=main.go:561 level=info build_context="(go=go1.19.4, platform=linux/arm64, user=@dag-wfjfq, date=19700101-00:00:00)"
