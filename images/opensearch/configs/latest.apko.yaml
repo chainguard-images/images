@@ -24,6 +24,7 @@ environment:
 
 entrypoint:
   command: /usr/bin/docker-entrypoint.sh
+cmd: opensearchwrapper
 
 archs:
   - x86_64
