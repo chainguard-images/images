@@ -1,0 +1,32 @@
+contents:
+  repositories:
+    - https://packages.wolfi.dev/os
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  packages:
+    - ca-certificates-bundle
+    - wolfi-baselayout
+    - google-cloud-sdk
+    - apk-tools
+    - busybox
+
+accounts:
+  groups:
+    - groupname: gcloud
+      gid: 65532
+  users:
+    - username: gcloud
+      uid: 65532
+  run-as: gcloud
+  recursive: true
+
+cmd: /usr/bin/gcloud
+
+archs:
+  - x86_64
+  - aarch64
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/google-cloud-sdk/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/google-cloud-sdk
