@@ -11,7 +11,7 @@
 ---
 <!--monopod:end-->
 
-[RabbitMQ](https://github.com/traefik/traefik) Traefik is a cloud native application proxy.
+[Traefik](https://github.com/traefik/traefik) is a cloud native application proxy.
 
 ## Get It!
 
