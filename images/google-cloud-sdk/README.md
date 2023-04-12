@@ -28,7 +28,7 @@ The Chainguard Google Cloud SDK image contains the `google-cloud-sdk` tools, inc
 The default command is `gcloud`.
 
 ```shell
-$  docker run  cgr.dev/chainguard/google-cloud-sdk:latest-arm64
+$  docker run  cgr.dev/chainguard/google-cloud-sdk:latest
 ERROR: (gcloud) Command name argument expected.
 
 Available command groups for gcloud:
@@ -56,7 +56,7 @@ Available command groups for gcloud:
 You can also use `gsutil` or `bq`:
 
 ```shell
-$ docker run  cgr.dev/chainguard/google-cloud-sdk:latest-arm64 gsutil
+$ docker run  cgr.dev/chainguard/google-cloud-sdk:latest gsutil
 Usage: gsutil [-D] [-DD] [-h header]... [-i service_account] [-m] [-o section:flag=value]... [-q] [-u user_project] [command [opts...] args...]
 Available commands:
   acl              Get, set, or change bucket and/or object ACLs
@@ -81,7 +81,7 @@ Available commands:
   ```
 
   ```shell
-$ docker run  cgr.dev/chainguard/google-cloud-sdk bq
+$ docker run  cgr.dev/chainguard/google-cloud-sdk:latest bq
 /usr/share/google-cloud-sdk/platform/bq/bq.py:18: DeprecationWarning: 'pipes' is deprecated and slated for removal in Python 3.13
   import pipes
 Python script for interacting with BigQuery.
