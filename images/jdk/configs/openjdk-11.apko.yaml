@@ -9,6 +9,7 @@ contents:
     - glibc-locale-en
     - busybox
     - openjdk-11
+    - libstdc++
 
 accounts:
   groups:
