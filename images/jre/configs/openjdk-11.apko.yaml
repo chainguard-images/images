@@ -8,6 +8,7 @@ contents:
     - wolfi-baselayout
     - glibc-locale-en
     - openjdk-11-jre
+    - libstdc++
 
 accounts:
   groups:
