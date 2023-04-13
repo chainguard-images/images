@@ -9,10 +9,11 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
     exit 1
 fi
 
-kubectl run $IMAGE_NAME-smoketest --immage=${IMAGE_NAME}
-kubectl wait --for=condition=ready pod $IMAGE_NAME-smoketest
+kubectl run kube-state-metrics-smoketest --image=${IMAGE_NAME}
+kubectl wait --for=condition=ready pod kube-state-metrics-smoketest
 
-kubectl port-forward pod/$IMAGE_NAME-smoketest 8080:8080 &
+kubectl port-forward pod/kube-state-metrics-smoketest 8080:8080 &
 pid=$!
 trap "kill $pid" EXIT
+sleep 5
 curl localhost:8080/metrics | grep kube
