@@ -25,6 +25,7 @@ paths:
 
 entrypoint:
   command: /usr/bin/fluent-bit
+cmd: -c /fluent-bit/etc/fluent-bit.conf
 
 archs:
   - x86_64
