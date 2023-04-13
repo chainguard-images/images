@@ -47,7 +47,10 @@ jobs:
       - name: Run k8s tests
         run: |
           set -x
-          export IMAGE_NAME="registry.local:5000/${{ matrix.imageName }}:${{ matrix.apkoTargetTag }}"
+          export IMAGE_REGISTRY="registry.local:5000"
+          export IMAGE_REPOSITORY="${{ matrix.imageName }}"
+          export IMAGE_TAG="${{ matrix.apkoTargetTag }}"
+          export IMAGE_NAME="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}"
           export IMAGE_TAG_SUFFIX="${{ matrix.apkoTargetTagSuffix }}"
           cd "${{ matrix.testCommandDir }}"
           ${{ matrix.testCommandExe }}
