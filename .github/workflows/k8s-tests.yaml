@@ -18,7 +18,7 @@ jobs:
     outputs:
       matrix: ${{ steps.generate-matrix.outputs.matrix }}
     steps:
-    - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
+    - uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.4.0
     - id: generate-matrix-with-inputs
       if: ${{ inputs.only != '' }}
       uses: ./.github/actions/generate-matrix
@@ -44,7 +44,7 @@ jobs:
       fail-fast: false
       matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
     steps:
-      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f # v3.4.0
+      - uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.4.0
       - uses: chainguard-dev/actions/setup-kind@main
         with:
           k8s-version: v1.24.x
