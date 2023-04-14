@@ -10,7 +10,7 @@ jobs:
     outputs:
       matrix: ${{ steps.generate-matrix.outputs.matrix }}
     steps:
-    - uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.5.1
+    - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
     - id: generate-matrix
       uses: ./.github/actions/generate-matrix
   policy-check-image:
@@ -22,7 +22,7 @@ jobs:
     permissions:
       actions: read
     steps:
-      - uses: actions/checkout@83b7061638ee4956cf7545a6f7efe594e5ad0247 # v3.5.1
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
       - id: policy-check-image-inputs
         name: Add additional inputs for policy-check-image action
         env:
