@@ -2,8 +2,6 @@ name: New Chainguard Images Request
 description: Use this form to request a new kind of [Chainguard Image](github.com/chainguard-images/)
 title: "[Image Request]: $IMAGE_NAME"
 labels: [ "image-request", "needs-triage" ]
-assignees:
-  - amouat
 body:
   - type: textarea
     id: image-description
