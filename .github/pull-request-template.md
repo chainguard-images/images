@@ -16,6 +16,8 @@ Related:
 ### Pre-review Checklist
 
 <!--
+PLEASE REMOVE THE CHECKLIST ITEMS OR THE ENTIRE CHECKLIST IF THEY DON'T APPLY.
+
 This checklist is mostly useful as a reminder of small things that can easily be
 forgotten – it is meant as a helpful tool rather than hoops to jump through.
 
@@ -32,7 +34,7 @@ addressed, and remove any items that are not relevant to this PR.
 
 If you have an apko.yaml file in this PR you need to follow this checklist, otherwise feel free to remove.
 - [ ] Image is marked experimental or stable as appropriate
-- [ ] The last two minor versions are available
+- [ ] The version included is the latest GA version of the software
 - [ ] The latest tag points to the newest stable version
 - [ ] There is a dev tag available that includes a shell and apk tools (by depending on 'wolfi-base')
 - [ ] The image runs as `nonroot` and GID/UID are set to 65532
