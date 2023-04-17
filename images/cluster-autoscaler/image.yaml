@@ -1,9 +1,8 @@
-status: experimental
 versions:
   - apko:
       config: configs/latest.apko.yaml
       extractTagsFrom:
-        package: etcd
+        package: cluster-autoscaler
       subvariants:
         - suffix: -dev
           options:
