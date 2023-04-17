@@ -11,7 +11,9 @@ CRANE_IMAGE_NAME=${CRANE_IMAGE_NAME:-"cgr.dev/chainguard/crane:latest"}
 CRANE_CP_IMAGE_NAME=${CRANE_CP_IMAGE_NAME:-"cgr.dev/chainguard/wolfi-base:latest"}
 CONTAINER_NAME=${CONTAINER_NAME:-"zot-test-$(date +%s)"}
 
-trap "rm -rf zot-config.yaml data && docker logs ${CONTAINER_NAME} && docker rm -f ${CONTAINER_NAME}" EXIT
+# "sudo" possibly needed in github actions due to permissions issues
+trap "rm -rf zot-config.yaml && (rm -rf data || sudo rm -rf data) && \
+  docker logs ${CONTAINER_NAME} && docker rm -f ${CONTAINER_NAME}" EXIT
 
 cat <<EOF > zot-config.yaml
 distspecversion: 1.1.0-dev
