@@ -7,5 +7,5 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
     exit 1
 fi
 
-docker run --rm "${IMAGE_NAME}" ruby -v
-docker run --rm "${IMAGE_NAME}" irb -v
+docker run --rm "${IMAGE_NAME}"
+docker run --rm --entrypoint irb "${IMAGE_NAME}" -v
