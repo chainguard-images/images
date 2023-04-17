@@ -3,7 +3,7 @@ versions:
   - apko:
       config: configs/latest.apko.yaml
       extractTagsFrom:
-        package: etcd
+        package: influxd
       subvariants:
         - suffix: -dev
           options:
