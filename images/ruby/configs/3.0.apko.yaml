@@ -25,7 +25,9 @@ paths:
 
 work-dir: /work
 
-cmd: /usr/bin/irb
+entrypoint:
+  command: /usr/bin/ruby
+cmd: --version
 
 archs:
 - x86_64
