@@ -2,7 +2,7 @@ versions:
   - apko:
       config: configs/latest.apko.yaml
       extractTagsFrom:
-        package: openjdk-17
+        package: openjdk-17-jre
         prefix: openjdk
       tags:
         - openjdk-17 # TODO: deprecate this old tag
@@ -13,7 +13,7 @@ versions:
   - apko:
       config: configs/openjdk-11.apko.yaml
       extractTagsFrom:
-        package: openjdk-11
+        package: openjdk-11-jre
         prefix: openjdk
       tags:
         - openjdk-11 # TODO: deprecate this old tag
