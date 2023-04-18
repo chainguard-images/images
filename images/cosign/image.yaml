@@ -3,3 +3,7 @@ versions:
       config: configs/latest.apko.yaml
       extractTagsFrom:
         package: cosign
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
