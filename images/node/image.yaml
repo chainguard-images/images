@@ -10,4 +10,4 @@ versions:
   - apko:
       config: configs/20.apko.yaml
       extractTagsFrom:
-        package: nodejs-19
+        package: nodejs-20
