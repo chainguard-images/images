@@ -18,15 +18,27 @@ trap "rm -rf ${TMPDIR} && \
 cd "${TMPDIR}"
 
 # Ensure fresh helm cache etc.
-export XDG_CACHE_HOME="${PWD}/home/.cache"
-export XDG_CONFIG_HOME="${PWD}/home/.config"
-export XDG_DATA_HOME="${PWD}/home/.local/share"
-mkdir -p "${XDG_CACHE_HOME}" "${XDG_CONFIG_HOME}" "${XDG_DATA_HOME}"
+HELM_XDG_CACHE_HOME="${PWD}/home/.cache"
+HELM_XDG_CONFIG_HOME="${PWD}/home/.config"
+HELM_XDG_DATA_HOME="${PWD}/home/.local/share"
+mkdir -p "${HELM_XDG_CACHE_HOME}" "${HELM_XDG_CONFIG_HOME}" "${HELM_XDG_DATA_HOME}"
+
+# The XDG config vars will mess with docker auth, so create custom helm env
+function set_helm_env {
+  export XDG_CACHE_HOME="${HELM_XDG_CACHE_HOME}"
+  export XDG_CONFIG_HOME="${HELM_XDG_CONFIG_HOME}"
+  export XDG_DATA_HOME="${HELM_XDG_CONFIG_HOME}"
+}
+function unset_helm_env {
+  unset XDG_CACHE_HOME
+  unset XDG_CONFIG_HOME
+  unset XDG_DATA_HOME
+}
 
 # Create and package a helm chart
-helm create smoketest
+set_helm_env && helm create smoketest && unset_helm_env
 mkdir -p charts
-helm package smoketest -d charts
+set_helm_env && helm package smoketest -d charts && unset_helm_env
 
 # Start the chartmuseum server, grab container IP
 docker run -d --name "${CONTAINER_NAME}" \
@@ -34,7 +46,7 @@ docker run -d --name "${CONTAINER_NAME}" \
 sleep 2
 
 # Try adding the running chartmuseum server as a helm repo
-helm repo add chartmuseum http://localhost:8080
+set_helm_env && helm repo add chartmuseum http://localhost:8080 && unset_helm_env
 
 # Make sure we can find the smoketest package
-helm search repo | grep 'chartmuseum/smoketest'
+set_helm_env && helm search repo | grep 'chartmuseum/smoketest' && unset_helm_env
