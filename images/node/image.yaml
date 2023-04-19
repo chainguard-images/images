@@ -3,11 +3,35 @@ versions:
       extractTagsFrom:
         package: nodejs-18
       config: configs/latest.apko.yaml
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
+            - node-dev
   - apko:
       config: configs/19.apko.yaml
       extractTagsFrom:
         package: nodejs-19
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
+            - node-dev
   - apko:
       config: configs/20.apko.yaml
       extractTagsFrom:
         package: nodejs-20
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
+            - node-dev
+
+options:
+  node-dev:
+    contents:
+      packages:
+        add:
+          - yarn
+          - gcc
+          - python-3.11
