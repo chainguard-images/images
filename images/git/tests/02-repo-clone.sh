@@ -7,7 +7,7 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
     exit 1
 fi
 
-CLONE_URL=${CLONE_URL:-"https://github.com/chainguard-images/git.git"}
+CLONE_URL=${CLONE_URL:-"https://github.com/chainguard-images/.github.git"}
 
 CLONEDIR="$(mktemp -d)"
 chmod go+wrx "${CLONEDIR}"
