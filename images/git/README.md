@@ -64,19 +64,19 @@ chmod go+wrx ~/workspace
 Now you can use `docker run` to execute the clone command, using the directory you just set up as a volume share between your local machine and the container image on `/home/git`.
 
 ```shell
-docker run -it -v ~/workspace:/home/git --rm cgr.dev/chainguard/git clone https://github.com/chainguard-images/git.git
+docker run -it -v ~/workspace:/home/git --rm cgr.dev/chainguard/git clone https://github.com/chainguard-images/.github.git
 ```
 
 You should get output like this:
 
 ```
-Cloning into 'git'...
-remote: Enumerating objects: 57, done.
-remote: Counting objects: 100% (57/57), done.
-remote: Compressing objects: 100% (47/47), done.
-remote: Total 57 (delta 19), reused 35 (delta 10), pack-reused 0
-Receiving objects: 100% (57/57), 15.23 KiB | 866.00 KiB/s, done.
-Resolving deltas: 100% (19/19), done.
+Cloning into '.github'...
+remote: Enumerating objects: 217, done.
+remote: Counting objects: 100% (104/104), done.
+remote: Compressing objects: 100% (74/74), done.
+remote: Total 217 (delta 39), reused 78 (delta 27), pack-reused 113
+Receiving objects: 100% (217/217), 207.47 KiB | 1.46 MiB/s, done.
+Resolving deltas: 100% (70/70), done.
 ```
 
 You can now check the contents of your `workspace` directory, where you should find the cloned repo.
