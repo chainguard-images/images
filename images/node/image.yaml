@@ -33,5 +33,5 @@ options:
       packages:
         add:
           - yarn
-          - gcc
+          - build-base
           - python-3.11
