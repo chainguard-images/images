@@ -20,7 +20,7 @@ accounts:
   recursive: true
 
 environment:
-  JAVA_HOME: /usr/lib/jvm/openjdk-jre/
+  JAVA_HOME: /usr/lib/jvm/openjdk
 
 entrypoint:
   command: /usr/bin/docker-entrypoint.sh
