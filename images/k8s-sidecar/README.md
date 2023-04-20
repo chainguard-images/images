@@ -27,7 +27,7 @@ The Chainguard k8s-sidecar image contains the k8s-sidecar python app.
 The default entrypoint just runs the `k8s-sidecar` app without any flags.
 
 This image is a drop-in replacement for the upstream image.
-For full documentation on how to configure the app, check the [upstream documentation](https://github.com/kiwigrid/k8s-sidecard).
+For full documentation on how to configure the app, check the [upstream documentation](https://github.com/kiwigrid/k8s-sidecar).
 
 ```shell
 $ docker run cgr.dev/chainguard/k8s-sidecar
