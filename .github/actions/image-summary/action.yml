@@ -14,6 +14,16 @@ runs:
       with:
         identity: ${{ inputs.chainguardIdentity }}
 
+    # If an image tier is present, set it using chainctl
+    - id: set-tier
+      name: Set the image tier
+      if: contains(inputs.apkoBaseTag, 'cgr.dev/') && inputs.tier != ''
+      run: |
+        set -x
+        name="$(basename ${{ inputs.apkoBaseTag }})"
+        tier="${{ inputs.tier }}"
+        chainctl images repos update "${name}" --tier="${tier}"
+
     # GCloud-based, setup OIDC->SA auth
     - id: gcrauth1
       if: contains(inputs.apkoBaseTag, 'gcr.io/') || contains(inputs.apkoBaseTag, 'pkg.dev/')
@@ -48,7 +58,9 @@ runs:
           pkg="$(echo "${line}" | jq -r .dynamic.package)"
           if [[ "${pkg}" != "" ]]; then
             primary="$(echo "${line}" | jq -r .primary)"
-            version="$(cosign download sbom --platform=linux/amd64 "${ref}:${primary}" 2>/dev/null | jq -r '.packages[] | select(.name == "'${pkg}'") | .versionInfo')"
+            set -x # Try to debug any cosign failures here
+            version="$(cosign download sbom --platform=linux/amd64 "${ref}:${primary}" | jq -r '.packages[] | select(.name == "'${pkg}'") | .versionInfo')"
+            set +x
             if [[ "${version}" != "" ]]; then
               all_dynamic_versions=""
               prefix="$(echo "${line}" | jq -r .dynamic.prefix)"
