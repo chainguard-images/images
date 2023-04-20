@@ -18,6 +18,7 @@ runs:
     - id: set-tier
       name: Set the image tier
       if: contains(inputs.apkoBaseTag, 'cgr.dev/') && inputs.tier != ''
+      shell: bash
       run: |
         set -x
         name="$(basename ${{ inputs.apkoBaseTag }})"
