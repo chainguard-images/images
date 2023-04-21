@@ -17,13 +17,25 @@ runs:
     # If an image tier is present, set it using chainctl
     - id: set-tier
       name: Set the image tier
-      if: contains(inputs.apkoBaseTag, 'cgr.dev/') && inputs.tier != ''
+      if: contains(inputs.apkoBaseTag, 'cgr.dev/') && inputs.chainguardIdentity != '' && inputs.tier != ''
       shell: bash
       run: |
         set -x
         name="$(basename ${{ inputs.apkoBaseTag }})"
+        group="$(dirname ${{ inputs.chainguardIdentity }})"
         tier="${{ inputs.tier }}"
-        chainctl images repos update "${name}" --tier="${tier}"
+
+        # Extract the repo ID
+        # TODO: remove this once "chainctl images repos update" supports the --group flag
+        id="$(chainctl images repos list -o json --group="${group}" | jq -r '.items[] | select(.name == "'${name}'") | .id')"
+        if [[ "${id}" == "" ]]; then
+          echo "Error finding ID for repo. Exiting."
+          exit 1
+        fi
+
+        # TODO: use name below instead (once id not needed)
+        # chainctl images repos update "${name}" --group="${group}" --tier="${tier}"
+        chainctl images repos update "${id}" --tier="${tier}"
 
     # GCloud-based, setup OIDC->SA auth
     - id: gcrauth1
