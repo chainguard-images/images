@@ -24,7 +24,18 @@ runs:
         name="$(basename ${{ inputs.apkoBaseTag }})"
         group="$(dirname ${{ inputs.chainguardIdentity }})"
         tier="${{ inputs.tier }}"
-        chainctl images repos update "${name}" --group="${group}" --tier="${tier}"
+
+        # Extract the repo ID
+        # TODO: remove this once "chainctl images repos update" supports the --group flag
+        id="$(chainctl images repos list -o json --group="${group}" | jq -r '.items[] | select(.name == "'${name}'") | .id')"
+        if [[ "${id}" == "" ]]; then
+          echo "Error finding ID for repo. Exiting."
+          exit 1
+        fi
+
+        # TODO: use name below instead (once id not needed)
+        # chainctl images repos update "${name}" --group="${group}" --tier="${tier}"
+        chainctl images repos update "${id}" --tier="${tier}"
 
     # GCloud-based, setup OIDC->SA auth
     - id: gcrauth1
