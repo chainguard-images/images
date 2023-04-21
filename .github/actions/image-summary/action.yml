@@ -17,13 +17,14 @@ runs:
     # If an image tier is present, set it using chainctl
     - id: set-tier
       name: Set the image tier
-      if: contains(inputs.apkoBaseTag, 'cgr.dev/') && inputs.tier != ''
+      if: contains(inputs.apkoBaseTag, 'cgr.dev/') && inputs.chainguardIdentity != '' && inputs.tier != ''
       shell: bash
       run: |
         set -x
         name="$(basename ${{ inputs.apkoBaseTag }})"
+        group="$(dirname ${{ inputs.chainguardIdentity }})"
         tier="${{ inputs.tier }}"
-        chainctl images repos update "${name}" --tier="${tier}"
+        chainctl images repos update "${name}" --group="${group}" --tier="${tier}"
 
     # GCloud-based, setup OIDC->SA auth
     - id: gcrauth1
