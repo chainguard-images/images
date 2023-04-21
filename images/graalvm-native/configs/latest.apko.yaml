@@ -8,6 +8,7 @@ contents:
     - tzdata
     - zlib
     - glibc
+    - libstdc++-dev
     - wolfi-baselayout
 
 accounts:
