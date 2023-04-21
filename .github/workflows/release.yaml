@@ -97,6 +97,7 @@ jobs:
 
   image-summary:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: [generate-matrix, build]
     if: always()
     strategy:
