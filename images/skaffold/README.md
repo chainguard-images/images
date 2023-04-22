@@ -32,7 +32,7 @@ See the [full documentation](https://skaffold.dev/docs/install/#standalone-binar
 
 
 ```
-% docker run cgr.dev/chainguard/skaffold:latest-arm64
+% docker run cgr.dev/chainguard/skaffold:latest
 A tool that facilitates continuous development for Kubernetes applications.
 
   Find more information at: https://skaffold.dev/docs/getting-started/
