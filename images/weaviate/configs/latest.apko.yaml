@@ -15,7 +15,7 @@ paths:
     gid: 65532
 
 entrypoint:
-  command: /usr/bin/weaviate
+  command: /bin/weaviate
 cmd: --host 0.0.0.0 --port 8080 --scheme http
 
 accounts:
