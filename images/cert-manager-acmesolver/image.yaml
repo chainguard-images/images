@@ -1,0 +1,18 @@
+status: experimental
+versions:
+  - apko:
+      config: configs/latest.apko.yaml
+      extractTagsFrom:
+        package: cert-manager-acmesolver
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
+            - cert-manager-dev
+
+options:
+  cert-manager-dev:
+    contents:
+      packages:
+        add:
+          - cmctl
