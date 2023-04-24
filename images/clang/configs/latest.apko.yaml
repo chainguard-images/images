@@ -1,0 +1,36 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+  packages:
+    - ca-certificates-bundle
+    - build-base
+    - busybox
+    - wolfi-baselayout
+    - clang-15
+
+paths:
+  - path: /work
+    type: directory
+    permissions: 0o777
+
+work-dir: /work
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 0
+
+entrypoint:
+  command: /usr/bin/clang
+cmd: --help
+
+archs:
+- x86_64
+- aarch64
