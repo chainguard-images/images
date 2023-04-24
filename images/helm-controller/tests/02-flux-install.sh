@@ -4,17 +4,12 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-if [[ "${IMAGE_NAME}" == "" ]]; then
-    echo "Must set IMAGE_NAME environment variable. Exiting."
-    exit 1
-fi
+FLUX_CLI_IMAGE=${FLUX_CLI_IMAGE:-"cgr.dev/chainguard/flux"}
 
-IMAGE_REPOSITORY=$(echo "${IMAGE_NAME}" | cut -d: -f1)
-IMAGE_TAG="$(echo "${IMAGE_NAME}" | cut -d: -f2)"
+function flux_manifests() {
+  docker run ${FLUX_CLI_IMAGE} install --export --registry "${IMAGE_REGISTRY}" > flux-manifests.yaml
 
-docker run "${IMAGE_REGISTRY}"/flux install --export --registry "${IMAGE_REGISTRY}" > flux-manifests.yaml
-
-cat <<EOF > kustomization.yaml
+  cat <<EOF > kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
@@ -33,6 +28,9 @@ images:
     newName: ${IMAGE_REGISTRY}/helm-controller
     newTag: ${IMAGE_TAG}
 EOF
+}
+
+flux_manifests
 
 kustomize build . | kubectl apply -f -
 
