@@ -4,19 +4,30 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-if [[ "${IMAGE_NAME}" == "" ]]; then
-    echo "Must set IMAGE_NAME environment variable. Exiting."
+function preflight() {
+  if [[ "${IMAGE_REGISTRY}" == "" ]]; then
+    echo "Must set IMAGE_REGISTRY environment variable. Exiting."
     exit 1
-fi
+  fi
 
-IMAGE_REPOSITORY=$(echo "${IMAGE_NAME}" | cut -d: -f1)
-IMAGE_TAG="$(echo "${IMAGE_NAME}" | cut -d: -f2)"
+  if [[ "${IMAGE_REPOSITORY}" == "" ]]; then
+    echo "Must set IMAGE_REPOSITORY environment variable. Exiting."
+    exit 1
+  fi
+
+  if [[ "${IMAGE_TAG}" == "" ]]; then
+    echo "Must set IMAGE_TAG environment variable. Exiting."
+    exit 1
+  fi
+}
+
+preflight
 
 helm repo add weaviate https://weaviate.github.io/weaviate-helm
 
 # The helm chart doesn't allow overriding the full image registry or imagePullPolicy, so we need to do some surgery.
 helm install  my-weaviate weaviate/weaviate \
-    --set image.repo=${IMAGE_REPOSITORY} --set image.tag=${IMAGE_TAG} \
+    --set image.repo="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}" --set image.tag="${IMAGE_TAG}" \
     --dry-run | \
     sed  's/imagePullPolicy: Always/imagePullPolicy: Never/g' | \
     sed 's|docker.io/||g'  | tail -n +10 | \
