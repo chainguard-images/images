@@ -16,7 +16,7 @@
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/flux-helm-controller
+docker pull cgr.dev/chainguard/helm-controller
 ```
 
 ## Using `helm-controller`

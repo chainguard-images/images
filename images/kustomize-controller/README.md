@@ -16,12 +16,12 @@
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/flux-helm-controller
+docker pull cgr.dev/chainguard/kustomize-controller
 ```
 
-## Using `notification-controller`
+## Using `kustomize-controller`
 
-The `notification-controller` is part of the flux gitops toolkit components ([docs](https://fluxcd.io/flux/components/)). It is recommended to use this component in conjunction with the remaining toolkit components during install.
+The `kustomize-controller` is part of the flux gitops toolkit components ([docs](https://fluxcd.io/flux/components/)). It is recommended to use this component in conjunction with the remaining toolkit components during install.
 
 Although there are multiple methods of [installing](https://fluxcd.io/flux/installation/), the example below demonstrates using the `flux` cli, also available as a chainguard image (`cgr.dev/chainguard/flux`):
 

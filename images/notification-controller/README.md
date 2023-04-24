@@ -16,7 +16,7 @@
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/flux-notification-controller
+docker pull cgr.dev/chainguard/notification-controller
 ```
 
 ## Using `notification-controller`
