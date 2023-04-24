@@ -34,4 +34,4 @@ flux_manifests
 
 kustomize build . | kubectl apply -f -
 
-kubectl wait --for=condition=ready pod --selector app.kubernetes.io/instance=flux-system --namespace flux-system
+kubectl wait --for=condition=ready pod --selector app=source-controller --namespace flux-system
