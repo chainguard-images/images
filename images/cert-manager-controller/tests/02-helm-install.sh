@@ -4,13 +4,24 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-if [[ "${IMAGE_NAME}" == "" ]]; then
-    echo "Must set IMAGE_NAME environment variable. Exiting."
+function preflight() {
+  if [[ "${IMAGE_REGISTRY}" == "" ]]; then
+    echo "Must set IMAGE_REGISTRY environment variable. Exiting."
     exit 1
-fi
+  fi
 
-IMAGE_REPOSITORY=$(echo "${IMAGE_NAME}" | cut -d: -f1)
-IMAGE_TAG="$(echo "${IMAGE_NAME}" | cut -d: -f2)"
+  if [[ "${IMAGE_REPOSITORY}" == "" ]]; then
+    echo "Must set IMAGE_REPOSITORY environment variable. Exiting."
+    exit 1
+  fi
+
+  if [[ "${IMAGE_TAG}" == "" ]]; then
+    echo "Must set IMAGE_TAG environment variable. Exiting."
+    exit 1
+  fi
+}
+
+preflight
 
 helm repo add jetstack https://charts.jetstack.io
 
@@ -19,7 +30,7 @@ helm upgrade --install \
     --namespace cert-manager \
     --create-namespace \
     --set installCRDs=true \
-    --set image.repository="${IMAGE_REPOSITORY}" \
+    --set image.repository="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}" \
     --set image.tag="${IMAGE_TAG}"
 
 kubectl wait --for=condition=ready pod --selector app.kubernetes.io/instance=cert-manager --namespace cert-manager
