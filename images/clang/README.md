@@ -1,10 +1,10 @@
 <!--monopod:start-->
-# clang-15
+# clang
 | | |
 | - | - |
 | **Status** | experimental |
-| **OCI Reference** | `cgr.dev/chainguard/clang-15` |
-| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/clang-15.svg) |
+| **OCI Reference** | `cgr.dev/chainguard/clang` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/clang.svg) |
 
 *[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
