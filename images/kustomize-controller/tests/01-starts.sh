@@ -7,4 +7,6 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
     exit 1
 fi
 
-docker run --rm "${IMAGE_NAME}" -h
+# The image can't run off of k8s, so run it and make sure it at least throws the right error.
+set +o pipefail
+docker run --rm "${IMAGE_NAME}" 2>&1 | grep "unable to load"
