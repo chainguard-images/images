@@ -15,11 +15,11 @@ A minimal nginx base image rebuilt every night from source.
 
 ## Upcoming Breaking Changes
 
-On May 3 2023 the Chainguard nginx image will be rebuilt with several improvements including
+On May 3 2023 the Chainguard nginx image will be rebuilt with several improvements, including
 breaking changes. You may need to take action to update your application to prevent disruption. 
 
 Specifically, the config file is being changed to bring the default configuration closer to that of
-other images. If you override the config with a custom configuration, you should not be affected.
+official nginx image. If you override the config with a custom configuration, you should not be affected.
 
 The changes include:
 
