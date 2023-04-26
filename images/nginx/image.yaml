@@ -7,3 +7,6 @@ versions:
         - suffix: -dev
           options:
             - dev
+  - apko:
+      config: configs/next.apko.yaml
+
