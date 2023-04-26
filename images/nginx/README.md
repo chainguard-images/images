@@ -25,7 +25,7 @@ The changes include:
 
  - Moving the default port from 80 to 8080. This is required to run on Kubernetes as a non-privileged user.
  - Setting nginx to automatically determine the number of worker processes
- - Moving the HTML directory to /usr/share/nginx/html
+ - Moving the HTML directory to `/usr/share/nginx/html`
 
 You can test the new image out now by pulling the `cgr.dev/chainguard/nginx:next` image. This is a
 temporary tag that will be removed shortly after May 3, 2023, when the changes will merged into the
