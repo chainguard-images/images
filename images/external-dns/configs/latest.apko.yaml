@@ -20,6 +20,7 @@ accounts:
 
 entrypoint:
   command: /usr/bin/external-dns
+
 cmd: --help
 
 archs:
@@ -30,3 +31,6 @@ annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/external-dns/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/external-dns
+
+environment:
+  PATH: /usr/sbin:/usr/bin:/bin

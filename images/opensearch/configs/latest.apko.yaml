@@ -21,9 +21,11 @@ accounts:
 
 environment:
   JAVA_HOME: /usr/lib/jvm/openjdk
+  PATH: /usr/sbin:/usr/bin:/bin
 
 entrypoint:
   command: /usr/bin/docker-entrypoint.sh
+
 cmd: opensearchwrapper
 
 archs:

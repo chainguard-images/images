@@ -27,6 +27,7 @@ entrypoint:
 
 environment:
   LANG: en_US.UTF-8
+  PATH: /usr/sbin:/usr/bin:/bin
 
 paths:
   - path: /home/build

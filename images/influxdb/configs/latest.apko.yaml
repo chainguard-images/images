@@ -27,6 +27,7 @@ environment:
   INFLUXD_INIT_PORT: 9999
   INFLUXD_INIT_PING_ATTEMPTS: 600
   DOCKER_INFLUXDB_INIT_CLI_CONFIG_NAME: default
+  PATH: /usr/sbin:/usr/bin:/bin
 
 paths:
   - path: /var/lib/influxdb2

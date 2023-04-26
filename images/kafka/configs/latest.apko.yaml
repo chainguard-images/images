@@ -9,6 +9,7 @@ contents:
     - bash
     - busybox
     - kafka
+
 accounts:
   groups:
     - groupname: kafka
@@ -31,6 +32,7 @@ paths:
 
 entrypoint:
   command: /usr/lib/kafka/bin/kafka-server-start.sh
+
 cmd: /usr/lib/kafka/config/server.properties
 
 archs:
@@ -41,3 +43,6 @@ annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/kafka/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/kafka
+
+environment:
+  PATH: /usr/sbin:/usr/bin:/bin

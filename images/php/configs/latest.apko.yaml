@@ -8,12 +8,11 @@ contents:
     - ca-certificates-bundle
     - php
 
-
 entrypoint:
   command: /bin/php
 
 environment:
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin
+  PATH: /usr/sbin:/usr/bin:/bin
 
 paths:
   - path: /app

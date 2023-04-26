@@ -23,3 +23,6 @@ accounts:
     - username: git
       uid: 65532
       gid: 65532
+
+environment:
+  PATH: /usr/sbin:/usr/bin:/bin

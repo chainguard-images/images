@@ -32,13 +32,14 @@ environment:
   DISABLE_STATEFILES: true
   STORAGE: local
   STORAGE_LOCAL_ROOTDIR: /charts
+  PATH: /usr/sbin:/usr/bin:/bin
 
 entrypoint:
   command: /usr/bin/chartmuseum
 
 archs:
-- x86_64
-- aarch64
+  - x86_64
+  - aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

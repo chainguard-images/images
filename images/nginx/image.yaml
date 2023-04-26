@@ -9,4 +9,3 @@ versions:
             - dev
   - apko:
       config: configs/next.apko.yaml
-

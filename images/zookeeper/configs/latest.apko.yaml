@@ -24,6 +24,7 @@ accounts:
 
 entrypoint:
   command: /usr/share/java/zookeeper/bin/zkServer.sh
+
 cmd: start-foreground
 
 paths:
@@ -37,6 +38,7 @@ environment:
   LANG: en_US.UTF-8
   JAVA_HOME: /usr/lib/jvm/openjdk
   ZOOCFG: /usr/share/java/zookeeper/conf
+  PATH: /usr/sbin:/usr/bin:/bin
 
 archs:
   - x86_64

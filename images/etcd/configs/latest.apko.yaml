@@ -26,6 +26,7 @@ paths:
 
 environment:
   ETCD_DATA_DIR: /var/lib/etcd
+  PATH: /usr/sbin:/usr/bin:/bin
 
 entrypoint:
   command: /usr/bin/etcd

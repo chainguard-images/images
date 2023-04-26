@@ -25,11 +25,12 @@ environment:
   # By convention, Node apps look to the NODE_PORT env var to determine what
   # port to listen on. Default to a high port since the user runs as non-root.
   NODE_PORT: 3000
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin
+  PATH: /usr/sbin:/usr/bin:/bin
   NPM_CONFIG_UPDATE_NOTIFIER: false # Disables npm update notifications
 
 entrypoint:
   command: /usr/bin/node
+
 cmd: --help
 
 # By convention, the official Docker node image defines a `node` user, but
@@ -44,5 +45,5 @@ accounts:
   run-as: 65532
 
 archs:
-- x86_64
-- aarch64
+  - x86_64
+  - aarch64

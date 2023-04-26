@@ -29,8 +29,12 @@ accounts:
 
 entrypoint:
   command: /usr/bin/clang
+
 cmd: --help
 
 archs:
-- x86_64
-- aarch64
+  - x86_64
+  - aarch64
+
+environment:
+  PATH: /usr/sbin:/usr/bin:/bin

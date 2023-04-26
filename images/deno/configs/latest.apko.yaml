@@ -19,10 +19,11 @@ paths:
 work-dir: /app
 
 environment:
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin
+  PATH: /usr/sbin:/usr/bin:/bin
 
 entrypoint:
   command: /usr/bin/deno
+
 cmd: --help
 
 accounts:
@@ -35,5 +36,5 @@ accounts:
   run-as: 65532
 
 archs:
-- x86_64
-- aarch64
+  - x86_64
+  - aarch64

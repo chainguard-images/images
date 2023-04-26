@@ -26,3 +26,6 @@ archs:
   - aarch64
 
 cmd: /bin/sh -l
+
+environment:
+  PATH: /usr/sbin:/usr/bin:/bin
