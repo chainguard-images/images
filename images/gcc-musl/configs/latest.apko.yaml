@@ -8,18 +8,13 @@ contents:
     - gcc
     - musl-dev
     - busybox
-
 paths:
   - path: /work
     type: directory
     permissions: 0o777
-
 work-dir: /work
-
 entrypoint:
   command: /usr/bin/gcc
-
 cmd: --help
-
 environment:
-  PATH: /usr/sbin:/usr/bin:/bin
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin

@@ -9,13 +9,10 @@ contents:
     - busybox
     - ca-certificates-bundle
     - wolfi-baselayout
-
 entrypoint:
   command: /bin/bash -c
-
 archs:
   - x86_64
   - aarch64
-
 environment:
-  PATH: /usr/sbin:/usr/bin:/bin
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin

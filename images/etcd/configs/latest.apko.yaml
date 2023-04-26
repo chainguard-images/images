@@ -7,7 +7,6 @@ contents:
     - etcd
     - ca-certificates-bundle
     - wolfi-baselayout
-
 accounts:
   groups:
     - groupname: etcd
@@ -16,21 +15,17 @@ accounts:
     - username: etcd
       uid: 65532
   run-as: etcd
-
 paths:
   - path: /var/lib/etcd
     type: directory
     uid: 65532
     gid: 65532
     permissions: 0o755
-
 environment:
   ETCD_DATA_DIR: /var/lib/etcd
-  PATH: /usr/sbin:/usr/bin:/bin
-
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin
 entrypoint:
   command: /usr/bin/etcd
-
 archs:
   - x86_64
   - aarch64

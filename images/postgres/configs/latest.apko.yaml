@@ -14,7 +14,6 @@ contents:
     - postgresql-15-contrib
     - libpq-15
     - su-exec
-
 accounts:
   groups:
     - groupname: postgres
@@ -23,23 +22,18 @@ accounts:
     - username: postgres
       uid: 70
   run-as: root
-
 entrypoint:
   command: /var/lib/postgres/initdb/postgresql-entrypoint.sh postgres
-
 environment:
   PGDATA: /var/lib/postgresql/data
-  PATH: /usr/sbin:/usr/bin:/bin
-
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin
 work-dir: /home/postgres
-
 paths:
   - path: /var/lib/postgresql/data
     type: directory
     uid: 70
     gid: 70
     permissions: 0o777
-
 archs:
   - x86_64
   - aarch64

@@ -7,7 +7,6 @@ contents:
     - ca-certificates-bundle
     - wolfi-baselayout
     - secrets-store-csi-driver
-
 accounts:
   groups:
     - groupname: secrets-store-csi-driver
@@ -17,18 +16,14 @@ accounts:
       uid: 65532
   run-as: secrets-store-csi-driver
   recursive: true
-
 entrypoint:
   command: /usr/bin/secrets-store-csi
-
 archs:
   - x86_64
   - aarch64
-
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/secrets-store-csi-driver/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/secrets-store-csi-driver
-
 environment:
-  PATH: /usr/sbin:/usr/bin:/bin
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin

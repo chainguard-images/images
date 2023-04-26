@@ -6,7 +6,6 @@ contents:
   packages:
     - memcached
     - wolfi-baselayout
-
 accounts:
   groups:
     - groupname: memcached
@@ -15,13 +14,10 @@ accounts:
     - username: memcached
       uid: 65532
   run-as: memcached
-
 entrypoint:
   command: memcached
-
 archs:
   - x86_64
   - aarch64
-
 environment:
-  PATH: /usr/sbin:/usr/bin:/bin
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin

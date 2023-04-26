@@ -6,19 +6,15 @@ contents:
   packages:
     - weaviate
     - openssl
-
 paths:
   - path: /modules
     type: directory
     permissions: 0o777
     uid: 65532
     gid: 65532
-
 entrypoint:
   command: /bin/weaviate
-
 cmd: --host 0.0.0.0 --port 8080 --scheme http
-
 accounts:
   groups:
     - groupname: weaviate
@@ -27,10 +23,8 @@ accounts:
     - username: weaviate
       uid: 65532
   run-as: 65532
-
 archs:
   - x86_64
   - aarch64
-
 environment:
-  PATH: /usr/sbin:/usr/bin:/bin
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin

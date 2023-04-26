@@ -8,7 +8,6 @@ contents:
     - dotnet-7-runtime
     - aspnet-7-runtime
     - wolfi-baselayout
-
 accounts:
   groups:
     - groupname: nonroot
@@ -18,15 +17,11 @@ accounts:
       uid: 65532
   run-as: nonroot
   recursive: true
-
 archs:
   - x86_64
   - aarch64
-
 entrypoint:
   command: /usr/bin/dotnet
-
 cmd: --help
-
 environment:
-  PATH: /usr/sbin:/usr/bin:/bin
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin

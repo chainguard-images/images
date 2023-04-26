@@ -8,7 +8,6 @@ contents:
     - wolfi-baselayout
     - mc
     - bash
-
 accounts:
   groups:
     - groupname: minio
@@ -18,18 +17,14 @@ accounts:
       uid: 65532
   run-as: minio
   recursive: true
-
 entrypoint:
   command: /usr/bin/mc
-
 archs:
   - x86_64
   - aarch64
-
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/mc/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/mc
-
 environment:
-  PATH: /usr/sbin:/usr/bin:/bin
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin

@@ -9,7 +9,6 @@ contents:
     - rqlite
     - rqlite-oci-entrypoint
     - busybox
-
 accounts:
   groups:
     - groupname: rqlite
@@ -19,25 +18,20 @@ accounts:
       uid: 65532
   run-as: rqlite
   recursive: true
-
 entrypoint:
   command: /usr/bin/docker-entrypoint.sh
-
 paths:
   - path: /rqlite
     type: directory
     permissions: 0o777
     uid: 65532
     gid: 65532
-
 archs:
   - x86_64
   - aarch64
-
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/rqlite/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/rqlite
-
 environment:
-  PATH: /usr/sbin:/usr/bin:/bin
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin

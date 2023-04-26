@@ -7,7 +7,6 @@ contents:
     - ca-certificates-bundle
     - wolfi-baselayout
     - nginx
-
 accounts:
   groups:
     - groupname: nginx
@@ -17,7 +16,6 @@ accounts:
       uid: 65532
       gid: 65532
   run-as: 65532
-
 paths:
   - path: /s6
     type: directory
@@ -48,17 +46,12 @@ paths:
     type: directory
     permissions: 0o755
     recursive: true
-
 entrypoint:
   command: /usr/sbin/nginx
-
 cmd: -c /etc/nginx/nginx.conf -g "daemon off;"
-
 stop-signal: SIGQUIT
-
 archs:
   - x86_64
   - aarch64
-
 environment:
-  PATH: /usr/sbin:/usr/bin:/bin
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin

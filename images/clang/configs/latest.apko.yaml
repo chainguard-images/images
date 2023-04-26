@@ -9,14 +9,11 @@ contents:
     - busybox
     - wolfi-baselayout
     - clang-15
-
 paths:
   - path: /work
     type: directory
     permissions: 0o777
-
 work-dir: /work
-
 accounts:
   groups:
     - groupname: nonroot
@@ -26,15 +23,11 @@ accounts:
       uid: 65532
       gid: 65532
   run-as: 0
-
 entrypoint:
   command: /usr/bin/clang
-
 cmd: --help
-
 archs:
   - x86_64
   - aarch64
-
 environment:
-  PATH: /usr/sbin:/usr/bin:/bin
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin

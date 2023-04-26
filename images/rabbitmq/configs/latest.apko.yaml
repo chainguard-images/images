@@ -11,7 +11,6 @@ contents:
     - tzdata
     # - procps do we need this?
     # - su-exec do we need this?
-
 paths:
   - path: /var/lib/rabbitmq
     type: directory
@@ -44,20 +43,16 @@ paths:
     permissions: 0o777
     uid: 999
     gid: 999
-
 work-dir: /var/lib/rabbitmq
-
 entrypoint:
   command: /usr/sbin/rabbitmq-server
-
 environment:
   RABBITMQ_CONFIG_FILE: /etc/rabbitmq/rabbitmq.conf
   RABBITMQ_ADVANCED_CONFIG_FILE: /etc/rabbitmq/advanced.config
   RABBITMQ_CONF_ENV_FILE: /etc/rabbitmq/rabbitmq-env.conf
   HOME: /var/lib/rabbitmq
   LANG: en_US.UTF-8
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin:/usr/lib/rabbitmq/bin/
-
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin
 # By convention, the official Docker node image defines a `node` user, but
 # doesn't run as it unless the image based on it specifies that user.
 accounts:
@@ -68,7 +63,6 @@ accounts:
     - username: rabbitmq
       uid: 999
   run-as: 999
-
 archs:
   - x86_64
   - aarch64

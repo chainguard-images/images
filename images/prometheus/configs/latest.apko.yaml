@@ -6,13 +6,10 @@ contents:
   packages:
     - prometheus
     - wolfi-baselayout
-
 entrypoint:
   command: prometheus
-
 archs:
   - x86_64
   - aarch64
-
 environment:
-  PATH: /usr/sbin:/usr/bin:/bin
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin

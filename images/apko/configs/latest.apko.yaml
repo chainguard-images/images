@@ -9,22 +9,16 @@ contents:
     - alpine-keys
     - apko
     - wolfi-baselayout
-
 paths:
   - path: /work
     type: directory
     permissions: 0o777
-
 work-dir: /work
-
 entrypoint:
   command: /usr/bin/apko
-
 cmd: --help
-
 archs:
   - x86_64
   - aarch64
-
 environment:
-  PATH: /usr/sbin:/usr/bin:/bin
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin

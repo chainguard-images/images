@@ -7,7 +7,6 @@ contents:
     - ca-certificates-bundle
     - external-dns
     - wolfi-baselayout
-
 accounts:
   groups:
     - groupname: external-dns
@@ -17,20 +16,15 @@ accounts:
       uid: 65532
   run-as: external-dns
   recursive: true
-
 entrypoint:
   command: /usr/bin/external-dns
-
 cmd: --help
-
 archs:
   - x86_64
   - aarch64
-
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/external-dns/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/external-dns
-
 environment:
-  PATH: /usr/sbin:/usr/bin:/bin
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin

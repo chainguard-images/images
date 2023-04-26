@@ -9,7 +9,6 @@ contents:
     - glibc-locale-en
     - openjdk-11-jre
     - libstdc++
-
 accounts:
   groups:
     - groupname: java
@@ -18,17 +17,13 @@ accounts:
     - username: java
       uid: 65532
   run-as: java
-
 work-dir: /app
-
 entrypoint:
   command: /usr/bin/java
-
 environment:
   LANG: en_US.UTF-8
   JAVA_HOME: /usr/lib/jvm/openjdk
-  PATH: /usr/sbin:/usr/bin:/bin
-
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin
 archs:
   - x86_64
   - aarch64

@@ -7,7 +7,6 @@ contents:
     - ca-certificates-bundle
     - wolfi-baselayout
     - nats-server
-
 accounts:
   groups:
     - groupname: nats
@@ -17,20 +16,15 @@ accounts:
       uid: 65532
   run-as: nats
   recursive: true
-
 entrypoint:
   command: /usr/bin/nats-server
-
 cmd: --config=/etc/nats/nats-server.conf
-
 archs:
   - x86_64
   - aarch64
-
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/nats/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/nats
-
 environment:
-  PATH: /usr/sbin:/usr/bin:/bin
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin

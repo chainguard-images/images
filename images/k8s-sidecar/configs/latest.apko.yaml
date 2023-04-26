@@ -8,14 +8,11 @@ contents:
     - wolfi-baselayout
     - k8s-sidecar
     - busybox
-
 environment:
   PYTHONUNBUFFERED: 1
-  PATH: /usr/sbin:/usr/bin:/bin
-
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin
 entrypoint:
   command: /usr/share/app/.venv/bin/python -u /usr/share/app/sidecar.py
-
 accounts:
   groups:
     - groupname: k8s-sidecar
@@ -25,11 +22,9 @@ accounts:
       uid: 65532
   run-as: k8s-sidecar
   recursive: true
-
 archs:
   - x86_64
   - aarch64
-
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/k8s-sidecar/

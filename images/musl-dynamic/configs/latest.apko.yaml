@@ -6,6 +6,5 @@ contents:
     - alpine-release
     - ca-certificates-bundle
     - musl
-
 environment:
-  PATH: /usr/sbin:/usr/bin:/bin
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin
