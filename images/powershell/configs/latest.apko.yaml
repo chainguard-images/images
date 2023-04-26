@@ -7,6 +7,7 @@ contents:
     - busybox
     - powershell
     - wolfi-baselayout
+
 accounts:
   groups:
     - groupname: nonroot
@@ -16,10 +17,13 @@ accounts:
       uid: 65532
   run-as: nonroot
   recursive: true
+
 archs:
   - x86_64
   - aarch64
+
 entrypoint:
   command: /usr/bin/pwsh
+
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin

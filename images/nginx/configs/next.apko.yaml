@@ -8,6 +8,7 @@ contents:
     - wolfi-baselayout
     - nginx
     - nginx-package-config
+
 accounts:
   groups:
     - groupname: nginx
@@ -17,6 +18,7 @@ accounts:
       uid: 65532
       gid: 65532
   run-as: 65532
+
 paths:
   - path: /var/lib/nginx
     type: directory
@@ -36,12 +38,17 @@ paths:
     type: directory
     permissions: 0o755
     recursive: false
+
 entrypoint:
   command: /usr/sbin/nginx
+
 cmd: -c /etc/nginx/nginx.conf -g "daemon off;"
+
 stop-signal: SIGQUIT
+
 archs:
   - x86_64
   - aarch64
+
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin

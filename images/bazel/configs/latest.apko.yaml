@@ -12,6 +12,7 @@ contents:
     - git
     - bazel-6
     - wolfi-baselayout
+
 accounts:
   groups:
     - groupname: bazel
@@ -20,12 +21,16 @@ accounts:
     - username: bazel
       uid: 65532
   run-as: bazel
+
 entrypoint:
   command: /usr/bin/bazel
+
 environment:
   JAVA_HOME: /usr/lib/jvm/openjdk
   PATH: /usr/sbin:/sbin:/usr/bin:/bin
+
 work-dir: /home/bazel
+
 archs:
   - x86_64
   - aarch64

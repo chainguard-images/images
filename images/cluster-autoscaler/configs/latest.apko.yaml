@@ -7,6 +7,7 @@ contents:
     - cluster-autoscaler
     - wolfi-baselayout
     - ca-certificates-bundle
+
 accounts:
   groups:
     - groupname: cluster-autoscaler
@@ -15,10 +16,13 @@ accounts:
     - username: cluster-autoscaler
       uid: 65532
   run-as: 65532
+
 entrypoint:
   command: /usr/bin/cluster-autoscaler
+
 archs:
   - x86_64
   - aarch64
+
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin

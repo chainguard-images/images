@@ -8,6 +8,7 @@ contents:
     - haproxy
     - haproxy-oci-entrypoint
     - dataplaneapi
+
 accounts:
   groups:
     - groupname: haproxy
@@ -17,6 +18,7 @@ accounts:
       uid: 65532
       gid: 65532
   run-as: 65532
+
 paths:
   - path: /var/lib/haproxy
     type: directory
@@ -28,10 +30,13 @@ paths:
     gid: 65532
     type: directory
     permissions: 0o755
+
 entrypoint:
   command: /usr/local/bin/docker-entrypoint.sh
+
 archs:
   - x86_64
   - aarch64
+
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin

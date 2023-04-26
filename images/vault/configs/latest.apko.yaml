@@ -7,6 +7,7 @@ contents:
     - ca-certificates-bundle
     - wolfi-baselayout
     - vault
+
 accounts:
   groups:
     - groupname: vault
@@ -16,15 +17,20 @@ accounts:
       uid: 65532
   run-as: vault
   recursive: true
+
 entrypoint:
   command: /usr/sbin/vault
+
 cmd: server -dev
+
 archs:
   - x86_64
   - aarch64
+
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/vault/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/vault
+
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin

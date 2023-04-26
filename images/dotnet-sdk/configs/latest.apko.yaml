@@ -10,6 +10,7 @@ contents:
     - aspnet-7-runtime
     - aspnet-7-targeting-pack
     - wolfi-baselayout
+
 accounts:
   groups:
     - groupname: nonroot
@@ -19,9 +20,12 @@ accounts:
       uid: 65532
   run-as: nonroot
   recursive: true
+
 archs:
   - x86_64
   - aarch64
+
 cmd: /bin/sh -l
+
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin

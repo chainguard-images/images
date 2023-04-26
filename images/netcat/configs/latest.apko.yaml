@@ -6,6 +6,7 @@ contents:
   packages:
     - wolfi-baselayout
     - netcat-openbsd
+
 accounts:
   groups:
     - groupname: nonroot
@@ -15,12 +16,17 @@ accounts:
       uid: 65532
       gid: 65532
   run-as: 65532
+
 entrypoint:
   command: /usr/bin/nc
+
 cmd: -h
+
 work-dir: /home/nc
+
 archs:
   - x86_64
   - aarch64
+
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin

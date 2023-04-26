@@ -11,6 +11,7 @@ contents:
     - go-1.19
     - openssh
     - wolfi-baselayout
+
 accounts:
   groups:
     - groupname: nonroot
@@ -20,11 +21,15 @@ accounts:
       uid: 65532
       gid: 65532
   run-as: 0
+
 entrypoint:
   command: /usr/bin/go
+
 cmd: help
+
 archs:
   - x86_64
   - aarch64
+
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin

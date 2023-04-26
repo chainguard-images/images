@@ -9,9 +9,12 @@ contents:
     - git
     - git-lfs
     - openssh-client
+
 entrypoint:
   command: /usr/bin/git
+
 work-dir: /home/git
+
 accounts:
   groups:
     - groupname: git
@@ -20,5 +23,6 @@ accounts:
     - username: git
       uid: 65532
       gid: 65532
+
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin

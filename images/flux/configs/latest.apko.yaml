@@ -8,6 +8,7 @@ contents:
     - wolfi-baselayout
     - busybox
     - flux
+
 accounts:
   groups:
     - groupname: nonroot
@@ -17,15 +18,20 @@ accounts:
       uid: 65532
       gid: 65532
   run-as: 65532
+
 entrypoint:
   command: /usr/bin/flux
+
 cmd: help
+
 archs:
   - x86_64
   - aarch64
+
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/flux
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/flux
+
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin

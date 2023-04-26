@@ -9,6 +9,7 @@ contents:
     - nghttp2
     - nodejs-20
     - wolfi-baselayout
+
 # By convention, Node apps run in an /app directory, which should be owned by
 # the non-root node user.
 paths:
@@ -17,16 +18,21 @@ paths:
     permissions: 0o777
     uid: 65532
     gid: 65532
+
 work-dir: /app
+
 environment:
   # By convention, Node apps look to the NODE_PORT env var to determine what
   # port to listen on. Default to a high port since the user runs as non-root.
   NODE_PORT: 3000
   PATH: /usr/sbin:/sbin:/usr/bin:/bin
   NPM_CONFIG_UPDATE_NOTIFIER: false # Disables npm update notifications
+
 entrypoint:
   command: /usr/bin/node
+
 cmd: --help
+
 # By convention, the official Docker node image defines a `node` user, but
 # doesn't run as it unless the image based on it specifies that user.
 accounts:
@@ -37,6 +43,7 @@ accounts:
     - username: node
       uid: 65532
   run-as: 65532
+
 archs:
   - x86_64
   - aarch64

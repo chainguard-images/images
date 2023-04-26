@@ -7,6 +7,7 @@ contents:
     - ca-certificates-bundle
     - wolfi-baselayout
     - telegraf
+
 accounts:
   groups:
     - groupname: telegraf
@@ -16,14 +17,18 @@ accounts:
       uid: 65532
   run-as: telegraf
   recursive: true
+
 entrypoint:
   command: /usr/bin/telegraf
+
 archs:
   - x86_64
   - aarch64
+
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/telegraf/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/telegraf
+
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin

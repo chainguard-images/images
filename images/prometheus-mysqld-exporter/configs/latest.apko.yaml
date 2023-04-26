@@ -9,6 +9,7 @@ contents:
     - ca-certificates-bundle
     - busybox
     - wolfi-baselayout
+
 accounts:
   groups:
     - groupname: mysqld_exporter
@@ -17,10 +18,13 @@ accounts:
     - username: mysqld_exporter
       uid: 65532
   run-as: 65532
+
 entrypoint:
   command: /usr/bin/mysqld_exporter
+
 archs:
   - x86_64
   - aarch64
+
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin

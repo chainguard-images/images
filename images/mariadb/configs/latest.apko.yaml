@@ -8,6 +8,7 @@ contents:
     - mariadb-oci-entrypoint
     - wolfi-baselayout
     - tzdata
+
 accounts:
   groups:
     - groupname: mysql
@@ -16,8 +17,10 @@ accounts:
     - username: mysql
       uid: 65532
   run-as: mysql
+
 entrypoint:
   command: /usr/local/bin/docker-entrypoint.sh mariadbd
+
 paths:
   - path: /var/lib/mysql
     type: directory
@@ -39,8 +42,10 @@ paths:
     permissions: 0o777
     uid: 65532
     gid: 65532
+
 archs:
   - x86_64
   - aarch64
+
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin

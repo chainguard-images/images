@@ -7,8 +7,10 @@ contents:
     - ca-certificates-bundle
     - python-3.10
     - wolfi-baselayout
+
 entrypoint:
   command: /usr/bin/python
+
 accounts:
   groups:
     - groupname: nonroot
@@ -18,8 +20,10 @@ accounts:
       uid: 65532
       gid: 65532
   run-as: 65532
+
 archs:
   - x86_64
   - aarch64
+
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin

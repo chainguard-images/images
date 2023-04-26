@@ -7,9 +7,12 @@ contents:
     - ca-certificates-bundle
     - wolfi-base
     - wolfi-baselayout
+
 cmd: /bin/sh -l
+
 archs:
   - x86_64
   - aarch64
+
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin
