@@ -1,0 +1,24 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+  packages:
+    - memcached-exporter
+    - wolfi-baselayout
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+  run-as: nonroot
+
+entrypoint:
+  command: /bin/memcached_exporter
+
+archs:
+- x86_64
+- aarch64
