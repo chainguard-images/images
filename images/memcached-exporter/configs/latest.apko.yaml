@@ -17,7 +17,7 @@ accounts:
   run-as: nonroot
 
 entrypoint:
-  command: /bin/memcached_exporter
+  command: /usr/bin/memcached_exporter
 
 archs:
 - x86_64
