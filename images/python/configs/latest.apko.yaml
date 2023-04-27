@@ -8,6 +8,7 @@ contents:
     - python-3.11
     - wolfi-baselayout
 
+
 entrypoint:
   command: /usr/bin/python
 
@@ -22,8 +23,5 @@ accounts:
   run-as: 65532
 
 archs:
-  - x86_64
-  - aarch64
-
-environment:
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin
+- x86_64
+- aarch64

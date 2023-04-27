@@ -27,7 +27,6 @@ entrypoint:
 
 environment:
   JAVA_HOME: /usr/lib/jvm/openjdk
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin
 
 work-dir: /home/bazel
 

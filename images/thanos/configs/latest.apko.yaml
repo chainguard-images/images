@@ -21,13 +21,10 @@ entrypoint:
   command: thanos
 
 archs:
-  - x86_64
-  - aarch64
+- x86_64
+- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/thanos/ #use the academy site here
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/thanos #use github here
-
-environment:
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin

@@ -1,5 +1,4 @@
 status: experimental
-
 versions:
   - apko:
       extractTagsFrom:

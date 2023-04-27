@@ -24,7 +24,6 @@ accounts:
 
 environment:
   GODEBUG: tarinsecurepath=0,zipinsecurepath=0
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin
 
 entrypoint:
   command: /usr/bin/go

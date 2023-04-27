@@ -1,5 +1,4 @@
 status: experimental
-
 versions:
   - apko:
       config: configs/latest.apko.yaml
@@ -10,6 +9,7 @@ versions:
           options:
             - dev
             - ruby-3.2-dev
+
   - apko:
       config: configs/edge.apko.yaml
       extractTagsFrom:

@@ -8,6 +8,7 @@ contents:
     - ca-certificates-bundle
     - php
 
+
 entrypoint:
   command: /bin/php
 

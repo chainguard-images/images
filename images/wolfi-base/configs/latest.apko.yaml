@@ -11,8 +11,5 @@ contents:
 cmd: /bin/sh -l
 
 archs:
-  - x86_64
-  - aarch64
-
-environment:
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin
+- x86_64
+- aarch64

@@ -18,8 +18,4 @@ work-dir: /work
 
 entrypoint:
   command: /usr/bin/gcc
-
 cmd: --help
-
-environment:
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin
