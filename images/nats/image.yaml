@@ -1,4 +1,5 @@
 status: experimental
+
 versions:
   - apko:
       config: configs/latest.apko.yaml
@@ -9,6 +10,7 @@ versions:
           options:
             - dev
             - nats-dev
+
 options:
   nats-dev:
     contents:

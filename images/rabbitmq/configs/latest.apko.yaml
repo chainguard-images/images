@@ -56,7 +56,7 @@ environment:
   RABBITMQ_CONF_ENV_FILE: /etc/rabbitmq/rabbitmq-env.conf
   HOME: /var/lib/rabbitmq
   LANG: en_US.UTF-8
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin:/usr/lib/rabbitmq/bin/
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin
 
 # By convention, the official Docker node image defines a `node` user, but
 # doesn't run as it unless the image based on it specifies that user.
@@ -70,5 +70,5 @@ accounts:
   run-as: 999
 
 archs:
-- x86_64
-- aarch64
+  - x86_64
+  - aarch64

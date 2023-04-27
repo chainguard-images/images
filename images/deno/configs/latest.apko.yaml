@@ -23,6 +23,7 @@ environment:
 
 entrypoint:
   command: /usr/bin/deno
+
 cmd: --help
 
 accounts:
@@ -35,5 +36,5 @@ accounts:
   run-as: 65532
 
 archs:
-- x86_64
-- aarch64
+  - x86_64
+  - aarch64

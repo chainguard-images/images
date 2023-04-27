@@ -24,4 +24,8 @@ archs:
 
 entrypoint:
   command: /usr/bin/dotnet
+
 cmd: --help
+
+environment:
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin

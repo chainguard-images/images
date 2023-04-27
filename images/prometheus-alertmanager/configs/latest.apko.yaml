@@ -9,12 +9,14 @@ contents:
     - ca-certificates-bundle
     - busybox
     - wolfi-baselayout
+
 paths:
   - path: /alertmanager
     type: directory
     permissions: 0o777
     uid: 65532
     gid: 65532
+
 accounts:
   groups:
     - groupname: alertmanager
@@ -26,8 +28,12 @@ accounts:
 
 entrypoint:
   command: /usr/bin/alertmanager
+
 cmd: --config.file=/etc/alertmanager/alertmanager.yml --storage.path=/alertmanager
 
 archs:
   - x86_64
   - aarch64
+
+environment:
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin

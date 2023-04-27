@@ -18,8 +18,12 @@ work-dir: /work
 
 entrypoint:
   command: /usr/bin/gcc
+
 cmd: --help
 
 archs:
-- x86_64
-- aarch64
+  - x86_64
+  - aarch64
+
+environment:
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin

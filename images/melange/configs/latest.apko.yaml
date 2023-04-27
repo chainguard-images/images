@@ -21,8 +21,12 @@ work-dir: /work
 
 entrypoint:
   command: /usr/bin/melange
+
 cmd: --help
 
 archs:
   - x86_64
   - aarch64
+
+environment:
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin

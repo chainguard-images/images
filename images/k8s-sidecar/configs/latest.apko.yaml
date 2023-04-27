@@ -11,6 +11,7 @@ contents:
 
 environment:
   PYTHONUNBUFFERED: 1
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin
 
 entrypoint:
   command: /usr/share/app/.venv/bin/python -u /usr/share/app/sidecar.py

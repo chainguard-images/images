@@ -29,6 +29,7 @@ entrypoint:
 environment:
   LANG: en_US.UTF-8
   JAVA_HOME: /usr/lib/jvm/openjdk
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin
 
 paths:
   - path: /home/build

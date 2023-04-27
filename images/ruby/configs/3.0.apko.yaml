@@ -27,13 +27,17 @@ work-dir: /work
 
 entrypoint:
   command: /usr/bin/ruby
+
 cmd: --version
 
 archs:
-- x86_64
-- aarch64
+  - x86_64
+  - aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/ruby/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/ruby
+
+environment:
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin
