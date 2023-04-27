@@ -61,7 +61,11 @@ runs:
           if [[ "${pkg}" != "" ]]; then
             primary="$(echo "${line}" | jq -r .primary)"
             set -x # Try to debug any cosign failures here
-            version="$(cosign download sbom --platform=linux/amd64 "${ref}:${primary}" | jq -r '.packages[] | select(.name == "'${pkg}'") | .versionInfo')"
+            # Support single-arch images (for now)
+            cosign download sbom --platform=linux/amd64 "${ref}:${primary}" > sbom.json || \
+              cosign download sbom "${ref}:${primary}" > sbom.json
+            version="$(cat sbom.json | jq -r '.packages[] | select(.name == "'${pkg}'") | .versionInfo')"
+            rm -f sbom.json
             set +x
             if [[ "${version}" != "" ]]; then
               all_dynamic_versions=""
