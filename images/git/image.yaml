@@ -20,6 +20,7 @@ versions:
         - suffix: -dev
           options:
             - dev
+
   - apko:
       config: configs/latest-root.apko.yaml
       extractTagsFrom:

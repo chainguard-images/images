@@ -12,8 +12,6 @@ contents:
     - busybox
 
 accounts:
-  # NOTE: we don't run as consul here. The consul entrypoint expects to run as root
-  # and drops permissions to the consul user itself using su-exec:
   groups:
     - groupname: consul
       gid: 65532
@@ -21,10 +19,11 @@ accounts:
     - username: consul
       uid: 65532
   recursive: true
+# NOTE: we don't run as consul here. The consul entrypoint expects to run as root
+# and drops permissions to the consul user itself using su-exec
 
 entrypoint:
   command: /usr/bin/docker-entrypoint.sh
-
 cmd: agent -dev -client 0.0.0.0
 
 paths:
@@ -52,6 +51,3 @@ annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/consul/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/consul
-
-environment:
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin

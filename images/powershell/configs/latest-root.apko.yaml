@@ -24,6 +24,3 @@ archs:
 
 entrypoint:
   command: /usr/bin/pwsh
-
-environment:
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin

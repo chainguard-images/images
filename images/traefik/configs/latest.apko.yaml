@@ -17,9 +17,9 @@ accounts:
   run-as: traefik
 
 paths:
-  - path: /tmp
-    type: directory
-    permissions: 0o777
+- path: /tmp
+  type: directory
+  permissions: 0o777
 
 entrypoint:
   command: /usr/bin/traefik
@@ -27,6 +27,3 @@ entrypoint:
 archs:
   - x86_64
   - aarch64
-
-environment:
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin

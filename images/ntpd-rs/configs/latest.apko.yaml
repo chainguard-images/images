@@ -15,8 +15,8 @@ accounts:
   users:
     - username: ntpd-rs
       uid: 65532
-  # Until apko supports capabilities, we need to run this as root.
   recursive: true
+  # Until apko supports capabilities, we need to run this as root.
 
 entrypoint:
   command: /usr/bin/ntp-daemon
@@ -29,6 +29,3 @@ annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/ntpd-rs/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/ntpd-rs
-
-environment:
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin

@@ -70,5 +70,5 @@ accounts:
   run-as: 999
 
 archs:
-  - x86_64
-  - aarch64
+- x86_64
+- aarch64

@@ -30,7 +30,6 @@ environment:
 
 entrypoint:
   command: /usr/bin/node
-
 cmd: --help
 
 # By convention, the official Docker node image defines a `node` user, but
@@ -45,5 +44,5 @@ accounts:
   run-as: 65532
 
 archs:
-  - x86_64
-  - aarch64
+- x86_64
+- aarch64

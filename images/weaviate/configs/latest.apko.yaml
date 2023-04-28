@@ -16,7 +16,6 @@ paths:
 
 entrypoint:
   command: /bin/weaviate
-
 cmd: --host 0.0.0.0 --port 8080 --scheme http
 
 accounts:
@@ -29,8 +28,5 @@ accounts:
   run-as: 65532
 
 archs:
-  - x86_64
-  - aarch64
-
-environment:
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin
+- x86_64
+- aarch64
