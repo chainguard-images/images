@@ -35,7 +35,7 @@ paths:
 
 environment:
   LANG: en_US.UTF-8
-  JAVA_HOME: /usr/lib/jvm/openjdk
+  JAVA_HOME: /usr/lib/jvm/openjdk-17
   ZOOCFG: /usr/share/java/zookeeper/conf
 
 archs:
