@@ -1,0 +1,10 @@
+ref: cgr.dev/chainguard/oauth2-proxy
+versions:
+  - apko:
+      config: configs/latest.apko.yaml
+      extractTagsFrom:
+        package: oauth2-proxy
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev

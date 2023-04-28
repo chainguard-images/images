@@ -1,0 +1,26 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+  packages:
+    - wolfi-baselayout
+    - oauth2-proxy
+    - ca-certificates-bundle
+
+archs:
+- x86_64
+- aarch64
+
+accounts:
+  groups:
+    - groupname: oauth2-proxy
+      gid: 65532
+  users:
+    - username: oauth2-proxy
+      uid: 65532
+      gid: 65532
+  run-as: oauth2-proxy
+
+entrypoint:
+  command: /bin/oauth2-proxy
