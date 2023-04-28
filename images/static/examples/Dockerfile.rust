@@ -7,5 +7,5 @@ RUN rustc -C target-feature=+crt-static hello.rs
 
 FROM $BASE
 
-COPY --from=build /work/hello /hello
-CMD ["/hello"]
+COPY --from=build /work/hello /usr/local/bin/
+CMD ["hello"]

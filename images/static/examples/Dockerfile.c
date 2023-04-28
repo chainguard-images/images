@@ -7,5 +7,5 @@ RUN cc -static /hello.c -o /hello
 
 FROM $BASE
 
-COPY --from=build /hello /hello
-CMD ["/hello"]
+COPY --from=build /hello /usr/local/bin/
+CMD ["hello"]
