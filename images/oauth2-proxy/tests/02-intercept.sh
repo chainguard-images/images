@@ -8,18 +8,18 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
     exit 1
 fi
 
-# A complete e2e test would need GitHub (or other provider) account, trusted domain, and  oauth app. 
-# This is a heavy setup lift (and IMO shouldn't be in the scope of one single test anyway) so here 
-# I am testing only that the proxy does in fact intercept a call to a specified endpoint to demand 
+# A complete e2e test would need GitHub (or other provider) account, trusted domain, and  oauth app.
+# This is a heavy setup lift (and IMO shouldn't be in the scope of one single test anyway) so here
+# I am testing only that the proxy does in fact intercept a call to a specified endpoint to demand
 # auth (but am not verifying successful auth and redirect)
 
 
 # Find an unused tcp port (http)
 port_num=8080
 i=49152; while [ $i -ne 65535 ]; do
-  if netstat -tln | grep :$i >/dev/null; then 
+  if netstat -tln | grep :$i >/dev/null; then
     i=$(($i+1))
-  else 
+  else
     port_num=$i; break
   fi
 done
@@ -29,17 +29,17 @@ container_name="testing-oauth2-redirect-interception"
 # cookie-secret: Randomly generated (head -c32 /dev/urandom | base64), required by API but no functional utility here
 # redirect-url: Oauth application's callback url
 # upstream-file: Target of redirect
-docker run --name "${container_name}" -p $port_num:$port_num "${IMAGE_NAME}" \
---cookie-secure=false \
---cookie-secret=RYC2VBUYWQ6aenOkoN6jELQsrjtmwb23a7NdtrLI0ao= \
---upstream=file:///dev/null \
---http-address=0.0.0.0:$port_num \
---redirect-url=http://localhost:${port_num}/oauth2/callback \
---client-id=dummy-id \
---client-secret=dummy-secret \
---email-domain="*" \
---provider=github \
---scope=user:email & 
+docker run --detach --name "${container_name}" -p $port_num:$port_num "${IMAGE_NAME}" \
+  --cookie-secure=false \
+  --cookie-secret=RYC2VBUYWQ6aenOkoN6jELQsrjtmwb23a7NdtrLI0ao= \
+  --upstream=file:///dev/null \
+  --http-address=0.0.0.0:$port_num \
+  --redirect-url=http://localhost:${port_num}/oauth2/callback \
+  --client-id=dummy-id \
+  --client-secret=dummy-secret \
+  --email-domain="*" \
+  --provider=github \
+  --scope=user:email
 trap 'docker rm -f "${container_name}"' ERR
 
 
@@ -48,8 +48,10 @@ trap 'docker rm -f "${container_name}"' ERR
 lookup_config_text="OAuthProxy configured for GitHub Client ID: dummy-id"
 config_text_present=false
 for i in {1..60}; do
-  if ! docker logs "${container_name}" | grep -i "${lookup_config_text}"; then sleep 1;
-  else config_text_present=true; break;
+  if ! docker logs "${container_name}" | grep -i "${lookup_config_text}"; then
+    sleep 1;
+  else
+    config_text_present=true; break;
   fi
 done
 if ! "${config_text_present}"; then exit 1; fi
@@ -60,7 +62,7 @@ tmp_file=$(mktemp)
 
 curl "http://localhost:${port_num}" -o "${tmp_file}"
 lookup_intercept_text="Sign in with GitHub"
-if ! grep -q "${lookup_intercept_text}" "${tmp_file}"; then 
+if ! grep -q "${lookup_intercept_text}" "${tmp_file}"; then
   exit 1
 fi
 
