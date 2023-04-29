@@ -9,6 +9,7 @@ contents:
     - busybox
     - gradle-8
     - wolfi-baselayout
+    - openjdk-17
 
 accounts:
   groups:
@@ -27,6 +28,7 @@ entrypoint:
 
 environment:
   LANG: en_US.UTF-8
+  JAVA_HOME: /usr/lib/jvm/open-jdk
 
 paths:
   - path: /home/build
