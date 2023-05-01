@@ -30,13 +30,15 @@ paths:
     uid: 65532
     gid: 65532
     type: directory
-    permissions: 0o755
+    # Wide permissions required for running with tmpfs. Seems to be related to Docker bug https://github.com/moby/moby/issues/40881
+    permissions: 0o777
     recursive: true
   - path: /var/run
     uid: 65532
     gid: 65532
     type: directory
-    permissions: 0o755
+    # Wide permissions required for running with tmpfs. Seems to be related to Docker bug https://github.com/moby/moby/issues/40881
+    permissions: 0o777
     recursive: false
 
 entrypoint:
