@@ -1,5 +1,5 @@
 <!--monopod:start-->
-# prometheus-node-exporter
+# prometheus-postgres-exporter
 | | |
 | - | - |
 | **Status** | experimental |
