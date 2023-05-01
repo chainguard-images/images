@@ -139,6 +139,7 @@ runs:
     - id: apko
       uses: chainguard-images/actions/apko-snapshot@main
       with:
+        apko-image: ghcr.io/wolfi-dev/apko:latest@sha256:3f7077f5a9d74747c03c03e18d202e81343e654f1b33220220af76db914dc1d1
         config: ${{ inputs.apkoConfig }}
         base-tag: ${{ inputs.apkoBaseTag }}
         target-tag: ${{ inputs.apkoTargetTag }}
