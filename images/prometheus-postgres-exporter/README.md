@@ -2,60 +2,35 @@
 # prometheus-node-exporter
 | | |
 | - | - |
-| **Status** | stable |
-| **OCI Reference** | `cgr.dev/chainguard/prometheus-node-exporter` |
-| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/prometheus-node-exporter.svg) |
+| **Status** | experimental |
+| **OCI Reference** | `cgr.dev/chainguard/prometheus-postgres-exporter` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/prometheus-postgres-exporter.svg) |
 
 *[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
 ---
 <!--monopod:end-->
 
-Minimal Prometheus Node Exporter Image
+Minimal Prometheus Postgres Exporter Image
 
 ## Get It!
 
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/prometheus-node-exporter:latest
+docker pull cgr.dev/chainguard/prometheus-postgres-exporter:latest
 ```
 
 ## Usage
 
-This image listens on port 9100 by default.
+This image listens on port 9187 by default.
 
 To test:
 
 ```shell
-2023-03-04T23:06:01.434Z caller=node_exporter.go:180 level=info msg="Starting node_exporter" version="(version=1.5.0, branch=master, revision=c914f0052629e3c99449bdfb4fa7189ce09e77b5)"
-ts=2023-03-04T23:06:01.435Z caller=node_exporter.go:181 level=info msg="Build context" build_context="(go=go1.20.1, platform=linux/arm64, user=root@167b63aef3b8, date=19700101-00:00:00)"
-ts=2023-03-04T23:06:01.435Z caller=node_exporter.go:183 level=warn msg="Node Exporter is running as root user. This exporter is designed to run as unprivileged user, root is not required."
-ts=2023-03-04T23:06:01.435Z caller=filesystem_common.go:111 level=info collector=filesystem msg="Parsed flag --collector.filesystem.mount-points-exclude" flag=^/(dev|proc|run/credentials/.+|sys|var/lib/docker/.+|var/lib/containers/storage/.+)($|/)
-ts=2023-03-04T23:06:01.435Z caller=filesystem_common.go:113 level=info collector=filesystem msg="Parsed flag --collector.filesystem.fs-types-exclude" flag=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
-ts=2023-03-04T23:06:01.435Z caller=diskstats_common.go:111 level=info collector=diskstats msg="Parsed flag --collector.diskstats.device-exclude" flag=^(ram|loop|fd|(h|s|v|xv)d[a-z]|nvme\d+n\d+p)\d+$
-ts=2023-03-04T23:06:01.436Z caller=diskstats_linux.go:264 level=error collector=diskstats msg="Failed to open directory, disabling udev device properties" path=/run/udev/data
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:110 level=info msg="Enabled collectors"
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:117 level=info collector=arp
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:117 level=info collector=bcache
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:117 level=info collector=rapl
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:117 level=info collector=schedstat
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:117 level=info collector=selinux
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:117 level=info collector=sockstat
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:117 level=info collector=softnet
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:117 level=info collector=stat
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:117 level=info collector=tapestats
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:117 level=info collector=textfile
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:117 level=info collector=thermal_zone
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:117 level=info collector=time
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:117 level=info collector=timex
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:117 level=info collector=udp_queues
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:117 level=info collector=uname
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:117 level=info collector=vmstat
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:117 level=info collector=xfs
-ts=2023-03-04T23:06:01.436Z caller=node_exporter.go:117 level=info collector=zfs
-ts=2023-03-04T23:06:01.436Z caller=tls_config.go:232 level=info msg="Listening on" address=[::]:9100
-ts=2023-03-04T23:06:01.436Z caller=tls_config.go:235 level=info msg="TLS is disabled." http2=false address=[::]:9100
+ts=2023-05-01T19:06:49.164Z caller=proc.go:250 msg="Excluded databases" databases=[]
+ts=2023-05-01T19:06:49.179Z caller=tls_config.go:232 level=info msg="Listening on" address=[::]:9187
+ts=2023-05-01T19:06:49.179Z caller=tls_config.go:235 level=info msg="TLS is disabled." http2=false address=[::]:9187
 ```
 
 ## Configuration
@@ -64,26 +39,59 @@ The image can be configured through flags.
 Run it with the `--help` flag to see the full list:
 
 ```shell
-$ docker run cgr.dev/chainguard/prometheus-node-exporter --help
-usage: node_exporter [<flags>]
+$ docker run cgr.dev/chainguard/prometheus-postgres-exporter --help
+usage: postgres_exporter [<flags>]
+
 
 Flags:
-  -h, --help                     Show context-sensitive help (also try
+  -h, --[no-]help                Show context-sensitive help (also try
                                  --help-long and --help-man).
-      --collector.arp.device-include=COLLECTOR.ARP.DEVICE-INCLUDE
-                                 Regexp of arp devices to include (mutually
-                                 exclusive to device-exclude).
-      --collector.arp.device-exclude=COLLECTOR.ARP.DEVICE-EXCLUDE
-                                 Regexp of arp devices to exclude (mutually
-                                 exclusive to device-include).
-      --collector.bcache.priorityStats
-                                 Expose expensive priority stats.
-      --collector.cpu.guest      Enables metric node_cpu_guest_seconds_total
-      --collector.cpu.info       Enables metric cpu_info
-      --collector.cpu.info.flags-include=COLLECTOR.CPU.INFO.FLAGS-INCLUDE
-                                 Filter the `flags` field in cpuInfo with a
-                                 value that must be a regular expression
-      --collector.cpu.info.bugs-include=COLLECTOR.CPU.INFO.BUGS-INCLUDE
-                                 Filter the `bugs` field in cpuInfo with a value
-                                 that must be a regular expression
+      --[no-]collector.database  Enable the database collector (default:
+                                 enabled).
+      --[no-]collector.bgwriter  Enable the bgwriter collector (default:
+                                 enabled).
+      --[no-]collector.replication_slot
+                                 Enable the replication_slot collector (default:
+                                 enabled).
+      --config.file="postgres_exporter.yml"
+                                 Postgres exporter configuration file.
+      --[no-]web.systemd-socket  Use systemd socket activation listeners instead
+                                 of port listeners (Linux only).
+      --web.listen-address=:9187 ...
+                                 Addresses on which to expose metrics and web
+                                 interface. Repeatable for multiple addresses.
+      --web.config.file=""       [EXPERIMENTAL] Path to configuration file that
+                                 can enable TLS or authentication.
+      --web.telemetry-path="/metrics"
+                                 Path under which to expose metrics.
+                                 ($PG_EXPORTER_WEB_TELEMETRY_PATH)
+      --[no-]disable-default-metrics
+                                 Do not include default metrics.
+                                 ($PG_EXPORTER_DISABLE_DEFAULT_METRICS)
+      --[no-]disable-settings-metrics
+                                 Do not include pg_settings metrics.
+                                 ($PG_EXPORTER_DISABLE_SETTINGS_METRICS)
+      --[no-]auto-discover-databases
+                                 Whether to discover the databases
+                                 on a server dynamically.
+                                 ($PG_EXPORTER_AUTO_DISCOVER_DATABASES)
+      --extend.query-path=""     Path to custom queries to run.
+                                 ($PG_EXPORTER_EXTEND_QUERY_PATH)
+      --[no-]dumpmaps            Do not run, simply dump the maps.
+      --constantLabels=""        A list of label=value separated by comma(,).
+                                 ($PG_EXPORTER_CONSTANT_LABELS)
+      --exclude-databases=""     A list of databases to remove when
+                                 autoDiscoverDatabases is enabled
+                                 ($PG_EXPORTER_EXCLUDE_DATABASES)
+      --include-databases=""     A list of databases to include when
+                                 autoDiscoverDatabases is enabled
+                                 ($PG_EXPORTER_INCLUDE_DATABASES)
+      --metric-prefix="pg"       A metric prefix can be used to have non-default
+                                 (not "pg") prefixes for each of the metrics
+                                 ($PG_EXPORTER_METRIC_PREFIX)
+      --[no-]version             Show application version.
+      --log.level=info           Only log messages with the given severity or
+                                 above. One of: [debug, info, warn, error]
+      --log.format=logfmt        Output format of log messages. One of: [logfmt,
+                                 json]
 ```
