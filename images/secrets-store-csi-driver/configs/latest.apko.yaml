@@ -15,7 +15,7 @@ accounts:
   users:
     - username: secrets-store-csi-driver
       uid: 65532
-  run-as: secrets-store-csi-driver
+  run-as: 0 # run as root
   recursive: true
 
 entrypoint:
