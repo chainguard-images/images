@@ -6,5 +6,5 @@ COPY main.go /main.go
 RUN CGO_ENABLED=0 go build -o /hello /main.go
 
 FROM $BASE
-COPY --from=build /hello /hello
-CMD ["/hello"]
+COPY --from=build /hello /usr/local/bin/
+CMD ["hello"]

@@ -7,7 +7,7 @@ a consistent and smooth experience. New images must meet these standards or docu
 
 Images that are not ready for production use should be marked as ‘Experimental’via the [images.yaml configuration file](https://github.com/chainguard-images/images/blob/main/images/rabbitmq/image.yaml).  Once an image has seen enough usage without issue it will be removed.
 
-We realize ‘enough usage’ leaves a lot of ambiguity.  This is intentional as some images are simple enough we can feel confident in them without using the experimental tag, while others may need to be validated with more usage. 
+We realize ‘enough usage’ leaves a lot of ambiguity.  This is intentional as some images are simple enough we can feel confident in them without using the experimental tag, while others may need to be validated with more usage.
 
 
 ## Version Availability
@@ -25,7 +25,7 @@ At the moment, images should be built for `aarch64` and `x86_64`. We hope to add
 
 Each image must have the following tags:
 
-* **latest**: `latest` is an awful naming convention, but it’s what we have. Latest should point to the _newest stable_ version of the image we have. It **should not** be an edge or nightly release, despite the name. 
+* **latest**: `latest` is an awful naming convention, but it’s what we have. Latest should point to the _newest stable_ version of the image we have. It **should not** be an edge or nightly release, despite the name.
 * **semver:** where possible there should be semver tags for each image, with a tag for each level. For example at the time of writing we have `redis:7.0.8` which is currently the same image as `redis:7.0` and `redis:7`. We only support the last two minor versions for free images. Be careful to make sure that the major version (e.g. `acme:4`) points to the latest minor (e.g. `acme:4.2` not `acme:4.1`). This should be largely handled automatically by our tooling.
 * **dev:** (note *not* `debug` or `full`) variant image that includes apk-tools and a shell, as well as any relevant development tools for the image or ecosystem (e.g language package managers like “pip” or debugging tools). As the image includes apk tools, it can be extended easily in a Dockerfile and extra utilities can be added when debugging inside a container. Easiest way to make this variant is to add wolfi-base which includes apk-tools and busybox.
 
@@ -47,7 +47,7 @@ Note that _version_ tags come before _variant_ tags. So it’s `acme:latest-dev`
 
 ## Users
 
-The user account a Chainguard Image runs as is configured in the `apko.yaml` file.  
+The user account a Chainguard Image runs as is configured in the `apko.yaml` file.
 
 Where there is an existing standard `username` for an image used by other distributions, favor using this.  Having consistency with this `username` will reduce friction when adopting Chainguard Images.
 
@@ -79,7 +79,7 @@ accounts:
 
 ### Setting the User to Run
 
-By default Images should run as a non-root user account - as well as being best security practice, it is often enforced in some environments such as OpenShift. 
+By default Images should run as a non-root user account - as well as being best security practice, it is often enforced in some environments such as OpenShift.
 
 **Example**:
 
@@ -88,7 +88,7 @@ By default Images should run as a non-root user account - as well as being best 
  recursive: true
 ```
 
-In some cases it may be more user friendly to run as root (for example we had multiple issues trying to run the Go image as `nonroot`). In these cases, make sure there is still a `nonroot` user in the image so it can be easily changed and add docs on how to do so (e.g. ``docker run –user nonroot …``). Also consider making a `nonroot` tag variant that runs as the `nonroot` user. 
+In some cases it may be more user friendly to run as root (for example we had multiple issues trying to run the Go image as `nonroot`). In these cases, make sure there is still a `nonroot` user in the image so it can be easily changed and add docs on how to do so (e.g. ``docker run –user nonroot …``). Also consider making a `nonroot` tag variant that runs as the `nonroot` user.
 
 
 ### Switching User
@@ -116,8 +116,8 @@ For apko-built images that need an entrypoint script, it has to be provided in a
 
 Set the ENTRYPOINT and CMD as follows:
 
-* ENTRYPOINT: 
-    * Applications, servers and tooling should call the main application without arguments e.g. `redis-server`. As there is no shell you may need to use the full path. 
+* ENTRYPOINT:
+    * Applications, servers and tooling should call the main application without arguments e.g. `redis-server`. As there is no shell you may need to use the full path.
     * Base images (static, wolfi-base etc) leave empty.
     * Dev variants should use an entrypoint script to make the image behave as described above.
 * CMD should be set appropriately for the type of image:
@@ -144,20 +144,19 @@ annotations:
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/bazel #use github here
 ```
 
-Please add any annotations that are missing here - it’s an easy way to add value to our users. 
+Please add any annotations that are missing here - it’s an easy way to add value to our users.
 
-These are based on the OCI default annotations here [https://github.com/opencontainers/image-spec/blob/main/annotations.md](https://github.com/opencontainers/image-spec/blob/main/annotations.md). 
+These are based on the OCI default annotations here [https://github.com/opencontainers/image-spec/blob/main/annotations.md](https://github.com/opencontainers/image-spec/blob/main/annotations.md).
 
 
 ## Environment Variables
 
 Consider adding environment variables to expose configuration options. In cloud native environments it is typically much easier to set an environment variable (and have it vary per container) than it is to mount a configuration file or even pass arguments to an executable.
 
-This should be extended to include setting passwords, at least where the use of the password is enforced. Whilst having a password exposed in an environment variable may have security implications, it is common and a supported pattern in Kubernetes (it's worth linking to the[ docs on k8s secrets](https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/) in user documentation).
+This should be extended to include setting passwords, at least where the use of the password is enforced. Whilst having a password exposed in an environment variable may have security implications, it is common and a supported pattern in Kubernetes (it's worth linking to the [docs on k8s secrets](https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/) in user documentation).
 
-The [postgres image documentation](https://github.com/chainguard-images/images/tree/main/images/postgres)  provides an example of how to do this:
+The [postgres image documentation](https://github.com/chainguard-images/images/tree/main/images/postgres) provides an example of how to do this:
 
- 
     The only mandatory environment variable needed by the PostgreSQL image is POSTGRES_PASSWORD
     To test and not persist PostgreSQL data run...
 
@@ -165,13 +164,22 @@ The [postgres image documentation](https://github.com/chainguard-images/images/t
 docker run --rm -e POSTGRES_PASSWORD=password -ti --name postgres-test cgr.dev/chainguard/postgres:latest
 ```
 
-
 The postgres image also sets the PGDATA environment variable to the default location of the postgres database, which looks like this in the [apko YAML](https://github.com/chainguard-images/images/blob/main/images/postgres/configs/latest.apko.yaml):
 
 
 ```
 environment:
  PGDATA: /var/lib/postgresql/data
+```
+
+⚠️ **Note**: If a config has no environment variables set, `apko` sets defaults for `PATH` and `SSL_CERT_FILE`. If you add an environment variable, these defaults will be unset -- _potentially breaking users!_ -- unless you explicitly add them back yourself:
+
+```
+environment:
+  NEW_ENV: something-new
+  # These are the defaults set by apko when there are no envs set.
+  PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
 ```
 
 ## Signals
@@ -269,7 +277,7 @@ Other tests that should be considered:
 * The image runs as `nonroot `and GID/UID are set to 65532
     * Alternatively the username and GID/UID may be a commonly used one from the ecosystem e.g: postgres
     * See above for exceptions to nonroot rule
-* ENTRYPOINT 
+* ENTRYPOINT
     * For applications/servers/utilities call main program with no arguments e.g. [redis-server]
     * For base images leave empty
     * For dev variants set to entrypoint script that falls back to system
