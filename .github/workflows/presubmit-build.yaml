@@ -8,7 +8,7 @@ jobs:
     steps:
     - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
     - id: files
-      uses: tj-actions/changed-files@4a0aac0d19aa2838c6741fdf95a5276390418dc2 # v35.9.1
+      uses: tj-actions/changed-files@b2d17f51244a144849c6b37a3a6791b98a51d86f # v35.9.2
       with:
         separator: ','
     - id: generate-matrix
