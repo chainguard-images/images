@@ -45,6 +45,7 @@ jobs:
           echo "ip=$(docker inspect registry.local | jq -r '.[0].NetworkSettings.Networks["bridge"].IPAddress')" >> $GITHUB_OUTPUT
       - uses: chainguard-images/actions/apko-publish@main
         with:
+          apko-image: ghcr.io/wolfi-dev/apko:latest@sha256:d0d35729ac785d5bc15d50a1d99ea9a2aef565779fadf37235edfc9b30a10e75
           config: ${{ matrix.apkoConfig }}
           tag: ${{ steps.registry-ip.outputs.ip }}:5000/${{ matrix.imageName }}:${{ matrix.apkoTargetTag }}
       - name: Run k8s tests
