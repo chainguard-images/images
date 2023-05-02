@@ -80,7 +80,7 @@ runs:
     - id: apko
       uses: chainguard-images/actions/apko-build@main
       with:
-        apko-image: ghcr.io/wolfi-dev/apko:latest@sha256:d0d35729ac785d5bc15d50a1d99ea9a2aef565779fadf37235edfc9b30a10e75
+        apko-image: ${{ inputs.apkoImage }}
         config: ${{ inputs.apkoConfig }}
         tag: ${{ inputs.imageName }}:${{ github.sha }}-${{ inputs.apkoTargetTag }}
         keyring-append: ${{ inputs.apkoKeyringAppend }}
