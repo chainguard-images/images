@@ -2,7 +2,8 @@ on:
   pull_request:
     branches:
       - main
-    types: [labeled]
+    types:
+      - labeled
 jobs:
   presubmit-matrix-k8s:
     if: contains(github.event.pull_request.labels.*.name, 'k8s')
@@ -10,21 +11,23 @@ jobs:
     outputs:
       matrix: ${{ steps.generate-matrix.outputs.matrix }}
     steps:
-    - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-    - id: files
-      uses: tj-actions/changed-files@b2d17f51244a144849c6b37a3a6791b98a51d86f # v35.9.2
-      with:
-        separator: ','
-    - id: generate-matrix
-      uses: ./.github/actions/generate-matrix
-      with:
-        modified-files: ${{ steps.files.outputs.all_changed_files }}
-        melange-mode: none
-        test-tags: k8s
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+      - id: files
+        uses: tj-actions/changed-files@b2d17f51244a144849c6b37a3a6791b98a51d86f # v35.9.2
+        with:
+          separator: ','
+      - id: generate-matrix
+        uses: ./.github/actions/generate-matrix
+        with:
+          modified-files: ${{ steps.files.outputs.all_changed_files }}
+          melange-mode: none
+          test-tags: k8s
+
   presubmit-build-k8s:
     if: contains(github.event.pull_request.labels.*.name, 'k8s')
     runs-on: ubuntu-latest
-    needs: presubmit-matrix-k8s
+    needs:
+      - presubmit-matrix-k8s
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.presubmit-matrix-k8s.outputs.matrix) }}
@@ -54,9 +57,19 @@ jobs:
           export IMAGE_TAG_SUFFIX="${{ matrix.apkoTargetTagSuffix }}"
           cd "${{ matrix.testCommandDir }}"
           ${{ matrix.testCommandExe }}
-  presubmit-roundup-k8s:
+
+  presubmit-roundup:
+    needs:
+      - presubmit-build-k8s
     runs-on: ubuntu-latest
-    needs: presubmit-build-k8s
+    if: always()
     steps:
-      - run: |
-          echo "all matrix jobs completed"
+      - uses: technote-space/workflow-conclusion-action@45ce8e0eb155657ab8ccf346ade734257fd196a5 # v3.0.3
+
+      - if: ${{ env.WORKFLOW_CONCLUSION == 'success' }}
+        working-directory: /tmp
+        run: echo ${{ env.WORKFLOW_CONCLUSION }} && exit 0
+
+      - if: ${{ env.WORKFLOW_CONCLUSION == 'failure' }}
+        working-directory: /tmp
+        run: echo ${{ env.WORKFLOW_CONCLUSION }} && exit 1
