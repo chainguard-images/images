@@ -67,7 +67,7 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - uses: technote-space/workflow-conclusion-action@45ce8e0eb155657ab8ccf346ade734257fd196a5 # v3.0.3
+      - uses: technote-space/workflow-conclusion-action@82dd67fd29a53f18f33a99e0bbfb138318a80dcd # v3.0.4
 
       - if: ${{ env.WORKFLOW_CONCLUSION == 'success' }}
         working-directory: /tmp
