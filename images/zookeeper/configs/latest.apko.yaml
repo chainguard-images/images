@@ -27,7 +27,7 @@ entrypoint:
 cmd: start-foreground
 
 paths:
-  - path: /usr/share/java/zookeper/logs
+  - path: /usr/share/java/zookeeper/logs
     type: directory
     uid: 65532
     gid: 65532
@@ -36,7 +36,6 @@ paths:
 environment:
   LANG: en_US.UTF-8
   JAVA_HOME: /usr/lib/jvm/openjdk
-  ZOOCFG: /usr/share/java/zookeeper/conf
 
 archs:
   - x86_64
