@@ -33,7 +33,7 @@ If you are unable to update currently, you can use the last build of the previou
 docker pull cgr.dev/chainguard/nginx@sha256:bcc6b0d052298112e4644b258de0fa4dc1509e3df8f7c0fba09e8c92987825e7
 ```
 
-This digest corresponds to nginx:1.24.0. This image is not updated and you should migrate to the
+This digest corresponds to nginx version 1.24.0. This image is not updated and you should migrate to the
 new configuration as soon as possible.
 
 ## Get It!
