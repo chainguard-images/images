@@ -21,7 +21,7 @@ breaking changes. You may need to take action to update your application.
 Specifically, the config file was changed to bring the default configuration closer to that of
 official nginx image. If you override the config with a custom configuration, you should not be affected.
 
-The changes include:
+The changes included:
 
  - Moving the default port from 80 to 8080. This is required to run on Kubernetes as a non-privileged user.
  - Setting nginx to automatically determine the number of worker processes
