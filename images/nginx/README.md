@@ -98,7 +98,7 @@ or an equivalent.
 ## Differences to [Docker Official Image](https://hub.docker.com/_/nginx)
 
 Where possible, the image tries to stay close to Docker official image configuration. However our
-image strives for minimalism and the default image does not include a shell or pacakge manager,
+image strives for minimalism and the default image does not include a shell or package manager,
 meaning it isn't possible to achieve an identical configuration. In this section we outline the
 major differences.
 
