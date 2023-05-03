@@ -44,7 +44,7 @@ paths:
 entrypoint:
     command: /usr/sbin/nginx 
 
-cmd: -c /etc/nginx/nginx.conf -g "daemon off;"
+cmd: -c /etc/nginx/nginx.conf -e /dev/stderr -g "daemon off;"
 
 stop-signal: SIGQUIT
 
