@@ -95,7 +95,7 @@ anything to do. If the container is run as root, it would switch to the named us
 leave this configuration in despite the warning for anyone that runs with `--user` switch in Docker
 or an equivalent.
 
-## Differences to Docker Official Image
+## Differences to [Docker Official Image](https://hub.docker.com/_/nginx)
 
 Where possible, the image tries to stay close to Docker official image configuration. However our
 image strives for minimalism and the default image does not include a shell or pacakge manager,
