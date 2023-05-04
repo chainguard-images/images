@@ -10,6 +10,7 @@ contents:
     - aspnet-7-runtime
     - aspnet-7-targeting-pack
     - wolfi-baselayout
+    - ca-certificates-bundle
 
 accounts:
   groups:
