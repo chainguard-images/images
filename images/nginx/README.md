@@ -49,7 +49,7 @@ docker pull cgr.dev/chainguard/nginx:latest
 To try out the image, run:
 
 ```
-docker run -p 8080:80 cgr.dev/chainguard/nginx
+docker run -p 8080:8080 cgr.dev/chainguard/nginx
 ```
 
 If you navigate to `localhost:8080`, you should see the nginx welcome page.
@@ -57,15 +57,15 @@ If you navigate to `localhost:8080`, you should see the nginx welcome page.
 To run an example Hello World app, navigate to the root of this repo and run:
 
 ```
-docker run -v $(pwd)/examples/hello-world/site-content:/var/lib/nginx/html -p 8080:80 cgr.dev/chainguard/nginx
+docker run -v $(pwd)/examples/hello-world/site-content:/var/lib/nginx/html -p 8080:8080 cgr.dev/chainguard/nginx
 ```
 
 If you navigate to `localhost:8080`, you should see `Hello World from Nginx!`.
 
-To use a custom `nginx.conf` you can mount the file into the container
+To use a custom `nginx.conf` you can mount the file into the container, being sure to edit the `-p 8080:8080` published port(s) to match your configuration's `listen` directive:
 
 ```
-docker run -v $(pwd)/$CUSTOM_NGINX_CONF_DIRECTORY/nginx.conf:/etc/nginx/nginx.conf -p 8080:80 cgr.dev/chainguard/nginx
+docker run -v $(pwd)/$CUSTOM_NGINX_CONF_DIRECTORY/nginx.conf:/etc/nginx/nginx.conf -p 8080:8080 cgr.dev/chainguard/nginx
 ```
 
 ## Run in a read-only File System
