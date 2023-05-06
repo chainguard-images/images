@@ -133,4 +133,3 @@ shouldn't make a difference, but note the "User Directive Warning" above.
 
 The Docker official image has support for setting environment variables that get substitued into the
 config file. Currently we do not have support for this, but are [looking into options](https://github.com/chainguard-images/images/issues/435). 
-
