@@ -56,10 +56,9 @@ Extract the kubeconfig, and modify it to use an internal IP:
 
 ```
 KIND_IP="$(docker ps | grep kind- | awk '{print $1}' | xargs docker inspect | jq -r '.[0].NetworkSettings.Networks["kind"].IPAddress')"
-KIND_PORT="$(docker ps | grep kind- | awk '{print $1}' | xargs docker inspect | jq -r '.[0].NetworkSettings.Ports["6443/tcp"][0].HostPort')"
 
 mkdir .kube
-kind get kubeconfig | sed "s|127.0.0.1:${KIND_PORT}|${KIND_IP}:6443|g" \
+kind get kubeconfig | yq '.clusters[].cluster.server = "https://'${KIND_IP}':6443"' \
     > ".kube/config"
 ```
 

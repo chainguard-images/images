@@ -11,10 +11,9 @@ fi
 
 ONLY_TEST_LANG="${ONLY_TEST_LANG:-}"
 
-KIND_IP="$(docker ps | grep kind- | awk '{print $1}' | xargs docker inspect | jq -r '.[0].NetworkSettings.Networks["kind"].IPAddress')"
-KIND_PORT="$(docker ps | grep kind- | awk '{print $1}' | xargs docker inspect | jq -r '.[0].NetworkSettings.Ports["6443/tcp"][0].HostPort')"
-if [[ "${KIND_IP}" == "" || "${KIND_PORT}" == "" ]]; then
-    echo "Could not get KIND_IP or KIND_PORT. Is kind running? Exiting."
+KIND_IP="$(docker ps | grep 'control-plane' | awk '{print $1}' | xargs docker inspect | jq -r '.[0].NetworkSettings.Networks["kind"].IPAddress')"
+if [[ "${KIND_IP}" == "" ]]; then
+    echo "Could not get KIND_IP. Is kind running? Exiting."
     exit 1
 fi
 
@@ -29,7 +28,7 @@ cp -r examples/* "${TMPDIR}"
 # Create a kubeconfig with admin access to kind (from inside docker network)
 mkdir -p "${TMPDIR}/.pulumi"
 mkdir -p "${TMPDIR}/.kube"
-kind get kubeconfig | sed "s|127.0.0.1:${KIND_PORT}|${KIND_IP}:6443|g" \
+kind get kubeconfig | yq '.clusters[].cluster.server = "https://'${KIND_IP}':6443"' \
     > "${TMPDIR}/.kube/config"
 chmod -R go+wrx "${TMPDIR}"
 
