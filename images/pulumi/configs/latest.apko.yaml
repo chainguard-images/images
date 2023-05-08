@@ -37,6 +37,7 @@ contents:
     - pulumi-language-java
     - glibc-locale-en
     - openjdk-17-jre
+    - openjdk-17
     - libstdc++
     - maven
 
