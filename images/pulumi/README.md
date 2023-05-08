@@ -74,7 +74,7 @@ docker run --rm --network kind \
     login file://.
 ```
 
-Decide a unique stakc name:
+Decide a unique stack name:
 ```
 export STACK_NAME="${TEST_LANG}-$(date +%s)"
 ```
