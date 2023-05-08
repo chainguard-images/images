@@ -8,5 +8,4 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
     exit 1
 fi
 
-docker run --rm --entrypoint=bin/oauth2-proxy "${IMAGE_NAME}" --version \
-    | grep -i '^oauth2-proxy'
+docker run --rm "${IMAGE_NAME}" --version | grep -i '^oauth2-proxy'
