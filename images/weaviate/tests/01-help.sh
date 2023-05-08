@@ -7,4 +7,4 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
     exit 1
 fi
 
-docker run --rm "${IMAGE_NAME}" --help | grep "Cloud-native, modular vector search engine"
+docker run --rm "${IMAGE_NAME}" --help | grep "Cloud-native, modular vector database"
