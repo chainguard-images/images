@@ -49,6 +49,20 @@ function pulumi_up {
     name="${2}"
     pulumi_docker_exec "${lang}" "${name}" "login file://."
     pulumi_docker_exec "${lang}" "${name}" "stack init --non-interactive --stack ${name}"
+    
+    # Specifically in the case of nodejs, preinstall the depends to prevent mystery error in CI:
+    #
+    #   error: It looks like the Pulumi SDK has not been installed. Have you run npm install or yarn install?
+    #   error: error reading from server: EOF
+    #
+    if [[ "${lang}" == "nodejs" ]]; then
+        docker run --rm -w /work/smoketest-${lang} \
+            -v "${TMPDIR}:/work" \
+            --entrypoint npm \
+            "${IMAGE_NAME}" \
+            install
+    fi
+
     pulumi_docker_exec "${lang}" "${name}" "up --yes --config name=${name} --stack ${name}"
 }
 
