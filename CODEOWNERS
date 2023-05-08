@@ -1,2 +1,16 @@
-# Each line is a file pattern followed by one or more owners.
+# Docs for CODEOWNERS:
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# By default, everything is owned by images-repository-maintainers
 *       @chainguard-images/images-repository-maintainers
+
+
+# We consider these images to worthy of additional review.
+busybox/image.yaml               @amdawson @imjasonh @kaniini @mattmoor @patflynn
+busybox/configs/*.apko.yaml      @amdawson @imjasonh @kaniini @mattmoor @patflynn
+git/image.yaml                   @amdawson @imjasonh @kaniini @mattmoor @patflynn
+git/configs/*.apko.yaml          @amdawson @imjasonh @kaniini @mattmoor @patflynn
+static/image.yaml                @amdawson @imjasonh @kaniini @mattmoor @patflynn
+static/configs/*.apko.yaml       @amdawson @imjasonh @kaniini @mattmoor @patflynn
+wolfi-base/image.yaml            @amdawson @imjasonh @kaniini @mattmoor @patflynn
+wolfi-base/configs/*.apko.yaml   @amdawson @imjasonh @kaniini @mattmoor @patflynn
