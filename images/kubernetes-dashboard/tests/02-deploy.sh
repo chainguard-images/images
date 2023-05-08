@@ -34,4 +34,6 @@ kubectl wait --for=condition=ready pod --selector k8s-app=kubernetes-dashboard -
 
 # Start up a port-forward to the dashboard and curl the endpoint to make sure it's working
 kubectl port-forward --namespace kubernetes-dashboard service/kubernetes-dashboard 8443:443 &
-curl -k http://localhost:8443/health | grep '"running":true'
+
+# Sleep for 10 seconds to allow the port-forward to properly set up
+(sleep 10 && curl -k http://localhost:8443/health) | grep '"running":true'
