@@ -32,6 +32,7 @@ contents:
     - pulumi-language-nodejs
     - nodejs
     - nghttp2
+    - yarn
 
     # for Pulumi Java support
     - pulumi-language-java
