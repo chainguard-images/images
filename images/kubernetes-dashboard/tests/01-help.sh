@@ -7,4 +7,5 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
     exit 1
 fi
 
-docker run --rm "${IMAGE_NAME}" --help | grep "Cloud-native, modular vector database"
+set +o pipefail
+docker run --rm $IMAGE_NAME  2>&1 | grep "Starting overwatch"

@@ -7,4 +7,6 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
     exit 1
 fi
 
-docker run --rm "${IMAGE_NAME}" --help | grep "Cloud-native, modular vector database"
+docker run -d -v $(pwd):/config -p 9106:9106 --rm $IMAGE_NAME /config/example/example.yml
+sleep 5
+curl localhost:9106/metrics | grep cloudwatch_exporter_build_info
