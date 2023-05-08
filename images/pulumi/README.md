@@ -55,7 +55,7 @@ kind create cluster
 Extract the kubeconfig, and modify it to use an internal IP:
 
 ```
-KIND_IP="$(docker ps | grep kind- | awk '{print $1}' | xargs docker inspect | jq -r '.[0].NetworkSettings.Networks["kind"].IPAddress')"
+KIND_IP="$(docker ps | grep 'control-plane' | awk '{print $1}' | xargs docker inspect | jq -r '.[0].NetworkSettings.Networks["kind"].IPAddress')"
 
 mkdir .kube
 kind get kubeconfig | yq '.clusters[].cluster.server = "https://'${KIND_IP}':6443"' \
@@ -89,6 +89,17 @@ docker run --rm --network kind \
     -e PULUMI_CONFIG_PASSPHRASE="${STACK_NAME}" \
     cgr.dev/chainguard/pulumi:latest \
     stack init --non-interactive --stack ${STACK_NAME}
+```
+
+Note: for some runtimes, you may need to install language-specific dependencies ahead of time.
+Here is an example of preinstalling Node.js dpendencies using `npm install`:
+
+```
+docker run --rm -w /work/smoketest-${lang} \
+    -v "${TMPDIR}:/work" \
+    --entrypoint npm \
+    cgr.dev/chainguard/pulumi:latest \
+    install
 ```
 
 Finally, create the stack:
