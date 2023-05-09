@@ -1,4 +1,4 @@
-status: experimental
+status: stable
 versions:
   - apko:
       config: configs/latest.apko.yaml
@@ -6,3 +6,7 @@ versions:
         package: dotnet-7-runtime
       tags:
         - latest
+  - apko:
+      config: configs/dotnet-6.apko.yaml
+      extractTagsFrom:
+        package: dotnet-6-runtime
