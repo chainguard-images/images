@@ -18,9 +18,6 @@ paths:
 
 work-dir: /app
 
-environment:
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin
-
 entrypoint:
   command: /usr/bin/deno
 cmd: --help

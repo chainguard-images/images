@@ -12,9 +12,6 @@ contents:
 entrypoint:
   command: /bin/php
 
-environment:
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin
-
 paths:
   - path: /app
     type: directory

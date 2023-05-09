@@ -17,6 +17,8 @@ entrypoint:
 environment:
   FLUENTD_CONF: "fluent.conf"
   LD_PRELOAD: ""
+  PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
 
 accounts:
   groups:

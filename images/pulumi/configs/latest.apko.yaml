@@ -53,9 +53,6 @@ accounts:
       uid: 65532
   run-as: 65532
 
-environment:
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin
-
 entrypoint:
   command: /usr/bin/pulumi
 cmd: -h

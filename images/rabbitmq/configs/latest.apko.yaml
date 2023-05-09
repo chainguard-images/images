@@ -57,6 +57,7 @@ environment:
   HOME: /var/lib/rabbitmq
   LANG: en_US.UTF-8
   PATH: /usr/sbin:/sbin:/usr/bin:/bin:/usr/lib/rabbitmq/bin/
+  SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
 
 # By convention, the official Docker node image defines a `node` user, but
 # doesn't run as it unless the image based on it specifies that user.

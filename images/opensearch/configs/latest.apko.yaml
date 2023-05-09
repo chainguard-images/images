@@ -21,6 +21,8 @@ accounts:
 
 environment:
   JAVA_HOME: /usr/lib/jvm/openjdk
+  PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
 
 entrypoint:
   command: /usr/bin/docker-entrypoint.sh

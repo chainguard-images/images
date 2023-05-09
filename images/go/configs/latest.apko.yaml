@@ -24,6 +24,8 @@ accounts:
 
 environment:
   GODEBUG: tarinsecurepath=0,zipinsecurepath=0
+  PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
 
 entrypoint:
   command: /usr/bin/go

@@ -25,8 +25,9 @@ environment:
   # By convention, Node apps look to the NODE_PORT env var to determine what
   # port to listen on. Default to a high port since the user runs as non-root.
   NODE_PORT: 3000
-  PATH: /usr/sbin:/sbin:/usr/bin:/bin
   NPM_CONFIG_UPDATE_NOTIFIER: false # Disables npm update notifications
+  PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
 
 entrypoint:
   command: /usr/bin/node

@@ -27,6 +27,8 @@ environment:
   INFLUXD_INIT_PORT: 9999
   INFLUXD_INIT_PING_ATTEMPTS: 600
   DOCKER_INFLUXDB_INIT_CLI_CONFIG_NAME: default
+  PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
 
 paths:
   - path: /var/lib/influxdb2

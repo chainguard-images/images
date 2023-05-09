@@ -32,6 +32,8 @@ environment:
   DISABLE_STATEFILES: true
   STORAGE: local
   STORAGE_LOCAL_ROOTDIR: /charts
+  PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
 
 entrypoint:
   command: /usr/bin/chartmuseum

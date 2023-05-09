@@ -31,6 +31,8 @@ environment:
   PGDATA: /var/lib/postgresql/data
   # Postgres defers to locale and docker-library/postgres sets UTF-8 as default.
   LANG: en_US.UTF-8
+  PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
 
 work-dir: /home/postgres
 

@@ -11,6 +11,8 @@ contents:
 
 environment:
   PYTHONUNBUFFERED: 1
+  PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
 
 entrypoint:
   command: /usr/share/app/.venv/bin/python -u /usr/share/app/sidecar.py

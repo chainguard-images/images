@@ -29,6 +29,8 @@ entrypoint:
 environment:
   LANG: en_US.UTF-8
   JAVA_HOME: /usr/lib/jvm/openjdk
+  PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
 
 paths:
   - path: /home/build
