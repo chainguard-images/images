@@ -1,4 +1,4 @@
-status: experimental
+status: stable
 versions:
   - apko:
       config: configs/latest.apko.yaml
@@ -6,6 +6,14 @@ versions:
         package: dotnet-7-sdk
       tags:
         - latest
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
+  - apko:
+      config: configs/dotnet-6.apko.yaml
+      extractTagsFrom:
+        package: dotnet-6-sdk
       subvariants:
         - suffix: -dev
           options:

@@ -25,7 +25,7 @@ docker pull cgr.dev/chainguard/fluentd
 
 Run a Fluentd instance that will receive messages over TCP port 24224 through the Forward protocol, and send the messages to the STDOUT interface in JSON format
 
-Run the fluentd container and mount the fluent.conf in [examples/](./examples/)
+Run the fluentd container and mount the fluent.conf in [examples/](https://github.com/chainguard-images/images/tree/main/images/fluentd/examples)
 
 ```sh
 docker run --rm -p 127.0.0.1:24224:24224 -v ${PWD}/examples/basic_docker.conf:/etc/fluent/fluent.conf cgr.dev/chainguard/fluentd
