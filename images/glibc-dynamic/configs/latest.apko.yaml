@@ -6,6 +6,8 @@ contents:
   packages:
     - ca-certificates-bundle
     - glibc
+    - libgcc
+    - libstdc++
     - wolfi-baselayout
 
 archs:
