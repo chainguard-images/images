@@ -1,0 +1,9 @@
+versions:
+  - apko:
+      config: configs/latest.apko.yaml
+      extractTagsFrom:
+        package: metrics-server
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
