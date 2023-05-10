@@ -2,7 +2,7 @@ versions:
   - apko:
       config: configs/latest.apko.yaml
       extractTagsFrom:
-        package: keda
+        package: keda-admission-webhooks
       subvariants:
         - suffix: -dev
           options:
