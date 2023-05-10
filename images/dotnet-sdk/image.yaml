@@ -10,11 +10,3 @@ versions:
         - suffix: -dev
           options:
             - dev
-  - apko:
-      config: configs/dotnet-6.apko.yaml
-      extractTagsFrom:
-        package: dotnet-6-sdk
-      subvariants:
-        - suffix: -dev
-          options:
-            - dev
