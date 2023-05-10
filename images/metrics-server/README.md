@@ -18,5 +18,5 @@ Container image with only bash and libc. Suitable for running any small scripts 
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/bash:latest
+docker pull cgr.dev/chainguard/metrics-server:latest
 ```
