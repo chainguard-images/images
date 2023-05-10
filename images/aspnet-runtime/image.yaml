@@ -6,7 +6,3 @@ versions:
         package: aspnet-7-runtime
       tags:
         - latest
-  - apko:
-      config: configs/dotnet-6.apko.yaml
-      extractTagsFrom:
-        package: aspnet-6-runtime
