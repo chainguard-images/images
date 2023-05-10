@@ -2,7 +2,7 @@
 # cc-dynamic
 | | |
 | - | - |
-| **Status** | stable |
+| **Status** | deprecated |
 | **OCI Reference** | `cgr.dev/chainguard/cc-dynamic` |
 | **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/cc-dynamic.svg) |
 
@@ -17,6 +17,8 @@ These are typically C++ or Rust binaries.
 This image is meant to be used as just a base image only. It does not contain any programs that can be run, other than `/sbin/ldconfig`.
 
 You must bring your own artifacts to use this image, e.g. with a Docker multi-stage build. If you want locale support other than `C.UTF-8`, you must bring your own locale data as well. This may change in the future based on user feedback.
+
+This image is deprecated.  Use the `glibc-dynamic` image instead which is designed to cover the same use cases.
 
 ## Get It!
 
