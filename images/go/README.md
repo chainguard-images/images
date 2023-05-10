@@ -30,7 +30,7 @@ still available at `cgr.dev/chainguard/go:latest-musl`.
 
 ## Host architecture example
 
-To build the Go application in [examples/hello/main.go](examples/hello/main.go)
+To build the Go application in [examples/hello/main.go](https://github.com/chainguard-images/images/blob/main/images/go/examples/hello/main.go)
 using the host architecture:
 
 ```sh

@@ -27,7 +27,7 @@ docker pull cgr.dev/chainguard/node:latest
 
 ## Usage Example
 
-Navigate to the [`example/`](./example/) directory:
+Navigate to the [`example/`](https://github.com/chainguard-images/images/tree/main/images/node/example) directory:
 
 ```
 cd example/

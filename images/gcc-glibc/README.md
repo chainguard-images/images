@@ -23,7 +23,7 @@ docker pull cgr.dev/chainguard/gcc-glibc:latest
 
 ## Usage
 
-To build the C application in [examples/hello/main.c](examples/hello/main.c):
+To build the C application in [examples/hello/main.c](https://github.com/chainguard-images/images/blob/main/images/gcc-glibc/examples/hello/main.c):
 
 ```
 $ docker run --rm -v "${PWD}:/work" cgr.dev/chainguard/gcc-glibc examples/hello/main.c -o hello
