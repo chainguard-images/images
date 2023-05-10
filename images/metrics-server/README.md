@@ -11,7 +11,7 @@
 ---
 <!--monopod:end-->
 
-Container image with only bash and libc. Suitable for running any small scripts or binaries that need bash instead of just the busybox shell.
+Minimal metric-server container image.
 
 ## Get It!
 
