@@ -1,4 +1,4 @@
-ref: cgr.dev/chainguard-private/prometheus-config-reloader
+ref: cgr.dev/chainguard/prometheus-config-reloader
 versions:
   - apko:
       config: configs/latest.apko.yaml

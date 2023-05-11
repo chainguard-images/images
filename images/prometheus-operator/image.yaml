@@ -1,4 +1,4 @@
-ref: cgr.dev/chainguard-private/prometheus-operator
+ref: cgr.dev/chainguard/prometheus-operator
 versions:
   - apko:
       config: configs/latest.apko.yaml
