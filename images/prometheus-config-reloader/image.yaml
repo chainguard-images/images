@@ -1,0 +1,10 @@
+ref: cgr.dev/chainguard-private/prometheus-config-reloader
+versions:
+  - apko:
+      config: configs/latest.apko.yaml
+      extractTagsFrom:
+        package: prometheus-config-reloader
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
