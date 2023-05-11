@@ -81,40 +81,7 @@ TEST_startup() {
 }
 
 #
-# TEST_kill_signal tests to ensure the container will respond to kill signals.
-# It will start up a container in the background and then send the specific
-# signal to the container. After waiting for a few seconds it checks to see if
-# the container is still alive, failing if it is.
-#
-TEST_kill_signal() {
-  local -r signal="${1}"
-
-  echo "${signal} Testing"
-  local -r container_id=$(start_container_detached)
-
-  # Attempt to kill the container with the specified signal
-  docker kill "${container_id}" --signal "${signal}"
-
-  # Wait for the container to die
-  sleep 5
-
-  # Check if container is still running
-  # NOTE: The `grep` needs to be inside the conditional so it doesn't fail the
-  #       script due to the `-o pipefail`
-  if [ "$(docker ps --no-trunc | grep "${container_id}" | wc -l)" -ne "0" ]; then
-    docker ps --no-trunc
-    echo "${signal} Failed"
-    exit 1;
-  fi
-  echo "${signal} Success"
-}
-
-#
 # Basic functional testing
 #
 TEST_startup
 TEST_default_args
-
-# TODO: Container won't start unless it's in a pod. Need to test on k8s
-# TEST_kill_signal "SIGTERM"
-# TEST_kill_signal "SIGKILL"
