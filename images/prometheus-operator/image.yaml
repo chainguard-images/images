@@ -1,0 +1,10 @@
+ref: cgr.dev/chainguard-private/prometheus-operator
+versions:
+  - apko:
+      config: configs/latest.apko.yaml
+      extractTagsFrom:
+        package: prometheus-operator
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
