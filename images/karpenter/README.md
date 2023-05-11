@@ -25,7 +25,7 @@ docker pull cgr.dev/chainguard/karpenter:latest
 
 The Chainguard Karpenter image contains the `karpenter` controller and is a drop-in replacement for the upstream image.
 
-To try it out, you should be able to follow the [official installation instructions](https://karpenter.sh/v0.27.0/getting-started/getting-started-with-eksctl/) and pass this to helm to use our image:
+To try it out, follow the [official installation instructions](https://karpenter.sh/preview/getting-started/getting-started-with-karpenter/) but edit the Helm command to include the following arguments:
 
 ```
 --set controller.image.repository=cgr.dev/chainguard/karpenter \
