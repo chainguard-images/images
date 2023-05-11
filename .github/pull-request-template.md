@@ -33,13 +33,12 @@ addressed, and remove any items that are not relevant to this PR.
 #### For new image PRs only
 
 If you have an apko.yaml file in this PR you need to follow this checklist, otherwise feel free to remove.
-- [ ] Image is marked experimental or stable as appropriate
+- [ ] Include tests, sufficient enough that you would trust this image running in production.
 - [ ] The version included is the latest GA version of the software
 - [ ] The latest tag points to the newest stable version
 - [ ] There is a dev tag available that includes a shell and apk tools (by depending on 'wolfi-base')
 - [ ] The image runs as `nonroot` and GID/UID are set to 65532
   - [ ] Alternatively the username and GID/UID may be a commonly used one from the ecosystem e.g: postgres
-  - [ ] See above for exceptions to nonroot rule
 - [ ] ENTRYPOINT
   - [ ] For applications/servers/utilities call main program with no arguments e.g. [redis-server]
   - [ ] For base images leave empty
@@ -61,4 +60,3 @@ annotations:
   - [ ] `docker kill $(docker run -d --rm cgr.dev/chainguard/nginx)`
 - [ ] Documentation. Let's make this excellent. Include usage example.
 - [ ] Error logs write to stderr and normal logs to stdout. DO NOT write to file.
-- [ ] Include tests, at the very least a basic smoke test.
