@@ -10,3 +10,29 @@
 
 ---
 <!--monopod:end-->
+
+## Try It Out
+
+```sh
+helm upgrade --install cg-test \
+    prometheus-community/kube-prometheus-stack \
+    --set prometheusOperator.prometheusConfigReloader.image.repository=chainguard/prometheus-config-reloader \
+    --set prometheusOperator.prometheusConfigReloader.image.registry=cgr.dev \
+    --set prometheusOperator.prometheusConfigReloader.image.tag=<set to the latest chainguard tag>
+```
+
+You'll want to make sure the `kube-prometheus-stack` chart is up-to-date and use the latest operator tag that's within the compatibility matrix.
+
+## Known Deviations
+
+The location of the operator binary changes in this image. This image uses
+
+```sh
+/usr/bin/prometheus-config-reloader
+```
+
+Upstream image uses
+
+```sh
+/bin/prometheus-config-reloader
+```
