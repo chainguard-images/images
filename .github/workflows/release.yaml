@@ -53,9 +53,55 @@ jobs:
         [[ "$(cat matrix-unique-images.json)" != "" ]] || echo '${{ steps.generate-matrix-schedule.outputs.matrix-unique-images }}' > matrix-unique-images.json
         [[ "$(cat matrix-unique-images.json)" != "" ]] || echo '${{ steps.generate-matrix-main.outputs.matrix-unique-images }}' > matrix-unique-images.json
         echo "matrix-unique-images=$(cat matrix-unique-images.json)" >> $GITHUB_OUTPUT
+
+  # Originally found in apko-snapshot action
+  generate-slsa-provenance:
+    runs-on: ubuntu-latest
+    outputs:
+      slsa-provenance-cache-key: ${{ steps.generate-slsa-provenance.outputs.slsa-provenance-cache-key }}
+    permissions:
+      id-token: write
+      packages: write
+      contents: read
+      actions: read
+    steps:
+      - name: Generate SLSA provenance
+        id: generate-slsa-provenance
+        env:
+          COSIGN_EXPERIMENTAL: "true"
+          GENERATOR_REPOSITORY: slsa-framework/slsa-github-generator
+          GENERATOR_RELEASE_TAG: v1.5.0
+          GENERATOR_RELEASE_BINARY: slsa-generator-container-linux-amd64
+          GENERATOR_RELEASE_BINARY_SHA256: 6d8b83327ac2134aa8760e1e4f9cd5d3fdbcb56599e39be2cd965f1e04aa8ede
+          GH_TOKEN: "${{ github.token }}"
+          GITHUB_CONTEXT: "${{ toJSON(github) }}" # Needed by slsa-generator-container
+        run: |
+          set -x
+          # Fetch the generator
+          gh release -R "${GENERATOR_REPOSITORY}" download "${GENERATOR_RELEASE_TAG}" -p "${GENERATOR_RELEASE_BINARY}"
+          COMPUTED_HASH="$(sha256sum "${GENERATOR_RELEASE_BINARY}" | awk '{print $1}')"
+          if [[ "${COMPUTED_HASH}" != "${GENERATOR_RELEASE_BINARY_SHA256}" ]]; then
+            echo "Mismatched checksums (wanted ${GENERATOR_RELEASE_BINARY_SHA256} got ${COMPUTED_HASH}). Exiting."
+            exit 1
+          fi
+          chmod +x "${GENERATOR_RELEASE_BINARY}"
+
+          # Create the provenance document
+          echo "Generating SLSA build provenance ..."
+          "./${GENERATOR_RELEASE_BINARY}" generate --predicate="provenance.json"
+          echo "Provenance doc:"
+          cat provenance.json | jq
+          echo "slsa-provenance-cache-key=slsa-${{ github.run_id }}-$(date +%s)" >> $GITHUB_OUTPUT
+      - id: cache-slsa-provenance-doc
+        name: Cache the SLSA Provenance doc to be used in matrix legs
+        uses: actions/cache/save@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
+        with:
+          path: ./provenance.json
+          key: "${{ steps.generate-slsa-provenance.outputs.slsa-provenance-cache-key }}"
+
   build:
     runs-on: ubuntu-latest
-    needs: generate-matrix
+    needs: [generate-matrix, generate-slsa-provenance]
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
@@ -79,6 +125,7 @@ jobs:
           # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
           EXTRA_INPUT_CHAINGUARD_IDENTITY: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
           EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:d0d35729ac785d5bc15d50a1d99ea9a2aef565779fadf37235edfc9b30a10e75
+          EXTRA_INPUT_SLSA_PROVENANCE_CACHE_KEY: ${{ needs.generate-slsa-provenance.outputs.slsa-provenance-cache-key }}
         run: |
           # convert env vars beginning with "EXTRA_INPUT_"
           # to camelcased input variables passed to next step
@@ -91,7 +138,11 @@ jobs:
             mv inputs.json.tmp inputs.json
           done
           echo "release-image-inputs=$(cat inputs.json | tr -d '\n')" >> $GITHUB_OUTPUT
+      - uses: ./.github/actions/release-image-terraform
+        if: ${{ matrix.useTerraform }}
+        with: ${{ fromJSON(steps.release-image-inputs.outputs.release-image-inputs) }}
       - uses: ./.github/actions/release-image
+        if: ${{ ! matrix.useTerraform }}
         with: ${{ fromJSON(steps.release-image-inputs.outputs.release-image-inputs) }}
       - uses: ./.github/actions/policy-check-image
         with: ${{ fromJSON(steps.release-image-inputs.outputs.release-image-inputs) }}
@@ -99,7 +150,7 @@ jobs:
   image-summary:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    needs: [generate-matrix, build]
+    needs: [generate-matrix, generate-slsa-provenance, build]
     if: always()
     strategy:
       fail-fast: false

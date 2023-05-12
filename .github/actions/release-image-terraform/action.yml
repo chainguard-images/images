@@ -1,4 +1,4 @@
-name: release-image
+name: release-image-terraform
 inputs:
   slackWebhookUrl:
     default: ''
@@ -135,26 +135,111 @@ runs:
         yq -M '{"options": .}' tmp.yaml >> "${{ inputs.apkoConfig }}"
         rm -f tmp.yaml
 
-    # Build and push
-    - id: apko
-      uses: chainguard-images/actions/apko-snapshot@main
+    # Needed in step below to login to registry (if cgr.dev), and also for SLSA attestation
+    - name: Setup cosign
+      uses: sigstore/cosign-installer@v3
+
+    # Create docker config for use by rumble
+    - id: rumble-docker-config
+      shell: bash
+      run: |
+        REGISTRY_HOSTNAME="$(echo ${{ inputs.apkoBaseTag }} | cut -d / -f 1)"
+        export DOCKER_CONFIG="${PWD}/.docker-rumble"
+        mkdir -p "${DOCKER_CONFIG}"
+        echo '{}' > "${DOCKER_CONFIG}/config.json"
+        if [[ "${REGISTRY_HOSTNAME}" == "cgr.dev" ]]; then
+          CRED_HELPER_GET_RESPONSE="$(echo "cgr.dev" | docker-credential-cgr get)"
+          echo "$(echo "${CRED_HELPER_GET_RESPONSE}" | jq -r .Secret)" | \
+            cosign login -u "$(echo "${CRED_HELPER_GET_RESPONSE}" | jq -r .Username)" --password-stdin "cgr.dev"
+        elif [[ "${REGISTRY_HOSTNAME}" == *"gcr.io" || "${REGISTRY_HOSTNAME}" == *"pkg.dev" ]]; then
+          gcloud auth print-access-token | \
+            docker login -u oauth2accesstoken --password-stdin "https://${REGISTRY_HOSTNAME}"
+        else
+          echo "${{ github.token }}" | \
+            docker login -u "${{ github.repository_owner }}" --password-stdin "https://ghcr.io"
+        fi
+
+    - name: Setup Terrafrom
+      id: setup-terraform
+      uses: hashicorp/setup-terraform@v2
       with:
-        apko-image: ${{ inputs.apkoImage }}
-        config: ${{ inputs.apkoConfig }}
-        base-tag: ${{ inputs.apkoBaseTag }}
-        target-tag: ${{ inputs.apkoTargetTag }}
-        keyring-append: ${{ inputs.apkoKeyringAppend }}
-        repository-append: ${{ inputs.apkoRepositoryAppend }}
-        additional-tags: ${{ inputs.apkoAdditionalTags }}
-        package-version-tag: ${{ inputs.apkoPackageVersionTag }}
-        package-version-tag-stem: true
-        package-version-tag-prefix: ${{ inputs.apkoPackageVersionTagPrefix }}
-        stage_tags: apko.tags
-        build-options: ${{ inputs.apkoBuildOptions }}
-        sbom-attest: true
-        slsa-attest: ${{ inputs.slsaProvenanceCacheKey != '' }}
-        generic-user: ${{ steps.cgrauth2.outputs.username }}
-        generic-pass: ${{ steps.cgrauth2.outputs.password }}
+        terraform_version: '1.3.*'
+        terraform_wrapper: false
+
+    - name: Terraform apply (apko publish)
+      id: terraform-apply
+      shell: bash
+      env:
+        TF_VAR_apko_config_path: ${{ inputs.apkoConfig }}
+        TF_VAR_target_repository: ${{ inputs.apkoBaseTag }}
+        TF_VAR_extract_package: ${{ inputs.apkoPackageVersionTag }}
+        TF_VAR_build_options: ${{ inputs.apkoBuildOptions }}
+        DOCKER_CONFIG: .docker-rumble
+      run: |
+        set -x
+        env | grep '^TF_VAR_'
+        terraform init
+        terraform apply -auto-approve
+
+    # Needed in step below to process arch-specific manifest digests etc.
+    - name: Setup crane
+      id: setup-crane
+      uses: imjasonh/setup-crane@v0.3
+
+    - name: Process Terraform outputs
+      id: apko
+      shell: bash
+      env:
+        DOCKER_CONFIG: .docker-rumble
+      run: |
+        set -x
+
+        # Extra stuff related to output etc. used in remainder of pipeline
+        digest="$(terraform output --raw image_ref)"
+        output="digest-index=${digest}"
+        echo "Adding GitHub step output: ${output}"
+        echo "${output}" >> $GITHUB_OUTPUT
+        output="shortdigest-index=$(echo "${digest}" | cut -d@ -f 2)"
+        echo "Adding GitHub step output: ${output}"
+        echo "${output}" >> $GITHUB_OUTPUT
+
+        # If its an index, extract the platform digests too
+        CRANE_MANIFEST_OUTPUT="$(crane manifest ${digest})"
+        if [[ "$(echo $CRANE_MANIFEST_OUTPUT | jq -r .mediaType)" == "application/vnd.oci.image.index.v1+json" ]]; then
+          for combo in `echo $CRANE_MANIFEST_OUTPUT | jq -r '.manifests[] | .platform.architecture + .platform.variant + "_" + .digest'`; do
+            arch="$(echo "${combo}" | cut -d "_" -f1)"
+            digest="$(echo "${combo}" | cut -d "_" -f2)"
+            output="digest-${arch}=${{ inputs.apkoBaseTag }}@${digest}"
+            echo "Adding GitHub step output: ${output}"
+            echo "${output}" >> $GITHUB_OUTPUT
+            output="shortdigest-${arch}=${digest}"
+            echo "Adding GitHub step output: ${output}"
+            echo "${output}" >> $GITHUB_OUTPUT
+          done
+        fi
+
+    # The apko.tags file is needed in tagging below after all attestations and tests pass etc.
+    - name: Create apko.tags file
+      id: create-apko-tags
+      shell: bash
+      env:
+        DOCKER_CONFIG: .docker-rumble
+      run: |
+        set -x
+
+        # Add the primary tag (e.g. "latest") and the timestamped tag (e.g. "latest-20230512")
+        echo "${{ inputs.apkoBaseTag }}:${{ inputs.apkoTargetTag }}" > apko.tags
+        echo "${{ inputs.apkoBaseTag }}:${{ inputs.apkoTargetTag }}-$(date -u +%Y%m%d)" >> apko.tags
+
+        package_version_json="$(terraform output --json package_version)"
+        echo "Package version JSON: ${package_version_json}"
+        for v in $(echo "${package_version_json}" | jq -r '.[]'); do
+          tag="${v}${{ inputs.apkoTargetTagSuffix }}"
+          echo "${{ inputs.apkoBaseTag }}:${tag}" >> apko.tags
+        done
+
+        echo "Contents of apko.tags:"
+        cat apko.tags
 
     # SLSA attestation
     # Originally found in apko-snapshot action
@@ -166,8 +251,7 @@ runs:
       with:
         path: ./provenance.json
         key: ${{ inputs.slsaProvenanceCacheKey }}
-
-    - name: Attest SLSA provenance
+    - name: 'SLSA: Generate provenance and attest'
       if: inputs.slsaProvenanceCacheKey != ''
       shell: bash
       env:
@@ -214,26 +298,6 @@ runs:
         export IMAGE_TAG_SUFFIX="${{ inputs.apkoTargetTagSuffix }}"
         cd "${{ inputs.testCommandDir }}"
         ${{ inputs.testCommandExe }}
-
-    # Create docker config for use by rumble
-    - id: rumble-docker-config
-      shell: bash
-      run: |
-        REGISTRY_HOSTNAME="$(echo ${{ inputs.apkoBaseTag }} | cut -d / -f 1)"
-        export DOCKER_CONFIG="${PWD}/.docker-rumble"
-        mkdir -p "${DOCKER_CONFIG}"
-        echo '{}' > "${DOCKER_CONFIG}/config.json"
-        if [[ "${REGISTRY_HOSTNAME}" == "cgr.dev" ]]; then
-          CRED_HELPER_GET_RESPONSE="$(echo "cgr.dev" | docker-credential-cgr get)"
-          echo "$(echo "${CRED_HELPER_GET_RESPONSE}" | jq -r .Secret)" | \
-            cosign login -u "$(echo "${CRED_HELPER_GET_RESPONSE}" | jq -r .Username)" --password-stdin "cgr.dev"
-        elif [[ "${REGISTRY_HOSTNAME}" == *"gcr.io" || "${REGISTRY_HOSTNAME}" == *"pkg.dev" ]]; then
-          gcloud auth print-access-token | \
-            docker login -u oauth2accesstoken --password-stdin "https://${REGISTRY_HOSTNAME}"
-        else
-          echo "${{ github.token }}" | \
-            docker login -u "${{ github.repository_owner }}" --password-stdin "https://ghcr.io"
-        fi
 
     # Scan - first index, then amd64, then arm64, then others
     # TODO: improve this - make a single action that runs multiple, or run in matrix at top level
@@ -380,11 +444,6 @@ runs:
             fi
           done
           if [[ "${skip}" == "0" ]]; then
-            # Do not add suffix to target tag or target tag + date
-            # (these aleady have suffix, e.g. "1.19-dev" or "1.19-dev-20230315")
-            if ! [[ "${tag}" == "${{ inputs.apkoBaseTag }}:${{ inputs.apkoTargetTag }}" || "${tag}" =~ ^"${{ inputs.apkoBaseTag }}:${{ inputs.apkoTargetTag }}"-[0-9]{8}$ ]]; then
-              tag="${tag}${{ inputs.apkoTargetTagSuffix }}"
-            fi
             crane cp "${REF}" "${tag}"
             # Mirror image to alternate destination
             if [[ "${{ inputs.mirror }}" != "" ]]; then
