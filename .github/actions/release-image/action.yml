@@ -152,7 +152,7 @@ runs:
         stage_tags: apko.tags
         build-options: ${{ inputs.apkoBuildOptions }}
         sbom-attest: true
-        slsa-attest: ${{ inputs.slsaProvenanceCacheKey != '' }}
+        slsa-attest: ${{ inputs.slsaProvenanceCacheKey == '' }}
         generic-user: ${{ steps.cgrauth2.outputs.username }}
         generic-pass: ${{ steps.cgrauth2.outputs.password }}
 
