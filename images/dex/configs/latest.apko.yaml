@@ -1,0 +1,53 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+  packages:
+    - ca-certificates-bundle
+    - wolfi-baselayout
+    - dex
+    - gomplate
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 1001
+  users:
+    - username: nonroot
+      uid: 1001
+      gid: 1001
+  run-as: 1001
+
+paths:
+  - path: /var/dex
+    type: directory
+    uid: 1001
+    gid: 1001
+    permissions: 0o755
+    recursive: true
+  - path: /etc/dex
+    uid: 1001
+    gid: 1001
+    type: directory
+    permissions: 0o755
+    recursive: true
+  - path: /srv/dex
+    type: directory
+    uid: 1001
+    gid: 1001
+    permissions: 0o755
+    recursive: true
+
+entrypoint:
+  command: /usr/bin/docker-entrypoint
+cmd: dex serve /etc/dex/config.docker.yaml
+
+archs:
+- x86_64
+- aarch64
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/dex/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/dex

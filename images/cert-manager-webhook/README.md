@@ -2,7 +2,7 @@
 # cert-manager-webhook
 | | |
 | - | - |
-| **Status** | experimental |
+| **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/cert-manager-webhook` |
 | **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/cert-manager-webhook.svg) |
 
