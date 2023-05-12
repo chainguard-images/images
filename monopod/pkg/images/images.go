@@ -36,6 +36,7 @@ type Image struct {
 	TestCommandExe              string `json:"testCommandExe"`
 	TestCommandDir              string `json:"testCommandDir"`
 	ExcludeTags                 string `json:"excludeTags"`
+	UseTerraform                bool   `json:"useTerraform"`
 	ExcludeContact              bool   `json:"-"`
 }
 
@@ -43,6 +44,7 @@ type ImageManifest struct {
 	Ref            string                 `yaml:"ref"`
 	Status         string                 `yaml:"status"`
 	ExcludeContact bool                   `yaml:"excludeContact"`
+	Terraform      bool                   `yaml:"terraform"`
 	Variants       []ImageManifestVariant `yaml:"versions"`
 }
 
@@ -264,6 +266,8 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 				melangeConfig = strings.Join(tmp, ",")
 			}
 
+			useTerraform := m.Terraform
+
 			i := Image{
 				ImageName:                   imageName,
 				ImageStatus:                 imageStatus,
@@ -286,6 +290,7 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 				TestCommandExe:              testCommandExe,
 				TestCommandDir:              testCommandDir,
 				ExcludeTags:                 strings.Join(variant.Apko.ExtractTagsFrom.Exclude, ","),
+				UseTerraform:                useTerraform,
 				ExcludeContact:              imageExcludeContact,
 			}
 			allImages = append(allImages, i)
