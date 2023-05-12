@@ -25,9 +25,26 @@ docker pull cgr.dev/chainguard/karpenter:latest
 
 The Chainguard Karpenter image contains the `karpenter` controller and is a drop-in replacement for the upstream image.
 
-To try it out, follow the [official installation instructions](https://karpenter.sh/preview/getting-started/getting-started-with-karpenter/) but edit the Helm command to include the following arguments:
+To try it out, follow the [official installation
+instructions](https://karpenter.sh/preview/getting-started/getting-started-with-karpenter/) but edit
+the Helm command to use our image. To do this, you'll first need to retrieve the digest of our
+image, which you can do with [crane](https://github.com/google/go-containerregistry/tree/main/cmd/crane) or Docker:
+
+```
+$ DIGEST=$(crane digest --platform linux/amd64 cgr.dev/chainguard/karpenter:latest)
+$ echo $DIGEST
+sha256:8a178372c9e105300104d48065d61022fe1bd268737edaba4ac83e2c10159276
+
+$ docker manifest inspect cgr.dev/chainguard/karpenter | \
+  jq '.manifests[] | select(.platform.architecture == "amd64").digest'
+$ echo $DIGEST
+sha256:8a178372c9e105300104d48065d61022fe1bd268737edaba4ac83e2c10159276
+```
+Note that you need to specify the platform required to get the correct digest.
+
+Finally, edit the `helm upgrade` command to include the following lines:
 
 ```
 --set controller.image.repository=cgr.dev/chainguard/karpenter \
---set controller.image.digest=$DIGEST
+--set controller.image.digest=$DIGEST \
 ```
