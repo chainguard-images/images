@@ -30,10 +30,10 @@ variable "extract_package" {
 }
 
 provider "apko" {
-  extra_repositories = []
-  extra_keyring      = []
-  default_archs      = []
-  extra_packages     = []
+  extra_repositories = ["https://packages.wolfi.dev/os"]
+  extra_keyring      = ["https://packages.wolfi.dev/os/wolfi-signing.rsa.pub"]
+  default_archs      = ["x86_64", "aarch64"]
+  extra_packages     = ["wolfi-baselayout"]
 }
 
 module "image" {
