@@ -27,8 +27,9 @@ The Chainguard Karpenter image contains the `karpenter` controller and is a drop
 
 To try it out, follow the [official installation
 instructions](https://karpenter.sh/preview/getting-started/getting-started-with-karpenter/) but edit
-the Helm command to use our image. To do this, you'll first need to retrieve the digest of our
-image, which you can do with [crane](https://github.com/google/go-containerregistry/tree/main/cmd/crane) or Docker:
+the Helm command to use the Chainguard image. To do this, you'll first need to retrieve the digest
+of the Chainguard image, which you can do with
+[crane](https://github.com/google/go-containerregistry/tree/main/cmd/crane) or Docker:
 
 ```
 $ DIGEST=$(crane digest --platform linux/amd64 cgr.dev/chainguard/karpenter:latest)
