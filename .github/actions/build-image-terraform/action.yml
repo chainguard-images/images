@@ -78,18 +78,15 @@ runs:
         yq -M '{"options": .}' tmp.yaml >> "${{ inputs.apkoConfig }}"
         rm -f tmp.yaml
 
-    # TODO: re-enable
-    # - uses: chainguard-dev/actions/setup-registry@main
-    #   with:
-    #     port: 5000
+    - uses: chainguard-dev/actions/setup-registry@main
+      with:
+        port: 5000
 
-    - name: Create target ref
-      id: target-ref
+    - name: Create target repository
+      id: target-repository
       shell: bash
       run: |
-        # TODO: re-enable, replace ttl.sh
-        #echo "ref=localhost:5000/testing/${{ inputs.imageName }}:${{ github.sha }}-${{ inputs.apkoTargetTag }}" >> $GITHUB_OUTPUT
-        echo "ref=ttl.sh/${{ github.sha }}--${{ inputs.imageName }}--${{ inputs.apkoTargetTag }}:1h" >> $GITHUB_OUTPUT
+        echo "target-repository=localhost:5000/testing/${{ github.sha }}--${{ inputs.imageName }}--${{ inputs.apkoTargetTag }}" >> $GITHUB_OUTPUT
 
     - name: Setup Terrafrom
       id: setup-terraform
@@ -103,7 +100,7 @@ runs:
       shell: bash
       env:
         TF_VAR_apko_config_path: ${{ inputs.apkoConfig }}
-        TF_VAR_target_repository: ${{ steps.target-ref.outputs.ref }}
+        TF_VAR_target_repository: ${{ steps.target-repository.outputs.target-repository }}
         TF_VAR_extract_package: ${{ inputs.apkoPackageVersionTag }}
         TF_VAR_build_options: ${{ inputs.apkoBuildOptions }}
       run: |
@@ -112,13 +109,22 @@ runs:
         terraform init
         terraform apply -auto-approve
 
+    - name: Process Terraform outputs
+      id: apko
+      shell: bash
+      run: |
+        digest="$(terraform output --raw image_ref)"
+        output="digest-index=${digest}"
+        echo "Adding GitHub step output: ${output}"
+        echo "${output}" >> $GITHUB_OUTPUT
+
     - name: Smoke test
       id: smoketest
       if: inputs.testCommandExe != ''
       shell: bash
       run: |
         set -x
-        export IMAGE_NAME="${{ steps.target-ref.outputs.ref }}"
+        export IMAGE_NAME="${{ steps.apko.outputs.digest-index }}"
         export IMAGE_TAG_SUFFIX="${{ inputs.apkoTargetTagSuffix }}"
         cd "${{ inputs.testCommandDir }}"
         ${{ inputs.testCommandExe }}
