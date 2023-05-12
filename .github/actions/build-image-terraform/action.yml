@@ -1,0 +1,128 @@
+name: build-image-terraform
+runs:
+  using: composite
+  steps:
+    - if: inputs.overrideCheckoutRef == '' && inputs.overrideCheckoutRepository == ''
+      uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+    - if: inputs.overrideCheckoutRef != '' || inputs.overrideCheckoutRepository != ''
+      uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
+      with:
+        clean: false
+        ref: ${{ inputs.overrideCheckoutRef }}
+        repository: ${{ inputs.overrideCheckoutRepository }}
+
+    # optionally fetch a gcs bucket to be used by melange and apko builds
+    - id: gcsfetchauth1
+      if: inputs.gcsFetchBucketName != ''
+      uses: google-github-actions/auth@ef5d53e30bbcd8d0836f4288f5e50ff3e086997d # v1.0.0
+      with:
+        workload_identity_provider: ${{ inputs.gcsFetchAuthWorkloadIdentityProvider }}
+        service_account: ${{ inputs.gcsFetchAuthServiceAccount }}
+    - id: gcsfetchauth2
+      if: inputs.gcsFetchBucketName != ''
+      uses: google-github-actions/setup-gcloud@d51b5346f85640ec2aa2fa057354d2b82c2fcbce # v1.0.1
+      with:
+        project_id: ${{ inputs.gcsFetchAuthProjectId }}
+    - id: gcsfetchauth3
+      if: inputs.gcsFetchBucketName != ''
+      shell: bash
+      name: 'Check that GCloud is properly configured'
+      run: |
+        gcloud info
+        gcloud --quiet alpha storage ls
+    - id: rsync
+      shell: bash
+      if: inputs.gcsFetchBucketName != ''
+      run: |
+        mkdir -p "${{ github.workspace }}/packages"
+        gsutil -m rsync -r "${{ inputs.gcsFetchBucketName }}" "${{ github.workspace }}/packages/"
+        find "${{ github.workspace }}/packages" -print -exec touch \{} \;
+        ls -al "${{ github.workspace }}/packages/"
+
+    - name: Setup QEMU
+      if: inputs.melangeConfig != ''
+      uses: docker/setup-qemu-action@e81a89b1732b9c48d79cd809d8d81d79c4647a18 # v2.1.0
+    - id: melange
+      if: inputs.melangeConfig != ''
+      uses: chainguard-dev/actions/melange-build@main
+      with:
+        multi-config: ${{ inputs.melangeConfig }}
+        empty-workspace: ${{ inputs.melangeEmptyWorkspace }}
+        workdir: ${{ inputs.melangeWorkdir }}
+        sign-with-temporary-key: true
+        archs: x86_64 # To speed up CI, just build for x86_64 ${{ inputs.melangeArchs }}
+        template: ${{ inputs.melangeTemplate }}
+    - id: inject-build-options
+      shell: bash
+      run: |
+        yaml_files_with_options_key="globals.yaml"
+        # If the repo using this action doesn't have an globals.yaml, use the public chainguard one
+        if [[ ! -f "globals.yaml" ]]; then
+          curl -sLO https://raw.githubusercontent.com/chainguard-images/images/main/globals.yaml
+        fi
+        if [[ "$(cat "images/${{ inputs.imageName }}/image.yaml" | yq '.options')" != "null" ]]; then
+          yaml_files_with_options_key="${yaml_files_with_options_key} images/${{ inputs.imageName }}/image.yaml"
+        fi
+        if [[ "$(cat ${{ inputs.apkoConfig }} | yq '.options')" != "null" ]]; then
+          yaml_files_with_options_key="${yaml_files_with_options_key} ${{ inputs.apkoConfig }}"
+        fi
+        echo "Combining options sourced from the following file(s): ${yaml_files_with_options_key}"
+        # Use yq to combine all files' options sections together
+        yq -M eval-all '.options as $item ireduce ({}; . * $item)' ${yaml_files_with_options_key} > tmp.yaml
+        # If the original file has options, remove them before appending
+        if [[ "$(cat "images/${{ inputs.imageName }}/image.yaml" | yq '.options')" != "null" ]]; then
+          yq -M 'del(.options)' "${{ inputs.apkoConfig }}" > "${{ inputs.apkoConfig }}.tmp"
+          mv "${{ inputs.apkoConfig }}.tmp" "${{ inputs.apkoConfig }}"
+        fi
+        echo "" >> "${{ inputs.apkoConfig }}" # For configs missing trailing newline
+        yq -M '{"options": .}' tmp.yaml >> "${{ inputs.apkoConfig }}"
+        rm -f tmp.yaml
+
+    - uses: chainguard-dev/actions/setup-registry@main
+      with:
+        port: 5000
+
+    - name: Create target ref
+      id: target-ref
+      shell: bash
+      run: |
+        echo "ref=localhost:5000/testing/${{ inputs.imageName }}:${{ github.sha }}-${{ inputs.apkoTargetTag }}" >> $GITHUB_OUTPUT
+
+    - name: Setup Terrafrom
+      id: setup-terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: '1.3.*'
+        terraform_wrapper: false
+
+    - name: Terraform apply (apko publish)
+      id: terraform-apply
+      shell: bash
+      env:
+        TF_VAR_apko_config_path: ${{ inputs.apkoConfig }}
+        TF_VAR_target_repository: ${{ steps.target-ref.outputs.ref }}
+        TF_VAR_extract_package: ${{ inputs.apkoPackageVersionTag }}
+        TF_VAR_build_options: ${{ inputs.apkoBuildOptions }}
+      run: |
+        set -x
+        env | grep '^TF_VAR_'
+        terraform init
+        terraform apply -auto-approve
+
+    - name: Smoke test
+      id: smoketest
+      if: inputs.testCommandExe != ''
+      shell: bash
+      run: |
+        set -x
+        export IMAGE_NAME="${{ steps.target-ref.outputs.ref }}"
+        export IMAGE_TAG_SUFFIX="${{ inputs.apkoTargetTagSuffix }}"
+        cd "${{ inputs.testCommandDir }}"
+        ${{ inputs.testCommandExe }}
+
+    - name: Touch actions file to prevent postrun failure
+      if: always()
+      shell: bash
+      run: |
+        set -x && [[ -f .github/actions/build-image/action.yml ]] || ( \
+          mkdir -p .github/actions/build-image/ && echo 'runs: {using: composite, steps: []}' > .github/actions/build-image/action.yml )
