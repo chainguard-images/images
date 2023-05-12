@@ -78,15 +78,18 @@ runs:
         yq -M '{"options": .}' tmp.yaml >> "${{ inputs.apkoConfig }}"
         rm -f tmp.yaml
 
-    - uses: chainguard-dev/actions/setup-registry@main
-      with:
-        port: 5000
+    # TODO: re-enable
+    # - uses: chainguard-dev/actions/setup-registry@main
+    #   with:
+    #     port: 5000
 
     - name: Create target ref
       id: target-ref
       shell: bash
       run: |
-        echo "ref=localhost:5000/testing/${{ inputs.imageName }}:${{ github.sha }}-${{ inputs.apkoTargetTag }}" >> $GITHUB_OUTPUT
+        # TODO: re-enable, replace ttl.sh
+        #echo "ref=localhost:5000/testing/${{ inputs.imageName }}:${{ github.sha }}-${{ inputs.apkoTargetTag }}" >> $GITHUB_OUTPUT
+        echo "ref=ttl.sh/${{ github.sha }}--${{ inputs.imageName }}--${{ inputs.apkoTargetTag }}:1h" >> $GITHUB_OUTPUT
 
     - name: Setup Terrafrom
       id: setup-terraform
