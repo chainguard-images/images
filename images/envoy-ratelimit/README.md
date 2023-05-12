@@ -2,7 +2,7 @@
 # envoy-ratelimit
 | | |
 | - | - |
-| **Status** | experimental |
+| **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/envoy-ratelimit` |
 | **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/envoy-ratelimit.svg) |
 
