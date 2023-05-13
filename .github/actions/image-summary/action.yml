@@ -45,6 +45,10 @@ runs:
       run: |
         gcloud auth configure-docker "$(echo ${{ inputs.apkoBaseTag }} | cut -d / -f 1)"
 
+    - name: Setup crane
+      id: setup-crane
+      uses: imjasonh/setup-crane@v0.3
+
     - name: Setup cosign
       uses: sigstore/cosign-installer@v3
 
@@ -61,9 +65,13 @@ runs:
           if [[ "${pkg}" != "" ]]; then
             primary="$(echo "${line}" | jq -r .primary)"
             set -x # Try to debug any cosign failures here
+
             # Support single-arch images (for now)
-            cosign download sbom --platform=linux/amd64 "${ref}:${primary}" > sbom.json || \
-              cosign download sbom "${ref}:${primary}" > sbom.json
+            digest="$(crane digest --platform=linux/amd64 "${ref}:${primary}" || crane digest "${ref}:${primary}")"
+            cosign download attestation \
+              --predicate-type https://spdx.dev/Document \
+              "${ref}@${digest}" | jq -r .payload | base64 -d | jq -M -c .predicate > sbom.json
+
             version="$(cat sbom.json | jq -r '.packages[] | select(.name == "'${pkg}'") | .versionInfo')"
             rm -f sbom.json
             set +x
