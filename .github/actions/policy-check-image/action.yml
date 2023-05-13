@@ -5,72 +5,26 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Build and image with policy-tester and crane
-      shell: bash
-      run: |
-        trap "rm -rf custom-image.tar custom-image.apko.yaml" EXIT
-
-        cat >./custom-image.apko.yaml <<EOL
-        contents:
-          packages:
-            - ca-certificates-bundle
-            - crane
-            - policy-controller-tester
-        EOL
-
-        docker run --rm -v "${PWD}:/work" \
-          "${{ inputs.apkoImage }}" \
-          build --debug \
-          --arch=amd64 --sbom=false \
-          --repository-append=https://packages.wolfi.dev/os \
-          --keyring-append=https://packages.wolfi.dev/os/wolfi-signing.rsa.pub \
-          /work/custom-image.apko.yaml \
-          custom-image:latest \
-          custom-image.tar
-
-        IMAGE_NAME=$(docker load < custom-image.tar | grep "Loaded image" | sed 's/^Loaded image: //')
-
-        cat >/tmp/custom-image <<EOL
-        #!/usr/bin/env bash
-        set -e
-        docker run --rm \
-          -v "${PWD}:/work" -w /work --entrypoint "\$(basename "\$0")" \
-          "${IMAGE_NAME}" \$@
-        EOL
-
-        chmod +x /tmp/custom-image
-        cp /tmp/custom-image /tmp/policy-tester
-        cp /tmp/custom-image /tmp/crane
-
+    - uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: '1.3.*'
+        terraform_wrapper: false
     - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
-    - name: Determine image ref
-      shell: bash
+    - shell: bash
+      working-directory: ./policies
       run: |
         set -x
 
         BASE_TAG="${{ inputs.apkoBaseTag }}"
         REF="${BASE_TAG}:${{ inputs.apkoTargetTag }}"
 
-        # First check the policy against the image index
-        for policy in `find policies -name '*.yaml' | sort`; do
-          echo "Checking image index against ${policy} ..."
-          /tmp/policy-tester \
-            --policy "${policy}" \
-            --image "${REF}"
-        done
-
-        # Next check the policy against each architecture image manifest
-        for combo in `/tmp/crane manifest ${REF} | jq -r '.manifests[] | .platform.architecture + .platform.variant + "_" + .digest'`; do
-          arch="$(echo "${combo}" | cut -d "_" -f1)"
-          digest="$(echo "${combo}" | cut -d "_" -f2)"
-          arch_ref="${BASE_TAG}@${digest}"
-          for policy in `find policies -name '*.yaml' | sort`; do
-            echo "Checking image manifest (${arch}) against ${policy} ..."
-            /tmp/policy-tester \
-              --policy "${policy}" \
-              --image "${arch_ref}"
-          done
-        done
+        export TF_VAR_image_refs=$(cat <<EOF | jq -c -s .
+        "${REF}"
+        $(crane manifest ${REF} | jq '"'${REF}'@" + .manifests[].digest')
+        EOF
+        )
+        terraform init
+        terraform apply -auto-approve
 
     # There is currently no way to obtain the job ID for a single matrix leg, so we have to
     # try to hit the GitHub API and match the job based on the name, then extract the html_url
