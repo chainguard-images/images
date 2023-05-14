@@ -31,7 +31,7 @@ function TEST_basic_helm_install() {
     --set images.integration.repository=${IMAGE_REPOSITORY} \
     --set images.integration.tag=${IMAGE_TAG} \
     --set cluster=test \
-    --set licenseKey=${NEWRELIC_LICENSE_KEY}
+    --set licenseKey=${NEW_RELIC_LICENSE_KEY}
 
   # Wait for helm to catch up
   sleep 3
