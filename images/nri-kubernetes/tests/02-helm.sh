@@ -29,7 +29,7 @@ function TEST_basic_helm_install() {
     newrelic-infrastructure nri-kubernetes/newrelic-infrastructure \
     --set images.integration.registry=${IMAGE_REGISTRY} \
     --set images.integration.repository=${IMAGE_REPOSITORY} \
-    --set images.integration.tag=${IMAGE_TAG}" \
+    --set images.integration.tag=${IMAGE_TAG} \
     --set cluster=test \
     --set licenseKey=${NEWRELIC_LICENSE_KEY}
 
