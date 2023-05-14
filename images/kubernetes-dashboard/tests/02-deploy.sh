@@ -26,8 +26,8 @@ preflight
 # Deploy the dashboard yaml, then swap out the image and patch the pull policy
 
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
-kubectl set image -n kubernetes-dashboard deployment/kubernetes-dashboard kubernetes-dashboard="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}"
 kubectl patch deployment -n kubernetes-dashboard kubernetes-dashboard --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/imagePullPolicy", "value": "Never"}]'
+kubectl set image -n kubernetes-dashboard deployment/kubernetes-dashboard kubernetes-dashboard="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}"
 
 # Wait for the dashboard to be healthy
 kubectl wait --for=condition=ready pod --selector k8s-app=kubernetes-dashboard --namespace kubernetes-dashboard
@@ -36,4 +36,4 @@ kubectl wait --for=condition=ready pod --selector k8s-app=kubernetes-dashboard -
 kubectl port-forward --namespace kubernetes-dashboard service/kubernetes-dashboard 8443:443 &
 
 # Sleep for 10 seconds to allow the port-forward to properly set up
-(sleep 10 && curl -k http://localhost:8443/health) | grep '"running":true'
+(sleep 10 && curl -k https://localhost:8443/health) | grep '"running":true'
