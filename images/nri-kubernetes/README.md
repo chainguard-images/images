@@ -11,7 +11,7 @@
 ---
 <!--monopod:end-->
 
-Minimal image with the New Relic Kubernetes Integration binary. **EXPERIMENTAL**
+Minimal image with the New Relic Kubernetes Integration binary.
 
 ## Get It!
 
