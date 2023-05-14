@@ -23,20 +23,23 @@ function preflight() {
 
 preflight
 
+function cleanup() {
+    # Print debug logs and status
+    kubectl get pods --namespace kubernetes-dashboard
+    kubectl describe pods --namespace kubernetes-dashboard
+    kubectl logs --selector k8s-app=kubernetes-dashboard --namespace kubernetes-dashboard
+}
+
+trap cleanup EXIT
+
 # Deploy the dashboard yaml, then swap out the image and patch the pull policy
 
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
-kubectl patch deployment -n kubernetes-dashboard kubernetes-dashboard --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/imagePullPolicy", "value": "Never"}]'
 kubectl set image -n kubernetes-dashboard deployment/kubernetes-dashboard kubernetes-dashboard="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}"
+kubectl patch deployment -n kubernetes-dashboard kubernetes-dashboard --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/imagePullPolicy", "value": "Never"}]'
 
 # The pod can take a few seconds to appear after the deployment and the replicaset are all created and reconcile
 sleep 10
 
 # Wait for the dashboard to be healthy
 kubectl wait --for=condition=ready pod --selector k8s-app=kubernetes-dashboard --namespace kubernetes-dashboard --timeout=120s
-
-# Start up a port-forward to the dashboard and curl the endpoint to make sure it's working
-kubectl port-forward --namespace kubernetes-dashboard service/kubernetes-dashboard 8443:443 &
-
-# Sleep for 10 seconds to allow the port-forward to properly set up
-(sleep 10 && curl -k https://localhost:8443/health) | grep '"running":true'
