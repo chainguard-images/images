@@ -7,6 +7,7 @@ contents:
     - ca-certificates-bundle
     - busybox
     - keda
+    - keda-compat
     - wolfi-baselayout
 
 accounts:
