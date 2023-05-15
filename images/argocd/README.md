@@ -67,6 +67,6 @@ dex:
 
 ### ArgoCD Components
 
-ArgoCD is comprised of multiple (components)[https://argo-cd.readthedocs.io/en/stable/operator-manual/architecture/#components] that all share the same image.
+ArgoCD is comprised of multiple [components](https://argo-cd.readthedocs.io/en/stable/operator-manual/architecture/#components) that all share the same image.
 
 Keeping in line with the philosophy of minimal components in Chainguard images, we chose to split this up to keep the number of packages in the components to a minimum. This means the overall number of images increases, but the size and complexity of each image is reduced to (almost) the bare minimum needed to function.
