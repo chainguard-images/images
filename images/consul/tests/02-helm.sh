@@ -10,16 +10,6 @@ function preflight() {
     exit 1
   fi
 
-  if [[ "${IMAGE_TAG}" == "" ]]; then
-    echo "Must set IMAGE_TAG environment variable. Exiting."
-    exit 1
-  fi
-
-  if [[ "${IMAGE_TAG}" != *-compat ]]; then
-    echo "Not compat tag, skipping since testing with upstream chart"
-    exit 0
-  fi
-
   helm repo add hashicorp https://helm.releases.hashicorp.com
 }
 
