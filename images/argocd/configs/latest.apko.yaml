@@ -1,0 +1,44 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+  packages:
+    - ca-certificates-bundle
+    - busybox
+    - wolfi-baselayout
+    - argo-cd
+    - argo-cd-compat
+
+accounts:
+  groups:
+    - groupname: argocd
+      gid: 999
+  users:
+    - username: argocd
+      uid: 999
+      gid: 999
+  run-as: argocd
+
+work-dir: /home/argocd
+
+paths:
+  - path: /home/argocd
+    type: directory
+    permissions: 0o777
+    gid: 999
+  - path: /tmp
+    type: directory
+    permissions: 0o777
+    uid: 999
+    gid: 999
+    recursive: true
+
+archs:
+- x86_64
+- aarch64
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/argocd/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/argocd
