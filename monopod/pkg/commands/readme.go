@@ -29,6 +29,7 @@ monopod readme
 				SummaryRootUrl:     ro.SummaryRootUrl,
 				RootReadmeToStdout: ro.RootReadmeToStdout,
 				Check:              ro.Check,
+				DefaultRegistry:    ro.DefaultRegistry,
 			}
 			return impl.Do()
 		},
@@ -42,6 +43,7 @@ type readmeImpl struct {
 	SummaryRootUrl     string
 	RootReadmeToStdout bool
 	Check              bool
+	DefaultRegistry    string
 }
 
 func (i *readmeImpl) Do() error {
@@ -55,7 +57,7 @@ func (i *readmeImpl) Do() error {
 }
 
 func (i *readmeImpl) check() error {
-	allImages, err := images.ListAll()
+	allImages, err := images.ListAll(images.WithDefaultRegistry(i.DefaultRegistry))
 	if err != nil {
 		return err
 	}
@@ -63,7 +65,7 @@ func (i *readmeImpl) check() error {
 	numIssues := 0
 
 	// Top-level README.md
-	expectedRootReadmeContents, err := getRootReadmeContents(allImages, i.BadgeRootUrl)
+	expectedRootReadmeContents, err := getRootReadmeContents(allImages, i.BadgeRootUrl, i.DefaultRegistry)
 	if err != nil {
 		fmt.Println(err.Error())
 		numIssues++
@@ -145,13 +147,13 @@ func (i *readmeImpl) check() error {
 }
 
 func (i *readmeImpl) fixAllReadmes() error {
-	allImages, err := images.ListAll()
+	allImages, err := images.ListAll(images.WithDefaultRegistry(i.DefaultRegistry))
 	if err != nil {
 		return err
 	}
 
 	// Top-level README.md
-	rootReadmeContents, err := getRootReadmeContents(allImages, i.BadgeRootUrl)
+	rootReadmeContents, err := getRootReadmeContents(allImages, i.BadgeRootUrl, i.DefaultRegistry)
 	if err != nil {
 		return err
 	}
@@ -230,11 +232,11 @@ func (i *readmeImpl) fixAllReadmes() error {
 }
 
 func (i *readmeImpl) rootReadmeToStdout() error {
-	allImages, err := images.ListAll()
+	allImages, err := images.ListAll(images.WithDefaultRegistry(i.DefaultRegistry))
 	if err != nil {
 		return err
 	}
-	b, err := getRootReadmeContents(allImages, i.BadgeRootUrl)
+	b, err := getRootReadmeContents(allImages, i.BadgeRootUrl, i.DefaultRegistry)
 	if err != nil {
 		return err
 	}
@@ -242,7 +244,7 @@ func (i *readmeImpl) rootReadmeToStdout() error {
 	return nil
 }
 
-func getRootReadmeContents(allImages []images.Image, badgeRootUrl string) ([]byte, error) {
+func getRootReadmeContents(allImages []images.Image, badgeRootUrl string, defaultRegistry string) ([]byte, error) {
 	buf := new(bytes.Buffer)
 	buf.WriteString("# Chainguard Images\n")
 	buf.WriteString("\n")
