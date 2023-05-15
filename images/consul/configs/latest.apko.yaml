@@ -8,8 +8,11 @@ contents:
     - wolfi-baselayout
     - consul
     - su-exec
-    - consul-oci-entrypoint-compat
     - busybox
+    # Adding the compat package which pulls in consul-oci-entrypoint as well
+    - consul-oci-entrypoint-compat
+    # The curl package is required for the upstream chart to work as it uses
+    # curl for the readiness probe
     - curl
 
 accounts:
