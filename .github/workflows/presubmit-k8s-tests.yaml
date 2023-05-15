@@ -60,7 +60,7 @@ jobs:
           export IMAGE_TAG_SUFFIX="${{ matrix.apkoTargetTagSuffix }}"
 
           # Set keys required for integration tests 
-          export NEWRELIC_LICENSE_KEY="${{ secrets.NEWRELIC_LICENSE_KEY }}"
+          export NEW_RELIC_LICENSE_KEY="${{ secrets.NEW_RELIC_LICENSE_KEY }}"
 
           cd "${{ matrix.testCommandDir }}"
           ${{ matrix.testCommandExe }}

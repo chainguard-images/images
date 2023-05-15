@@ -70,5 +70,9 @@ jobs:
           export IMAGE_TAG="${{ matrix.apkoTargetTag }}"
           export IMAGE_NAME="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}"
           export IMAGE_TAG_SUFFIX="${{ matrix.apkoTargetTagSuffix }}"
+          
+          # Set keys required for integration tests 
+          export NEW_RELIC_LICENSE_KEY="${{ secrets.NEW_RELIC_LICENSE_KEY }}"
+
           cd "${{ matrix.testCommandDir }}"
           ${{ matrix.testCommandExe }}
