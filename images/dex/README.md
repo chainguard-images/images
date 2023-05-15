@@ -23,14 +23,20 @@ docker pull cgr.dev/chainguard/dex
 
 ## Using dex
 
-`dex` has several operating, modes, the most common being kubernetes, installed via helm.
+`dex` has several operating modes, the most common being kubernetes, installed via `helm` using the upstream source shown below:
+
+```bash
+helm repo add dex https://charts.dexidp.io
+helm install --generate-name --wait dex/dex -f values.yaml
+```
 
 An example `values.yaml` file is provided below:
 
 ```yaml
+# values.yaml
 image:
-  repository: "${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}"
-  tag: "${IMAGE_TAG}"
+  repository: cgr.dev/chainguard/dex
+  tag: latest
 
 config:
   issuer: "http://127.0.0.1:5556/dex"
@@ -66,11 +72,11 @@ config:
 
 > WARNING: The example above should _not_ be used in production, it simply exists to get up and running quickly.
 
-For an incomplete values file that only contains the minimum required settings to use the Chainguard Images variant, use the snipet below:
+For an incomplete values file that only contains the minimum required settings to use the Chainguard Images variant, use the snippet below:
 
 ```yaml
 # non functional defaults! fill in with your own values.yaml
 image:
-  repository: cgr.dev/chainguard/dev
+  repository: cgr.dev/chainguard/dex
   tag: latest
 ```
