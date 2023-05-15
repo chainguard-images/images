@@ -8,3 +8,6 @@ versions:
         - suffix: -dev
           options:
             - dev
+        - suffix: -compat
+          options:
+            - consul-oci-entrypoint-compat

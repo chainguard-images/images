@@ -8,8 +8,9 @@ contents:
     - wolfi-baselayout
     - consul
     - su-exec
-    - consul-oci-entrypoint
+    - consul-oci-entrypoint-compat
     - busybox
+    - curl
 
 accounts:
   groups:
