@@ -3,3 +3,8 @@ versions:
       config: configs/latest.apko.yaml
       extractTagsFrom:
         package: redis
+
+  - apko:
+      config: configs/6.2.apko.yaml
+      extractTagsFrom:
+        package: redis-6.2
