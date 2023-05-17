@@ -9,6 +9,7 @@ contents:
     - glibc-locale-en
     - busybox
     - maven
+    - openjdk-11
     - openjdk-11-default-jvm
 
 accounts:
