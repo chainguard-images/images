@@ -1,0 +1,31 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+  packages:
+    - kubernetes-csi-external-provisioner
+    - wolfi-baselayout
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: root # image doesn't work with nonroot user
+  recursive: true
+
+entrypoint:
+  command: /usr/bin/csi-provisioner
+
+archs:
+- x86_64
+- aarch64
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/kubernetes-csi-external-provisioner/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/kubernetes-csi-external-provisioner
