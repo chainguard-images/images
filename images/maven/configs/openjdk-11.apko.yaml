@@ -9,7 +9,7 @@ contents:
     - glibc-locale-en
     - busybox
     - maven
-    - openjdk-11
+    - openjdk-11-default-jvm
 
 accounts:
   groups:
@@ -28,7 +28,7 @@ entrypoint:
 
 environment:
   LANG: en_US.UTF-8
-  JAVA_HOME: /usr/lib/jvm/openjdk
+  JAVA_HOME: /usr/lib/jvm/java-11-openjdk
 
 paths:
   - path: /home/build
