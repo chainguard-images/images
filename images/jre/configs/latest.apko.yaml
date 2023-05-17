@@ -26,7 +26,7 @@ entrypoint:
 
 environment:
   LANG: en_US.UTF-8
-  JAVA_HOME: /usr/lib/jvm/openjdk
+  JAVA_HOME: /usr/lib/jvm/java-11-openjdk
 
 archs:
   - x86_64
