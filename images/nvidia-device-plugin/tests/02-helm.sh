@@ -38,8 +38,8 @@ helm upgrade --install nvdp nvdp/nvidia-device-plugin \
 
 kubectl wait --for=jsonpath='{.status.containerStatuses[0].state.waiting.reason}'=CrashLoopBackOff pod --selector app.kubernetes.io/name=nvidia-device-plugin --namespace nvidia-device-plugin
 
-POD=$(kubectl get pod -l app.kubernetes.io/name=nvidia-device-plugin -o name)
-LOGS=$(kubectl logs "$POD")
+POD=$(kubectl get pod -l app.kubernetes.io/name=nvidia-device-plugin -n nvidia-device-plugin -ojsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}'); echo $POD
+LOGS=$(kubectl logs "$POD" --namespace nvidia-device-plugin)
 
 echo "${LOGS}" | grep "Starting FS watcher"
 echo "${LOGS}" | grep "Starting OS watcher"
