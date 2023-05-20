@@ -29,14 +29,24 @@ docker pull cgr.dev/chainguard/jenkins:latest
 
 This is an experimental image and subject to change.  We welcome all feedback.
 
-To test out the Chainguard Jenkins image you can run
+To test out the Chainguard Jenkins image, run the following command, which will create a volume to persist build and configuration data from the container's `$JENKINS_HOME`:
+
 ```sh
-docker run --platform linux/arm64 --rm -v $PWD/data:/var/jenkins_home -p 8080:8080 -ti cgr.dev/chainguard/jenkins
+docker run --rm -v jenkins_home:/var/jenkins_home -p 8080:8080 -ti cgr.dev/chainguard/jenkins
 ```
 
 And visit Jenkins in your brower http://localhost:8080
 
-And if you want to backup your Jenkins data, mount the `$JENKINS_HOME` folder to a mounted volume
+If you want to backup your Jenkins data, create a local directory for the files and mount it along with the `jenkins_home` volume. You can then start a Jenkins container and copy the files out:
+
 ```sh
-docker run --platform linux/arm64 --rm -v $PWD/data:/var/jenkins_home -p 8080:8080 -ti cgr.dev/chainguard/jenkins
+mkdir -m 777 jenkins-backup
+docker run --rm \
+  -v $PWD/jenkins-backup:/backup-dir \
+  -v jenkins_home:/var/jenkins_home \
+  -p 8080:8080 -ti \
+  --entrypoint=/bin/bash \
+  cgr.dev/chainguard/jenkins
+cp -r /var/jenkins_home /backup-dir/
+exit
 ```
