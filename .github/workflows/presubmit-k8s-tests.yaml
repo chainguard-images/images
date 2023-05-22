@@ -63,7 +63,7 @@ jobs:
           export NEW_RELIC_LICENSE_KEY="${{ secrets.NEW_RELIC_LICENSE_KEY }}"
 
           cd "${{ matrix.testCommandDir }}"
-          chmod +x ${{ matrix.testCommandExe }} && ${{ matrix.testCommandExe }}
+          ${{ matrix.testCommandExe }}
 
   presubmit-roundup:
     needs:
