@@ -28,7 +28,8 @@ helm upgrade --install metrics-server metrics-server/metrics-server \
 	--namespace metrics-server \
 	--create-namespace \
 	--set image.repository="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}" \
-	--set image.tag="${IMAGE_TAG}"
+	--set image.tag="${IMAGE_TAG}" \
+	--set "args[0]=--kubelet-insecure-tls"
 
 sleep 3
 
