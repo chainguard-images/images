@@ -5,6 +5,7 @@ contents:
     - https://packages.wolfi.dev/os
   packages:
     - cluster-autoscaler
+    - cluster-autoscaler-compat
     - wolfi-baselayout
     - ca-certificates-bundle
 accounts:
@@ -18,6 +19,8 @@ accounts:
 
 entrypoint:
   command: /usr/bin/cluster-autoscaler
+
+work-dir: /
 
 archs:
   - x86_64
