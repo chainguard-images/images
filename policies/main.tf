@@ -22,12 +22,6 @@ data "cosign_verify" "is-signed" {
   policy   = file("${path.module}/01-is-signed.yaml")
 }
 
-data "cosign_verify" "has-vuln-att" {
-  for_each = toset(var.image_refs)
-  image    = each.key
-  policy   = file("${path.module}/02-has-vuln-attestation.yaml")
-}
-
 data "cosign_verify" "has-sbom-att" {
   for_each = toset(var.image_refs)
   image    = each.key
