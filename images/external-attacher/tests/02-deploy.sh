@@ -26,7 +26,7 @@ function TEST_basic_kubectl_apply() {
   tmpdir=$(mktemp -d); cd "${tmpdir}"
   curl -sLO https://raw.githubusercontent.com/kubernetes-csi/external-attacher/master/deploy/kubernetes/deployment.yaml
 
-  sed -i "s|gcr.io/k8s-staging-sig-storage/csi-attacher:canary|${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}|g" deployment.yaml
+  sed -i "s|registry.k8s.io/k8s-staging-sig-storage/csi-attacher:canary|${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}|g" deployment.yaml
 
   curl -sLO https://raw.githubusercontent.com/kubernetes-csi/external-attacher/master/deploy/kubernetes/rbac.yaml
   

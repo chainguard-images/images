@@ -35,13 +35,13 @@ helm upgrade --install vpa cowboysysop/vertical-pod-autoscaler \
 	--set admissionController.image.registry="${IMAGE_REGISTRY}" \
 	--set admissionController.image.repository="${IMAGE_REPOSITORY}" \
 	--set admissionController.image.tag="${IMAGE_TAG}" \
-	--set recommender.image.registry="${IMAGE_REGISTRY}" \
+	--set recommender.image.registry=cgr.dev \
 	--set recommender.image.repository=chainguard/vertical-pod-autoscaler-recommender \
 	--set recommender.image.tag=latest \
-	--set updater.image.registry="${IMAGE_REGISTRY}" \
+	--set updater.image.registry=cgr.dev \
 	--set updater.image.repository=chainguard/vertical-pod-autoscaler-updater \
 	--set updater.image.tag=latest \
-	--set crds.image.registry="${IMAGE_REGISTRY}" \
+	--set crds.image.registry=cgr.dev \
 	--set crds.image.repository=chainguard/kubectl \
 	--set crds.image.tag=latest
 
