@@ -1,10 +1,10 @@
 <!--monopod:start-->
-# external-attacher
+# kubernetes-csi-external-attacher
 | | |
 | - | - |
 | **Status** | stable |
-| **OCI Reference** | `cgr.dev/chainguard/external-attacher` |
-| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/external-attacher.svg) |
+| **OCI Reference** | `cgr.dev/chainguard/kubernetes-csi-external-attacher` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/kubernetes-csi-external-attacher.svg) |
 
 *[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 

@@ -6,7 +6,7 @@ contents:
   packages:
     - ca-certificates-bundle
     - wolfi-baselayout
-    - external-attacher
+    - kubernetes-csi-external-attacher
 
 accounts:
   groups:

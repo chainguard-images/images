@@ -1,10 +1,10 @@
 <!--monopod:start-->
-# external-resizer
+# kubernetes-csi-external-resizer
 | | |
 | - | - |
 | **Status** | stable |
-| **OCI Reference** | `cgr.dev/chainguard/external-resizer` |
-| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/external-resizer.svg) |
+| **OCI Reference** | `cgr.dev/chainguard/kubernetes-csi-external-resizer` |
+| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/kubernetes-csi-external-resizer.svg) |
 
 *[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
