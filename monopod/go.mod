@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/spf13/cobra v1.7.0
 	gopkg.in/yaml.v3 v3.0.1
-	sigs.k8s.io/release-utils v0.7.3
+	sigs.k8s.io/release-utils v0.7.4
 )
 
 require (
