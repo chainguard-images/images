@@ -1,6 +1,6 @@
 # Testing the AWS EFS CSI Driver
 
-This describes how to test our AWS EFS CSI Driver images on a real AKS cluster.
+This describes how to test our AWS EFS CSI Driver images on a real EKS cluster.
 
 The AWS EFS CSI Driver infrastructure relies on two components, a controller Deployment and a DaemonSet, each of which have use the same image.
 
