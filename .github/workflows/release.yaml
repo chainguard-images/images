@@ -124,7 +124,7 @@ jobs:
           # We maintain this identity here:
           # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
           EXTRA_INPUT_CHAINGUARD_IDENTITY: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:aa1802dd4f720b64e949f20ced5bed50a95afd5e42b87562f10356468ceeda8d
+          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:3cb81f877210749dd1d4eedb28f380ea059be0ba0488d5f5b713706a60d70f90
           EXTRA_INPUT_SLSA_PROVENANCE_CACHE_KEY: ${{ needs.generate-slsa-provenance.outputs.slsa-provenance-cache-key }}
         run: |
           # convert env vars beginning with "EXTRA_INPUT_"
