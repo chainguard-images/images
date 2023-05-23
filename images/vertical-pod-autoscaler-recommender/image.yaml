@@ -3,4 +3,4 @@ versions:
   - apko:
       config: configs/latest.apko.yaml
       extractTagsFrom:
-        package: vertical-pod-autoscaler
+        package: vertical-pod-autoscaler-recommender

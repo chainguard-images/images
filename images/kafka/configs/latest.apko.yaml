@@ -9,6 +9,8 @@ contents:
     - bash
     - busybox
     - kafka
+    - openjdk-11-default-jvm
+
 accounts:
   groups:
     - groupname: kafka

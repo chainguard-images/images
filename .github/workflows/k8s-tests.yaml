@@ -13,7 +13,7 @@ on:
         default: ''
 concurrency: k8s-tests
 env:
-  EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:d0d35729ac785d5bc15d50a1d99ea9a2aef565779fadf37235edfc9b30a10e75
+  EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:aa1802dd4f720b64e949f20ced5bed50a95afd5e42b87562f10356468ceeda8d
 jobs:
   generate-matrix:
     runs-on: ubuntu-latest
@@ -70,5 +70,9 @@ jobs:
           export IMAGE_TAG="${{ matrix.apkoTargetTag }}"
           export IMAGE_NAME="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}"
           export IMAGE_TAG_SUFFIX="${{ matrix.apkoTargetTagSuffix }}"
+          
+          # Set keys required for integration tests 
+          export NEW_RELIC_LICENSE_KEY="${{ secrets.NEW_RELIC_LICENSE_KEY }}"
+
           cd "${{ matrix.testCommandDir }}"
           ${{ matrix.testCommandExe }}
