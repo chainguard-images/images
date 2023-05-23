@@ -1,0 +1,40 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+  packages:
+    - wolfi-baselayout
+    - ca-certificates-bundle
+    - procps
+    - kube-bench
+    - kube-bench-configs
+
+work-dir: /etc/kube-bench
+
+environment:
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin:/usr/local/mount-from-host/bin
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 0
+
+entrypoint:
+  command: /usr/bin/kube-bench
+
+cmd: help
+
+archs:
+- x86_64
+- aarch64
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/kube-bench/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/kube-bench
