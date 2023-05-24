@@ -6,7 +6,8 @@ contents:
   packages:
     - ca-certificates-bundle
     - wolfi-baselayout
-    - ratelimit
+    - envoy-ratelimit
+    - envoy-ratelimit-compat
 
 accounts:
   groups:
@@ -27,5 +28,5 @@ archs:
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/ratelimit/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/ratelimit
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/envoy-ratelimit/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/envoy-ratelimit
