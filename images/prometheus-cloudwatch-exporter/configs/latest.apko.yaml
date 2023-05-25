@@ -6,6 +6,8 @@ contents:
   packages:
     - ca-certificates-bundle
     - busybox
+    - openjdk-17-jre
+    - openjdk-17-default-jvm
     - cloudwatch-exporter
     - wolfi-baselayout
 
