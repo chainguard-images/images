@@ -6,6 +6,7 @@ contents:
   packages:
     - ca-certificates-bundle
     - openjdk-17
+    - openjdk-17-default-jvm
     - bash
     - busybox
     - gcc
@@ -26,7 +27,7 @@ entrypoint:
   command: /usr/bin/bazel
 
 environment:
-  JAVA_HOME: /usr/lib/jvm/openjdk
+  JAVA_HOME: /usr/lib/jvm/java-17-openjdk
 
 work-dir: /home/bazel
 
