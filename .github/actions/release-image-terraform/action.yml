@@ -50,21 +50,6 @@ runs:
         find "${{ github.workspace }}/packages" -print -exec touch \{} \;
         ls -al "${{ github.workspace }}/packages/"
 
-    # Run custom melange build if necessary
-    - name: Setup QEMU
-      if: inputs.melangeConfig != ''
-      uses: docker/setup-qemu-action@e81a89b1732b9c48d79cd809d8d81d79c4647a18 # v2.1.0
-    - id: melange
-      if: inputs.melangeConfig != ''
-      uses: chainguard-dev/actions/melange-build@main
-      with:
-        multi-config: ${{ inputs.melangeConfig }}
-        empty-workspace: ${{ inputs.melangeEmptyWorkspace }}
-        workdir: ${{ inputs.melangeWorkdir }}
-        sign-with-temporary-key: true
-        archs: ${{ inputs.melangeArchs }}
-        template: ${{ inputs.melangeTemplate }}
-
     # If publishing to Chainguard registry (cgr.dev), setup auth
     - id: cgrauth1
       if: contains(inputs.apkoBaseTag, 'cgr.dev/') && inputs.chainguardIdentity != ''
