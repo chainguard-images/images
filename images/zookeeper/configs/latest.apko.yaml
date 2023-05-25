@@ -11,6 +11,7 @@ contents:
     - bash
     - zookeeper
     - openjdk-17-jre
+    - openjdk-17-default-jvm
 
 accounts:
   groups:
@@ -35,7 +36,7 @@ paths:
 
 environment:
   LANG: en_US.UTF-8
-  JAVA_HOME: /usr/lib/jvm/openjdk
+  JAVA_HOME: /usr/lib/jvm/java-17-openjdk
 
 archs:
   - x86_64

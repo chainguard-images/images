@@ -9,6 +9,7 @@ contents:
     - glibc-locale-en
     - jenkins
     - openjdk-17-jre
+    - openjdk-17-default-jvm
     - bash
     - coreutils
     - busybox
@@ -31,7 +32,7 @@ entrypoint:
 
 environment:
   LANG: en_US.UTF-8
-  JAVA_HOME: /usr/lib/jvm/openjdk
+  JAVA_HOME: /usr/lib/jvm/java-17-openjdk
   JENKINS_HOME: /var/jenkins_home
 
 paths:
