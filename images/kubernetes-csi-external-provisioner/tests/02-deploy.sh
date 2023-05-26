@@ -5,34 +5,34 @@
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 function preflight() {
-  if [[ "${IMAGE_REGISTRY}" == "" ]]; then
-    echo "Must set IMAGE_REGISTRY environment variable. Exiting."
-    exit 1
-  fi
+	if [[ "${IMAGE_REGISTRY}" == "" ]]; then
+		echo "Must set IMAGE_REGISTRY environment variable. Exiting."
+		exit 1
+	fi
 
-  if [[ "${IMAGE_REPOSITORY}" == "" ]]; then
-    echo "Must set IMAGE_REPOSITORY environment variable. Exiting."
-    exit 1
-  fi
+	if [[ "${IMAGE_REPOSITORY}" == "" ]]; then
+		echo "Must set IMAGE_REPOSITORY environment variable. Exiting."
+		exit 1
+	fi
 
-  if [[ "${IMAGE_TAG}" == "" ]]; then
-    echo "Must set IMAGE_TAG environment variable. Exiting."
-    exit 1
-  fi
+	if [[ "${IMAGE_TAG}" == "" ]]; then
+		echo "Must set IMAGE_TAG environment variable. Exiting."
+		exit 1
+	fi
 }
 
 preflight
 
 function cleanup() {
-    # Print debug logs and status
-    kubectl get pods
-    kubectl describe pods
-    
-    # Seeing intermittent failures if we don't wait for a bit here
-    # The `rollout status`` below should wait for terminated pods to be removed
-    # However, we still occasionally see a terminating pod which fails when checking logs
-    sleep 10 
-    kubectl logs --selector app=csi-provisioner
+	# Print debug logs and status
+	kubectl get pods
+	kubectl describe pods
+
+	# Seeing intermittent failures if we don't wait for a bit here
+	# The `rollout status`` below should wait for terminated pods to be removed
+	# However, we still occasionally see a terminating pod which fails when checking logs
+	sleep 10
+	kubectl logs --selector app=csi-provisioner
 }
 
 trap cleanup EXIT
