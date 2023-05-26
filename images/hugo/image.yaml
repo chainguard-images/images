@@ -4,6 +4,22 @@ versions:
       extractTagsFrom:
         package: hugo
       subvariants:
+        - suffix: -extended
+          options:
+            - extended
         - suffix: -dev
           options:
             - dev
+        - suffix: -extended-dev
+          options:
+            - dev
+            - extended
+
+options:
+  extended:
+    contents:
+      packages:
+        add:
+          - hugo-extended
+        remove:
+          - hugo
