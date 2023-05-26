@@ -85,6 +85,8 @@ runs:
         tag: ${{ inputs.imageName }}:${{ github.sha }}-${{ inputs.apkoTargetTag }}
         keyring-append: ${{ inputs.apkoKeyringAppend }}
         repository-append: ${{ inputs.apkoRepositoryAppend }}
+        # TODO(https://github.com/chainguard-dev/apko/pull/703): plumb this through
+        # package-append: ${{ inputs.apkoPackageAppend }}
         additional-tags: ${{ inputs.apkoAdditionalTags }}
         archs: x86_64 # To speed up CI, just build for x86_64 ${{ inputs.melangeArchs }}
         build-options: ${{ inputs.apkoBuildOptions }}
