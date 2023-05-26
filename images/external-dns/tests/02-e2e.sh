@@ -124,8 +124,8 @@ servers:
   plugins:
   - name: errors
   - name: health
-	configBlock: |-
-	  lameduck 5s
+    configBlock: |-
+      lameduck 5s
   - name: ready
   - name: kubernetes
     parameters: cluster.local in-addr.arpa ip6.arpa
@@ -134,11 +134,11 @@ servers:
       fallthrough in-addr.arpa ip6.arpa
       ttl 30
   - name: etcd
-	parameters: example.org
-	configBlock: |-
-	  stubzones
-	  path /skydns
-	  endpoint http://${etcd_ip}:2379
+    parameters: example.org
+    configBlock: |-
+      stubzones
+      path /skydns
+      endpoint http://${etcd_ip}:2379
   - name: forward
     parameters: . /etc/resolv.conf
   - name: reload
