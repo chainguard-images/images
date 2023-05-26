@@ -26,6 +26,11 @@ preflight
 NAMESPACE=external-snapshotter
 
 function manifests() {
+  # if image tag is latest then find the latest version of the git release
+  if [[ "${IMAGE_TAG}" == "latest" ]]; then
+    IMAGE_TAG=$(gh api repos/kubernetes-csi/external-snapshotter/releases/latest | jq -r '.tag_name')
+  fi
+
   cat <<EOF > kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
