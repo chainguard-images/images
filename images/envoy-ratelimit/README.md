@@ -18,7 +18,7 @@
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/envoy-ratelimit
+docker pull cgr.dev/chainguard/envoy-ratelimit:latest
 ```
 
 This image includes `ratelimit`.
