@@ -5,6 +5,7 @@ contents:
     - https://packages.wolfi.dev/os
   packages:
     - wolfi-baselayout
+    - busybox
     - netcat-openbsd
 accounts:
   groups:
