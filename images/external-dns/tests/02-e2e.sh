@@ -189,7 +189,7 @@ kubectl apply -f ingress.yaml
 # TODO: This sucks, but edns doesn't always forward the ingress request fast enough
 sleep 20
 
-ing_ip=$(kubectl get dummy -ojsonpath='{.status.loadBalancer.ingress[0].ip}')
+ing_ip=$(kubectl get ingress dummy -ojsonpath='{.status.loadBalancer.ingress[0].ip}')
 kubectl port-forward svc/coredns-coredns 5353:53 &
 
 max_attempts=10
