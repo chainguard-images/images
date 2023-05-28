@@ -5,7 +5,7 @@ on:
     types:
       - labeled
 env:
-  EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:d3585d22de39f9029df0f51c2d63e21698d9c82d52b892cf9d8c4f6b7c5eecaf
+  EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:66443587f3f2f5d9262bcfff35a2f26e1615e90c4b9dbef8ae295cc9c1daeb48
 jobs:
   presubmit-matrix-k8s:
     if: contains(github.event.pull_request.labels.*.name, 'k8s')
