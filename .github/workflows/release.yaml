@@ -128,13 +128,11 @@ jobs:
           EXTRA_INPUT_SLSA_PROVENANCE_CACHE_KEY: ${{ needs.generate-slsa-provenance.outputs.slsa-provenance-cache-key }}
           EXTRA_INPUT_APKO_REPOSITORY_APPEND: https://packages.wolfi.dev/os
           EXTRA_INPUT_APKO_KEYRING_APPEND: https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-          EXTRA_INPUT_APKO_PACKAGE_APPEND: wolfi-baselayout
         run: |
           # Do not append out repo/keyring/package to Alpine images.
           if grep 'alpinelinux\.org' "${{ matrix.apkoConfig }}" &>/dev/null; then
             unset EXTRA_INPUT_APKO_REPOSITORY_APPEND
             unset EXTRA_INPUT_APKO_KEYRING_APPEND
-            unset EXTRA_INPUT_APKO_PACKAGE_APPEND
           fi
 
           # convert env vars beginning with "EXTRA_INPUT_"

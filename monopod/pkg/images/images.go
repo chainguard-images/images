@@ -33,7 +33,7 @@ type Image struct {
 	ApkoPackageVersionTag       string `json:"apkoPackageVersionTag"`
 	ApkoPackageVersionTagPrefix string `json:"apkoPackageVersionTagPrefix"`
 	ApkoBuildOptions            string `json:"apkoBuildOptions"`
-	ApkoPackagesAppend          string `json:"apkoPackagesAppend"`
+	ApkoPackageAppend           string `json:"apkoPackageAppend"`
 	TestCommandExe              string `json:"testCommandExe"`
 	TestCommandDir              string `json:"testCommandDir"`
 	ExcludeTags                 string `json:"excludeTags"`
@@ -166,18 +166,18 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 			apkoTargetTagSuffix := ""
 
 			apkoBuildOptions := strings.Join(iterator.Variant.Apko.Options, ",")
-			apkoPackagesAppend := make([]string, 0, len(iterator.Variant.Apko.Options))
+			apkoPackageAppend := make([]string, 0, len(iterator.Variant.Apko.Options))
 			for _, opt := range iterator.Variant.Apko.Options {
 				// Look it up in the image's configuration first.
 				vp, ok := extraPackages(m, opt)
 				if ok {
-					apkoPackagesAppend = append(apkoPackagesAppend, vp...)
+					apkoPackageAppend = append(apkoPackageAppend, vp...)
 					continue
 				}
 				// Then look it up in the global configuration.
 				gp, ok := extraPackages(g, opt)
 				if ok {
-					apkoPackagesAppend = append(apkoPackagesAppend, gp...)
+					apkoPackageAppend = append(apkoPackageAppend, gp...)
 					continue
 				}
 				return nil, fmt.Errorf("could not find variant option %q", opt)
@@ -195,13 +195,13 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 					// Look it up in the image's configuration first.
 					vp, ok := extraPackages(m, opt)
 					if ok {
-						apkoPackagesAppend = append(apkoPackagesAppend, vp...)
+						apkoPackageAppend = append(apkoPackageAppend, vp...)
 						continue
 					}
 					// Then look it up in the global configuration.
 					gp, ok := extraPackages(g, opt)
 					if ok {
-						apkoPackagesAppend = append(apkoPackagesAppend, gp...)
+						apkoPackageAppend = append(apkoPackageAppend, gp...)
 						continue
 					}
 					return nil, fmt.Errorf("could not find subvariant option %q", opt)
@@ -332,7 +332,7 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 				ApkoPackageVersionTag:       variant.Apko.ExtractTagsFrom.Package,
 				ApkoPackageVersionTagPrefix: variant.Apko.ExtractTagsFrom.Prefix,
 				ApkoBuildOptions:            apkoBuildOptions,
-				ApkoPackagesAppend:          strings.Join(apkoPackagesAppend, ","),
+				ApkoPackageAppend:           strings.Join(apkoPackageAppend, ","),
 				TestCommandExe:              testCommandExe,
 				TestCommandDir:              testCommandDir,
 				ExcludeTags:                 strings.Join(variant.Apko.ExtractTagsFrom.Exclude, ","),
