@@ -52,31 +52,6 @@ runs:
         sign-with-temporary-key: true
         archs: x86_64 # To speed up CI, just build for x86_64 ${{ inputs.melangeArchs }}
         template: ${{ inputs.melangeTemplate }}
-    - id: inject-build-options
-      shell: bash
-      run: |
-        yaml_files_with_options_key="globals.yaml"
-        # If the repo using this action doesn't have an globals.yaml, use the public chainguard one
-        if [[ ! -f "globals.yaml" ]]; then
-          curl -sLO https://raw.githubusercontent.com/chainguard-images/images/main/globals.yaml
-        fi
-        if [[ "$(cat "images/${{ inputs.imageName }}/image.yaml" | yq '.options')" != "null" ]]; then
-          yaml_files_with_options_key="${yaml_files_with_options_key} images/${{ inputs.imageName }}/image.yaml"
-        fi
-        if [[ "$(cat ${{ inputs.apkoConfig }} | yq '.options')" != "null" ]]; then
-          yaml_files_with_options_key="${yaml_files_with_options_key} ${{ inputs.apkoConfig }}"
-        fi
-        echo "Combining options sourced from the following file(s): ${yaml_files_with_options_key}"
-        # Use yq to combine all files' options sections together
-        yq -M eval-all '.options as $item ireduce ({}; . * $item)' ${yaml_files_with_options_key} > tmp.yaml
-        # If the original file has options, remove them before appending
-        if [[ "$(cat "images/${{ inputs.imageName }}/image.yaml" | yq '.options')" != "null" ]]; then
-          yq -M 'del(.options)' "${{ inputs.apkoConfig }}" > "${{ inputs.apkoConfig }}.tmp"
-          mv "${{ inputs.apkoConfig }}.tmp" "${{ inputs.apkoConfig }}"
-        fi
-        echo "" >> "${{ inputs.apkoConfig }}" # For configs missing trailing newline
-        yq -M '{"options": .}' tmp.yaml >> "${{ inputs.apkoConfig }}"
-        rm -f tmp.yaml
 
     - uses: chainguard-dev/actions/setup-registry@main
       with:
@@ -114,7 +89,6 @@ runs:
         TF_VAR_apko_config_path: ${{ inputs.apkoConfig }}
         TF_VAR_target_repository: ${{ steps.target-repository.outputs.target-repository }}
         TF_VAR_extract_package: ${{ inputs.apkoPackageVersionTag }}
-        TF_VAR_build_options: ${{ inputs.apkoBuildOptions }}
       run: |
         set -x
         env | grep '^TF_VAR_'
