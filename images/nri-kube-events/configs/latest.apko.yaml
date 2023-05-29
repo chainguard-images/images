@@ -6,26 +6,23 @@ contents:
   packages:
     - ca-certificates-bundle
     - busybox
-    - nri-kubernetes
+    - newrelic-nri-kube-events
     - wolfi-baselayout
     - bind-tools
     - tini
 
 accounts:
   groups:
-    - groupname: nri-agent
+    - groupname: nri-kube-events
       gid: 65532
   users:
-    - username: nri
+    - username: nri-kube-events
       uid: 65532
       gid: 65532
   run-as: 65532
 
 entrypoint:
-  command: /sbin/tini -- /usr/bin/nri-kubernetes
-
-environment:
-  METADATA: true
+  command: /sbin/tini -- /usr/bin/nri-kube-events
 
 archs:
 - x86_64
@@ -33,5 +30,5 @@ archs:
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/nri-kubernetes/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/nri-kubernetes
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/nri-kube-events/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/nri-kube-events
