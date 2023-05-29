@@ -70,7 +70,7 @@ runs:
             digest="$(crane digest --platform=linux/amd64 "${ref}:${primary}" || crane digest "${ref}:${primary}")"
             cosign download attestation \
               --predicate-type https://spdx.dev/Document \
-              "${ref}@${digest}" | jq -r .payload | base64 -d | jq -M -c .predicate > sbom.json
+              "${ref}@${digest}" | head -1 | jq -r .payload | base64 -d | jq -M -c .predicate > sbom.json
 
             version="$(cat sbom.json | jq -r '.packages[] | select(.name == "'${pkg}'") | .versionInfo')"
             rm -f sbom.json
