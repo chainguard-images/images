@@ -18,6 +18,8 @@ jobs:
     outputs:
       shard-0: ${{ steps.generate-matrix-0.outputs.matrix }}
       unique-images-shard-0: ${{ steps.generate-matrix-0.outputs.matrix-unique-images }}
+      shard-1: ${{ steps.generate-matrix-1.outputs.matrix }}
+      unique-images-shard-1: ${{ steps.generate-matrix-1.outputs.matrix-unique-images }}
     steps:
     - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
     # On push to main branch, only build images necessary
@@ -33,10 +35,10 @@ jobs:
         TMP=$(mktemp)
 
         # For manual builds, build only the image requested
-        [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.only }}" != "" ]] || echo -n 'images/${{ inputs.only }}/image.yaml' > "${TMP}"
+        [[ "${{ github.event_name }}" != "workflow_dispatch" || "${{ inputs.only }}" == "" ]] || echo -n 'images/${{ inputs.only }}/image.yaml' > "${TMP}"
 
         # On push to main branch, only build images necessary
-        [[ "${{ github.event_name }}" != "schedule" && "${{ github.event_name }}" != "workflow_dispatch" ]] || echo -n '${{ steps.files.outputs.all_changed_files }}' > "${TMP}"
+        [[ "${{ github.event_name }}" == "schedule" || "${{ github.event_name }}" == "workflow_dispatch" ]] || echo -n '${{ steps.files.outputs.all_changed_files }}' > "${TMP}"
 
         echo "filter=$(cat "${TMP}")" >> $GITHUB_OUTPUT
 
