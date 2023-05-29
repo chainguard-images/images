@@ -158,7 +158,7 @@ jobs:
   image-summary-0:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    needs: [build-0]
+    needs: [generate-matrix, generate-slsa-provenance, build-0]
     if: always()
     strategy:
       fail-fast: false
@@ -254,7 +254,7 @@ jobs:
   image-summary-1:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    needs: [build-1]
+    needs: [generate-matrix, generate-slsa-provenance, build-1]
     if: always()
     strategy:
       fail-fast: false
