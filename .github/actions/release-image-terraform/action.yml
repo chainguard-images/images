@@ -113,26 +113,6 @@ runs:
     - name: Setup cosign
       uses: sigstore/cosign-installer@v3
 
-    # Create docker config for use by rumble
-    - id: rumble-docker-config
-      shell: bash
-      run: |
-        REGISTRY_HOSTNAME="$(echo ${{ inputs.apkoBaseTag }} | cut -d / -f 1)"
-        export DOCKER_CONFIG="${PWD}/.docker-rumble"
-        mkdir -p "${DOCKER_CONFIG}"
-        echo '{}' > "${DOCKER_CONFIG}/config.json"
-        if [[ "${REGISTRY_HOSTNAME}" == "cgr.dev" ]]; then
-          CRED_HELPER_GET_RESPONSE="$(echo "cgr.dev" | docker-credential-cgr get)"
-          echo "$(echo "${CRED_HELPER_GET_RESPONSE}" | jq -r .Secret)" | \
-            cosign login -u "$(echo "${CRED_HELPER_GET_RESPONSE}" | jq -r .Username)" --password-stdin "cgr.dev"
-        elif [[ "${REGISTRY_HOSTNAME}" == *"gcr.io" || "${REGISTRY_HOSTNAME}" == *"pkg.dev" ]]; then
-          gcloud auth print-access-token | \
-            docker login -u oauth2accesstoken --password-stdin "https://${REGISTRY_HOSTNAME}"
-        else
-          echo "${{ github.token }}" | \
-            docker login -u "${{ github.repository_owner }}" --password-stdin "https://ghcr.io"
-        fi
-
     - name: Setup Terrafrom
       id: setup-terraform
       uses: hashicorp/setup-terraform@v2
@@ -159,7 +139,6 @@ runs:
         TF_VAR_apko_config_path: ${{ inputs.apkoConfig }}
         TF_VAR_target_repository: ${{ inputs.apkoBaseTag }}
         TF_VAR_extract_package: ${{ inputs.apkoPackageVersionTag }}
-        DOCKER_CONFIG: .docker-rumble
       run: |
         set -x
         env | grep '^TF_VAR_'
@@ -174,8 +153,6 @@ runs:
     - name: Process Terraform outputs
       id: apko
       shell: bash
-      env:
-        DOCKER_CONFIG: .docker-rumble
       run: |
         set -x
 
@@ -207,8 +184,6 @@ runs:
     - name: Create apko.tags file
       id: create-apko-tags
       shell: bash
-      env:
-        DOCKER_CONFIG: .docker-rumble
       run: |
         set -x
 
@@ -283,133 +258,6 @@ runs:
         export IMAGE_TAG_SUFFIX="${{ inputs.apkoTargetTagSuffix }}"
         cd "${{ inputs.testCommandDir }}"
         ${{ inputs.testCommandExe }}
-
-    # Scan - first index, then amd64, then arm64, then others
-    # TODO: improve this - make a single action that runs multiple, or run in matrix at top level
-    - uses: chainguard-dev/rumble@main
-      id: scan-index-trivy
-      with:
-        image: ${{ steps.apko.outputs.digest-index }}
-        scanner: trivy
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-index-grype
-      with:
-        image: ${{ steps.apko.outputs.digest-index }}
-        scanner: grype
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-amd64-trivy
-      if: steps.apko.outputs.digest-amd64 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-amd64 }}
-        scanner: trivy
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-amd64-grype
-      if: steps.apko.outputs.digest-amd64 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-amd64 }}
-        scanner: grype
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-arm64-trivy
-      if: steps.apko.outputs.digest-arm64 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-arm64 }}
-        scanner: trivy
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-arm64-grype
-      if: steps.apko.outputs.digest-arm64 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-arm64 }}
-        scanner: grype
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-386-trivy
-      if: steps.apko.outputs.digest-386 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-386 }}
-        scanner: trivy
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-386-grype
-      if: steps.apko.outputs.digest-386 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-386 }}
-        scanner: grype
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-armv6-trivy
-      if: steps.apko.outputs.digest-armv6 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-armv6 }}
-        scanner: trivy
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-armv6-grype
-      if: steps.apko.outputs.digest-armv6 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-armv6 }}
-        scanner: grype
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-armv7-trivy
-      if: steps.apko.outputs.digest-armv7 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-armv7 }}
-        scanner: trivy
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-armv7-grype
-      if: steps.apko.outputs.digest-armv7 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-armv7 }}
-        scanner: grype
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-ppc64le-trivy
-      if: steps.apko.outputs.digest-ppc64le != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-ppc64le }}
-        scanner: trivy
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-ppc64le-grype
-      if: steps.apko.outputs.digest-ppc64le != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-ppc64le }}
-        scanner: grype
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-riscv64-trivy
-      if: steps.apko.outputs.digest-riscv64 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-riscv64 }}
-        scanner: trivy
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-riscv64-grype
-      if: steps.apko.outputs.digest-riscv64 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-riscv64 }}
-        scanner: grype
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-s390x-trivy
-      if: steps.apko.outputs.digest-s390x != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-s390x }}
-        scanner: trivy
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-s390x-grype
-      if: steps.apko.outputs.digest-s390x != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-s390x }}
-        scanner: grype
-        docker-config: .docker-rumble
 
     # Tag the image last, after all tests passing and
     # SBOMs, attestations, etc. have all been attached
