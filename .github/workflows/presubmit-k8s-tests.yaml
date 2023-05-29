@@ -11,28 +11,39 @@ jobs:
     if: contains(github.event.pull_request.labels.*.name, 'k8s')
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.generate-matrix.outputs.matrix }}
+      shard-0: ${{ steps.generate-matrix-0.outputs.matrix }}
+      shard-1: ${{ steps.generate-matrix-1.outputs.matrix }}
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
       - id: files
         uses: tj-actions/changed-files@25eaddf37ae893cec889065e9a60439c8af6f089 # v36.0.3
         with:
           separator: ','
-      - id: generate-matrix
+      - id: generate-matrix-0
         uses: ./.github/actions/generate-matrix
         with:
+          shard: 0
+          sharding-factor: 2
+          modified-files: ${{ steps.files.outputs.all_changed_files }}
+          melange-mode: none
+          test-tags: k8s
+      - id: generate-matrix-1
+        uses: ./.github/actions/generate-matrix
+        with:
+          shard: 1
+          sharding-factor: 2
           modified-files: ${{ steps.files.outputs.all_changed_files }}
           melange-mode: none
           test-tags: k8s
 
-  presubmit-build-k8s:
+  presubmit-build-k8s-0:
     if: contains(github.event.pull_request.labels.*.name, 'k8s')
     runs-on: ubuntu-latest
     needs:
       - presubmit-matrix-k8s
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.presubmit-matrix-k8s.outputs.matrix) }}
+      matrix: ${{ fromJson(needs.presubmit-matrix-k8s.outputs.shard-0) }}
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.4.0
       - uses: chainguard-dev/actions/setup-kind@main
@@ -59,7 +70,47 @@ jobs:
           export IMAGE_NAME="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}"
           export IMAGE_TAG_SUFFIX="${{ matrix.apkoTargetTagSuffix }}"
 
-          # Set keys required for integration tests 
+          # Set keys required for integration tests
+          export NEW_RELIC_LICENSE_KEY="${{ secrets.NEW_RELIC_LICENSE_KEY }}"
+
+          cd "${{ matrix.testCommandDir }}"
+          ${{ matrix.testCommandExe }}
+
+  presubmit-build-k8s-1:
+    if: contains(github.event.pull_request.labels.*.name, 'k8s')
+    runs-on: ubuntu-latest
+    needs:
+      - presubmit-matrix-k8s
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.presubmit-matrix-k8s.outputs.shard-1) }}
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.4.0
+      - uses: chainguard-dev/actions/setup-kind@main
+        with:
+          k8s-version: v1.24.x
+          registry-authority: registry.local:5000
+      - run: |
+          kubectl get pods --all-namespaces
+      - name: Get registry IP address (for use inside docker)
+        id: registry-ip
+        run: |
+          echo "ip=$(docker inspect registry.local | jq -r '.[0].NetworkSettings.Networks["bridge"].IPAddress')" >> $GITHUB_OUTPUT
+      - uses: chainguard-images/actions/apko-publish@main
+        with:
+          apko-image: ${{ env.EXTRA_INPUT_APKO_IMAGE }}
+          config: ${{ matrix.apkoConfig }}
+          tag: ${{ steps.registry-ip.outputs.ip }}:5000/${{ matrix.imageName }}:${{ matrix.apkoTargetTag }}
+      - name: Run k8s tests
+        run: |
+          set -x
+          export IMAGE_REGISTRY="registry.local:5000"
+          export IMAGE_REPOSITORY="${{ matrix.imageName }}"
+          export IMAGE_TAG="${{ matrix.apkoTargetTag }}"
+          export IMAGE_NAME="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}"
+          export IMAGE_TAG_SUFFIX="${{ matrix.apkoTargetTagSuffix }}"
+
+          # Set keys required for integration tests
           export NEW_RELIC_LICENSE_KEY="${{ secrets.NEW_RELIC_LICENSE_KEY }}"
 
           cd "${{ matrix.testCommandDir }}"
@@ -67,7 +118,8 @@ jobs:
 
   presubmit-roundup:
     needs:
-      - presubmit-build-k8s
+      - presubmit-build-k8s-0
+      - presubmit-build-k8s-1
     runs-on: ubuntu-latest
     if: always()
     steps:
