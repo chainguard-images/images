@@ -39,20 +39,6 @@ runs:
         find "${{ github.workspace }}/packages" -print -exec touch \{} \;
         ls -al "${{ github.workspace }}/packages/"
 
-    - name: Setup QEMU
-      if: inputs.melangeConfig != ''
-      uses: docker/setup-qemu-action@e81a89b1732b9c48d79cd809d8d81d79c4647a18 # v2.1.0
-    - id: melange
-      if: inputs.melangeConfig != ''
-      uses: chainguard-dev/actions/melange-build@main
-      with:
-        multi-config: ${{ inputs.melangeConfig }}
-        empty-workspace: ${{ inputs.melangeEmptyWorkspace }}
-        workdir: ${{ inputs.melangeWorkdir }}
-        sign-with-temporary-key: true
-        archs: x86_64 # To speed up CI, just build for x86_64 ${{ inputs.melangeArchs }}
-        template: ${{ inputs.melangeTemplate }}
-
     - uses: chainguard-dev/actions/setup-registry@main
       with:
         port: 5000
@@ -99,10 +85,8 @@ runs:
       id: apko
       shell: bash
       run: |
-        digest="$(terraform output --raw image_ref)"
-        output="digest-index=${digest}"
-        echo "Adding GitHub step output: ${output}"
-        echo "${output}" >> $GITHUB_OUTPUT
+        set -x
+        echo "digest-index=$(terraform output --raw image_ref)" >> $GITHUB_OUTPUT
 
     - name: Smoke test
       id: smoketest
