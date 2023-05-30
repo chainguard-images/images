@@ -1,0 +1,34 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+  packages:
+    - ca-certificates-bundle
+    - kyverno-cli
+    - wolfi-baselayout
+    - kubectl
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+
+entrypoint:
+  command: /usr/bin/kubectl-kyverno
+
+cmd: help
+
+archs:
+- x86_64
+- aarch64
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/kyverno-cli/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/kyverno-cli
