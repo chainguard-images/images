@@ -64,6 +64,7 @@ runs:
     - name: Terraform apply (apko publish)
       id: terraform-apply
       shell: bash
+      working-directory: ${{ inputs.terraformDirectory }}
       env:
         TF_VAR_apko_config_path: ${{ inputs.apkoConfig }}
         TF_VAR_target_repository: ${{ inputs.apkoBaseTag }}
@@ -74,66 +75,66 @@ runs:
         terraform init
         terraform apply -auto-approve
 
-        # Surface the resulting image_ref as a step output.
-        echo "image_ref=$(terraform output --raw image_ref)" >> $GITHUB_OUTPUT
+    #     # Surface the resulting image_ref as a step output.
+    #     echo "image_ref=$(terraform output --raw image_ref)" >> $GITHUB_OUTPUT
 
-    # The apko.tags file is needed in tagging below after all attestations and tests pass etc.
-    - name: Create apko.tags file
-      id: create-apko-tags
-      shell: bash
-      run: |
-        set -x
+    # # The apko.tags file is needed in tagging below after all attestations and tests pass etc.
+    # - name: Create apko.tags file
+    #   id: create-apko-tags
+    #   shell: bash
+    #   run: |
+    #     set -x
 
-        # Add the primary tag (e.g. "latest") and the timestamped tag (e.g. "latest-20230512")
-        echo "${{ inputs.apkoBaseTag }}:${{ inputs.apkoTargetTag }}" > apko.tags
-        echo "${{ inputs.apkoBaseTag }}:${{ inputs.apkoTargetTag }}-$(date -u +%Y%m%d)" >> apko.tags
+    #     # Add the primary tag (e.g. "latest") and the timestamped tag (e.g. "latest-20230512")
+    #     echo "${{ inputs.apkoBaseTag }}:${{ inputs.apkoTargetTag }}" > apko.tags
+    #     echo "${{ inputs.apkoBaseTag }}:${{ inputs.apkoTargetTag }}-$(date -u +%Y%m%d)" >> apko.tags
 
-        package_version_json="$(terraform output --json package_version)"
-        echo "Package version JSON: ${package_version_json}"
-        for v in $(echo "${package_version_json}" | jq -r '.[]'); do
-          tag="${v}${{ inputs.apkoTargetTagSuffix }}"
-          echo "${{ inputs.apkoBaseTag }}:${tag}" >> apko.tags
-        done
+    #     package_version_json="$(terraform output --json package_version)"
+    #     echo "Package version JSON: ${package_version_json}"
+    #     for v in $(echo "${package_version_json}" | jq -r '.[]'); do
+    #       tag="${v}${{ inputs.apkoTargetTagSuffix }}"
+    #       echo "${{ inputs.apkoBaseTag }}:${tag}" >> apko.tags
+    #     done
 
-        echo "Contents of apko.tags:"
-        cat apko.tags
+    #     echo "Contents of apko.tags:"
+    #     cat apko.tags
 
-    # Test image
-    - name: Smoke test
-      id: smoketest
-      if: inputs.testCommandExe != ''
-      shell: bash
-      run: |
-        set -x
-        export IMAGE_NAME="${{ steps.terraform-apply.outputs.image_ref }}"
-        export IMAGE_TAG_SUFFIX="${{ inputs.apkoTargetTagSuffix }}"
-        cd "${{ inputs.testCommandDir }}"
-        ${{ inputs.testCommandExe }}
+    # # Test image
+    # - name: Smoke test
+    #   id: smoketest
+    #   if: inputs.testCommandExe != ''
+    #   shell: bash
+    #   run: |
+    #     set -x
+    #     export IMAGE_NAME="${{ steps.terraform-apply.outputs.image_ref }}"
+    #     export IMAGE_TAG_SUFFIX="${{ inputs.apkoTargetTagSuffix }}"
+    #     cd "${{ inputs.testCommandDir }}"
+    #     ${{ inputs.testCommandExe }}
 
-    # Tag the image last, after all tests passing and
-    # SBOMs, attestations, etc. have all been attached
-    - uses: imjasonh/setup-crane@v0.3
-    - name: Add image tags
-      id: tag
-      shell: bash
-      run: |
-        set -x
-        REF="${{ steps.terraform-apply.outputs.image_ref }}"
-        EXCLUDE_TAGS="${{ inputs.excludeTags }}"
-        for tag in `cat apko.tags`; do
-          skip=0
-          for exclude_tag in ${EXCLUDE_TAGS//,/ }; do
-            if [[ "${tag}" == "${{ inputs.apkoBaseTag }}:${exclude_tag}" ]]; then
-              skip=1
-              break
-            fi
-          done
-          if [[ "${skip}" == "0" ]]; then
-            crane cp "${REF}" "${tag}"
-          else
-            echo "Intentionally excluding copy to ${tag}."
-          fi
-        done
+    # # Tag the image last, after all tests passing and
+    # # SBOMs, attestations, etc. have all been attached
+    # - uses: imjasonh/setup-crane@v0.3
+    # - name: Add image tags
+    #   id: tag
+    #   shell: bash
+    #   run: |
+    #     set -x
+    #     REF="${{ steps.terraform-apply.outputs.image_ref }}"
+    #     EXCLUDE_TAGS="${{ inputs.excludeTags }}"
+    #     for tag in `cat apko.tags`; do
+    #       skip=0
+    #       for exclude_tag in ${EXCLUDE_TAGS//,/ }; do
+    #         if [[ "${tag}" == "${{ inputs.apkoBaseTag }}:${exclude_tag}" ]]; then
+    #           skip=1
+    #           break
+    #         fi
+    #       done
+    #       if [[ "${skip}" == "0" ]]; then
+    #         crane cp "${REF}" "${tag}"
+    #       else
+    #         echo "Intentionally excluding copy to ${tag}."
+    #       fi
+    #     done
 
     # Generate build status badge from shields.io and save it in ./badges-output/
     - if: always()

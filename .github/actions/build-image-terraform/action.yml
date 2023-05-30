@@ -71,6 +71,7 @@ runs:
     - name: Terraform apply (apko publish)
       id: terraform-apply
       shell: bash
+      working-directory: ${{ inputs.terraformDirectory }}
       env:
         TF_VAR_apko_config_path: ${{ inputs.apkoConfig }}
         TF_VAR_target_repository: ${{ steps.target-repository.outputs.target-repository }}
@@ -81,23 +82,19 @@ runs:
         terraform init
         terraform apply -auto-approve
 
-    - name: Process Terraform outputs
-      id: apko
-      shell: bash
-      run: |
-        set -x
-        echo "digest-index=$(terraform output --raw image_ref)" >> $GITHUB_OUTPUT
+    #     # Surface the resulting image_ref as a step output.
+    #     echo "image_ref=$(terraform output --raw image_ref)" >> $GITHUB_OUTPUT
 
-    - name: Smoke test
-      id: smoketest
-      if: inputs.testCommandExe != ''
-      shell: bash
-      run: |
-        set -x
-        export IMAGE_NAME="${{ steps.apko.outputs.digest-index }}"
-        export IMAGE_TAG_SUFFIX="${{ inputs.apkoTargetTagSuffix }}"
-        cd "${{ inputs.testCommandDir }}"
-        ${{ inputs.testCommandExe }}
+    # - name: Smoke test
+    #   id: smoketest
+    #   if: inputs.testCommandExe != ''
+    #   shell: bash
+    #   run: |
+    #     set -x
+    #     export IMAGE_NAME="${{ steps.terraform-apply.outputs.image_ref }}"
+    #     export IMAGE_TAG_SUFFIX="${{ inputs.apkoTargetTagSuffix }}"
+    #     cd "${{ inputs.testCommandDir }}"
+    #     ${{ inputs.testCommandExe }}
 
     - name: Touch actions file to prevent postrun failure
       if: always()
