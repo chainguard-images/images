@@ -15,9 +15,16 @@ spec:
       ctlog:
         url: https://rekor.sigstore.dev
       attestations:
-        - name: must-have-slsa-attestation
+        # One of these must be true.
+        - name: must-have-slsa-attestation-v0.2
           predicateType: "https://slsa.dev/provenance/v0.2"
           policy:
             type: cue
             data: |
               predicateType: "https://slsa.dev/provenance/v0.2"
+        - name: must-have-slsa-attestation-v1
+          predicateType: "https://slsa.dev/provenance/v1"
+          policy:
+            type: cue
+            data: |
+              predicateType: "https://slsa.dev/provenance/v1"
