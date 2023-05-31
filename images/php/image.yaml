@@ -12,7 +12,7 @@ versions:
   - apko:
       extractTagsFrom:
         package: php-fpm
-      config: configs/fpm.apko.yaml
+      config: configs/latest-fpm.apko.yaml
       subvariants:
         - suffix: -dev
           options:
