@@ -7,9 +7,12 @@ contents:
     - wolfi-baselayout
     - ca-certificates-bundle
     - php
+    - php-fpm
 
 entrypoint:
-  command: /bin/php
+  type: service-bundle
+  services:
+    php-fpm: /usr/bin/php-fpm -p /
 
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin
