@@ -5,7 +5,6 @@ contents:
     - https://packages.wolfi.dev/os
   packages:
     - ca-certificates-bundle
-    - busybox
     - kubectl
     - wolfi-baselayout
 
