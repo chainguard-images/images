@@ -81,12 +81,8 @@ runs:
         terraform init
         terraform apply -auto-approve
 
-    - name: Process Terraform outputs
-      id: apko
-      shell: bash
-      run: |
-        set -x
-        echo "digest-index=$(terraform output --raw image_ref)" >> $GITHUB_OUTPUT
+        # Surface the resulting image_ref as a step output.
+        echo "image_ref=$(terraform output --raw image_ref)" >> $GITHUB_OUTPUT
 
     - name: Smoke test
       id: smoketest
@@ -94,7 +90,7 @@ runs:
       shell: bash
       run: |
         set -x
-        export IMAGE_NAME="${{ steps.apko.outputs.digest-index }}"
+        export IMAGE_NAME="${{ steps.terraform-apply.outputs.image_ref }}"
         export IMAGE_TAG_SUFFIX="${{ inputs.apkoTargetTagSuffix }}"
         cd "${{ inputs.testCommandDir }}"
         ${{ inputs.testCommandExe }}
