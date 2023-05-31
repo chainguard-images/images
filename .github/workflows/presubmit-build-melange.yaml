@@ -45,7 +45,7 @@ jobs:
       - name: Add additional inputs
         id: augmented-inputs
         env:
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:b4d68302d92493526c0eeef110adada719542daedc292fb063669602be9e4d2e
+          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:cbf0bcc5d3fe1b82537975d48d72be1e214b93d29fd3a9ce5077833a1d175f1e
         run: |
           # convert env vars beginning with "EXTRA_INPUT_"
           # to camelcased input variables passed to next step
@@ -73,7 +73,7 @@ jobs:
       - name: Add additional inputs
         id: augmented-inputs
         env:
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:b4d68302d92493526c0eeef110adada719542daedc292fb063669602be9e4d2e
+          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:cbf0bcc5d3fe1b82537975d48d72be1e214b93d29fd3a9ce5077833a1d175f1e
         run: |
           # convert env vars beginning with "EXTRA_INPUT_"
           # to camelcased input variables passed to next step
