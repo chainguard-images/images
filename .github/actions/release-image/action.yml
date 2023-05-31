@@ -145,7 +145,8 @@ runs:
         target-tag: ${{ inputs.apkoTargetTag }}
         keyring-append: ${{ inputs.apkoKeyringAppend }}
         repository-append: ${{ inputs.apkoRepositoryAppend }}
-        package-append: ${{ inputs.apkoPackageAppend }}
+        # TODO(https://github.com/chainguard-dev/apko/pull/703): plumb this through
+        # package-append: ${{ inputs.apkoPackageAppend }}
         additional-tags: ${{ inputs.apkoAdditionalTags }}
         package-version-tag: ${{ inputs.apkoPackageVersionTag }}
         package-version-tag-stem: true
