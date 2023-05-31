@@ -19,7 +19,7 @@ accounts:
   recursive: true
 
 entrypoint:
-  command: /usr/sbin/vault
+  command: /usr/bin/vault
 cmd: server -dev
 
 archs:
