@@ -111,12 +111,14 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 		opt(config)
 	}
 
+	var g ImageManifest
 	b, err := os.ReadFile(filepath.Join(constants.GlobalManifestFilename))
 	if err != nil {
-		return nil, err
-	}
-	var g ImageManifest
-	if err := yaml.Unmarshal(b, &g); err != nil {
+		if !os.IsNotExist(err) {
+			return nil, err
+		}
+		// Allow the global manifest to be omitted.
+	} else if err := yaml.Unmarshal(b, &g); err != nil {
 		return nil, err
 	}
 
