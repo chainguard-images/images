@@ -55,7 +55,7 @@ provider "apko" {
 
 module "image" {
   source  = "chainguard-dev/apko/publisher"
-  version = "0.0.3"
+  version = "0.0.4"
 
   target_repository = var.target_repository
   config            = file(var.apko_config_path)
