@@ -1,5 +1,7 @@
 # Chainguard Images
 
+## :warning::exclamation: On August 16th we will be making changes to how image tags are pulled. Please see [the announcement](https://www.chainguard.dev/unchained/scaling-chainguard-images-with-a-growing-catalog-and-proactive-security-updates) for further details. :exclamation::warning:
+
 | Name | OCI Reference | Status | Variants/Tags |
 | ----- | ----- | ----- |  -------- |
 | [apko](./images/apko) | `cgr.dev/chainguard/apko` | stable | [![](https://storage.googleapis.com/chainguard-images-build-outputs/badges/apko.build.status.latest.svg)](https://registry-ui.chainguard.app/?image=cgr.dev/chainguard/apko:latest) |
