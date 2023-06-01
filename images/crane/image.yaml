@@ -5,7 +5,3 @@ versions:
       config: configs/latest.apko.yaml
       extractTagsFrom:
         package: crane
-      subvariants:
-        - suffix: -dev
-          options:
-            - dev
