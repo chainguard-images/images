@@ -50,7 +50,7 @@ runs:
         empty-workspace: ${{ inputs.melangeEmptyWorkspace }}
         workdir: ${{ inputs.melangeWorkdir }}
         sign-with-temporary-key: true
-        archs: x86_64 # To speed up CI, just build for x86_64 ${{ inputs.melangeArchs }}
+        archs: ${{ inputs.melangeArchs }}
         template: ${{ inputs.melangeTemplate }}
     - id: inject-build-options
       shell: bash
