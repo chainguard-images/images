@@ -64,8 +64,34 @@ You can also supply config via the VAULT\_LOCAL\_CONFIG variable e.g:
 $ docker run -e VAULT_LOCAL_CONFIG='{"cluster_name": "foo"}' cgr.dev/chainguard/vault server
 ```
 
-### IPC\_LOCK Capability
+### Helm Chart Usage
 
+This image and the [vault-k8s image](https://github.com/chainguard-images/images/tree/main/images/vault-k8s) can be used with the [Hashicorp Helm chart](https://github.com/hashicorp/vault-helm). To replace the official
+images with the Chainguard images, provide the chart with the following values:
+
+```
+injector:
+  image:
+    repository: "cgr.dev/chainguard/vault-k8s"
+    tag: "latest"
+
+  agentImage:
+    repository: "cgr.dev/chainguard/vault"
+    tag: "latest"
+
+server:
+  image:
+    repository: "cgr.dev/chainguard/vault"
+    tag: "latest"
+```
+
+Assuming this values are saved in `cgr\_values.yaml`, you should be able to run:
+
+```
+helm install vault hashicorp/vault --values cgr_values.yaml
+```
+
+### IPC\_LOCK Capability
 
 If you run the container without IPC\_LOCK capabilitiy, you will get the following error:
 
@@ -103,7 +129,6 @@ Couldn't start vault with IPC_LOCK. Disabling IPC_LOCK, please use --cap-add IPC
 ==> Vault server configuration:
 ...
 
-
 Be aware that this is not recommend by Vault.
 
 ### Differences to hashicorp/vault image
@@ -120,7 +145,6 @@ This image supports the same environment variables as the
 [hashicorp/vault](https://hub.docker.com/r/hashicorp/vault) image, with the exception of
 `SKIP_SETCAP`.
 
-
 ### Persisting Storage Data
 
 If using the file data storage plugin, please configure it to write to `/var/lib/vault`.
@@ -128,6 +152,6 @@ If using the file data storage plugin, please configure it to write to `/var/lib
 ### Persisting Logs
 
 By default logs will be streamed to stdout and stderr, but can be configured to write to
-`/var/log/vault.
+`/var/log/vault`.
 
 
