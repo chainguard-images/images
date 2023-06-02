@@ -11,7 +11,7 @@
 ---
 <!--monopod:end-->
 
-Vault Server Image. **EXPERIMENTAL**
+Vault Server Image.
 
 ## Get It!
 
