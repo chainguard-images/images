@@ -29,7 +29,7 @@ replacement for the upstream [hashicorp/vault](https://hub.docker.com/r/hashicor
 chart](https://github.com/hashicorp/vault-helm).
 
 The default entrypoint starts a single-node instance of the server in development mode for testing
-and development. Note that the container must be given the `IPC_LOCK` capability.
+and development. Note that the container should be given the `IPC_LOCK` capability.
 
 You can start the container with:
 
@@ -89,7 +89,8 @@ server:
 Assuming these values are saved in `cgr_values.yaml`, you should be able to run:
 
 ```
-helm install vault hashicorp/vault --values cgr_values.yaml
+$ helm repo add hashicorp https://helm.releases.hashicorp.com
+$ helm install vault hashicorp/vault --values cgr_values.yaml
 ```
 
 ### IPC\_LOCK Capability
@@ -135,6 +136,7 @@ This image is not identical to the hashicorp/vault image. In particular:
  - The directory for filesystem driver (not used by default) is `/var/lib/vault`
  - The directory for logs (not used by default) is `/var/log/vault`
  - The vault binary and entrypoint script are stored in `/usr/bin`
+ - The underlying OS is [Wolfi](https://wolfi.dev) (which is glibc based) whereas the Hashicorp image uses Alpine (which is musl based)
 
 This image supports the same environment variables as the
 [hashicorp/vault](https://hub.docker.com/r/hashicorp/vault) image.
