@@ -37,4 +37,4 @@ helm install coredns coredns/coredns \
 	--set image.tag="${IMAGE_TAG}" \
 	--set isClusterService=false
 
-kubectl wait --for=condition=ready pod --selector app.kubernetes.io/instance=coredns
+kubectl wait --for=condition=ready pod --selector app.kubernetes.io/instance=coredns --timeout=120s
