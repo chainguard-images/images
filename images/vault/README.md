@@ -155,5 +155,3 @@ If using the file data storage plugin, please configure it to write to `/var/lib
 
 By default logs will be streamed to stdout and stderr, but can be configured to write to
 `/var/log/vault`.
-
-
