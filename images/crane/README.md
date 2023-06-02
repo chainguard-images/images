@@ -2,7 +2,7 @@
 # crane
 | | |
 | - | - |
-| **Status** | experimental |
+| **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/crane` |
 | **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/crane.svg) |
 
