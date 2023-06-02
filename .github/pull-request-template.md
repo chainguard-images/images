@@ -77,8 +77,8 @@ annotations:
   - [ ] `docker kill $(docker run -d --rm cgr.dev/chainguard/nginx)`
 - [ ] Error logs write to stderr and normal logs to stdout. DO NOT write to file.
 #### Documentation Requirements
-<!-- TODO: LINK TO README TEMPLATE -->
-- [ ] Provide a README file, follow the README template to include variants, tags, and usage examples
+
+- [ ] Provide a README file, follow the [README template](readme-template.md) to include variants, tags, and usage examples
 - [ ] Document your testing and results in the PR
 - [ ] Document any exceptions to the testing and config requirements outlined in this template
 - [ ] Document where and how the image deviates from popular alternatives (ports, packages, user, entrypoint, versions, etc). Explain why there's a difference and if the user needs to do anything differently when using the image
