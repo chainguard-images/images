@@ -25,14 +25,15 @@ docker pull cgr.dev/chainguard/vault:latest
 
 The Chainguard Vault image contains the [Vault](https://www.vaultproject.io/) server binary and supporting config. The image is intended to be a drop-in
 replacement for the upstream [hashicorp/vault](https://hub.docker.com/r/hashicorp/vault) or
-[vault](https://hub.docker.com/_/vault) images and compatible with the [official Helm
+[vault](https://hub.docker.com/_/vault) images and compatible with the [Hashicorp Helm
 chart](https://github.com/hashicorp/vault-helm).
 
-The default entrypoint starts a single-node instance of the server in development mode for testing and development. Note that the container must be given the IPC\_LOCK capability.
+The default entrypoint starts a single-node instance of the server in development mode for testing
+and development. Note that the container must be given the `IPC_LOCK` capability.
 
 You can start the container with:
 
-```shell
+```
 $ docker run --cap-add IPC_LOCK cgr.dev/chainguard/vault
 ==> Vault server configuration:
 
@@ -58,7 +59,7 @@ To configure Vault for production or other environments, supply a configuration 
 $ docker run -v $PWD/vault.hcl:/etc/vault/vault.hcl cgr.dev/chainguard/vault server
 ```
 
-You can also supply config via the VAULT\_LOCAL\_CONFIG variable e.g:
+You can also supply config via the `VAULT_LOCAL_CONFIG` variable e.g:
 
 ```
 $ docker run -e VAULT_LOCAL_CONFIG='{"cluster_name": "foo"}' cgr.dev/chainguard/vault server
@@ -85,7 +86,7 @@ server:
     tag: "latest"
 ```
 
-Assuming this values are saved in `cgr\_values.yaml`, you should be able to run:
+Assuming these values are saved in `cgr_values.yaml`, you should be able to run:
 
 ```
 helm install vault hashicorp/vault --values cgr_values.yaml
@@ -93,7 +94,7 @@ helm install vault hashicorp/vault --values cgr_values.yaml
 
 ### IPC\_LOCK Capability
 
-If you run the container without IPC\_LOCK capabilitiy, you will get the following error:
+If you run the container without `IPC_LOCK` capabilitiy, you will get the following error:
 
 
 ```
@@ -102,7 +103,7 @@ Vault requires the IPC_LOCK capability. Use --cap-add IPC_LOCK or equivalent to 
 If this isn't possible, use --user=root to disable IPC_LOCK.
 ```
 
-IPC\_LOCK is required for the memory lock (mlock) feature that prevents memory -- possibly containing sensitive information -- being written to disk. For a full explanation of how it works, refer to the [documentation](https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-security-concerns#ensure-mlock-is-enabled).
+`IPC_LOCK` is required for the memory lock (mlock) feature that prevents memory -- possibly containing sensitive information -- being written to disk. For a full explanation of how it works, refer to the [documentation](https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-security-concerns#ensure-mlock-is-enabled).
 
 
 The error can be easily fixed by running:
@@ -111,7 +112,7 @@ The error can be easily fixed by running:
 $ docker run --cap-add IPC_LOCK cgr.dev/chainguard/vault
 ```
 
-Or by using the following securityContext in Kubernetes:
+Or by using the following `securityContext` in Kubernetes:
 
 ```
 securityContext:
@@ -121,13 +122,14 @@ securityContext:
       add: ["IPC_LOCK"]
 ```
 
-Alternatively, the entrypoint script will disable IPC\_LOCK automatically if run as the root user:
+Alternatively, the entrypoint script will disable `IPC_LOCK` automatically if run as the root user:
 
 ```
 $ docker run --user=root cgr.dev/chainguard/vault
 Couldn't start vault with IPC_LOCK. Disabling IPC_LOCK, please use --cap-add IPC_LOCK
 ==> Vault server configuration:
 ...
+```
 
 Be aware that this is not recommend by Vault.
 
@@ -135,7 +137,7 @@ Be aware that this is not recommend by Vault.
 
 This image is not identical to the upstream image. In particular:
 
- - The vault binary has the IPC_LOCK capability set by default
+ - The vault binary has the `IPC_LOCK` capability set by default
  - The directory for configuration files is `/etc/vault`
  - The directory for filesystem driver (not used by default) is `/var/lib/vault`
  - The directory for logs (not used by default) is `/var/log/vault`
