@@ -16,7 +16,7 @@ accounts:
   users:
     - username: vault
       uid: 65532
-  run-as: vault
+  run-as: 0 # Entrypoint script will change user
   recursive: true
 
 entrypoint:

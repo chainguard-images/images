@@ -29,7 +29,7 @@ replacement for the upstream [hashicorp/vault](https://hub.docker.com/r/hashicor
 chart](https://github.com/hashicorp/vault-helm).
 
 The default entrypoint starts a single-node instance of the server in development mode for testing
-and development. Note that the container must be given the `IPC_LOCK` capability.
+and development. Note that the container should be given the `IPC_LOCK` capability.
 
 You can start the container with:
 
@@ -62,7 +62,7 @@ $ docker run -v $PWD/vault.hcl:/etc/vault/vault.hcl cgr.dev/chainguard/vault ser
 You can also supply config via the `VAULT_LOCAL_CONFIG` variable e.g:
 
 ```
-$ docker run -e VAULT_LOCAL_CONFIG='{"cluster_name": "foo"}' cgr.dev/chainguard/vault server
+$ docker run --cap-add=IPC_LOCK -e 'VAULT_LOCAL_CONFIG={"storage": {"file": {"path": "/var/lib/vault"}}, "listener": [{"tcp": { "address": "0.0.0.0:8200", "tls_disable": true}}], "default_lease_ttl": "168h", "max_lease_ttl": "720h", "ui": true}' -p 8200:8200 cgr.dev/chainguard/vault server
 ```
 
 ### Helm Chart Usage
@@ -89,18 +89,19 @@ server:
 Assuming these values are saved in `cgr_values.yaml`, you should be able to run:
 
 ```
-helm install vault hashicorp/vault --values cgr_values.yaml
+$ helm repo add hashicorp https://helm.releases.hashicorp.com
+$ helm install vault hashicorp/vault --values cgr_values.yaml
 ```
 
 ### IPC\_LOCK Capability
 
-If you run the container without `IPC_LOCK` capabilitiy, you will get the following error:
+If you run the container without `IPC_LOCK` capabilitiy, you will get the following warning:
 
 
 ```
-$ docker run cgr.dev/chainguard/vault
-Vault requires the IPC_LOCK capability. Use --cap-add IPC_LOCK or equivalent to run Vault.
-If this isn't possible, use --user=root to disable IPC_LOCK.
+Couldn't start vault with IPC_LOCK. Disabling IPC_LOCK, please use --cap-add IPC_LOCK
+==> Vault server configuration:
+...
 ```
 
 `IPC_LOCK` is required for the memory lock (mlock) feature that prevents memory -- possibly containing sensitive information -- being written to disk. For a full explanation of how it works, refer to the [documentation](https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-security-concerns#ensure-mlock-is-enabled).
@@ -122,30 +123,23 @@ securityContext:
       add: ["IPC_LOCK"]
 ```
 
-Alternatively, the entrypoint script will disable `IPC_LOCK` automatically if run as the root user:
+### User
 
-```
-$ docker run --user=root cgr.dev/chainguard/vault
-Couldn't start vault with IPC_LOCK. Disabling IPC_LOCK, please use --cap-add IPC_LOCK
-==> Vault server configuration:
-...
-```
-
-Be aware that this is not recommend by Vault.
+The image starts as root and switches to the lower privileged `vault` user in the entrypoint
+script.
 
 ### Differences to hashicorp/vault image
 
 This image is not identical to the hashicorp/vault image. In particular:
 
- - The vault binary has the `IPC_LOCK` capability set by default
  - The directory for configuration files is `/etc/vault`
  - The directory for filesystem driver (not used by default) is `/var/lib/vault`
  - The directory for logs (not used by default) is `/var/log/vault`
  - The vault binary and entrypoint script are stored in `/usr/bin`
+ - The underlying OS is [Wolfi](https://wolfi.dev) (which is glibc based) whereas the Hashicorp image uses Alpine (which is musl based)
 
 This image supports the same environment variables as the
-[hashicorp/vault](https://hub.docker.com/r/hashicorp/vault) image, with the exception of
-`SKIP_SETCAP`.
+[hashicorp/vault](https://hub.docker.com/r/hashicorp/vault) image.
 
 ### Persisting Storage Data
 
