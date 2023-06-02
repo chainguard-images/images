@@ -33,6 +33,10 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
+variable "target_tag" {
+  description = "The target tag for this image."
+}
+
 variable "tag_suffix" {
   description = "The suffix to the tag for this image."
 }
@@ -74,7 +78,7 @@ module "image" {
   extra_packages    = var.extra_packages
 }
 
-data "oci_exec_test" "version" {
+data "oci_exec_test" "this" {
   digest = module.image.image_ref
   script = <<EOF
     export IMAGE_TAG_SUFFIX="${var.tag_suffix}"
@@ -83,12 +87,16 @@ data "oci_exec_test" "version" {
   EOF
 }
 
-output "image_ref" {
-  value = module.image.image_ref
+module "version-tags" {
+  source  = "./tflib/version-tags"
+  package = var.extract_package
+  config  = module.image.config
 }
 
-output "package_version" {
-  value = [
-    for x in module.image.config.contents.packages : regexall("(((([a-z0-9]+)(?:[.][a-z0-9]+)?)(?:[.][a-z0-9]+)?)(?:[-][a-z0-9]+)?)", trimprefix(x, "${var.extract_package}=")) if startswith(x, "${var.extract_package}=")
-  ][0][0]
+resource "oci_tag" "this" {
+  depends_on = [ data.oci_exec_test.this ]
+  for_each   = toset(concat(["latest"], module.version-tags.tag_list))
+
+  digest_ref = module.image.image_ref
+  tag        = "${each.key}${var.tag_suffix}"
 }
