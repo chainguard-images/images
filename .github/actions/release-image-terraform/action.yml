@@ -70,61 +70,13 @@ runs:
         TF_VAR_extract_package: ${{ inputs.apkoPackageVersionTag }}
         TF_VAR_test_dir: ${{ inputs.testCommandDir }}
         TF_VAR_test_cmd: ${{ inputs.testCommandExe }}
+        TF_VAR_target_tag: ${{ inputs.apkoTargetTag }}
         TF_VAR_tag_suffix: ${{ inputs.apkoTargetTagSuffix }}
       run: |
         set -x
         env | grep '^TF_VAR_'
         terraform init
         terraform apply -auto-approve
-
-        # Surface the resulting image_ref as a step output.
-        echo "image_ref=$(terraform output --raw image_ref)" >> $GITHUB_OUTPUT
-
-    # The apko.tags file is needed in tagging below after all attestations and tests pass etc.
-    - name: Create apko.tags file
-      id: create-apko-tags
-      shell: bash
-      run: |
-        set -x
-
-        # Add the primary tag (e.g. "latest") and the timestamped tag (e.g. "latest-20230512")
-        echo "${{ inputs.apkoBaseTag }}:${{ inputs.apkoTargetTag }}" > apko.tags
-        echo "${{ inputs.apkoBaseTag }}:${{ inputs.apkoTargetTag }}-$(date -u +%Y%m%d)" >> apko.tags
-
-        package_version_json="$(terraform output --json package_version)"
-        echo "Package version JSON: ${package_version_json}"
-        for v in $(echo "${package_version_json}" | jq -r '.[]'); do
-          tag="${v}${{ inputs.apkoTargetTagSuffix }}"
-          echo "${{ inputs.apkoBaseTag }}:${tag}" >> apko.tags
-        done
-
-        echo "Contents of apko.tags:"
-        cat apko.tags
-
-    # Tag the image last, after all tests passing and
-    # SBOMs, attestations, etc. have all been attached
-    - uses: imjasonh/setup-crane@v0.3
-    - name: Add image tags
-      id: tag
-      shell: bash
-      run: |
-        set -x
-        REF="${{ steps.terraform-apply.outputs.image_ref }}"
-        EXCLUDE_TAGS="${{ inputs.excludeTags }}"
-        for tag in `cat apko.tags`; do
-          skip=0
-          for exclude_tag in ${EXCLUDE_TAGS//,/ }; do
-            if [[ "${tag}" == "${{ inputs.apkoBaseTag }}:${exclude_tag}" ]]; then
-              skip=1
-              break
-            fi
-          done
-          if [[ "${skip}" == "0" ]]; then
-            crane cp "${REF}" "${tag}"
-          else
-            echo "Intentionally excluding copy to ${tag}."
-          fi
-        done
 
     # Generate build status badge from shields.io and save it in ./badges-output/
     - if: always()
