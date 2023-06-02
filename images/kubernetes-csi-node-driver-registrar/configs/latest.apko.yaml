@@ -19,7 +19,7 @@ accounts:
   run-as: 65532
       
 entrypoint:
-  command: csi-node-driver-registrar
+  command: /usr/bin/csi-node-driver-registrar
     
 archs:
   - x86_64
