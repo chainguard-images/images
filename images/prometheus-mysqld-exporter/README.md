@@ -4,8 +4,10 @@
 | - | - |
 | **Status** | experimental |
 | **OCI Reference** | `cgr.dev/chainguard/prometheus-mysqld-exporter` |
-| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/prometheus-mysqld-exporter.svg) |
 
+
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/prometheus-mysqld-exporter/overview/)
+* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 *[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
 ---

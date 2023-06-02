@@ -4,8 +4,10 @@
 | - | - |
 | **Status** | experimental |
 | **OCI Reference** | `cgr.dev/chainguard/vault-k8s` |
-| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/vault-k8s.svg) |
 
+
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/vault-k8s/overview/)
+* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 *[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
 ---
