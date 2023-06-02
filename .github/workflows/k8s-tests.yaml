@@ -26,7 +26,7 @@ jobs:
       run: |
         set -xe
         TMP=$(mktemp)
-        [[ "${{ inputs.only }}" != "" ]] || echo -n 'images/${{ inputs.only }}/image.yaml' > "${TMP}"
+        [[ "${{ inputs.only }}" == "" ]] || echo -n 'images/${{ inputs.only }}/image.yaml' > "${TMP}"
         echo "filter=$(cat "${TMP}")" >> $GITHUB_OUTPUT
     - id: generate-matrix-0
       uses: ./.github/actions/generate-matrix
