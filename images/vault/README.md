@@ -2,7 +2,7 @@
 # vault
 | | |
 | - | - |
-| **Status** | experimental |
+| **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/vault` |
 | **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/vault.svg) |
 
@@ -135,7 +135,7 @@ Be aware that this is not recommend by Vault.
 
 ### Differences to hashicorp/vault image
 
-This image is not identical to the upstream image. In particular:
+This image is not identical to the hashicorp/vault image. In particular:
 
  - The vault binary has the `IPC_LOCK` capability set by default
  - The directory for configuration files is `/etc/vault`
