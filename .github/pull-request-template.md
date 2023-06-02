@@ -39,7 +39,6 @@ The general idea is that to the extent possible, the image should be a drop-in r
   - [ ] The image should start in a cluster
   - [ ] The application should be accessible to the user/cluster/etc. as expected
 - [ ] If there is an open source helm chart provided, the image should be able to be used with the chart. If needed, please add a -compat package to close any gaps with the public helm chart.
-- [ ] If the upstream project provides automated build and functional tests, these should run successfully
 - [ ] build for x86_64 and aarch64 if possible, document exceptions
 
 #### For new image PRs only
