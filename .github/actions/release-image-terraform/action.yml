@@ -68,6 +68,9 @@ runs:
         TF_VAR_apko_config_path: ${{ inputs.apkoConfig }}
         TF_VAR_target_repository: ${{ inputs.apkoBaseTag }}
         TF_VAR_extract_package: ${{ inputs.apkoPackageVersionTag }}
+        TF_VAR_test_dir: ${{ inputs.testCommandDir }}
+        TF_VAR_test_cmd: ${{ inputs.testCommandExe }}
+        TF_VAR_tag_suffix: ${{ inputs.apkoTargetTagSuffix }}
       run: |
         set -x
         env | grep '^TF_VAR_'
@@ -97,18 +100,6 @@ runs:
 
         echo "Contents of apko.tags:"
         cat apko.tags
-
-    # Test image
-    - name: Smoke test
-      id: smoketest
-      if: inputs.testCommandExe != ''
-      shell: bash
-      run: |
-        set -x
-        export IMAGE_NAME="${{ steps.terraform-apply.outputs.image_ref }}"
-        export IMAGE_TAG_SUFFIX="${{ inputs.apkoTargetTagSuffix }}"
-        cd "${{ inputs.testCommandDir }}"
-        ${{ inputs.testCommandExe }}
 
     # Tag the image last, after all tests passing and
     # SBOMs, attestations, etc. have all been attached

@@ -21,8 +21,20 @@ variable "apko_config_path" {
   description = "The path to the apko image config file."
 }
 
+variable "test_dir" {
+  description = "The directory from which to run tests."
+}
+
+variable "test_cmd" {
+  description = "The command to run to invoke tests."
+}
+
 variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
+}
+
+variable "tag_suffix" {
+  description = "The suffix to the tag for this image."
 }
 
 variable "extra_repositories" {
@@ -60,6 +72,15 @@ module "image" {
   target_repository = var.target_repository
   config            = file(var.apko_config_path)
   extra_packages    = var.extra_packages
+}
+
+data "oci_exec_test" "version" {
+  digest = module.image.image_ref
+  script = <<EOF
+    export IMAGE_TAG_SUFFIX="${var.tag_suffix}"
+    cd "${path.module}/${var.test_dir}"
+    ${var.test_cmd}
+  EOF
 }
 
 output "image_ref" {

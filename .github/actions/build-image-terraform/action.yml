@@ -75,25 +75,14 @@ runs:
         TF_VAR_apko_config_path: ${{ inputs.apkoConfig }}
         TF_VAR_target_repository: ${{ steps.target-repository.outputs.target-repository }}
         TF_VAR_extract_package: ${{ inputs.apkoPackageVersionTag }}
+        TF_VAR_test_dir: ${{ inputs.testCommandDir }}
+        TF_VAR_test_cmd: ${{ inputs.testCommandExe }}
+        TF_VAR_tag_suffix: ${{ inputs.apkoTargetTagSuffix }}
       run: |
         set -x
         env | grep '^TF_VAR_'
         terraform init
         terraform apply -auto-approve
-
-        # Surface the resulting image_ref as a step output.
-        echo "image_ref=$(terraform output --raw image_ref)" >> $GITHUB_OUTPUT
-
-    - name: Smoke test
-      id: smoketest
-      if: inputs.testCommandExe != ''
-      shell: bash
-      run: |
-        set -x
-        export IMAGE_NAME="${{ steps.terraform-apply.outputs.image_ref }}"
-        export IMAGE_TAG_SUFFIX="${{ inputs.apkoTargetTagSuffix }}"
-        cd "${{ inputs.testCommandDir }}"
-        ${{ inputs.testCommandExe }}
 
     - name: Touch actions file to prevent postrun failure
       if: always()
