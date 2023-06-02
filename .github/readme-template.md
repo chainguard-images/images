@@ -4,7 +4,8 @@ Minimal Wolfi-based IMAGE_NAME images for IMAGE_FEATURES.
 
 - [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/[IMAGE_NAME])
 - [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/[IMAGE_NAME]/getting-started-[IMAGE_NAME]/)
-- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/[IMAGE_NAME]/provenance_info/)
+- [Image Variants](https://edu.chainguard.dev/chainguard/chainguard-images/reference/[IMAGE_NAME]/image_specs/)
+- [Provenance Info](https://edu.chainguard.dev/chainguard/chainguard-images/reference/[IMAGE_NAME]/provenance_info/)
 
 ## Image Variants
 
