@@ -40,6 +40,7 @@ jobs:
         run: |
           echo "Error: ${{ matrix.imageName }} image is missing tests."
           exit 1
+      # TODO: Find way to use chainguard-dev/actions/matrix-extra-inputs
       - name: Add additional inputs
         id: augmented-inputs
         env:
@@ -84,6 +85,7 @@ jobs:
         run: |
           echo "Error: ${{ matrix.imageName }} image is missing tests."
           exit 1
+      # TODO: Find way to use chainguard-dev/actions/matrix-extra-inputs
       - name: Add additional inputs
         id: augmented-inputs
         env:
