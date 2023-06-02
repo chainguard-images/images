@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
       - id: files
-        uses: tj-actions/changed-files@17c3e9e98f47ef859502ba3e38be0b8a6a4bddd9 # v36.0.11
+        uses: tj-actions/changed-files@9ecc6e7fe2e26945b52485ccd9bc4b44000f5af1 # v36.0.14
         with:
           separator: ','
       - id: generate-matrix-0
