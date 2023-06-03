@@ -7,6 +7,7 @@ contents:
     - wolfi-baselayout
     - ca-certificates-bundle
     - gatekeeper
+    - gatekeeper-compat
 
 accounts:
   groups:
