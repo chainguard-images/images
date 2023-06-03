@@ -64,12 +64,9 @@ runs:
     - name: Terraform apply (apko publish)
       id: terraform-apply
       shell: bash
+      working-directory: ${{ inputs.terraformDirectory }}
       env:
-        TF_VAR_apko_config_path: ${{ inputs.apkoConfig }}
         TF_VAR_target_repository: ${{ inputs.apkoBaseTag }}
-        TF_VAR_extract_package: ${{ inputs.apkoPackageVersionTag }}
-        TF_VAR_test_dir: ${{ inputs.testCommandDir }}
-        TF_VAR_test_cmd: ${{ inputs.testCommandExe }}
         TF_VAR_target_tag: ${{ inputs.apkoTargetTag }}
         TF_VAR_tag_suffix: ${{ inputs.apkoTargetTagSuffix }}
       run: |

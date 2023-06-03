@@ -43,12 +43,6 @@ runs:
       with:
         port: 5000
 
-    - name: Create target repository
-      id: target-repository
-      shell: bash
-      run: |
-        echo "target-repository=localhost:5000/testing/${{ github.sha }}--${{ inputs.imageName }}--${{ inputs.apkoTargetTag }}" >> $GITHUB_OUTPUT
-
     - name: Setup Terrafrom
       id: setup-terraform
       uses: hashicorp/setup-terraform@v2
@@ -71,12 +65,9 @@ runs:
     - name: Terraform apply (apko publish)
       id: terraform-apply
       shell: bash
+      working-directory: ${{ inputs.terraformDirectory }}
       env:
-        TF_VAR_apko_config_path: ${{ inputs.apkoConfig }}
-        TF_VAR_target_repository: ${{ steps.target-repository.outputs.target-repository }}
-        TF_VAR_extract_package: ${{ inputs.apkoPackageVersionTag }}
-        TF_VAR_test_dir: ${{ inputs.testCommandDir }}
-        TF_VAR_test_cmd: ${{ inputs.testCommandExe }}
+        TF_VAR_target_repository: localhost:5000/testing
         TF_VAR_target_tag: ${{ inputs.apkoTargetTag }}
         TF_VAR_tag_suffix: ${{ inputs.apkoTargetTagSuffix }}
       run: |
