@@ -38,6 +38,7 @@ type Image struct {
 	TestCommandDir              string `json:"testCommandDir"`
 	ExcludeTags                 string `json:"excludeTags"`
 	UseTerraform                bool   `json:"useTerraform"`
+	TerraformDirectory          string `json:"terraformDirectory"`
 	ExcludeContact              bool   `json:"-"`
 }
 
@@ -314,6 +315,10 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 			}
 
 			useTerraform := m.Terraform
+			terraformDir := ""
+			if useTerraform {
+				terraformDir = filepath.Join(constants.ImagesDirName, imageName)
+			}
 
 			i := Image{
 				ImageName:                   imageName,
@@ -339,6 +344,7 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 				TestCommandDir:              testCommandDir,
 				ExcludeTags:                 strings.Join(variant.Apko.ExtractTagsFrom.Exclude, ","),
 				UseTerraform:                useTerraform,
+				TerraformDirectory:          terraformDir,
 				ExcludeContact:              imageExcludeContact,
 			}
 			allImages = append(allImages, i)
