@@ -9,7 +9,8 @@ fi
 
 TMPDIR="$(mktemp -d)"
 
-mkdir -p .terraform/
+# Make the file readable and writable by all since we use a non-root user
+sudo chmod -R 755 "${TMPDIR}"
 
 cat > ${TMPDIR}/main.tf <<EOF
 terraform {
