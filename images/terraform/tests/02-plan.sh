@@ -9,6 +9,8 @@ fi
 
 TMPDIR="$(mktemp -d)"
 
+mkdir -p .terraform/
+
 cat > ${TMPDIR}/main.tf <<EOF
 terraform {
   required_providers {
