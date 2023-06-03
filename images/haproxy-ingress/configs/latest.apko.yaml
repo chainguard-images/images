@@ -11,6 +11,7 @@ contents:
     - wolfi-baselayout
     - dumb-init
     - haproxy
+    - lua-json4
 
 accounts:
   groups:
@@ -55,7 +56,7 @@ paths:
     permissions: 0o755
 
 entrypoint:
-  command: /usr/bin/dumb-init -- /haproxy-ingress/start.sh
+  command: /usr/bin/dumb-init -- /usr/bin/start.sh
 
 archs:
 - x86_64
