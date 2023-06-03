@@ -43,7 +43,7 @@ jobs:
       - name: Add additional inputs
         id: augmented-inputs
         env:
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:6d6afe067475323f9d6ce4fc3f9ce9652f9afd5b73ed5cc2b18195086067540c
+          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:bce367a508c4090b2058239eda178ba73c867bcb31380cf3c1799fe447e66506
           EXTRA_INPUT_APKO_REPOSITORY_APPEND: https://packages.wolfi.dev/os
           EXTRA_INPUT_APKO_KEYRING_APPEND: https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
         run: |
@@ -87,7 +87,7 @@ jobs:
       - name: Add additional inputs
         id: augmented-inputs
         env:
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:6d6afe067475323f9d6ce4fc3f9ce9652f9afd5b73ed5cc2b18195086067540c
+          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:bce367a508c4090b2058239eda178ba73c867bcb31380cf3c1799fe447e66506
           EXTRA_INPUT_APKO_REPOSITORY_APPEND: https://packages.wolfi.dev/os
           EXTRA_INPUT_APKO_KEYRING_APPEND: https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
         run: |
