@@ -19,9 +19,7 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command: /usr/bin/spire-server
-
-cmd: --help
+  command: /usr/bin/spire-server run
 
 archs:
 - x86_64

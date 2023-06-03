@@ -24,19 +24,12 @@ function preflight() {
 function ensure_spire_is_installed(){
    helm repo add spiffe https://spiffe.github.io/helm-charts/
    helm repo update
-   helm install spire \
+   helm install spire spiffe/spire \
    --namespace spire-system \
    --create-namespace \
-   --set global.image.registry="${IMAGE_REGISTRY}" \
-   --set global.image.repository="${IMAGE_REPOSITORY}" \
-   --set global.image.tag="${IMAGE_TAG}" \
-   --set spire-agent.image.registry=cgr.dev \
-   --set spire-agent.image.repository=chainguard/spire-agent \
-   --set spire-agent.image.tag=latest \
-   --set oidc-discovery-provider.image.registry=cgr.dev \
-   --set oidc-discovery-provider.image.repository=chainguard/oidc-discovery-provider \
-   --set oidc-discovery-provider.image.tag=latest \
-
+   --set spire-server.image.registry="${IMAGE_REGISTRY}" \
+   --set spire-server.image.repository="${IMAGE_REPOSITORY}" \
+   --set spire-server.image.tag="${IMAGE_TAG}"
 }
 
 function test(){
