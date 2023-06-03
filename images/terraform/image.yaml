@@ -1,4 +1,4 @@
-terraform: true
+terraform: false # for now, while we need more test logs
 versions:
   - apko:
       config: configs/latest.apko.yaml
