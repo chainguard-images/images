@@ -3,7 +3,7 @@
 | | |
 | - | - |
 | **Status** | stable |
-| **OCI Reference** | `cgr.dev/chainguard-private/haproxy-ingress` |
+| **OCI Reference** | `cgr.dev/chainguard/haproxy-ingress` |
 
 
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/haproxy-ingress/overview/)
