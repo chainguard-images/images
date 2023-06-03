@@ -27,9 +27,6 @@ function TEST_basic_helm_install() {
  helm upgrade \
     --install \
     newrelic-k8s-events-forwarder nri-kube-events/nri-kube-events \
-    --set images.integration.registry=${IMAGE_REGISTRY} \
-    --set images.integration.repository=chainguard/nri-kube-events \
-    --set images.integration.tag=latest \
     --set images.agent.registry=${IMAGE_REGISTRY} \
     --set images.agent.repository=${IMAGE_REPOSITORY} \
     --set images.agent.tag=${IMAGE_TAG} \
