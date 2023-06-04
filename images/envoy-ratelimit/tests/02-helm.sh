@@ -24,11 +24,12 @@ function preflight() {
 preflight
 
 helm repo add bitnami https://charts.bitnami.com/bitnami
-helm install redis bitnami/redis \
+helm upgrade --install redis bitnami/redis \
+	--set replica.replicaCount=1 \
     --wait
 
 helm repo add istio https://istio-release.storage.googleapis.com/charts
-helm install istio-base istio/base \
+helm upgrade --install istio-base istio/base \
     --namespace istio-system \
     --create-namespace \
     --wait
@@ -40,4 +41,5 @@ helm install ratelimit xyctruth/istio-ratelimit \
 	
 kubectl set env deployment/ratelimit-istio-ratelimit REDIS_URL=ratelimit-redis-master:6379
 
-kubectl wait --for=condition=ready pod --selector app.kubernetes.io/instance=ratelimit --namespace default
+# This needs a long time to come up, the redis deployment is pretty slow.
+kubectl rollout status deployment/ratelimit-istio-ratelimit --timeout=120s
