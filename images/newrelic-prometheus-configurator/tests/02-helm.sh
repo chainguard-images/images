@@ -28,15 +28,16 @@ function TEST_basic_helm_install() {
   helm upgrade --install newrelic-prometheus-agent newrelic-prometheus/newrelic-prometheus-agent \
     --namespace newrelic \
     --create-namespace \
-    --set images.configurator.repository="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}" \
-    --set images.configurator.integration.tag="${IMAGE_TAG}" \
+    --set images.configurator.registry="${IMAGE_REGISTRY}" \
+    --set images.configurator.repository="${IMAGE_REPOSITORY}" \
+    --set images.configurator.tag="${IMAGE_TAG}" \
     --set cluster=test \
     --set licenseKey=${NEW_RELIC_LICENSE_KEY} 
 
   # Wait for helm to catch up
   sleep 3
 
-  if kubectl wait --for=condition=ready pod --selector app.kubernetes.io/instance=newrelic-prometheus-agent; then
+  if kubectl wait --for=condition=ready --namespace newrelic pod --selector app.kubernetes.io/instance=newrelic-prometheus-agent; then
     echo "Success"
   else
     echo "Failed"
@@ -44,7 +45,7 @@ function TEST_basic_helm_install() {
     kubectl logs --selector app.kubernetes.io/instance=newrelic-prometheus-agent
     exit 1
   fi
-  helm uninstall newrelic-prometheus-agent
+  helm uninstall newrelic-prometheus-agent -n newrelic
 }
 
 preflight
