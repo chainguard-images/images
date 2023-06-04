@@ -13,7 +13,7 @@ on:
         default: ''
 concurrency: k8s-tests
 env:
-  EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:bce367a508c4090b2058239eda178ba73c867bcb31380cf3c1799fe447e66506
+  EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:aa71ee177e5dbbb5cd2019df04b1a65965dbc5cb7beef71a7fdc6a63efe2b24b
 jobs:
   generate-matrix:
     runs-on: ubuntu-latest
