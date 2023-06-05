@@ -1,0 +1,210 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+  packages:
+    - ca-certificates-bundle
+    - wolfi-base
+    - alpine-keys
+    - apko
+    - wolfi-baselayout
+    - curl
+    - curl-dev
+    - openssl
+    - openssl-dev
+    - ingress-nginx-controller
+    - dumb-init
+    - geoip-dev
+    - nginx
+    - opentracing-cpp
+    - msgpack
+    - datadog-cpp
+    - yaml-cpp
+    - yaml-cpp-dev
+    - zipkin-cpp
+    - modsecurity
+    - lua-resty-balancer
+    - lua-cjson
+    - luajit
+    - luajit-dev
+    - lua-resty-cache
+    - lua-resty-cookie
+    - lua-resty-dns
+    - lua-resty-core
+    - lua-resty-global-throttle
+    - lua-resty-ipmatcher
+    - lua-resty-lock
+    - lua-resty-redis
+    - lua-resty-string
+    - lua-resty-upload
+
+archs:
+   - x86_64
+   - aarch64
+
+accounts:
+  groups:
+    - groupname: www-data
+      gid: 101
+  users:
+    - username: www-data
+      uid: 101
+  run-as: www-data
+
+annotations:
+  "org.opencontainers.image.title": "Ingress-NGINX Controller for Kubernetes"
+  "org.opencontainers.image.documentation": "https://kubernetes.github.io/ingress-nginx/"
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": "https://edu.chainguard.dev/chainguard/chainguard-images/reference/apko/"
+  "org.opencontainers.image.source": "https://github.com/chainguard-images/images/tree/main/images/apko"
+  "org.opencontainers.image.licenses": "Apache-2.0"
+
+environment:
+  PATH: "$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/luajit/bin:/usr/local/nginx/sbin/"
+  LUA_PATH: "/usr/share/luajit-2.1.0-beta3/?.lua;/usr/share/lua/5.1/?.lua;/usr/lib/lua/?.lua;;"
+  LUA_CPATH: "/usr/lib/lua/?/?.so;/usr/lib/lua/?.so;;"
+  LUAJIT_INC: "/usr/include/luajit-2.1"
+  LUAJIT_LIB: "/usr/lib"
+  LUA_LIB_DIR: "/usr/lib/lua"
+
+work-dir:  /etc/nginx
+
+entrypoint:
+  cmd: /nginx/ingress-controller
+cmd: "/usr/bin/dumb-init ---"
+
+
+paths:
+  - path: /etc/ingress-controller/ssl
+    type: directory
+    permissions: 0o755
+    uid: 101
+    gid: 101
+    recursive: true
+  - path: /etc/ingress-controller/auth
+    type: directory
+    permissions: 0o755
+    uid: 101
+    gid: 101
+    recursive: true
+  - path: /usr/local/
+    type: directory
+    permissions: 0o755
+    uid: 101
+    gid: 101
+    recursive: true
+  - path: /usr/local/
+    type: directory
+    permissions: 0o755
+    uid: 101
+    gid: 101
+    recursive: true
+  - path: /usr/bin/lua
+    type: hardlink
+    source: /usr/bin/luajit
+    permissions: 0o755
+    uid: 101
+    gid: 101
+  - path: /var/lib/
+    type: directory
+    permissions: 0o755
+    uid: 101
+    gid: 101
+    recursive: true
+  - path: /var/log/nginx/
+    type: directory
+    uid: 101
+    gid: 101
+    permissions: 0o755
+    recursive: true
+  - path: /var/lib/nginx/
+    type: directory
+    uid: 101
+    gid: 101
+    permissions: 0o755
+    recursive: true
+  - path: /var/lib/nginx/body
+    type: directory
+    uid: 101
+    gid: 101
+    permissions: 0o755
+    recursive: true
+  - path: /usr/local/nginx
+    type: directory
+    uid: 101
+    gid: 101
+    permissions: 0o755
+    recursive: true
+  - path: /run/nginx
+    uid: 101
+    gid: 101
+    type: directory
+    permissions: 0o755
+    recursive: true
+  - path: /run/nginx.pid
+    uid: 101
+    gid: 101
+    type: empty-file
+    permissions: 0o755
+    recursive: true
+  - path: /etc/nginx/modules
+    uid: 101
+    gid: 101
+    type: directory
+    permissions: 0o755
+    recursive: true
+  - path: /etc/nginx
+    uid: 101
+    gid: 101
+    type: directory
+    permissions: 0o755
+    recursive: true
+  - path: /usr/local/nginx
+    uid: 101
+    gid: 101
+    type: directory
+    permissions: 0o755
+    recursive: true
+  - path: /opt/modsecurity/var/log
+    uid: 101
+    gid: 101
+    type: directory
+    permissions: 0o755
+    recursive: true
+  - path: /opt/modsecurity/var/upload
+    uid: 101
+    gid: 101
+    type: directory
+    permissions: 0o755
+    recursive: true
+  - path: /opt/modsecurity/var/audit
+    uid: 101
+    gid: 101
+    type: directory
+    permissions: 0o755
+    recursive: true
+  - path: /var/log
+    uid: 101
+    gid: 101
+    type: directory
+    permissions: 0o755
+    recursive: true
+  - path: /tmp/nginx
+    uid: 101
+    gid: 101
+    type: directory
+    permissions: 0o755
+    recursive: true
+  - path: /var/log/nginx/
+    uid: 101
+    gid: 101
+    type: directory
+    permissions: 0o755
+    recursive: true
+  - path: /var/log/audit
+    uid: 101
+    gid: 101
+    type: directory
+    permissions: 0o755
+    recursive: true
