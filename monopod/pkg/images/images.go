@@ -3,12 +3,12 @@ package images
 import (
 	"fmt"
 	"io/fs"
-	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
 
+	"chainguard.dev/apko/pkg/build/types"
 	"gopkg.in/yaml.v3"
 
 	"github.com/chainguard-images/images/monopod/pkg/constants"
@@ -33,19 +33,22 @@ type Image struct {
 	ApkoPackageVersionTag       string `json:"apkoPackageVersionTag"`
 	ApkoPackageVersionTagPrefix string `json:"apkoPackageVersionTagPrefix"`
 	ApkoBuildOptions            string `json:"apkoBuildOptions"`
+	ApkoPackageAppend           string `json:"apkoPackageAppend"`
 	TestCommandExe              string `json:"testCommandExe"`
 	TestCommandDir              string `json:"testCommandDir"`
 	ExcludeTags                 string `json:"excludeTags"`
 	UseTerraform                bool   `json:"useTerraform"`
+	TerraformDirectory          string `json:"terraformDirectory"`
 	ExcludeContact              bool   `json:"-"`
 }
 
 type ImageManifest struct {
-	Ref            string                 `yaml:"ref"`
-	Status         string                 `yaml:"status"`
-	ExcludeContact bool                   `yaml:"excludeContact"`
-	Terraform      bool                   `yaml:"terraform"`
-	Variants       []ImageManifestVariant `yaml:"versions"`
+	Ref            string                       `yaml:"ref"`
+	Status         string                       `yaml:"status"`
+	ExcludeContact bool                         `yaml:"excludeContact"`
+	Terraform      bool                         `yaml:"terraform"`
+	Variants       []ImageManifestVariant       `yaml:"versions"`
+	Options        map[string]types.BuildOption `yaml:"options,omitempty"`
 }
 
 type ImageManifestVariant struct {
@@ -108,19 +111,31 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 	for _, opt := range opts {
 		opt(config)
 	}
+
+	var g ImageManifest
+	b, err := os.ReadFile(filepath.Join(constants.GlobalManifestFilename))
+	if err != nil {
+		if !os.IsNotExist(err) {
+			return nil, err
+		}
+		// Allow the global manifest to be omitted.
+	} else if err := yaml.Unmarshal(b, &g); err != nil {
+		return nil, err
+	}
+
 	allImages := []Image{}
 	imageDirs, err := os.ReadDir(constants.ImagesDirName)
 	if err != nil {
 		return nil, err
 	}
+
 	seen := map[string]bool{}
 	for _, imageDir := range imageDirs {
 		if !imageDir.IsDir() {
 			continue
 		}
 		imageName := imageDir.Name()
-		imageManifestFilename := filepath.Join(constants.ImagesDirName, imageName, constants.ImageManifestFilename)
-		b, err := os.ReadFile(imageManifestFilename)
+		b, err := os.ReadFile(filepath.Join(constants.ImagesDirName, imageName, constants.ImageManifestFilename))
 		if err != nil {
 			return nil, err
 		}
@@ -152,7 +167,25 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 			apkoTargetTag := strings.Replace(filepath.Base(apkoConfig), constants.ApkoYamlFileExtension, "", 1)
 			apkoAdditionalTags := strings.Join(variant.Apko.Tags, ",")
 			apkoTargetTagSuffix := ""
+
 			apkoBuildOptions := strings.Join(iterator.Variant.Apko.Options, ",")
+			apkoPackageAppend := make([]string, 0, len(iterator.Variant.Apko.Options))
+			for _, opt := range iterator.Variant.Apko.Options {
+				// Look it up in the image's configuration first.
+				vp, ok := extraPackages(m, opt)
+				if ok {
+					apkoPackageAppend = append(apkoPackageAppend, vp...)
+					continue
+				}
+				// Then look it up in the global configuration.
+				gp, ok := extraPackages(g, opt)
+				if ok {
+					apkoPackageAppend = append(apkoPackageAppend, gp...)
+					continue
+				}
+				return nil, fmt.Errorf("could not find variant option %q", opt)
+			}
+
 			if subvariant.Suffix != "" {
 				apkoTargetTag = apkoTargetTag + subvariant.Suffix
 				apkoTargetTagSuffix = subvariant.Suffix
@@ -160,6 +193,21 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 					apkoBuildOptions = strings.Join([]string{apkoBuildOptions, strings.Join(subvariant.Options, ",")}, ",")
 				} else {
 					apkoBuildOptions = strings.Join(subvariant.Options, ",")
+				}
+				for _, opt := range subvariant.Options {
+					// Look it up in the image's configuration first.
+					vp, ok := extraPackages(m, opt)
+					if ok {
+						apkoPackageAppend = append(apkoPackageAppend, vp...)
+						continue
+					}
+					// Then look it up in the global configuration.
+					gp, ok := extraPackages(g, opt)
+					if ok {
+						apkoPackageAppend = append(apkoPackageAppend, gp...)
+						continue
+					}
+					return nil, fmt.Errorf("could not find subvariant option %q", opt)
 				}
 			}
 
@@ -197,7 +245,7 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 			tmp := []string{}
 			for _, runScript := range runScripts {
 				path := filepath.Join(testCommandDir, runScript)
-				b, err := ioutil.ReadFile(path)
+				b, err := os.ReadFile(path)
 				if err != nil {
 					return nil, err
 				}
@@ -267,6 +315,10 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 			}
 
 			useTerraform := m.Terraform
+			terraformDir := ""
+			if useTerraform {
+				terraformDir = filepath.Join(constants.ImagesDirName, imageName)
+			}
 
 			i := Image{
 				ImageName:                   imageName,
@@ -287,14 +339,27 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 				ApkoPackageVersionTag:       variant.Apko.ExtractTagsFrom.Package,
 				ApkoPackageVersionTagPrefix: variant.Apko.ExtractTagsFrom.Prefix,
 				ApkoBuildOptions:            apkoBuildOptions,
+				ApkoPackageAppend:           strings.Join(apkoPackageAppend, ","),
 				TestCommandExe:              testCommandExe,
 				TestCommandDir:              testCommandDir,
 				ExcludeTags:                 strings.Join(variant.Apko.ExtractTagsFrom.Exclude, ","),
 				UseTerraform:                useTerraform,
+				TerraformDirectory:          terraformDir,
 				ExcludeContact:              imageExcludeContact,
 			}
 			allImages = append(allImages, i)
 		}
 	}
 	return allImages, nil
+}
+
+func extraPackages(m ImageManifest, variant string) ([]string, bool) {
+	for v, bo := range m.Options {
+		if variant != v {
+			continue
+		}
+		// Return the packages to add.
+		return bo.Contents.Packages.Add, true
+	}
+	return nil, false
 }

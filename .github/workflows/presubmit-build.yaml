@@ -4,25 +4,35 @@ jobs:
   presubmit-matrix:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.generate-matrix.outputs.matrix }}
+      shard-0: ${{ steps.generate-matrix-0.outputs.matrix }}
+      shard-1: ${{ steps.generate-matrix-1.outputs.matrix }}
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
       - id: files
-        uses: tj-actions/changed-files@b2d17f51244a144849c6b37a3a6791b98a51d86f # v35.9.2
+        uses: tj-actions/changed-files@b13786805affca18e536ed489687d3d8d1f05d21 # v36.0.17
         with:
           separator: ','
-      - id: generate-matrix
+      - id: generate-matrix-0
         uses: ./.github/actions/generate-matrix
         with:
+          shard: 0
+          sharding-factor: 2
+          modified-files: ${{ steps.files.outputs.all_changed_files }}
+          melange-mode: none
+      - id: generate-matrix-1
+        uses: ./.github/actions/generate-matrix
+        with:
+          shard: 1
+          sharding-factor: 2
           modified-files: ${{ steps.files.outputs.all_changed_files }}
           melange-mode: none
 
-  presubmit-build:
+  presubmit-build-0:
     runs-on: ubuntu-latest
     needs: presubmit-matrix
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.presubmit-matrix.outputs.matrix) }}
+      matrix: ${{ fromJson(needs.presubmit-matrix.outputs.shard-0) }}
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
       - name: Ensure image has tests
@@ -33,8 +43,60 @@ jobs:
       - name: Add additional inputs
         id: augmented-inputs
         env:
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:d3585d22de39f9029df0f51c2d63e21698d9c82d52b892cf9d8c4f6b7c5eecaf
+          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:985e59098f9a6bd69d19e5d751ed7d23512b01d80a05be845b02722a0f47778d
+          EXTRA_INPUT_APKO_REPOSITORY_APPEND: https://packages.wolfi.dev/os
+          EXTRA_INPUT_APKO_KEYRING_APPEND: https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
         run: |
+          # Do not append out repo/keyring/package to Alpine images.
+          if grep 'alpinelinux\.org' "${{ matrix.apkoConfig }}" &>/dev/null; then
+            unset EXTRA_INPUT_APKO_REPOSITORY_APPEND
+            unset EXTRA_INPUT_APKO_KEYRING_APPEND
+          fi
+
+          # convert env vars beginning with "EXTRA_INPUT_"
+          # to camelcased input variables passed to next step
+          set -x
+          echo '${{ toJSON(matrix) }}' > inputs.json
+          for kv in `env | grep '^EXTRA_INPUT_' | sed 's/^EXTRA_INPUT_//'`; do
+            k="$(echo "${kv}" | cut -d "=" -f1 | tr '[:upper:]' '[:lower:]' | sed -r 's/(.)_+(.)/\1\U\2/g;s/^[a-z]/\U&/' | sed 's/.*/\l&/')"
+            v="$(echo "${kv}" | cut -d "=" -f2)"
+            cat inputs.json | jq -c '. + {'${k}': "'${v}'"}' > inputs.json.tmp
+            mv inputs.json.tmp inputs.json
+          done
+          echo "augmented-inputs=$(cat inputs.json | tr -d '\n')" >> $GITHUB_OUTPUT
+      - uses: ./.github/actions/build-image-terraform
+        if: ${{ matrix.useTerraform }}
+        with: ${{ fromJSON(steps.augmented-inputs.outputs.augmented-inputs) }}
+      - uses: ./.github/actions/build-image
+        if: ${{ ! matrix.useTerraform }}
+        with: ${{ fromJSON(steps.augmented-inputs.outputs.augmented-inputs) }}
+
+  presubmit-build-1:
+    runs-on: ubuntu-latest
+    needs: presubmit-matrix
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.presubmit-matrix.outputs.shard-1) }}
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+      - name: Ensure image has tests
+        if: matrix.testCommandExe == ''
+        run: |
+          echo "Error: ${{ matrix.imageName }} image is missing tests."
+          exit 1
+      - name: Add additional inputs
+        id: augmented-inputs
+        env:
+          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:985e59098f9a6bd69d19e5d751ed7d23512b01d80a05be845b02722a0f47778d
+          EXTRA_INPUT_APKO_REPOSITORY_APPEND: https://packages.wolfi.dev/os
+          EXTRA_INPUT_APKO_KEYRING_APPEND: https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+        run: |
+          # Do not append out repo/keyring/package to Alpine images.
+          if grep 'alpinelinux\.org' "${{ matrix.apkoConfig }}" &>/dev/null; then
+            unset EXTRA_INPUT_APKO_REPOSITORY_APPEND
+            unset EXTRA_INPUT_APKO_KEYRING_APPEND
+          fi
+
           # convert env vars beginning with "EXTRA_INPUT_"
           # to camelcased input variables passed to next step
           set -x
@@ -55,7 +117,8 @@ jobs:
 
   presubmit-roundup:
     needs:
-      - presubmit-build
+      - presubmit-build-0
+      - presubmit-build-1
     runs-on: ubuntu-latest
     if: always()
     steps:

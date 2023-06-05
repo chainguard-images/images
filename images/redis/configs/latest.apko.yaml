@@ -32,3 +32,8 @@ entrypoint:
 archs:
 - x86_64
 - aarch64
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/redis/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/redis

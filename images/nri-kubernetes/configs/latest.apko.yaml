@@ -24,6 +24,9 @@ accounts:
 entrypoint:
   command: /sbin/tini -- /usr/bin/nri-kubernetes
 
+environment:
+  METADATA: true
+
 archs:
 - x86_64
 - aarch64

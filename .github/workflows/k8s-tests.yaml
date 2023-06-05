@@ -13,38 +13,42 @@ on:
         default: ''
 concurrency: k8s-tests
 env:
-  EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:d3585d22de39f9029df0f51c2d63e21698d9c82d52b892cf9d8c4f6b7c5eecaf
+  EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:985e59098f9a6bd69d19e5d751ed7d23512b01d80a05be845b02722a0f47778d
 jobs:
   generate-matrix:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.generate-matrix.outputs.matrix }}
+      shard-0: ${{ steps.generate-matrix-0.outputs.matrix }}
+      shard-1: ${{ steps.generate-matrix-1.outputs.matrix }}
     steps:
     - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.4.0
-    - id: generate-matrix-with-inputs
-      if: ${{ inputs.only != '' }}
-      uses: ./.github/actions/generate-matrix
-      with:
-        test-tags: k8s
-        modified-files: images/${{ inputs.only }}/image.yaml
-    - id: generate-matrix-without-inputs
-      if: ${{ inputs.only == '' }}
-      uses: ./.github/actions/generate-matrix
-      with:
-        test-tags: k8s
-    - id: generate-matrix
+    - id: build-filter
       run: |
-        set -x
-        trap "rm -f matrix.json" EXIT
-        echo '${{ steps.generate-matrix-with-inputs.outputs.matrix }}' > matrix.json
-        [[ "$(cat matrix.json)" != "" ]] || echo '${{ steps.generate-matrix-without-inputs.outputs.matrix }}' > matrix.json
-        echo "matrix=$(cat matrix.json)" >> $GITHUB_OUTPUT
-  run-tests:
+        set -xe
+        TMP=$(mktemp)
+        [[ "${{ inputs.only }}" == "" ]] || echo -n 'images/${{ inputs.only }}/image.yaml' > "${TMP}"
+        echo "filter=$(cat "${TMP}")" >> $GITHUB_OUTPUT
+    - id: generate-matrix-0
+      uses: ./.github/actions/generate-matrix
+      with:
+        shard: 0
+        sharding-factor: 2
+        test-tags: k8s
+        modified-files: ${{ steps.build-filter.outputs.filter }}
+    - id: generate-matrix-1
+      uses: ./.github/actions/generate-matrix
+      with:
+        shard: 1
+        sharding-factor: 2
+        test-tags: k8s
+        modified-files: ${{ steps.build-filter.outputs.filter }}
+
+  run-tests-0:
     runs-on: ubuntu-latest
     needs: generate-matrix
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+      matrix: ${{ fromJson(needs.generate-matrix.outputs.shard-0) }}
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.4.0
       - uses: chainguard-dev/actions/setup-kind@main
@@ -70,8 +74,46 @@ jobs:
           export IMAGE_TAG="${{ matrix.apkoTargetTag }}"
           export IMAGE_NAME="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}"
           export IMAGE_TAG_SUFFIX="${{ matrix.apkoTargetTagSuffix }}"
-          
-          # Set keys required for integration tests 
+
+          # Set keys required for integration tests
+          export NEW_RELIC_LICENSE_KEY="${{ secrets.NEW_RELIC_LICENSE_KEY }}"
+
+          cd "${{ matrix.testCommandDir }}"
+          ${{ matrix.testCommandExe }}
+
+  run-tests-1:
+    runs-on: ubuntu-latest
+    needs: generate-matrix
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.generate-matrix.outputs.shard-1) }}
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.4.0
+      - uses: chainguard-dev/actions/setup-kind@main
+        with:
+          k8s-version: v1.24.x
+          registry-authority: registry.local:5000
+      - run: |
+          kubectl get pods --all-namespaces
+      - name: Get registry IP address (for use inside docker)
+        id: registry-ip
+        run: |
+          echo "ip=$(docker inspect registry.local | jq -r '.[0].NetworkSettings.Networks["bridge"].IPAddress')" >> $GITHUB_OUTPUT
+      - uses: chainguard-images/actions/apko-publish@main
+        with:
+          apko-image: ${{ env.EXTRA_INPUT_APKO_IMAGE }}
+          config: ${{ matrix.apkoConfig }}
+          tag: ${{ steps.registry-ip.outputs.ip }}:5000/${{ matrix.imageName }}:${{ matrix.apkoTargetTag }}
+      - name: Run k8s tests
+        run: |
+          set -x
+          export IMAGE_REGISTRY="registry.local:5000"
+          export IMAGE_REPOSITORY="${{ matrix.imageName }}"
+          export IMAGE_TAG="${{ matrix.apkoTargetTag }}"
+          export IMAGE_NAME="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}"
+          export IMAGE_TAG_SUFFIX="${{ matrix.apkoTargetTagSuffix }}"
+
+          # Set keys required for integration tests
           export NEW_RELIC_LICENSE_KEY="${{ secrets.NEW_RELIC_LICENSE_KEY }}"
 
           cd "${{ matrix.testCommandDir }}"

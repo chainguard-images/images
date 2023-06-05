@@ -1,5 +1,10 @@
 on:
   workflow_dispatch:
+    inputs:
+      dry_run:
+        type: boolean
+        default: 'true'
+        description: If true, just log
 
 jobs:
   withdraw:
@@ -15,5 +20,9 @@ jobs:
       - uses: imjasonh/setup-crane@v0.3
       - run: |
           for img in $(grep -v '\#' withdrawn-images.txt); do
-            echo "DRY RUN: crane delete $img || true"
+            if [[ "${{ github.event.inputs.dry_run }}" == "false" ]]; then
+              crane delete $img || true
+            else
+              echo "DRY RUN: crane delete $img || true"
+            fi
           done
