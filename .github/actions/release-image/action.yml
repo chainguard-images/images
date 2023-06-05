@@ -54,8 +54,6 @@ runs:
         # Install gcsfuse and mount the bucket to ./packages/
         go install github.com/GoogleCloudPlatform/gcsfuse@latest
         gcsfuse "${{ inputs.gcsFetchBucketName }}" "${{ github.workspace }}/packages"
-
-        find "${{ github.workspace }}/packages" -print -exec touch \{} \;
         ls -al "${{ github.workspace }}/packages/"
 
     # Run custom melange build if necessary
