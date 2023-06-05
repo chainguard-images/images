@@ -1,4 +1,15 @@
 # migration tags were added during migration to the monorepo.
+cgr.dev/chainguard/jre:latest-dev-dev
+cgr.dev/chainguard/jre:openjdk-11-dev-dev
+cgr.dev/chainguard/go:1.19-dev-dev
+cgr.dev/chainguard/go:latest-dev-dev
+cgr.dev/chainguard/nats:latest-dev-dev
+cgr.dev/chainguard/zookeeper:latest-dev-dev
+cgr.dev/chainguard/python:3.10-dev-dev
+cgr.dev/chainguard/python:latest-dev-dev
+cgr.dev/chainguard/php:latest-dev-dev
+cgr.dev/chainguard/jdk:latest-dev-dev
+cgr.dev/chainguard/jdk:openjdk-11-dev-dev
 cgr.dev/chainguard/git:migration-nonroot
 cgr.dev/chainguard/git:migration-nonroot-2
 cgr.dev/chainguard/git:migration-nonroot-2.38
