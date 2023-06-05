@@ -109,32 +109,6 @@ runs:
         REGISTRY_HOSTNAME="$(echo ${{ inputs.apkoBaseTag }} | cut -d / -f 1)"
         gcloud auth configure-docker "${REGISTRY_HOSTNAME}"
 
-    - id: inject-build-options
-      shell: bash
-      run: |
-        yaml_files_with_options_key="globals.yaml"
-        # If the repo using this action doesn't have an globals.yaml, use the public chainguard one
-        if [[ ! -f "globals.yaml" ]]; then
-          curl -sLO https://raw.githubusercontent.com/chainguard-images/images/main/globals.yaml
-        fi
-        if [[ "$(cat "images/${{ inputs.imageName }}/image.yaml" | yq '.options')" != "null" ]]; then
-          yaml_files_with_options_key="${yaml_files_with_options_key} images/${{ inputs.imageName }}/image.yaml"
-        fi
-        if [[ "$(cat ${{ inputs.apkoConfig }} | yq '.options')" != "null" ]]; then
-          yaml_files_with_options_key="${yaml_files_with_options_key} ${{ inputs.apkoConfig }}"
-        fi
-        echo "Combining options sourced from the following file(s): ${yaml_files_with_options_key}"
-        # Use yq to combine all files' options sections together
-        yq -M eval-all '.options as $item ireduce ({}; . * $item)' ${yaml_files_with_options_key} > tmp.yaml
-        # If the original file has options, remove them before appending
-        if [[ "$(cat "images/${{ inputs.imageName }}/image.yaml" | yq '.options')" != "null" ]]; then
-          yq -M 'del(.options)' "${{ inputs.apkoConfig }}" > "${{ inputs.apkoConfig }}.tmp"
-          mv "${{ inputs.apkoConfig }}.tmp" "${{ inputs.apkoConfig }}"
-        fi
-        echo "" >> "${{ inputs.apkoConfig }}" # For configs missing trailing newline
-        yq -M '{"options": .}' tmp.yaml >> "${{ inputs.apkoConfig }}"
-        rm -f tmp.yaml
-
     # Build and push
     - id: apko
       uses: chainguard-images/actions/apko-snapshot@main
@@ -145,6 +119,7 @@ runs:
         target-tag: ${{ inputs.apkoTargetTag }}
         keyring-append: ${{ inputs.apkoKeyringAppend }}
         repository-append: ${{ inputs.apkoRepositoryAppend }}
+        package-append: ${{ inputs.apkoPackageAppend }}
         additional-tags: ${{ inputs.apkoAdditionalTags }}
         package-version-tag: ${{ inputs.apkoPackageVersionTag }}
         package-version-tag-stem: true
@@ -214,153 +189,6 @@ runs:
         export IMAGE_TAG_SUFFIX="${{ inputs.apkoTargetTagSuffix }}"
         cd "${{ inputs.testCommandDir }}"
         ${{ inputs.testCommandExe }}
-
-    # Create docker config for use by rumble
-    - id: rumble-docker-config
-      shell: bash
-      run: |
-        REGISTRY_HOSTNAME="$(echo ${{ inputs.apkoBaseTag }} | cut -d / -f 1)"
-        export DOCKER_CONFIG="${PWD}/.docker-rumble"
-        mkdir -p "${DOCKER_CONFIG}"
-        echo '{}' > "${DOCKER_CONFIG}/config.json"
-        if [[ "${REGISTRY_HOSTNAME}" == "cgr.dev" ]]; then
-          CRED_HELPER_GET_RESPONSE="$(echo "cgr.dev" | docker-credential-cgr get)"
-          echo "$(echo "${CRED_HELPER_GET_RESPONSE}" | jq -r .Secret)" | \
-            cosign login -u "$(echo "${CRED_HELPER_GET_RESPONSE}" | jq -r .Username)" --password-stdin "cgr.dev"
-        elif [[ "${REGISTRY_HOSTNAME}" == *"gcr.io" || "${REGISTRY_HOSTNAME}" == *"pkg.dev" ]]; then
-          gcloud auth print-access-token | \
-            docker login -u oauth2accesstoken --password-stdin "https://${REGISTRY_HOSTNAME}"
-        else
-          echo "${{ github.token }}" | \
-            docker login -u "${{ github.repository_owner }}" --password-stdin "https://ghcr.io"
-        fi
-
-    # Scan - first index, then amd64, then arm64, then others
-    # TODO: improve this - make a single action that runs multiple, or run in matrix at top level
-    - uses: chainguard-dev/rumble@main
-      id: scan-index-trivy
-      with:
-        image: ${{ steps.apko.outputs.digest-index }}
-        scanner: trivy
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-index-grype
-      with:
-        image: ${{ steps.apko.outputs.digest-index }}
-        scanner: grype
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-amd64-trivy
-      if: steps.apko.outputs.digest-amd64 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-amd64 }}
-        scanner: trivy
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-amd64-grype
-      if: steps.apko.outputs.digest-amd64 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-amd64 }}
-        scanner: grype
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-arm64-trivy
-      if: steps.apko.outputs.digest-arm64 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-arm64 }}
-        scanner: trivy
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-arm64-grype
-      if: steps.apko.outputs.digest-arm64 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-arm64 }}
-        scanner: grype
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-386-trivy
-      if: steps.apko.outputs.digest-386 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-386 }}
-        scanner: trivy
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-386-grype
-      if: steps.apko.outputs.digest-386 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-386 }}
-        scanner: grype
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-armv6-trivy
-      if: steps.apko.outputs.digest-armv6 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-armv6 }}
-        scanner: trivy
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-armv6-grype
-      if: steps.apko.outputs.digest-armv6 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-armv6 }}
-        scanner: grype
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-armv7-trivy
-      if: steps.apko.outputs.digest-armv7 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-armv7 }}
-        scanner: trivy
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-armv7-grype
-      if: steps.apko.outputs.digest-armv7 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-armv7 }}
-        scanner: grype
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-ppc64le-trivy
-      if: steps.apko.outputs.digest-ppc64le != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-ppc64le }}
-        scanner: trivy
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-ppc64le-grype
-      if: steps.apko.outputs.digest-ppc64le != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-ppc64le }}
-        scanner: grype
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-riscv64-trivy
-      if: steps.apko.outputs.digest-riscv64 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-riscv64 }}
-        scanner: trivy
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-riscv64-grype
-      if: steps.apko.outputs.digest-riscv64 != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-riscv64 }}
-        scanner: grype
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-s390x-trivy
-      if: steps.apko.outputs.digest-s390x != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-s390x }}
-        scanner: trivy
-        docker-config: .docker-rumble
-    - uses: chainguard-dev/rumble@main
-      id: scan-s390x-grype
-      if: steps.apko.outputs.digest-s390x != ''
-      with:
-        image: ${{ steps.apko.outputs.digest-s390x }}
-        scanner: grype
-        docker-config: .docker-rumble
 
     # Tag the image last, after all tests passing and
     # SBOMs, attestations, etc. have all been attached

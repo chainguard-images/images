@@ -34,3 +34,7 @@ helm upgrade --install metrics-server metrics-server/metrics-server \
 sleep 3
 
 kubectl wait --for=condition=ready pod -n metrics-server --selector app.kubernetes.io/instance=metrics-server --timeout=120s
+
+sleep 10
+
+kubectl top pods -A  | grep Mi

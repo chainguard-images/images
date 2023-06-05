@@ -4,24 +4,10 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-function preflight() {
-  if [[ "${IMAGE_REGISTRY}" == "" ]]; then
-    echo "Must set IMAGE_REGISTRY environment variable. Exiting."
+if [[ "${IMAGE_NAME}" == "" ]]; then
+    echo "Must set IMAGE_NAME environment variable. Exiting."
     exit 1
-  fi
-
-  if [[ "${IMAGE_REPOSITORY}" == "" ]]; then
-    echo "Must set IMAGE_REPOSITORY environment variable. Exiting."
-    exit 1
-  fi
-
-  if [[ "${IMAGE_TAG}" == "" ]]; then
-    echo "Must set IMAGE_TAG environment variable. Exiting."
-    exit 1
-  fi
-}
-
-preflight
+fi
 
 app_name="kube-bench"
 tmp="$(mktemp -d 'kube-bench-test-XXXXXX')"
@@ -43,7 +29,7 @@ job_file="$tmp/job.yaml"
 curl -sSL -o "$job_file" 'https://raw.githubusercontent.com/aquasecurity/kube-bench/main/job.yaml'
 
 # Update the config to use our image
-yq -i ".spec.template.spec.containers[0].image |= \"${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}\"" "$job_file"
+yq -i ".spec.template.spec.containers[0].image |= \"${IMAGE_NAME}\"" "$job_file"
 
 kubectl apply -f "$job_file"
 

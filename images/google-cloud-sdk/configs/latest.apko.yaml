@@ -9,6 +9,7 @@ contents:
     - google-cloud-sdk
     - apk-tools
     - busybox
+    - bash
 
 accounts:
   groups:

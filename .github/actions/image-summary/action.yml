@@ -72,7 +72,7 @@ runs:
               --predicate-type https://spdx.dev/Document \
               "${ref}@${digest}" | jq -r .payload | base64 -d | jq -M -c .predicate > sbom.json
 
-            version="$(cat sbom.json | jq -r '.packages[] | select(.name == "'${pkg}'") | .versionInfo')"
+            version="$(cat sbom.json | jq -r '.packages[] | select(.name == "'${pkg}'") | .versionInfo' | uniq)"
             rm -f sbom.json
             set +x
             if [[ "${version}" != "" ]]; then
@@ -135,41 +135,9 @@ runs:
         echo "Image summary for ${{ inputs.imageName }}:"
         cat summary.json | jq
 
-        # Create the SVG
-        i=0
-        for line in $(cat summary.json | jq -c .tags[]); do
-          message="$(echo "${line}" | jq -r .primary)"
-          static="$(echo "${line}" | jq -r .static[] | xargs | sed 's/ /, /g')"
-          dynamic="$(echo "${line}" | jq -r .dynamic.resolved[] | xargs | sed 's/ /, /g')"
-          if [[ "${static}" != "" && "${dynamic}" != "" ]]; then
-            message="${message} (${static}, ${dynamic})"
-          elif [[ "${static}" != "" ]]; then
-            message="${message} (${static})"
-          elif [[ "${dynamic}" != "" ]]; then
-            message="${message} (${dynamic})"
-          fi
-          message="$(echo "${message}" | sed 's/ /%20/g' | sed 's/,/%2C/g' | sed 's/(/%28/g' | sed 's/)/%29/g')"
-          curl -s -L -o "image-part-${i}.svg" \
-            "https://img.shields.io/static/v1?label=&color=white&style=flat-square&message=${message}"
-          i=$((i+1))
-        done
-
-        # Combine using svg_stack python module
-        pip install lxml==4.9.2 svg-stack==0.1.0
-        python -c '
-        import glob, svg_stack as ss
-        doc = ss.Document()
-        layout = ss.VBoxLayout()
-        for filename in glob.glob("image-part-*.svg"):
-            layout.addSVG(filename, alignment=ss.AlignLeft)
-        doc.setLayout(layout)
-        doc.save("image.svg")'
-        rm -rf image-part-*.svg
-
         rm -rf image-summary-output/
         mkdir image-summary-output/
         mv summary.json "image-summary-output/${{ inputs.imageName }}.json"
-        mv image.svg "image-summary-output/${{ inputs.imageName }}.svg"
 
     # Auth to gcloud
     - id: gcsauth1
@@ -185,7 +153,7 @@ runs:
         project_id: ${{ inputs.gcsAuthProjectId }}
         install_components: beta
 
-    # Upload to GCS (and don't cache the badges)
+    # Upload to GCS (and don't cache)
     - id: gcsupload1
       if: inputs.gcsBucketName != ''
       shell: bash
