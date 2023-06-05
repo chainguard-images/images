@@ -49,15 +49,19 @@ runs:
       if: inputs.gcsFetchBucketName != ''
       run: |
         set -x
-        mkdir -p "${{ github.workspace }}/packages"
+        mkdir -p "${{ github.workspace }}/packages/os"
         mkdir -p /tmp/gcsfuse
 
         # Install gcsfuse and mount the $BUCKET/os/ to ./packages/ via symlink
         go install github.com/googlecloudplatform/gcsfuse@latest
         gcsfuse "${{ inputs.gcsFetchBucketName }}" /tmp/gcsfuse
-        ln -s /tmp/gcsfuse/os/ "${{ github.workspace }}/packages/"
+        ln -s /tmp/gcsfuse/chainguard-enterprise.rsa.pub "${{ github.workspace }}/packages/"
+        ln -s /tmp/gcsfuse/os/x86_64 "${{ github.workspace }}/packages/os/x86_64"
+        ln -s /tmp/gcsfuse/os/aarch64 "${{ github.workspace }}/packages/os/aarch64"
         ls -al /tmp/gcsfuse/os/
         ls -al "${{ github.workspace }}/packages/"
+        ls -al "${{ github.workspace }}/packages/x86_64/"
+        ls -al "${{ github.workspace }}/packages/aarch64/"
 
     # Run custom melange build if necessary
     - name: Setup QEMU
