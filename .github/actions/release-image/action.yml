@@ -52,7 +52,7 @@ runs:
         mkdir -p "${{ github.workspace }}/packages"
 
         # Install gcsfuse and mount the bucket to ./packages/
-        go install github.com/GoogleCloudPlatform/gcsfuse@latest
+        go install github.com/googlecloudplatform/gcsfuse@latest
         gcsfuse "${{ inputs.gcsFetchBucketName }}" "${{ github.workspace }}/packages"
         ls -al "${{ github.workspace }}/packages/"
 
