@@ -40,9 +40,9 @@ jobs:
           matrix-json: ${{ toJSON(matrix) }}
         env:
           EXTRA_INPUT_SLACK_WEBHOOK_URL: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:6d6afe067475323f9d6ce4fc3f9ce9652f9afd5b73ed5cc2b18195086067540c
+          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:985e59098f9a6bd69d19e5d751ed7d23512b01d80a05be845b02722a0f47778d
       - uses: ./.github/actions/policy-check-image
-        with: ${{ fromJSON(steps.policy-check-image-inputs.outputs.policy-check-image-inputs) }}
+        with: ${{ fromJSON(steps.policy-check-image-inputs.outputs.matrix-json) }}
 
   policy-check-image-1:
     runs-on: ubuntu-latest
@@ -61,6 +61,6 @@ jobs:
           matrix-json: ${{ toJSON(matrix) }}
         env:
           EXTRA_INPUT_SLACK_WEBHOOK_URL: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:6d6afe067475323f9d6ce4fc3f9ce9652f9afd5b73ed5cc2b18195086067540c
+          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:985e59098f9a6bd69d19e5d751ed7d23512b01d80a05be845b02722a0f47778d
       - uses: ./.github/actions/policy-check-image
         with: ${{ fromJSON(steps.policy-check-image-inputs.outputs.matrix-json) }}
