@@ -4,24 +4,10 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-function preflight() {
-  if [[ "${IMAGE_REGISTRY}" == "" ]]; then
-    echo "Must set IMAGE_REGISTRY environment variable. Exiting."
+if [[ "${IMAGE_NAME}" == "" ]]; then
+    echo "Must set IMAGE_NAME environment variable. Exiting."
     exit 1
-  fi
-
-  if [[ "${IMAGE_REPOSITORY}" == "" ]]; then
-    echo "Must set IMAGE_REPOSITORY environment variable. Exiting."
-    exit 1
-  fi
-
-  if [[ "${IMAGE_TAG}" == "" ]]; then
-    echo "Must set IMAGE_TAG environment variable. Exiting."
-    exit 1
-  fi
-}
-
-preflight
+fi
 
 function cleanup() {
     # Print debug logs and status
@@ -35,7 +21,7 @@ trap cleanup EXIT
 # Deploy the dashboard yaml, then swap out the image and patch the pull policy
 
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
-kubectl set image -n kubernetes-dashboard deployment/kubernetes-dashboard kubernetes-dashboard="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}"
+kubectl set image -n kubernetes-dashboard deployment/kubernetes-dashboard kubernetes-dashboard="${IMAGE_NAME}"
 kubectl patch deployment -n kubernetes-dashboard kubernetes-dashboard --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/imagePullPolicy", "value": "Never"}]'
 
 # The pod can take a few seconds to appear after the deployment and the replicaset are all created and reconcile

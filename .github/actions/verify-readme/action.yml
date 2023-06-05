@@ -37,7 +37,10 @@ runs:
           BADGE_ROOT_URL="https://storage.googleapis.com/${{ inputs.gcsBucketName }}/badges"
           SUMMARY_ROOT_URL="https://storage.googleapis.com/${{ inputs.gcsBucketName }}/summary"
         fi
-        monopod readme --check --badge-root-url="${BADGE_ROOT_URL}" --summary-root-url="${SUMMARY_ROOT_URL}"
+        if [[ "${{ inputs.defaultRegistryOverride }}" != "" ]]; then
+          default_registry_args="--default-registry=${{ inputs.defaultRegistryOverride }}"
+        fi
+        monopod readme --check --badge-root-url="${BADGE_ROOT_URL}" --summary-root-url="${SUMMARY_ROOT_URL}" $default_registry_args
     - name: Touch actions file to prevent postrun failure
       if: always()
       shell: bash
