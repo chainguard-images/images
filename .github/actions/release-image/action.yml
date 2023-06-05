@@ -51,9 +51,10 @@ runs:
       run: |
         mkdir -p "${{ github.workspace }}/packages"
 
-        # Install gcsfuse and mount the bucket to ./packages/
+        # Install gcsfuse and mount the $BUCKET/os/ to ./packages/ via symlink
         go install github.com/googlecloudplatform/gcsfuse@latest
-        gcsfuse "${{ inputs.gcsFetchBucketName }}" "${{ github.workspace }}/packages"
+        gcsfuse "${{ inputs.gcsFetchBucketName }}" /gcsfuse
+        ln -s /gcsfuse/os/ "${{ github.workspace }}/packages"
         ls -al "${{ github.workspace }}/packages/"
 
     # Run custom melange build if necessary
