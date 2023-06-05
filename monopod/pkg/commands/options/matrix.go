@@ -13,7 +13,7 @@ type MatrixOptions struct {
 	UniqueImages   bool
 	Shard          uint
 	ShardingFactor uint
-  DefaultRegistry string
+	DefaultRegistry string
 }
 
 func (o *MatrixOptions) AddFlags(cmd *cobra.Command) {
