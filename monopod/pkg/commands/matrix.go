@@ -45,7 +45,7 @@ type matrixImpl struct {
 	UniqueImages   bool
 	Shard          uint
 	ShardingFactor uint
-  DefaultRegistry string
+	DefaultRegistry string
 }
 
 type matrixResponse struct {
