@@ -46,13 +46,17 @@ runs:
         set -xe
         export PATH="/tmp/bin:${PATH}"
 
+        if [[ "${{ inputs.defaultRegistryOverride }}" != "" ]]; then
+          default_registry_args="--default-registry=${{ inputs.defaultRegistryOverride }}"
+        fi
+
         MATRIX=$(mktemp)
         monopod matrix \
            --shard=${{ inputs.shard }} \
            --sharding-factor=${{ inputs.sharding-factor }} \
            --modified-files=${{ inputs.modified-files }} \
            --melange-mode=${{ inputs.melange-mode }} \
-           --test-tags=${{ inputs.test-tags }} > "${MATRIX}"
+           --test-tags=${{ inputs.test-tags }} $default_registry_args > "${MATRIX}"
         echo "matrix=$(cat "${MATRIX}")" >> $GITHUB_OUTPUT
 
         MATRIX_UNIQUE_IMAGES=$(mktemp)
@@ -62,7 +66,7 @@ runs:
            --modified-files=${{ inputs.modified-files }} \
            --melange-mode=${{ inputs.melange-mode }} \
            --test-tags=${{ inputs.test-tags }} \
-           --unique-images > "${MATRIX_UNIQUE_IMAGES}"
+           --unique-images $default_registry_args > "${MATRIX_UNIQUE_IMAGES}"
         echo "matrix-unique-images=$(cat "${MATRIX_UNIQUE_IMAGES}")" >> $GITHUB_OUTPUT
 
     - name: Touch actions file to prevent postrun failure

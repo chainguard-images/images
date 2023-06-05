@@ -92,7 +92,8 @@ type variantIterator struct {
 
 type (
 	listConfig struct {
-		TestTags []string
+		TestTags        []string
+		DefaultRegistry string
 	}
 
 	ListOption func(c *listConfig)
@@ -104,9 +105,16 @@ func WithTestTags(testTags []string) ListOption {
 	}
 }
 
+func WithDefaultRegistry(defaultRegistry string) ListOption {
+	return func(c *listConfig) {
+		c.DefaultRegistry = defaultRegistry
+	}
+}
+
 func ListAll(opts ...ListOption) ([]Image, error) {
 	config := &listConfig{
-		TestTags: []string{},
+		TestTags:        []string{},
+		DefaultRegistry: constants.DefaultRegistry,
 	}
 	for _, opt := range opts {
 		opt(config)
@@ -273,7 +281,7 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 			if m.Ref != "" {
 				apkoBaseTag = m.Ref
 			} else {
-				apkoBaseTag = path.Join(constants.DefaultRegistry, imageName)
+				apkoBaseTag = path.Join(config.DefaultRegistry, imageName)
 			}
 
 			melangeConfig := ""
