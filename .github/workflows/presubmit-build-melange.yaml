@@ -44,22 +44,13 @@ jobs:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
       - name: Add additional inputs
         id: augmented-inputs
+        uses: chainguard-dev/actions/matrix-extra-inputs@main
+        with:
+          matrix-json: ${{ toJSON(matrix) }}
         env:
           EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:985e59098f9a6bd69d19e5d751ed7d23512b01d80a05be845b02722a0f47778d
-        run: |
-          # convert env vars beginning with "EXTRA_INPUT_"
-          # to camelcased input variables passed to next step
-          set -x
-          echo '${{ toJSON(matrix) }}' > inputs.json
-          for kv in `env | grep '^EXTRA_INPUT_' | sed 's/^EXTRA_INPUT_//'`; do
-            k="$(echo "${kv}" | cut -d "=" -f1 | tr '[:upper:]' '[:lower:]' | sed -r 's/(.)_+(.)/\1\U\2/g;s/^[a-z]/\U&/' | sed 's/.*/\l&/')"
-            v="$(echo "${kv}" | cut -d "=" -f2)"
-            cat inputs.json | jq -c '. + {'${k}': "'${v}'"}' > inputs.json.tmp
-            mv inputs.json.tmp inputs.json
-          done
-          echo "augmented-inputs=$(cat inputs.json | tr -d '\n')" >> $GITHUB_OUTPUT
       - uses: ./.github/actions/build-image
-        with: ${{ fromJSON(steps.augmented-inputs.outputs.augmented-inputs) }}
+        with: ${{ fromJSON(steps.augmented-inputs.outputs.matrix-json) }}
 
   presubmit-build-melange-1:
     if: contains(github.event.pull_request.labels.*.name, 'melange')
@@ -72,22 +63,13 @@ jobs:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
       - name: Add additional inputs
         id: augmented-inputs
+        uses: chainguard-dev/actions/matrix-extra-inputs@main
+        with:
+          matrix-json: ${{ toJSON(matrix) }}
         env:
           EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:985e59098f9a6bd69d19e5d751ed7d23512b01d80a05be845b02722a0f47778d
-        run: |
-          # convert env vars beginning with "EXTRA_INPUT_"
-          # to camelcased input variables passed to next step
-          set -x
-          echo '${{ toJSON(matrix) }}' > inputs.json
-          for kv in `env | grep '^EXTRA_INPUT_' | sed 's/^EXTRA_INPUT_//'`; do
-            k="$(echo "${kv}" | cut -d "=" -f1 | tr '[:upper:]' '[:lower:]' | sed -r 's/(.)_+(.)/\1\U\2/g;s/^[a-z]/\U&/' | sed 's/.*/\l&/')"
-            v="$(echo "${kv}" | cut -d "=" -f2)"
-            cat inputs.json | jq -c '. + {'${k}': "'${v}'"}' > inputs.json.tmp
-            mv inputs.json.tmp inputs.json
-          done
-          echo "augmented-inputs=$(cat inputs.json | tr -d '\n')" >> $GITHUB_OUTPUT
       - uses: ./.github/actions/build-image
-        with: ${{ fromJSON(steps.augmented-inputs.outputs.augmented-inputs) }}
+        with: ${{ fromJSON(steps.augmented-inputs.outputs.matrix-json) }}
 
   presubmit-roundup-melange:
     needs:
