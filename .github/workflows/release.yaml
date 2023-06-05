@@ -257,7 +257,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [generate-matrix, generate-slsa-provenance, build-1]
-    if: always()
+    if: always() && needs.generate-matrix.outputs.unique-images-shard-1 != ''
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.generate-matrix.outputs.unique-images-shard-1) }}
