@@ -9,6 +9,7 @@ contents:
     - bash
     - glibc-locale-en
     - tzdata
+    - ca-certificates-bundle
     # - procps do we need this?
     # - su-exec do we need this?
 
@@ -72,3 +73,8 @@ accounts:
 archs:
 - x86_64
 - aarch64
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/rabbitmq/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/rabbitmq

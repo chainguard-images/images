@@ -4,8 +4,10 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/static` |
-| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/static.svg) |
 
+
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/static/overview/)
+* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 ---
 <!--monopod:end-->
 

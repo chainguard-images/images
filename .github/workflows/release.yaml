@@ -16,43 +16,45 @@ jobs:
   generate-matrix:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.generate-matrix.outputs.matrix }}
-      matrix-unique-images: ${{ steps.generate-matrix.outputs.matrix-unique-images }}
+      shard-0: ${{ steps.generate-matrix-0.outputs.matrix }}
+      unique-images-shard-0: ${{ steps.generate-matrix-0.outputs.matrix-unique-images }}
+      shard-1: ${{ steps.generate-matrix-1.outputs.matrix }}
+      unique-images-shard-1: ${{ steps.generate-matrix-1.outputs.matrix-unique-images }}
     steps:
     - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-    # For manual builds, build only the image requested
-    - id: generate-matrix-manual
-      if: ${{ github.event_name == 'workflow_dispatch' && inputs.only != '' }}
-      uses: ./.github/actions/generate-matrix
-      with:
-        modified-files: images/${{ inputs.only }}/image.yaml
-    # For nightly builds, build every image (or on manual with no "only" input)
-    - id: generate-matrix-schedule
-      if: ${{ github.event_name == 'schedule' || ( github.event_name == 'workflow_dispatch' && inputs.only == '' ) }}
-      uses: ./.github/actions/generate-matrix
     # On push to main branch, only build images necessary
     - id: files
       if: ${{ github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' }}
-      uses: tj-actions/changed-files@b2d17f51244a144849c6b37a3a6791b98a51d86f # v35.9.2
+      uses: tj-actions/changed-files@b13786805affca18e536ed489687d3d8d1f05d21 # v36.0.17
       with:
         separator: ','
-    - id: generate-matrix-main
-      if: ${{ github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' }}
+
+    - id: build-filter
+      run: |
+        set -xe
+        TMP=$(mktemp)
+
+        # For manual builds, build only the image requested
+        [[ "${{ github.event_name }}" != "workflow_dispatch" || "${{ inputs.only }}" == "" ]] || echo -n 'images/${{ inputs.only }}/image.yaml' > "${TMP}"
+
+        # On push to main branch, only build images necessary
+        [[ "${{ github.event_name }}" == "schedule" || "${{ github.event_name }}" == "workflow_dispatch" ]] || echo -n '${{ steps.files.outputs.all_changed_files }}' > "${TMP}"
+
+        echo "filter=$(cat "${TMP}")" >> $GITHUB_OUTPUT
+
+    - id: generate-matrix-0
       uses: ./.github/actions/generate-matrix
       with:
-        modified-files: ${{ steps.files.outputs.all_changed_files }}
-    - id: generate-matrix
-      run: |
-        set -x
-        trap "rm -f matrix.json matrix-unique-images.json" EXIT
-        echo '${{ steps.generate-matrix-manual.outputs.matrix }}' > matrix.json
-        [[ "$(cat matrix.json)" != "" ]] || echo '${{ steps.generate-matrix-schedule.outputs.matrix }}' > matrix.json
-        [[ "$(cat matrix.json)" != "" ]] || echo '${{ steps.generate-matrix-main.outputs.matrix }}' > matrix.json
-        echo "matrix=$(cat matrix.json)" >> $GITHUB_OUTPUT
-        echo '${{ steps.generate-matrix-manual.outputs.matrix-unique-images }}' > matrix-unique-images.json
-        [[ "$(cat matrix-unique-images.json)" != "" ]] || echo '${{ steps.generate-matrix-schedule.outputs.matrix-unique-images }}' > matrix-unique-images.json
-        [[ "$(cat matrix-unique-images.json)" != "" ]] || echo '${{ steps.generate-matrix-main.outputs.matrix-unique-images }}' > matrix-unique-images.json
-        echo "matrix-unique-images=$(cat matrix-unique-images.json)" >> $GITHUB_OUTPUT
+        shard: 0
+        sharding-factor: 2
+        modified-files: ${{ steps.build-filter.outputs.filter }}
+
+    - id: generate-matrix-1
+      uses: ./.github/actions/generate-matrix
+      with:
+        shard: 1
+        sharding-factor: 2
+        modified-files: ${{ steps.build-filter.outputs.filter }}
 
   # Originally found in apko-snapshot action
   generate-slsa-provenance:
@@ -99,12 +101,12 @@ jobs:
           path: ./provenance.json
           key: "${{ steps.generate-slsa-provenance.outputs.slsa-provenance-cache-key }}"
 
-  build:
+  build-0:
     runs-on: ubuntu-latest
     needs: [generate-matrix, generate-slsa-provenance]
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+      matrix: ${{ fromJson(needs.generate-matrix.outputs.shard-0) }}
     permissions:
       id-token: write
       packages: write
@@ -124,9 +126,17 @@ jobs:
           # We maintain this identity here:
           # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
           EXTRA_INPUT_CHAINGUARD_IDENTITY: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:3cb81f877210749dd1d4eedb28f380ea059be0ba0488d5f5b713706a60d70f90
+          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:985e59098f9a6bd69d19e5d751ed7d23512b01d80a05be845b02722a0f47778d
           EXTRA_INPUT_SLSA_PROVENANCE_CACHE_KEY: ${{ needs.generate-slsa-provenance.outputs.slsa-provenance-cache-key }}
+          EXTRA_INPUT_APKO_REPOSITORY_APPEND: https://packages.wolfi.dev/os
+          EXTRA_INPUT_APKO_KEYRING_APPEND: https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
         run: |
+          # Do not append out repo/keyring/package to Alpine images.
+          if grep 'alpinelinux\.org' "${{ matrix.apkoConfig }}" &>/dev/null; then
+            unset EXTRA_INPUT_APKO_REPOSITORY_APPEND
+            unset EXTRA_INPUT_APKO_KEYRING_APPEND
+          fi
+
           # convert env vars beginning with "EXTRA_INPUT_"
           # to camelcased input variables passed to next step
           set -x
@@ -147,14 +157,110 @@ jobs:
       - uses: ./.github/actions/policy-check-image
         with: ${{ fromJSON(steps.release-image-inputs.outputs.release-image-inputs) }}
 
-  image-summary:
+  image-summary-0:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    needs: [generate-matrix, generate-slsa-provenance, build]
+    needs: [generate-matrix, generate-slsa-provenance, build-0]
     if: always()
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix-unique-images) }}
+      matrix: ${{ fromJson(needs.generate-matrix.outputs.unique-images-shard-0) }}
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+      - id: image-summary-inputs
+        name: Add additional inputs for image-summary action
+        env:
+          EXTRA_INPUT_SLACK_WEBHOOK_URL: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
+          EXTRA_INPUT_GCS_AUTH_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCS_AUTH_WORKLOAD_IDENTITY_PROVIDER }}
+          EXTRA_INPUT_GCS_AUTH_SERVICE_ACCOUNT: ${{ secrets.GCS_AUTH_SERVICE_ACCOUNT }}
+          EXTRA_INPUT_GCS_AUTH_PROJECT_ID: ${{ secrets.GCS_AUTH_PROJECT_ID }}
+          EXTRA_INPUT_GCS_BUCKET_NAME: chainguard-images-build-outputs
+          # This allows chainguard-images/images to publish images to cgr.dev/chainguard
+          # We maintain this identity here:
+          # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
+          EXTRA_INPUT_CHAINGUARD_IDENTITY: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
+        run: |
+          # convert env vars beginning with "EXTRA_INPUT_"
+          # to camelcased input variables passed to next step
+          set -x
+          echo '${{ toJSON(matrix) }}' > inputs.json
+          for kv in `env | grep '^EXTRA_INPUT_' | sed 's/^EXTRA_INPUT_//'`; do
+            k="$(echo "${kv}" | cut -d "=" -f1 | tr '[:upper:]' '[:lower:]' | sed -r 's/(.)_+(.)/\1\U\2/g;s/^[a-z]/\U&/' | sed 's/.*/\l&/')"
+            v="$(echo "${kv}" | cut -d "=" -f2)"
+            cat inputs.json | jq -c '. + {'${k}': "'${v}'"}' > inputs.json.tmp
+            mv inputs.json.tmp inputs.json
+          done
+          echo "image-summary-inputs=$(cat inputs.json | tr -d '\n')" >> $GITHUB_OUTPUT
+      - uses: ./.github/actions/image-summary
+        with: ${{ fromJSON(steps.image-summary-inputs.outputs.image-summary-inputs) }}
+
+  build-1:
+    runs-on: ubuntu-latest
+    needs: [generate-matrix, generate-slsa-provenance]
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.generate-matrix.outputs.shard-1) }}
+    permissions:
+      id-token: write
+      packages: write
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+      - id: release-image-inputs
+        name: Add additional inputs for release-image action
+        env:
+          EXTRA_INPUT_SLACK_WEBHOOK_URL: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
+          EXTRA_INPUT_GCS_AUTH_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCS_AUTH_WORKLOAD_IDENTITY_PROVIDER }}
+          EXTRA_INPUT_GCS_AUTH_SERVICE_ACCOUNT: ${{ secrets.GCS_AUTH_SERVICE_ACCOUNT }}
+          EXTRA_INPUT_GCS_AUTH_PROJECT_ID: ${{ secrets.GCS_AUTH_PROJECT_ID }}
+          EXTRA_INPUT_GCS_BUCKET_NAME: chainguard-images-build-outputs
+          # This allows chainguard-images/images to publish images to cgr.dev/chainguard
+          # We maintain this identity here:
+          # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
+          EXTRA_INPUT_CHAINGUARD_IDENTITY: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
+          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:985e59098f9a6bd69d19e5d751ed7d23512b01d80a05be845b02722a0f47778d
+          EXTRA_INPUT_SLSA_PROVENANCE_CACHE_KEY: ${{ needs.generate-slsa-provenance.outputs.slsa-provenance-cache-key }}
+          EXTRA_INPUT_APKO_REPOSITORY_APPEND: https://packages.wolfi.dev/os
+          EXTRA_INPUT_APKO_KEYRING_APPEND: https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+        run: |
+          # Do not append out repo/keyring/package to Alpine images.
+          if grep 'alpinelinux\.org' "${{ matrix.apkoConfig }}" &>/dev/null; then
+            unset EXTRA_INPUT_APKO_REPOSITORY_APPEND
+            unset EXTRA_INPUT_APKO_KEYRING_APPEND
+          fi
+
+          # convert env vars beginning with "EXTRA_INPUT_"
+          # to camelcased input variables passed to next step
+          set -x
+          echo '${{ toJSON(matrix) }}' > inputs.json
+          for kv in `env | grep '^EXTRA_INPUT_' | sed 's/^EXTRA_INPUT_//'`; do
+            k="$(echo "${kv}" | cut -d "=" -f1 | tr '[:upper:]' '[:lower:]' | sed -r 's/(.)_+(.)/\1\U\2/g;s/^[a-z]/\U&/' | sed 's/.*/\l&/')"
+            v="$(echo "${kv}" | cut -d "=" -f2)"
+            cat inputs.json | jq -c '. + {'${k}': "'${v}'"}' > inputs.json.tmp
+            mv inputs.json.tmp inputs.json
+          done
+          echo "release-image-inputs=$(cat inputs.json | tr -d '\n')" >> $GITHUB_OUTPUT
+      - uses: ./.github/actions/release-image-terraform
+        if: ${{ matrix.useTerraform }}
+        with: ${{ fromJSON(steps.release-image-inputs.outputs.release-image-inputs) }}
+      - uses: ./.github/actions/release-image
+        if: ${{ ! matrix.useTerraform }}
+        with: ${{ fromJSON(steps.release-image-inputs.outputs.release-image-inputs) }}
+      - uses: ./.github/actions/policy-check-image
+        with: ${{ fromJSON(steps.release-image-inputs.outputs.release-image-inputs) }}
+
+  image-summary-1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [generate-matrix, generate-slsa-provenance, build-1]
+    if: always()
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.generate-matrix.outputs.unique-images-shard-1) }}
     permissions:
       id-token: write
       contents: read

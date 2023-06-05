@@ -39,54 +39,9 @@ runs:
         find "${{ github.workspace }}/packages" -print -exec touch \{} \;
         ls -al "${{ github.workspace }}/packages/"
 
-    - name: Setup QEMU
-      if: inputs.melangeConfig != ''
-      uses: docker/setup-qemu-action@e81a89b1732b9c48d79cd809d8d81d79c4647a18 # v2.1.0
-    - id: melange
-      if: inputs.melangeConfig != ''
-      uses: chainguard-dev/actions/melange-build@main
-      with:
-        multi-config: ${{ inputs.melangeConfig }}
-        empty-workspace: ${{ inputs.melangeEmptyWorkspace }}
-        workdir: ${{ inputs.melangeWorkdir }}
-        sign-with-temporary-key: true
-        archs: x86_64 # To speed up CI, just build for x86_64 ${{ inputs.melangeArchs }}
-        template: ${{ inputs.melangeTemplate }}
-    - id: inject-build-options
-      shell: bash
-      run: |
-        yaml_files_with_options_key="globals.yaml"
-        # If the repo using this action doesn't have an globals.yaml, use the public chainguard one
-        if [[ ! -f "globals.yaml" ]]; then
-          curl -sLO https://raw.githubusercontent.com/chainguard-images/images/main/globals.yaml
-        fi
-        if [[ "$(cat "images/${{ inputs.imageName }}/image.yaml" | yq '.options')" != "null" ]]; then
-          yaml_files_with_options_key="${yaml_files_with_options_key} images/${{ inputs.imageName }}/image.yaml"
-        fi
-        if [[ "$(cat ${{ inputs.apkoConfig }} | yq '.options')" != "null" ]]; then
-          yaml_files_with_options_key="${yaml_files_with_options_key} ${{ inputs.apkoConfig }}"
-        fi
-        echo "Combining options sourced from the following file(s): ${yaml_files_with_options_key}"
-        # Use yq to combine all files' options sections together
-        yq -M eval-all '.options as $item ireduce ({}; . * $item)' ${yaml_files_with_options_key} > tmp.yaml
-        # If the original file has options, remove them before appending
-        if [[ "$(cat "images/${{ inputs.imageName }}/image.yaml" | yq '.options')" != "null" ]]; then
-          yq -M 'del(.options)' "${{ inputs.apkoConfig }}" > "${{ inputs.apkoConfig }}.tmp"
-          mv "${{ inputs.apkoConfig }}.tmp" "${{ inputs.apkoConfig }}"
-        fi
-        echo "" >> "${{ inputs.apkoConfig }}" # For configs missing trailing newline
-        yq -M '{"options": .}' tmp.yaml >> "${{ inputs.apkoConfig }}"
-        rm -f tmp.yaml
-
     - uses: chainguard-dev/actions/setup-registry@main
       with:
         port: 5000
-
-    - name: Create target repository
-      id: target-repository
-      shell: bash
-      run: |
-        echo "target-repository=localhost:5000/testing/${{ github.sha }}--${{ inputs.imageName }}--${{ inputs.apkoTargetTag }}" >> $GITHUB_OUTPUT
 
     - name: Setup Terrafrom
       id: setup-terraform
@@ -95,39 +50,31 @@ runs:
         terraform_version: '1.3.*'
         terraform_wrapper: false
 
+    - shell: bash
+      run: |
+        # Turn comma-delimited list into JSON-style list.
+        export TF_VAR_extra_repositories="$(echo "${{ inputs.apkoRepositoryAppend }}" | tr -d '[:space:]' | jq --raw-input -c --slurp 'split(",")')"
+        export TF_VAR_extra_keyring="$(echo "${{ inputs.apkoKeyringAppend }}" | tr -d '[:space:]' | jq --raw-input -c --slurp 'split(",")')"
+        export TF_VAR_extra_packages="$(echo "${{ inputs.apkoPackageAppend }}" | tr -d '[:space:]' | jq --raw-input -c --slurp 'split(",")')"
+
+        # Expose as TF_VAR to the next step.
+        echo "TF_VAR_extra_repositories=${TF_VAR_extra_repositories}" >> $GITHUB_ENV
+        echo "TF_VAR_extra_keyring=${TF_VAR_extra_keyring}" >> $GITHUB_ENV
+        echo "TF_VAR_extra_packages=${TF_VAR_extra_packages}" >> $GITHUB_ENV
+
     - name: Terraform apply (apko publish)
       id: terraform-apply
       shell: bash
+      working-directory: ${{ inputs.terraformDirectory }}
       env:
-        TF_VAR_apko_config_path: ${{ inputs.apkoConfig }}
-        TF_VAR_target_repository: ${{ steps.target-repository.outputs.target-repository }}
-        TF_VAR_extract_package: ${{ inputs.apkoPackageVersionTag }}
-        TF_VAR_build_options: ${{ inputs.apkoBuildOptions }}
+        TF_VAR_target_repository: localhost:5000/testing
+        TF_VAR_target_tag: ${{ inputs.apkoTargetTag }}
+        TF_VAR_tag_suffix: ${{ inputs.apkoTargetTagSuffix }}
       run: |
         set -x
         env | grep '^TF_VAR_'
         terraform init
         terraform apply -auto-approve
-
-    - name: Process Terraform outputs
-      id: apko
-      shell: bash
-      run: |
-        digest="$(terraform output --raw image_ref)"
-        output="digest-index=${digest}"
-        echo "Adding GitHub step output: ${output}"
-        echo "${output}" >> $GITHUB_OUTPUT
-
-    - name: Smoke test
-      id: smoketest
-      if: inputs.testCommandExe != ''
-      shell: bash
-      run: |
-        set -x
-        export IMAGE_NAME="${{ steps.apko.outputs.digest-index }}"
-        export IMAGE_TAG_SUFFIX="${{ inputs.apkoTargetTagSuffix }}"
-        cd "${{ inputs.testCommandDir }}"
-        ${{ inputs.testCommandExe }}
 
     - name: Touch actions file to prevent postrun failure
       if: always()
