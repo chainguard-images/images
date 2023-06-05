@@ -6,4 +6,4 @@ versions:
           options:
             - dev
       extractTagsFrom:
-        package: dex
+        package: kubewatch
