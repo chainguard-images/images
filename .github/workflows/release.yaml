@@ -127,7 +127,7 @@ jobs:
           # We maintain this identity here:
           # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
           EXTRA_INPUT_CHAINGUARD_IDENTITY: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:6d6afe067475323f9d6ce4fc3f9ce9652f9afd5b73ed5cc2b18195086067540c
+          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:aa71ee177e5dbbb5cd2019df04b1a65965dbc5cb7beef71a7fdc6a63efe2b24b
           EXTRA_INPUT_SLSA_PROVENANCE_CACHE_KEY: ${{ needs.generate-slsa-provenance.outputs.slsa-provenance-cache-key }}
           EXTRA_INPUT_APKO_REPOSITORY_APPEND: https://packages.wolfi.dev/os
           EXTRA_INPUT_APKO_KEYRING_APPEND: https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
@@ -215,7 +215,7 @@ jobs:
           # We maintain this identity here:
           # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
           EXTRA_INPUT_CHAINGUARD_IDENTITY: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:6d6afe067475323f9d6ce4fc3f9ce9652f9afd5b73ed5cc2b18195086067540c
+          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:aa71ee177e5dbbb5cd2019df04b1a65965dbc5cb7beef71a7fdc6a63efe2b24b
           EXTRA_INPUT_SLSA_PROVENANCE_CACHE_KEY: ${{ needs.generate-slsa-provenance.outputs.slsa-provenance-cache-key }}
           EXTRA_INPUT_APKO_REPOSITORY_APPEND: https://packages.wolfi.dev/os
           EXTRA_INPUT_APKO_KEYRING_APPEND: https://packages.wolfi.dev/os/wolfi-signing.rsa.pub

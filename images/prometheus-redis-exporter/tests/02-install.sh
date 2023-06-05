@@ -4,24 +4,10 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-function preflight() {
-	if [[ "${IMAGE_REGISTRY}" == "" ]]; then
-		echo "Must set IMAGE_REGISTRY environment variable. Exiting."
-		exit 1
-	fi
-
-	if [[ "${IMAGE_REPOSITORY}" == "" ]]; then
-		echo "Must set IMAGE_REPOSITORY environment variable. Exiting."
-		exit 1
-	fi
-
-	if [[ "${IMAGE_TAG}" == "" ]]; then
-		echo "Must set IMAGE_TAG environment variable. Exiting."
-		exit 1
-	fi
-}
-
-preflight
+if [[ "${IMAGE_NAME}" == "" ]]; then
+    echo "Must set IMAGE_NAME environment variable. Exiting."
+    exit 1
+fi
 
 cat >deploy.yaml <<EOF
 ---
@@ -58,7 +44,7 @@ spec:
         ports:
         - containerPort: 6379
       - name: redis-exporter
-        image: ${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}
+        image: ${IMAGE_NAME}
         securityContext:
           runAsUser: 65532
           runAsGroup: 65532

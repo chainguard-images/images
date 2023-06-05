@@ -23,11 +23,16 @@ function preflight() {
 
 function ensure_gatekeeper_is_installed(){
    helm repo add gatekeeper https://open-policy-agent.github.io/gatekeeper/charts
+   # Unfortunately the helm chart uses the same 'release' value as the tag for multiple images in the chart
+   # Re-overriding it with the preInstall.crdRepository.image.tag value works, but requires us to hardcode some other
+   # image names.
    helm install --name-template=gatekeeper \
 		--namespace gatekeeper-system \
 		--create-namespace \
 	    --set image.repository="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}" \
 	    --set image.release="${IMAGE_TAG}" \
+		--set preInstall.crdRepository.image.tag=v3.13.0-beta.1 \
+		--set preInstall.crdRepository.image.repository=openpolicyagent/gatekeeper-crds \
         gatekeeper/gatekeeper
 }
 

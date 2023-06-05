@@ -22,6 +22,10 @@ TMPDIR="$(mktemp -d)"
 mkdir -p "${TMPDIR}/.kube"
 kind get kubeconfig | yq '.clusters[].cluster.server = "https://'${KIND_IP}':6443"' \
     > "${TMPDIR}/.kube/config"
+
+# Make the file readable and writable by all since we use a non-root user
+sudo chmod -R 755 "${TMPDIR}"
+
 docker run --rm -w /work --network kind \
     -v "${TMPDIR}:/work" \
     -e KUBECONFIG=/work/.kube/config \

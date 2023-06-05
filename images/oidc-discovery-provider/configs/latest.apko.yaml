@@ -6,7 +6,7 @@ contents:
   packages:
     - wolfi-baselayout
     - ca-certificates-bundle
-    - oidc-discovery-provider
+    - spire-oidc-discovery-provider
 
 accounts:
   groups:
