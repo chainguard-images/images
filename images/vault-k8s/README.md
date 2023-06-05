@@ -2,7 +2,7 @@
 # vault-k8s
 | | |
 | - | - |
-| **Status** | experimental |
+| **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/vault-k8s` |
 
 
