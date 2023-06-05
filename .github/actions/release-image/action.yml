@@ -50,6 +50,7 @@ runs:
       if: inputs.gcsFetchBucketName != ''
       run: |
         mkdir -p "${{ github.workspace }}/packages"
+        mkdir -p /gcsfuse
 
         # Install gcsfuse and mount the $BUCKET/os/ to ./packages/ via symlink
         go install github.com/googlecloudplatform/gcsfuse@latest
