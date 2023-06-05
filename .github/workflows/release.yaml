@@ -204,6 +204,9 @@ jobs:
           fi
       - id: release-image-inputs
         name: Add additional inputs for release-image action
+        uses: chainguard-dev/actions/matrix-extra-inputs@main
+        with:
+          matrix-json: ${{ toJSON(matrix) }}
         env:
           EXTRA_INPUT_SLACK_WEBHOOK_URL: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
           EXTRA_INPUT_GCS_AUTH_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCS_AUTH_WORKLOAD_IDENTITY_PROVIDER }}
