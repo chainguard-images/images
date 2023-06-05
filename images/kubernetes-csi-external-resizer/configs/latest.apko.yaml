@@ -6,7 +6,7 @@ contents:
   packages:
     - ca-certificates-bundle
     - wolfi-baselayout
-    - external-resizer
+    - kubernetes-csi-external-resizer
 
 accounts:
   groups:

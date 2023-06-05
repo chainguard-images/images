@@ -36,6 +36,25 @@ helm install vault hashicorp/vault \
 	--set server.image.repository=${IMAGE_REGISTRY}/${IMAGE_REPOSITORY} \
 	--set server.image.tag=${IMAGE_TAG}
 
-sleep 3
+max_retries=20
+retry_count=0
 
-kubectl wait --for=condition=ready pod -n vault --selector app.kubernetes.io/instance=vault-0 --timeout=120s
+while [ $retry_count -lt $max_retries ]; do
+    sleep 2
+    kubectl get pod -n vault vault-0 | grep "Running" && rc=$? || rc=$? 
+    if [ $rc -eq 0 ]; then
+        break
+    fi
+    retry_count=$((retry_count + 1))
+done
+
+# Now unseal vault, which should move it to ready
+kubectl exec -n vault vault-0 -- vault operator init \
+    -key-shares=1 \
+    -key-threshold=1 \
+    -format=json > cluster-keys.json
+
+KEY=$(jq -r ".unseal_keys_b64[]" cluster-keys.json)
+kubectl exec -n vault vault-0 -- vault operator unseal $KEY
+
+kubectl wait --for=condition=ready -n vault --timeout=120s pod/vault-0

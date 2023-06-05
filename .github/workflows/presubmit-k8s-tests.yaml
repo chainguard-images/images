@@ -5,7 +5,7 @@ on:
     types:
       - labeled
 env:
-  EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:aa71ee177e5dbbb5cd2019df04b1a65965dbc5cb7beef71a7fdc6a63efe2b24b
+  EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:985e59098f9a6bd69d19e5d751ed7d23512b01d80a05be845b02722a0f47778d
 jobs:
   presubmit-matrix-k8s:
     if: contains(github.event.pull_request.labels.*.name, 'k8s')
@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
       - id: files
-        uses: tj-actions/changed-files@9ecc6e7fe2e26945b52485ccd9bc4b44000f5af1 # v36.0.14
+        uses: tj-actions/changed-files@b13786805affca18e536ed489687d3d8d1f05d21 # v36.0.17
         with:
           separator: ','
       - id: generate-matrix-0

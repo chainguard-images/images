@@ -1,9 +1,8 @@
-status: stable
 versions:
   - apko:
       config: configs/latest.apko.yaml
       extractTagsFrom:
-        package: vault-k8s
+        package: kubernetes-csi-external-attacher
       subvariants:
         - suffix: -dev
           options:
