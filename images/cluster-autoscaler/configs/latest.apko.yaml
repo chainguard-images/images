@@ -5,6 +5,7 @@ contents:
     - https://packages.wolfi.dev/os
   packages:
     - cluster-autoscaler
+    - cluster-autoscaler-compat
     - wolfi-baselayout
     - ca-certificates-bundle
 accounts:
@@ -19,6 +20,13 @@ accounts:
 entrypoint:
   command: /usr/bin/cluster-autoscaler
 
+work-dir: /
+
 archs:
   - x86_64
   - aarch64
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/cluster-autoscaler/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/cluster-autoscaler

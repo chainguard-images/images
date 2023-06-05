@@ -8,3 +8,7 @@ updates:
     directory: "./monopod"
     schedule:
       interval: "daily"
+  - package-ecosystem: terraform
+    directory: "/"
+    schedule:
+      interval: "daily"

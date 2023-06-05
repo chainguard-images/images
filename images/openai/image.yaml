@@ -1,0 +1,9 @@
+versions:
+  - apko:
+      config: configs/latest.apko.yaml
+      extractTagsFrom:
+        package: openai
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev

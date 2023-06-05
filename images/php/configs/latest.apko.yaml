@@ -8,7 +8,6 @@ contents:
     - ca-certificates-bundle
     - php
 
-
 entrypoint:
   command: /bin/php
 
@@ -37,3 +36,8 @@ accounts:
 archs:
   - x86_64
   - aarch64
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/php/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/php

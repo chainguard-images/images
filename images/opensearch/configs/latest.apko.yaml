@@ -8,6 +8,7 @@ contents:
     - wolfi-baselayout
     - busybox
     - opensearch-2
+    - openjdk-11-default-jvm
 
 accounts:
   groups:
@@ -20,7 +21,7 @@ accounts:
   recursive: true
 
 environment:
-  JAVA_HOME: /usr/lib/jvm/openjdk
+  JAVA_HOME: /usr/lib/jvm/java-11-openjdk
 
 entrypoint:
   command: /usr/bin/docker-entrypoint.sh

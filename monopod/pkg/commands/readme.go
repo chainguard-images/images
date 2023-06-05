@@ -110,7 +110,11 @@ func (i *readmeImpl) check() error {
 		readmeInsert := fmt.Sprintf("# %s\n| | |\n| - | - |\n", k)
 		readmeInsert += fmt.Sprintf("| **Status** | %s |\n", imageToStatusMap[k])
 		readmeInsert += fmt.Sprintf("| **OCI Reference** | %s |\n", imageToReferenceMap[k])
-		readmeInsert += fmt.Sprintf("| **Variants/Tags** | %s |\n\n", fmt.Sprintf("![](%s/%s.svg)", i.SummaryRootUrl, k))
+
+		readmeInsert += "\n\n"
+		readmeInsert += fmt.Sprintf("* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/%s/overview/)\n", k)
+		readmeInsert += "* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.\n"
+
 		if !imageToExcludeContactMap[k] {
 			readmeInsert += "*[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*\n\n"
 		}
@@ -192,7 +196,11 @@ func (i *readmeImpl) fixAllReadmes() error {
 		readmeInsert := fmt.Sprintf("# %s\n| | |\n| - | - |\n", k)
 		readmeInsert += fmt.Sprintf("| **Status** | %s |\n", imageToStatusMap[k])
 		readmeInsert += fmt.Sprintf("| **OCI Reference** | %s |\n", imageToReferenceMap[k])
-		readmeInsert += fmt.Sprintf("| **Variants/Tags** | %s |\n\n", fmt.Sprintf("![](%s/%s.svg)", i.SummaryRootUrl, k))
+
+		readmeInsert += "\n\n"
+		readmeInsert += fmt.Sprintf("* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/%s/overview/)\n", k)
+		readmeInsert += "* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.\n"
+
 		if !imageToExcludeContactMap[k] {
 			readmeInsert += "*[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*\n\n"
 		}
@@ -247,6 +255,9 @@ func (i *readmeImpl) rootReadmeToStdout() error {
 func getRootReadmeContents(allImages []images.Image, badgeRootUrl string, defaultRegistry string) ([]byte, error) {
 	buf := new(bytes.Buffer)
 	buf.WriteString("# Chainguard Images\n")
+	buf.WriteString("\n")
+	// TODO: Remove after August 16th
+	buf.WriteString("## :warning::exclamation: On August 16th we will be making changes to how image tags are pulled. Please see [the announcement](https://www.chainguard.dev/unchained/scaling-chainguard-images-with-a-growing-catalog-and-proactive-security-updates) for further details. :exclamation::warning:\n")
 	buf.WriteString("\n")
 	buf.WriteString("| Name | OCI Reference | Status |")
 	if badgeRootUrl != "" {

@@ -9,6 +9,10 @@ inputs:
     default: ${{ github.repository }}
   token:
     default: ${{ github.token }}
+  shard:
+    default: 0
+  sharding-factor:
+    default: 1
 runs:
   using: composite
   steps:
@@ -35,16 +39,36 @@ runs:
         clean: false
         ref: ${{ inputs.overrideCheckoutRef }}
         repository: ${{ inputs.overrideCheckoutRepository }}
+
     - id: generate-matrix
       shell: bash
       run: |
-        set -x
+        set -xe
         export PATH="/tmp/bin:${PATH}"
+
         if [[ "${{ inputs.defaultRegistryOverride }}" != "" ]]; then
           default_registry_args="--default-registry=${{ inputs.defaultRegistryOverride }}"
         fi
-        echo "matrix=$(monopod matrix --modified-files=${{ inputs.modified-files }} --melange-mode=${{ inputs.melange-mode }} --test-tags=${{ inputs.test-tags }} $default_registry_args)" >> $GITHUB_OUTPUT
-        echo "matrix-unique-images=$(monopod matrix --modified-files=${{ inputs.modified-files }} --melange-mode=${{ inputs.melange-mode }} --test-tags=${{ inputs.test-tags }} --unique-images $default_registry_args)" >> $GITHUB_OUTPUT
+
+        MATRIX=$(mktemp)
+        monopod matrix \
+           --shard=${{ inputs.shard }} \
+           --sharding-factor=${{ inputs.sharding-factor }} \
+           --modified-files=${{ inputs.modified-files }} \
+           --melange-mode=${{ inputs.melange-mode }} \
+           --test-tags=${{ inputs.test-tags }} $default_registry_args > "${MATRIX}"
+        echo "matrix=$(cat "${MATRIX}")" >> $GITHUB_OUTPUT
+
+        MATRIX_UNIQUE_IMAGES=$(mktemp)
+        monopod matrix \
+           --shard=${{ inputs.shard }} \
+           --sharding-factor=${{ inputs.sharding-factor }} \
+           --modified-files=${{ inputs.modified-files }} \
+           --melange-mode=${{ inputs.melange-mode }} \
+           --test-tags=${{ inputs.test-tags }} \
+           --unique-images $default_registry_args > "${MATRIX_UNIQUE_IMAGES}"
+        echo "matrix-unique-images=$(cat "${MATRIX_UNIQUE_IMAGES}")" >> $GITHUB_OUTPUT
+
     - name: Touch actions file to prevent postrun failure
       if: always()
       shell: bash
