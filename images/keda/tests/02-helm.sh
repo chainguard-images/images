@@ -41,4 +41,10 @@ helm install keda kedacore/keda --namespace keda \
     --set image.keda.tag="${IMAGE_TAG}" \
     --set image.pullPolicy=IfNotPresent # The same pullPolicy is used for multiple images, so we have to allow the others to get pulled.
 
+sleep 10
+
+# check again
 kubectl wait --for=condition=ready pod --selector app.kubernetes.io/instance=keda --namespace keda --timeout=120s
+
+# Test using Keda's CRON trigger to scale a deployment
+./tests/smoke-test.sh

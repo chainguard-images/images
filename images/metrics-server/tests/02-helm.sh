@@ -28,8 +28,13 @@ helm upgrade --install metrics-server metrics-server/metrics-server \
 	--namespace metrics-server \
 	--create-namespace \
 	--set image.repository="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}" \
-	--set image.tag="${IMAGE_TAG}"
+	--set image.tag="${IMAGE_TAG}" \
+	--set "args[0]=--kubelet-insecure-tls"
 
 sleep 3
 
 kubectl wait --for=condition=ready pod -n metrics-server --selector app.kubernetes.io/instance=metrics-server --timeout=120s
+
+sleep 10
+
+kubectl top pods -A  | grep Mi

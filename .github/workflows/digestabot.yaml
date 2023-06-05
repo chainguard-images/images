@@ -20,3 +20,4 @@ jobs:
       - uses: chainguard-dev/actions/digesta-bot@main
         with:
           token: ${{ secrets.DIGEST_BOT_CHAINGUARD_IMAGES_PAT }}
+          signoff: true

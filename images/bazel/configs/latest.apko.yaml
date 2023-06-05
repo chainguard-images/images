@@ -6,6 +6,7 @@ contents:
   packages:
     - ca-certificates-bundle
     - openjdk-17
+    - openjdk-17-default-jvm
     - bash
     - busybox
     - gcc
@@ -26,10 +27,15 @@ entrypoint:
   command: /usr/bin/bazel
 
 environment:
-  JAVA_HOME: /usr/lib/jvm/openjdk
+  JAVA_HOME: /usr/lib/jvm/java-17-openjdk
 
 work-dir: /home/bazel
 
 archs:
   - x86_64
   - aarch64
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/bazel/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/bazel

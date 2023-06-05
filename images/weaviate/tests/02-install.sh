@@ -4,24 +4,10 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-function preflight() {
-  if [[ "${IMAGE_REGISTRY}" == "" ]]; then
-    echo "Must set IMAGE_REGISTRY environment variable. Exiting."
+if [[ "${IMAGE_NAME}" == "" ]]; then
+    echo "Must set IMAGE_NAME environment variable. Exiting."
     exit 1
-  fi
-
-  if [[ "${IMAGE_REPOSITORY}" == "" ]]; then
-    echo "Must set IMAGE_REPOSITORY environment variable. Exiting."
-    exit 1
-  fi
-
-  if [[ "${IMAGE_TAG}" == "" ]]; then
-    echo "Must set IMAGE_TAG environment variable. Exiting."
-    exit 1
-  fi
-}
-
-preflight
+fi
 
 helm repo add weaviate https://weaviate.github.io/weaviate-helm
 wget https://raw.githubusercontent.com/weaviate/weaviate-helm/v16.2.0/weaviate/values.yaml
@@ -30,7 +16,7 @@ wget https://raw.githubusercontent.com/weaviate/weaviate-helm/v16.2.0/weaviate/v
 helm install  my-weaviate weaviate/weaviate \
     --version 16.2.0 \
     --values ./values.yaml \
-    --set image.repo="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}" --set image.tag="${IMAGE_TAG}" \
+    --set image.repo="${IMAGE_NAME}" \
     --dry-run | \
     sed  's/imagePullPolicy: Always/imagePullPolicy: Never/g' | \
     sed 's|docker.io/||g'  | tail -n +10 | \

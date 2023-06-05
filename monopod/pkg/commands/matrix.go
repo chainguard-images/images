@@ -23,10 +23,13 @@ monopod matrix
 `,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			impl := &matrixImpl{
-				TestTags:      mo.TestTags,
-				ModifiedFiles: mo.ModifiedFiles,
-				MelangeMode:   mo.MelangeMode,
-				UniqueImages:  mo.UniqueImages,
+				TestTags:        mo.TestTags,
+				ModifiedFiles:   mo.ModifiedFiles,
+				MelangeMode:     mo.MelangeMode,
+				UniqueImages:    mo.UniqueImages,
+				Shard:           mo.Shard,
+				ShardingFactor:  mo.ShardingFactor,
+				DefaultRegistry: mo.DefaultRegistry,
 			}
 			return impl.Do()
 		},
@@ -36,10 +39,13 @@ monopod matrix
 }
 
 type matrixImpl struct {
-	TestTags      string
-	ModifiedFiles string
-	MelangeMode   string
-	UniqueImages  bool
+	TestTags       string
+	ModifiedFiles  string
+	MelangeMode    string
+	UniqueImages   bool
+	Shard          uint
+	ShardingFactor uint
+	DefaultRegistry string
 }
 
 type matrixResponse struct {
@@ -71,7 +77,7 @@ func (i *matrixImpl) Do() error {
 	if i.TestTags != "" {
 		testTags = strings.Split(i.TestTags, "")
 	}
-	allImages, err := images.ListAll(images.WithTestTags(testTags))
+	allImages, err := images.ListAll(images.WithTestTags(testTags), images.WithDefaultRegistry(i.DefaultRegistry))
 	if err != nil {
 		return err
 	}
@@ -183,6 +189,20 @@ func (i *matrixImpl) Do() error {
 			}
 			seen[ref] = true
 		}
+	}
+
+	if i.ShardingFactor > 1 {
+		shards := make([][]images.Image, i.ShardingFactor)
+		for idx, img := range allImages {
+			idx = idx % int(i.ShardingFactor)
+			shards[idx] = append(shards[idx], img)
+		}
+		// Return the shard the user has selected.
+		allImages = shards[i.Shard]
+	}
+
+	if len(allImages) > 256 {
+		return fmt.Errorf("matrix exceeds the limits of github actions (%d > 256), use sharding flags or increase sharding factor", len(allImages))
 	}
 
 	response := matrixResponse{Include: allImages}

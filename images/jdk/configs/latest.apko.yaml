@@ -9,6 +9,7 @@ contents:
     - glibc-locale-en
     - busybox
     - openjdk-17
+    - openjdk-17-default-jvm
     - libstdc++
 
 accounts:
@@ -25,7 +26,7 @@ work-dir: /home/build
 
 environment:
   LANG: en_US.UTF-8
-  JAVA_HOME: /usr/lib/jvm/openjdk
+  JAVA_HOME: /usr/lib/jvm/java-17-openjdk
 
 paths:
   - path: /home/build
@@ -37,3 +38,8 @@ paths:
 archs:
   - x86_64
   - aarch64
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/jdk/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/jdk

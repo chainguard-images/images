@@ -5,6 +5,7 @@ contents:
     - https://packages.wolfi.dev/os
   packages:
     - wolfi-baselayout
+    - busybox
     - netcat-openbsd
 accounts:
   groups:
@@ -24,3 +25,8 @@ work-dir: /home/nc
 archs:
 - x86_64
 - aarch64
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/netcat/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/netcat

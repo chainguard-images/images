@@ -4,8 +4,10 @@
 | - | - |
 | **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/redis` |
-| **Variants/Tags** | ![](https://storage.googleapis.com/chainguard-images-build-outputs/summary/redis.svg) |
 
+
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/redis/overview/)
+* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 *[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
 ---
@@ -20,12 +22,10 @@ The data model is key-value, but many different kind of values are supported: St
 - [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/redis)
 - [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/redis/provenance_info/)
 
-## Image Variants 
+## Image Variants
 
 Our `latest` tag use the most recent build of the [Wolfi Redis](https://github.com/wolfi-dev/os/blob/main/redis.yaml) package.
 The `latest` tagged variant is a distroless image for running Redis.
-
-Starting in April, accessing older tags will require authentication.
 
 ## Redis Version
 This will automatically pull the image to your local system and execute the command `redis --version`:

@@ -1,6 +1,7 @@
 package options
 
 import (
+	"github.com/chainguard-images/images/monopod/pkg/constants"
 	"github.com/spf13/cobra"
 )
 
@@ -10,9 +11,13 @@ type ReadmeOptions struct {
 	SummaryRootUrl     string
 	RootReadmeToStdout bool
 	Check              bool
+	DefaultRegistry    string
 }
 
 func (o *ReadmeOptions) AddFlags(cmd *cobra.Command) {
+	cmd.Flags().StringVar(&o.DefaultRegistry, "default-registry",
+		constants.DefaultRegistry,
+		"the default registry repo to use if the ref field is missing")
 	cmd.Flags().StringVar(&o.BadgeRootUrl, "badge-root-url",
 		"https://storage.googleapis.com/chainguard-images-build-outputs/badges",
 		"root URL to obtain badges")
