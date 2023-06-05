@@ -44,5 +44,3 @@ Available commands are:
     agent-inject    Vault Agent injector service
     version         Prints the version
 ```
-
-
