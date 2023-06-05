@@ -23,13 +23,13 @@ monopod matrix
 `,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			impl := &matrixImpl{
-				TestTags:       mo.TestTags,
-				ModifiedFiles:  mo.ModifiedFiles,
-				MelangeMode:    mo.MelangeMode,
-				UniqueImages:   mo.UniqueImages,
-				Shard:          mo.Shard,
-				ShardingFactor: mo.ShardingFactor,
-        DefaultRegistry: mo.DefaultRegistry,
+				TestTags:        mo.TestTags,
+				ModifiedFiles:   mo.ModifiedFiles,
+				MelangeMode:     mo.MelangeMode,
+				UniqueImages:    mo.UniqueImages,
+				Shard:           mo.Shard,
+				ShardingFactor:  mo.ShardingFactor,
+				DefaultRegistry: mo.DefaultRegistry,
 			}
 			return impl.Do()
 		},
