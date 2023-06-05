@@ -13,6 +13,10 @@ inputs:
 runs:
   using: composite
   steps:
+    - uses: actions/setup-go@v3
+      with:
+        go-version: 1.20
+
     - if: inputs.overrideCheckoutRef == '' && inputs.overrideCheckoutRepository == ''
       uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
     - if: inputs.overrideCheckoutRef != '' || inputs.overrideCheckoutRepository != ''
@@ -46,8 +50,10 @@ runs:
       if: inputs.gcsFetchBucketName != ''
       run: |
         mkdir -p "${{ github.workspace }}/packages"
-        gsutil -m rsync -r "${{ inputs.gcsFetchBucketName }}" "${{ github.workspace }}/packages/"
-        find "${{ github.workspace }}/packages" -print -exec touch \{} \;
+
+        # Install gcsfuse and mount the bucket to ./packages/
+        go install github.com/googlecloudplatform/gcsfuse@latest
+        gcsfuse "${{ inputs.gcsFetchBucketName }}" "${{ github.workspace }}/packages"
         ls -al "${{ github.workspace }}/packages/"
 
     # Run custom melange build if necessary
