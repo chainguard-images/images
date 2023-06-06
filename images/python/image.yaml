@@ -1,3 +1,6 @@
+# Opt-out of the new terraform-based release
+terraform: false
+
 versions:
   - apko:
       config: configs/3.10.apko.yaml

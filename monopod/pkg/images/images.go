@@ -46,7 +46,7 @@ type ImageManifest struct {
 	Ref            string                       `yaml:"ref"`
 	Status         string                       `yaml:"status"`
 	ExcludeContact bool                         `yaml:"excludeContact"`
-	Terraform      bool                         `yaml:"terraform"`
+	Terraform      *bool                        `yaml:"terraform,omitempty"`
 	Variants       []ImageManifestVariant       `yaml:"versions"`
 	Options        map[string]types.BuildOption `yaml:"options,omitempty"`
 }
@@ -322,7 +322,7 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 				melangeConfig = strings.Join(tmp, ",")
 			}
 
-			useTerraform := m.Terraform
+			useTerraform := m.Terraform == nil || *m.Terraform
 			terraformDir := ""
 			if useTerraform {
 				terraformDir = filepath.Join(constants.ImagesDirName, imageName)
