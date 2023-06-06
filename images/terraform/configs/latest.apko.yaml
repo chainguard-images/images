@@ -6,11 +6,12 @@ contents:
   packages:
     - terraform
     - wolfi-baselayout
+    - ca-certificates-bundle
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/terraform/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/terraform 
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/terraform
 
 accounts:
   groups:

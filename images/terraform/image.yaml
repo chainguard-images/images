@@ -1,5 +1,6 @@
+# Opt-in to the new terraform-based release
 terraform: true
-status: experimental
+
 versions:
   - apko:
       config: configs/latest.apko.yaml
