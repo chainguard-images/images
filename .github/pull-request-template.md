@@ -55,6 +55,7 @@ If you have an apko.yaml file in this PR you need to follow this checklist, othe
 - [ ] There is a dev tag available that includes a shell and apk tools (by depending on 'wolfi-base')
 - [ ] The image runs as `nonroot` and GID/UID are set to 65532 or upstream default
   - [ ] Alternatively the username and GID/UID may be a commonly used one from the ecosystem e.g: postgres
+- [ ] The image contains the ca-certs bundle if needed
 - [ ] ENTRYPOINT
   - [ ] For applications/servers/utilities call main program with no arguments e.g. [redis-server]
   - [ ] For base images leave empty
