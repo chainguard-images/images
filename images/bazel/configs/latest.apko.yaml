@@ -13,6 +13,8 @@ contents:
     - git
     - bazel-6
     - wolfi-baselayout
+    - zip
+    - file
 
 accounts:
   groups:
