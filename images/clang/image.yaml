@@ -1,4 +1,3 @@
-terraform: true
 status: experimental
 versions:
   - apko:
