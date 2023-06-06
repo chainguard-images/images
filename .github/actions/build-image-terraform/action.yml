@@ -43,12 +43,6 @@ runs:
       with:
         port: 5000
 
-    - name: Create target repository
-      id: target-repository
-      shell: bash
-      run: |
-        echo "target-repository=localhost:5000/testing/${{ github.sha }}--${{ inputs.imageName }}--${{ inputs.apkoTargetTag }}" >> $GITHUB_OUTPUT
-
     - name: Setup Terrafrom
       id: setup-terraform
       uses: hashicorp/setup-terraform@v2
@@ -71,29 +65,16 @@ runs:
     - name: Terraform apply (apko publish)
       id: terraform-apply
       shell: bash
+      working-directory: ${{ inputs.terraformDirectory }}
       env:
-        TF_VAR_apko_config_path: ${{ inputs.apkoConfig }}
-        TF_VAR_target_repository: ${{ steps.target-repository.outputs.target-repository }}
-        TF_VAR_extract_package: ${{ inputs.apkoPackageVersionTag }}
+        TF_VAR_target_repository: localhost:5000/testing
+        TF_VAR_target_tag: ${{ inputs.apkoTargetTag }}
+        TF_VAR_tag_suffix: ${{ inputs.apkoTargetTagSuffix }}
       run: |
         set -x
         env | grep '^TF_VAR_'
         terraform init
         terraform apply -auto-approve
-
-        # Surface the resulting image_ref as a step output.
-        echo "image_ref=$(terraform output --raw image_ref)" >> $GITHUB_OUTPUT
-
-    - name: Smoke test
-      id: smoketest
-      if: inputs.testCommandExe != ''
-      shell: bash
-      run: |
-        set -x
-        export IMAGE_NAME="${{ steps.terraform-apply.outputs.image_ref }}"
-        export IMAGE_TAG_SUFFIX="${{ inputs.apkoTargetTagSuffix }}"
-        cd "${{ inputs.testCommandDir }}"
-        ${{ inputs.testCommandExe }}
 
     - name: Touch actions file to prevent postrun failure
       if: always()

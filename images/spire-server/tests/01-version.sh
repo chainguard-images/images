@@ -7,4 +7,4 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
     exit 1
 fi
 
-docker run --rm "${IMAGE_NAME}" --version
+docker run --rm --entrypoint=/usr/bin/spire-server "${IMAGE_NAME}" --version

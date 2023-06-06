@@ -38,6 +38,7 @@ type Image struct {
 	TestCommandDir              string `json:"testCommandDir"`
 	ExcludeTags                 string `json:"excludeTags"`
 	UseTerraform                bool   `json:"useTerraform"`
+	TerraformDirectory          string `json:"terraformDirectory"`
 	ExcludeContact              bool   `json:"-"`
 }
 
@@ -91,7 +92,8 @@ type variantIterator struct {
 
 type (
 	listConfig struct {
-		TestTags []string
+		TestTags        []string
+		DefaultRegistry string
 	}
 
 	ListOption func(c *listConfig)
@@ -103,9 +105,16 @@ func WithTestTags(testTags []string) ListOption {
 	}
 }
 
+func WithDefaultRegistry(defaultRegistry string) ListOption {
+	return func(c *listConfig) {
+		c.DefaultRegistry = defaultRegistry
+	}
+}
+
 func ListAll(opts ...ListOption) ([]Image, error) {
 	config := &listConfig{
-		TestTags: []string{},
+		TestTags:        []string{},
+		DefaultRegistry: constants.DefaultRegistry,
 	}
 	for _, opt := range opts {
 		opt(config)
@@ -272,7 +281,7 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 			if m.Ref != "" {
 				apkoBaseTag = m.Ref
 			} else {
-				apkoBaseTag = path.Join(constants.DefaultRegistry, imageName)
+				apkoBaseTag = path.Join(config.DefaultRegistry, imageName)
 			}
 
 			melangeConfig := ""
@@ -314,6 +323,10 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 			}
 
 			useTerraform := m.Terraform
+			terraformDir := ""
+			if useTerraform {
+				terraformDir = filepath.Join(constants.ImagesDirName, imageName)
+			}
 
 			i := Image{
 				ImageName:                   imageName,
@@ -339,6 +352,7 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 				TestCommandDir:              testCommandDir,
 				ExcludeTags:                 strings.Join(variant.Apko.ExtractTagsFrom.Exclude, ","),
 				UseTerraform:                useTerraform,
+				TerraformDirectory:          terraformDir,
 				ExcludeContact:              imageExcludeContact,
 			}
 			allImages = append(allImages, i)

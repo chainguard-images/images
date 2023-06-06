@@ -6,6 +6,7 @@ contents:
   packages:
     - prometheus
     - wolfi-baselayout
+    - ca-certificates-bundle
 
 entrypoint:
   command: prometheus

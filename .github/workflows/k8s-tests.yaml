@@ -13,7 +13,7 @@ on:
         default: ''
 concurrency: k8s-tests
 env:
-  EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:681b41fd731321f2f51a0336c04d4bb8c7657ec11d3e947856e42725caddba91
+  EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:94c1512d9c359148059a13cb8df972d15f196e5901f0132238d0376e0bfb597c
 jobs:
   generate-matrix:
     runs-on: ubuntu-latest
@@ -26,7 +26,7 @@ jobs:
       run: |
         set -xe
         TMP=$(mktemp)
-        [[ "${{ inputs.only }}" != "" ]] || echo -n 'images/${{ inputs.only }}/image.yaml' > "${TMP}"
+        [[ "${{ inputs.only }}" == "" ]] || echo -n 'images/${{ inputs.only }}/image.yaml' > "${TMP}"
         echo "filter=$(cat "${TMP}")" >> $GITHUB_OUTPUT
     - id: generate-matrix-0
       uses: ./.github/actions/generate-matrix

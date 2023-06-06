@@ -7,6 +7,7 @@ contents:
     - ca-certificates-bundle
     - wolfi-baselayout
     - vault
+    - vault-entrypoint
 
 accounts:
   groups:
@@ -15,11 +16,12 @@ accounts:
   users:
     - username: vault
       uid: 65532
-  run-as: vault
+  run-as: 0 # Entrypoint script will change user
   recursive: true
 
 entrypoint:
-  command: /usr/sbin/vault
+  command: /usr/bin/docker-entrypoint.sh
+
 cmd: server -dev
 
 archs:

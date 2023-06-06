@@ -1,0 +1,10 @@
+versions:
+  - apko:
+      config: configs/latest.apko.yaml
+      extractTagsFrom:
+        package: aws-ebs-csi-driver
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
+

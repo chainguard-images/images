@@ -1,6 +1,7 @@
 package options
 
 import (
+	"github.com/chainguard-images/images/monopod/pkg/constants"
 	"github.com/spf13/cobra"
 )
 
@@ -12,9 +13,13 @@ type MatrixOptions struct {
 	UniqueImages   bool
 	Shard          uint
 	ShardingFactor uint
+	DefaultRegistry string
 }
 
 func (o *MatrixOptions) AddFlags(cmd *cobra.Command) {
+	cmd.Flags().StringVar(&o.DefaultRegistry, "default-registry",
+		constants.DefaultRegistry,
+		"the default registry repo to use if the ref field is missing")
 	cmd.Flags().StringVar(&o.TestTags, "test-tags", "",
 		"different type of matrix, just the unique image names (comma-separated)")
 	cmd.Flags().StringVar(&o.ModifiedFiles, "modified-files", "",
