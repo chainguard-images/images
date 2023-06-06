@@ -8,11 +8,10 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
 fi
 
 TMPDIR="$(mktemp -d)"
+chmod go+wrx "${TMPDIR}"
+cd "${TMPDIR}"
 
-# Make the file readable and writable by all since we use a non-root user
-sudo chmod -R 755 "${TMPDIR}"
-
-cat > ${TMPDIR}/main.tf <<EOF
+cat > ./main.tf <<EOF
 terraform {
   required_providers {
     random = {
@@ -33,11 +32,11 @@ output "random" {
 EOF
 
 docker run --rm \
-  -v "${TMPDIR}:/work" \
+  -v "${PWD}":/work \
   -w /work \
   "${IMAGE_NAME}" init
 
 docker run --rm \
-  -v "${TMPDIR}:/work" \
+  -v "${PWD}":/work \
   -w /work \
   "${IMAGE_NAME}" apply --auto-approve
