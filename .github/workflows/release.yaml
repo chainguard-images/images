@@ -25,7 +25,7 @@ jobs:
     # On push to main branch, only build images necessary
     - id: files
       if: ${{ github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' }}
-      uses: tj-actions/changed-files@b13786805affca18e536ed489687d3d8d1f05d21 # v36.0.17
+      uses: tj-actions/changed-files@07e0177b72d3640efced741cae32f9861eee1367 # v36.0.18
       with:
         separator: ','
 
