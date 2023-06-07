@@ -45,14 +45,21 @@ runs:
       run: |
         gcloud info
         gcloud --quiet alpha storage ls
-    - id: rsync
-      shell: bash
+    - shell: bash
       if: inputs.gcsFetchBucketName != ''
       run: |
-        mkdir -p "${{ github.workspace }}/packages"
-        gsutil -m rsync -r "${{ inputs.gcsFetchBucketName }}" "${{ github.workspace }}/packages/"
-        find "${{ github.workspace }}/packages" -print -exec touch \{} \;
-        ls -al "${{ github.workspace }}/packages/"
+        mkdir -p "${{ github.workspace }}/packages/x86_64/"
+        mkdir -p "${{ github.workspace }}/packages/aarch64/"
+        if [[ "${{ inputs.gcsFetchAllPackages }}" != "false" ]]; then
+          gsutil -m rsync -r "${{ inputs.gcsFetchBucketName }}" "${{ github.workspace }}/packages/"
+        else
+          gsutil cp "${{ inputs.gcsFetchBucketName }}"chainguard-enterprise.rsa.pub "${{ github.workspace }}/packages/"
+          gsutil cp "${{ inputs.gcsFetchBucketName }}"x86_64/APKINDEX.tar.gz "${{ github.workspace }}/packages/x86_64/"
+          gsutil cp "${{ inputs.gcsFetchBucketName }}"x86_64/chainguard-baselayout-* "${{ github.workspace }}/packages/x86_64/"
+          gsutil cp "${{ inputs.gcsFetchBucketName }}"aarch64/APKINDEX.tar.gz "${{ github.workspace }}/packages/aarch64/"
+          gsutil cp "${{ inputs.gcsFetchBucketName }}"aarch64/chainguard-baselayout-* "${{ github.workspace }}/packages/aarch64/"
+        fi
+        ls -alR "${{ github.workspace }}/packages/"
 
     # Run custom melange build if necessary
     - name: Setup QEMU
