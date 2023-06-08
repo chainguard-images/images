@@ -53,6 +53,13 @@ runs:
       with:
         identity: ${{ inputs.chainguardIdentity }}
 
+    - if: contains(inputs.apkoBaseTag, 'ghcr.io/')
+      run: |
+        set -x
+        echo "${{ github.token }}" | docker login \
+          -u "${{ github.repository_owner }}" \
+          --password-stdin ghcr.io
+
     - uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: '1.3.*'
