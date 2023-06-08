@@ -1,0 +1,8 @@
+contents:
+  packages:
+    - postgresql-15
+
+paths:
+  - path: /var/lib/postgresql/data
+    type: directory
+    permissions: 777

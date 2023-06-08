@@ -17,20 +17,26 @@ runs:
         path: monopod-setup-gha
     - uses: actions/setup-go@d0a58c1c4d2b25278816e339b944508c875f3613 # v3.4.0
       with:
-        go-version: 1.19
+        go-version: '1.20'
         check-latest: true
-    - id: monopod
-      shell: bash
+
+    # Build and install monopod.
+    - shell: bash
       run: |
         set -x
         (cd monopod-setup-gha/monopod/ && go build -o /tmp/bin/monopod monopod.go)
+        echo /tmp/bin >> $GITHUB_PATH
         rm -rf monopod-setup-gha/
+
+    # Lint apko configs.
+    - shell: bash
+      run: monopod lint ./images/
+
     - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
     - id: verify-readme
       shell: bash
       run: |
         set -x
-        export PATH="/tmp/bin:${PATH}"
         BADGE_ROOT_URL=""
         SUMMARY_ROOT_URL=""
         if [[ "${{ inputs.gcsBucketName }}" != "" ]]; then
