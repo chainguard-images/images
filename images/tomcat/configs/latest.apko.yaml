@@ -1,0 +1,69 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+  packages:
+    - wolfi-baselayout
+    - ca-certificates-bundle
+    - openjdk-17-jre
+    - tomcat
+    - tomcat-native
+    - busybox
+
+work-dir: /usr/share/tomcat/webapps
+
+environment:
+  JAVA_HOME: /usr/lib/jvm/java-17-openjdk
+  CATALINA_HOME: /usr/share/tomcat
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin:/usr/share/tomcat/bin
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: nonroot
+
+paths:
+  - path: /usr/share/tomcat/conf
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
+  - path: /usr/share/tomcat/logs
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
+  - path: /usr/share/tomcat/temp
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
+  - path: /usr/share/tomcat/work
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
+  - path: /usr/share/tomcat/webapps
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
+
+entrypoint:
+  command: /usr/share/tomcat/bin/catalina.sh
+cmd: run
+
+archs:
+- x86_64
+- aarch64
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/tomcat/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/tomcat
