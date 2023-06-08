@@ -3,9 +3,12 @@ package lint
 import (
 	"errors"
 	"fmt"
+	"os"
+	"path/filepath"
 
 	"chainguard.dev/apko/pkg/build/types"
 	"github.com/dprotaso/go-yit"
+	"golang.org/x/exp/slices"
 	"gopkg.in/yaml.v3"
 )
 
@@ -24,6 +27,37 @@ var AllRules = func(l *Linter) Rules {
 					}
 				}
 				return errors.Join(errs...)
+			},
+		},
+		{
+			Name:        "tf-minimal",
+			Description: "Checks if TF image config omits unnecessary fields.",
+			Severity:    SeverityError,
+			LintFunc: func(c types.ImageConfiguration) error {
+				var errs []error
+				if len(c.Contents.Keyring) != 0 {
+					errs = append(errs, errors.New("keyring is not empty"))
+				}
+				if len(c.Contents.Repositories) != 0 {
+					errs = append(errs, errors.New("repositories is not empty"))
+				}
+				if len(c.Archs) != 0 {
+					errs = append(errs, errors.New("archs is not empty"))
+				}
+				if slices.Contains(c.Contents.Packages, "wolfi-baselayout") {
+					errs = append(errs, errors.New("wolfi-baselayout is in packages"))
+				}
+				if slices.Contains(c.Contents.Packages, "chainguard-baselayout") {
+					errs = append(errs, errors.New("chainguard-baselayout is in packages"))
+				}
+				return errors.Join(errs...)
+			},
+			ConditionFuncs: []ConditionFunc{
+				func(path string) bool {
+					// Only run when the parent directory contains a main.tf file.
+					_, err := os.Stat(filepath.Join(filepath.Dir(path), "..", "main.tf"))
+					return err == nil
+				},
 			},
 		},
 	}
