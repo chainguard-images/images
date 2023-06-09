@@ -54,6 +54,7 @@ runs:
         identity: ${{ inputs.chainguardIdentity }}
 
     - if: contains(inputs.apkoBaseTag, 'ghcr.io/')
+      shell: bash
       run: |
         set -x
         echo "${{ github.token }}" | docker login \
