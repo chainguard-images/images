@@ -49,7 +49,7 @@ func (l *Linter) Lint() (Result, error) {
 			shouldEvaluate := true
 			if len(rule.ConditionFuncs) > 0 {
 				for _, cond := range rule.ConditionFuncs {
-					if !cond() {
+					if !cond(filepath.Join(l.options.Path, pkg.Filename)) {
 						shouldEvaluate = false
 						break
 					}

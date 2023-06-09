@@ -1,8 +1,4 @@
 contents:
-  repositories:
-    - https://packages.wolfi.dev/os
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
     - ca-certificates-bundle
     - openjdk-17
@@ -12,7 +8,6 @@ contents:
     - gcc
     - git
     - bazel-6
-    - wolfi-baselayout
     - zip
     - file
 
@@ -32,10 +27,6 @@ environment:
   JAVA_HOME: /usr/lib/jvm/java-17-openjdk
 
 work-dir: /home/bazel
-
-archs:
-  - x86_64
-  - aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

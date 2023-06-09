@@ -1,8 +1,4 @@
 contents:
-  repositories:
-    - https://packages.wolfi.dev/os
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
     - busybox
     - build-base
@@ -22,10 +18,6 @@ accounts:
 
 entrypoint:
   command: /usr/bin/ko
-
-archs:
-  - x86_64
-  - aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

@@ -9,7 +9,8 @@ import (
 type Function func(types.ImageConfiguration) error
 
 // ConditionFunc is a function that checks if a rule should be executed.
-type ConditionFunc func() bool
+// dir is the path to the detected apko YAML file.
+type ConditionFunc func(path string) bool
 
 // Severity is the severity of a rule.
 type Severity string
