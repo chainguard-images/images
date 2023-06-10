@@ -2,6 +2,7 @@ package lint
 
 import (
 	"errors"
+	"fmt"
 	"path/filepath"
 	"testing"
 
@@ -31,6 +32,21 @@ func TestLinter_Rules(t *testing.T) {
 				Error: errors.New("[paths-permissions]: path '/var/lib/postgresql/data' has invalid permissions '1411' (ERROR)"),
 			}},
 		},
+	}, {
+		file: "forbidden-repository-tagged.yaml",
+		want: EvalResult{
+			File: "testdata/forbidden-repository-tagged.yaml",
+			Errors: EvalRuleErrors{
+				{
+					Rule: Rule{
+						Name:     "tagged-repository-in-environment-repos",
+						Severity: SeverityError,
+					},
+					Error: fmt.Errorf("[tagged-repository-in-environment-repos]: repository \"@local ./foo\" is tagged (ERROR)"),
+				},
+			},
+		},
+		wantErr: false,
 	}} {
 		t.Run(tt.file, func(t *testing.T) {
 			l := newTestLinterWithFile(tt.file)
