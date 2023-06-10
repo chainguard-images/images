@@ -11,8 +11,8 @@ terraform {
   }
 }
 
-variable "image_refs" {
-  type = list(string)
+variable "image_res" {
+  type        = list(string)
   description = "The image references to verify against our policies."
 }
 
