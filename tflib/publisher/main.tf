@@ -3,8 +3,8 @@ variable "target_repository" {}
 variable "config" {}
 
 variable "extra_packages" {
-  type        = list(string)
-  default     = ["wolfi-baselayout"]
+  type    = list(string)
+  default = ["wolfi-baselayout"]
 }
 
 module "this" {
@@ -17,9 +17,9 @@ module "this" {
 }
 
 output "image_ref" {
-    value = module.this.image_ref
+  value = module.this.image_ref
 }
 
 output "config" {
-    value = module.this.config
+  value = module.this.config
 }

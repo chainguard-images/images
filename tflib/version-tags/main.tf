@@ -8,7 +8,7 @@ variable "package" {
 }
 
 output "tag_list" {
-    value = [
+  value = [
     for x in var.config.contents.packages : regexall("(((([a-z0-9]+)(?:[.][a-z0-9]+)?)(?:[.][a-z0-9]+)?)(?:[-][a-z0-9]+)?)", trimprefix(x, "${var.package}=")) if startswith(x, "${var.package}=")
   ][0][0]
 }

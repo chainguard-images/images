@@ -1,6 +1,6 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
+    oci = { source = "chainguard-dev/oci" }
   }
 }
 

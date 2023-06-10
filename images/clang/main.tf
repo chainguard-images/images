@@ -38,7 +38,7 @@ provider "apko" {
 }
 
 module "latest" {
-  source  = "../../tflib/publisher"
+  source = "../../tflib/publisher"
 
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.apko.yaml")
@@ -57,7 +57,7 @@ module "test-latest" {
 }
 
 resource "oci_tag" "version-tags" {
-  depends_on = [ module.test-latest ]
+  depends_on = [module.test-latest]
   for_each   = toset(concat(["latest"], module.version-tags.tag_list))
 
   digest_ref = module.latest.image_ref
