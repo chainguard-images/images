@@ -1,0 +1,19 @@
+contents:
+  packages:
+    - mdbook
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+entrypoint:
+  command: /usr/bin/mdbook
+cmd: --help
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/mdbook/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/mdbook
