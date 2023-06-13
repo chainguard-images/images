@@ -26,7 +26,7 @@ runs:
         ref: ${{ inputs.overrideCheckoutRef }}
         repository: ${{ inputs.overrideCheckoutRepository }}
 
-    # optionally fetch a gcs bucket to be used by melange and apko builds
+    # optionally fetch a gcs bucket to be used by apko builds
     - id: gcsfetchauth1
       if: inputs.gcsFetchBucketName != ''
       uses: google-github-actions/auth@ef5d53e30bbcd8d0836f4288f5e50ff3e086997d # v1.0.0
@@ -60,21 +60,6 @@ runs:
           gsutil cp "${{ inputs.gcsFetchBucketName }}"aarch64/chainguard-baselayout-* "${{ github.workspace }}/packages/aarch64/"
         fi
         ls -alR "${{ github.workspace }}/packages/"
-
-    # Run custom melange build if necessary
-    - name: Setup QEMU
-      if: inputs.melangeConfig != ''
-      uses: docker/setup-qemu-action@e81a89b1732b9c48d79cd809d8d81d79c4647a18 # v2.1.0
-    - id: melange
-      if: inputs.melangeConfig != ''
-      uses: chainguard-dev/actions/melange-build@main
-      with:
-        multi-config: ${{ inputs.melangeConfig }}
-        empty-workspace: ${{ inputs.melangeEmptyWorkspace }}
-        workdir: ${{ inputs.melangeWorkdir }}
-        sign-with-temporary-key: true
-        archs: ${{ inputs.melangeArchs }}
-        template: ${{ inputs.melangeTemplate }}
 
     # If publishing to Chainguard registry (cgr.dev), setup auth
     - id: cgrauth1
@@ -281,11 +266,7 @@ runs:
         # TODO: support specific matrix leg for subvariants (they have same apkoConfig input as parent)
         ACTIONS_URL=""
         if [[ "${{ inputs.apkoTargetTagSuffix }}" == "" ]]; then
-          if [[ "${{ inputs.melangeConfig }}" != "" ]]; then
-            ACTIONS_URL="$(get_actions_job_url ${{ inputs.melangeConfig }})"
-          else
-            ACTIONS_URL="$(get_actions_job_url ${{ inputs.apkoConfig }})"
-          fi
+          ACTIONS_URL="$(get_actions_job_url ${{ inputs.apkoConfig }})"
         fi
         ACTIONS_URL="${ACTIONS_URL:-https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}}"
         echo "link=${ACTIONS_URL}" >> $GITHUB_OUTPUT

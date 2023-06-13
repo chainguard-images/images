@@ -24,7 +24,7 @@ func Lint() *cobra.Command {
 		Short:             "Lint apko configs",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			// args[0] can be used to get the path to the file to lint or `.` to lint the current directory
-			// what if given yaml is not Melange yaml?
+			// what if given yaml is not apko yaml?
 			o.args = args
 			return o.LintCmd()
 		},

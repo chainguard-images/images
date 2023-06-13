@@ -92,7 +92,7 @@ func ReadAllConfigs(dir string) ([]Config, error) {
 		}
 		check := &ConfigCheck{}
 		if err := yaml.Unmarshal(data, check); err != nil {
-			// we need certain keys to unmarshal so we can identify this as an apko config, if it doesn't pass, assume it is not a melange config
+			// we need certain keys to unmarshal so we can identify this as an apko config, if it doesn't pass, assume it is not an apko config
 			continue
 		}
 

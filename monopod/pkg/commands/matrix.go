@@ -25,7 +25,6 @@ monopod matrix
 			impl := &matrixImpl{
 				TestTags:        mo.TestTags,
 				ModifiedFiles:   mo.ModifiedFiles,
-				MelangeMode:     mo.MelangeMode,
 				UniqueImages:    mo.UniqueImages,
 				Shard:           mo.Shard,
 				ShardingFactor:  mo.ShardingFactor,
@@ -39,12 +38,11 @@ monopod matrix
 }
 
 type matrixImpl struct {
-	TestTags       string
-	ModifiedFiles  string
-	MelangeMode    string
-	UniqueImages   bool
-	Shard          uint
-	ShardingFactor uint
+	TestTags        string
+	ModifiedFiles   string
+	UniqueImages    bool
+	Shard           uint
+	ShardingFactor  uint
 	DefaultRegistry string
 }
 
@@ -105,18 +103,6 @@ func (i *matrixImpl) Do() error {
 			}
 			allImages = allImagesNew
 		}
-	}
-
-	// Exclude ("none") or isolate ("only") custom melange builds
-	if i.MelangeMode == "only" || i.MelangeMode == "none" {
-		allImagesNew := []images.Image{}
-		for _, image := range allImages {
-			if (image.MelangeConfig != "" && i.MelangeMode == "only") ||
-				(image.MelangeConfig == "" && i.MelangeMode == "none") {
-				allImagesNew = append(allImagesNew, image)
-			}
-		}
-		allImages = allImagesNew
 	}
 
 	// Return a different type of structure if --unique-images is provided,

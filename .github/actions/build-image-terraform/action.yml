@@ -11,7 +11,7 @@ runs:
         ref: ${{ inputs.overrideCheckoutRef }}
         repository: ${{ inputs.overrideCheckoutRepository }}
 
-    # optionally fetch a gcs bucket to be used by melange and apko builds
+    # optionally fetch a gcs bucket to be used by apko builds
     - id: gcsfetchauth1
       if: inputs.gcsFetchBucketName != ''
       uses: google-github-actions/auth@ef5d53e30bbcd8d0836f4288f5e50ff3e086997d # v1.0.0
