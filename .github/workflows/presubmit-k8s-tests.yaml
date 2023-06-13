@@ -25,7 +25,6 @@ jobs:
           shard: 0
           sharding-factor: 2
           modified-files: ${{ steps.files.outputs.all_changed_files }}
-          melange-mode: none
           test-tags: k8s
       - id: generate-matrix-1
         uses: ./.github/actions/generate-matrix
@@ -33,7 +32,6 @@ jobs:
           shard: 1
           sharding-factor: 2
           modified-files: ${{ steps.files.outputs.all_changed_files }}
-          melange-mode: none
           test-tags: k8s
 
   presubmit-build-k8s-0:

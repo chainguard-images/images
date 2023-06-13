@@ -21,14 +21,12 @@ jobs:
           shard: 0
           sharding-factor: 2
           modified-files: ${{ steps.files.outputs.all_changed_files }}
-          melange-mode: none
       - id: generate-matrix-1
         uses: ./.github/actions/generate-matrix
         with:
           shard: 1
           sharding-factor: 2
           modified-files: ${{ steps.files.outputs.all_changed_files }}
-          melange-mode: none
 
   presubmit-build-0:
     runs-on: ubuntu-latest

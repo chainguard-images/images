@@ -18,11 +18,6 @@ type Image struct {
 	ImageName                   string `json:"imageName"`
 	ImageStatus                 string `json:"imageStatus"`
 	ImageSummaryJson            string `json:"imageSummaryJson"`
-	MelangeConfig               string `json:"melangeConfig"`
-	MelangeArchs                string `json:"melangeArchs"`
-	MelangeTemplate             string `json:"melangeTemplate"`
-	MelangeEmptyWorkspace       bool   `json:"melangeEmptyWorkspace"`
-	MelangeWorkdir              string `json:"melangeWorkdir"`
 	ApkoConfig                  string `json:"apkoConfig"`
 	ApkoKeyringAppend           string `json:"apkoKeyringAppend"`
 	ApkoRepositoryAppend        string `json:"apkoRepositoryAppend"`
@@ -52,8 +47,7 @@ type ImageManifest struct {
 }
 
 type ImageManifestVariant struct {
-	Apko    ImageManifestVariantApko    `yaml:"apko"`
-	Melange ImageManifestVariantMelange `yaml:"melange"`
+	Apko ImageManifestVariantApko `yaml:"apko"`
 }
 
 type ImageManifestVariantApko struct {
@@ -67,11 +61,6 @@ type ImageManifestVariantApko struct {
 type ImageManifestVariantApkoSubvariant struct {
 	Suffix  string   `yaml:"suffix"`
 	Options []string `yaml:"options"`
-}
-
-type ImageManifestVariantMelange struct {
-	Configs []string `yaml:"configs"`
-	Mount   bool     `yaml:"mount"`
 }
 
 type ImageManifestVariantApkoExtractTagsFrom struct {
@@ -284,43 +273,8 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 				apkoBaseTag = path.Join(config.DefaultRegistry, imageName)
 			}
 
-			melangeConfig := ""
-			melangeArchs := ""
 			apkoKeyringAppend := ""
 			apkoRepositoryAppend := ""
-
-			// If non-empty workspace for melange build, specify
-			// the image dir as the workdir for melange build
-			melangeWorkdir := ""
-			melangeEmptyWorkspace := true
-			if variant.Melange.Mount {
-				melangeEmptyWorkspace = false
-				melangeWorkdir = filepath.Join(constants.ImagesDirName, imageName)
-			}
-
-			melangeConfigs := variant.Melange.Configs
-			if len(melangeConfigs) > 0 {
-				apkoKeyringAppend = constants.DefaultApkoKeyringAppend
-				apkoRepositoryAppend = constants.DefaultApkoRepositoryAppend
-				var a ApkoManifest
-				b, err := os.ReadFile(apkoConfig)
-				if err != nil {
-					return nil, err
-				}
-				if err := yaml.Unmarshal(b, &a); err != nil {
-					return nil, err
-				}
-				melangeArchs = strings.Join(a.Archs, ",")
-				tmp := []string{}
-				for _, config := range melangeConfigs {
-					if melangeEmptyWorkspace {
-						tmp = append(tmp, filepath.Join(constants.ImagesDirName, imageName, config))
-					} else {
-						tmp = append(tmp, config)
-					}
-				}
-				melangeConfig = strings.Join(tmp, ",")
-			}
 
 			useTerraform := m.Terraform == nil || *m.Terraform
 			terraformDir := ""
@@ -332,11 +286,6 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 				ImageName:                   imageName,
 				ImageStatus:                 imageStatus,
 				ImageSummaryJson:            "",
-				MelangeConfig:               melangeConfig, // TODO
-				MelangeArchs:                melangeArchs,  // TODO
-				MelangeTemplate:             "",            // TODO
-				MelangeEmptyWorkspace:       melangeEmptyWorkspace,
-				MelangeWorkdir:              melangeWorkdir,
 				ApkoConfig:                  apkoConfig,
 				ApkoKeyringAppend:           apkoKeyringAppend,
 				ApkoRepositoryAppend:        apkoRepositoryAppend,

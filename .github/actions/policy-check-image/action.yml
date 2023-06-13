@@ -39,11 +39,7 @@ runs:
             "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs?per_page=100" \
             | jq -r ".jobs[] | select(.name | contains(\"${1}\")) | .html_url"
         }
-        if [[ "${{ inputs.melangeConfig }}" != "" ]]; then
-          export ACTIONS_URL="$(get_actions_job_url ${{ inputs.melangeConfig }})"
-        else
-          export ACTIONS_URL="$(get_actions_job_url ${{ inputs.apkoConfig }})"
-        fi
+        export ACTIONS_URL="$(get_actions_job_url ${{ inputs.apkoConfig }})"
         export ACTIONS_URL="${ACTIONS_URL:-https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}}"
         echo "link=${ACTIONS_URL}" >> $GITHUB_OUTPUT
 
