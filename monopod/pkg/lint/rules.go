@@ -60,6 +60,19 @@ var AllRules = func(l *Linter) Rules {
 				},
 			},
 		},
+		{
+			Name:        "tagged-repository-in-environment-repos",
+			Description: "remove tagged repositories like @local from the repositories block",
+			Severity:    SeverityError,
+			LintFunc: func(c types.ImageConfiguration) error {
+				for _, repo := range c.Contents.Repositories {
+					if repo[0] == '@' {
+						return fmt.Errorf("repository %q is tagged", repo)
+					}
+				}
+				return nil
+			},
+		},
 	}
 }
 
