@@ -7,3 +7,4 @@ gha-creds-*.json
 .terraform*
 terraform.tfstate*
 plan.out*
+.terragrunt-cache
