@@ -9,6 +9,6 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: terraform
-    directory: "/"
+    directory: "/tflib/publisher"
     schedule:
       interval: "daily"
