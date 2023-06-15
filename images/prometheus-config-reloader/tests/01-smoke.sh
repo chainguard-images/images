@@ -7,5 +7,4 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
     exit 1
 fi
 
-set +o pipefail
-docker run --rm "${IMAGE_NAME}"  2>&1 | grep "Starting prometheus-config-reloader"
+docker run --rm "${IMAGE_NAME}" --version
