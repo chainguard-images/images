@@ -24,7 +24,7 @@ function preflight() {
 
 function TEST_basic_helm_install() {
   helm upgrade --install cg-test \
-          prometheus-community/kube-prometheus-stack \
+          prometheus-community/kube-prometheus-stack --wait \
           --set prometheusOperator.prometheusConfigReloader.image.repository=${IMAGE_REPOSITORY} \
           --set prometheusOperator.prometheusConfigReloader.image.registry=${IMAGE_REGISTRY} \
           --set prometheusOperator.prometheusConfigReloader.image.tag=${IMAGE_TAG}
@@ -32,7 +32,7 @@ function TEST_basic_helm_install() {
   # Wait for helm to catch up
   sleep 3
 
-  if kubectl wait --for=condition=ready pod --selector app.kubernetes.io/instance=cg-test-kube-prometheus-st-prometheus; then
+  if kubectl wait --for=condition=ready pod --selector app.kubernetes.io/instance=cg-test-kube-prometheus-st-prometheus --timeout=5m; then
     echo "Success"
   else
     echo "Failed"
