@@ -45,7 +45,7 @@ runs:
     - uses: chainguard-dev/actions/setup-registry@main
       with:
         port: 5000
-        crane-version: tip  # TODO: switch to default latest-release after next ggcr release
+        disk: true
 
     - name: Setup Terrafrom
       id: setup-terraform
