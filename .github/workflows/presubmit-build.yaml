@@ -1,5 +1,10 @@
 on:
   pull_request:
+
+concurrency:
+  group: presubmit-build-${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   presubmit-matrix:
     runs-on: ubuntu-latest
