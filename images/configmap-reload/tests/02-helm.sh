@@ -27,8 +27,8 @@ function TEST_basic_helm_install() {
   helm upgrade --install cg-test \
           prometheus-community/alertmanager \
           --set configmapReload.enabled=true \
-          --set configmapReload.image="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}" \
-          --set configmapReload.tag="${IMAGE_TAG}"
+          --set configmapReload.image.repository="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}" \
+          --set configmapReload.image.tag="${IMAGE_TAG}"
 
   # Wait for helm to catch up
   sleep 3
