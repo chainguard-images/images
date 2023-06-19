@@ -63,7 +63,6 @@ runs:
 
     - name: Terraform apply (apko publish)
       shell: bash
-      working-directory: ${{ inputs.terraformDirectory }}
       env:
         TF_VAR_target_repository: localhost:5000/testing
         TF_VAR_target_tag: ${{ inputs.apkoTargetTag }}
@@ -71,8 +70,19 @@ runs:
       run: |
         set -x
         env | grep '^TF_VAR_'
-        terraform init
-        terraform apply -auto-approve
+
+        MODULE=$(basename ${{ inputs.terraformDirectory }})
+
+        # When we have a "mega module", use it to invoke the module
+        # for the appropriate image.
+        if [ -f "main.tf" ]; then
+          terraform init
+          terraform apply -auto-approve "-target=module.${MODULE}"
+        else
+          cd ${{ inputs.terraformDirectory }}
+          terraform init
+          terraform apply -auto-approve
+        fi
 
     - name: Touch actions file to prevent postrun failure
       if: always()
