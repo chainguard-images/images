@@ -534,6 +534,11 @@ module "nodetaint" {
   target_repository = "${var.target_repository}/nodetaint"
 }
 
+module "node-problem-detector" {
+  source            = "./images/node-problem-detector"
+  target_repository = "${var.target_repository}/node-problem-detector"
+}
+
 module "ntpd-rs" {
   source            = "./images/ntpd-rs"
   target_repository = "${var.target_repository}/ntpd-rs"
