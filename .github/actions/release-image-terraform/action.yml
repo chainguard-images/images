@@ -82,7 +82,6 @@ runs:
       id: terraform-apply
       shell: bash
       env:
-        TF_VAR_target_repository: ${{ inputs.apkoBaseTag }}
         TF_VAR_target_tag: ${{ inputs.apkoTargetTag }}
         TF_VAR_tag_suffix: ${{ inputs.apkoTargetTagSuffix }}
       run: |
@@ -94,10 +93,12 @@ runs:
         # When we have a "mega module", use it to invoke the module
         # for the appropriate image.
         if [ -f "main.tf" ]; then
+          export TF_VAR_target_repository=$(dirname ${{ inputs.apkoBaseTag }})
           terraform init
           terraform apply -auto-approve "-target=module.${MODULE}"
         else
           cd ${{ inputs.terraformDirectory }}
+          export TF_VAR_target_repository=${{ inputs.apkoBaseTag }}
           terraform init
           terraform apply -auto-approve
         fi
