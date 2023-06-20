@@ -6,7 +6,6 @@ contents:
   packages:
     - kube-state-metrics
     - wolfi-baselayout
-    - busybox
 
 accounts:
   groups:
