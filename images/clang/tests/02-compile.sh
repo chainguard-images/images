@@ -7,4 +7,4 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
     exit 1
 fi
 
-docker run --rm -v "${PWD}:/work" $IMAGE_NAME examples/hello/main.c -o hello
+docker run --rm -v "${PWD}/images/clang:/work" $IMAGE_NAME examples/hello/main.c -o hello

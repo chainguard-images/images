@@ -8,7 +8,7 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
 fi
 
 docker run --rm \
-    -v "${PWD}/example:/work" \
+    -v "${PWD}/images/ko/example:/work" \
     --workdir=/work \
     -e KO_DOCKER_REPO=example.com \
     -e CGO_ENABLED=1 \
