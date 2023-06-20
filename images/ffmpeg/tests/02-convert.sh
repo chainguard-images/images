@@ -8,8 +8,8 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
 fi
 
 docker run --rm \
-    -v "${PWD}":/work \
+    -v "${PWD}/images/ffmpeg/tests:/work" \
     -w /work \
     "${IMAGE_NAME}" \
-    -i tests/sample.mov \
+    -i sample.mov \
     /tmp/sample.mp4
