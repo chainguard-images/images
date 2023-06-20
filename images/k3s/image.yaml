@@ -1,0 +1,31 @@
+# Opt-out of the new terraform-based release
+terraform: false
+
+versions:
+  - apko:
+      config: configs/latest.apko.yaml
+      extractTagsFrom:
+        package: k3s
+      subvariants:
+        - suffix: -dev
+          options:
+            - k3s-dev
+
+options:
+  k3s-dev:
+    contents:
+      packages:
+        add:
+          - kubectl
+          - crictl
+          - ctr
+  k3s-data:
+    contents:
+      packages:
+        add:
+          - k3s-data
+  k3s-images:
+    contents:
+      packages:
+        add:
+          - k3s-images
