@@ -1,11 +1,6 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
     - rabbitmq-server
-    - wolfi-baselayout
     - bash
     - glibc-locale-en
     - tzdata
@@ -69,10 +64,6 @@ accounts:
     - username: rabbitmq
       uid: 999
   run-as: 999
-
-archs:
-- x86_64
-- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

@@ -1,14 +1,9 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
     - prometheus-alertmanager
     - wolfi-base
     - ca-certificates-bundle
     - busybox
-    - wolfi-baselayout
 paths:
   - path: /alertmanager
     type: directory
@@ -27,10 +22,6 @@ accounts:
 entrypoint:
   command: /usr/bin/alertmanager
 cmd: --config.file=/etc/alertmanager/alertmanager.yml --storage.path=/alertmanager
-
-archs:
-  - x86_64
-  - aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

@@ -1,13 +1,8 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
     - ca-certificates-bundle
     - build-base
     - busybox
-    - wolfi-baselayout
 
 paths:
   - path: /work
@@ -19,10 +14,6 @@ work-dir: /work
 entrypoint:
   command: /usr/bin/gcc
 cmd: --help
-
-archs:
-- x86_64
-- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

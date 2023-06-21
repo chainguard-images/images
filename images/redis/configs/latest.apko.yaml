@@ -1,12 +1,7 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
     - redis
     - busybox
-    - wolfi-baselayout
 
 accounts:
   groups:
@@ -28,10 +23,6 @@ work-dir: /data
 
 entrypoint:
   command: redis-server
-
-archs:
-- x86_64
-- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

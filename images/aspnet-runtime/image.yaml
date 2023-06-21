@@ -1,11 +1,4 @@
-# Opt-out of the new terraform-based release
-terraform: false
-
 status: stable
 versions:
   - apko:
       config: configs/latest.apko.yaml
-      extractTagsFrom:
-        package: aspnet-7-runtime
-      tags:
-        - latest
