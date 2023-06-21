@@ -164,7 +164,7 @@ versions:
 
       # These are explicit static tags to add to the image
       tags:
-        - latest
+        - bespoke
 
       # Subvariants of this image with additional build options
       # and a unique tag suffix

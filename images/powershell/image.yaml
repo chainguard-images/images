@@ -7,8 +7,6 @@ versions:
       config: configs/latest.apko.yaml
       extractTagsFrom:
         package: powershell
-      tags:
-        - latest
   - apko:
       config: configs/latest-root.apko.yaml
       extractTagsFrom:

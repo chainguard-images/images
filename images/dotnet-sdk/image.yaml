@@ -7,8 +7,6 @@ versions:
       config: configs/latest.apko.yaml
       extractTagsFrom:
         package: dotnet-7-sdk
-      tags:
-        - latest
       subvariants:
         - suffix: -dev
           options:
