@@ -8,6 +8,7 @@ contents:
     - wolfi-baselayout
     - secrets-store-csi-driver
     - util-linux-misc
+    - mount
 
 accounts:
   groups:
