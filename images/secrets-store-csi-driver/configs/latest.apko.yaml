@@ -7,7 +7,7 @@ contents:
     - ca-certificates-bundle
     - wolfi-baselayout
     - secrets-store-csi-driver
-    - util-linux-misc
+    - mount
 
 accounts:
   groups:
