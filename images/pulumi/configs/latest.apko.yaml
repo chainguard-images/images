@@ -55,6 +55,7 @@ accounts:
 
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin
+  JAVA_HOME: /usr/lib/jvm/java-17-openjdk
   XDG_CONFIG_HOME: /tmp/.config
   XDG_CACHE_HOME: /tmp/.cache
   XDG_CONFIG_CACHE: /tmp/.cache
