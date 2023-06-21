@@ -6,9 +6,9 @@ versions:
       config: configs/latest.apko.yaml
       extractTagsFrom:
         package: nginx
+      tags:
+        - next
       subvariants:
         - suffix: -dev
           options:
             - dev
-  - apko:
-      config: configs/next.apko.yaml

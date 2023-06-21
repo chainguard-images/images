@@ -7,5 +7,3 @@ versions:
       config: configs/latest.apko.yaml
       extractTagsFrom:
         package: dotnet-7-runtime
-      tags:
-        - latest
