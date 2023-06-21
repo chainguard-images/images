@@ -1,12 +1,7 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
     - ca-certificates-bundle
     - kyverno-cli
-    - wolfi-baselayout
     - kubectl
 
 accounts:
@@ -23,10 +18,6 @@ entrypoint:
   command: /usr/bin/kubectl-kyverno
 
 cmd: help
-
-archs:
-- x86_64
-- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

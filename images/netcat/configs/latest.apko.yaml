@@ -1,10 +1,5 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
-    - wolfi-baselayout
     - busybox
     - netcat-openbsd
 accounts:
@@ -21,10 +16,6 @@ entrypoint:
   command: /usr/bin/nc
 cmd: -h
 work-dir: /home/nc
-
-archs:
-- x86_64
-- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

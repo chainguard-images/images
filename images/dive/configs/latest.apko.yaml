@@ -1,12 +1,7 @@
 contents:
-  repositories:
-    - https://packages.wolfi.dev/os
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
     - dive
     - ca-certificates-bundle
-    - wolfi-baselayout
 
 accounts:
   groups:
@@ -20,10 +15,6 @@ accounts:
 
 entrypoint:
   command: dive
-
-archs:
-- x86_64
-- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

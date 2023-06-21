@@ -1,14 +1,9 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
     - ca-certificates-bundle
     - wolfi-base
     - alpine-keys
     - apko
-    - wolfi-baselayout
 
 paths:
   - path: /work
@@ -20,10 +15,6 @@ work-dir: /work
 entrypoint:
   command: /usr/bin/apko
 cmd: --help
-
-archs:
-  - x86_64
-  - aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
