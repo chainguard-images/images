@@ -62,10 +62,23 @@ jobs:
         run: |
           echo "ip=$(docker inspect registry.local | jq -r '.[0].NetworkSettings.Networks["bridge"].IPAddress')" >> $GITHUB_OUTPUT
       - uses: chainguard-images/actions/apko-publish@main
+        if: ${{ ! matrix.useTerraform }}
         with:
           apko-image: ${{ env.EXTRA_INPUT_APKO_IMAGE }}
           config: ${{ matrix.apkoConfig }}
           tag: ${{ steps.registry-ip.outputs.ip }}:5000/${{ matrix.imageName }}:${{ matrix.apkoTargetTag }}
+      - name: Terraform apply (apko publish)
+        if: ${{ matrix.useTerraform }}
+        id: terraform-apply
+        run: |
+          set -x
+          export TF_VAR_extra_repositories="$(echo "${{ inputs.apkoRepositoryAppend }}" | tr -d '[:space:]' | jq --raw-input -c --slurp 'split(",")')"
+          export TF_VAR_extra_keyring="$(echo "${{ inputs.apkoKeyringAppend }}" | tr -d '[:space:]' | jq --raw-input -c --slurp 'split(",")')"
+          export TF_VAR_extra_packages="$(echo "${{ inputs.apkoPackageAppend }}" | tr -d '[:space:]' | jq --raw-input -c --slurp 'split(",")')"
+          env | grep '^TF_VAR_'
+          export TF_VAR_target_repository="registry.local:5000"
+          terraform init
+          terraform apply -auto-approve "-target=module.${{ matrix.imageName }}"
       - name: Run k8s tests
         run: |
           set -x
