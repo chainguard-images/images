@@ -196,6 +196,11 @@ module "prometheus-postgres-exporter" {
   target_repository = "${var.target_repository}/prometheus-postgres-exporter"
 }
 
+module "pulumi" {
+  source            = "./images/pulumi"
+  target_repository = "${var.target_repository}/pulumi"
+}
+
 module "rabbitmq" {
   source            = "./images/rabbitmq"
   target_repository = "${var.target_repository}/rabbitmq"
