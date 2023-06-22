@@ -124,6 +124,11 @@ module "hugo" {
   target_repository = "${var.target_repository}/hugo"
 }
 
+module "jdk" {
+  source            = "./images/jdk"
+  target_repository = "${var.target_repository}/jdk"
+}
+
 module "jenkins" {
   source            = "./images/jenkins"
   target_repository = "${var.target_repository}/jenkins"
