@@ -2,7 +2,7 @@ module "eighteen" {
   source = "../../tflib/publisher"
 
   target_repository = var.target_repository
-  config            = file("${path.module}/configs/20.apko.yaml")
+  config            = file("${path.module}/configs/18.apko.yaml")
 }
 
 module "eighteen-dev" {
@@ -17,7 +17,7 @@ module "eighteen-dev" {
 
 module "eighteen-version-tags" {
   source  = "../../tflib/version-tags"
-  package = "nodejs-18"
+  package = "nodejs"
   config  = module.eighteen.config
 }
 
