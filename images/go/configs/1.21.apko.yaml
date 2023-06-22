@@ -1,10 +1,8 @@
 contents:
   keyring:
     - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-    - /Users/jason/git/wolfi-os/local-melange.rsa.pub
   repositories:
     - https://packages.wolfi.dev/os
-    - /Users/jason/git/wolfi-os/packages/
   packages:
     - ca-certificates-bundle
     - busybox
