@@ -179,6 +179,11 @@ module "mariadb" {
   target_repository = "${var.target_repository}/mariadb"
 }
 
+module "maven" {
+  source            = "./images/maven"
+  target_repository = "${var.target_repository}/maven"
+}
+
 module "mdbook" {
   source            = "./images/mdbook"
   target_repository = "${var.target_repository}/mdbook"
