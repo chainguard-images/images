@@ -1,6 +1,3 @@
-# Opt-out of the new terraform-based release
-terraform: false
-
 versions:
   - apko:
       config: configs/18.apko.yaml
