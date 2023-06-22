@@ -249,6 +249,11 @@ module "redis" {
   target_repository = "${var.target_repository}/redis"
 }
 
+module "ruby" {
+  source            = "./images/ruby"
+  target_repository = "${var.target_repository}/ruby"
+}
+
 module "terraform" {
   source            = "./images/terraform"
   target_repository = "${var.target_repository}/terraform"
