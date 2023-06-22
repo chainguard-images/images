@@ -4,7 +4,3 @@ terraform: false
 versions:
   - apko:
       config: configs/18.apko.yaml
-  - apko:
-      config: configs/19.apko.yaml
-  - apko:
-      config: configs/20.apko.yaml
