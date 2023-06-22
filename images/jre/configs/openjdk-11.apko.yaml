@@ -1,11 +1,6 @@
 contents:
-  repositories:
-    - https://packages.wolfi.dev/os
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
     - ca-certificates-bundle
-    - wolfi-baselayout
     - glibc-locale-en
     - openjdk-11-jre
     - openjdk-11-default-jvm
@@ -28,10 +23,6 @@ entrypoint:
 environment:
   LANG: en_US.UTF-8
   JAVA_HOME: /usr/lib/jvm/java-11-openjdk
-
-archs:
-  - x86_64
-  - aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
