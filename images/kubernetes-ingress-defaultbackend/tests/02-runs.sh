@@ -9,11 +9,9 @@ fi
 
 set +o pipefail
 
-PORT=5556
+URL="http://127.0.0.1:${FREE_PORT}"
 
-URL="http://127.0.0.1:${PORT}"
-
-docker run --rm -d -p $PORT:8080 $IMAGE_NAME
+docker run --rm -d -p "$FREE_PORT:8080" $IMAGE_NAME
 
 # Maximum number of attempts to check the health check endpoint
 MAX_ATTEMPTS=30

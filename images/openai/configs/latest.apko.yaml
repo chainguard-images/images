@@ -1,13 +1,7 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
-    - ca-certificates-bundle
     - busybox
     - openai
-    - wolfi-baselayout
 
 accounts:
   groups:
@@ -23,10 +17,6 @@ entrypoint:
   command: /usr/bin/openai
 
 cmd: --help
-
-archs:
-- x86_64
-- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

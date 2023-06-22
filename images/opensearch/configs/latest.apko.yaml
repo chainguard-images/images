@@ -1,11 +1,5 @@
 contents:
-  repositories:
-    - https://packages.wolfi.dev/os
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
-    - ca-certificates-bundle
-    - wolfi-baselayout
     - busybox
     - opensearch-2
     - openjdk-11-default-jvm
@@ -26,10 +20,6 @@ environment:
 entrypoint:
   command: /usr/bin/docker-entrypoint.sh
 cmd: opensearchwrapper
-
-archs:
-  - x86_64
-  - aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

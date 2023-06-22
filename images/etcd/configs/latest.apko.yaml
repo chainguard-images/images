@@ -1,12 +1,6 @@
 contents:
-  repositories:
-    - https://packages.wolfi.dev/os
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
     - etcd
-    - ca-certificates-bundle
-    - wolfi-baselayout
 
 accounts:
   groups:
@@ -29,10 +23,6 @@ environment:
 
 entrypoint:
   command: /usr/bin/etcd
-
-archs:
-  - x86_64
-  - aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

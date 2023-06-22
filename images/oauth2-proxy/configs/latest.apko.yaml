@@ -1,12 +1,6 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
-    - wolfi-baselayout
     - oauth2-proxy
-    - ca-certificates-bundle
 
 accounts:
   groups:
@@ -20,10 +14,6 @@ accounts:
 
 entrypoint:
   command: /usr/bin/oauth2-proxy
-
-archs:
-- x86_64
-- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

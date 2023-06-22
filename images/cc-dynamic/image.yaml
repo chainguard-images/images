@@ -1,11 +1,4 @@
-# Opt-out of the new terraform-based release
-terraform: false
-
 status: deprecated
 versions:
   - apko:
       config: configs/latest.apko.yaml
-      subvariants:
-        - suffix: -dev
-          options:
-            - dev
