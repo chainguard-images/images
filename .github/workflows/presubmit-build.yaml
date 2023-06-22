@@ -76,6 +76,10 @@ jobs:
         if: ${{ ! matrix.useTerraform }}
         with: ${{ fromJSON(steps.augmented-inputs.outputs.matrix-json) }}
 
+      - name: Collect diagnostics and upload
+        if: ${{ failure() }}
+        uses: chainguard-dev/actions/kind-diag@main
+
   presubmit-build-1:
     runs-on: ubuntu-latest
     needs: presubmit-matrix

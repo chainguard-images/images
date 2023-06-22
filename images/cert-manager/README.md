@@ -1,45 +1,46 @@
 <!--monopod:start-->
-# cert-manager-cainjector
+# cert-manager
 | | |
 | - | - |
-| **Status** | experimental |
-| **OCI Reference** | `cgr.dev/chainguard/cert-manager-cainjector` |
+| **Status** | stable |
+| **OCI Reference** | `cgr.dev/chainguard/cert-manager` |
 
 
-* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/cert-manager-cainjector/overview/)
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/cert-manager/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 *[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
 ---
 <!--monopod:end-->
 
+[Cert Manager](https://cert-manager.io/) Automatically provision and manage TLS certificates in Kubernetes
+
 ## Get It
 
 The image is available on `cgr.dev`:
 
 ```
+docker pull cgr.dev/chainguard/cert-manager-controller
+docker pull cgr.dev/chainguard/cert-manager-acmesolver
 docker pull cgr.dev/chainguard/cert-manager-cainjector
+docker pull cgr.dev/chainguard/cert-manager-webhook
 ```
 
 ## Using Cert Manager
 
-This image is part of the `cert-manager` controller stack, and is used following the standard `cert-manager` installation ([here](https://cert-manager.io/docs/installation/)), and replacing them with the Chainguard images.
-
-This image is part of the `cert-manager` stack, and can be used as a drop in replacement for the images following the standard `cert-manager` [installation](https://cert-manager.io/docs/installation/).
+These set of images are a drop in replacement for the standard `cert-manager` installation ([here](https://cert-manager.io/docs/installation/)), and replacing them with the Chainguard images.
 
 For example, we can use these images with the helm installation and the following values:
 
 ```yaml
-# just this image
+image:
+    repository: cgr.dev/chainguard/cert-manager-controller
+    tag: latest
+
 cainjector:
     image:
         repository: cgr.dev/chainguard/cert-manager-cainjector
         tag: latest
-        
-# all the images
-image:
-    repository: cgr.dev/chainguard/cert-manager-controller
-    tag: latest
 acmesolver:
     image:
         repository: cgr.dev/chainguard/cert-manager-acmesolver
