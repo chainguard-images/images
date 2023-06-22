@@ -1,8 +1,4 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
     - ca-certificates-bundle
     - busybox
@@ -10,7 +6,6 @@ contents:
     - git
     - openssh
     - go-1.20
-    - wolfi-baselayout
 
 accounts:
   groups:
@@ -29,10 +24,6 @@ entrypoint:
   command: /usr/bin/go
 
 cmd: help
-
-archs:
-  - x86_64
-  - aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
