@@ -104,9 +104,29 @@ module "haproxy" {
   target_repository = "${var.target_repository}/haproxy"
 }
 
+module "helm" {
+  source            = "./images/helm"
+  target_repository = "${var.target_repository}/helm"
+}
+
+module "helm-chartmuseum" {
+  source            = "./images/helm-chartmuseum"
+  target_repository = "${var.target_repository}/helm-chartmuseum"
+}
+
+module "helm-controller" {
+  source            = "./images/helm-controller"
+  target_repository = "${var.target_repository}/helm-controller"
+}
+
 module "hugo" {
   source            = "./images/hugo"
   target_repository = "${var.target_repository}/hugo"
+}
+
+module "jdk" {
+  source            = "./images/jdk"
+  target_repository = "${var.target_repository}/jdk"
 }
 
 module "jenkins" {
@@ -159,6 +179,11 @@ module "mariadb" {
   target_repository = "${var.target_repository}/mariadb"
 }
 
+module "maven" {
+  source            = "./images/maven"
+  target_repository = "${var.target_repository}/maven"
+}
+
 module "mdbook" {
   source            = "./images/mdbook"
   target_repository = "${var.target_repository}/mdbook"
@@ -182,6 +207,11 @@ module "memcached-exporter" {
 module "netcat" {
   source            = "./images/netcat"
   target_repository = "${var.target_repository}/netcat"
+}
+
+module "node" {
+  source            = "./images/node"
+  target_repository = "${var.target_repository}/node"
 }
 
 module "postgres" {
@@ -219,6 +249,11 @@ module "pulumi" {
   target_repository = "${var.target_repository}/pulumi"
 }
 
+module "python" {
+  source            = "./images/python"
+  target_repository = "${var.target_repository}/python"
+}
+
 module "rabbitmq" {
   source            = "./images/rabbitmq"
   target_repository = "${var.target_repository}/rabbitmq"
@@ -227,6 +262,11 @@ module "rabbitmq" {
 module "redis" {
   source            = "./images/redis"
   target_repository = "${var.target_repository}/redis"
+}
+
+module "ruby" {
+  source            = "./images/ruby"
+  target_repository = "${var.target_repository}/ruby"
 }
 
 module "terraform" {

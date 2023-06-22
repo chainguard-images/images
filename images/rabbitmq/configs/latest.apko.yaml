@@ -4,7 +4,6 @@ contents:
     - bash
     - glibc-locale-en
     - tzdata
-    - ca-certificates-bundle
     # - procps do we need this?
     # - su-exec do we need this?
 

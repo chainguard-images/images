@@ -1,6 +1,5 @@
 contents:
   packages:
-    - ca-certificates-bundle
     - crane
 
 accounts:

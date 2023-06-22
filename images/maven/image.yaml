@@ -1,16 +1,3 @@
-# Opt-out of the new terraform-based release
-terraform: false
-
 versions:
   - apko:
-      config: configs/latest.apko.yaml
-      extractTagsFrom:
-        package: maven
-        prefix: openjdk-17-
-      tags:
-        - openjdk-17
-  - apko:
-      config: configs/openjdk-11.apko.yaml
-      extractTagsFrom:
-        package: maven
-        prefix: openjdk-11-
+      config: configs/openjdk-17.apko.yaml

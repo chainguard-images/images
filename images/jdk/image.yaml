@@ -1,24 +1,3 @@
-# Opt-out of the new terraform-based release
-terraform: false
-
 versions:
   - apko:
-      config: configs/latest.apko.yaml
-      extractTagsFrom:
-        package: openjdk-17
-        prefix: openjdk-
-      tags:
-        - openjdk-17
-      subvariants:
-        - suffix: -dev
-          options:
-            - dev
-  - apko:
-      config: configs/openjdk-11.apko.yaml
-      extractTagsFrom:
-        package: openjdk-11
-        prefix: openjdk-
-      subvariants:
-        - suffix: -dev
-          options:
-            - dev
+      config: configs/openjdk-17.apko.yaml

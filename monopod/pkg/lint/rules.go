@@ -47,6 +47,9 @@ var AllRules = func(l *Linter) Rules {
 				if slices.Contains(c.Contents.Packages, "wolfi-baselayout") {
 					errs = append(errs, errors.New("wolfi-baselayout is in packages"))
 				}
+				if slices.Contains(c.Contents.Packages, "ca-certificates-bundle") {
+					errs = append(errs, errors.New("ca-certificates-bundle is in packages, but is already present from wolfi-baselayout"))
+				}
 				if slices.Contains(c.Contents.Packages, "chainguard-baselayout") {
 					errs = append(errs, errors.New("chainguard-baselayout is in packages"))
 				}

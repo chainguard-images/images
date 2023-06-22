@@ -2,7 +2,6 @@ contents:
   packages:
     - curl
     - libcurl-rustls4
-    - ca-certificates-bundle
 
 entrypoint:
   command: /usr/bin/curl
