@@ -20,3 +20,11 @@ versions:
         - suffix: -dev
           options:
             - dev
+  - apko:
+      config: configs/1.21.apko.yaml
+      extractTagsFrom:
+        package: go-1.21
+      subvariants:
+        - suffix: -dev
+          options:
+            - dev
