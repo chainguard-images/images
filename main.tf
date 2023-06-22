@@ -89,7 +89,6 @@ module "glibc-dynamic" {
   target_repository = "${var.target_repository}/glibc-dynamic"
 }
 
-
 module "go" {
   source            = "./images/go"
   target_repository = "${var.target_repository}/go"
