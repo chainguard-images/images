@@ -12,7 +12,7 @@ module "latest" {
   source = "../../tflib/publisher"
 
   target_repository = var.target_repository
-  config            = file("${path.module}/configs/glibc-dynamic.apko.yaml")
+  config            = file("${path.module}/configs/latest.apko.yaml")
 }
 
 module "dev" { source = "../../tflib/dev-subvariant" }
