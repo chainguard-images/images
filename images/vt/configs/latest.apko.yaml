@@ -1,10 +1,5 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
-    - ca-certificates-bundle
     - busybox
     - vt-cli
 
@@ -20,10 +15,6 @@ accounts:
 
 entrypoint:
   command: /usr/bin/vt
-
-archs:
-- x86_64
-- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

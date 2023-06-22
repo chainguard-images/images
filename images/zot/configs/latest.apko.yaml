@@ -1,12 +1,6 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
-    - ca-certificates-bundle
     - zot
-    - wolfi-baselayout
 
 accounts:
   groups:
@@ -30,10 +24,6 @@ entrypoint:
   command: /usr/bin/zot
 
 cmd: --help
-
-archs:
-- x86_64
-- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

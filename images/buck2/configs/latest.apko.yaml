@@ -1,13 +1,7 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
-    - ca-certificates-bundle
     - buck2
     - build-base
-    - wolfi-baselayout
     - bash
     - busybox
     - clang-15
@@ -28,10 +22,6 @@ entrypoint:
   command: /usr/bin/buck2
 
 cmd: help
-
-archs:
-- x86_64
-- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

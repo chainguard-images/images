@@ -8,5 +8,5 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
 fi
 
 pwd
-docker run -v $(pwd):/work --rm -w /work --entrypoint=/bin/bash "${IMAGE_NAME}" /work/testdata/build-test.sh
+docker run -v $(pwd)/images/buck2:/work --rm -w /work --entrypoint=/bin/bash "${IMAGE_NAME}" /work/testdata/build-test.sh
 

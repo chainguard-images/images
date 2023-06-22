@@ -1,13 +1,9 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
-    - ca-certificates-bundle
-    - busybox
     - cosign
-    - wolfi-baselayout
+    # From the upstream .ko.yaml
+    # We need a shell for a lot of redirection/piping to work
+    - busybox
 
 accounts:
   groups:
@@ -23,10 +19,6 @@ entrypoint:
   command: /usr/bin/cosign
 
 cmd: help
-
-archs:
-- x86_64
-- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

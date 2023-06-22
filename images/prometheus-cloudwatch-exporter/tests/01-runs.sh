@@ -7,6 +7,6 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
     exit 1
 fi
 
-docker run -d -v $(pwd):/config -p 9106:9106 --rm $IMAGE_NAME /config/example/example.yml
+docker run -d -v ${PWD}/images/prometheus-cloudwatch-exporter:/config -p "${FREE_PORT}:9106" --rm $IMAGE_NAME /config/example/example.yml
 sleep 5
-curl localhost:9106/metrics | grep cloudwatch_exporter_build_info
+curl localhost:${FREE_PORT}/metrics | grep cloudwatch_exporter_build_info

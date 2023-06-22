@@ -1,11 +1,5 @@
 contents:
-    keyring:
-      - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-    repositories:
-      - https://packages.wolfi.dev/os
     packages:
-      - wolfi-baselayout
-      - ca-certificates-bundle
       - openjdk-11-jre
       - openjdk-11-default-jvm
       - wavefront-proxy
@@ -42,10 +36,6 @@ paths:
 
 entrypoint:
   command: /usr/local/bin/run.sh
-
-archs:
-  - x86_64
-  - aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

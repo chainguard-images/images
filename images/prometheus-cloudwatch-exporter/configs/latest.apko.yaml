@@ -1,15 +1,9 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
-    - ca-certificates-bundle
     - busybox
     - openjdk-17-jre
     - openjdk-17-default-jvm
     - cloudwatch-exporter
-    - wolfi-baselayout
 
 accounts:
   groups:
@@ -25,10 +19,6 @@ entrypoint:
   command: /usr/bin/java -jar /usr/share/java/cloudwatch_exporter/cloudwatch_exporter.jar 9106
 
 cmd: /config/config.yml
-
-archs:
-- x86_64
-- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
