@@ -7,4 +7,4 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
     exit 1
 fi
 
-docker run --rm "${IMAGE_NAME}" --version
+docker run -u root --entrypoint sh --rm "${IMAGE_NAME}" -c "pip install numpy; python -c 'import numpy; print(numpy.__version__)'"
