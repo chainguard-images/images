@@ -2,7 +2,7 @@
 # helm-chartmuseum
 | | |
 | - | - |
-| **Status** | experimental |
+| **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/helm-chartmuseum` |
 
 
