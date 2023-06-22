@@ -114,6 +114,11 @@ module "jenkins" {
   target_repository = "${var.target_repository}/jenkins"
 }
 
+module "jre" {
+  source            = "./images/jre"
+  target_repository = "${var.target_repository}/jre"
+}
+
 module "k8sgpt" {
   source            = "./images/k8sgpt"
   target_repository = "${var.target_repository}/k8sgpt"
