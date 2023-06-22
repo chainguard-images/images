@@ -1,7 +1,6 @@
 contents:
   packages:
     - busybox
-    - ca-certificates-bundle
     - nghttp2
     - nodejs
 
