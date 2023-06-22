@@ -204,6 +204,11 @@ module "netcat" {
   target_repository = "${var.target_repository}/netcat"
 }
 
+module "node" {
+  source            = "./images/node"
+  target_repository = "${var.target_repository}/node"
+}
+
 module "postgres" {
   source            = "./images/postgres"
   target_repository = "${var.target_repository}/postgres"
