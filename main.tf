@@ -84,6 +84,11 @@ module "gcc-glibc" {
   target_repository = "${var.target_repository}/gcc-glibc"
 }
 
+module "go" {
+  source            = "./images/go"
+  target_repository = "${var.target_repository}/go"
+}
+
 module "google-cloud-sdk" {
   source            = "./images/google-cloud-sdk"
   target_repository = "${var.target_repository}/google-cloud-sdk"
@@ -99,9 +104,19 @@ module "haproxy" {
   target_repository = "${var.target_repository}/haproxy"
 }
 
+module "hugo" {
+  source            = "./images/hugo"
+  target_repository = "${var.target_repository}/hugo"
+}
+
 module "jenkins" {
   source            = "./images/jenkins"
   target_repository = "${var.target_repository}/jenkins"
+}
+
+module "jre" {
+  source            = "./images/jre"
+  target_repository = "${var.target_repository}/jre"
 }
 
 module "k8sgpt" {

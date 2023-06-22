@@ -1,8 +1,4 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
     - hugo
 
@@ -27,10 +23,6 @@ accounts:
       uid: 65532
       gid: 65532
   run-as: 65532
-
-archs:
-  - x86_64
-  - aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
