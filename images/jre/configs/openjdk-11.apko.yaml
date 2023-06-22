@@ -1,6 +1,5 @@
 contents:
   packages:
-    - ca-certificates-bundle
     - glibc-locale-en
     - openjdk-11-jre
     - openjdk-11-default-jvm

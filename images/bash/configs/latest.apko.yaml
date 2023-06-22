@@ -3,7 +3,6 @@ contents:
     - curl
     - bash
     - busybox
-    - ca-certificates-bundle
 
 entrypoint:
   command: /bin/bash -c

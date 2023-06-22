@@ -1,6 +1,5 @@
 contents:
   packages:
-    - ca-certificates-bundle
     - glibc-locale-en
     - busybox
     - openjdk-11

@@ -1,6 +1,5 @@
 contents:
   packages:
-    - ca-certificates-bundle
     - wolfi-base
 
 cmd: /bin/sh -l

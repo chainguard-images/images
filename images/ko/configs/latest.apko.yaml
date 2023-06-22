@@ -4,7 +4,6 @@ contents:
     - build-base
     - go
     - ko
-    - ca-certificates-bundle
 
 accounts:
   groups:

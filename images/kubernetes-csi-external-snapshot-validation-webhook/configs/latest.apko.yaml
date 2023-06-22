@@ -1,6 +1,5 @@
 contents:
   packages:
-    - ca-certificates-bundle
     - kubernetes-csi-external-snapshot-validation-webhook
 
 accounts:

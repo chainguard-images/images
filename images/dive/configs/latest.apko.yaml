@@ -1,7 +1,6 @@
 contents:
   packages:
     - dive
-    - ca-certificates-bundle
 
 accounts:
   groups:

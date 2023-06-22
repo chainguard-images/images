@@ -1,7 +1,6 @@
 contents:
   packages:
     - prometheus
-    - ca-certificates-bundle
 
 entrypoint:
   command: prometheus

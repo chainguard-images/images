@@ -1,7 +1,6 @@
 contents:
   packages:
     - k8sgpt
-    - ca-certificates-bundle
 
 accounts:
   groups:

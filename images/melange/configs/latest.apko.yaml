@@ -1,7 +1,6 @@
 contents:
   packages:
     - alpine-keys
-    - ca-certificates-bundle
     - wolfi-base
     - alpine-keys
     - bubblewrap

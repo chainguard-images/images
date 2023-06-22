@@ -2,7 +2,6 @@ contents:
   packages:
     - prometheus-alertmanager
     - wolfi-base
-    - ca-certificates-bundle
     - busybox
 paths:
   - path: /alertmanager

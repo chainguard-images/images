@@ -2,7 +2,6 @@ contents:
   packages:
     - prometheus-elasticsearch-exporter
     - wolfi-base
-    - ca-certificates-bundle
     - busybox
 
 accounts:
