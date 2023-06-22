@@ -239,6 +239,11 @@ module "pulumi" {
   target_repository = "${var.target_repository}/pulumi"
 }
 
+module "python" {
+  source            = "./images/python"
+  target_repository = "${var.target_repository}/python"
+}
+
 module "rabbitmq" {
   source            = "./images/rabbitmq"
   target_repository = "${var.target_repository}/rabbitmq"
