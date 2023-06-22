@@ -29,7 +29,7 @@ module "latest-dev" {
 
 module "version-tags" {
   source  = "../../tflib/version-tags"
-  package = "hugo"
+  package = "hugo-extended"
   config  = module.latest.config
 }
 
