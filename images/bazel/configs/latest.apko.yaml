@@ -1,6 +1,5 @@
 contents:
   packages:
-    - ca-certificates-bundle
     - openjdk-17
     - openjdk-17-default-jvm
     - bash

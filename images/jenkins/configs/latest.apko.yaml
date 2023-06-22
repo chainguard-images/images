@@ -1,6 +1,5 @@
 contents:
   packages:
-    - ca-certificates-bundle
     - glibc-locale-en
     - jenkins
     - openjdk-17-jre
