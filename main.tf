@@ -84,6 +84,12 @@ module "gcc-glibc" {
   target_repository = "${var.target_repository}/gcc-glibc"
 }
 
+module "glibc-dynamic" {
+  source            = "./images/glibc-dynamic"
+  target_repository = "${var.target_repository}/glibc-dynamic"
+}
+
+
 module "go" {
   source            = "./images/go"
   target_repository = "${var.target_repository}/go"
