@@ -17,7 +17,7 @@ module "eighteen-dev" {
 
 module "eighteen-version-tags" {
   source  = "../../tflib/version-tags"
-  package = "nodejs"
+  package = "nodejs-18"
   config  = module.eighteen.config
 }
 
