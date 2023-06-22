@@ -29,7 +29,7 @@ docker run --rm -v "${TMP}:/hugo/quickstart" --workdir=/hugo/quickstart \
        cgr.dev/chainguard/busybox:latest-glibc /bin/sh -c "echo \"theme = 'ananke'\" >> config.toml"
 
 # Start the container with a name, and detach so we can then poke at it.
-docker run --name hugo --detach --rm -v "${TMP}:/hugo/quickstart" -p 8080:8080 \
+docker run --name "hugo-${FREE_PORT}" --detach --rm -v "${TMP}:/hugo/quickstart" -p ${FREE_PORT}:8080 \
   --workdir /hugo/quickstart \
   "${IMAGE_NAME}" \
   server --bind 0.0.0.0 --port 8080
@@ -38,7 +38,7 @@ docker run --name hugo --detach --rm -v "${TMP}:/hugo/quickstart" -p 8080:8080 \
 sleep 5
 
 # Check that it's up!
-curl -v http://localhost:8080
+curl -v http://localhost:${FREE_PORT}
 
 # Kill the detached hugo container
-docker rm -f hugo
+docker rm -f "hugo-${FREE_PORT}"

@@ -99,6 +99,11 @@ module "haproxy" {
   target_repository = "${var.target_repository}/haproxy"
 }
 
+module "hugo" {
+  source            = "./images/hugo"
+  target_repository = "${var.target_repository}/hugo"
+}
+
 module "jenkins" {
   source            = "./images/jenkins"
   target_repository = "${var.target_repository}/jenkins"
