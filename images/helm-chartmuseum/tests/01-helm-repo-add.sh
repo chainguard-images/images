@@ -42,11 +42,11 @@ set_helm_env && helm package smoketest -d charts && unset_helm_env
 
 # Start the chartmuseum server, grab container IP
 docker run -d --name "${CONTAINER_NAME}" \
-  -p 8080:8080 -v "${PWD}/charts":/charts "${IMAGE_NAME}"
+  -p ${FREE_PORT}:8080 -v "${PWD}/charts":/charts "${IMAGE_NAME}"
 sleep 2
 
 # Try adding the running chartmuseum server as a helm repo
-set_helm_env && helm repo add chartmuseum http://localhost:8080 && unset_helm_env
+set_helm_env && helm repo add chartmuseum http://localhost:${FREE_PORT} && unset_helm_env
 
 # Make sure we can find the smoketest package
 set_helm_env && helm search repo | grep 'chartmuseum/smoketest' && unset_helm_env
