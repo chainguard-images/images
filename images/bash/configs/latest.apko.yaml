@@ -7,6 +7,8 @@ contents:
 entrypoint:
   command: /bin/bash -c
 
+cmd: bash
+
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/bash/
