@@ -610,3 +610,9 @@ cgr.dev/chainguard/curl:latest-
 cgr.dev/chainguard/dive:latest-
 cgr.dev/chainguard/kyverno-background-controller:latest-
 cgr.dev/chainguard/metrics-server:latest-
+cgr.dev/chainguard/php:latest-fpm-fpm
+cgr.dev/chainguard/php:latest-musl-dev
+cgr.dev/chainguard/php:latest-musl
+cgr.dev/chainguard/php:latest-glibc
+cgr.dev/chainguard/php:latest-glibc-dev
+cgr.dev/chainguard/php:latest-fpm-
