@@ -299,6 +299,11 @@ module "netcat" {
   target_repository = "${var.target_repository}/netcat"
 }
 
+module "nginx" {
+  source            = "./images/nginx"
+  target_repository = "${var.target_repository}/nginx"
+}
+
 module "node" {
   source            = "./images/node"
   target_repository = "${var.target_repository}/node"
