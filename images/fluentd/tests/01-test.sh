@@ -17,8 +17,8 @@ fi
 start_fluentd_detached() {
   docker run \
     --detach --rm \
-    --publish 127.0.0.1:24224:24224 \
-    --volume "${PWD}/examples/basic_docker.conf:/etc/fluent/fluent.conf" \
+    --publish 127.0.0.1:${FREE_PORT}:24224 \
+    --volume "${PWD}/images/fluentd/examples/basic_docker.conf:/etc/fluent/fluent.conf" \
     "${IMAGE_NAME}"
   sleep 2
 }
