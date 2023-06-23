@@ -339,6 +339,11 @@ module "paranoia" {
   target_repository = "${var.target_repository}/paranoia"
 }
 
+module "php" {
+  source            = "./images/php"
+  target_repository = "${var.target_repository}/php"
+}
+
 module "postgres" {
   source            = "./images/postgres"
   target_repository = "${var.target_repository}/postgres"
