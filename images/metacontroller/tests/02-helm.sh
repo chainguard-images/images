@@ -196,7 +196,7 @@ EOF
 
 kubectl -n hello apply -f hello.yaml
 
-# Sleep  theh ello controller kicks in
+# Sleep the hello controller kicks in
 sleep 30
 
 kubectl get pods chainguard --output=jsonpath='{.status.phase}' -n hello | grep "Succeeded"
