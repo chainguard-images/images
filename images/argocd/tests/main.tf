@@ -29,7 +29,11 @@ resource "helm_release" "argocd" {
 
   namespace        = "argocd-${random_string.random.result}"
   create_namespace = true
-  skip_crds        = true
+
+  # The argocd helm chart installs CRDs from the `templates/` directory,
+  # and the default value (`false`) conflicts with the providers
+  # assumption of them being in `crds/`
+  skip_crds = true
 
   # Split the digest ref into repository and digest. The helm chart expects a
   # tag, but it just appends it to the repository again, so we just specify a
