@@ -39,10 +39,6 @@ module "test-latest" {
 }
 
 module "test-latest-dev" {
-  # The Helm tests for latest and latest-dev both try to deploy to the same namespace.
-  # If we don't run them sequentially, they'll fight over control of the namespace.
-  depends_on = [module.test-latest]
-
   source = "./tests"
   digest = module.latest-dev.image_ref
 }
