@@ -2,7 +2,7 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-set +o pipefail
+set +o pipefail  # We expect the command to fail, but want its output anyway.
 
 docker run --rm "${IMAGE_NAME}" | grep "no license key"
 docker run --rm "${IMAGE_NAME}" newrelic-infra | grep "New Relic Infrastructure Agent"

@@ -2,8 +2,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-set +o pipefail
-
 URL="http://127.0.0.1:${FREE_PORT}"
 
 docker run --rm -d -p "$FREE_PORT:8080" $IMAGE_NAME

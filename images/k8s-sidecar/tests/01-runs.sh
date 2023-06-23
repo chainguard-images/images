@@ -2,6 +2,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-# The image needs to be in a cluster to run, so we'll look for the right error message.
-set +o pipefail
+set +o pipefail  # We expect the command to fail, but want its output anyway.
+
 docker run --rm "${IMAGE_NAME}" 2>&1 | grep "Starting collector"

@@ -2,11 +2,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-if [[ "${IMAGE_NAME}" == "" ]]; then
-	echo "Must set IMAGE_NAME environment variable. Exiting."
-	exit 1
-fi
-
 # Find an unused udp port (for nslookup - using netstat because it's provided by busybox)
 port_num=53
 i=49152
