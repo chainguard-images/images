@@ -13,7 +13,7 @@
 ---
 <!--monopod:end-->
 
-Minimal image with guacamole-server. **EXPERIMENTAL**
+Minimal image with guacamole-server.
 
 ## Get It!
 
