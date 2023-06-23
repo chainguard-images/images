@@ -229,6 +229,11 @@ module "ko" {
   target_repository = "${var.target_repository}/ko"
 }
 
+module "kubectl" {
+  source            = "./images/kubectl"
+  target_repository = "${var.target_repository}/kubectl"
+}
+
 module "kubernetes-csi-external-snapshot-validation-webhook" {
   source            = "./images/kubernetes-csi-external-snapshot-validation-webhook"
   target_repository = "${var.target_repository}/kubernetes-csi-external-snapshot-validation-webhook"
