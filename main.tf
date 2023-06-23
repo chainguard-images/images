@@ -394,6 +394,11 @@ module "ruby" {
   target_repository = "${var.target_repository}/ruby"
 }
 
+module "rust" {
+  source            = "./images/rust"
+  target_repository = "${var.target_repository}/rust"
+}
+
 module "secrets-store-csi-driver-provider-gcp" {
   source            = "./images/secrets-store-csi-driver-provider-gcp"
   target_repository = "${var.target_repository}/secrets-store-csi-driver-provider-gcp"

@@ -7,7 +7,4 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
     exit 1
 fi
 
-# Dev variants should have rustup
-if [[ "${IMAGE_NAME}" = *-dev || "${IMAGE_TAG_SUFFIX}" = "-dev" ]]; then
-    docker run --rm --entrypoint rustup "${IMAGE_NAME}" --version
-fi
+docker run --rm --entrypoint rustup "${IMAGE_NAME}" --version
