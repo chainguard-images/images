@@ -1,11 +1,5 @@
 contents:
-  repositories:
-    - https://packages.wolfi.dev/os
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
-    - ca-certificates-bundle
-    - wolfi-baselayout
     - nginx
     - nginx-package-config
 
@@ -42,15 +36,11 @@ paths:
     recursive: false
 
 entrypoint:
-    command: /usr/sbin/nginx 
+    command: /usr/sbin/nginx
 
 cmd: -c /etc/nginx/nginx.conf -e /dev/stderr -g "daemon off;"
 
 stop-signal: SIGQUIT
-
-archs:
-  - x86_64
-  - aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
