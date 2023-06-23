@@ -13,7 +13,7 @@
 ---
 <!--monopod:end-->
 
-Minimal image with the k8s-sidecar app. **EXPERIMENTAL**
+Minimal image with guacamole-server. **EXPERIMENTAL**
 
 ## Get It!
 
