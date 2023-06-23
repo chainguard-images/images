@@ -1,12 +1,6 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
-    - ca-certificates-bundle
     - busybox
-    - wolfi-baselayout
     - argo-cd
     - argo-cd-compat
 
@@ -33,10 +27,6 @@ paths:
     uid: 999
     gid: 999
     recursive: true
-
-archs:
-- x86_64
-- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

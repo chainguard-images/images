@@ -63,6 +63,12 @@ jobs:
           EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:94c1512d9c359148059a13cb8df972d15f196e5901f0132238d0376e0bfb597c
           EXTRA_INPUT_APKO_REPOSITORY_APPEND: ${{ steps.determine-appends.outputs.repository-append }}
           EXTRA_INPUT_APKO_KEYRING_APPEND: ${{ steps.determine-appends.outputs.keyring-append }}
+
+      - uses: chainguard-dev/actions/setup-kind@main
+        with:
+          k8s-version: v1.24.x
+          registry-authority: registry.local:5000
+
       - uses: ./.github/actions/build-image-terraform
         if: ${{ matrix.useTerraform }}
         with: ${{ fromJSON(steps.augmented-inputs.outputs.matrix-json) }}
@@ -100,6 +106,12 @@ jobs:
           EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:94c1512d9c359148059a13cb8df972d15f196e5901f0132238d0376e0bfb597c
           EXTRA_INPUT_APKO_REPOSITORY_APPEND: ${{ steps.determine-appends.outputs.repository-append }}
           EXTRA_INPUT_APKO_KEYRING_APPEND: ${{ steps.determine-appends.outputs.keyring-append }}
+
+      - uses: chainguard-dev/actions/setup-kind@main
+        with:
+          k8s-version: v1.24.x
+          registry-authority: registry.local:5000
+
       - uses: ./.github/actions/build-image-terraform
         if: ${{ matrix.useTerraform }}
         with: ${{ fromJSON(steps.augmented-inputs.outputs.matrix-json) }}
