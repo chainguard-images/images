@@ -5,6 +5,8 @@ terraform {
       source  = "chainguard-dev/oci"
       version = "0.0.5"
     }
+    helm   = { source = "hashicorp/helm" }
+    cosign = { source = "chainguard-dev/cosign" }
   }
 }
 
@@ -19,9 +21,25 @@ provider "apko" {
   default_archs      = ["x86_64", "aarch64"]
 }
 
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
+}
+
 module "apko" {
   source            = "./images/apko"
   target_repository = "${var.target_repository}/apko"
+}
+
+module "argocd" {
+  source            = "./images/argocd"
+  target_repository = "${var.target_repository}/argocd"
+}
+
+module "argocd-repo-server" {
+  source            = "./images/argocd-repo-server"
+  target_repository = "${var.target_repository}/argocd-repo-server"
 }
 
 module "aspnet-runtime" {
