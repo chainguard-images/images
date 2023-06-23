@@ -1,16 +1,4 @@
-# Opt-out of the new terraform-based release
-terraform: false
-
 status: experimental
 versions:
   - apko:
       config: configs/latest.apko.yaml
-      extractTagsFrom:
-        package: powershell
-  - apko:
-      config: configs/latest-root.apko.yaml
-      extractTagsFrom:
-        package: powershell
-        prefix: root-
-      tags:
-        - root-latest
