@@ -124,6 +124,11 @@ module "ffmpeg" {
   target_repository = "${var.target_repository}/ffmpeg"
 }
 
+module "fluentd" {
+  source            = "./images/fluentd"
+  target_repository = "${var.target_repository}/fluentd"
+}
+
 module "flux" {
   source            = "./images/flux"
   target_repository = "${var.target_repository}/flux"
