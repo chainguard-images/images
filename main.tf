@@ -294,6 +294,11 @@ module "minio-client" {
   target_repository = "${var.target_repository}/minio-client"
 }
 
+module "nats" {
+  source            = "./images/nats"
+  target_repository = "${var.target_repository}/nats"
+}
+
 module "netcat" {
   source            = "./images/netcat"
   target_repository = "${var.target_repository}/netcat"

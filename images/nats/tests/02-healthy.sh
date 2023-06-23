@@ -7,9 +7,9 @@ if [[ "${IMAGE_NAME}" == "" ]]; then
     exit 1
 fi
 
-CONTAINER_NAME=${CONTAINER_NAME:-"nats-$(date +%s)"}
+CONTAINER_NAME=${CONTAINER_NAME:-"nats-${FREE_PORT}"}
 
-docker run --network=host -d --name $CONTAINER_NAME $IMAGE_NAME
+docker run -p "${FREE_PORT}:8222" -d --name $CONTAINER_NAME $IMAGE_NAME
 trap "docker logs $CONTAINER_NAME && docker rm -f $CONTAINER_NAME" EXIT
 sleep 5
-curl localhost:8222/healthz | jq .status | grep ok
+curl localhost:${FREE_PORT}/healthz | jq .status | grep ok

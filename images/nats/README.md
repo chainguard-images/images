@@ -2,7 +2,7 @@
 # nats
 | | |
 | - | - |
-| **Status** | experimental |
+| **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/nats` |
 
 
