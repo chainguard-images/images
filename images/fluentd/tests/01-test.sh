@@ -17,8 +17,8 @@ fi
 start_fluentd_detached() {
   docker run \
     --detach --rm \
-    --publish 127.0.0.1:24224:24224 \
-    --volume "${PWD}/examples/basic_docker.conf:/etc/fluent/fluent.conf" \
+    --publish 127.0.0.1:${FREE_PORT}:24224 \
+    --volume "$(pwd)/images/fluentd/examples/basic_docker.conf:/etc/fluent/fluent.conf" \
     "${IMAGE_NAME}"
   sleep 2
 }
@@ -28,6 +28,7 @@ echo_to_fluentd() {
   docker run \
     --rm \
     --log-driver=fluentd \
+    --log-opt fluentd-address=127.0.0.1:${FREE_PORT} \
     --log-opt tag="docker.{{.ID}}" \
     cgr.dev/chainguard/wolfi-base \
     echo "${echo_string}"
