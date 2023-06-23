@@ -2,11 +2,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-if [[ "${IMAGE_NAME}" == "" ]]; then
-    echo "Must set IMAGE_NAME environment variable. Exiting."
-    exit 1
-fi
-
 #
 # kill_if_running checks to see if a container needs to be killed before
 # killing it.

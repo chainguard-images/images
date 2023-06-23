@@ -2,11 +2,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-if [[ "${IMAGE_NAME}" == "" ]]; then
-    echo "Must set IMAGE_NAME environment variable. Exiting."
-    exit 1
-fi
-
 # This test is designed to emulate the Hugo Quickstart application
 # which is outlined here:
 # https://gohugo.io/getting-started/quick-start/#commands

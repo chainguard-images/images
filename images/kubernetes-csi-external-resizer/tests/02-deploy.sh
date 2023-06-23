@@ -4,11 +4,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-if [[ "${IMAGE_NAME}" == "" ]]; then
-    echo "Must set IMAGE_NAME environment variable. Exiting."
-    exit 1
-fi
-
 function TEST_basic_kubectl_apply() {
   tmpdir=$(mktemp -d); cd "${tmpdir}"
   curl -sLO https://raw.githubusercontent.com/kubernetes-csi/external-resizer/master/deploy/kubernetes/deployment.yaml
@@ -16,9 +11,9 @@ function TEST_basic_kubectl_apply() {
   sed -i "s|gcr.io/k8s-staging-sig-storage/csi-resizer:canary|${IMAGE_NAME}|g" deployment.yaml
 
   curl -sLO https://raw.githubusercontent.com/kubernetes-csi/external-resizer/master/deploy/kubernetes/rbac.yaml
-  
+
   kubectl apply -f ${tmpdir}
-  
+
   # Wait for the update to apply
   sleep 3
 

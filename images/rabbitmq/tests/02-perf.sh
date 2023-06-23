@@ -2,21 +2,16 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-if [[ "${IMAGE_NAME}" == "" ]]; then
-	echo "Must set IMAGE_NAME environment variable. Exiting."
-	exit 1
-fi
-
 cat >dev.conf <<EOF
 ## DEFAULT SETTINGS ARE NOT MEANT TO BE TAKEN STRAIGHT INTO PRODUCTION
 ## see https://www.rabbitmq.com/configure.html for further information
 ## on configuring RabbitMQ
-                                                                                                                                                               
+
 ## allow access to the guest user from anywhere on the network
 ## https://www.rabbitmq.com/access-control.html#loopback-users
 ## https://www.rabbitmq.com/production-checklist.html#users
 loopback_users.guest = false
-                                                                                                                                                               
+
 ## Send all logs to stdout/TTY. Necessary to see logs when running via
 ## a container
 log.console = true

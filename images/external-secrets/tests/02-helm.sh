@@ -39,7 +39,7 @@ helm install external-secrets \
     --set image.repository="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}" \
     --set image.tag="${IMAGE_TAG}" \
     --create-namespace \
-    --wait 
+    --wait
 
 cat <<EOF > cluster-secret-store.yaml
 ---
@@ -62,8 +62,6 @@ spec:
           foo: example
           other: thing
 EOF
-
-
 
 kubectl apply -f cluster-secret-store.yaml
 
@@ -92,6 +90,6 @@ EOF
 
 kubectl apply -f external-secret.yaml
 
-sleep 5 
+sleep 5
 
 kubectl get secrets secret-to-be-created -n default -o jsonpath="{.data.foo_bar}" | base64 --decode | grep HELLO1

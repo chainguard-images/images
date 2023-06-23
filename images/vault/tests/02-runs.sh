@@ -2,11 +2,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-if [[ "${IMAGE_NAME}" == "" ]]; then
-    echo "Must set IMAGE_NAME environment variable. Exiting."
-    exit 1
-fi
-
 # Run the vault container in the background and make sure it works using the API
 docker run -d --name vault --cap-add IPC_LOCK -p 8200:8200 "${IMAGE_NAME}" server -dev -dev-root-token-id=root
 

@@ -2,11 +2,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail
 
-if [[ "${IMAGE_NAME}" == "" ]]; then
-	echo "Must set IMAGE_NAME environment variable. Exiting."
-	exit 1
-fi
-
 cat > HelloWorld.java <<EOF
 class HelloWorld {
   public static void main(String[] args) {

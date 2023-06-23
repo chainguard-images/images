@@ -2,11 +2,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-if [[ "${IMAGE_NAME}" == "" ]]; then
-    echo "Must set IMAGE_NAME environment variable. Exiting."
-    exit 1
-fi
-
 CONTAINER_NAME=${CONTAINER_NAME:-"redis-smoketest-$(date +%s)"}
 
 # Run two containers on the same network (just use host for simplicity)

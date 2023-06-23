@@ -4,11 +4,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-if [[ "${IMAGE_NAME}" == "" ]]; then
-    echo "Must set IMAGE_NAME environment variable. Exiting."
-    exit 1
-fi
-
 kubectl run prometheus-node-exporter --image=${IMAGE_NAME}
 kubectl wait --for=condition=ready pod prometheus-node-exporter
 

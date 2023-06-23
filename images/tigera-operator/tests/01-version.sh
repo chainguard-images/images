@@ -2,11 +2,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-if [[ "${IMAGE_NAME}" == "" ]]; then
-    echo "Must set IMAGE_NAME environment variable. Exiting."
-    exit 1
-fi
+set +o pipefail  # We expect the command to fail, but want its output anyway.
 
-# The image fails if it can't connect to the k8s API, so we need to just make sure it fails correctly.
-set +o pipefail
 docker run --rm "${IMAGE_NAME}" --help 2>&1 | grep "Usage of /usr/bin/operator"
