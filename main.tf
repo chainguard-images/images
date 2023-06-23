@@ -349,6 +349,11 @@ module "postgres" {
   target_repository = "${var.target_repository}/postgres"
 }
 
+module "powershell" {
+  source            = "./images/powershell"
+  target_repository = "${var.target_repository}/powershell"
+}
+
 module "prometheus" {
   source            = "./images/prometheus"
   target_repository = "${var.target_repository}/prometheus"
