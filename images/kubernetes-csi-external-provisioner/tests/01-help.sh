@@ -2,11 +2,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-if [[ "${IMAGE_NAME}" == "" ]]; then
-    echo "Must set IMAGE_NAME environment variable. Exiting."
-    exit 1
-fi
-
 set +o pipefail
 
 # The log should show an error because we're not in a k8s cluster, but the container should get to this point

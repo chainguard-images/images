@@ -4,11 +4,6 @@
 
 set -o errexit -o errtrace -o pipefail -x
 
-if [[ "${IMAGE_NAME}" == "" ]]; then
-    echo "Must set IMAGE_NAME environment variable. Exiting."
-    exit 1
-fi
-
 ONLY_TEST_LANG="${ONLY_TEST_LANG:-}"
 
 KIND_IP="$(docker ps | grep 'control-plane' | awk '{print $1}' | xargs docker inspect | jq -r '.[0].NetworkSettings.Networks["kind"].IPAddress')"
@@ -49,7 +44,7 @@ function pulumi_up {
     name="${2}"
     pulumi_docker_exec "${lang}" "${name}" "login file://."
     pulumi_docker_exec "${lang}" "${name}" "stack init --non-interactive --stack ${name}"
-    
+
     # Specifically in the case of nodejs, preinstall the depends to prevent mystery error in CI:
     #
     #   error: It looks like the Pulumi SDK has not been installed. Have you run npm install or yarn install?

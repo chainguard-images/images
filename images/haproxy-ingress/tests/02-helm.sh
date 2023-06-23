@@ -4,25 +4,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-function preflight() {
-  if [[ "${IMAGE_REGISTRY}" == "" ]]; then
-    echo "Must set IMAGE_REGISTRY environment variable. Exiting."
-    exit 1
-  fi
-
-  if [[ "${IMAGE_REPOSITORY}" == "" ]]; then
-    echo "Must set IMAGE_REPOSITORY environment variable. Exiting."
-    exit 1
-  fi
-
-  if [[ "${IMAGE_TAG}" == "" ]]; then
-    echo "Must set IMAGE_TAG environment variable. Exiting."
-    exit 1
-  fi
-}
-
-preflight
-
 function cleanup() {
     # Get the logs from haproxy-ingress before exiting
     kubectl describe pod --selector "app.kubernetes.io/name=haproxy-ingress"

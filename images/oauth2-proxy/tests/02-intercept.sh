@@ -3,11 +3,6 @@
 #set -o errexit -o nounset -o errtrace -o pipefail -x
 set -o errexit -o nounset -o errtrace -o pipefail
 
-if [[ "${IMAGE_NAME}" == "" ]]; then
-    echo "Must set IMAGE_NAME environment variable. Exiting."
-    exit 1
-fi
-
 # A complete e2e test would need GitHub (or other provider) account, trusted domain, and  oauth app.
 # This is a heavy setup lift (and IMO shouldn't be in the scope of one single test anyway) so here
 # I am testing only that the proxy does in fact intercept a call to a specified endpoint to demand

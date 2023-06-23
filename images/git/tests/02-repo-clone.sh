@@ -2,11 +2,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-if [[ "${IMAGE_NAME}" == "" ]]; then
-    echo "Must set IMAGE_NAME environment variable. Exiting."
-    exit 1
-fi
-
 CLONE_URL=${CLONE_URL:-"https://github.com/chainguard-images/.github.git"}
 
 CLONEDIR="$(mktemp -d)"

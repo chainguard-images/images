@@ -4,11 +4,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-if [[ "${IMAGE_NAME}" == "" ]]; then
-    echo "Must set IMAGE_NAME environment variable. Exiting."
-    exit 1
-fi
-
 helm repo add weaviate https://weaviate.github.io/weaviate-helm
 wget https://raw.githubusercontent.com/weaviate/weaviate-helm/v16.2.0/weaviate/values.yaml
 
