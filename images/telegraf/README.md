@@ -13,7 +13,7 @@
 ---
 <!--monopod:end-->
 
-Minimal image with Telegraf. **EXPERIMENTAL**
+Minimal image with Telegraf.
 
 ## Get It!
 
