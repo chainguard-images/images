@@ -1,21 +1,3 @@
-# Opt-out of the new terraform-based release
-terraform: false
-
-status: experimental
 versions:
   - apko:
       config: configs/latest.apko.yaml
-      extractTagsFrom:
-        package: nats-server
-      subvariants:
-        - suffix: -dev
-          options:
-            - dev
-            - nats-dev
-options:
-  nats-dev:
-    contents:
-      packages:
-        add:
-          - nats
-          - nsc
