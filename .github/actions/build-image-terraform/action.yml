@@ -35,14 +35,6 @@ runs:
         find "${{ github.workspace }}/packages" -print -exec touch \{} \;
         ls -al "${{ github.workspace }}/packages/"
 
-    - uses: actions/setup-go@v4
-      with:
-        go-version: '1.20'
-    - uses: chainguard-dev/actions/setup-registry@main
-      with:
-        port: 5000
-        disk: true
-
     - name: Setup Terrafrom
       uses: hashicorp/setup-terraform@v2
       with:
@@ -64,7 +56,7 @@ runs:
     - name: Terraform apply (apko publish)
       shell: bash
       env:
-        TF_VAR_target_repository: localhost:5000/testing
+        TF_VAR_target_repository: registry.local:5000/testing
         TF_VAR_target_tag: ${{ inputs.apkoTargetTag }}
         TF_VAR_tag_suffix: ${{ inputs.apkoTargetTagSuffix }}
       run: |
