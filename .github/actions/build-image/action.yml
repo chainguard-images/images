@@ -58,7 +58,6 @@ runs:
         package-append: ${{ inputs.apkoPackageAppend }}
         additional-tags: ${{ inputs.apkoAdditionalTags }}
         archs: x86_64 # To speed up CI, just build for x86_64
-        build-options: ${{ inputs.apkoBuildOptions }}
 
     - name: Smoke test
       id: smoketest

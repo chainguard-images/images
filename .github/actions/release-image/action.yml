@@ -121,7 +121,6 @@ runs:
         package-version-tag-stem: true
         package-version-tag-prefix: ${{ inputs.apkoPackageVersionTagPrefix }}
         stage_tags: apko.tags
-        build-options: ${{ inputs.apkoBuildOptions }}
         sbom-attest: true
         slsa-attest: ${{ inputs.slsaProvenanceCacheKey == '' }}
         generic-user: ${{ steps.cgrauth2.outputs.username }}
