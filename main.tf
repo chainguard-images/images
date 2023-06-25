@@ -14,10 +14,25 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
+variable "extra_repositories" {
+  type    = list(string)
+  default = []
+}
+
+variable "extra_keyring" {
+  type    = list(string)
+  default = []
+}
+
+variable "extra_packages" {
+  type    = list(string)
+  default = []
+}
+
 provider "apko" {
-  extra_repositories = ["https://packages.wolfi.dev/os"]
-  extra_keyring      = ["https://packages.wolfi.dev/os/wolfi-signing.rsa.pub"]
-  extra_packages     = ["wolfi-baselayout"]
+  extra_repositories = concat(["https://packages.wolfi.dev/os"], var.extra_repositories)
+  extra_keyring      = concat(["https://packages.wolfi.dev/os/wolfi-signing.rsa.pub"], var.extra_keyring)
+  extra_packages     = concat(["wolfi-baselayout"], var.extra_packages)
   default_archs      = ["x86_64", "aarch64"]
 }
 
