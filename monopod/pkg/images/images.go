@@ -27,7 +27,6 @@ type Image struct {
 	ApkoTargetTagSuffix         string `json:"apkoTargetTagSuffix"`
 	ApkoPackageVersionTag       string `json:"apkoPackageVersionTag"`
 	ApkoPackageVersionTagPrefix string `json:"apkoPackageVersionTagPrefix"`
-	ApkoBuildOptions            string `json:"apkoBuildOptions"`
 	ApkoPackageAppend           string `json:"apkoPackageAppend"`
 	TestCommandExe              string `json:"testCommandExe"`
 	TestCommandDir              string `json:"testCommandDir"`
@@ -165,7 +164,6 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 			apkoAdditionalTags := strings.Join(variant.Apko.Tags, ",")
 			apkoTargetTagSuffix := ""
 
-			apkoBuildOptions := strings.Join(iterator.Variant.Apko.Options, ",")
 			apkoPackageAppend := make([]string, 0, len(iterator.Variant.Apko.Options))
 			for _, opt := range iterator.Variant.Apko.Options {
 				// Look it up in the image's configuration first.
@@ -186,11 +184,6 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 			if subvariant.Suffix != "" {
 				apkoTargetTag = apkoTargetTag + subvariant.Suffix
 				apkoTargetTagSuffix = subvariant.Suffix
-				if apkoBuildOptions != "" {
-					apkoBuildOptions = strings.Join([]string{apkoBuildOptions, strings.Join(subvariant.Options, ",")}, ",")
-				} else {
-					apkoBuildOptions = strings.Join(subvariant.Options, ",")
-				}
 				for _, opt := range subvariant.Options {
 					// Look it up in the image's configuration first.
 					vp, ok := extraPackages(m, opt)
@@ -295,7 +288,6 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 				ApkoAdditionalTags:          apkoAdditionalTags,
 				ApkoPackageVersionTag:       variant.Apko.ExtractTagsFrom.Package,
 				ApkoPackageVersionTagPrefix: variant.Apko.ExtractTagsFrom.Prefix,
-				ApkoBuildOptions:            apkoBuildOptions,
 				ApkoPackageAppend:           strings.Join(apkoPackageAppend, ","),
 				TestCommandExe:              testCommandExe,
 				TestCommandDir:              testCommandDir,
