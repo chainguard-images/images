@@ -102,6 +102,11 @@ module "clang" {
   target_repository = "${var.target_repository}/clang"
 }
 
+module "cluster-autoscaler" {
+  source            = "./images/cluster-autoscaler"
+  target_repository = "${var.target_repository}/cluster-autoscaler"
+}
+
 module "consul" {
   source            = "./images/consul"
   target_repository = "${var.target_repository}/consul"
