@@ -327,6 +327,11 @@ module "mdbook" {
   target_repository = "${var.target_repository}/mdbook"
 }
 
+module "meilisearch" {
+  source            = "./images/meilisearch"
+  target_repository = "${var.target_repository}/meilisearch"
+}
+
 module "melange" {
   source            = "./images/melange"
   target_repository = "${var.target_repository}/melange"
