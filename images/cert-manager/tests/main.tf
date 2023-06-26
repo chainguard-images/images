@@ -1,7 +1,8 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci    = { source = "chainguard-dev/oci" }
+    helm   = { source = "hashicorp/helm" }
+    random = { source = "hashicorp/random" }
   }
 }
 
@@ -15,17 +16,15 @@ variable "digests" {
   })
 }
 
-variable "suffix" {
-  description = "Suffix to append to the helm release name."
-  default     = ""
+variable "skip_crds" {
+  description = "Used to deconflict between multiple installations within the same cluster."
+  default     = false
 }
 
-variable "skip_crds" {
-  default = false
-}
+resource "random_pet" "suffix" {}
 
 resource "helm_release" "cert-manager" {
-  name             = "cert-manager${var.suffix}"
+  name             = "cert-manager-${random_pet.suffix.id}"
   namespace        = "cert-manager"
   repository       = "https://charts.jetstack.io"
   chart            = "cert-manager"
