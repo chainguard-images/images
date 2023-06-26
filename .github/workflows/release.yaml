@@ -141,6 +141,11 @@ jobs:
           EXTRA_INPUT_SLSA_PROVENANCE_CACHE_KEY: ${{ needs.generate-slsa-provenance.outputs.slsa-provenance-cache-key }}
           EXTRA_INPUT_APKO_REPOSITORY_APPEND: ${{ steps.determine-appends.outputs.repository-append }}
           EXTRA_INPUT_APKO_KEYRING_APPEND: ${{ steps.determine-appends.outputs.keyring-append }}
+
+      - uses: chainguard-dev/actions/setup-kind@main
+        with:
+          k8s-version: v1.24.x
+          registry-authority: registry.local:5000
       - uses: ./.github/actions/release-image-terraform
         if: ${{ matrix.useTerraform }}
         with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
@@ -191,6 +196,11 @@ jobs:
           EXTRA_INPUT_SLSA_PROVENANCE_CACHE_KEY: ${{ needs.generate-slsa-provenance.outputs.slsa-provenance-cache-key }}
           EXTRA_INPUT_APKO_REPOSITORY_APPEND: ${{ steps.determine-appends.outputs.repository-append }}
           EXTRA_INPUT_APKO_KEYRING_APPEND: ${{ steps.determine-appends.outputs.keyring-append }}
+
+      - uses: chainguard-dev/actions/setup-kind@main
+        with:
+          k8s-version: v1.24.x
+          registry-authority: registry.local:5000
       - uses: ./.github/actions/release-image-terraform
         if: ${{ matrix.useTerraform }}
         with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
