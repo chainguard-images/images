@@ -129,12 +129,13 @@ TEST_basic_docker_logging_multiple() {
     echo_to_fluentd "${echo_string}"
 
     # Sleep to let fluentd pick up the log
-    sleep 10
+    # sleep 10
 
     # Check if string shows up in fluentd logs
     local found=$(docker logs "${container_id}" | grep ".*\"log\":\"${echo_string}\".*" | wc -l)
     if [ "${found}" -eq "0" ]; then
-      docker logs "${container_id}"
+      docker logs "${container_id}" 2>/dev/null | tail -n 2
+      docker ps
       echo "Failed on ${echo_string}"
       exit 1;
     fi
