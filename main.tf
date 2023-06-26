@@ -1,12 +1,6 @@
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
-    oci = {
-      source  = "chainguard-dev/oci"
-      version = "0.0.5"
-    }
-    helm   = { source = "hashicorp/helm" }
-    cosign = { source = "chainguard-dev/cosign" }
   }
 }
 
