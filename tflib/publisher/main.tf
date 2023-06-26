@@ -8,6 +8,10 @@ terraform {
       source  = "chainguard-dev/apko"
       version = "0.8.10"
     }
+    oci = {
+      source  = "chainguard-dev/oci"
+      version = "0.0.5"
+    }
   }
 }
 
@@ -29,8 +33,13 @@ module "this" {
   extra_packages    = var.extra_packages
 }
 
+data "oci_exec_test" "check-reproducibility" {
+  digest = module.this.image_ref
+  script = "${path.module}/check-reproducibility.sh"
+}
+
 output "image_ref" {
-  value = module.this.image_ref
+  value = data.oci_exec_test.check-reproducibility.tested_ref
 }
 
 output "config" {
