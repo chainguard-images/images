@@ -492,6 +492,11 @@ module "skaffold" {
   target_repository = "${var.target_repository}/skaffold"
 }
 
+module "stakater-reloader" {
+  source            = "./images/stakater-reloader"
+  target_repository = "${var.target_repository}/stakater-reloader"
+}
+
 module "terraform" {
   source            = "./images/terraform"
   target_repository = "${var.target_repository}/terraform"
