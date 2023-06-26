@@ -6,7 +6,7 @@ terraform {
     }
     apko = {
       source  = "chainguard-dev/apko"
-      version = "0.8.9"
+      version = "0.8.10"
     }
   }
 }
