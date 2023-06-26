@@ -9,6 +9,7 @@ contents:
     - bazel-6
     - zip
     - file
+    - openssh-client
 
 accounts:
   groups:
