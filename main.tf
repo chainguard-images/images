@@ -77,6 +77,11 @@ module "aws-efs-csi-driver" {
   target_repository = "${var.target_repository}/aws-efs-csi-driver"
 }
 
+module "aws-load-balancer-controller" {
+  source            = "./images/aws-load-balancer-controller"
+  target_repository = "${var.target_repository}/aws-load-balancer-controller"
+}
+
 module "bash" {
   source            = "./images/bash"
   target_repository = "${var.target_repository}/bash"
