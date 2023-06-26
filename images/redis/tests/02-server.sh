@@ -2,7 +2,7 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-CONTAINER_NAME=${CONTAINER_NAME:-"redis-smoketest-$(date +%s)"}
+CONTAINER_NAME=${CONTAINER_NAME:-"redis-smoketest-${FREE_PORT}"}
 
 # Run two containers on the same network (just use host for simplicity)
 # The server should start up and listen, and the client will run ping
