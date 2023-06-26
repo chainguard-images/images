@@ -1,6 +1,6 @@
 contents:
   packages:
-    - kyverno-cli
+    - kyverno
     - kubectl
 
 accounts:
@@ -14,11 +14,11 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command: /usr/bin/kubectl-kyverno
+  command: /usr/bin/kyverno
 
 cmd: help
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/kyverno-cli/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/kyverno-cli
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/kyverno/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/kyverno

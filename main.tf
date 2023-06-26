@@ -307,9 +307,9 @@ module "kubernetes-ingress-defaultbackend" {
   target_repository = "${var.target_repository}/kubernetes-ingress-defaultbackend"
 }
 
-module "kyverno-cli" {
-  source            = "./images/kyverno-cli"
-  target_repository = "${var.target_repository}/kyverno-cli"
+module "kyverno" {
+  source            = "./images/kyverno"
+  target_repository = "${var.target_repository}/kyverno"
 }
 
 module "mariadb" {
