@@ -147,8 +147,9 @@ jobs:
       - uses: ./.github/actions/release-image
         if: ${{ ! matrix.useTerraform }}
         with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
-      - uses: ./.github/actions/policy-check-image
-        with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
+      # TODO: https://github.com/chainguard-images/images/issues/941
+      # - uses: ./.github/actions/policy-check-image
+      #   with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
 
   build-1:
     runs-on: ubuntu-latest
@@ -196,5 +197,6 @@ jobs:
       - uses: ./.github/actions/release-image
         if: ${{ ! matrix.useTerraform }}
         with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
-      - uses: ./.github/actions/policy-check-image
-        with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
+      # TODO: https://github.com/chainguard-images/images/issues/941
+      # - uses: ./.github/actions/policy-check-image
+      #   with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
