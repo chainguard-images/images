@@ -1,0 +1,29 @@
+contents:
+  packages:
+    - flux-image-automation-controller
+      
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+      
+entrypoint:
+  command: /usr/bin/image-automation-controller
+    
+paths:
+  - path: /data
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+    recursive: true
+  
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/flux-image-automation-controller/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/flux-image-automation-controller

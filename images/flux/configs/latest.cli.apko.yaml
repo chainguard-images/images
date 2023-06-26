@@ -2,6 +2,7 @@ contents:
   packages:
     - busybox
     - flux
+    - flux-compat
 
 accounts:
   groups:

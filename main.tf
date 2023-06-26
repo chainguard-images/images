@@ -242,11 +242,6 @@ module "helm-chartmuseum" {
   target_repository = "${var.target_repository}/helm-chartmuseum"
 }
 
-module "helm-controller" {
-  source            = "./images/helm-controller"
-  target_repository = "${var.target_repository}/helm-controller"
-}
-
 module "hugo" {
   source            = "./images/hugo"
   target_repository = "${var.target_repository}/hugo"
