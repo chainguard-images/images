@@ -66,6 +66,10 @@ runs:
         terraform_version: '1.3.*'
         terraform_wrapper: false
 
+    # Make cosign/crane CLI available to the tests
+    - uses: sigstore/cosign-installer@v3.1.0
+    - uses: imjasonh/setup-crane@v0.3
+
     - shell: bash
       run: |
         # Turn comma-delimited list into JSON-style list.
