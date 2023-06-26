@@ -111,7 +111,7 @@ module "cert-manager" {
   source            = "./images/cert-manager"
   target_repository = "${var.target_repository}/cert-manager"
 }
-  
+
 module "cluster-autoscaler" {
   source            = "./images/cluster-autoscaler"
   target_repository = "${var.target_repository}/cluster-autoscaler"
