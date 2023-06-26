@@ -129,7 +129,7 @@ TEST_basic_docker_logging_multiple() {
     echo_to_fluentd "${echo_string}"
 
     # Sleep to let fluentd pick up the log
-    sleep 2
+    sleep 10
 
     # Check if string shows up in fluentd logs
     local found=$(docker logs "${container_id}" | grep ".*\"log\":\"${echo_string}\".*" | wc -l)
