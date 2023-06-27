@@ -4,7 +4,7 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 
 PORT=5556
 
-URL="http://127.0.0.1:${PORT}"
+URL="http://127.0.0.1:${FREE_PORT}"
 docker run --rm -d -p ${FREE_PORT}:$PORT "${IMAGE_NAME}" dex serve /etc/dex/config.docker.yaml
 
 MAX_ATTEMPTS=20 # Maximum number of attempts to check the health check endpoint
