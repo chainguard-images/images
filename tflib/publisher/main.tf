@@ -36,6 +36,11 @@ module "this" {
 data "oci_exec_test" "check-reproducibility" {
   digest = module.this.image_ref
   script = "${path.module}/check-reproducibility.sh"
+
+  # TODO(jonjohnson): Make this faster!
+  # Currently some builds (e.g. golang) take more than the
+  # default 5m, so give them 10m
+  timeout_seconds = 600
 }
 
 output "image_ref" {
