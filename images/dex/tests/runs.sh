@@ -26,4 +26,4 @@ done
 
 echo "Health check endpoint is available!"
 
-curl -L "$URL/dex/.well-known/openid-configuration" | jq '.issuer' | grep "$URL/dex"
+curl -L "$URL/dex/.well-known/openid-configuration" | jq '.issuer' | grep ":$PORT/dex"
