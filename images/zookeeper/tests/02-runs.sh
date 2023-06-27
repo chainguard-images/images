@@ -2,7 +2,7 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-CONTAINER_NAME=${CONTAINER_NAME:-"zookeeper-status-$(date +%s)"}
+CONTAINER_NAME=${CONTAINER_NAME:-"zookeeper-status-${FREE_PORT}"}
 docker run -d --rm --name ${CONTAINER_NAME} "${IMAGE_NAME}"
 
 # Wait for zookeeper to start

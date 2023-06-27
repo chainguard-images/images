@@ -2,7 +2,7 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-CONTAINER_NAME=${CONTAINER_NAME:-"postgres-$(date +%s)"}
+CONTAINER_NAME=${CONTAINER_NAME:-"postgres-${FREE_PORT}"}
 
 docker run --network=host -e POSTGRES_PASSWORD=password -d --name $CONTAINER_NAME $IMAGE_NAME
 trap "docker logs $CONTAINER_NAME && docker rm -f $CONTAINER_NAME" EXIT
