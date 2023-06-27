@@ -540,14 +540,9 @@ module "vela-cli" {
   target_repository = "${var.target_repository}/vela-cli"
 }
 
-module "vertical-pod-autoscaler-recommender" {
-  source            = "./images/vertical-pod-autoscaler-recommender"
-  target_repository = "${var.target_repository}/vertical-pod-autoscaler-recommender"
-}
-
-module "vertical-pod-autoscaler-updater" {
-  source            = "./images/vertical-pod-autoscaler-updater"
-  target_repository = "${var.target_repository}/vertical-pod-autoscaler-updater"
+module "vertical-pod-autoscaler" {
+  source            = "./images/vertical-pod-autoscaler"
+  target_repository = "${var.target_repository}/vertical-pod-autoscaler"
 }
 
 module "vt" {
