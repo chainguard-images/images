@@ -5,7 +5,7 @@ terraform {
 }
 
 locals {
-  components = toset(["acmesolver", "controller", "cainjector", "webhook"])
+  components = toset(["acmesolver", "controller", "cainjector", "webhook", "trust-manager"])
 }
 
 variable "target_repository" {
@@ -38,7 +38,7 @@ module "version-tags" {
   for_each = local.components
   source   = "../../tflib/version-tags"
 
-  package = "cert-manager-${each.key}"
+  package = (each.key == "trust-manager" ? "trust-manager" : "cert-manager-${each.key}")
   config  = module.latest[each.key].config
 }
 

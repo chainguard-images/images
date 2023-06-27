@@ -9,10 +9,11 @@ terraform {
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
-    acmesolver = string
-    cainjector = string
-    controller = string
-    webhook    = string
+    acmesolver    = string
+    cainjector    = string
+    controller    = string
+    webhook       = string
+    trust-manager = string
   })
 }
 
@@ -73,5 +74,28 @@ resource "helm_release" "cert-manager" {
   set {
     name  = "webhook.image.tag"
     value = "unused@${element(split("@", var.digests["webhook"]), 1)}"
+  }
+}
+
+resource "helm_release" "trust-manager" {
+  depends_on = [helm_release.cert-manager]
+
+  name             = "trust-manager-${random_pet.suffix.id}"
+  namespace        = "cert-manager"
+  repository       = "https://charts.jetstack.io"
+  chart            = "trust-manager"
+  create_namespace = true
+
+  set {
+    name  = "installCRDs"
+    value = "false"
+  }
+  set {
+    name  = "image.repository"
+    value = element(split("@", var.digests["trust-manager"]), 0)
+  }
+  set {
+    name  = "image.tag"
+    value = "unused@${element(split("@", var.digests["trust-manager"]), 1)}"
   }
 }
