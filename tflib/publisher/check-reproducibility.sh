@@ -21,7 +21,8 @@ fi
 # once we cut a release to make this listen on more than loopback.
 # Note: we expose the port here (even unused) to "claim" the port and
 # avoid naming collisions.
-docker run -d -p ${FREE_PORT}:5000 --name "registry-${FREE_PORT}.local" registry:2
+container_name="registry-${RANDOM}.local"
+docker run -d -p ${FREE_PORT}:5000 --name "${container_name}" registry:2
 
 trap "docker rm -f registry-${FREE_PORT}.local" EXIT
 
@@ -47,10 +48,10 @@ else
   cat "${TMP}" | jq -c .
 
   echo Config diff:
-  diff <(crane config ${IMAGE_NAME} | jq) <(docker run --rm --link "registry-${FREE_PORT}.local" cgr.dev/chainguard/crane config ${REBUILT_IMAGE_NAME} | jq) || true
+  diff <(crane config ${IMAGE_NAME} | jq) <(docker run --rm --link "${container_name}" cgr.dev/chainguard/crane config ${REBUILT_IMAGE_NAME} | jq) || true
 
   echo Filesystem diff:
-  diff -w <(crane export ${IMAGE_NAME} - | tar -tvf - | sort) <(docker run --rm --link "registry-${FREE_PORT}.local" cgr.dev/chainguard/crane export ${REBUILT_IMAGE_NAME} - | tar -tvf - | sort) || true
+  diff -w <(crane export ${IMAGE_NAME} - | tar -tvf - | sort) <(docker run --rm --link "${container_name}" cgr.dev/chainguard/crane export ${REBUILT_IMAGE_NAME} - | tar -tvf - | sort) || true
 
   exit 1
 fi
