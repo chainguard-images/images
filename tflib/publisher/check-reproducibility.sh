@@ -24,15 +24,15 @@ fi
 container_name="registry-${RANDOM}.local"
 docker run -d -p ${FREE_PORT}:5000 --name "${container_name}" registry:2
 
-trap "docker rm -f registry-${FREE_PORT}.local" EXIT
+trap "docker rm -f ${container_name}" EXIT
 
 # Update this with the latest APKO once it is rebuilt.
 REBUILT_IMAGE_NAME=$(docker run --rm \
-   --link "registry-${FREE_PORT}.local" \
+   --link "${container_name}" \
    -v "${TMP}:/tmp/latest.apko.json" \
    -v ${PWD}:/work:ro -w /work \
    ghcr.io/wolfi-dev/apko:latest@sha256:4f747c533aa5b2bad01c64ec12e73a9c933510c2918d3c40a0e85b113e014ac3 \
-   publish /tmp/latest.apko.json registry-${FREE_PORT}.local:5000/reproduction
+   publish /tmp/latest.apko.json ${container_name}:5000/reproduction
 )
 
 ORIGINAL_DIGEST=$(echo "${IMAGE_NAME}" | cut -d'@' -f 2)
