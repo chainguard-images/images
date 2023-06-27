@@ -30,7 +30,7 @@ trap "docker rm -f ${container_name}" EXIT
 REBUILT_IMAGE_NAME=$(docker run --rm \
    --link "${container_name}" \
    -v "${TMP}:/tmp/latest.apko.json" \
-   -v ${PWD}:/work:ro -w /work \
+   -v ${PWD}:${PWD}:ro -w ${PWD} \
    ghcr.io/wolfi-dev/apko:latest@sha256:4f747c533aa5b2bad01c64ec12e73a9c933510c2918d3c40a0e85b113e014ac3 \
    publish /tmp/latest.apko.json ${container_name}:5000/reproduction
 )
