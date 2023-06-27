@@ -10,6 +10,7 @@ contents:
     - zip
     - file
     - openssh-client
+    - build-base
 
 accounts:
   groups:
