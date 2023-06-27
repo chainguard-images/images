@@ -6,12 +6,6 @@ terraform {
   }
 }
 
-provider "helm" {
-  kubernetes {
-    config_path = "~/.kube/config"
-  }
-}
-
 variable "digest" {
   description = "The image digest to run tests over."
 }
