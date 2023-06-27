@@ -1,13 +1,5 @@
-# Opt-out of the new terraform-based release
-terraform: false
-
 versions:
   - apko:
-      config: configs/latest.apko.yaml
-      extractTagsFrom:
-        package: busybox
+      config: configs/latest.alpine.apko.yaml
   - apko:
       config: configs/latest-glibc.apko.yaml
-      extractTagsFrom:
-        package: busybox
-        prefix: glibc-

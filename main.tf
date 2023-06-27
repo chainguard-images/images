@@ -30,6 +30,14 @@ provider "apko" {
   default_archs      = ["x86_64", "aarch64"]
 }
 
+provider "apko" {
+  alias = "alpine"
+
+  default_archs      = [] # this defaults to "all"
+  extra_repositories = ["https://dl-cdn.alpinelinux.org/alpine/edge/main"]
+  extra_packages     = ["ca-certificates-bundle"]
+}
+
 provider "helm" {
   kubernetes {
     config_path = "~/.kube/config"
@@ -89,6 +97,14 @@ module "bazel" {
 module "buck2" {
   source            = "./images/buck2"
   target_repository = "${var.target_repository}/buck2"
+}
+
+module "busybox" {
+  source            = "./images/busybox"
+  target_repository = "${var.target_repository}/busybox"
+  providers = {
+    apko.alpine = apko.alpine
+  }
 }
 
 module "cc-dynamic" {
