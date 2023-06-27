@@ -2,7 +2,7 @@
 # dex
 | | |
 | - | - |
-| **Status** | experimental |
+| **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/dex` |
 
 

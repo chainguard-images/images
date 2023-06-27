@@ -152,6 +152,11 @@ module "deno" {
   target_repository = "${var.target_repository}/deno"
 }
 
+module "dex" {
+  source            = "./images/dex"
+  target_repository = "${var.target_repository}/dex"
+}
+
 module "dive" {
   source            = "./images/dive"
   target_repository = "${var.target_repository}/dive"
