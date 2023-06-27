@@ -507,6 +507,14 @@ module "stakater-reloader" {
   target_repository = "${var.target_repository}/stakater-reloader"
 }
 
+module "static" {
+  source            = "./images/static"
+  target_repository = "${var.target_repository}/static"
+  providers = {
+    apko.alpine = apko.alpine
+  }
+}
+
 module "terraform" {
   source            = "./images/terraform"
   target_repository = "${var.target_repository}/terraform"
