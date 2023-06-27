@@ -33,9 +33,10 @@ provider "apko" {
 provider "apko" {
   alias = "alpine"
 
-  default_archs      = [] # this defaults to "all"
   extra_repositories = ["https://dl-cdn.alpinelinux.org/alpine/edge/main"]
-  extra_packages     = ["ca-certificates-bundle"]
+  # These packages match chainguard-images/static
+  extra_packages = ["alpine-baselayout-data", "alpine-release", "ca-certificates-bundle"]
+  default_archs  = [] # defaults to all
 }
 
 provider "helm" {
@@ -235,6 +236,14 @@ module "gcc-glibc" {
 module "glibc-dynamic" {
   source            = "./images/glibc-dynamic"
   target_repository = "${var.target_repository}/glibc-dynamic"
+}
+
+module "git" {
+  source            = "./images/git"
+  target_repository = "${var.target_repository}/git"
+  providers = {
+    apko.alpine = apko.alpine
+  }
 }
 
 module "go" {

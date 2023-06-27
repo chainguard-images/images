@@ -1,14 +1,11 @@
+#nolint:tf-minimal
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   repositories:
-    - https://packages.wolfi.dev/os
+    - https://dl-cdn.alpinelinux.org/alpine/edge/community
   packages:
-    - ca-certificates-bundle
     - git
     - git-lfs
     - openssh-client
-    - wolfi-baselayout
 
 entrypoint:
   command: /usr/bin/git
@@ -23,10 +20,6 @@ accounts:
     - username: git
       uid: 65532
       gid: 65532
-
-archs:
-- x86_64
-- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
