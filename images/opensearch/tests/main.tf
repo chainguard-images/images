@@ -10,10 +10,10 @@ variable "digest" {
 
 data "oci_exec_test" "version" {
   digest = var.digest
-  script = "${path.module}/01-version.sh"
+  script = "docker run --rm --entrypoint=/usr/bin/opensearch $${IMAGE_NAME} --version"
 }
 
-data "oci_exec_test" "server" {
+data "oci_exec_test" "run" {
   digest = var.digest
-  script = "${path.module}/02-server.sh"
+  script = "${path.module}/run.sh"
 }
