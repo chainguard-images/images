@@ -252,6 +252,11 @@ module "http-echo" {
   target_repository = "${var.target_repository}/http-echo"
 }
 
+module "influxdb" {
+  source            = "./images/influxdb"
+  target_repository = "${var.target_repository}/influxdb"
+}
+
 module "jdk" {
   source            = "./images/jdk"
   target_repository = "${var.target_repository}/jdk"
