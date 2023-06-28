@@ -197,6 +197,11 @@ module "flux" {
   target_repository = "${var.target_repository}/flux"
 }
 
+module "gatekeeper" {
+  source            = "./images/gatekeeper"
+  target_repository = "${var.target_repository}/gatekeeper"
+}
+
 module "gcc-glibc" {
   source            = "./images/gcc-glibc"
   target_repository = "${var.target_repository}/gcc-glibc"
