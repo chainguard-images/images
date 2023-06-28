@@ -22,6 +22,7 @@ module "latest-dev" {
 
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.apko.yaml")
+  extra_packages    = module.dev.extra_packages
 }
 
 module "version-tags" {
