@@ -372,6 +372,11 @@ module "metrics-server" {
   target_repository = "${var.target_repository}/metrics-server"
 }
 
+module "metacontroller" {
+  source            = "./images/metacontroller"
+  target_repository = "${var.target_repository}/metacontroller"
+}
+
 module "minio" {
   source            = "./images/minio"
   target_repository = "${var.target_repository}/minio"

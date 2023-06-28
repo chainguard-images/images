@@ -4,39 +4,11 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-function preflight() {
-  if [[ "${IMAGE_REGISTRY}" == "" ]]; then
-    echo "Must set IMAGE_REGISTRY environment variable. Exiting."
-    exit 1
-  fi
-
-  if [[ "${IMAGE_REPOSITORY}" == "" ]]; then
-    echo "Must set IMAGE_REPOSITORY environment variable. Exiting."
-    exit 1
-  fi
-
-  if [[ "${IMAGE_TAG}" == "" ]]; then
-    echo "Must set IMAGE_TAG environment variable. Exiting."
-    exit 1
-  fi
-}
-
-preflight
-
-function cleanup() {
-    # Get the logs from metacontroller before exiting
-    kubectl describe pod --selector  app.kubernetes.io/instance=my-metacontroller-helm
-    kubectl logs --selector  app.kubernetes.io/instance=my-metacontroller-helm
-}
-
-trap cleanup EXIT
-
 export HELM_EXPERIMENTAL_OCI=1
 helm install my-metacontroller-helm oci://ghcr.io/metacontroller/metacontroller-helm --version v4.10.3  \
     --set image.repository="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}" \
     --set image.tag="${IMAGE_TAG}" \
     --set image.pullPolicy=IfNotPresent
-
 
 kubectl create namespace hello
 
@@ -182,8 +154,8 @@ spec:
   - port: 80
 EOF
 
-
 kubectl -n hello apply -f webhook.yaml
+kubectl rollout status deployment hello-controller -n hello --timeout=90s
 
 cat <<EOF > hello.yaml
 apiVersion: example.com/v1
@@ -195,13 +167,7 @@ spec:
 EOF
 
 kubectl -n hello apply -f hello.yaml
-
-# Sleep the hello controller kicks in
 sleep 30
-
 kubectl get pods chainguard --output=jsonpath='{.status.phase}' -n hello | grep "Succeeded"
-
 sleep 5
-
 kubectl logs pod/chainguard -n hello |  grep "chainguard"
-
