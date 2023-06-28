@@ -4,27 +4,7 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-function preflight() {
-	if [[ "${IMAGE_REGISTRY}" == "" ]]; then
-		echo "Must set IMAGE_REGISTRY environment variable. Exiting."
-		exit 1
-	fi
-
-	if [[ "${IMAGE_REPOSITORY}" == "" ]]; then
-		echo "Must set IMAGE_REPOSITORY environment variable. Exiting."
-		exit 1
-	fi
-
-	if [[ "${IMAGE_TAG}" == "" ]]; then
-		echo "Must set IMAGE_TAG environment variable. Exiting."
-		exit 1
-	fi
-}
-
-preflight
-
 helm repo add nvdp https://nvidia.github.io/k8s-device-plugin
-
 helm upgrade --install nvdp nvdp/nvidia-device-plugin \
   --namespace nvidia-device-plugin \
   --create-namespace \
@@ -36,10 +16,10 @@ helm upgrade --install nvdp nvdp/nvidia-device-plugin \
 # for the Pod to be CrashLoopBackOff and then ensure some of the expected
 # output is present in the logs.
 
-kubectl wait --for=jsonpath='{.status.containerStatuses[0].state.waiting.reason}'=CrashLoopBackOff pod --selector app.kubernetes.io/name=nvidia-device-plugin --namespace nvidia-device-plugin
+kubectl wait --for=jsonpath='{.status.containerStatuses[0].state.waiting.reason}'=CrashLoopBackOff pod --selector app.kubernetes.io/name=nvidia-device-plugin -n nvidia-device-plugin
 
 POD=$(kubectl get pod -l app.kubernetes.io/name=nvidia-device-plugin -n nvidia-device-plugin -ojsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}'); echo $POD
-LOGS=$(kubectl logs "$POD" --namespace nvidia-device-plugin)
+LOGS=$(kubectl logs "$POD" -n nvidia-device-plugin)
 
 echo "${LOGS}" | grep "Starting FS watcher"
 echo "${LOGS}" | grep "Starting OS watcher"
