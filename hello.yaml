@@ -1,0 +1,6 @@
+apiVersion: example.com/v1
+kind: HelloWorld
+metadata:
+  name: chainguard
+spec:
+  who: chainguard
