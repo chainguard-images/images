@@ -1,9 +1,0 @@
-# Opt-out of the new terraform-based release
-terraform: false
-
-status: experimental
-versions:
-  - apko:
-      config: configs/latest.apko.yaml
-      extractTagsFrom:
-        package: vertical-pod-autoscaler

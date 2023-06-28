@@ -5,7 +5,7 @@ terraform {
 }
 
 locals {
-  components = toset(["acmesolver", "controller", "cainjector", "webhook"])
+  components = toset(["admission-controller", "recommender", "updater"])
 }
 
 variable "target_repository" {
@@ -30,14 +30,14 @@ module "latest-dev" {
 
   target_repository = "${var.target_repository}-${each.key}"
   config            = jsonencode(module.latest[each.key].config)
-  extra_packages    = concat(module.dev.extra_packages, ["cmctl"])
+  extra_packages    = module.dev.extra_packages
 }
 
 module "version-tags" {
   for_each = local.components
   source   = "../../tflib/version-tags"
 
-  package = "cert-manager-${each.key}"
+  package = (each.key == "admission-controller" ? "vertical-pod-autoscaler" : "vertical-pod-autoscaler-${each.key}")
   config  = module.latest[each.key].config
 }
 
