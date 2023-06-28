@@ -21,8 +21,7 @@ module "latest" {
 }
 
 module "dev" {
-  for_each = local.components
-  source   = "../../tflib/dev-subvariant"
+  source = "../../tflib/dev-subvariant"
 }
 
 module "latest-dev" {
@@ -31,7 +30,7 @@ module "latest-dev" {
 
   target_repository = "${var.target_repository}-${each.key}"
   config            = jsonencode(module.latest[each.key].config)
-  extra_packages    = concat(module.dev[each.key].extra_packages, ["cmctl"])
+  extra_packages    = concat(module.dev.extra_packages, ["cmctl"])
 }
 
 module "version-tags" {
