@@ -17,7 +17,7 @@ jobs:
       - run: terraform fmt -check -recursive -diff
 
       - id: files
-        uses: tj-actions/changed-files@e1754a427f478b8778d349341b8f1d80f1f47f44 # v36.4.0
+        uses: tj-actions/changed-files@bb3376162b179308a79fc4450262a15a8e1d6888 # v37.0.4
         with:
           separator: ','
       - id: generate-matrix-0
