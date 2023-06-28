@@ -392,6 +392,11 @@ module "ntpd-rs" {
   target_repository = "${var.target_repository}/ntpd-rs"
 }
 
+module "nvidia-device-plugin" {
+  source            = "./images/nvidia-device-plugin"
+  target_repository = "${var.target_repository}/nvidia-device-plugin"
+}
+
 module "oauth2-proxy" {
   source            = "./images/oauth2-proxy"
   target_repository = "${var.target_repository}/oauth2-proxy"

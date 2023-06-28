@@ -1,11 +1,5 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
-    - ca-certificates-bundle
-    - wolfi-baselayout
     - nvidia-device-plugin
 
 accounts:
@@ -20,10 +14,6 @@ accounts:
 
 entrypoint:
   command: /usr/bin/nvidia-device-plugin
-
-archs:
-- x86_64
-- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
