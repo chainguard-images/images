@@ -535,6 +535,11 @@ module "thanos" {
   target_repository = "${var.target_repository}/thanos"
 }
 
+module "tigera-operator" {
+  source            = "./images/tigera-operator"
+  target_repository = "${var.target_repository}/tigera-operator"
+}
+
 module "traefik" {
   source            = "./images/traefik"
   target_repository = "${var.target_repository}/traefik"
