@@ -498,6 +498,13 @@ module "netcat" {
   target_repository = "${var.target_repository}/netcat"
 }
 
+variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
+module "newrelic" {
+  source            = "./images/newrelic"
+  target_repository = "${var.target_repository}/newrelic"
+  license_key       = var.newrelic_license_key
+}
+
 module "nginx" {
   source            = "./images/nginx"
   target_repository = "${var.target_repository}/nginx"

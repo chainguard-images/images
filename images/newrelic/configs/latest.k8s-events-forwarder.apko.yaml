@@ -1,11 +1,5 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
-    - ca-certificates-bundle
-    - wolfi-baselayout
     - bind-tools
     - tini
     - curl
@@ -30,10 +24,6 @@ environment:
   NRIA_OVERRIDE_HOST_ROOT: ""
   NRIA_IS_SECURE_FORWARD_ONLY: true
   NRIA_HTTP_SERVER_ENABLED: true
-
-archs:
-- x86_64
-- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"

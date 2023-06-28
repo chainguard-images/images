@@ -1,35 +1,26 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
-    - ca-certificates-bundle
     - busybox
-    - nri-kubernetes
-    - wolfi-baselayout
     - bind-tools
     - tini
+    - nri-kubernetes
 
 accounts:
+  # Match the GID/UID the upstream helm chart use
   groups:
     - groupname: nri-agent
-      gid: 65532
+      gid: 2000
   users:
     - username: nri
-      uid: 65532
-      gid: 65532
-  run-as: 65532
+      uid: 1000
+      gid: 2000
+  run-as: 1000
 
 entrypoint:
   command: /sbin/tini -- /usr/bin/nri-kubernetes
 
 environment:
   METADATA: true
-
-archs:
-- x86_64
-- aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
