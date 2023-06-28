@@ -102,6 +102,11 @@ module "busybox" {
   }
 }
 
+module "calico" {
+  source            = "./images/calico"
+  target_repository = "${var.target_repository}/calico"
+}
+
 module "cc-dynamic" {
   source            = "./images/cc-dynamic"
   target_repository = "${var.target_repository}/cc-dynamic"

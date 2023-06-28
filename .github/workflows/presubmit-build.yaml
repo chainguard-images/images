@@ -69,6 +69,7 @@ jobs:
         with:
           k8s-version: v1.24.x
           registry-authority: registry.local:5000
+          kind-worker-count: 2
 
       - uses: ./.github/actions/build-image-terraform
         if: ${{ matrix.useTerraform }}
