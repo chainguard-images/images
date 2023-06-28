@@ -1,11 +1,5 @@
 contents:
-  repositories:
-    - https://packages.wolfi.dev/os
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
-    - ca-certificates-bundle
-    - wolfi-baselayout
     - influxd
     - influx
     - influxd-oci-entrypoint
@@ -39,10 +33,6 @@ paths:
     uid: 1000
     gid: 1000
     permissions: 0o755
-
-archs:
-  - x86_64
-  - aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
