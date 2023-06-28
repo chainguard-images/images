@@ -18,7 +18,7 @@ resource "helm_release" "scraper" {
   repository = "https://kubernetes.github.io/dashboard/"
   chart      = "kubernetes-dashboard"
 
-  namespace        = "stakater-reloader-${random_pet.suffix.id}"
+  namespace        = "kubernetes-dashboard-${random_pet.suffix.id}"
   create_namespace = true
 
   # Split the digest ref into repository and digest. The helm chart expects a
