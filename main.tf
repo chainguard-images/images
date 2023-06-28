@@ -317,6 +317,11 @@ module "kubernetes-csi-node-driver-registrar" {
   target_repository = "${var.target_repository}/kubernetes-csi-node-driver-registrar"
 }
 
+module "kubernetes-dashboard-metrics-scraper" {
+  source            = "./images/kubernetes-dashboard-metrics-scraper"
+  target_repository = "${var.target_repository}/kubernetes-dashboard-metrics-scraper"
+}
+
 module "kubernetes-ingress-defaultbackend" {
   source            = "./images/kubernetes-ingress-defaultbackend"
   target_repository = "${var.target_repository}/kubernetes-ingress-defaultbackend"
