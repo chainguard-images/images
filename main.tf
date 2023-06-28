@@ -357,6 +357,11 @@ module "memcached-exporter" {
   target_repository = "${var.target_repository}/memcached-exporter"
 }
 
+module "metrics-server" {
+  source            = "./images/metrics-server"
+  target_repository = "${var.target_repository}/metrics-server"
+}
+
 module "minio" {
   source            = "./images/minio"
   target_repository = "${var.target_repository}/minio"
