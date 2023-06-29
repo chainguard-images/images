@@ -30,4 +30,4 @@ archs:
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/oidc-discovery-provider/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/oidc-discovery-provider
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/spire

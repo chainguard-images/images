@@ -5,7 +5,7 @@ terraform {
 }
 
 locals {
-  components = toset(["server", "agent"])
+  components = toset(["server", "agent", "oidc-discovery-provider"])
 }
 
 variable "target_repository" {
@@ -26,7 +26,7 @@ module "latest-dev" {
   for_each = local.components
   source   = "../../tflib/publisher"
 
-  target_repository = var.target_repository
+  target_repository = "${var.target_repository}-${each.key}"
   # Make the dev variant an explicit extension of the
   # locked original.
   config         = jsonencode(module.latest[each.key].config)
@@ -47,20 +47,11 @@ module "test-latest" {
   digests = { for k, v in module.latest : k => v.image_ref }
 }
 
-# NOTE: Helm chart hardcodes some resource names (like the bundle), multiple instances in the same cluster are not possible
-# module "test-latest-dev" {
-#   source = "./tests"
-#
-#   digest = module.latest-dev[each.key].image_ref
-# }
-
 module "tagger" {
   for_each = local.components
   source   = "../../tflib/tagger"
 
-  depends_on = [
-    module.test-latest,
-  ]
+  depends_on = [module.test-latest]
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : t => module.latest[each.key].image_ref },
