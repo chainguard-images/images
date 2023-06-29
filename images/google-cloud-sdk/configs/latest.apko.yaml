@@ -12,7 +12,7 @@ accounts:
   users:
     - username: gcloud
       uid: 65532
-  run-as: gcloud
+  run-as: 65532
   recursive: true
 
 cmd: /usr/bin/gcloud

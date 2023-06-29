@@ -12,7 +12,7 @@ accounts:
   users:
     - username: kafka
       uid: 65532
-  run-as: kafka
+  run-as: 65532
   recursive: true
 
 # While logging to disk isn't a best practice for containers, Kafka handles it's own rotation by default.

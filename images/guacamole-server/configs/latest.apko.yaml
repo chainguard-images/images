@@ -24,7 +24,7 @@ accounts:
   users:
     - username: guacd
       uid: 1000
-  run-as: guacd
+  run-as: 65532
   recursive: true
 
 archs:

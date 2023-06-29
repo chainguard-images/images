@@ -16,7 +16,7 @@ accounts:
   users:
     - username: vault
       uid: 65532
-  run-as: vault
+  run-as: 65532
   recursive: true
 
 entrypoint:

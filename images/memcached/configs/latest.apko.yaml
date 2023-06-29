@@ -9,7 +9,7 @@ accounts:
   users:
     - username: memcached
       uid: 65532
-  run-as: memcached
+  run-as: 65532
 
 entrypoint:
   command: memcached

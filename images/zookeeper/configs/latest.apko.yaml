@@ -14,7 +14,7 @@ accounts:
   users:
     - username: zookeeper
       uid: 65532
-  run-as: zookeeper
+  run-as: 65532
   recursive: true
 
 entrypoint:

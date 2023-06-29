@@ -9,7 +9,7 @@ accounts:
   users:
     - username: etcd
       uid: 65532
-  run-as: etcd
+  run-as: 65532
 
 paths:
   - path: /var/lib/etcd

@@ -12,7 +12,7 @@ accounts:
   users:
     - username: envoy
       uid: 65532
-  run-as: envoy
+  run-as: 65532
   recursive: true
 
 entrypoint:

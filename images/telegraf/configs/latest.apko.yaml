@@ -9,7 +9,7 @@ accounts:
   users:
     - username: telegraf
       uid: 65532
-  run-as: telegraf
+  run-as: 65532
   recursive: true
 
 entrypoint:

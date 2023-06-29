@@ -11,7 +11,7 @@ accounts:
   users:
     - username: opensearch
       uid: 65532
-  run-as: opensearch
+  run-as: 65532
   recursive: true
 
 environment:
