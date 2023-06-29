@@ -137,6 +137,11 @@ module "consul" {
   target_repository = "${var.target_repository}/consul"
 }
 
+module "coredns" {
+  source            = "./images/coredns"
+  target_repository = "${var.target_repository}/coredns"
+}
+
 module "cosign" {
   source            = "./images/cosign"
   target_repository = "${var.target_repository}/cosign"
