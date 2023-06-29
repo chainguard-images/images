@@ -1,0 +1,29 @@
+contents:
+  packages:
+    - meilisearch
+
+accounts:
+  groups:
+    - groupname: meilisearch
+      gid: 999
+  users:
+    - username: meilisearch
+      uid: 999
+  recursive: true
+  run-as: meilisearch
+
+entrypoint:
+  command: /usr/bin/meilisearch
+cmd: --help
+
+paths:
+  - path: /var/data.ms
+    type: directory
+    uid: 999
+    gid: 999
+    permissions: 0o755
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/meilisearch/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/meilisearch
