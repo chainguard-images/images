@@ -322,6 +322,11 @@ module "kube-bench" {
   target_repository = "${var.target_repository}/kube-bench"
 }
 
+module "kube-downscaler" {
+  source            = "./images/kube-downscaler"
+  target_repository = "${var.target_repository}/kube-downscaler"
+}
+
 module "kubectl" {
   source            = "./images/kubectl"
   target_repository = "${var.target_repository}/kubectl"
