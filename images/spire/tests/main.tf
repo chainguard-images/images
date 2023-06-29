@@ -51,9 +51,9 @@ resource "helm_release" "spire" {
         enabled = true
         config  = { acme = { tosAccepted = true } }
         image = {
-          registry   = data.oci_string.ref["server"].registry
-          repository = data.oci_string.ref["server"].repo
-          tag        = data.oci_string.ref["server"].pseudo_tag
+          registry   = data.oci_string.ref["oidc-discovery-provider"].registry
+          repository = data.oci_string.ref["oidc-discovery-provider"].repo
+          tag        = data.oci_string.ref["oidc-discovery-provider"].pseudo_tag
         }
       }
     }),
