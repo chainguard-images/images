@@ -15,6 +15,7 @@ jobs:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
 
       - run: terraform fmt -check -recursive -diff
+      - run: ./lint.sh
 
       - id: files
         uses: tj-actions/changed-files@e1754a427f478b8778d349341b8f1d80f1f47f44 # v36.4.0
