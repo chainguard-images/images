@@ -5,18 +5,7 @@
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 app_name="kube-bench"
-tmp="$(mktemp -d 'kube-bench-test-XXXXXX')"
-
-function cleanup() {
-    rm -rf "$tmp"
-
-    # Print debug logs and status
-    kubectl get pods
-    kubectl describe pods
-    kubectl logs -l app="${app_name}"
-}
-
-trap cleanup EXIT
+tmp="$(mktemp -d)"
 
 # Retrieve the upstream-recommended job.yaml
 job_file="$tmp/job.yaml"
