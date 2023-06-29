@@ -537,6 +537,11 @@ module "skaffold" {
   target_repository = "${var.target_repository}/skaffold"
 }
 
+module "spire" {
+  source            = "./images/spire"
+  target_repository = "${var.target_repository}/spire"
+}
+
 module "stakater-reloader" {
   source            = "./images/stakater-reloader"
   target_repository = "${var.target_repository}/stakater-reloader"
