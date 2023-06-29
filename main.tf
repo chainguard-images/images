@@ -292,6 +292,11 @@ module "k8sgpt" {
   target_repository = "${var.target_repository}/k8sgpt"
 }
 
+module "k8sgpt-operator" {
+  source            = "./images/k8sgpt-operator"
+  target_repository = "${var.target_repository}/k8sgpt-operator"
+}
+
 module "kafka" {
   source            = "./images/kafka"
   target_repository = "${var.target_repository}/kafka"
