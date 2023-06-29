@@ -342,6 +342,26 @@ module "kubectl" {
   target_repository = "${var.target_repository}/kubectl"
 }
 
+module "kubernetes-csi-external-attacher" {
+  source            = "./images/kubernetes-csi-external-attacher"
+  target_repository = "${var.target_repository}/kubernetes-csi-external-attacher"
+}
+
+module "kubernetes-csi-external-provisioner" {
+  source            = "./images/kubernetes-csi-external-provisioner"
+  target_repository = "${var.target_repository}/kubernetes-csi-external-provisioner"
+}
+
+module "kubernetes-csi-external-resizer" {
+  source            = "./images/kubernetes-csi-external-resizer"
+  target_repository = "${var.target_repository}/kubernetes-csi-external-resizer"
+}
+
+module "kubernetes-csi-external-snapshot-controller" {
+  source            = "./images/kubernetes-csi-external-snapshot-controller"
+  target_repository = "${var.target_repository}/kubernetes-csi-external-snapshot-controller"
+}
+
 module "kubernetes-csi-external-snapshot-validation-webhook" {
   source            = "./images/kubernetes-csi-external-snapshot-validation-webhook"
   target_repository = "${var.target_repository}/kubernetes-csi-external-snapshot-validation-webhook"
