@@ -337,6 +337,11 @@ module "kubernetes-ingress-defaultbackend" {
   target_repository = "${var.target_repository}/kubernetes-ingress-defaultbackend"
 }
 
+module "kubewatch" {
+  source            = "./images/kubewatch"
+  target_repository = "${var.target_repository}/kubewatch"
+}
+
 module "kyverno" {
   source            = "./images/kyverno"
   target_repository = "${var.target_repository}/kyverno"
