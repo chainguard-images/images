@@ -580,6 +580,11 @@ module "traefik" {
   target_repository = "${var.target_repository}/traefik"
 }
 
+module "vault" {
+  source            = "./images/vault"
+  target_repository = "${var.target_repository}/vault"
+}
+
 module "vela-cli" {
   source            = "./images/vela-cli"
   target_repository = "${var.target_repository}/vela-cli"
