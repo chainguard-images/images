@@ -1,13 +1,7 @@
 contents:
-    keyring:
-      - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-    repositories:
-      - https://packages.wolfi.dev/os
     packages:
-      - wolfi-baselayout
       - cluster-proportional-autoscaler
-      - ca-certificates-bundle
- 
+
 accounts:
   groups:
     - groupname: cluster-proportional-autoscaler
@@ -19,10 +13,6 @@ accounts:
 
 entrypoint:
   command: /usr/bin/cluster-proportional-autoscaler
-
-archs:
-  - x86_64
-  - aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
