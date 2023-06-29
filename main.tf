@@ -192,6 +192,11 @@ module "etcd" {
   target_repository = "${var.target_repository}/etcd"
 }
 
+module "external-secrets" {
+  source            = "./images/external-secrets"
+  target_repository = "${var.target_repository}/external-secrets"
+}
+
 module "ffmpeg" {
   source            = "./images/ffmpeg"
   target_repository = "${var.target_repository}/ffmpeg"

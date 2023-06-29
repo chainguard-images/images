@@ -1,47 +1,10 @@
 #!/usr/bin/env bash
 
-# monopod:tag:k8s
-
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-function preflight() {
-  if [[ "${IMAGE_REGISTRY}" == "" ]]; then
-    echo "Must set IMAGE_REGISTRY environment variable. Exiting."
-    exit 1
-  fi
+TMP=$(mktemp -d)
 
-  if [[ "${IMAGE_REPOSITORY}" == "" ]]; then
-    echo "Must set IMAGE_REPOSITORY environment variable. Exiting."
-    exit 1
-  fi
-
-  if [[ "${IMAGE_TAG}" == "" ]]; then
-    echo "Must set IMAGE_TAG environment variable. Exiting."
-    exit 1
-  fi
-}
-
-preflight
-
-function cleanup() {
-    # Get the logs external-secrets from before exiting
-    kubectl describe pod --selector app.kubernetes.io/instance=external-secrets -n external-secrets
-    kubectl logs --selector app.kubernetes.io/instance=external-secrets -n external-secrets
-}
-
-trap cleanup EXIT
-
-helm repo add external-secrets https://charts.external-secrets.io
-
-helm install external-secrets \
-   external-secrets/external-secrets \
-    -n external-secrets \
-    --set image.repository="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}" \
-    --set image.tag="${IMAGE_TAG}" \
-    --create-namespace \
-    --wait
-
-cat <<EOF > cluster-secret-store.yaml
+cat <<EOF > "${TMP}/cluster-secret-store.yaml"
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ClusterSecretStore
@@ -63,9 +26,9 @@ spec:
           other: thing
 EOF
 
-kubectl apply -f cluster-secret-store.yaml
+kubectl apply -f "${TMP}/cluster-secret-store.yaml"
 
-cat <<EOF > external-secret.yaml
+cat <<EOF > "${TMP}/external-secret.yaml"
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -88,7 +51,7 @@ spec:
       key: /foo/baz
 EOF
 
-kubectl apply -f external-secret.yaml
+kubectl apply -f "${TMP}/external-secret.yaml"
 
 sleep 5
 
