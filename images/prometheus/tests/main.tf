@@ -44,14 +44,14 @@ resource "helm_release" "kube-prometheus-stack" {
       prometheusOperator = {
         prometheusConfigReloader = {
           image = {
-            registry   = "",
-            repository = data.oci_string.ref["config-reloader"].registry_repo,
+            registry   = data.oci_string.ref["config-reloader"].registry,
+            repository = data.oci_string.ref["config-reloader"].repo,
             tag        = data.oci_string.ref["config-reloader"].pseudo_tag,
           }
         }
         image = {
-          registry   = "",
-          repository = data.oci_string.ref["operator"].registry_repo,
+          registry   = data.oci_string.ref["operator"].registry,
+          repository = data.oci_string.ref["operator"].repo,
           tag        = data.oci_string.ref["operator"].pseudo_tag,
         }
       }
