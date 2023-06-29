@@ -565,6 +565,11 @@ module "static" {
   }
 }
 
+module "telegraf" {
+  source            = "./images/telegraf"
+  target_repository = "${var.target_repository}/telegraf"
+}
+
 module "terraform" {
   source            = "./images/terraform"
   target_repository = "${var.target_repository}/terraform"
