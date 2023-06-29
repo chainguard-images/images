@@ -14,8 +14,10 @@ variable "digests" {
     config-reloader        = string
     elasticsearch-exporter = string
     mysqld-exporter        = string
+    node-exporter          = string
     operator               = string
     postgres-exporter      = string
+    redis-exporter         = string
   })
 }
 
@@ -40,6 +42,18 @@ data "oci_exec_test" "healthy" {
 data "oci_exec_test" "cloudwatch-runs" {
   digest      = var.digests["cloudwatch-exporter"]
   script      = "./cloudwatch-runs.sh"
+  working_dir = path.module
+}
+
+data "oci_exec_test" "node-runs" {
+  digest      = var.digests["node-exporter"]
+  script      = "./node-runs.sh"
+  working_dir = path.module
+}
+
+data "oci_exec_test" "redis-runs" {
+  digest      = var.digests["redis-exporter"]
+  script      = "./redis-installs.sh"
   working_dir = path.module
 }
 

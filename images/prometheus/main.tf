@@ -12,10 +12,10 @@ locals {
     "core",
     "elasticsearch-exporter",
     "mysqld-exporter",
-    // TODO: node exporter
+    "node-exporter",
     "operator",
     "postgres-exporter",
-    // TODO: redis exporter
+    "redis-exporter",
   ])
 
   // Normally the package is named like "prometheus-{component}"
