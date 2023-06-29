@@ -4,35 +4,10 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-function preflight() {
-  if [[ "${IMAGE_REGISTRY}" == "" ]]; then
-    echo "Must set IMAGE_REGISTRY environment variable. Exiting."
-    exit 1
-  fi
-
-  if [[ "${IMAGE_REPOSITORY}" == "" ]]; then
-    echo "Must set IMAGE_REPOSITORY environment variable. Exiting."
-    exit 1
-  fi
-
-  if [[ "${IMAGE_TAG}" == "" ]]; then
-    echo "Must set IMAGE_TAG environment variable. Exiting."
-    exit 1
-  fi
-}
-
-preflight
-
-function cleanup() {
-    # Get the logs from cluster-proportional-autoscaler before exiting
-    kubectl describe pod --selector app.kubernetes.io/instance=cluster-proportional-autoscaler
-    kubectl logs --selector app.kubernetes.io/instance=cluster-proportional-autoscaler
-}
-
-trap cleanup EXIT
 # add a test deployment to scale based on the cpa algorithm
 
-cat <<EOF > test.yaml
+TMP=$(mktemp -d)
+cat <<EOF > ${TMP}/test.yaml
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -56,9 +31,9 @@ spec:
         - containerPort: 80
 EOF
 
-kubectl apply -f test.yaml
+kubectl apply -f ${TMP}/test.yaml
 
-cat <<EOF > values.yaml
+cat <<EOF > ${TMP}/values.yaml
 config:
    linear:
      coresPerReplica: 2
@@ -73,7 +48,7 @@ helm repo add cluster-proportional-autoscaler https://kubernetes-sigs.github.io/
 helm repo update
 
 helm upgrade --install cluster-proportional-autoscaler cluster-proportional-autoscaler/cluster-proportional-autoscaler \
-    --values values.yaml  \
+    --values ${TMP}/values.yaml  \
     --set image.repository="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}" \
     --set image.tag="${IMAGE_TAG}" \
     --set image.pullPolicy=IfNotPresent \

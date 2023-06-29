@@ -127,6 +127,11 @@ module "cluster-autoscaler" {
   target_repository = "${var.target_repository}/cluster-autoscaler"
 }
 
+module "cluster-proportional-autoscaler" {
+  source            = "./images/cluster-proportional-autoscaler"
+  target_repository = "${var.target_repository}/cluster-proportional-autoscaler"
+}
+
 module "configmap-reload" {
   source            = "./images/configmap-reload"
   target_repository = "${var.target_repository}/configmap-reload"
