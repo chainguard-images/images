@@ -297,6 +297,11 @@ module "karpenter" {
   target_repository = "${var.target_repository}/karpenter"
 }
 
+module "keda" {
+  source            = "./images/keda"
+  target_repository = "${var.target_repository}/keda"
+}
+
 module "ko" {
   source            = "./images/ko"
   target_repository = "${var.target_repository}/ko"
