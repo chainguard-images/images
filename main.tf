@@ -187,6 +187,11 @@ module "envoy" {
   target_repository = "${var.target_repository}/envoy"
 }
 
+module "envoy-ratelimit" {
+  source            = "./images/envoy-ratelimit"
+  target_repository = "${var.target_repository}/envoy-ratelimit"
+}
+
 module "etcd" {
   source            = "./images/etcd"
   target_repository = "${var.target_repository}/etcd"
