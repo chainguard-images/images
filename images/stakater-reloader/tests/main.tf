@@ -10,6 +10,8 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+data "oci_string" "ref" { input = var.digest }
+
 resource "random_pet" "suffix" {}
 
 resource "helm_release" "stakater-reloader" {
@@ -21,15 +23,14 @@ resource "helm_release" "stakater-reloader" {
   namespace        = "stakater-reloader-${random_pet.suffix.id}"
   create_namespace = true
 
-  # Split the digest ref into repository and digest. The helm chart expects a
-  # tag, but it just appends it to the repository again, so we just specify a
-  # dummy tag and the digest to test.
-  set {
-    name  = "reloader.deployment.image.tag"
-    value = "unused@${element(split("@", var.digest), 1)}"
-  }
-  set {
-    name  = "reloader.deployment.image.name"
-    value = element(split("@", var.digest), 0)
-  }
+  values = [jsonencode({
+    reloader = {
+      deployment = {
+        image = {
+          tag  = data.oci_string.ref.pseudo_tag
+          name = data.oci_string.ref.registry_repo
+        }
+      }
+    }
+  })]
 }

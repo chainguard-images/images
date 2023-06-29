@@ -15,6 +15,11 @@ variable "digests" {
   })
 }
 
+data "oci_string" "ref" {
+  for_each = var.digests
+  input    = each.value
+}
+
 variable "skip_crds" {
   description = "Used to deconflict between multiple installations within the same cluster."
   default     = false
@@ -29,61 +34,36 @@ resource "helm_release" "vertical-pod-autoscaler" {
   chart            = "vertical-pod-autoscaler"
   create_namespace = true
 
-  set {
-    name  = "installCRDs"
-    value = var.skip_crds ? "false" : "true"
-  }
-
-  set {
-    name  = "admissionController.image.registry"
-    value = ""
-  }
-  set {
-    name  = "admissionController.image.repository"
-    value = element(split("@", var.digests["admission-controller"]), 0)
-  }
-  set {
-    name  = "admissionController.image.tag"
-    value = "unused@${element(split("@", var.digests["admission-controller"]), 1)}"
-  }
-
-  set {
-    name  = "recommender.image.registry"
-    value = ""
-  }
-  set {
-    name  = "recommender.image.repository"
-    value = element(split("@", var.digests["recommender"]), 0)
-  }
-  set {
-    name  = "recommender.image.tag"
-    value = "unused@${element(split("@", var.digests["recommender"]), 1)}"
-  }
-
-  set {
-    name  = "updater.image.registry"
-    value = ""
-  }
-  set {
-    name  = "updater.image.repository"
-    value = element(split("@", var.digests["updater"]), 0)
-  }
-  set {
-    name  = "updater.image.tag"
-    value = "unused@${element(split("@", var.digests["updater"]), 1)}"
-  }
-
-  // Use our already-released kubectl image too.
-  set {
-    name  = "crds.image.registry"
-    value = "cgr.dev"
-  }
-  set {
-    name  = "crds.image.repository"
-    value = "chainguard/kubectl"
-  }
-  set {
-    name  = "crds.image.tag"
-    value = "latest"
-  }
+  values = [jsonencode({
+    installCRDs = var.skip_crds ? "false" : "true"
+    admissionController = {
+      image = {
+        registry   = data.oci_string.ref["admission-controller"].registry
+        repository = data.oci_string.ref["admission-controller"].repo
+        tag        = data.oci_string.ref["admission-controller"].pseudo_tag
+      }
+    }
+    recommender = {
+      image = {
+        registry   = data.oci_string.ref["recommender"].registry
+        repository = data.oci_string.ref["recommender"].repo
+        tag        = data.oci_string.ref["recommender"].pseudo_tag
+      }
+    }
+    updater = {
+      image = {
+        registry   = data.oci_string.ref["updater"].registry
+        repository = data.oci_string.ref["updater"].repo
+        tag        = data.oci_string.ref["updater"].pseudo_tag
+      }
+    }
+    // Also use our already-released kubectl image too.
+    crds = {
+      image = {
+        registry   = "cgr.dev"
+        repository = "chainguard/kubectl"
+        tag        = "latest"
+      }
+    }
+  })]
 }

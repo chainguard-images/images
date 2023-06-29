@@ -51,7 +51,6 @@ helm upgrade --install cluster-proportional-autoscaler cluster-proportional-auto
     --values ${TMP}/values.yaml  \
     --set image.repository="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}" \
     --set image.tag="${IMAGE_TAG}" \
-    --set image.pullPolicy=IfNotPresent \
     --set options.target=deployment/nginx-autoscale-example
 
 kubectl wait --for=condition=ready pod --selector app.kubernetes.io/instance=cluster-proportional-autoscaler --timeout=120s
