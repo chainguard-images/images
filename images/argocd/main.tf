@@ -46,21 +46,8 @@ module "version-tags" {
 module "test-latest" {
   for_each = local.components
 
-  source = "./tests"
-  digests = {
-    argocd      = module.latest-dev["argocd"].image_ref
-    repo-server = module.latest-dev["repo-server"].image_ref
-  }
-}
-
-module "test-latest-dev" {
-  for_each = local.components
-
-  source = "./tests"
-  digests = {
-    argocd      = module.latest-dev["argocd"].image_ref
-    repo-server = module.latest-dev["repo-server"].image_ref
-  }
+  source  = "./tests"
+  digests = { for k, v in module.latest : k => v.image_ref }
 }
 
 module "tagger" {
@@ -70,7 +57,6 @@ module "tagger" {
 
   depends_on = [
     module.test-latest,
-    module.test-latest-dev,
   ]
 
   tags = merge(
