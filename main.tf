@@ -635,6 +635,11 @@ module "wavefront-proxy" {
   target_repository = "${var.target_repository}/wavefront-proxy"
 }
 
+module "weaviate" {
+  source            = "./images/weaviate"
+  target_repository = "${var.target_repository}/weaviate"
+}
+
 module "wolfi-base" {
   source            = "./images/wolfi-base"
   target_repository = "${var.target_repository}/wolfi-base"
