@@ -54,11 +54,6 @@ module "argocd" {
   target_repository = "${var.target_repository}/argocd"
 }
 
-module "argocd-repo-server" {
-  source            = "./images/argocd-repo-server"
-  target_repository = "${var.target_repository}/argocd-repo-server"
-}
-
 module "aspnet-runtime" {
   source            = "./images/aspnet-runtime"
   target_repository = "${var.target_repository}/aspnet-runtime"
