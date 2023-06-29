@@ -19,7 +19,7 @@ accounts:
   users:
     - username: bazel
       uid: 65532
-  run-as: bazel
+  run-as: 65532
 
 entrypoint:
   command: /usr/bin/bazel

@@ -12,8 +12,3 @@ data "oci_exec_test" "version" {
   digest = var.digest
   script = "docker run --rm --entrypoint=/usr/bin/opensearch $${IMAGE_NAME} --version"
 }
-
-data "oci_exec_test" "run" {
-  digest = var.digest
-  script = "${path.module}/run.sh"
-}

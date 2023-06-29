@@ -13,7 +13,7 @@ accounts:
   users:
     - username: maven
       uid: 65532
-  run-as: maven
+  run-as: 65532
   recursive: true
 
 work-dir: /home/build

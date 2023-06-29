@@ -9,7 +9,7 @@ accounts:
   users:
     - username: minio
       uid: 65532
-  run-as: minio
+  run-as: 65532
   recursive: true
 
 entrypoint:

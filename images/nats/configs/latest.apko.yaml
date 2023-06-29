@@ -9,7 +9,7 @@ accounts:
   users:
     - username: nats
       uid: 65532
-  run-as: nats
+  run-as: 65532
   recursive: true
 
 entrypoint:

@@ -9,7 +9,7 @@ accounts:
   users:
     - username: thanos
       uid: 65532
-  run-as: thanos
+  run-as: 65532
 
 entrypoint:
   command: thanos

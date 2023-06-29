@@ -10,7 +10,7 @@ accounts:
     - username: oauth2-proxy
       uid: 65532
       gid: 65532
-  run-as: oauth2-proxy
+  run-as: 65532
 
 entrypoint:
   command: /usr/bin/oauth2-proxy

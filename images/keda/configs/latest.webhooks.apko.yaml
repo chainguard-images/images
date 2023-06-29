@@ -1,0 +1,23 @@
+contents:
+  packages:
+    - busybox
+    - keda-admission-webhooks
+    - keda-compat
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+
+entrypoint:
+  command: /usr/bin/keda-admission-webhooks --zap-log-level=info --zap-encoder=console
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/keda-admission-webhooks/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/keda-admission-webhooks

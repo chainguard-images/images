@@ -13,7 +13,7 @@ accounts:
   users:
     - username: java
       uid: 65532
-  run-as: java
+  run-as: 65532
   recursive: true
 
 work-dir: /home/build

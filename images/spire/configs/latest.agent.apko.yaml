@@ -1,0 +1,25 @@
+contents:
+  packages:
+    - spire-agent
+    - busybox
+    - libcap-utils
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  # The spire-agent must run as root currently.
+  # See https://github.com/spiffe/spire/issues/1862 for context
+  run-as: 0
+
+entrypoint:
+  command: /usr/bin/spire-agent run
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/spire-agent/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/spire-agent

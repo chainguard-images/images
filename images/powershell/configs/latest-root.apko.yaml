@@ -10,7 +10,7 @@ accounts:
   users:
     - username: nonroot
       uid: 65532
-  run-as: root
+  run-as: 0
   recursive: true
 
 entrypoint:

@@ -54,11 +54,6 @@ module "argocd" {
   target_repository = "${var.target_repository}/argocd"
 }
 
-module "argocd-repo-server" {
-  source            = "./images/argocd-repo-server"
-  target_repository = "${var.target_repository}/argocd-repo-server"
-}
-
 module "aspnet-runtime" {
   source            = "./images/aspnet-runtime"
   target_repository = "${var.target_repository}/aspnet-runtime"
@@ -125,6 +120,16 @@ module "cert-manager" {
 module "cluster-autoscaler" {
   source            = "./images/cluster-autoscaler"
   target_repository = "${var.target_repository}/cluster-autoscaler"
+}
+
+module "cluster-proportional-autoscaler" {
+  source            = "./images/cluster-proportional-autoscaler"
+  target_repository = "${var.target_repository}/cluster-proportional-autoscaler"
+}
+
+module "configmap-reload" {
+  source            = "./images/configmap-reload"
+  target_repository = "${var.target_repository}/configmap-reload"
 }
 
 module "consul" {
@@ -197,6 +202,11 @@ module "flux" {
   target_repository = "${var.target_repository}/flux"
 }
 
+module "gatekeeper" {
+  source            = "./images/gatekeeper"
+  target_repository = "${var.target_repository}/gatekeeper"
+}
+
 module "gcc-glibc" {
   source            = "./images/gcc-glibc"
   target_repository = "${var.target_repository}/gcc-glibc"
@@ -217,6 +227,11 @@ module "google-cloud-sdk" {
   target_repository = "${var.target_repository}/google-cloud-sdk"
 }
 
+module "graalvm-native" {
+  source            = "./images/graalvm-native"
+  target_repository = "${var.target_repository}/graalvm-native"
+}
+
 module "gradle" {
   source            = "./images/gradle"
   target_repository = "${var.target_repository}/gradle"
@@ -235,11 +250,6 @@ module "helm" {
 module "helm-chartmuseum" {
   source            = "./images/helm-chartmuseum"
   target_repository = "${var.target_repository}/helm-chartmuseum"
-}
-
-module "helm-controller" {
-  source            = "./images/helm-controller"
-  target_repository = "${var.target_repository}/helm-controller"
 }
 
 module "hugo" {
@@ -282,6 +292,11 @@ module "k8sgpt" {
   target_repository = "${var.target_repository}/k8sgpt"
 }
 
+module "k8sgpt-operator" {
+  source            = "./images/k8sgpt-operator"
+  target_repository = "${var.target_repository}/k8sgpt-operator"
+}
+
 module "kafka" {
   source            = "./images/kafka"
   target_repository = "${var.target_repository}/kafka"
@@ -292,9 +307,24 @@ module "karpenter" {
   target_repository = "${var.target_repository}/karpenter"
 }
 
+module "keda" {
+  source            = "./images/keda"
+  target_repository = "${var.target_repository}/keda"
+}
+
 module "ko" {
   source            = "./images/ko"
   target_repository = "${var.target_repository}/ko"
+}
+
+module "kube-bench" {
+  source            = "./images/kube-bench"
+  target_repository = "${var.target_repository}/kube-bench"
+}
+
+module "kube-downscaler" {
+  source            = "./images/kube-downscaler"
+  target_repository = "${var.target_repository}/kube-downscaler"
 }
 
 module "kubectl" {
@@ -332,6 +362,11 @@ module "kubernetes-ingress-defaultbackend" {
   target_repository = "${var.target_repository}/kubernetes-ingress-defaultbackend"
 }
 
+module "kubewatch" {
+  source            = "./images/kubewatch"
+  target_repository = "${var.target_repository}/kubewatch"
+}
+
 module "kyverno" {
   source            = "./images/kyverno"
   target_repository = "${var.target_repository}/kyverno"
@@ -350,6 +385,11 @@ module "maven" {
 module "mdbook" {
   source            = "./images/mdbook"
   target_repository = "${var.target_repository}/mdbook"
+}
+
+module "meilisearch" {
+  source            = "./images/meilisearch"
+  target_repository = "${var.target_repository}/meilisearch"
 }
 
 module "melange" {
@@ -457,31 +497,6 @@ module "prometheus" {
   target_repository = "${var.target_repository}/prometheus"
 }
 
-module "prometheus-alertmanager" {
-  source            = "./images/prometheus-alertmanager"
-  target_repository = "${var.target_repository}/prometheus-alertmanager"
-}
-
-module "prometheus-cloudwatch-exporter" {
-  source            = "./images/prometheus-cloudwatch-exporter"
-  target_repository = "${var.target_repository}/prometheus-cloudwatch-exporter"
-}
-
-module "prometheus-elasticsearch-exporter" {
-  source            = "./images/prometheus-elasticsearch-exporter"
-  target_repository = "${var.target_repository}/prometheus-elasticsearch-exporter"
-}
-
-module "prometheus-mysqld-exporter" {
-  source            = "./images/prometheus-mysqld-exporter"
-  target_repository = "${var.target_repository}/prometheus-mysqld-exporter"
-}
-
-module "prometheus-postgres-exporter" {
-  source            = "./images/prometheus-postgres-exporter"
-  target_repository = "${var.target_repository}/prometheus-postgres-exporter"
-}
-
 module "pulumi" {
   source            = "./images/pulumi"
   target_repository = "${var.target_repository}/pulumi"
@@ -532,6 +547,11 @@ module "skaffold" {
   target_repository = "${var.target_repository}/skaffold"
 }
 
+module "spire" {
+  source            = "./images/spire"
+  target_repository = "${var.target_repository}/spire"
+}
+
 module "stakater-reloader" {
   source            = "./images/stakater-reloader"
   target_repository = "${var.target_repository}/stakater-reloader"
@@ -543,6 +563,11 @@ module "static" {
   providers = {
     apko.alpine = apko.alpine
   }
+}
+
+module "telegraf" {
+  source            = "./images/telegraf"
+  target_repository = "${var.target_repository}/telegraf"
 }
 
 module "terraform" {
@@ -563,6 +588,11 @@ module "tigera-operator" {
 module "traefik" {
   source            = "./images/traefik"
   target_repository = "${var.target_repository}/traefik"
+}
+
+module "vault" {
+  source            = "./images/vault"
+  target_repository = "${var.target_repository}/vault"
 }
 
 module "vela-cli" {
