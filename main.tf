@@ -482,29 +482,9 @@ module "prometheus" {
   target_repository = "${var.target_repository}/prometheus"
 }
 
-module "prometheus-alertmanager" {
-  source            = "./images/prometheus-alertmanager"
-  target_repository = "${var.target_repository}/prometheus-alertmanager"
-}
-
 module "prometheus-cloudwatch-exporter" {
   source            = "./images/prometheus-cloudwatch-exporter"
   target_repository = "${var.target_repository}/prometheus-cloudwatch-exporter"
-}
-
-module "prometheus-elasticsearch-exporter" {
-  source            = "./images/prometheus-elasticsearch-exporter"
-  target_repository = "${var.target_repository}/prometheus-elasticsearch-exporter"
-}
-
-module "prometheus-mysqld-exporter" {
-  source            = "./images/prometheus-mysqld-exporter"
-  target_repository = "${var.target_repository}/prometheus-mysqld-exporter"
-}
-
-module "prometheus-postgres-exporter" {
-  source            = "./images/prometheus-postgres-exporter"
-  target_repository = "${var.target_repository}/prometheus-postgres-exporter"
 }
 
 module "pulumi" {
