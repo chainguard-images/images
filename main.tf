@@ -457,6 +457,11 @@ module "node" {
   target_repository = "${var.target_repository}/node"
 }
 
+module "nodetaint" {
+  source            = "./images/nodetaint"
+  target_repository = "${var.target_repository}/nodetaint"
+}
+
 module "ntpd-rs" {
   source            = "./images/ntpd-rs"
   target_repository = "${var.target_repository}/ntpd-rs"
