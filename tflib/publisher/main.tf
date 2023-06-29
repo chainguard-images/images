@@ -43,8 +43,27 @@ data "oci_exec_test" "check-reproducibility" {
   timeout_seconds = 600
 }
 
+data "oci_structure_test" "structure" {
+  digest = data.oci_exec_test.check-reproducibility.tested_ref
+
+  conditions {
+    env {
+      key   = "SSL_CERT_FILE"
+      value = "/etc/ssl/certs/ca-certificates.crt"
+    }
+    // TODO: Some images have different PATHs
+    //env {
+    //  key   = "PATH"
+    //  value = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    //}
+    files { path = "/etc/ssl/certs/ca-certificates.crt" }
+    files { path = "/lib/apk/db/installed" }
+    files { path = "/etc/os-release" } // TODO: we can check the contents
+  }
+}
+
 output "image_ref" {
-  value = data.oci_exec_test.check-reproducibility.tested_ref
+  value = data.oci_structure_test.structure.tested_ref
 }
 
 output "config" {
