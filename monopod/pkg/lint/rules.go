@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	"chainguard.dev/apko/pkg/build/types"
 	"github.com/dprotaso/go-yit"
@@ -61,6 +62,24 @@ var AllRules = func(l *Linter) Rules {
 					_, err := os.Stat(filepath.Join(filepath.Dir(path), "..", "main.tf"))
 					return err == nil
 				},
+			},
+		},
+		{
+			Name:        "accounts-runas",
+			Description: "Checks if the runas field is set properly for all accounts.",
+			Severity:    SeverityError,
+			LintFunc: func(c types.ImageConfiguration) error {
+				var errs []error
+				if c.Accounts.RunAs != "" {
+					uid, err := strconv.ParseUint(c.Accounts.RunAs, 10, 16)
+					if err != nil {
+						errs = append(errs, errors.New("runas is not a valid numeric uid"))
+					}
+					if uid > 65536 {
+						errs = append(errs, errors.New("runas is not a valid uid (out of range)"))
+					}
+				}
+				return errors.Join(errs...)
 			},
 		},
 		{

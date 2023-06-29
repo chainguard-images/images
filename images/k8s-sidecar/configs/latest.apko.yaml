@@ -16,7 +16,7 @@ accounts:
   users:
     - username: k8s-sidecar
       uid: 65532
-  run-as: k8s-sidecar
+  run-as: 65532
   recursive: true
 
 annotations:

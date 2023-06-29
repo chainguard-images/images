@@ -16,7 +16,7 @@ accounts:
   users:
     - username: postgres
       uid: 70
-  run-as: root
+  run-as: 0
 
 entrypoint:
   command: /var/lib/postgres/initdb/postgresql-entrypoint.sh postgres

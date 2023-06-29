@@ -84,12 +84,13 @@ By default Images should run as a non-root user account - as well as being best 
 **Example**:
 
 ```
- run-as: maven
+ run-as: 65532
  recursive: true
 ```
 
 In some cases it may be more user friendly to run as root (for example we had multiple issues trying to run the Go image as `nonroot`). In these cases, make sure there is still a `nonroot` user in the image so it can be easily changed and add docs on how to do so (e.g. ``docker run –user nonroot …``). Also consider making a `nonroot` tag variant that runs as the `nonroot` user.
 
+Additionally, we enforce that the `run-as` user must be the `uid` (and not the user name). This is to prevent policy checkers from needing to crack the file system just to convert the user name into the already known `uid`.
 
 ### Switching User
 

@@ -9,7 +9,7 @@ accounts:
   users:
     - username: traefik
       uid: 65532
-  run-as: traefik
+  run-as: 65532
 
 paths:
 - path: /tmp

@@ -16,7 +16,7 @@ accounts:
   users:
     - username: jenkins
       uid: 65532
-  run-as: jenkins
+  run-as: 65532
   recursive: true
 
 work-dir: /app

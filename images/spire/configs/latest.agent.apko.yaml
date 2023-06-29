@@ -14,7 +14,7 @@ accounts:
       gid: 65532
   # The spire-agent must run as root currently.
   # See https://github.com/spiffe/spire/issues/1862 for context
-  run-as: root
+  run-as: 0
 
 entrypoint:
   command: /usr/bin/spire-agent run

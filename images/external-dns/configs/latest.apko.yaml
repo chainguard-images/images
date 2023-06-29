@@ -15,7 +15,7 @@ accounts:
   users:
     - username: external-dns
       uid: 65532
-  run-as: external-dns
+  run-as: 65532
   recursive: true
 
 entrypoint:

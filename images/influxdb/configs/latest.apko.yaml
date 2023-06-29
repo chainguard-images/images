@@ -11,7 +11,7 @@ accounts:
   users:
     - username: influxdb
       uid: 1000
-  run-as: influxdb
+  run-as: 1000
   recursive: true
 
 entrypoint:

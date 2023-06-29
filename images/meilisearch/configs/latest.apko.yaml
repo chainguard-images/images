@@ -10,7 +10,7 @@ accounts:
     - username: meilisearch
       uid: 999
   recursive: true
-  run-as: meilisearch
+  run-as: 999
 
 entrypoint:
   command: /usr/bin/meilisearch

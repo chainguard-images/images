@@ -19,7 +19,7 @@ accounts:
     - username: fluent
       uid: 65532
       gid: 65532
-  run-as: fluent
+  run-as: 65532
 
 paths:
   - path: /fluentd/log

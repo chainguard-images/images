@@ -9,7 +9,7 @@ accounts:
   users:
     - username: karpenter
       uid: 65532
-  run-as: karpenter
+  run-as: 65532
   recursive: true
 
 entrypoint:

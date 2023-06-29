@@ -11,7 +11,7 @@ accounts:
   users:
     - username: mysql
       uid: 65532
-  run-as: mysql
+  run-as: 65532
 
 entrypoint:
   command: /usr/local/bin/docker-entrypoint.sh mariadbd
