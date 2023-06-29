@@ -63,7 +63,7 @@ data "oci_structure_test" "structure" {
 }
 
 output "image_ref" {
-  value = data.oci_exec_test.check-reproducibility.tested_ref
+  value = data.oci_structure_test.structure.tested_ref
 }
 
 output "config" {
