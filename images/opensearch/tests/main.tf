@@ -8,7 +8,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "version" {
+data "oci_exec_test" "run" {
   digest = var.digest
-  script = "docker run --rm --entrypoint=/usr/bin/opensearch $${IMAGE_NAME} --version"
+  script = "${path.module}/run.sh"
 }
