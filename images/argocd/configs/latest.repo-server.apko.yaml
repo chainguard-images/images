@@ -12,7 +12,7 @@ accounts:
     - username: argocd
       uid: 999
       gid: 999
-  run-as: argocd
+  run-as: 999
 
 work-dir: /home/argocd
 
