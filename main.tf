@@ -247,6 +247,11 @@ module "gradle" {
   target_repository = "${var.target_repository}/gradle"
 }
 
+module "guacamole-server" {
+  source            = "./images/guacamole-server"
+  target_repository = "${var.target_repository}/guacamole-server"
+}
+
 module "haproxy" {
   source            = "./images/haproxy"
   target_repository = "${var.target_repository}/haproxy"

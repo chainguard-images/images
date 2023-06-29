@@ -2,6 +2,8 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-docker run --rm -d --name=guacamole "${IMAGE_NAME}"
-docker logs guacamole 2>&1  | grep "Guacamole proxy daemon (guacd) version 1.5.2 started"
-trap "docker rm -f guacamole" EXIT
+container_name="guacamole-${RANDOM}"
+docker run --rm -d --name="${container_name}" "${IMAGE_NAME}"
+trap "docker rm -f ${container_name}" EXIT
+
+docker logs "${container_name}" 2>&1  | grep "Guacamole proxy daemon (guacd) version 1.5.2 started"
