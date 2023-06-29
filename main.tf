@@ -487,21 +487,6 @@ module "prometheus-cloudwatch-exporter" {
   target_repository = "${var.target_repository}/prometheus-cloudwatch-exporter"
 }
 
-module "prometheus-elasticsearch-exporter" {
-  source            = "./images/prometheus-elasticsearch-exporter"
-  target_repository = "${var.target_repository}/prometheus-elasticsearch-exporter"
-}
-
-module "prometheus-mysqld-exporter" {
-  source            = "./images/prometheus-mysqld-exporter"
-  target_repository = "${var.target_repository}/prometheus-mysqld-exporter"
-}
-
-module "prometheus-postgres-exporter" {
-  source            = "./images/prometheus-postgres-exporter"
-  target_repository = "${var.target_repository}/prometheus-postgres-exporter"
-}
-
 module "pulumi" {
   source            = "./images/pulumi"
   target_repository = "${var.target_repository}/pulumi"

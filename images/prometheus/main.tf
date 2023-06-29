@@ -5,7 +5,18 @@ terraform {
 }
 
 locals {
-  components = toset(["alertmanager", "config-reloader", "core", "operator"])
+  components = toset([
+    "alertmanager",
+    // TODO: cloudwatch-exporter (more complex test)
+    "config-reloader",
+    "core",
+    "elasticsearch-exporter",
+    "mysqld-exporter",
+    // TODO: node exporter
+    "operator",
+    "postgres-exporter",
+    // TODO: redis exporter
+  ])
 
   // Normally the package is named like "prometheus-{component}"
   // But some packages are named differently:
