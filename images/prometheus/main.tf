@@ -5,7 +5,7 @@ terraform {
 }
 
 locals {
-  components = toset(["core", "config-reloader", "operator"])
+  components = toset(["alertmanager", "config-reloader", "core", "operator"])
 
   // Normally the package is named like "prometheus-{component}"
   // But some packages are named differently:

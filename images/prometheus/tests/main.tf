@@ -8,6 +8,7 @@ terraform {
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
+    alertmanager    = string
     core            = string
     config-reloader = string
     operator        = string
@@ -40,15 +41,15 @@ resource "helm_release" "kube-prometheus-stack" {
       prometheusOperator = {
         prometheusConfigReloader = {
           image = {
-            registry = "",
+            registry   = "",
             repository = data.oci_string.ref["config-reloader"].registry_repo,
-            tag   = data.oci_string.ref["config-reloader"].pseudo_tag,
+            tag        = data.oci_string.ref["config-reloader"].pseudo_tag,
           }
         }
         image = {
-          registry = "",
+          registry   = "",
           repository = data.oci_string.ref["operator"].registry_repo,
-          tag   = data.oci_string.ref["operator"].pseudo_tag,
+          tag        = data.oci_string.ref["operator"].pseudo_tag,
         }
       }
     })
