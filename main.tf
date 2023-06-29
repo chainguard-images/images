@@ -227,6 +227,11 @@ module "google-cloud-sdk" {
   target_repository = "${var.target_repository}/google-cloud-sdk"
 }
 
+module "graalvm-native" {
+  source            = "./images/graalvm-native"
+  target_repository = "${var.target_repository}/graalvm-native"
+}
+
 module "gradle" {
   source            = "./images/gradle"
   target_repository = "${var.target_repository}/gradle"
