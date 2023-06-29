@@ -23,7 +23,6 @@ kubectl apply -f https://codeberg.org/hjacobs/kube-downscaler/raw/tag/23.2.0/dep
 kubectl apply -f https://codeberg.org/hjacobs/kube-downscaler/raw/tag/23.2.0/deploy/rbac.yaml
 kubectl apply -f https://codeberg.org/hjacobs/kube-downscaler/raw/tag/23.2.0/deploy/deployment.yaml
 
-
 # The pod can take a few seconds to appear after the deployment and the replicaset are all created and reconcile
 sleep 10
 
