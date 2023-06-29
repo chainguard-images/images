@@ -43,6 +43,13 @@ data "oci_exec_test" "check-reproducibility" {
   timeout_seconds = 600
 }
 
+data "oci_exec_test" "check-killability" {
+  digest = module.this.image_ref
+  script = "docker kill $(docker run -d --rm $${IMAGE_NAME})"
+
+  timeout_seconds = 30
+}
+
 output "image_ref" {
   value = data.oci_exec_test.check-reproducibility.tested_ref
 }
