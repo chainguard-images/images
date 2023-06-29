@@ -482,11 +482,6 @@ module "prometheus" {
   target_repository = "${var.target_repository}/prometheus"
 }
 
-module "prometheus-cloudwatch-exporter" {
-  source            = "./images/prometheus-cloudwatch-exporter"
-  target_repository = "${var.target_repository}/prometheus-cloudwatch-exporter"
-}
-
 module "pulumi" {
   source            = "./images/pulumi"
   target_repository = "${var.target_repository}/pulumi"

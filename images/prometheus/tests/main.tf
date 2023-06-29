@@ -9,6 +9,7 @@ variable "digests" {
   description = "The image digests to run tests over."
   type = object({
     alertmanager           = string
+    cloudwatch-exporter    = string
     core                   = string
     config-reloader        = string
     elasticsearch-exporter = string
@@ -24,7 +25,9 @@ data "oci_string" "ref" {
 }
 
 data "oci_exec_test" "version" {
-  for_each = var.digests
+  # cloud-watch exporter treats --version as the config filename,
+  # and has a more interesting test below!
+  for_each = { for k, v in var.digests : k => v if k != "cloudwatch-exporter" }
   digest   = each.value
   script   = "docker run --rm $${IMAGE_NAME} --version"
 }
@@ -32,6 +35,12 @@ data "oci_exec_test" "version" {
 data "oci_exec_test" "healthy" {
   digest = var.digests["core"]
   script = "${path.module}/02-healthy.sh"
+}
+
+data "oci_exec_test" "cloudwatch-runs" {
+  digest      = var.digests["cloudwatch-exporter"]
+  script      = "./cloudwatch-runs.sh"
+  working_dir = path.module
 }
 
 resource "helm_release" "kube-prometheus-stack" {

@@ -7,7 +7,7 @@ terraform {
 locals {
   components = toset([
     "alertmanager",
-    // TODO: cloudwatch-exporter (more complex test)
+    "cloudwatch-exporter",
     "config-reloader",
     "core",
     "elasticsearch-exporter",
@@ -24,6 +24,7 @@ locals {
   packages = merge({
     for k, v in local.components : k => "prometheus-${k}"
     }, {
+    "cloudwatch-exporter" : "cloudwatch-exporter",
     "core" : "prometheus",
   })
 
