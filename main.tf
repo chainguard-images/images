@@ -262,6 +262,11 @@ module "haproxy" {
   target_repository = "${var.target_repository}/haproxy"
 }
 
+module "haproxy-ingress" {
+  source            = "./images/haproxy-ingress"
+  target_repository = "${var.target_repository}/haproxy-ingress"
+}
+
 module "helm" {
   source            = "./images/helm"
   target_repository = "${var.target_repository}/helm"
