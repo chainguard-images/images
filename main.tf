@@ -655,6 +655,11 @@ module "traefik" {
   target_repository = "${var.target_repository}/traefik"
 }
 
+module "trust-manager" {
+  source            = "./images/trust-manager"
+  target_repository = "${var.target_repository}/trust-manager"
+}
+
 module "vault" {
   source            = "./images/vault"
   target_repository = "${var.target_repository}/vault"
