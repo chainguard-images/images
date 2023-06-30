@@ -207,6 +207,11 @@ module "ffmpeg" {
   target_repository = "${var.target_repository}/ffmpeg"
 }
 
+module "fluent-bit" {
+  source            = "./images/fluent-bit"
+  target_repository = "${var.target_repository}/fluent-bit"
+}
+
 module "fluentd" {
   source            = "./images/fluentd"
   target_repository = "${var.target_repository}/fluentd"
