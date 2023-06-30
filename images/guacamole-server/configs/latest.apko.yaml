@@ -4,12 +4,17 @@ contents:
     - busybox
     - ttf-dejavu
     - netcat-openbsd
+    - libguac-client-vnc
+    - libguac-client-telnet
+    - libguac-client-ssh
+    - libguac-client-rdp
 
 environment:
   LC_ALL: C.UTF-8
   LD_LIBRARY_PATH: /usr/lib
+  GUACD_LOG_LEVEL: info
 
-cmd: /usr/sbin/guacd  -b 0.0.0.0 -L info -f
+cmd: /bin/sh -c '/usr/sbin/guacd  -b 0.0.0.0 -L $GUACD_LOG_LEVEL -f'
 
 accounts:
   groups:
