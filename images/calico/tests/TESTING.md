@@ -11,3 +11,5 @@ You can invoke the test with:
 ```shell
 IMAGE_NAME=cgr.dev/chainguard/calico-node:latest ./full-test.sh
 ```
+
+The test currently only runs on Linux.
