@@ -8,6 +8,7 @@ contents:
     - libguac-client-telnet
     - libguac-client-ssh
     - libguac-client-rdp
+    - openssl-provider-legacy
 
 environment:
   LC_ALL: C.UTF-8
