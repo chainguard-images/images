@@ -352,6 +352,11 @@ module "kube-downscaler" {
   target_repository = "${var.target_repository}/kube-downscaler"
 }
 
+module "kube-state-metrics" {
+  source            = "./images/kube-state-metrics"
+  target_repository = "${var.target_repository}/kube-state-metrics"
+}
+
 module "kubectl" {
   source            = "./images/kubectl"
   target_repository = "${var.target_repository}/kubectl"
