@@ -1,6 +1,18 @@
 contents:
   packages:
+    - ca-certificates
+    - curl
     - php
+    - php-curl
+    - php-openssl
+    - php-iconv
+    - php-mbstring
+    - php-mysqlnd
+    - php-pdo
+    - php-pdo_sqlite
+    - php-pdo_mysql
+    - php-sodium
+    - php-phar
     - php-fpm
 
 entrypoint:
