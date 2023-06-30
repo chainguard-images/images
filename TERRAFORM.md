@@ -106,4 +106,24 @@ TF_VAR_digest=... terraform apply
 
 Virtually all tests require Docker installed locally to run.
 
-> TODO(imjasonh): define and document the process for testing on K8s.
+Many tests require access to a Kubernetes cluster, such as a local [KinD cluster](https://kind.sigs.k8s.io/).
+These tests may install a Helm chart and/or issue `kubectl` commands against the cluster.
+The tests use the config file at `$HOME/.kube/config` to connect to the cluster.
+
+### Building with `apko` directly
+
+Images in this repo are designed to be built with Terraform as described above, but they can also be built directly with `apko`:
+
+To build a Wolfi-based image:
+
+```shell
+make cfg=images/static/configs/wolfi.apko.yaml apko-build
+```
+
+To build an Alpine-based image (i.e., `static:latest`, `busybox:latest`, `git:latest`)
+
+```shell
+make cfg=images/static/configs/alpine.apko.yaml apko-build-alpine
+```
+
+These will build the image into a tarball in the local directory, which can be loaded into Docker with `docker load < image.tar`.
