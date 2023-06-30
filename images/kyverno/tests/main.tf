@@ -20,7 +20,7 @@ variable "digests" {
 data "oci_exec_test" "help" {
   for_each = var.digests
   digest   = each.value
-  script   = "docker run --rm $${IMAGE_NAME} --help"
+  script   = "docker run --rm $IMAGE_NAME --help"
 }
 
 resource "helm_release" "kyverno" {

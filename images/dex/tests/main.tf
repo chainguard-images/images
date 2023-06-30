@@ -12,7 +12,7 @@ variable "digest" {
 
 data "oci_exec_test" "version" {
   digest = var.digest
-  script = "docker run --rm $${IMAGE_NAME} dex -h"
+  script = "docker run --rm $IMAGE_NAME dex -h"
 }
 
 data "oci_exec_test" "run" {
