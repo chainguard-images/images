@@ -2,7 +2,7 @@
 # external-dns
 | | |
 | - | - |
-| **Status** | experimental |
+| **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/external-dns` |
 
 

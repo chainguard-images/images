@@ -1,32 +1,18 @@
 #!/usr/bin/env bash
 
-# monopod:tag:k8s
-
 set -o errexit -o nounset -o errtrace -o pipefail -x
-set +t
 
-function preflight() {
-	if [[ "${IMAGE_REGISTRY}" == "" ]]; then
-		echo "Must set IMAGE_REGISTRY environment variable. Exiting."
-		exit 1
-	fi
+TMPDIR=$(mktemp -d)
 
-	if [[ "${IMAGE_REPOSITORY}" == "" ]]; then
-		echo "Must set IMAGE_REPOSITORY environment variable. Exiting."
-		exit 1
-	fi
-
-	if [[ "${IMAGE_TAG}" == "" ]]; then
-		echo "Must set IMAGE_TAG environment variable. Exiting."
-		exit 1
-	fi
+cleanup() {
+	rm -rf $TMPDIR
 }
 
-preflight
+trap cleanup EXIT
 
 # Install a dev etcd
 set +u
-cat >etcd.yaml <<EOF
+cat >$TMPDIR/etcd.yaml <<EOF
 apiVersion: v1
 kind: Service
 metadata:
@@ -75,7 +61,7 @@ spec:
     spec:
       containers:
       - name: etcd
-        image: quay.io/coreos/etcd:v3.4.2
+        image: cgr.dev/chainguard/etcd:latest-dev
         ports:
         - containerPort: 2379
           name: client
@@ -89,20 +75,19 @@ spec:
           - -c
           - |
             PEERS="etcd-0=http://etcd-0.etcd:2380"
-            exec etcd --name \$$HOSTNAME \
+            exec etcd --name \$HOSTNAME \
               --listen-peer-urls http://0.0.0.0:2380 \
               --listen-client-urls http://0.0.0.0:2379 \
-              --advertise-client-urls http://\$$HOSTNAME.etcd:2379 \
-              --initial-advertise-peer-urls http://\$$HOSTNAME:2380 \
+              --advertise-client-urls http://\$HOSTNAME.etcd:2379 \
+              --initial-advertise-peer-urls http://\$HOSTNAME:2380 \
               --initial-cluster-token etcd-cluster-1 \
-              --initial-cluster \$$PEERS \
-              --initial-cluster-state new \
-              --data-dir /var/run/etcd/default.etcd
+              --initial-cluster \$PEERS \
+              --initial-cluster-state new
   volumeClaimTemplates:
   - metadata:
       name: data
     spec:
-      storageClassName: standard
+      storageClassName: standard # NOTE: This assumes kind
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
@@ -110,12 +95,16 @@ spec:
 EOF
 set -u
 
-kubectl apply -f etcd.yaml
+kubectl apply -f $TMPDIR/etcd.yaml
 
+kubectl wait --for=condition=ready pod --selector app.kubernetes.io/name=etcd --timeout 60s
 etcd_ip=$(kubectl get svc etcd-client -ojsonpath='{.spec.clusterIP}')
 
 # Install CoreDNS
-cat >coredns-values.yaml <<EOF
+cat >$TMPDIR/coredns-values.yaml <<EOF
+image:
+  repository: cgr.dev/chainguard/coredns
+  tag: latest
 isClusterService: false
 servers:
 - zones:
@@ -145,33 +134,35 @@ servers:
   - name: loadbalance
 EOF
 helm repo add coredns https://coredns.github.io/helm
-helm install coredns coredns/coredns -f coredns-values.yaml
+helm upgrade -i coredns coredns/coredns -f $TMPDIR/coredns-values.yaml
 
 # Install External DNS
-cat >external-dns-values.yaml <<EOF
+cat >$TMPDIR/external-dns-values.yaml <<EOF
 provider: coredns
 logLevel: debug
+image:
+  repository: ${IMAGE_REGISTRY_REPO}
+  tag: ${IMAGE_TAG}
 env:
 - name: ETCD_URLS
   value: http://${etcd_ip}:2379
 EOF
 helm repo add external-dns https://kubernetes-sigs.github.io/external-dns/
-helm install edns external-dns/external-dns -f external-dns-values.yaml
+helm upgrade -i edns external-dns/external-dns -f $TMPDIR/external-dns-values.yaml
 
-sleep 10
-
-kubectl get ingressclass
+kubectl wait --for=condition=ready pod --selector app.kubernetes.io/name=coredns --timeout 120s
+kubectl wait --for=condition=ready pod --selector app.kubernetes.io/name=external-dns --timeout 60s
 
 domain="foo.example.org"
 
 # apply the ingress
-cat >ingress.yaml <<EOF
+cat >$TMPDIR/ingress.yaml <<EOF
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: dummy
 spec:
-  ingressClassName: nginx
+  ingressClassName: nginx # NOTE: This assumes kind
   rules:
   - host: ${domain}
     http:
@@ -184,33 +175,22 @@ spec:
             port:
               number: 80
 EOF
-kubectl apply -f ingress.yaml
+kubectl apply -f $TMPDIR/ingress.yaml
+
+kubectl port-forward svc/coredns-coredns ${FREE_PORT}:53 &
+fwd_pid=$!
+trap cleanup_pid EXIT
+
+cleanup_pid() {
+	kill -9 $fwd_pid
+}
+
+trap cleanup EXIT
 
 # TODO: This sucks, but edns doesn't always forward the ingress request fast enough
 sleep 20
-
 ing_ip=$(kubectl get ingress dummy -ojsonpath='{.status.loadBalancer.ingress[0].ip}')
-kubectl port-forward svc/coredns-coredns 5353:53 &
 
-max_attempts=10
-attempt=0
-while [[ $attempt -lt $max_attempts ]]; do
-	output=$(dig +short -p 5353 +tcp @localhost "$domain" A)
-
-	if [[ -n "$output" ]]; then
-		echo "A record found: $output"
-		break
-	fi
-
-	echo "Attempt $((attempt + 1)): No A record found yet"
-	((attempt++))
-	sleep 1
-done
-
-if [[ $attempt -ge $max_attempts ]]; then
-	echo "Maximum number of attempts reached. Unable to find A record for $domain"
-	exit 1
-fi
-
-digged=$(dig +short -p 5353 +tcp @localhost "$domain" A)
+digged=$(dig +short -p ${FREE_PORT} +tcp @localhost "$domain" A)
+kill -9 $fwd_pid
 [[ "$digged" == "$ing_ip" ]] || exit 1
