@@ -31,7 +31,7 @@ data "oci_exec_test" "version" {
   # and has a more interesting test below!
   for_each = { for k, v in var.digests : k => v if k != "cloudwatch-exporter" }
   digest   = each.value
-  script   = "docker run --rm $${IMAGE_NAME} --version"
+  script   = "docker run --rm $IMAGE_NAME --version"
 }
 
 data "oci_exec_test" "healthy" {

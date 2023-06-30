@@ -10,5 +10,5 @@ variable "digest" {
 
 data "oci_exec_test" "runs" {
   digest = var.digest
-  script = "docker run --rm $${IMAGE_NAME} /sbin/ldconfig --help"
+  script = "docker run --rm $IMAGE_NAME /sbin/ldconfig --help"
 }
