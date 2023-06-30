@@ -147,10 +147,6 @@ jobs:
           k8s-version: v1.24.x
           registry-authority: registry.local:5000
       - uses: ./.github/actions/release-image-terraform
-        if: ${{ matrix.useTerraform }}
-        with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
-      - uses: ./.github/actions/release-image
-        if: ${{ ! matrix.useTerraform }}
         with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
       # TODO: https://github.com/chainguard-images/images/issues/941
       # - uses: ./.github/actions/policy-check-image
@@ -202,11 +198,8 @@ jobs:
           k8s-version: v1.24.x
           registry-authority: registry.local:5000
       - uses: ./.github/actions/release-image-terraform
-        if: ${{ matrix.useTerraform }}
         with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
-      - uses: ./.github/actions/release-image
-        if: ${{ ! matrix.useTerraform }}
-        with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
+
       # TODO: https://github.com/chainguard-images/images/issues/941
       # - uses: ./.github/actions/policy-check-image
       #   with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}

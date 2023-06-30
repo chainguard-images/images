@@ -71,10 +71,6 @@ jobs:
           registry-authority: registry.local:5000
 
       - uses: ./.github/actions/build-image-terraform
-        if: ${{ matrix.useTerraform }}
-        with: ${{ fromJSON(steps.augmented-inputs.outputs.matrix-json) }}
-      - uses: ./.github/actions/build-image
-        if: ${{ ! matrix.useTerraform }}
         with: ${{ fromJSON(steps.augmented-inputs.outputs.matrix-json) }}
 
       - name: Collect diagnostics and upload
@@ -118,10 +114,6 @@ jobs:
           registry-authority: registry.local:5000
 
       - uses: ./.github/actions/build-image-terraform
-        if: ${{ matrix.useTerraform }}
-        with: ${{ fromJSON(steps.augmented-inputs.outputs.matrix-json) }}
-      - uses: ./.github/actions/build-image
-        if: ${{ ! matrix.useTerraform }}
         with: ${{ fromJSON(steps.augmented-inputs.outputs.matrix-json) }}
 
   presubmit-roundup:
