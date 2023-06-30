@@ -247,6 +247,12 @@ module "google-cloud-sdk" {
   target_repository = "${var.target_repository}/google-cloud-sdk"
 }
 
+
+module "external-dns" {
+  source            = "./images/external-dns"
+  target_repository = "${var.target_repository}/external-dns"
+}
+
 module "graalvm-native" {
   source            = "./images/graalvm-native"
   target_repository = "${var.target_repository}/graalvm-native"
