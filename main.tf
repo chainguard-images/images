@@ -197,6 +197,11 @@ module "etcd" {
   target_repository = "${var.target_repository}/etcd"
 }
 
+module "external-dns" {
+  source            = "./images/external-dns"
+  target_repository = "${var.target_repository}/external-dns"
+}
+
 module "external-secrets" {
   source            = "./images/external-secrets"
   target_repository = "${var.target_repository}/external-secrets"

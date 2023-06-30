@@ -5,25 +5,6 @@
 set -o errexit -o nounset -o errtrace -o pipefail -x
 set +t
 
-function preflight() {
-	if [[ "${IMAGE_REGISTRY}" == "" ]]; then
-		echo "Must set IMAGE_REGISTRY environment variable. Exiting."
-		exit 1
-	fi
-
-	if [[ "${IMAGE_REPOSITORY}" == "" ]]; then
-		echo "Must set IMAGE_REPOSITORY environment variable. Exiting."
-		exit 1
-	fi
-
-	if [[ "${IMAGE_TAG}" == "" ]]; then
-		echo "Must set IMAGE_TAG environment variable. Exiting."
-		exit 1
-	fi
-}
-
-preflight
-
 # Install a dev etcd
 set +u
 cat >etcd.yaml <<EOF
@@ -190,12 +171,12 @@ kubectl apply -f ingress.yaml
 sleep 20
 
 ing_ip=$(kubectl get ingress dummy -ojsonpath='{.status.loadBalancer.ingress[0].ip}')
-kubectl port-forward svc/coredns-coredns 5353:53 &
+kubectl port-forward svc/coredns-coredns ${FREE_PORT}:53 &
 
 max_attempts=10
 attempt=0
 while [[ $attempt -lt $max_attempts ]]; do
-	output=$(dig +short -p 5353 +tcp @localhost "$domain" A)
+	output=$(dig +short -p ${FREE_PORT} +tcp @localhost "$domain" A)
 
 	if [[ -n "$output" ]]; then
 		echo "A record found: $output"
@@ -212,5 +193,5 @@ if [[ $attempt -ge $max_attempts ]]; then
 	exit 1
 fi
 
-digged=$(dig +short -p 5353 +tcp @localhost "$domain" A)
+digged=$(dig +short -p ${FREE_PORT} +tcp @localhost "$domain" A)
 [[ "$digged" == "$ing_ip" ]] || exit 1
