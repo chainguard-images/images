@@ -1,14 +1,7 @@
 terraform {
   required_providers {
-    oci    = { source = "chainguard-dev/oci" }
-    random = { source = "hashicorp/random" }
-    helm   = { source = "hashicorp/helm" }
-  }
-}
-
-provider "helm" {
-  kubernetes {
-    config_path = "~/.kube/config"
+    oci  = { source = "chainguard-dev/oci" }
+    helm = { source = "hashicorp/helm" }
   }
 }
 
@@ -16,26 +9,18 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-resource "random_pet" "suffix" {}
-
-data "oci_exec_test" "run" {
-  digest = var.digest
-  script = "docker run --rm $${IMAGE_NAME} --version"
-}
+data "oci_string" "ref" { input = var.digest }
 
 resource "helm_release" "thanos-operator" {
-  name             = "thanos-operator-${random_pet.suffix.id}"
+  name             = "thanos-operator"
   repository       = "https://kubernetes-charts.banzaicloud.com"
-  chart            = "banzaicloud-stable"
-  namespace        = "thanos-operator-${random_pet.suffix.id}"
+  chart            = "thanos-operator"
   create_namespace = true
 
-  set {
-    name  = "image.repository"
-    value = element(split("@", data.oci_exec_test.run.tested_ref), 0)
-  }
-  set {
-    name  = "image.tag"
-    value = "unused@${element(split("@", data.oci_exec_test.run.tested_ref), 1)}"
-  }
+  values = [jsonencode({
+    image = {
+      repository = data.oci_string.ref.registry_repo
+      tag        = data.oci_string.ref.pseudo_tag
+    }
+  })]
 }

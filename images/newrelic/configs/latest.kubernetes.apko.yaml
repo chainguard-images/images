@@ -1,0 +1,28 @@
+contents:
+  packages:
+    - busybox
+    - bind-tools
+    - tini
+    - nri-kubernetes
+
+accounts:
+  # Match the GID/UID the upstream helm chart use
+  groups:
+    - groupname: nri-agent
+      gid: 2000
+  users:
+    - username: nri
+      uid: 1000
+      gid: 2000
+  run-as: 1000
+
+entrypoint:
+  command: /sbin/tini -- /usr/bin/nri-kubernetes
+
+environment:
+  METADATA: true
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/nri-kubernetes/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/nri-kubernetes

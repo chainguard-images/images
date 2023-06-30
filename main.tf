@@ -33,9 +33,10 @@ provider "apko" {
 provider "apko" {
   alias = "alpine"
 
-  default_archs      = [] # this defaults to "all"
   extra_repositories = ["https://dl-cdn.alpinelinux.org/alpine/edge/main"]
-  extra_packages     = ["ca-certificates-bundle"]
+  # These packages match chainguard-images/static
+  extra_packages = ["alpine-baselayout-data", "alpine-release", "ca-certificates-bundle"]
+  default_archs  = [] # defaults to all
 }
 
 provider "helm" {
@@ -100,6 +101,11 @@ module "busybox" {
   providers = {
     apko.alpine = apko.alpine
   }
+}
+
+module "calico" {
+  source            = "./images/calico"
+  target_repository = "${var.target_repository}/calico"
 }
 
 module "cc-dynamic" {
@@ -237,6 +243,14 @@ module "glibc-dynamic" {
   target_repository = "${var.target_repository}/glibc-dynamic"
 }
 
+module "git" {
+  source            = "./images/git"
+  target_repository = "${var.target_repository}/git"
+  providers = {
+    apko.alpine = apko.alpine
+  }
+}
+
 module "go" {
   source            = "./images/go"
   target_repository = "${var.target_repository}/go"
@@ -245,6 +259,12 @@ module "go" {
 module "google-cloud-sdk" {
   source            = "./images/google-cloud-sdk"
   target_repository = "${var.target_repository}/google-cloud-sdk"
+}
+
+
+module "external-dns" {
+  source            = "./images/external-dns"
+  target_repository = "${var.target_repository}/external-dns"
 }
 
 module "graalvm-native" {
@@ -492,6 +512,13 @@ module "netcat" {
   target_repository = "${var.target_repository}/netcat"
 }
 
+variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
+module "newrelic" {
+  source            = "./images/newrelic"
+  target_repository = "${var.target_repository}/newrelic"
+  license_key       = var.newrelic_license_key
+}
+
 module "nginx" {
   source            = "./images/nginx"
   target_repository = "${var.target_repository}/nginx"
@@ -653,6 +680,11 @@ module "tigera-operator" {
 module "traefik" {
   source            = "./images/traefik"
   target_repository = "${var.target_repository}/traefik"
+}
+
+module "trust-manager" {
+  source            = "./images/trust-manager"
+  target_repository = "${var.target_repository}/trust-manager"
 }
 
 module "vault" {

@@ -1,7 +1,5 @@
 contents:
   packages:
-    - alpine-baselayout-data
-    - alpine-release
     - tzdata
 
 accounts:
