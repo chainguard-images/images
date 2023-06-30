@@ -9,8 +9,9 @@ terraform {
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
-    server = string
-    agent  = string
+    server                  = string
+    agent                   = string
+    oidc-discovery-provider = string
   })
 }
 
@@ -44,6 +45,15 @@ resource "helm_release" "spire" {
           registry   = data.oci_string.ref["agent"].registry
           repository = data.oci_string.ref["agent"].repo
           tag        = data.oci_string.ref["agent"].pseudo_tag
+        }
+      }
+      spiffe-oidc-discovery-provider = {
+        enabled = true
+        config  = { acme = { tosAccepted = true } }
+        image = {
+          registry   = data.oci_string.ref["oidc-discovery-provider"].registry
+          repository = data.oci_string.ref["oidc-discovery-provider"].repo
+          tag        = data.oci_string.ref["oidc-discovery-provider"].pseudo_tag
         }
       }
     }),
