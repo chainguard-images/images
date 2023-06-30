@@ -2,7 +2,7 @@
 # fluent-bit
 | | |
 | - | - |
-| **Status** | experimental |
+| **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/fluent-bit` |
 
 

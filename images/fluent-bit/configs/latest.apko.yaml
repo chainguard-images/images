@@ -1,11 +1,6 @@
 contents:
-  repositories:
-    - https://packages.wolfi.dev/os
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
     - fluent-bit
-    - wolfi-baselayout
 
 accounts:
   groups:
@@ -26,10 +21,6 @@ paths:
 entrypoint:
   command: /usr/bin/fluent-bit
 cmd: -c /fluent-bit/etc/fluent-bit.conf
-
-archs:
-  - x86_64
-  - aarch64
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
