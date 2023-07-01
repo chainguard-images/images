@@ -712,6 +712,11 @@ module "wait-for-it" {
   target_repository = "${var.target_repository}/wait-for-it"
 }
 
+module "wasmtime" {
+  source            = "./images/wasmtime"
+  target_repository = "${var.target_repository}/wasmtime"
+}
+
 module "wavefront-proxy" {
   source            = "./images/wavefront-proxy"
   target_repository = "${var.target_repository}/wavefront-proxy"
