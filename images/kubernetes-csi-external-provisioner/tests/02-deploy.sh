@@ -4,22 +4,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-function cleanup() {
-	# Print debug logs and status
-	kubectl get pods
-	kubectl describe pods
-
-	# Seeing intermittent failures if we don't wait for a bit here
-	# The `rollout status`` below should wait for terminated pods to be removed
-	# However, we still occasionally see a terminating pod which fails when checking logs
-	# Ignore errors, since this is just for debugging
-	set +e
-	sleep 10
-	kubectl logs --selector app=csi-provisioner
-}
-
-trap cleanup EXIT
-
 # Deploy the csi-provisioner yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-provisioner/v3.5.0/deploy/kubernetes/rbac.yaml
 curl -LO https://raw.githubusercontent.com/kubernetes-csi/external-provisioner/v3.5.0/deploy/kubernetes/deployment.yaml

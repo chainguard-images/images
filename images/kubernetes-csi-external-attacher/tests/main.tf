@@ -12,3 +12,8 @@ data "oci_exec_test" "version" {
   digest = var.digest
   script = "${path.module}/01-version.sh"
 }
+
+data "oci_exec_test" "deploy" {
+  digest = var.digest
+  script = "${path.module}/02-deploy.sh"
+}
