@@ -9,6 +9,11 @@ paths:
     permissions: 0o777
     uid: 65532
     gid: 65532
+  - path: /var/lib/weaviate
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
 
 entrypoint:
   command: /bin/weaviate
