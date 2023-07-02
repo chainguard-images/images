@@ -737,6 +737,11 @@ module "wolfi-base" {
   target_repository = "${var.target_repository}/wolfi-base"
 }
 
+module "zig" {
+  source            = "./images/zig"
+  target_repository = "${var.target_repository}/zig"
+}
+
 module "zookeeper" {
   source            = "./images/zookeeper"
   target_repository = "${var.target_repository}/zookeeper"
