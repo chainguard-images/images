@@ -343,6 +343,11 @@ module "influxdb" {
   target_repository = "${var.target_repository}/influxdb"
 }
 
+module "ingress-nginx-controller" {
+  source            = "./images/ingress-nginx-controller"
+  target_repository = "${var.target_repository}/ingress-nginx-controller"
+}
+
 module "jdk" {
   source            = "./images/jdk"
   target_repository = "${var.target_repository}/jdk"
