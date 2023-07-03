@@ -23,11 +23,16 @@ variable "extra_packages" {
   default = []
 }
 
+variable "archs" {
+  type    = list(string)
+  default = []
+}
+
 provider "apko" {
   extra_repositories = concat(["https://packages.wolfi.dev/os"], var.extra_repositories)
   extra_keyring      = concat(["https://packages.wolfi.dev/os/wolfi-signing.rsa.pub"], var.extra_keyring)
   extra_packages     = concat(["wolfi-baselayout"], var.extra_packages)
-  default_archs      = ["x86_64", "aarch64"]
+  default_archs      = length(var.archs) == 0 ? ["x86_64", "aarch64"] : var.archs
 }
 
 provider "apko" {
@@ -36,7 +41,7 @@ provider "apko" {
   extra_repositories = ["https://dl-cdn.alpinelinux.org/alpine/edge/main"]
   # These packages match chainguard-images/static
   extra_packages = ["alpine-baselayout-data", "alpine-release", "ca-certificates-bundle"]
-  default_archs  = [] # defaults to all
+  default_archs  = var.archs # defaults to all
 }
 
 provider "helm" {
