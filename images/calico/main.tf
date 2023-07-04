@@ -8,15 +8,27 @@ locals {
   components = toset([
     "calicoctl",
     "node",
-    // "felix",
-    // "cni",
-    // "apiserver",
-    // "app-policy",
-    // "kube-controllers",
-    // "pod2daemon",
-    // "typhad" (conflicts on etc/nsswitch.conf)
-    // "typha-client",
+    "kube-controllers",
+    "cni",
   ])
+
+  // Normally the package is named like "calico-{component}"
+  // But some packages are named differently:
+  // - calicoctl -> calicoctl
+  packages = merge({
+    for k, v in local.components : k => "calico-${k}"
+    }, {
+    "calicoctl" : "calicoctl",
+  })
+
+  // Normally the repository is named like "calico-{component}"
+  // But some repositories are named differently:
+  // - calicoctl -> calicoctl
+  repositories = merge({
+    for k, v in local.components : k => "${var.target_repository}-${k}"
+    }, {
+    "calicoctl" : "${var.target_repository}ctl",
+  })
 }
 
 variable "target_repository" {
@@ -35,7 +47,7 @@ module "version-tags" {
   for_each = local.components
   source   = "../../tflib/version-tags"
 
-  package = (each.key == "calicoctl" ? "calicoctl" : "calico-${each.key}")
+  package = local.packages[each.key]
   config  = module.latest[each.key].config
 }
 
