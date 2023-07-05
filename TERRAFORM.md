@@ -84,6 +84,17 @@ TF_VAR_target_repository=... terraform apply \
     -target=module.consul
 ```
 
+### Building for certain architectures
+
+By default all Wolfi-based images are built for `x86_64` (`amd64`) and `aarch64` (`arm64`),
+and Alpine-based images are built for all architectures supported by Alpine.
+
+During testing it can be useful to only build for certain architectures, such as the host architecture.
+
+To achieve this, pass `-var='archs=["x86_64"]'` or `-var='archs=["aarch64"]'` to `terraform apply`.
+
+The `[]`s are important here; omitting them results in an error saying `Variables may not be used here.`
+
 ### Running Tests
 
 Every image defines a module in `images/{foo}/tests` that can be used to run the
