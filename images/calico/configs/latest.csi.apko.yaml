@@ -1,0 +1,25 @@
+contents:
+  packages:
+    - calico-pod2daemon
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 0
+
+entrypoint:
+  command: /opt/cni/bin/calico-pod2daemon-csidriver
+
+environment:
+  PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/cni/bin
+
+annotations:
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/calico/
+  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/calico
+

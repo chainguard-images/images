@@ -10,15 +10,18 @@ locals {
     "node",
     "kube-controllers",
     "cni",
+    "csi",
   ])
 
   // Normally the package is named like "calico-{component}"
   // But some packages are named differently:
   // - calicoctl -> calicoctl
+  // - calico-csi -> calico-pod2daemon
   packages = merge({
     for k, v in local.components : k => "calico-${k}"
     }, {
     "calicoctl" : "calicoctl",
+    "csi" : "calico-pod2daemon",
   })
 
   // Normally the repository is named like "calico-{component}"

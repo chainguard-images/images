@@ -12,6 +12,7 @@ variable "digests" {
     calicoctl        = string
     cni              = string
     kube-controllers = string
+    csi              = string
   })
 }
 
@@ -30,5 +31,13 @@ data "oci_exec_test" "install" {
   env {
     name  = "KUBE_CONTROLLERS_IMAGE"
     value = var.digests["kube-controllers"]
+  }
+  env {
+    name  = "CSI_IMAGE"
+    value = var.digests["csi"]
+  }
+  env {
+    name  = "CSI_NODE_DRIVER_REGISTRAR_IMAGE"
+    value = "cgr.dev/chainguard/kubernetes-csi-node-driver-registrar:latest"
   }
 }
