@@ -332,6 +332,11 @@ module "jre" {
   target_repository = "${var.target_repository}/jre"
 }
 
+module "k3s" {
+  source            = "./images/k3s"
+  target_repository = "${var.target_repository}/k3s"
+}
+
 module "k8s-sidecar" {
   source            = "./images/k8s-sidecar"
   target_repository = "${var.target_repository}/k8s-sidecar"
