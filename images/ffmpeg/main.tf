@@ -15,6 +15,18 @@ module "latest" {
   config            = file("${path.module}/configs/latest.apko.yaml")
 }
 
+module "dev" { source = "../../tflib/dev-subvariant" }
+
+module "latest-dev" {
+  source = "../../tflib/publisher"
+
+  target_repository = var.target_repository
+  # Make the dev variant an explicit extension of the
+  # locked original.
+  config         = jsonencode(module.latest.config)
+  extra_packages = module.dev.extra_packages
+}
+
 module "version-tags" {
   source  = "../../tflib/version-tags"
   package = "ffmpeg"
