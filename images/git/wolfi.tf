@@ -12,6 +12,7 @@ module "latest-wolfi-dev" {
 
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.wolfi.${each.key}.apko.yaml")
+  extra_packages    = module.dev.extra_packages
 }
 
 module "version-tags-wolfi" {
@@ -33,5 +34,6 @@ module "test-latest-wolfi-dev" {
   for_each = local.accounts
   source   = "./tests"
 
-  digest = module.latest-wolfi-dev[each.key].image_ref
+  digest    = module.latest-wolfi-dev[each.key].image_ref
+  check-dev = true
 }
