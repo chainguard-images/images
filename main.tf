@@ -599,6 +599,11 @@ module "prometheus" {
   target_repository = "${var.target_repository}/prometheus"
 }
 
+module "proxysql" {
+  source            = "./images/proxysql"
+  target_repository = "${var.target_repository}/proxysql"
+}
+
 module "pulumi" {
   source            = "./images/pulumi"
   target_repository = "${var.target_repository}/pulumi"
