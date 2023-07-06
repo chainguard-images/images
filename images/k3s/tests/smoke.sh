@@ -24,4 +24,4 @@ sleep 20
 # Wait for the traefik jobs, to complete, this flexes pod creation as well as
 # the svc lb creation, and more importantly, can fit into a kubectl wait
 # oneliner
-KUBECONFIG=$TMPDIR/k3s.yaml kubectl wait --for=condition=complete job --all -n kube-system --timeout=60s
+KUBECONFIG=$TMPDIR/k3s.yaml kubectl wait --for=condition=complete job --all -n kube-system --timeout=120s
