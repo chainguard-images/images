@@ -8,7 +8,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "help" {
+data "oci_exec_test" "deploy" {
   digest = var.digest
   script = "${path.module}/deploy.sh"
 }

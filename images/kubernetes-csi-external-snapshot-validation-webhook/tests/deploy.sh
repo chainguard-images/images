@@ -12,6 +12,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-snaps
 
 tmpdir=$(mktemp -d); cd "${tmpdir}"
 curl -sLO https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/${VERSION}/deploy/kubernetes/webhook-example/create-cert.sh
-./create-cert.sh --service snapshot-validation-service --secret snapshot-validation-secret --namespace default
+chmod +x ./create-cert.sh
+./create-cert.sh --service snapshot-validation-service --secret snapshot-validation-secret
 
-kubectl rollout status deployment snapshot-controller -n kube-system --timeout=120s
+kubectl rollout status deployment snapshot-validation-deployment --timeout=120s
