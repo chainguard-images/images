@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# monopod:tag:k8s
-
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 export HELM_EXPERIMENTAL_OCI=1

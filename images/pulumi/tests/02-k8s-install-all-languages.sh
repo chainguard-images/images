@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# monopod:tag:k8s
-
 set -o errexit -o errtrace -o pipefail -x
 
 ONLY_TEST_LANG="${ONLY_TEST_LANG:-}"

@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# monopod:tag:k8s
-
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 helm repo add nvdp https://nvidia.github.io/k8s-device-plugin

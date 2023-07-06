@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# monopod:tag:k8s
-
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 # add a test deployment to scale based on the cpa algorithm
