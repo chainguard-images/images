@@ -22,10 +22,10 @@ module "version-tags" {
   config  = module.latest.config
 }
 
-# module "test-latest" {
-#   source = "./tests"
-#   digest = module.latest.image_ref
-# }
+module "test-latest" {
+  source = "./tests"
+  digest = module.latest.image_ref
+}
 
 module "tagger" {
   source = "../../tflib/tagger"

@@ -10,8 +10,7 @@ variable "digest" {
 }
 
 data "oci_string" "ref" {
-  for_each = var.digest
-  input    = each.value
+  input = var.digest 
 }
 
 data "oci_exec_test" "version" {

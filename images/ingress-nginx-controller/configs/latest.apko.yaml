@@ -1,8 +1,4 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
-  repositories:
-    - https://packages.wolfi.dev/os
   packages:
     - ca-certificates-bundle
     - wolfi-base
@@ -43,10 +39,6 @@ contents:
     - lua-resty-string
     - lua-resty-upload
 
-archs:
-   - x86_64
-   - aarch64
-
 accounts:
   groups:
     - groupname: www-data
@@ -60,8 +52,6 @@ annotations:
   "org.opencontainers.image.title": "Ingress-NGINX Controller for Kubernetes"
   "org.opencontainers.image.documentation": "https://kubernetes.github.io/ingress-nginx/"
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": "https://edu.chainguard.dev/chainguard/chainguard-images/reference/apko/"
-  "org.opencontainers.image.source": "https://github.com/chainguard-images/images/tree/main/images/apko"
   "org.opencontainers.image.licenses": "Apache-2.0"
 
 environment:
@@ -199,4 +189,9 @@ paths:
     type: directory
     permissions: 0o755
     recursive: true
-
+  - path: /sbin/nginx
+    source: /usr/local/nginx/sbin/nginx
+    type: symlink
+    uid: 101
+    gid: 101
+    permissions: 0o755
