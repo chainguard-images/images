@@ -1,6 +1,7 @@
 contents:
   packages:
-    - calico-pod2daemon
+    - calico-typhad
+    - tini
 
 accounts:
   groups:
@@ -10,12 +11,14 @@ accounts:
     - username: nonroot
       uid: 65532
       gid: 65532
-  run-as: 0
+  run-as: 65532
 
 entrypoint:
-  command: /usr/bin/calico-pod2daemon-csidriver
+  command: /sbin/tini --
+cmd: /usr/bin/calico-typha
 
 annotations:
   "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/calico/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/calico
+

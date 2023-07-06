@@ -13,6 +13,7 @@ variable "digests" {
     cni              = string
     kube-controllers = string
     csi              = string
+    typha            = string
   })
 }
 
@@ -35,6 +36,10 @@ data "oci_exec_test" "install" {
   env {
     name  = "CSI_IMAGE"
     value = var.digests["csi"]
+  }
+  env {
+    name  = "TYPHA_IMAGE"
+    value = var.digests["typha"]
   }
   env {
     name  = "CSI_NODE_DRIVER_REGISTRAR_IMAGE"
