@@ -12,12 +12,13 @@ locals {
     "cni",
     "csi",
     "typha",
+    "pod2daemon",
   ])
 
   // Normally the package is named like "calico-{component}"
   // But some packages are named differently:
-  // - calicoctl -> calicoctl
-  // - calico-csi -> calico-pod2daemon
+  // - calicoctl    -> calicoctl
+  // - calico-csi   -> calico-pod2daemon
   // - calico-typha -> calico-typhad
   packages = merge({
     for k, v in local.components : k => "calico-${k}"
@@ -29,11 +30,13 @@ locals {
 
   // Normally the repository is named like "calico-{component}"
   // But some repositories are named differently:
-  // - calicoctl -> calicoctl
+  // - calicoctl  -> calicoctl
+  // - pod2daemon -> calico-pod2daemon-flexvol
   repositories = merge({
     for k, v in local.components : k => "${var.target_repository}-${k}"
     }, {
     "calicoctl" : "${var.target_repository}ctl",
+    "pod2daemon" : "${var.target_repository}-pod2daemon-flexvol",
   })
 }
 
