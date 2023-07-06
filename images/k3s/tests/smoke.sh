@@ -19,7 +19,7 @@ cleanup() {
 trap cleanup EXIT
 
 # Wait just a hot second for the server to boot before we can kubectl
-sleep 20
+sleep 30
 
 # Wait for the traefik jobs, to complete, this flexes pod creation as well as
 # the svc lb creation, and more importantly, can fit into a kubectl wait
