@@ -36,4 +36,3 @@ helm upgrade --install npd deliveryhero/node-problem-detector \
   --set image.tag=latest
 ```
 
-> WARNING: The example above should _not_ may work directly. In the official image, binary located under `/` path whereas we put under `/usr/bin/`. You may have to patch it: `$ kubectl patch daemonsets.apps npd-node-problem-detector --type='json' -p='[{"op": "remove", "path": "/spec/template/spec/containers/0/command"}, {"op": "add", "path": "/spec/template/spec/containers/0/args", "value": ["--config.system-log-monitor=/config/kernel-monitor.json,/config/docker-monitor.json", "--prometheus-address=0.0.0.0", "--prometheus-port=20257", "--k8s-exporter-heartbeat-period=5m0s"]}]'`

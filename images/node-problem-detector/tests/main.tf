@@ -8,12 +8,21 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "runs" {
-  digest = var.digest
-  script = "${path.module}/01-runs.sh"
-}
+data "oci_string" "ref" { input = var.digest }
 
-data "oci_exec_test" "helm" {
-  digest = var.digest
-  script = "${path.module}/02-helm.sh"
+resource "random_pet" "suffix" {}
+
+resource "helm_release" "node-problem-detector" {
+  name             = "npd-${random_pet.suffix.id}"
+  repository       = "https://charts.deliveryhero.io/"
+  chart            = "node-problem-detector"
+  namespace        = "npd-${random_pet.suffix.id}"
+  create_namespace = true
+
+  values = [jsonencode({
+    image = {
+      repository = data.oci_string.ref.registry_repo
+      tag        = data.oci_string.ref.pseudo_tag
+    }
+  })]
 }

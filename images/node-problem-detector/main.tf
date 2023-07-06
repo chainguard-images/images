@@ -9,36 +9,19 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-variable "extra_repositories" {
-  type        = list(string)
-  default     = ["https://packages.wolfi.dev/os"]
-  description = "The list of additional repositories to append to the apko configuration."
-}
-
-variable "extra_keyring" {
-  type        = list(string)
-  default     = ["https://packages.wolfi.dev/os/wolfi-signing.rsa.pub"]
-  description = "The list of additional keyring entries to append to the apko configuration."
-}
-
-variable "extra_packages" {
-  type        = list(string)
-  default     = ["wolfi-baselayout"]
-  description = "The list of additional packages to append to the apko configuration."
-}
-
-provider "apko" {
-  extra_repositories = var.extra_repositories
-  extra_keyring      = var.extra_keyring
-  default_archs      = ["x86_64", "aarch64"]
-}
-
 module "latest" {
+  source            = "../../tflib/publisher"
+  target_repository = var.target_repository
+  config            = file("${path.module}/configs/latest.apko.yaml")
+}
+
+module "dev" { source = "../../tflib/dev-subvariant" }
+
+module "latest-dev" {
   source = "../../tflib/publisher"
 
   target_repository = var.target_repository
-  config            = file("${path.module}/configs/latest.apko.yaml")
-  extra_packages    = var.extra_packages
+  config            = jsonencode(module.latest.config)
 }
 
 module "version-tags" {
