@@ -19,10 +19,8 @@ fi
 
 # TODO(mattmoor): switch this to cgr.dev/chainguard/crane registry serve
 # once we cut a release to make this listen on more than loopback.
-# Note: we expose the port here (even unused) to "claim" the port and
-# avoid naming collisions.
-container_name="registry-${RANDOM}.local"
-docker run -d -p ${FREE_PORT}:5000 --name "${container_name}" registry:2
+container_name="registry-$(hexdump -vn16 -e'4/4 "%08x" 1 "\n"' /dev/urandom).local"
+docker run -d --name "${container_name}" registry:2
 
 trap "docker rm -f ${container_name}" EXIT
 
@@ -31,7 +29,7 @@ REBUILT_IMAGE_NAME=$(docker run --rm \
    --link "${container_name}" \
    -v "${TMP}:/tmp/latest.apko.json" \
    -v ${PWD}:${PWD}:ro -w ${PWD} \
-   ghcr.io/wolfi-dev/apko:latest@sha256:4f747c533aa5b2bad01c64ec12e73a9c933510c2918d3c40a0e85b113e014ac3 \
+   ghcr.io/wolfi-dev/apko:latest@sha256:686ecf32c9a9b4c80ac0679c0db3b79e53f91238122ef5dd9181254a6b5e2939 \
    publish /tmp/latest.apko.json ${container_name}:5000/reproduction
 )
 
