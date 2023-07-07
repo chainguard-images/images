@@ -31,6 +31,7 @@ module "tagger" {
 
     { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : t => module.latest.image_ref },
     { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : "${t}-dev" => module.latest-dev.image_ref },
+    { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : "${t}-splunk" => module.latest-splunk.image_ref }
   )
 }
 
@@ -49,6 +50,16 @@ module "latest-dev" {
   # locked original.
   config         = jsonencode(module.latest.config)
   extra_packages = local.fluentd_dev
+}
+
+module "latest-splunk" {
+  source = "../../tflib/publisher"
+
+  target_repository = var.target_repository
+  # Make the dev variant an explicit extension of the
+  # locked original.
+  config         = jsonencode(module.latest.config)
+  extra_packages = ["fluent-plugin-splunk-hec"]
 }
 
 module "version-tags-latest" {
