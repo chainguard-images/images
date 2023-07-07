@@ -36,10 +36,9 @@ helm install calico projectcalico/tigera-operator \
     --namespace tigera-operator \
     --create-namespace \
     --set autoDiscovery.clusterName=foo \
-    --set tigeraOperator.registry="${IMAGE_REGISTRY}" \
-    --set tigeraOperator.image="${IMAGE_REPOSITORY}" \
-    --set tigeraOperator.version="${IMAGE_TAG}" \
-    --set image.pullPolicy=IfNotPresent
+    --set tigeraOperator.registry=cgr.dev \
+    --set tigeraOperator.image=chainguard/tigera-operator \
+    --set tigeraOperator.version=latest
 
 kubectl wait --namespace tigera-operator --for=condition=ready pod --selector name=tigera-operator --timeout=120s
 ```

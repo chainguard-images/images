@@ -47,20 +47,12 @@ module "test-latest" {
   digests = { for k, v in module.latest : k => v.image_ref }
 }
 
-module "test-latest-dev" {
-  source = "./tests"
-
-  digests   = { for k, v in module.latest : k => v.image_ref }
-  skip_crds = true
-}
-
 module "tagger" {
   for_each = local.components
   source   = "../../tflib/tagger"
 
   depends_on = [
     module.test-latest,
-    module.test-latest-dev,
   ]
 
   tags = merge(

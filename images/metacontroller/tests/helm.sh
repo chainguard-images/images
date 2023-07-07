@@ -5,8 +5,7 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 export HELM_EXPERIMENTAL_OCI=1
 helm install my-metacontroller-helm oci://ghcr.io/metacontroller/metacontroller-helm --version v4.10.3  \
     --set image.repository="${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}" \
-    --set image.tag="${IMAGE_TAG}" \
-    --set image.pullPolicy=IfNotPresent
+    --set image.tag="${IMAGE_TAG}"
 
 kubectl create namespace hello
 
