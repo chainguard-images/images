@@ -1,8 +1,7 @@
 terraform {
   required_providers {
-    oci    = { source = "chainguard-dev/oci" }
-    random = { source = "hashicorp/random" }
-    helm   = { source = "hashicorp/helm" }
+    oci  = { source = "chainguard-dev/oci" }
+    helm = { source = "hashicorp/helm" }
   }
 }
 
@@ -12,15 +11,13 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "influxdb" {
-  name = "influxdb-${random_pet.suffix.id}"
+  name = "influxdb"
 
   repository = "https://helm.influxdata.com"
   chart      = "influxdb2"
 
-  namespace        = "influxdb-${random_pet.suffix.id}"
+  namespace        = "influxdb"
   create_namespace = true
 
 

@@ -1,8 +1,7 @@
 terraform {
   required_providers {
-    oci    = { source = "chainguard-dev/oci" }
-    random = { source = "hashicorp/random" }
-    helm   = { source = "hashicorp/helm" }
+    oci  = { source = "chainguard-dev/oci" }
+    helm = { source = "hashicorp/helm" }
   }
 }
 
@@ -17,10 +16,8 @@ data "oci_exec_test" "version" {
   script = "docker run --rm $IMAGE_NAME --version"
 }
 
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "fluent-bit" {
-  name = "fluent-bit-${random_pet.suffix.id}"
+  name = "fluent-bit"
 
   repository = "https://fluent.github.io/helm-charts"
   chart      = "fluent-bit"

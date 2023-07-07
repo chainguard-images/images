@@ -75,21 +75,11 @@ module "test-latest" {
   digests = { for k, v in module.latest : k => v.image_ref }
 }
 
-# NOTE: Helm chart hardcodes most resource names, multiple instances in the same cluster are not possible
-# module "test-latest-dev" {
-#   source = "./tests"
-#
-#   digests   = { for k, v in module.latest-dev : k => v.image_ref }
-#   skip_crds = true
-# }
-
 module "tagger" {
   for_each = local.components
   source   = "../../tflib/tagger"
 
-  depends_on = [
-    module.test-latest,
-  ]
+  depends_on = [module.test-latest]
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : t => module.latest[each.key].image_ref },

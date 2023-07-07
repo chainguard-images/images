@@ -25,8 +25,3 @@ module "test-twenty-one" {
   source = "./tests"
   digest = module.twenty-one.image_ref
 }
-
-module "test-twenty-one-dev" {
-  source = "./tests"
-  digest = module.twenty-one-dev.image_ref
-}

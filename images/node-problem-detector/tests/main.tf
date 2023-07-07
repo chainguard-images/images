@@ -10,13 +10,11 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "node-problem-detector" {
-  name             = "npd-${random_pet.suffix.id}"
+  name             = "node-problem-detector"
   repository       = "https://charts.deliveryhero.io/"
   chart            = "node-problem-detector"
-  namespace        = "npd-${random_pet.suffix.id}"
+  namespace        = "node-problem-detector"
   create_namespace = true
 
   values = [jsonencode({

@@ -1,8 +1,7 @@
 terraform {
   required_providers {
-    oci    = { source = "chainguard-dev/oci" }
-    random = { source = "hashicorp/random" }
-    helm   = { source = "hashicorp/helm" }
+    oci  = { source = "chainguard-dev/oci" }
+    helm = { source = "hashicorp/helm" }
   }
 }
 
@@ -17,10 +16,8 @@ data "oci_exec_test" "version" {
   script = "docker run --rm $IMAGE_NAME -h"
 }
 
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "dex" {
-  name = "configmap-reload-${random_pet.suffix.id}"
+  name = "configmap-reload"
 
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "alertmanager"

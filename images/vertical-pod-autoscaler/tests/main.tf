@@ -1,8 +1,7 @@
 terraform {
   required_providers {
-    oci    = { source = "chainguard-dev/oci" }
-    helm   = { source = "hashicorp/helm" }
-    random = { source = "hashicorp/random" }
+    oci  = { source = "chainguard-dev/oci" }
+    helm = { source = "hashicorp/helm" }
   }
 }
 
@@ -20,22 +19,15 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
-variable "skip_crds" {
-  description = "Used to deconflict between multiple installations within the same cluster."
-  default     = false
-}
-
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "vertical-pod-autoscaler" {
-  name             = "vertical-pod-autoscaler-${random_pet.suffix.id}"
-  namespace        = "vpa-${random_pet.suffix.id}"
+  name             = "vertical-pod-autoscaler"
+  namespace        = "vertical-pod-autoscaler"
   repository       = "https://cowboysysop.github.io/charts"
   chart            = "vertical-pod-autoscaler"
   create_namespace = true
 
   values = [jsonencode({
-    installCRDs = var.skip_crds ? "false" : "true"
+    installCRDs = "true"
     admissionController = {
       image = {
         registry   = data.oci_string.ref["admission-controller"].registry

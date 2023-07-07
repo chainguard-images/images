@@ -13,10 +13,8 @@ data "oci_exec_test" "version" {
   script = "docker run --rm $IMAGE_NAME --version"
 }
 
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "consul" {
-  name = "consul-${random_pet.suffix.id}"
+  name = "consul"
 
   repository = "https://helm.releases.hashicorp.com"
   chart      = "consul"

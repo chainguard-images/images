@@ -23,7 +23,6 @@ module "tagger" {
 
   depends_on = [
     module.test-latest,
-    module.test-latest-dev,
   ]
 
   tags = merge(
@@ -61,9 +60,4 @@ module "version-tags-latest" {
 module "test-latest" {
   source = "./tests"
   digest = module.latest.image_ref
-}
-
-module "test-latest-dev" {
-  source = "./tests"
-  digest = module.latest-dev.image_ref
 }

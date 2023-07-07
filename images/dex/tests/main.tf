@@ -1,8 +1,7 @@
 terraform {
   required_providers {
-    oci    = { source = "chainguard-dev/oci" }
-    random = { source = "hashicorp/random" }
-    helm   = { source = "hashicorp/helm" }
+    oci  = { source = "chainguard-dev/oci" }
+    helm = { source = "hashicorp/helm" }
   }
 }
 
@@ -23,15 +22,13 @@ data "oci_exec_test" "run" {
   working_dir = path.module
 }
 
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "dex" {
-  name = "dex-${random_pet.suffix.id}"
+  name = "dex"
 
   repository = "https://charts.dexidp.io"
   chart      = "dex"
 
-  namespace        = "dex-${random_pet.suffix.id}"
+  namespace        = "dex"
   create_namespace = true
 
   values = [

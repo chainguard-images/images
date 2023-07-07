@@ -1,8 +1,7 @@
 terraform {
   required_providers {
-    oci    = { source = "chainguard-dev/oci" }
-    random = { source = "hashicorp/random" }
-    helm   = { source = "hashicorp/helm" }
+    oci  = { source = "chainguard-dev/oci" }
+    helm = { source = "hashicorp/helm" }
   }
 }
 
@@ -14,10 +13,8 @@ data "oci_string" "ref" {
   input = var.digest
 }
 
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "gatekeeper" {
-  name             = "gatekeeper-${random_pet.suffix.id}"
+  name             = "gatekeeper"
   namespace        = "gatekeeper-system"
   create_namespace = true
 

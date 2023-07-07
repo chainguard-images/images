@@ -1,8 +1,7 @@
 terraform {
   required_providers {
-    oci    = { source = "chainguard-dev/oci" }
-    random = { source = "hashicorp/random" }
-    helm   = { source = "hashicorp/helm" }
+    oci  = { source = "chainguard-dev/oci" }
+    helm = { source = "hashicorp/helm" }
   }
 }
 
@@ -19,15 +18,13 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "kubernetes-dashboard" {
-  name = "kubernetes-dashboard-${random_pet.suffix.id}"
+  name = "kubernetes-dashboard"
 
   repository = "https://kubernetes.github.io/dashboard/"
   chart      = "kubernetes-dashboard"
 
-  namespace        = "kubernetes-dashboard-${random_pet.suffix.id}"
+  namespace        = "kubernetes-dashboard"
   create_namespace = true
 
   values = [jsonencode({

@@ -38,11 +38,6 @@ module "test-latest" {
   digest = module.latest.image_ref
 }
 
-module "test-latest-dev" {
-  source = "./tests"
-  digest = module.latest-dev.image_ref
-}
-
 module "tagger" {
   source = "../../tflib/tagger"
 

@@ -29,9 +29,3 @@ module "test-three-two" {
   source = "./tests"
   digest = module.three-two.image_ref
 }
-
-module "test-three-two-dev" {
-  source = "./tests"
-
-  digest = module.three-two-dev.image_ref
-}

@@ -16,15 +16,13 @@ data "oci_exec_test" "version" {
   script = "${path.module}/01-version.sh"
 }
 
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "external-secrets" {
-  name = "external-secrets-${random_pet.suffix.id}"
+  name = "external-secrets"
 
   repository = "https://charts.external-secrets.io"
   chart      = "external-secrets"
 
-  namespace        = "external-secrets-${random_pet.suffix.id}"
+  namespace        = "external-secrets"
   create_namespace = true
 
   values = [

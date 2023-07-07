@@ -1,8 +1,7 @@
 terraform {
   required_providers {
-    oci    = { source = "chainguard-dev/oci" }
-    random = { source = "hashicorp/random" }
-    helm   = { source = "hashicorp/helm" }
+    oci  = { source = "chainguard-dev/oci" }
+    helm = { source = "hashicorp/helm" }
   }
 }
 
@@ -14,20 +13,18 @@ data "oci_string" "ref" {
   input = var.digest
 }
 
-resource "random_pet" "suffix" {}
-
 data "oci_exec_test" "nslookup" {
   digest = var.digest
   script = "${path.module}/nslookup-with-Corefile.sh"
 }
 
 resource "helm_release" "coredns" {
-  name = "stakater-reloader-${random_pet.suffix.id}"
+  name = "coredns"
 
   repository = "https://coredns.github.io/helm"
   chart      = "coredns"
 
-  namespace        = "coredns-${random_pet.suffix.id}"
+  namespace        = "coredns"
   create_namespace = true
 
   values = [

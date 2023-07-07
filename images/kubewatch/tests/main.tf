@@ -1,8 +1,7 @@
 terraform {
   required_providers {
-    oci    = { source = "chainguard-dev/oci" }
-    random = { source = "hashicorp/random" }
-    helm   = { source = "hashicorp/helm" }
+    oci  = { source = "chainguard-dev/oci" }
+    helm = { source = "hashicorp/helm" }
   }
 }
 
@@ -14,15 +13,13 @@ data "oci_string" "ref" {
   input = var.digest
 }
 
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "kubewatch" {
-  name = "kubewatch-${random_pet.suffix.id}"
+  name = "kubewatch"
 
   repository = "https://robusta-charts.storage.googleapis.com"
   chart      = "kubewatch"
 
-  namespace        = "kubewatch-${random_pet.suffix.id}"
+  namespace        = "kubewatch"
   create_namespace = true
 
   values = [
