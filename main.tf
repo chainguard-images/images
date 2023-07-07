@@ -124,6 +124,11 @@ module "cc-dynamic" {
   target_repository = "${var.target_repository}/cc-dynamic"
 }
 
+module "cedar" {
+  source            = "./images/cedar"
+  target_repository = "${var.target_repository}/cedar"
+}
+
 module "clang" {
   source            = "./images/clang"
   target_repository = "${var.target_repository}/clang"
