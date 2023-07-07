@@ -16,6 +16,5 @@ entrypoint:
   command: /usr/bin/nvidia-device-plugin
 
 annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/nvidia-device-plugin/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/nvidia-device-plugin

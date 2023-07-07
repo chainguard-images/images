@@ -140,7 +140,6 @@ Set the following annotations on the images using apko:
 
 ```
 annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/busybox/ #use the academy site here
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/bazel #use github here
 ```
