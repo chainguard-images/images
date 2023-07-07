@@ -41,12 +41,7 @@ module "test-latest" {
 module "tagger" {
   source = "../../tflib/tagger"
 
-  // The test installs CRDs, so we can't run two of them at once.
-  // Instead, we just run the test for :latest, and expect that it means :latest-dev will also work.
-  depends_on = [
-    module.test-latest,
-    // module.test-latest-dev,
-  ]
+  depends_on = [module.test-latest]
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },

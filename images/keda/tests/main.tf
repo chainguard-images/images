@@ -1,8 +1,7 @@
 terraform {
   required_providers {
-    oci    = { source = "chainguard-dev/oci" }
-    helm   = { source = "hashicorp/helm" }
-    random = { source = "hashicorp/random" }
+    oci  = { source = "chainguard-dev/oci" }
+    helm = { source = "hashicorp/helm" }
   }
 }
 
@@ -25,10 +24,8 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "keda" {
-  name             = "keda-${random_pet.suffix.id}"
+  name             = "keda"
   namespace        = "keda"
   repository       = "https://kedacore.github.io/charts"
   chart            = "keda"

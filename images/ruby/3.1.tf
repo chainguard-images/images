@@ -29,9 +29,3 @@ module "test-three-one" {
   source = "./tests"
   digest = module.three-one.image_ref
 }
-
-module "test-three-one-dev" {
-  source = "./tests"
-
-  digest = module.three-one-dev.image_ref
-}

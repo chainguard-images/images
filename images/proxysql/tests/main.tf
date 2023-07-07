@@ -1,8 +1,7 @@
 terraform {
   required_providers {
-    oci    = { source = "chainguard-dev/oci" }
-    random = { source = "hashicorp/random" }
-    helm   = { source = "hashicorp/helm" }
+    oci  = { source = "chainguard-dev/oci" }
+    helm = { source = "hashicorp/helm" }
   }
 }
 
@@ -17,16 +16,14 @@ variable "digest" {
 
 # data "oci_string" "ref" { input = var.digest }
 
-# resource "random_pet" "suffix" {}
-
 # resource "helm_release" "proxysql" {
-#   name = "proxysql-${random_pet.suffix.id}"
+#   name = "proxysql"
 
 #   repository = "https://dysnix.github.io/charts/"
 #   chart      = "proxysql"
 
 #   create_namespace = true
-#   namespace        = "proxysql-${random_pet.suffix.id}"
+#   namespace        = "proxysql"
 
 #   values = [jsonencode({
 #     image = {

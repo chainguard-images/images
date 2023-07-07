@@ -1,8 +1,7 @@
 terraform {
   required_providers {
-    oci    = { source = "chainguard-dev/oci" }
-    random = { source = "hashicorp/random" }
-    helm   = { source = "hashicorp/helm" }
+    oci  = { source = "chainguard-dev/oci" }
+    helm = { source = "hashicorp/helm" }
   }
 }
 
@@ -12,15 +11,13 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "stakater-reloader" {
-  name = "stakater-reloader-${random_pet.suffix.id}"
+  name = "stakater-reloader"
 
   repository = "https://stakater.github.io/stakater-charts"
   chart      = "reloader"
 
-  namespace        = "stakater-reloader-${random_pet.suffix.id}"
+  namespace        = "stakater-reloader"
   create_namespace = true
 
   values = [jsonencode({

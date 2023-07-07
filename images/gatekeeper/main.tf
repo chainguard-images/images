@@ -38,20 +38,10 @@ module "test-latest" {
   digest = module.latest.image_ref
 }
 
-# NOTE: Gatekeeper helm chart cannot be installed multiple times in the same cluster
-# module "test-latest-dev" {
-#   source    = "./tests"
-#   digest    = module.latest-dev.image_ref
-#   skip_crds = true
-#   namespace = "gatekeeper-system-dev"
-# }
-
 module "tagger" {
   source = "../../tflib/tagger"
 
-  depends_on = [
-    module.test-latest,
-  ]
+  depends_on = [module.test-latest]
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },

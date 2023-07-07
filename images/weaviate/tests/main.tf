@@ -1,8 +1,7 @@
 terraform {
   required_providers {
-    oci    = { source = "chainguard-dev/oci" }
-    random = { source = "hashicorp/random" }
-    helm   = { source = "hashicorp/helm" }
+    oci  = { source = "chainguard-dev/oci" }
+    helm = { source = "hashicorp/helm" }
   }
 }
 
@@ -17,15 +16,13 @@ data "oci_exec_test" "help" {
   script = "${path.module}/01-help.sh"
 }
 
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "weaviate" {
-  name = "weaviate-${random_pet.suffix.id}"
+  name = "weaviate"
 
   repository = "https://weaviate.github.io/weaviate-helm"
   chart      = "weaviate"
 
-  namespace        = "weaviate-${random_pet.suffix.id}"
+  namespace        = "weaviate"
   create_namespace = true
 
   # Split the digest ref into repository and digest. The helm chart expects a
