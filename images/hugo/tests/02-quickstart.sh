@@ -18,7 +18,7 @@ docker run --rm -v "${TMP}:/hugo/quickstart" --workdir=/hugo/quickstart \
        cgr.dev/chainguard/git:latest-glibc init
 
 docker run --rm -v "${TMP}:/hugo/quickstart" --workdir=/hugo/quickstart \
-       cgr.dev/chainguard/git:latest-dev submodule add https://github.com/theNewDynamic/gohugo-theme-ananke "themes/ananke"
+       cgr.dev/chainguard/git:latest-glibc-dev submodule add https://github.com/theNewDynamic/gohugo-theme-ananke "themes/ananke"
 
 docker run --rm -v "${TMP}:/hugo/quickstart" --workdir=/hugo/quickstart \
        cgr.dev/chainguard/busybox:latest-glibc /bin/sh -c "echo \"theme = 'ananke'\" >> config.toml"
