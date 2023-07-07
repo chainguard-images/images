@@ -43,6 +43,5 @@ cmd: -c /etc/nginx/nginx.conf -e /dev/stderr -g "daemon off;"
 stop-signal: SIGQUIT
 
 annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/nginx/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/nginx

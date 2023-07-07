@@ -6,12 +6,12 @@ Provide a short summary in the Title above. Examples of good PR titles:
 -->
 
 <!--
-Please include references to any related issues. 
+Please include references to any related issues.
  -->
 
 Fixes:
 
-Related: 
+Related:
 
 ### Pre-review Checklist
 
@@ -68,7 +68,6 @@ If you have an apko.yaml file in this PR you need to follow this checklist, othe
 - [ ] Add annotations e.g:
 ```
 annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/busybox/ # use the academy site here
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/bazel # use github here
 ```

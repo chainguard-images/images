@@ -17,6 +17,5 @@ accounts:
   run-as: 0
 
 annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/newrelic-infrastructure-bundle/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/newrelic-infrastructure-bundle
