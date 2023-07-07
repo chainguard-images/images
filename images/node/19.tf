@@ -25,8 +25,3 @@ module "test-nineteen" {
   source = "./tests"
   digest = module.nineteen.image_ref
 }
-
-module "test-nineteen-dev" {
-  source = "./tests"
-  digest = module.nineteen-dev.image_ref
-}

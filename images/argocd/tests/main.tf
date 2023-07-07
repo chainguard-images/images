@@ -18,15 +18,13 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "argocd-repo-server" {
-  name = "argocd-repo-server-${random_pet.suffix.id}"
+  name = "argocd-repo-server"
 
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo"
 
-  namespace        = "argocd-repo-server-${random_pet.suffix.id}"
+  namespace        = "argocd-repo-server"
   create_namespace = true
 
   # The argocd helm chart installs CRDs from the `templates/` directory,

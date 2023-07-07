@@ -41,13 +41,7 @@ module "test-latest" {
 module "tagger" {
   source = "../../tflib/tagger"
 
-  depends_on = [
-    module.test-latest,
-    # The Helm chart doesn't create a unique namespace, so we rely on
-    # the main variant to adequately test things for the dev variant,
-    # which is a proper superset.
-    # module.test-latest-dev,
-  ]
+  depends_on = [module.test-latest]
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },

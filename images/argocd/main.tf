@@ -44,8 +44,6 @@ module "version-tags" {
 }
 
 module "test-latest" {
-  for_each = local.components
-
   source  = "./tests"
   digests = { for k, v in module.latest : k => v.image_ref }
 }

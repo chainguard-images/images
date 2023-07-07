@@ -48,19 +48,11 @@ module "test-latest" {
   digests = { for k, v in module.latest : k => v.image_ref }
 }
 
-module "test-latest-dev" {
-  source  = "./tests"
-  digests = { for k, v in module.latest : k => v.image_ref }
-}
-
 module "tagger" {
   for_each = local.components
   source   = "../../tflib/tagger"
 
-  depends_on = [
-    module.test-latest,
-    module.test-latest-dev,
-  ]
+  depends_on = [module.test-latest]
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : t => module.latest[each.key].image_ref },

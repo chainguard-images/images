@@ -1,14 +1,15 @@
 terraform {
   required_providers {
-    oci    = { source = "chainguard-dev/oci" }
-    random = { source = "hashicorp/random" }
-    helm   = { source = "hashicorp/helm" }
+    oci  = { source = "chainguard-dev/oci" }
+    helm = { source = "hashicorp/helm" }
   }
 }
 
 variable "digest" {
   description = "The image digest to run tests over."
 }
+
+data "oci_string" "ref" { input = var.digest }
 
 data "oci_exec_test" "version" {
   digest = var.digest
@@ -21,20 +22,22 @@ data "oci_exec_test" "run" {
   working_dir = path.module
 }
 
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "dex" {
-  name = "dex-${random_pet.suffix.id}"
+  name = "dex"
 
   repository = "https://charts.dexidp.io"
   chart      = "dex"
 
-  namespace        = "dex-${random_pet.suffix.id}"
+  namespace        = "dex"
   create_namespace = true
 
   values = [
     <<EOF
 config:
+  image:
+    tag: ${data.oci_string.ref.pseudo_tag}
+    repository: ${data.oci_string.ref.registry_repo}
+
   issuer: "http://127.0.0.1:5556/dex"
 
   storage:
@@ -66,16 +69,4 @@ config:
     name: Example
     EOF
   ]
-
-  # Split the digest ref into repository and digest. The helm chart expects a
-  # tag, but it just appends it to the repository again, so we just specify a
-  # dummy tag and the digest to test.
-  set {
-    name  = "image.tag"
-    value = "unused@${element(split("@", data.oci_exec_test.version.tested_ref), 1)}"
-  }
-  set {
-    name  = "image.repository"
-    value = element(split("@", data.oci_exec_test.version.tested_ref), 0)
-  }
 }

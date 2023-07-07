@@ -36,18 +36,10 @@ module "test-latest" {
   digest = module.latest.image_ref
 }
 
-module "test-latest-dev" {
-  source = "./tests"
-  digest = module.latest-dev.image_ref
-}
-
 module "tagger" {
   source = "../../tflib/tagger"
 
-  depends_on = [
-    module.test-latest,
-    module.test-latest-dev,
-  ]
+  depends_on = [module.test-latest]
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },

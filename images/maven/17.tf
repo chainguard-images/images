@@ -26,7 +26,3 @@ module "test-seventeen" {
   digest = module.seventeen.image_ref
 }
 
-module "test-seventeen-dev" {
-  source = "./tests"
-  digest = module.seventeen-dev.image_ref
-}

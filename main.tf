@@ -33,6 +33,9 @@ provider "apko" {
   extra_keyring      = concat(["https://packages.wolfi.dev/os/wolfi-signing.rsa.pub"], var.extra_keyring)
   extra_packages     = concat(["wolfi-baselayout"], var.extra_packages)
   default_archs      = length(var.archs) == 0 ? ["x86_64", "aarch64"] : var.archs
+  default_annotations = {
+    "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/",
+  }
 }
 
 provider "apko" {
@@ -42,6 +45,9 @@ provider "apko" {
   # These packages match chainguard-images/static
   extra_packages = ["alpine-baselayout-data", "alpine-release", "ca-certificates-bundle"]
   default_archs  = var.archs # defaults to all
+  default_annotations = {
+    "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/",
+  }
 }
 
 provider "helm" {
@@ -116,6 +122,11 @@ module "calico" {
 module "cc-dynamic" {
   source            = "./images/cc-dynamic"
   target_repository = "${var.target_repository}/cc-dynamic"
+}
+
+module "cedar" {
+  source            = "./images/cedar"
+  target_repository = "${var.target_repository}/cedar"
 }
 
 module "clang" {
@@ -544,6 +555,11 @@ module "nodetaint" {
   target_repository = "${var.target_repository}/nodetaint"
 }
 
+module "node-problem-detector" {
+  source            = "./images/node-problem-detector"
+  target_repository = "${var.target_repository}/node-problem-detector"
+}
+
 module "ntpd-rs" {
   source            = "./images/ntpd-rs"
   target_repository = "${var.target_repository}/ntpd-rs"
@@ -592,6 +608,11 @@ module "powershell" {
 module "prometheus" {
   source            = "./images/prometheus"
   target_repository = "${var.target_repository}/prometheus"
+}
+
+module "proxysql" {
+  source            = "./images/proxysql"
+  target_repository = "${var.target_repository}/proxysql"
 }
 
 module "pulumi" {
