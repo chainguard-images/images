@@ -25,10 +25,15 @@ docker run -d --name "${container_name}" registry:2
 trap "docker rm -f ${container_name}" EXIT
 
 # Update this with the latest APKO once it is rebuilt.
+# Mount the host's APK cache into the container to improve performance
+# and avoid reliability problems due to refetching APKs we already have
+# on the host.
 REBUILT_IMAGE_NAME=$(docker run --rm \
    --link "${container_name}" \
    -v "${TMP}:/tmp/latest.apko.json" \
    -v ${PWD}:${PWD}:ro -w ${PWD} \
+   -v ${XDG_CACHE_DIR:-$HOME/.cache}:/cache \
+   -e XDG_CACHE_DIR=/cache \
    ghcr.io/wolfi-dev/apko:latest@sha256:686ecf32c9a9b4c80ac0679c0db3b79e53f91238122ef5dd9181254a6b5e2939 \
    publish /tmp/latest.apko.json ${container_name}:5000/reproduction
 )
