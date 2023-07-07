@@ -76,6 +76,10 @@ runs:
           terraform apply -auto-approve
         fi
 
+        # Find our cache directory.
+        # DO NOT SUBMIT
+        find / -name 'dev.chainguard.go-apk'
+
     - name: Touch actions file to prevent postrun failure
       if: always()
       shell: bash
