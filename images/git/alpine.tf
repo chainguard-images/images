@@ -43,5 +43,6 @@ module "test-latest-alpine-dev" {
   for_each = local.accounts
   source   = "./tests"
 
-  digest = module.latest-alpine-dev[each.key].image_ref
+  digest    = module.latest-alpine-dev[each.key].image_ref
+  check-dev = true
 }
