@@ -24,6 +24,9 @@ resource "helm_release" "kubernetes-dashboard" {
   repository = "https://kubernetes.github.io/dashboard/"
   chart      = "kubernetes-dashboard"
 
+  // After v6.0.8 the image tag is used as a K8s label, which has a max length of 63 characters.
+  version = "6.0.8"
+
   namespace        = "kubernetes-dashboard"
   create_namespace = true
 
