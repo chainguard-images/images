@@ -458,6 +458,11 @@ module "kubernetes-ingress-defaultbackend" {
   target_repository = "${var.target_repository}/kubernetes-ingress-defaultbackend"
 }
 
+module "kube-fluentd-operator" {
+  source            = "./images/kube-fluentd-operator"
+  target_repository = "${var.target_repository}/kube-fluentd-operator"
+}
+
 module "kubewatch" {
   source            = "./images/kubewatch"
   target_repository = "${var.target_repository}/kubewatch"
