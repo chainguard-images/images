@@ -32,7 +32,7 @@ With helm:
 
 ```
 git clone git@github.com:vmware/kube-fluentd-operator.git
-helm install kfo ./kube-fluentd-operator/charts/log-router \
+helm install --create-namespace kfo ./kube-fluentd-operator/charts/log-router \
   --set rbac.create=true \
   --set image.tag=latest \
   --set image.repository=cgr.dev/chainguard/kube-fluentd-operator
