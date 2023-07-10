@@ -96,3 +96,7 @@ jobs:
       # TODO: https://github.com/chainguard-images/images/issues/941
       # - uses: ./.github/actions/policy-check-image
       #   with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
+
+      - name: Collect diagnostics and upload
+        if: ${{ failure() }}
+        uses: chainguard-dev/actions/kind-diag@main
