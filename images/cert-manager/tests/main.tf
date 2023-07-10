@@ -1,8 +1,7 @@
 terraform {
   required_providers {
-    oci    = { source = "chainguard-dev/oci" }
-    helm   = { source = "hashicorp/helm" }
-    random = { source = "hashicorp/random" }
+    oci  = { source = "chainguard-dev/oci" }
+    helm = { source = "hashicorp/helm" }
   }
 }
 
@@ -16,62 +15,35 @@ variable "digests" {
   })
 }
 
-variable "skip_crds" {
-  description = "Used to deconflict between multiple installations within the same cluster."
-  default     = false
+data "oci_string" "ref" {
+  for_each = var.digests
+  input    = each.value
 }
 
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "cert-manager" {
-  name             = "cert-manager-${random_pet.suffix.id}"
+  name             = "cert-manager"
   namespace        = "cert-manager"
   repository       = "https://charts.jetstack.io"
   chart            = "cert-manager"
   create_namespace = true
 
-  set {
-    name  = "installCRDs"
-    value = var.skip_crds ? "false" : "true"
-  }
-
-  set {
-    name  = "image.repository"
-    value = element(split("@", var.digests["controller"]), 0)
-  }
-
-  set {
-    name  = "image.tag"
-    value = "unused@${element(split("@", var.digests["controller"]), 1)}"
-  }
-
-  set {
-    name  = "acmesolver.image.repository"
-    value = element(split("@", var.digests["acmesolver"]), 0)
-  }
-
-  set {
-    name  = "acmesolver.image.tag"
-    value = "unused@${element(split("@", var.digests["acmesolver"]), 1)}"
-  }
-
-  set {
-    name  = "cainjector.image.repository"
-    value = element(split("@", var.digests["cainjector"]), 0)
-  }
-
-  set {
-    name  = "cainjector.image.tag"
-    value = "unused@${element(split("@", var.digests["cainjector"]), 1)}"
-  }
-
-  set {
-    name  = "webhook.image.repository"
-    value = element(split("@", var.digests["webhook"]), 0)
-  }
-
-  set {
-    name  = "webhook.image.tag"
-    value = "unused@${element(split("@", var.digests["webhook"]), 1)}"
-  }
+  values = [jsonencode({
+    installCRDs = "true"
+    image = {
+      repository = data.oci_string.ref["controller"].registry_repo
+      tag        = data.oci_string.ref["controller"].pseudo_tag
+    }
+    acmesolver = {
+      repository = data.oci_string.ref["acmesolver"].registry_repo
+      tag        = data.oci_string.ref["acmesolver"].pseudo_tag
+    }
+    cainjector = {
+      repository = data.oci_string.ref["cainjector"].registry_repo
+      tag        = data.oci_string.ref["cainjector"].pseudo_tag
+    }
+    webhook = {
+      repository = data.oci_string.ref["webhook"].registry_repo
+      tag        = data.oci_string.ref["webhook"].pseudo_tag
+    }
+  })]
 }

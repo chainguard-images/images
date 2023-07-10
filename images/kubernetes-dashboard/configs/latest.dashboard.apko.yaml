@@ -16,6 +16,5 @@ entrypoint:
   command: /usr/share/kubernetes-dashboard/dashboard --insecure-bind-address=0.0.0.0 --bind-address=0.0.0.0
 
 annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/kubernetes-dashboard/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/kubernetes-dashboard

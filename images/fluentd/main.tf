@@ -22,17 +22,42 @@ module "tagger" {
   source = "../../tflib/tagger"
 
   depends_on = [
-    module.test-fourteen,
-    module.test-fourteen-dev,
-    module.test-fifteen,
-    module.test-fifteen-dev,
+    module.test-latest,
   ]
 
   tags = merge(
-    { for t in toset(concat(["edge"], module.version-tags-15.tag_list)) : t => module.fifteen.image_ref },
-    { for t in toset(concat(["edge"], module.version-tags-15.tag_list)) : "${t}-dev" => module.fifteen-dev.image_ref },
+    { for t in toset(concat(["edge"], module.version-tags-latest.tag_list)) : t => module.latest.image_ref },
+    { for t in toset(concat(["edge"], module.version-tags-latest.tag_list)) : "${t}-dev" => module.latest-dev.image_ref },
 
-    { for t in toset(concat(["latest"], module.version-tags-14.tag_list)) : t => module.fourteen.image_ref },
-    { for t in toset(concat(["latest"], module.version-tags-14.tag_list)) : "${t}-dev" => module.fourteen-dev.image_ref },
+    { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : t => module.latest.image_ref },
+    { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : "${t}-dev" => module.latest-dev.image_ref },
   )
+}
+
+module "latest" {
+  source = "../../tflib/publisher"
+
+  target_repository = var.target_repository
+  config            = file("${path.module}/configs/latest.apko.yaml")
+}
+
+module "latest-dev" {
+  source = "../../tflib/publisher"
+
+  target_repository = var.target_repository
+  # Make the dev variant an explicit extension of the
+  # locked original.
+  config         = jsonencode(module.latest.config)
+  extra_packages = local.fluentd_dev
+}
+
+module "version-tags-latest" {
+  source  = "../../tflib/version-tags"
+  package = "ruby3.2-fluentd"
+  config  = module.latest.config
+}
+
+module "test-latest" {
+  source = "./tests"
+  digest = module.latest.image_ref
 }

@@ -10,5 +10,18 @@ variable "digest" {
 
 data "oci_exec_test" "version" {
   digest = var.digest
-  script = "${path.module}/01-version.sh"
+  script = "docker run --rm $IMAGE_NAME --version"
+}
+
+resource "helm_release" "consul" {
+  name = "consul"
+
+  repository = "https://helm.releases.hashicorp.com"
+  chart      = "consul"
+
+  values = [jsonencode({
+    global = {
+      images = var.digest
+    }
+  })]
 }

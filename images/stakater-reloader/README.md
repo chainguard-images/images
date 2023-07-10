@@ -20,7 +20,7 @@ Minimal image with the Keda binary. **EXPERIMENTAL**
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/stakader-reloader:latest
+docker pull cgr.dev/chainguard/stakater-reloader:latest
 ```
 
-This image is a drop-in replacement for the stakader-reloader image available upstream at `ghcr.io/stakater/reloader`.
+This image is a drop-in replacement for the stakater-reloader image available upstream at `ghcr.io/stakater/reloader`.

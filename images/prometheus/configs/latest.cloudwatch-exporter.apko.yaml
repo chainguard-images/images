@@ -21,6 +21,5 @@ entrypoint:
 cmd: /config/config.yml
 
 annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/prometheus-cloudwatch-exporter/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/prometheus-cloudwatch-exporter

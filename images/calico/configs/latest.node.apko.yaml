@@ -1,6 +1,7 @@
 contents:
   packages:
     - calico-node
+    - busybox
 
 accounts:
   groups:
@@ -33,7 +34,6 @@ entrypoint:
   command: /usr/sbin/start_runit
 
 annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/calico/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/calico
 

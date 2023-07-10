@@ -15,9 +15,7 @@ module "tagger" {
 
   depends_on = [
     module.test-eleven,
-    module.test-eleven-dev,
     module.test-seventeen,
-    module.test-seventeen-dev,
   ]
 
   tags = merge(

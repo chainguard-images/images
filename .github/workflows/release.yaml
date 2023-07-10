@@ -18,8 +18,6 @@ jobs:
     outputs:
       shard-0: ${{ steps.generate-matrix-0.outputs.matrix }}
       unique-images-shard-0: ${{ steps.generate-matrix-0.outputs.matrix-unique-images }}
-      shard-1: ${{ steps.generate-matrix-1.outputs.matrix }}
-      unique-images-shard-1: ${{ steps.generate-matrix-1.outputs.matrix-unique-images }}
     steps:
     - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
     # On push to main branch, only build images necessary
@@ -46,64 +44,12 @@ jobs:
       uses: ./.github/actions/generate-matrix
       with:
         shard: 0
-        sharding-factor: 2
+        sharding-factor: 1
         modified-files: ${{ steps.build-filter.outputs.filter }}
-
-    - id: generate-matrix-1
-      uses: ./.github/actions/generate-matrix
-      with:
-        shard: 1
-        sharding-factor: 2
-        modified-files: ${{ steps.build-filter.outputs.filter }}
-
-  # Originally found in apko-snapshot action
-  generate-slsa-provenance:
-    runs-on: ubuntu-latest
-    outputs:
-      slsa-provenance-cache-key: ${{ steps.generate-slsa-provenance.outputs.slsa-provenance-cache-key }}
-    permissions:
-      id-token: write
-      packages: write
-      contents: read
-      actions: read
-    steps:
-      - name: Generate SLSA provenance
-        id: generate-slsa-provenance
-        env:
-          COSIGN_EXPERIMENTAL: "true"
-          GENERATOR_REPOSITORY: slsa-framework/slsa-github-generator
-          GENERATOR_RELEASE_TAG: v1.5.0
-          GENERATOR_RELEASE_BINARY: slsa-generator-container-linux-amd64
-          GENERATOR_RELEASE_BINARY_SHA256: 6d8b83327ac2134aa8760e1e4f9cd5d3fdbcb56599e39be2cd965f1e04aa8ede
-          GH_TOKEN: "${{ github.token }}"
-          GITHUB_CONTEXT: "${{ toJSON(github) }}" # Needed by slsa-generator-container
-        run: |
-          set -x
-          # Fetch the generator
-          gh release -R "${GENERATOR_REPOSITORY}" download "${GENERATOR_RELEASE_TAG}" -p "${GENERATOR_RELEASE_BINARY}"
-          COMPUTED_HASH="$(sha256sum "${GENERATOR_RELEASE_BINARY}" | awk '{print $1}')"
-          if [[ "${COMPUTED_HASH}" != "${GENERATOR_RELEASE_BINARY_SHA256}" ]]; then
-            echo "Mismatched checksums (wanted ${GENERATOR_RELEASE_BINARY_SHA256} got ${COMPUTED_HASH}). Exiting."
-            exit 1
-          fi
-          chmod +x "${GENERATOR_RELEASE_BINARY}"
-
-          # Create the provenance document
-          echo "Generating SLSA build provenance ..."
-          "./${GENERATOR_RELEASE_BINARY}" generate --predicate="provenance.json"
-          echo "Provenance doc:"
-          cat provenance.json | jq
-          echo "slsa-provenance-cache-key=slsa-${{ github.run_id }}-$(date +%s)" >> $GITHUB_OUTPUT
-      - id: cache-slsa-provenance-doc
-        name: Cache the SLSA Provenance doc to be used in matrix legs
-        uses: actions/cache/save@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
-        with:
-          path: ./provenance.json
-          key: "${{ steps.generate-slsa-provenance.outputs.slsa-provenance-cache-key }}"
 
   build-0:
     runs-on: ubuntu-latest
-    needs: [generate-matrix, generate-slsa-provenance]
+    needs: [generate-matrix]
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.generate-matrix.outputs.shard-0) }}
@@ -138,7 +84,6 @@ jobs:
           # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
           EXTRA_INPUT_CHAINGUARD_IDENTITY: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
           EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:94c1512d9c359148059a13cb8df972d15f196e5901f0132238d0376e0bfb597c
-          EXTRA_INPUT_SLSA_PROVENANCE_CACHE_KEY: ${{ needs.generate-slsa-provenance.outputs.slsa-provenance-cache-key }}
           EXTRA_INPUT_APKO_REPOSITORY_APPEND: ${{ steps.determine-appends.outputs.repository-append }}
           EXTRA_INPUT_APKO_KEYRING_APPEND: ${{ steps.determine-appends.outputs.keyring-append }}
 
@@ -147,65 +92,6 @@ jobs:
           k8s-version: v1.24.x
           registry-authority: registry.local:5000
       - uses: ./.github/actions/release-image-terraform
-        if: ${{ matrix.useTerraform }}
-        with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
-      - uses: ./.github/actions/release-image
-        if: ${{ ! matrix.useTerraform }}
-        with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
-      # TODO: https://github.com/chainguard-images/images/issues/941
-      # - uses: ./.github/actions/policy-check-image
-      #   with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
-
-  build-1:
-    runs-on: ubuntu-latest
-    needs: [generate-matrix, generate-slsa-provenance]
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJson(needs.generate-matrix.outputs.shard-1) }}
-    permissions:
-      id-token: write
-      packages: write
-      contents: read
-      actions: read
-    steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-      - id: determine-appends
-        run: |
-          # Do not append out repo/keyring/package to Alpine images.
-          set -x
-          if ! grep 'alpinelinux\.org' "${{ matrix.apkoConfig }}" &>/dev/null; then
-            echo "repository-append=https://packages.wolfi.dev/os" >> $GITHUB_OUTPUT
-            echo "keyring-append=https://packages.wolfi.dev/os/wolfi-signing.rsa.pub" >> $GITHUB_OUTPUT
-          fi
-      - id: release-image-inputs
-        name: Add additional inputs for release-image action
-        uses: chainguard-dev/actions/matrix-extra-inputs@main
-        with:
-          matrix-json: ${{ toJSON(matrix) }}
-        env:
-          EXTRA_INPUT_SLACK_WEBHOOK_URL: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-          EXTRA_INPUT_GCS_AUTH_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCS_AUTH_WORKLOAD_IDENTITY_PROVIDER }}
-          EXTRA_INPUT_GCS_AUTH_SERVICE_ACCOUNT: ${{ secrets.GCS_AUTH_SERVICE_ACCOUNT }}
-          EXTRA_INPUT_GCS_AUTH_PROJECT_ID: ${{ secrets.GCS_AUTH_PROJECT_ID }}
-          EXTRA_INPUT_GCS_BUCKET_NAME: chainguard-images-build-outputs
-          # This allows chainguard-images/images to publish images to cgr.dev/chainguard
-          # We maintain this identity here:
-          # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
-          EXTRA_INPUT_CHAINGUARD_IDENTITY: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:94c1512d9c359148059a13cb8df972d15f196e5901f0132238d0376e0bfb597c
-          EXTRA_INPUT_SLSA_PROVENANCE_CACHE_KEY: ${{ needs.generate-slsa-provenance.outputs.slsa-provenance-cache-key }}
-          EXTRA_INPUT_APKO_REPOSITORY_APPEND: ${{ steps.determine-appends.outputs.repository-append }}
-          EXTRA_INPUT_APKO_KEYRING_APPEND: ${{ steps.determine-appends.outputs.keyring-append }}
-
-      - uses: chainguard-dev/actions/setup-kind@main
-        with:
-          k8s-version: v1.24.x
-          registry-authority: registry.local:5000
-      - uses: ./.github/actions/release-image-terraform
-        if: ${{ matrix.useTerraform }}
-        with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
-      - uses: ./.github/actions/release-image
-        if: ${{ ! matrix.useTerraform }}
         with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
       # TODO: https://github.com/chainguard-images/images/issues/941
       # - uses: ./.github/actions/policy-check-image

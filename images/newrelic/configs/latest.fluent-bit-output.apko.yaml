@@ -26,6 +26,5 @@ entrypoint:
 cmd: -c /fluent-bit/etc/fluent-bit.conf -e /fluent-bit/bin/out_newrelic.so
 
 annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/newrelic-fluent-bit-output/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/newrelic-fluent-bit-output

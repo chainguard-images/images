@@ -17,6 +17,11 @@ variable "digests" {
   })
 }
 
+data "oci_string" "ref" {
+  for_each = var.digests
+  input    = each.value
+}
+
 data "oci_exec_test" "help" {
   for_each = var.digests
   digest   = each.value
@@ -30,73 +35,49 @@ resource "helm_release" "kyverno" {
   chart            = "kyverno"
   create_namespace = true
 
-  // admission
-  set {
-    name  = "admissionController.container.image.registry"
-    value = ""
-  }
-  set {
-    name  = "admissionController.container.image.repository"
-    value = element(split("@", var.digests["admission"]), 0)
-  }
-  set {
-    name  = "admissionController.container.image.tag"
-    value = "unused@${element(split("@", var.digests["admission"]), 1)}"
-  }
-
-  // background
-  set {
-    name  = "backgroundController.container.image.registry"
-    value = ""
-  }
-  set {
-    name  = "backgroundController.container.image.repository"
-    value = element(split("@", var.digests["background"]), 0)
-  }
-  set {
-    name  = "backgroundController.container.image.tag"
-    value = "unused@${element(split("@", var.digests["background"]), 1)}"
-  }
-
-  // cleanup
-  set {
-    name  = "cleanupController.container.image.registry"
-    value = ""
-  }
-  set {
-    name  = "cleanupController.container.image.repository"
-    value = element(split("@", var.digests["cleanup"]), 0)
-  }
-  set {
-    name  = "cleanupController.container.image.tag"
-    value = "unused@${element(split("@", var.digests["cleanup"]), 1)}"
-  }
-
-  // init
-  set {
-    name  = "admissionController.initContainer.image.registry"
-    value = ""
-  }
-  set {
-    name  = "admissionController.initContainer.image.repository"
-    value = element(split("@", var.digests["init"]), 0)
-  }
-  set {
-    name  = "admissionController.initContainer.image.tag"
-    value = "unused@${element(split("@", var.digests["init"]), 1)}"
-  }
-
-  // reports
-  set {
-    name  = "reportsController.container.image.registry"
-    value = ""
-  }
-  set {
-    name  = "reportsController.container.image.repository"
-    value = element(split("@", var.digests["reports"]), 0)
-  }
-  set {
-    name  = "reportsController.container.image.tag"
-    value = "unused@${element(split("@", var.digests["reports"]), 1)}"
-  }
+  values = [jsonencode({
+    admissionController = {
+      container = {
+        image = {
+          registry   = data.oci_string.ref["admission"].registry
+          repository = data.oci_string.ref["admission"].repo
+          tag        = data.oci_string.ref["admission"].pseudo_tag
+        }
+      }
+      initContainer = {
+        image = {
+          registry   = data.oci_string.ref["init"].registry
+          repository = data.oci_string.ref["init"].repo
+          tag        = data.oci_string.ref["init"].pseudo_tag
+        }
+      }
+    }
+    backgroundController = {
+      container = {
+        image = {
+          registry = data.oci_string.ref["background"].registry
+          registry = data.oci_string.ref["background"].repo
+          tag      = data.oci_string.ref["background"].pseudo_tag
+        }
+      }
+    }
+    cleanupController = {
+      container = {
+        image = {
+          registry = data.oci_string.ref["cleanup"].registry
+          registry = data.oci_string.ref["cleanup"].repo
+          tag      = data.oci_string.ref["cleanup"].pseudo_tag
+        }
+      }
+    }
+    reportsController = {
+      container = {
+        image = {
+          registry = data.oci_string.ref["reports"].registry
+          registry = data.oci_string.ref["reports"].repo
+          tag      = data.oci_string.ref["reports"].pseudo_tag
+        }
+      }
+    }
+  })]
 }

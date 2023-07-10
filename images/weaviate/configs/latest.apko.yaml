@@ -9,6 +9,11 @@ paths:
     permissions: 0o777
     uid: 65532
     gid: 65532
+  - path: /var/lib/weaviate
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
 
 entrypoint:
   command: /bin/weaviate
@@ -24,6 +29,5 @@ accounts:
   run-as: 65532
 
 annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/weaviate/
   "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/weaviate

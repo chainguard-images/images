@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# monopod:tag:k8s
-
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 app_name="kube-bench"
