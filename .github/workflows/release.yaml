@@ -93,6 +93,3 @@ jobs:
           registry-authority: registry.local:5000
       - uses: ./.github/actions/release-image-terraform
         with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
-      # TODO: https://github.com/chainguard-images/images/issues/941
-      # - uses: ./.github/actions/policy-check-image
-      #   with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
