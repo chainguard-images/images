@@ -34,7 +34,7 @@ module "version-tags" {
 }
 
 module "test-latest" {
-  source = "./tests"
+  source = "./aws-tests"
   digest = module.latest.image_ref
 }
 
