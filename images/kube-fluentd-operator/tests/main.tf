@@ -6,21 +6,14 @@ terraform {
   }
 }
 
-variable "skip_crds" {
-  description = "Used to deconflict between multiple installations within the same cluster."
-  default     = false
-}
-
 variable "digest" {
   description = "The image digest to run tests over."
 }
 
 data "oci_string" "ref" { input = var.digest }
 
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "kfo" {
-  name             = "kfo-${random_pet.suffix.id}"
+  name             = "kfo"
   namespace        = "kfo"
   chart            = "https://github.com/vmware/kube-fluentd-operator/releases/download/v1.17.4/log-router-0.4.0.tgz" # not sure how we can get the correct version of the chart rather than hardcoding a version below
   create_namespace = true

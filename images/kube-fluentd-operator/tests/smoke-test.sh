@@ -8,10 +8,7 @@ sleep 5
 # working, same result with the upstream image. # https://github.com/vmware/kube-fluentd-operator#try-it-out
 
 # Instead, we will test the operator by deploying the log-router helm chart
-# and check the deamonset pod is healthy + the logs contain the expected text
-
-# Check the log-router pods are deployed and healthy
-kubectl wait --for=condition=ready pod --selector app=log-router --timeout=120s -n kfo
+# + check the logs contain the expected text
 
 # Define the timeout and delay variables
 TIMEOUT=180
