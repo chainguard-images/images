@@ -65,3 +65,13 @@ The `-dev` variant contains a shell and tools like `apk` to allow users to easil
 ```sh
 docker run --rm --entrypoint 'sh' cgr.dev/chainguard/fluentd
 ```
+
+## Using the -splunk variant
+
+The `-splunk` variant contains a fluentd gem https://github.com/splunk/fluent-plugin-splunk-hec
+
+To test this with basic Splunk configuration run
+
+```sh
+docker run --rm -p 127.0.0.1:24224:24224 -v ${PWD}/images/fluentd/examples/basic_splunk.conf:/etc/fluent/fluent.conf cgr.dev/chainguard/fluentd:latest-splunk
+```
