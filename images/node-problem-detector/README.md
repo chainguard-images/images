@@ -35,4 +35,3 @@ helm upgrade --install npd deliveryhero/node-problem-detector \
   --set image.repository=cgr.dev/chainguard/node-problem-detector \
   --set image.tag=latest
 ```
-
