@@ -86,6 +86,11 @@ module "aws-efs-csi-driver" {
   target_repository = "${var.target_repository}/aws-efs-csi-driver"
 }
 
+module "aws-for-fluent-bit" {
+  source            = "./images/aws-for-fluent-bit"
+  target_repository = "${var.target_repository}/aws-for-fluent-bit"
+}
+
 module "aws-load-balancer-controller" {
   source            = "./images/aws-load-balancer-controller"
   target_repository = "${var.target_repository}/aws-load-balancer-controller"
