@@ -2,7 +2,7 @@
 # mariadb
 | | |
 | - | - |
-| **Status** | experimental |
+| **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/mariadb` |
 
 

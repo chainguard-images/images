@@ -2,7 +2,7 @@
 # secrets-store-csi-driver-provider-gcp
 | | |
 | - | - |
-| **Status** | experimental |
+| **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/secrets-store-csi-driver-provider-gcp` |
 
 
