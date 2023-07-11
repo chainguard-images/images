@@ -88,7 +88,7 @@ runs:
       env:
         TF_VAR_target_tag: ${{ inputs.apkoTargetTag }}
         TF_VAR_tag_suffix: ${{ inputs.apkoTargetTagSuffix }}
-        APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:686ecf32c9a9b4c80ac0679c0db3b79e53f91238122ef5dd9181254a6b5e2939
+        APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:d2364015923325f0f1e77a1f8e2095e749a4848ced33c32d5e0e0ac434d6c3a3
       run: |
         set -x
         env | grep '^TF_VAR_'
