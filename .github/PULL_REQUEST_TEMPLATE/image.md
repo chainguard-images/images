@@ -107,11 +107,6 @@ Notes:
 - [ ] Alternatively the username and GID/UID may be a commonly used one from the ecosystem e.g: postgres
 - [ ] The image requires a non-standard username or non-standard GID/UID (please explain in the notes).
 
-### Certificates
-
-- [ ] A ca-certs bundle was requested and it's included in the image.
-- [ ] A ca-certs bundle was not requested.
-
 ### ENTRYPOINT
 
 - [ ] applications/servers/utilities set to call main program with no arguments e.g. [redis-server]
