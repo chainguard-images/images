@@ -31,6 +31,7 @@ module "tagger" {
 
     { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : t => module.latest.image_ref },
     { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : "${t}-dev" => module.latest-dev.image_ref },
+    { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : "${t}-splunk" => module.latest-splunk.image_ref }
   )
 }
 
@@ -51,6 +52,16 @@ module "latest-dev" {
   extra_packages = local.fluentd_dev
 }
 
+module "latest-splunk" {
+  source = "../../tflib/publisher"
+
+  target_repository = var.target_repository
+  # Make the dev variant an explicit extension of the
+  # locked original.
+  config         = jsonencode(module.latest.config)
+  extra_packages = ["ruby3.2-fluent-plugin-splunk-hec"]
+}
+
 module "version-tags-latest" {
   source  = "../../tflib/version-tags"
   package = "ruby3.2-fluentd"
@@ -60,4 +71,9 @@ module "version-tags-latest" {
 module "test-latest" {
   source = "./tests"
   digest = module.latest.image_ref
+}
+
+module "test-splunk" {
+  source = "./tests/splunk"
+  digest = module.latest-splunk.image_ref
 }
