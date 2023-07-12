@@ -19,7 +19,7 @@ FROM ${IMAGE_NAME}
 RUN go version
 ENTRYPOINT ["go", "version"]
 EOF
-docker run go-version | grep "go version"
+docker run --rm go-version | grep "go version"
 
 # The image can be used as a base image with a custom entrypoint.
 cat <<EOF | docker build -t go-version-entrypoint -
@@ -31,4 +31,10 @@ RUN mkdir -p /usr/local/bin && \
    chmod +x /usr/local/bin/hello
 ENTRYPOINT ["hello"]
 EOF
-docker run go-version-entrypoint | grep "go version"
+docker run --rm go-version-entrypoint | grep "go version"
+
+# The image can be run to build an application that has external dependencies.
+docker run --rm \
+  -v $(pwd)/images/go/tests/hello:/hello \
+  -w /hello \
+   ${IMAGE_NAME} build .

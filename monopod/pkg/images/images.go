@@ -112,7 +112,7 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 	b, err := os.ReadFile(filepath.Join(constants.GlobalManifestFilename))
 	if err != nil {
 		if !os.IsNotExist(err) {
-			return nil, err
+			return nil, fmt.Errorf("reading %q: %v", constants.GlobalManifestFilename, err)
 		}
 		// Allow the global manifest to be omitted.
 	} else if err := yaml.Unmarshal(b, &g); err != nil {
@@ -131,9 +131,10 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 			continue
 		}
 		imageName := imageDir.Name()
-		b, err := os.ReadFile(filepath.Join(constants.ImagesDirName, imageName, constants.ImageManifestFilename))
+		p := filepath.Join(constants.ImagesDirName, imageName, constants.ImageManifestFilename)
+		b, err := os.ReadFile(p)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("reading %q: %v", p, err)
 		}
 		var m ImageManifest
 		if err := yaml.Unmarshal(b, &m); err != nil {
@@ -220,8 +221,7 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 					if d.IsDir() {
 						return nil
 					}
-					entry := fmt.Sprintf("./%s", filepath.Join(constants.DefaultTestDirname, filepath.Base(path)))
-					runScripts = append(runScripts, entry)
+					runScripts = append(runScripts, strings.TrimPrefix(path, testCommandDir))
 					return nil
 				})
 				if err != nil {
@@ -237,7 +237,7 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 				path := filepath.Join(testCommandDir, runScript)
 				b, err := os.ReadFile(path)
 				if err != nil {
-					return nil, err
+					return nil, fmt.Errorf("reading %q: %v", path, err)
 				}
 				s := string(b)
 				if len(config.TestTags) > 0 {
