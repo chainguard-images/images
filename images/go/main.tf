@@ -29,8 +29,9 @@ module "tagger" {
     { for t in toset(module.version-tags-21.tag_list) : t => module.twenty-one.image_ref },
     { for t in toset(module.version-tags-21.tag_list) : "${t}-dev" => module.twenty-one-dev.image_ref },
 
+
     # 1.20
-    { for t in toset(concat(["latest"], module.version-tags-20.tag_list)) : t => module.twenty.image_ref },
-    { for t in toset(concat(["latest"], module.version-tags-20.tag_list)) : "${t}-dev" => module.twenty-dev.image_ref },
+    #{ for t in toset(concat(["latest"], module.version-tags-20.tag_list)) : t => module.twenty.image_ref },
+    #{ for t in toset(concat(["latest"], module.version-tags-20.tag_list)) : "${t}-dev" => module.twenty-dev.image_ref },
   )
 }
