@@ -4,9 +4,6 @@ set -o errexit -o nounset -o errtrace -o pipefail
 
 TMP=$(mktemp)
 
-# This ensures the variable is set before skipping the test.
-echo "apko image: ${APKO_IMAGE}"
-
 if ! cosign download attestation \
    --predicate-type https://apko.dev/image-configuration \
   "${IMAGE_NAME}" | jq -r .payload | base64 -d | jq .predicate > "${TMP}" ; then
