@@ -2,7 +2,6 @@ package images
 
 import (
 	"fmt"
-	"io/fs"
 	"os"
 	"path"
 	"path/filepath"
@@ -80,18 +79,11 @@ type variantIterator struct {
 
 type (
 	listConfig struct {
-		TestTags        []string
 		DefaultRegistry string
 	}
 
 	ListOption func(c *listConfig)
 )
-
-func WithTestTags(testTags []string) ListOption {
-	return func(c *listConfig) {
-		c.TestTags = testTags
-	}
-}
 
 func WithDefaultRegistry(defaultRegistry string) ListOption {
 	return func(c *listConfig) {
@@ -101,7 +93,6 @@ func WithDefaultRegistry(defaultRegistry string) ListOption {
 
 func ListAll(opts ...ListOption) ([]Image, error) {
 	config := &listConfig{
-		TestTags:        []string{},
 		DefaultRegistry: constants.DefaultRegistry,
 	}
 	for _, opt := range opts {
@@ -211,53 +202,6 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 
 			testCommandExe := ""
 			testCommandDir := ""
-			testScriptFilename := filepath.Join(constants.ImagesDirName, imageName, constants.DefaultTestScriptFilename)
-			testScriptsDirname := filepath.Join(constants.ImagesDirName, imageName, constants.DefaultTestDirname)
-			runScripts := []string{}
-			if _, err := os.Stat(testScriptsDirname); err == nil {
-				// For loop to run all the .sh files found in the tests/ directory
-				testCommandDir = filepath.Join(constants.ImagesDirName, imageName)
-				err := filepath.WalkDir(filepath.Join(testCommandDir, constants.DefaultTestDirname), func(path string, d fs.DirEntry, err error) error {
-					if d.IsDir() {
-						return nil
-					}
-					runScripts = append(runScripts, strings.TrimPrefix(path, testCommandDir))
-					return nil
-				})
-				if err != nil {
-					return nil, err
-				}
-			} else if _, err := os.Stat(testScriptFilename); err == nil {
-				testCommandDir = filepath.Join(constants.ImagesDirName, imageName)
-				runScripts = []string{fmt.Sprintf("./%s", constants.DefaultTestScriptFilename)}
-			}
-
-			tmp := []string{}
-			for _, runScript := range runScripts {
-				path := filepath.Join(testCommandDir, runScript)
-				b, err := os.ReadFile(path)
-				if err != nil {
-					return nil, fmt.Errorf("reading %q: %v", path, err)
-				}
-				s := string(b)
-				if len(config.TestTags) > 0 {
-					for _, tag := range config.TestTags {
-						if strings.Contains(s, fmt.Sprintf("monopod:tag:%s", tag)) {
-							tmp = append(tmp, runScript)
-							break
-						}
-					}
-					// If no test tags set, but this test has one, exclude it
-				} else if !strings.Contains(s, "monopod:tag:") {
-					tmp = append(tmp, runScript)
-				}
-			}
-			runScripts = tmp
-			if len(runScripts) == 0 {
-				// If no test files match tags, skip this variant
-				continue
-			}
-			testCommandExe = fmt.Sprintf("(set -ex; %s)", strings.Join(runScripts, " && "))
 
 			var apkoBaseTag string
 			if m.Ref != "" {
