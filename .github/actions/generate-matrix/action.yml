@@ -55,7 +55,7 @@ runs:
            --shard=${{ inputs.shard }} \
            --sharding-factor=${{ inputs.sharding-factor }} \
            --modified-files=${{ inputs.modified-files }} \
-           --test-tags=${{ inputs.test-tags }} $default_registry_args > "${MATRIX}"
+           $default_registry_args > "${MATRIX}"
         echo "matrix=$(cat "${MATRIX}")" >> $GITHUB_OUTPUT
 
         MATRIX_UNIQUE_IMAGES=$(mktemp)
@@ -63,7 +63,6 @@ runs:
            --shard=${{ inputs.shard }} \
            --sharding-factor=${{ inputs.sharding-factor }} \
            --modified-files=${{ inputs.modified-files }} \
-           --test-tags=${{ inputs.test-tags }} \
            --unique-images $default_registry_args > "${MATRIX_UNIQUE_IMAGES}"
         echo "matrix-unique-images=$(cat "${MATRIX_UNIQUE_IMAGES}")" >> $GITHUB_OUTPUT
 
