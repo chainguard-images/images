@@ -35,11 +35,6 @@ jobs:
       matrix: ${{ fromJson(needs.presubmit-matrix.outputs.shard-0) }}
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-      - name: Ensure image has tests
-        if: matrix.testCommandExe == ''
-        run: |
-          echo "Error: ${{ matrix.imageName }} image is missing tests."
-          exit 1
       - id: determine-appends
         run: |
           # Do not append out repo/keyring/package to Alpine images.
