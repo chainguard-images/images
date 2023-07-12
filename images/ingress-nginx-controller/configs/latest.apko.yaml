@@ -16,7 +16,6 @@ contents:
     - zlib
     - libxml2
     - tzdata
-    - ingress-nginx
     - opentracing-cpp
     - msgpack
     - datadog-cpp
@@ -56,11 +55,8 @@ annotations:
 
 environment:
   PATH: "$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/luajit/bin:/usr/local/nginx/sbin/"
-  LUA_PATH: "/usr/share/luajit-2.1.0-beta3/?.lua;/usr/share/lua/5.1/?.lua;/usr/lib/lua/?.lua;;"
-  LUA_CPATH: "/usr/lib/lua/?/?.so;/usr/lib/lua/?.so;;"
-  LUAJIT_INC: "/usr/include/luajit-2.1"
-  LUAJIT_LIB: "/usr/lib"
-  LUA_LIB_DIR: "/usr/lib/lua"
+  LUA_PATH: "/usr/local/share/luajit-2.1.0-beta3/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/lib/lua/?.lua;;"
+  LUA_CPATH: "/usr/local/lib/lua/?/?.so;/usr/local/lib/lua/?.so;;"
 
 work-dir:  /etc/nginx
 
@@ -99,12 +95,6 @@ paths:
     uid: 101
     gid: 101
     recursive: true
-      #- path: /usr/bin/lua
-      #type: hardlink
-      #source: /usr/bin/luajit
-      #permissions: 0o755
-      #uid: 101
-      #gid: 101
       #- path: /dev/stdout
       #type: hardlink
       #source: /var/log/nginx/access.log
@@ -147,12 +137,6 @@ paths:
     type: directory
     permissions: 0o755
     recursive: true
-  - path: /run/nginx.pid
-    uid: 101
-    gid: 101
-    type: empty-file
-    permissions: 0o755
-    recursive: true
   - path: /etc/nginx/modules
     uid: 101
     gid: 101
@@ -191,6 +175,12 @@ paths:
     recursive: true
   - path: /sbin/nginx
     source: /usr/local/nginx/sbin/nginx
+    type: symlink
+    uid: 101
+    gid: 101
+    permissions: 0o755
+  - path: /usr/bin/nginx
+    source: /sbin/nginx
     type: symlink
     uid: 101
     gid: 101
