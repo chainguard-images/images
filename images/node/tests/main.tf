@@ -8,8 +8,8 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "version" {
+data "oci_exec_test" "dockerfile" {
   digest      = var.digest
-  script      = "./01-version.sh"
+  script      = "./01-dockerfile.sh"
   working_dir = path.module
 }

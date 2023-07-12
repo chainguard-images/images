@@ -10,7 +10,7 @@ variable "digest" {
 
 data "oci_exec_test" "version" {
   digest = var.digest
-  script = "${path.module}/01-version.sh"
+  script = "docker run --rm --entrypoint /usr/sbin/nginx $IMAGE_NAME -v"
 }
 
 data "oci_exec_test" "welcome-page" {

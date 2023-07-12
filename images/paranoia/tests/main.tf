@@ -10,7 +10,7 @@ variable "digest" {
 
 data "oci_exec_test" "version" {
   digest = var.digest
-  script = "${path.module}/01-version.sh"
+  script = "docker run --rm $IMAGE_NAME --help 2>&1 | grep 'Paranoia is a command-line tool'"
 }
 
 data "oci_exec_test" "list-certs" {
