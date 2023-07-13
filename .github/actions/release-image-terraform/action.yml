@@ -100,12 +100,16 @@ runs:
         # for the appropriate image.
         if [ -f "main.tf" ]; then
           export TF_VAR_target_repository=$(dirname ${{ inputs.apkoBaseTag }})
+          ::group::terraform init
           terraform init
+          ::endgroup::
           terraform apply -auto-approve "-target=module.${MODULE}" -json | tee /tmp/${MODULE}.tf.json | jq -r '.["@message"]'
         else
           cd ${{ inputs.terraformDirectory }}
           export TF_VAR_target_repository=${{ inputs.apkoBaseTag }}
+          ::group::terraform init
           terraform init
+          ::endgroup::
           terraform apply -auto-approve -json | tee /tmp/${MODULE}.tf.json | jq -r '.["@message"]'
         fi
 
