@@ -32,5 +32,5 @@ data "oci_exec_test" "composer" {
 data "oci_exec_test" "fpm" {
   count  = var.check-fpm ? 1 : 0
   digest = var.digest
-  script = " docker run --entrypoint php-fpm --rm $IMAGE_NAME -v"
+  script = "docker run --rm $IMAGE_NAME -v"
 }
