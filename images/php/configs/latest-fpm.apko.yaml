@@ -18,7 +18,7 @@ contents:
 entrypoint:
   type: service-bundle
   services:
-    php-fpm: /usr/sbin/php-fpm -p /
+    php-fpm: /usr/sbin/php-fpm
 
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin
