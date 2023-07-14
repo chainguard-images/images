@@ -7,8 +7,8 @@ terraform {
 
 variable "digest" {
   description = "The image digest to run tests over."
-  default     = "public.ecr.aws/ebs-csi-driver/aws-ebs-csi-driver:v1.20.0" // Upstream image.
-  //default     = "cgr.dev/chainguard/aws-ebs-csi-driver:latest"
+  default     = "cgr.dev/chainguard/aws-ebs-csi-driver:latest"
+  // default     = "public.ecr.aws/ebs-csi-driver/aws-ebs-csi-driver:v1.20.0" // Upstream image.
 }
 
 variable "aws_region" {
@@ -149,4 +149,17 @@ resource "kubectl_manifest" "pod" {
     pod_name = "pod-${random_pet.suffix.id}"
     pvc_name = kubectl_manifest.pvc.name
   })
+}
+
+// Get the Pod's logs.
+data "external" "logs" {
+  depends_on = [kubectl_manifest.pod]
+  program    = ["${path.module}/grep-pod-logs.sh"]
+  query = {
+    pod_name = kubectl_manifest.pod.name
+  }
+}
+
+output "logs" {
+  value = data.external.logs.result.logs
 }

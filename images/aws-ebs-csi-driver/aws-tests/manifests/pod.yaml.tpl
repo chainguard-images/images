@@ -8,7 +8,7 @@ spec:
   containers:
   - name: write
     image: cgr.dev/chainguard/busybox
-    args: ["-c", "echo $(date -u) >> /data/out.txt"]
+    args: ["-c", "echo $(date -u) >> /data/out.txt; echo wrote"]
     volumeMounts:
     - name: ebs
       mountPath: /data
