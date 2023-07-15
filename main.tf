@@ -675,6 +675,11 @@ module "skaffold" {
   target_repository = "${var.target_repository}/skaffold"
 }
 
+module "slim-toolkit-debug" {
+  source            = "./images/slim-toolkit-debug"
+  target_repository = "${var.target_repository}/slim-toolkit-debug"
+}
+
 module "spire" {
   source            = "./images/spire"
   target_repository = "${var.target_repository}/spire"
