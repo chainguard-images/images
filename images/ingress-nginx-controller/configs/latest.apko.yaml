@@ -2,8 +2,6 @@ contents:
   packages:
     - ca-certificates-bundle
     - wolfi-base
-    - alpine-keys
-    - apko
     - wolfi-baselayout
     - curl
     - curl-dev
@@ -95,18 +93,6 @@ paths:
     uid: 101
     gid: 101
     recursive: true
-      #- path: /dev/stdout
-      #type: hardlink
-      #source: /var/log/nginx/access.log
-      #permissions: 0o755
-      #uid: 101
-      #gid: 101
-      #- path: /dev/stderr
-      #type: hardlink
-      #source: /var/log/nginx/error.log
-      #permissions: 0o755
-      #uid: 101
-      #gid: 101
   - path: /var/lib/
     type: directory
     permissions: 0o755
