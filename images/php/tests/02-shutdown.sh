@@ -8,4 +8,4 @@ docker attach $ID 2> $LOGFILE &
 sleep 5
 docker stop $ID
 
-grep "ready to handle connections" $LOGFILE
+grep "exiting, bye-bye!" $LOGFILE
