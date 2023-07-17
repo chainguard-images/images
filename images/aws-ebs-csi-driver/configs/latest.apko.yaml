@@ -1,6 +1,7 @@
 contents:
   packages:
     - aws-ebs-csi-driver
+    - umount
 
 accounts:
   groups:
