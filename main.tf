@@ -154,6 +154,11 @@ module "cluster-proportional-autoscaler" {
   target_repository = "${var.target_repository}/cluster-proportional-autoscaler"
 }
 
+module "conda" {
+  source            = "./images/conda"
+  target_repository = "${var.target_repository}/conda"
+}
+
 module "configmap-reload" {
   source            = "./images/configmap-reload"
   target_repository = "${var.target_repository}/configmap-reload"
