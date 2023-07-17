@@ -8,7 +8,9 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "runs" {
+// This just tests that the image can run. See the gcp-tests module for
+// more comprehensive tests that require a GCP project.
+data "oci_exec_test" "help" {
   digest = var.digest
-  script = "${path.module}/01-runs.sh"
+  script = "docker run --rm $IMAGE_NAME --help"
 }
