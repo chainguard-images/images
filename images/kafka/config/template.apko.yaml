@@ -2,6 +2,8 @@ contents:
   packages:
     - bash
     - busybox
+    - kafka
+    - kafka-bitnami-compat
     - openjdk-11-default-jvm
     - kafka
 
@@ -24,8 +26,14 @@ paths:
     permissions: 0o755
     uid: 65532
     gid: 65532
+  - path: /opt/binami
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
 
 entrypoint:
-  command: /usr/lib/kafka/bin/kafka-server-start.sh
-cmd: /usr/lib/kafka/config/server.properties
+  command: /opt/bitnami/scripts/kafka/entrypoint.sh /opt/bitnami/scripts/kafka/run.sh
 
+environment:
+  BITNAMI_APP_NAME: kafka
