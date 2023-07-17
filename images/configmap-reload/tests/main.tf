@@ -16,7 +16,7 @@ data "oci_exec_test" "version" {
   script = "docker run --rm $IMAGE_NAME -h"
 }
 
-resource "helm_release" "dex" {
+resource "helm_release" "configmap-reload" {
   name = "configmap-reload"
 
   repository = "https://prometheus-community.github.io/helm-charts"
