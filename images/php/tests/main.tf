@@ -29,8 +29,14 @@ data "oci_exec_test" "composer" {
   script = "docker run --entrypoint composer --rm $IMAGE_NAME --version"
 }
 
-data "oci_exec_test" "fpm" {
+data "oci_exec_test" "fpm-server" {
   count  = var.check-fpm ? 1 : 0
   digest = var.digest
-  script = "FPMRUN=$( timeout --preserve-status -s TERM 4s docker run --rm $IMAGE_NAME 2>&1 ) && echo $FPMRUN | grep -q 'ready to handle connections'"
+  script = "${path.module}/01-fpm-server.sh"
+}
+
+data "oci_exec_test" "fpm-shutdown" {
+  count  = var.check-fpm ? 1 : 0
+  digest = var.digest
+  script = "${path.module}/02-shutdown.sh"
 }
