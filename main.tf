@@ -693,6 +693,11 @@ module "static" {
   }
 }
 
+module "tekton" {
+  source            = "./images/tekton"
+  target_repository = "${var.target_repository}/tekton"
+}
+
 module "telegraf" {
   source            = "./images/telegraf"
   target_repository = "${var.target_repository}/telegraf"
