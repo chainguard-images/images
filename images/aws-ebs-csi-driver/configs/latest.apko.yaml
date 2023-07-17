@@ -1,6 +1,7 @@
 contents:
   packages:
     - aws-ebs-csi-driver
+    - mount
 
 accounts:
   groups:
