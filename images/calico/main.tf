@@ -74,5 +74,9 @@ module "tagger" {
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : t => module.latest[each.key].image_ref },
+
+    # This will also tag the image with :v1, :v1.2, :v1.2.3, :v1.2.3-r4, for compatibility with Tigera Operator to install Calico.
+    # TODO(jason): Do this for all images, not just calico, and potentially only for `:v1.2.3` and `:v1.2.3-r4` (not `:v1` or `:v1.2`).
+    { for t in module.version-tags[each.key].tag_list : "v${t}" => module.latest[each.key].image_ref },
   )
 }
