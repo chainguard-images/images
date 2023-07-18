@@ -48,14 +48,7 @@ spec:
         script: echo "hello world"
 EOF
 
-# Wait for up to 1 minute to see the TaskRun complete successfully.
-for i in {1..20}; do
-  $(kubectl get taskrun test-taskrun -o jsonpath='{.status.conditions[?(@.type=="Succeeded")].status}' | grep "True") && exit 0
-  sleep 5
-done
-echo "TaskRun did not succeed"
-kubectl get taskrun test-taskrun -oyaml
-exit 1
+kubectl wait --for=condition=succeeded taskrun test-taskrun --timeout=60s
 
 # CLI image runs.
 docker run --rm ${CLI_IMAGE} version
