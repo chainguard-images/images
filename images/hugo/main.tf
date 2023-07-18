@@ -17,6 +17,14 @@ module "latest" {
 
 module "dev" { source = "../../tflib/dev-subvariant" }
 
+locals {
+  hugo_dev_packages = concat(module.dev.extra_packages, [
+    "git",
+    "go",
+    "nodejs"
+  ])
+}
+
 module "latest-dev" {
   source = "../../tflib/publisher"
 
@@ -24,7 +32,7 @@ module "latest-dev" {
   # Make the dev variant an explicit extension of the
   # locked original.
   config         = jsonencode(module.latest.config)
-  extra_packages = module.dev.extra_packages
+  extra_packages = local.hugo_dev_packages
 }
 
 module "version-tags" {

@@ -1,6 +1,6 @@
 contents:
   packages:
-    - hugo
+    - hugo-extended
 
 entrypoint:
   command: /usr/bin/hugo
