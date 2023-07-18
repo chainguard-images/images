@@ -64,5 +64,4 @@ data "oci_exec_test" "test" {
     name  = "WORKINGDIRINIT_IMAGE"
     value = var.digests["workingdirinit"]
   }
-
 }
