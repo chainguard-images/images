@@ -50,7 +50,7 @@ EOF
 
 # Wait for up to 1 minute to see the TaskRun complete successfully.
 for i in {1..20}; do
-  $(kubectl get taskrun test-taskrun -o jsonpath='{.status.conditions[?(@.type=="Succeeded")].status}' | grep True) && exit 0
+  $(kubectl get taskrun test-taskrun -o jsonpath='{.status.conditions[?(@.type=="Succeeded")].status}' | grep "True") && exit 0
   sleep 5
 done
 echo "TaskRun did not succeed"
