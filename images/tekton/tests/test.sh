@@ -56,3 +56,6 @@ done
 echo "TaskRun did not succeed"
 kubectl get taskrun test-taskrun -oyaml
 exit 1
+
+# CLI image runs.
+docker run --rm ${CLI_IMAGE} version

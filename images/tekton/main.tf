@@ -11,6 +11,7 @@ variable "target_repository" {
 locals {
   components = toset([
     "chains",
+    "cli",
     "controller",
     "entrypoint",
     "events",
@@ -25,6 +26,7 @@ locals {
     for k, v in local.components : k => "tekton-pipelines-${k}"
     }, {
     "chains" : "tekton-chains",
+    "cli" : "tkn",
     "controller" : "tekton-pipelines",
   })
 }

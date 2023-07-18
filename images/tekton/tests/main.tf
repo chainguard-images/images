@@ -8,6 +8,7 @@ variable "digests" {
   description = "The image digests to run tests over."
   type = object({
     chains            = string
+    cli               = string
     controller        = string
     entrypoint        = string
     events            = string
@@ -31,6 +32,10 @@ data "oci_exec_test" "test" {
   env {
     name  = "CHAINS_IMAGE"
     value = var.digests["chains"]
+  }
+  env {
+    name  = "CLI_IMAGE"
+    value = var.digests["cli"]
   }
   env {
     name  = "CONTROLLER_IMAGE"

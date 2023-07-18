@@ -17,6 +17,8 @@
 
 [Tekton Chains](https://tekton.dev/docs/chains/) provides additional supply chain security features.
 
+The [Tekton CLI](https://tekton.dev/docs/cli/) is a command-line interface for Tekton.
+
 ## Usage
 
 These images a drop-in replacement for the upstream images.
@@ -42,4 +44,10 @@ For Tekton Chains:
 curl -sL https://storage.googleapis.com/tekton-releases/chains/latest/release.yaml | \
     sed "s|gcr.io/tekton-releases/github.com/tektoncd/chains/cmd/controller[a-z0-9:@.]\{1,\}|cgr.dev/chainguard/tekton-chains|g" | \
     kubectl apply -f -
+```
+
+For Tekton CLI:
+
+```
+docker run cgr.dev/chainguard/tekton-cli version
 ```
