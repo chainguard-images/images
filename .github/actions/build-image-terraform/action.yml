@@ -71,11 +71,15 @@ runs:
         # When we have a "mega module", use it to invoke the module
         # for the appropriate image.
         if [ -f "main.tf" ]; then
+          echo ::group::terraform init
           terraform init
+          echo ::endgroup::
           terraform apply -auto-approve "-target=module.${MODULE}" -json | tee /tmp/${MODULE}.tf.json | jq -r '.["@message"]'
         else
           cd ${{ inputs.terraformDirectory }}
+          echo ::group::terraform init
           terraform init
+          echo ::endgroup::
           terraform apply -auto-approve -json | tee /tmp/${MODULE}.tf.json | jq -r '.["@message"]'
         fi
 
