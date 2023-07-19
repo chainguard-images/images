@@ -1,7 +1,9 @@
 terraform {
   required_providers {
-    apko = { source = "chainguard-dev/apko" }
+    apko = {
+      source = "chainguard-dev/apko"
   }
+}
 }
 
 variable "target_repository" {
@@ -32,7 +34,6 @@ provider "apko" {
   extra_repositories = concat(["https://packages.wolfi.dev/os"], var.extra_repositories)
   extra_keyring      = concat(["https://packages.wolfi.dev/os/wolfi-signing.rsa.pub"], var.extra_keyring)
   extra_packages     = concat(["wolfi-baselayout"], var.extra_packages)
-
   default_archs      = length(var.archs) == 0 ? ["x86_64", "aarch64"] : var.archs
   default_annotations = {
     "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/", // TODO: remove this when everything is migrated to TF annotations
