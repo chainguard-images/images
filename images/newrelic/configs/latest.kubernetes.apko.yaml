@@ -22,6 +22,3 @@ entrypoint:
 environment:
   METADATA: true
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/nri-kubernetes/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/nri-kubernetes

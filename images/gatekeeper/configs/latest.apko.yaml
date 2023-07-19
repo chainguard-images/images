@@ -18,6 +18,3 @@ entrypoint:
 
 cmd: --help
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/gatekeeper/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/gatekeeper

@@ -2,6 +2,8 @@ module "latest-wolfi" {
   for_each = local.accounts
   source   = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.wolfi.${each.key}.apko.yaml")
 }
@@ -9,6 +11,8 @@ module "latest-wolfi" {
 module "latest-wolfi-dev" {
   for_each = local.accounts
   source   = "../../tflib/publisher"
+
+  name = basename(path.module)
 
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.wolfi.${each.key}.apko.yaml")

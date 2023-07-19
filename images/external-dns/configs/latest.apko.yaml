@@ -16,6 +16,3 @@ entrypoint:
   command: /usr/bin/external-dns
 cmd: --help
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/external-dns/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/external-dns

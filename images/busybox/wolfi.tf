@@ -1,6 +1,8 @@
 module "latest-wolfi" {
   source = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.wolfi.apko.yaml")
 }

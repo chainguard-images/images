@@ -16,6 +16,3 @@ accounts:
 entrypoint:
   command: python3 -m kube_downscaler
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/kube-downscaler/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/kube-downscaler

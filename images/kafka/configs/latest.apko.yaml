@@ -29,6 +29,3 @@ entrypoint:
   command: /usr/lib/kafka/bin/kafka-server-start.sh
 cmd: /usr/lib/kafka/config/server.properties
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/kafka/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/kafka

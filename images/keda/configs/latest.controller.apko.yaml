@@ -17,6 +17,3 @@ accounts:
 entrypoint:
   command: /usr/bin/keda --zap-log-level=info --zap-encoder=console
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/keda/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/keda

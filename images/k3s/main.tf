@@ -11,6 +11,8 @@ variable "target_repository" {
 module "latest" {
   source = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.apko.yaml")
 }
@@ -18,7 +20,9 @@ module "latest" {
 module "dev" { source = "../../tflib/dev-subvariant" }
 
 module "latest-dev" {
-  source            = "../../tflib/publisher"
+  source = "../../tflib/publisher"
+
+  name              = basename(path.module)
   target_repository = var.target_repository
   config            = jsonencode(module.latest.config)
   extra_packages = concat(module.dev.extra_packages, [
@@ -29,13 +33,17 @@ module "latest-dev" {
 }
 
 module "latest-images" {
-  source            = "../../tflib/publisher"
+  source = "../../tflib/publisher"
+
+  name              = basename(path.module)
   target_repository = "${var.target_repository}-images"
   config            = file("${path.module}/configs/latest.images.apko.yaml")
 }
 
 module "latest-images-dev" {
-  source            = "../../tflib/publisher"
+  source = "../../tflib/publisher"
+
+  name              = basename(path.module)
   target_repository = "${var.target_repository}-images"
   config            = file("${path.module}/configs/latest.images.apko.yaml")
   extra_packages = concat(module.dev.extra_packages, [

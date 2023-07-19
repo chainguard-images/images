@@ -11,7 +11,8 @@ variable "target_repository" {
 module "latest" {
   source = "../../tflib/publisher"
 
-  name              = basename(path.module)
+  name = basename(path.module)
+
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.apko.yaml")
 }
@@ -21,7 +22,8 @@ module "dev" { source = "../../tflib/dev-subvariant" }
 module "latest-dev" {
   source = "../../tflib/publisher"
 
-  name              = basename(path.module)
+  name = basename(path.module)
+
   target_repository = var.target_repository
   # Make the dev variant an explicit extension of the
   # locked original.

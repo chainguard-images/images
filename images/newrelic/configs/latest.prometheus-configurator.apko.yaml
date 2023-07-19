@@ -15,6 +15,3 @@ accounts:
 entrypoint:
   command: /usr/bin/prometheus-configurator
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/newrelic-prometheus-configurator/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/newrelic-prometheus-configurator

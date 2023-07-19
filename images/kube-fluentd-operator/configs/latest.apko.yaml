@@ -25,6 +25,3 @@ accounts:
       gid: 65532
   run-as: 0 # need to write to /var/log and hostPath volumes are mounted as root
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/kube-fluentd-operator
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/kube-fluentd-operator

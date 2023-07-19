@@ -15,6 +15,3 @@ accounts:
 entrypoint:
   command: /usr/bin/secrets-store-csi-driver-provider-gcp
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/secrets-store-csi-driver-provider-gcp/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/secrets-store-csi-driver-provider-gcp

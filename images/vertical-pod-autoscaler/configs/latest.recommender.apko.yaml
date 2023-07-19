@@ -17,6 +17,3 @@ entrypoint:
 
 cmd: "--v=4 --stderrthreshold=info"
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/vertical-pod-autoscaler-recommender/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/vertical-pod-autoscaler-recommender

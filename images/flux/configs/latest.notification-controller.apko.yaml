@@ -15,6 +15,3 @@ accounts:
 entrypoint:
   command: /usr/bin/notification-controller
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/flux-notification-controller/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/flux-notification-controller
