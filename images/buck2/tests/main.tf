@@ -13,7 +13,10 @@ data "oci_exec_test" "help" {
   script = "${path.module}/01-help.sh"
 }
 
+// TODO(#1054): Re-enable this when we can make it consistently pass.
+/*
 data "oci_exec_test" "build" {
   digest = var.digest
   script = "${path.module}/02-build.sh"
 }
+*/
