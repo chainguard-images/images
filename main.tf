@@ -1,9 +1,7 @@
 terraform {
   required_providers {
-    apko = {
-      source = "chainguard-dev/apko"
+    apko = { source = "chainguard-dev/apko" }
   }
-}
 }
 
 variable "target_repository" {
@@ -37,6 +35,7 @@ provider "apko" {
   default_archs      = length(var.archs) == 0 ? ["x86_64", "aarch64"] : var.archs
   default_annotations = {
     "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/", // TODO: remove this when everything is migrated to TF annotations
+
   }
 }
 
