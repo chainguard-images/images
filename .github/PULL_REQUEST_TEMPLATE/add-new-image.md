@@ -1,6 +1,6 @@
 ## Chainguard Images Pull Request Template
 
-<!-- 
+<!--
 *** PULL REQUEST CHECKLIST: PLEASE START HERE ***
 
 The image pull request checklist includes 10 sections:
@@ -14,7 +14,7 @@ The image pull request checklist includes 10 sections:
 ### Image Size
 <!--
 Image size refers to the amount of disk space / storage space (i.e., MB, GB, etc.)
-The common public counterpart is normally the public image available on Docker or equivalent public container registry 
+The common public counterpart is normally the public image available on Docker or equivalent public container registry
 -->
 
 - [ ] The Image is smaller in size than its common public counterpart.
@@ -46,7 +46,7 @@ Notes:
 
 Notes:
 
-### Helm 
+### Helm
 <!-- Upstream Helm charts are a great reference and they help ensure quality -->
 
 - [ ] A Helm chart has been provided and the container image can be used with the chart.  If needed, please add a -compat package to close any gaps with the public helm chart.
@@ -65,8 +65,8 @@ Notes:
 Notes:
 
 ### Functional Testing + Documentation
-<!-- 
-You are confident that a customer can run this image in production. Functional tests are a requirement -- no exceptions. 
+<!--
+You are confident that a customer can run this image in production. Functional tests are a requirement -- no exceptions.
 
 * For builder images (go, python, etc), build a sample app successfully
 * For services images (rabbit, databases, webservers) test basic functionality, upstream install/getting started, port availability, admin access. Document differences from public image.
@@ -77,7 +77,7 @@ You are confident that a customer can run this image in production. Functional t
 Notes:
 
 ### Environment Testing + Documentation
-<!-- 
+<!--
 Some of our container images will require additional configuration to run on a public cloud provider.
 -->
 
@@ -121,17 +121,6 @@ Notes:
 - [ ] For server applications give arguments to start in daemon mode (may be empty)
 - [ ] For utilities/tooling bring up help e.g. `–help`
 - [ ] For base images with a shell, call it e.g. [/bin/sh]
-
-### Annotations
-
-- [ ] Annotations added e.g:
-
-```
-annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/busybox/ # use the academy site here
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/bazel # use github here
-```
 
 ### Environment Variables
 

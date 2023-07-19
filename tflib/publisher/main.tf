@@ -24,13 +24,33 @@ variable "extra_packages" {
   default = ["wolfi-baselayout"]
 }
 
+variable "name" {
+  type    = string
+  default = "TODO" // TODO remove this
+}
+
+output "path" {
+  value = basename(path.cwd)
+}
+
+locals {
+  updated_config = merge(yamldecode(var.config),
+    var.name == "TODO" ? {} :
+    { "annotations" = {
+      "org.opencontainers.image.source" : "https://github.com/chainguard-images/images/images/${var.name}",
+      "org.opencontainers.image.url" : "https://edu.chainguard.dev/chainguard/chainguard-images/reference/${var.name}/"
+      },
+    },
+    { "packages" = var.extra_packages },
+  )
+}
+
 module "this" {
   source  = "chainguard-dev/apko/publisher"
   version = "0.0.6"
 
   target_repository = var.target_repository
-  config            = var.config
-  extra_packages    = var.extra_packages
+  config            = yamlencode(local.updated_config)
 }
 
 data "oci_exec_test" "check-reproducibility" {

@@ -131,24 +131,6 @@ Set the ENTRYPOINT and CMD as follows:
 
 In most cases this shouldn’t be necessary, but occasionally you may find an image needs to use a process manager or init system, perhaps for handling multiple processes, logging or signals. Docker bundles [tini ](https://github.com/krallin/tini)for this reason, and we bundle [s6](https://skarnet.org/software/s6/s6-supervise.html). See the [apko docs](https://github.com/chainguard-dev/apko/blob/main/docs/apko_file.md#entrypoint-top-level-element) for usage.
 
-
-## Labels and Annotations  {#labels-and-annotations}
-
-_NOTE: Annotations/Labels are [currently broken](https://github.com/chainguard-dev/apko/issues/481) in apko but this should be fixed soon. They can still be added to the config._
-
-Set the following annotations on the images using apko:
-
-```
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/busybox/ #use the academy site here
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/bazel #use github here
-```
-
-Please add any annotations that are missing here - it’s an easy way to add value to our users.
-
-These are based on the OCI default annotations here [https://github.com/opencontainers/image-spec/blob/main/annotations.md](https://github.com/opencontainers/image-spec/blob/main/annotations.md).
-
-
 ## Environment Variables
 
 Consider adding environment variables to expose configuration options. In cloud native environments it is typically much easier to set an environment variable (and have it vary per container) than it is to mount a configuration file or even pass arguments to an executable.
