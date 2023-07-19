@@ -42,7 +42,6 @@ locals {
       "org.opencontainers.image.source" : "https://github.com/chainguard-images/images/tree/main/images/${var.name}",
       },
     },
-    { "packages" = var.extra_packages },
   )
 }
 
@@ -52,6 +51,7 @@ module "this" {
 
   target_repository = var.target_repository
   config            = yamlencode(local.updated_config)
+  extra_packages    = var.extra_packages
 }
 
 data "oci_exec_test" "check-reproducibility" {
