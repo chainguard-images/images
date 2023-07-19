@@ -10,10 +10,11 @@ variable "digest" {
 
 data "oci_exec_test" "help" {
   digest = var.digest
-  script = "${path.module}/01-help.sh"
+  script = "docker run --rm $IMAGE_NAME help"
 }
 
 data "oci_exec_test" "build" {
-  digest = var.digest
-  script = "${path.module}/02-build.sh"
+  digest      = var.digest
+  script      = "./build.sh"
+  working_dir = path.module
 }
