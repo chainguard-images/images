@@ -16,6 +16,3 @@ accounts:
 entrypoint:
   command: /usr/bin/mysqld_exporter
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/prometheus-mysqld-exporter/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/prometheus-mysqld-exporter

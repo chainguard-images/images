@@ -23,6 +23,3 @@ entrypoint:
   command: /fluent-bit/bin/fluent-bit
 cmd: -e /fluent-bit/firehose.so -e /fluent-bit/cloudwatch.so -e /fluent-bit/kinesis.so -c /fluent-bit/etc/fluent-bit.conf
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/aws-for-fluent-bit/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/aws-for-fluent-bit

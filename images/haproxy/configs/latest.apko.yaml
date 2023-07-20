@@ -29,6 +29,3 @@ paths:
 entrypoint:
   command: /usr/local/bin/docker-entrypoint.sh
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/haproxy/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/haproxy

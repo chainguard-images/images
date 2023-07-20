@@ -34,7 +34,7 @@ provider "apko" {
   extra_packages     = concat(["wolfi-baselayout"], var.extra_packages)
   default_archs      = length(var.archs) == 0 ? ["x86_64", "aarch64"] : var.archs
   default_annotations = {
-    "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/",
+    "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/", // TODO: remove this when everything is migrated to TF annotations
   }
 }
 
@@ -46,7 +46,7 @@ provider "apko" {
   extra_packages = ["alpine-baselayout-data", "alpine-release", "ca-certificates-bundle"]
   default_archs  = var.archs # defaults to all
   default_annotations = {
-    "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/",
+    "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/", // TODO: remove this when everything is migrated to TF annotations
   }
 }
 

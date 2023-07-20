@@ -34,6 +34,3 @@ paths:
     gid: 1000
     permissions: 0o755
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/influxdb/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/influxdb

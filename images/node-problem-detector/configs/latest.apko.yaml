@@ -45,6 +45,3 @@ entrypoint:
   command: /usr/bin/node-problem-detector
 cmd: --config.system-log-monitor=/config/kernel-monitor.json
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/node-problem-detector/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/node-problem-detector

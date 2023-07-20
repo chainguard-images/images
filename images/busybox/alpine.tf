@@ -4,6 +4,8 @@ module "latest-alpine" {
   }
   source = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.alpine.apko.yaml")
   # Override the module's default wolfi packages that conflict with alpine

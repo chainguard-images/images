@@ -14,6 +14,3 @@ accounts:
 entrypoint:
   command: thanos
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/thanos/ #use the academy site here
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/thanos #use github here

@@ -5,6 +5,8 @@ module "latest-alpine" {
   for_each = local.accounts
   source   = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.alpine.${each.key}.apko.yaml")
   # Override the module's default wolfi packages that conflict with alpine
@@ -17,6 +19,8 @@ module "latest-alpine-dev" {
   }
   for_each = local.accounts
   source   = "../../tflib/publisher"
+
+  name = basename(path.module)
 
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.alpine.${each.key}.apko.yaml")

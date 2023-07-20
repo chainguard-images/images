@@ -17,6 +17,3 @@ accounts:
 entrypoint:
   command: /usr/bin/manager
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/stakater-reloader/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/stakater-reloader

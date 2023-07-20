@@ -16,6 +16,3 @@ entrypoint:
   command: /usr/bin/nats-server
 cmd: --config=/etc/nats/nats-server.conf
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/nats/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/nats

@@ -24,6 +24,8 @@ module "latest" {
   for_each = local.repositories
   source   = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = each.value
   config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
 }
@@ -33,6 +35,8 @@ module "dev" { source = "../../tflib/dev-subvariant" }
 module "latest-dev" {
   for_each = local.repositories
   source   = "../../tflib/publisher"
+
+  name = basename(path.module)
 
   target_repository = each.value
   # Make the dev variant an explicit extension of the

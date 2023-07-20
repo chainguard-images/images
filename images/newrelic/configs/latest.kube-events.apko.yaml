@@ -18,6 +18,3 @@ accounts:
 entrypoint:
   command: /sbin/tini -- /usr/bin/nri-kube-events
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/nri-kube-events/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/nri-kube-events

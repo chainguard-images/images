@@ -16,6 +16,8 @@ module "latest" {
   for_each = local.components
   source   = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = "${var.target_repository}-${each.key}"
   config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
 }
@@ -27,6 +29,8 @@ module "dev" {
 module "latest-dev" {
   for_each = local.components
   source   = "../../tflib/publisher"
+
+  name = basename(path.module)
 
   target_repository = "${var.target_repository}-${each.key}"
   config            = jsonencode(module.latest[each.key].config)

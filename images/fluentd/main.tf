@@ -38,12 +38,16 @@ module "tagger" {
 module "latest" {
   source = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.apko.yaml")
 }
 
 module "latest-dev" {
   source = "../../tflib/publisher"
+
+  name = basename(path.module)
 
   target_repository = var.target_repository
   # Make the dev variant an explicit extension of the
@@ -54,6 +58,8 @@ module "latest-dev" {
 
 module "latest-splunk" {
   source = "../../tflib/publisher"
+
+  name = basename(path.module)
 
   target_repository = var.target_repository
   # Make the dev variant an explicit extension of the

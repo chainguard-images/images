@@ -48,6 +48,3 @@ paths:
     gid: 65532
     permissions: 0o644
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/fluentd
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/fluentd

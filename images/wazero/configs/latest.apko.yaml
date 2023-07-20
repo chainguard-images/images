@@ -16,6 +16,3 @@ entrypoint:
   command: /usr/bin/wazero
 cmd: --help
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/wazero/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/wazero
