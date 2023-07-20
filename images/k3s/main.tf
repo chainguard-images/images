@@ -34,21 +34,16 @@ module "latest-images" {
   config            = file("${path.module}/configs/latest.images.apko.yaml")
 }
 
-module "latest-images-dev" {
-  source            = "../../tflib/publisher"
-  target_repository = "${var.target_repository}-images"
-  config            = file("${path.module}/configs/latest.images.apko.yaml")
-  extra_packages = concat(module.dev.extra_packages, [
-    "crictl",
-    "kubectl",
-    "ctr",
-  ])
-}
-
 module "version-tags" {
   source  = "../../tflib/version-tags"
   package = "k3s"
   config  = module.latest.config
+}
+
+module "version-tags-images" {
+  source  = "../../tflib/version-tags"
+  package = "k3s-images"
+  config  = module.latest-images.config
 }
 
 module "test-latest" {
@@ -67,8 +62,8 @@ module "tagger" {
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },
     { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-dev" => module.latest-dev.image_ref },
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-images" => module.latest-images.image_ref },
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-images-dev" => module.latest-images-dev.image_ref },
+    # images is not a runnable image and does not have a dev variant, they are just image bits formatted in a way k3s knows how to load
+    { for t in toset(concat(["latest"], module.version-tags-images.tag_list)) : "${t}-images" => module.latest-images.image_ref },
     { for t in toset(concat(["latest"], module.version-tags-embedded.tag_list)) : t => module.latest-embedded.image_ref },
   )
 }
