@@ -25,3 +25,8 @@ data "oci_exec_test" "locale" {
   digest = var.digest
   script = "${path.module}/03-locale.sh"
 }
+
+data "oci_exec_test" "entrypoint" {
+  digest = var.digest
+  script = "${path.module}/04-entrypoint.sh"
+}

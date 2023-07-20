@@ -19,7 +19,9 @@ accounts:
   run-as: 0
 
 entrypoint:
-  command: /var/lib/postgres/initdb/postgresql-entrypoint.sh postgres
+  command: /var/lib/postgres/initdb/postgresql-entrypoint.sh
+
+cmd: postgres
 
 environment:
   PGDATA: /var/lib/postgresql/data
