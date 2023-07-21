@@ -4,7 +4,6 @@ terraform {
     helm = { source = "hashicorp/helm" }
   }
 }
-
 variable "digest" {
   description = "The image digest to run tests over."
 }
@@ -17,13 +16,17 @@ resource "helm_release" "ingress-nginx-controller" {
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
 
-  namespace        = "ingress-nginx-controller"
+  namespace        = "ingress-nginx"
   create_namespace = true
 
   values = [jsonencode({
-    image = {
-      tag        = data.oci_string.ref.pseudo_tag
-      repository = data.oci_string.ref.registry_repo
+    controller = {
+      image = {
+        image = data.oci_string.ref.repo
+        tag        = data.oci_string.ref.pseudo_tag
+        registry = data.oci_string.ref.registry
+        digest = data.oci_string.ref.digest
+      }
     }
   })]
 }

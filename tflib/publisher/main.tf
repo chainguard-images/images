@@ -57,7 +57,11 @@ module "this" {
 data "oci_exec_test" "check-reproducibility" {
   digest = module.this.image_ref
   script = "${path.module}/check-reproducibility.sh"
-
+  env = [ {
+    name = "APKO_IMAGE" 
+    value = module.this.image_ref 
+    } 
+  ]
   # TODO(jonjohnson): Make this faster!
   # Currently some builds (e.g. golang) take more than the
   # default 5m, so give them 10m
