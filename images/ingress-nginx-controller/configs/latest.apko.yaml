@@ -2,6 +2,8 @@ contents:
   packages:
     - curl
     - curl-dev
+    - bash
+    - build-base
     - openssl
     - openssl-dev
     - ingress-nginx-controller
@@ -43,15 +45,14 @@ accounts:
   run-as: www-data
 
 annotations:
-  "org.opencontainers.image.title": "Ingress-NGINX Controller for Kubernetes"
-  "org.opencontainers.image.documentation": "https://kubernetes.github.io/ingress-nginx/"
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.licenses": "Apache-2.0"
+      "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/"
+      "org.opencontainers.image.url" : "https://edu.chainguard.dev/chainguard/chainguard-images/reference/ingress-nginx-controller"
+      "org.opencontainers.image.source" : "https://github.com/chainguard-images/images/tree/main/images/ingress-nginx-controller"
 
 environment:
   PATH: "$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/luajit/bin:/usr/local/nginx/sbin/"
-  LUA_PATH: "/usr/local/share/luajit-2.1.0-beta3/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/lib/lua/?.lua;;"
-  LUA_CPATH: "/usr/local/lib/lua/?/?.so;/usr/local/lib/lua/?.so;;"
+  LUA_PATH: "/usr/local/share/luajit-2.1.0-beta3/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/lib/lua/?.lua;/usr/lib/lua/?.lua;"
+  LUA_CPATH: "/usr/local/lib/lua/?/?.so;/usr/local/lib/lua/?.so;/usr/lib/lua/?.lua;"
   LD_PRELOAD: "/usr/local/lib/libmimalloc.so"
 
 work-dir:  /etc/nginx
