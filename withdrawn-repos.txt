@@ -1,5 +1,4 @@
 alpine-base
-k3s-images
 nri-kube-events
 nri-kubernetes
 nri-prometheus
