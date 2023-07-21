@@ -54,7 +54,7 @@ spec:
 EOF
 
 kubectl apply -f deploy.yaml -n redis
-
+sleep 5 # Let the controllers do their thing
 kubectl wait --for=condition=ready pod --selector app=redis -n redis
 
 latest_pod_name="$(kubectl get pods --selector app=redis -n redis -o jsonpath="{.items[0].metadata.name}")"

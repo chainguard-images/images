@@ -18,6 +18,3 @@ entrypoint:
 
 cmd: server -dev
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/vault/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/vault

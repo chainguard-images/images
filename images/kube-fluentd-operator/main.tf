@@ -11,6 +11,8 @@ variable "target_repository" {
 module "latest" {
   source = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.apko.yaml")
 }

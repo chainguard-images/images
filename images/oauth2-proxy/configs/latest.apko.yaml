@@ -15,6 +15,3 @@ accounts:
 entrypoint:
   command: /usr/bin/oauth2-proxy
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/oauth2-proxy
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/oauth2-proxy

@@ -15,6 +15,3 @@ accounts:
 entrypoint:
   command: /usr/bin/metrics-sidecar
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/kubernetes-dashboard-metrics-scraper/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/kubernetes-dashboard-metrics-scraper

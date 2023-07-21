@@ -5,6 +5,3 @@ contents:
 entrypoint:
   command: prometheus
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/prometheus/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/prometheus

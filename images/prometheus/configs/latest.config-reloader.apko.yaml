@@ -16,6 +16,3 @@ accounts:
 entrypoint:
   command: /bin/prometheus-config-reloader
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/prometheus-config-reloader/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/prometheus-config-reloader

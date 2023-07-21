@@ -96,7 +96,7 @@ EOF
 set -u
 
 kubectl apply -f $TMPDIR/etcd.yaml
-
+sleep 5
 kubectl wait --for=condition=ready pod --selector app.kubernetes.io/name=etcd --timeout 60s
 etcd_ip=$(kubectl get svc etcd-client -ojsonpath='{.spec.clusterIP}')
 
@@ -150,6 +150,7 @@ EOF
 helm repo add external-dns https://kubernetes-sigs.github.io/external-dns/
 helm upgrade -i edns external-dns/external-dns -f $TMPDIR/external-dns-values.yaml
 
+sleep 5
 kubectl wait --for=condition=ready pod --selector app.kubernetes.io/name=coredns --timeout 120s
 kubectl wait --for=condition=ready pod --selector app.kubernetes.io/name=external-dns --timeout 60s
 

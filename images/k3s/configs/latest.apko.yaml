@@ -35,7 +35,4 @@ entrypoint:
   command: /bin/k3s
 cmd: agent
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/k3s/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/k3s
 

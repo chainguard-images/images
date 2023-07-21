@@ -15,6 +15,12 @@ accounts:
 entrypoint:
   command: /usr/bin/source-controller
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/flux-source-controller/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/flux-source-controller
+paths:
+  # Writes to /home/nonroot/ for caching things like rekor public keys (/home/nonroot/.sigstore)
+  - path: /home/nonroot
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+    recursive: true
+

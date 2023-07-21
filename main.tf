@@ -34,7 +34,7 @@ provider "apko" {
   extra_packages     = concat(["wolfi-baselayout"], var.extra_packages)
   default_archs      = length(var.archs) == 0 ? ["x86_64", "aarch64"] : var.archs
   default_annotations = {
-    "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/",
+    "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/", // TODO: remove this when everything is migrated to TF annotations
   }
 }
 
@@ -46,7 +46,7 @@ provider "apko" {
   extra_packages = ["alpine-baselayout-data", "alpine-release", "ca-certificates-bundle"]
   default_archs  = var.archs # defaults to all
   default_annotations = {
-    "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/",
+    "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/", // TODO: remove this when everything is migrated to TF annotations
   }
 }
 
@@ -84,6 +84,11 @@ module "aws-ebs-csi-driver" {
 module "aws-efs-csi-driver" {
   source            = "./images/aws-efs-csi-driver"
   target_repository = "${var.target_repository}/aws-efs-csi-driver"
+}
+
+module "aws-for-fluent-bit" {
+  source            = "./images/aws-for-fluent-bit"
+  target_repository = "${var.target_repository}/aws-for-fluent-bit"
 }
 
 module "aws-load-balancer-controller" {
@@ -147,6 +152,11 @@ module "cluster-autoscaler" {
 module "cluster-proportional-autoscaler" {
   source            = "./images/cluster-proportional-autoscaler"
   target_repository = "${var.target_repository}/cluster-proportional-autoscaler"
+}
+
+module "conda" {
+  source            = "./images/conda"
+  target_repository = "${var.target_repository}/conda"
 }
 
 module "configmap-reload" {
@@ -670,6 +680,11 @@ module "skaffold" {
   target_repository = "${var.target_repository}/skaffold"
 }
 
+module "slim-toolkit-debug" {
+  source            = "./images/slim-toolkit-debug"
+  target_repository = "${var.target_repository}/slim-toolkit-debug"
+}
+
 module "spire" {
   source            = "./images/spire"
   target_repository = "${var.target_repository}/spire"
@@ -686,6 +701,11 @@ module "static" {
   providers = {
     apko.alpine = apko.alpine
   }
+}
+
+module "tekton" {
+  source            = "./images/tekton"
+  target_repository = "${var.target_repository}/tekton"
 }
 
 module "telegraf" {

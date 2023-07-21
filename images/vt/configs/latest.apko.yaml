@@ -16,6 +16,3 @@ accounts:
 entrypoint:
   command: /usr/bin/vt
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/vt/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/vt

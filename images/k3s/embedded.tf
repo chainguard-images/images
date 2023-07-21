@@ -1,6 +1,8 @@
 # embedded does not have a dev variant since the dev packages are already there
 module "latest-embedded" {
-  source            = "../../tflib/publisher"
+  source = "../../tflib/publisher"
+
+  name              = basename(path.module)
   target_repository = "${var.target_repository}-embedded"
   config            = file("${path.module}/configs/latest.embedded.apko.yaml")
 }

@@ -10,7 +10,8 @@ variable "digest" {
 
 data "oci_exec_test" "version" {
   digest = var.digest
-  script = "${path.module}/01-version.sh"
+  # TODO: no way to get version from rabbitmq-server?
+  script = "docker run --rm --entrypoint rabbitmqctl $IMAGE_NAME version"
 }
 
 data "oci_exec_test" "perf" {

@@ -15,6 +15,3 @@ accounts:
 entrypoint:
   command: /usr/bin/trust-manager
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/trust-manager/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/trust-manager

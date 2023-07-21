@@ -25,6 +25,3 @@ environment:
   NRIA_IS_SECURE_FORWARD_ONLY: true
   NRIA_HTTP_SERVER_ENABLED: true
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/newrelic-k8s-events-forwarder/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/newrelic-k8s-events-forwarder

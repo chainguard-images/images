@@ -1,12 +1,16 @@
 module "three-eleven" {
   source = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = var.target_repository
   config            = file("${path.module}/configs/3.11.apko.yaml")
 }
 
 module "three-eleven-dev" {
   source = "../../tflib/publisher"
+
+  name = basename(path.module)
 
   target_repository = var.target_repository
   # Make the dev variant an explicit extension of the

@@ -15,6 +15,3 @@ accounts:
 entrypoint:
   command: manager
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/k8sgpt-operator/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/k8sgpt-operator

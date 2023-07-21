@@ -17,6 +17,3 @@ accounts:
 entrypoint:
   command: /usr/bin/vela
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/vela-cli/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/vela-cli

@@ -18,7 +18,7 @@ contents:
 entrypoint:
   type: service-bundle
   services:
-    php-fpm: /usr/bin/php-fpm -p /
+    php-fpm: /usr/sbin/php-fpm
 
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin
@@ -42,6 +42,3 @@ accounts:
       gid: 65532
   run-as: 65532
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/php/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/php

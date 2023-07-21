@@ -27,6 +27,3 @@ accounts:
   run-as: 65532
   recursive: true
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/guacamole-server/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/guacamole-server

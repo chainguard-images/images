@@ -1,12 +1,16 @@
 module "nineteen" {
   source = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = var.target_repository
   config            = file("${path.module}/configs/1.19.apko.yaml")
 }
 
 module "nineteen-dev" {
   source = "../../tflib/publisher"
+
+  name = basename(path.module)
 
   target_repository = var.target_repository
   # Make the dev variant an explicit extension of the

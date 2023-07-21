@@ -20,6 +20,3 @@ paths:
 entrypoint:
   command: /usr/bin/calico-kube-controllers
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/calico/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/calico
