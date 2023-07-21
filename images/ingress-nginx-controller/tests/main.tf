@@ -10,8 +10,18 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
+variable "image_tag" {
+  description = "image tag to pass to helm"
+}
+resource "random_string" "helm" {
+  length           = 8
+  special          = false
+  numeric = false
+  upper = false
+}
+
 resource "helm_release" "ingress-nginx-controller" {
-  name = "foo"
+  name = random_string.helm.result
 
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
@@ -23,7 +33,7 @@ resource "helm_release" "ingress-nginx-controller" {
     controller = {
       image = {
         image = data.oci_string.ref.repo
-        tag        = data.oci_string.ref.pseudo_tag
+        tag        = var.image_tag
         registry = data.oci_string.ref.registry
         digest = data.oci_string.ref.digest
       }
