@@ -58,7 +58,7 @@ environment:
 work-dir:  /etc/nginx
 
 entrypoint:
-  cmd: /nginx/ingress-controller
+  cmd: /nginx-ingress-controller
 cmd: "/usr/bin/dumb-init ---"
 
 
