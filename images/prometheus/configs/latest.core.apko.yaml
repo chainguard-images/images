@@ -3,7 +3,9 @@ contents:
     - prometheus
 
 entrypoint:
-  command: prometheus
+  command: /usr/bin/prometheus
+
+cmd: --config.file /etc/prometheus/prometheus.yml
 
 annotations:
   "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/prometheus/
