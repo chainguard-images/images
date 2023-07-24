@@ -528,6 +528,11 @@ module "metacontroller" {
   target_repository = "${var.target_repository}/metacontroller"
 }
 
+module "metallb-controller" {
+  source            = "./images/metallb-controller"
+  target_repository = "${var.target_repository}/metallb-controller"
+}
+
 module "minio" {
   source            = "./images/minio"
   target_repository = "${var.target_repository}/minio"
