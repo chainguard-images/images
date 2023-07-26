@@ -8,47 +8,59 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
+locals {
+  packages = {
+    "minio" : "minio",
+    "minio-client" : "mc",
+  }
+}
+
 module "latest" {
-  source = "../../tflib/publisher"
+  for_each = local.packages
+  source   = "../../tflib/publisher"
 
   name = basename(path.module)
 
-  target_repository = var.target_repository
-  config            = file("${path.module}/configs/latest.apko.yaml")
+  target_repository = "${var.target_repository}${trimprefix(each.key, "minio")}"
+  config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
 }
 
 module "dev" { source = "../../tflib/dev-subvariant" }
 
 module "latest-dev" {
-  source = "../../tflib/publisher"
+  for_each = local.packages
+  source   = "../../tflib/publisher"
 
   name = basename(path.module)
 
-  target_repository = var.target_repository
+  target_repository = "${var.target_repository}${trimprefix(each.key, "minio")}"
   # Make the dev variant an explicit extension of the
   # locked original.
-  config         = jsonencode(module.latest.config)
+  config         = jsonencode(module.latest[each.key].config)
   extra_packages = module.dev.extra_packages
 }
 
 module "version-tags" {
-  source  = "../../tflib/version-tags"
-  package = "minio"
-  config  = module.latest.config
+  for_each = local.packages
+  source   = "../../tflib/version-tags"
+  package  = each.value
+  config   = module.latest[each.key].config
 }
 
 module "test-latest" {
-  source = "./tests"
-  digest = module.latest.image_ref
+  for_each = local.packages
+  source   = "./tests"
+  digest   = module.latest[each.key].image_ref
 }
 
 module "tagger" {
-  source = "../../tflib/tagger"
+  for_each = local.packages
+  source   = "../../tflib/tagger"
 
   depends_on = [module.test-latest]
 
   tags = merge(
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-dev" => module.latest-dev.image_ref },
+    { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : t => module.latest[each.key].image_ref },
+    { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : "${t}-dev" => module.latest-dev[each.key].image_ref },
   )
 }
