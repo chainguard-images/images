@@ -59,7 +59,7 @@ data "oci_exec_test" "check-reproducibility" {
   script = "${path.module}/check-reproducibility.sh"
 
   env = [{
-    name= "APKO_IMAGE"
+    name  = "APKO_IMAGE"
     value = module.this.image_ref
   }]
   # TODO(jonjohnson): Make this faster!

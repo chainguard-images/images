@@ -3,6 +3,9 @@ contents:
     - curl
     - curl-dev
     - bash
+    - apk-tools
+    - busybox
+    - git
     - build-base
     - openssl
     - openssl-dev
@@ -53,7 +56,7 @@ environment:
   PATH: "$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/luajit/bin:/usr/local/nginx/sbin/"
   LUA_PATH: "/usr/local/share/luajit-2.1.0-beta3/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/lib/lua/?.lua;/usr/lib/lua/?.lua;"
   LUA_CPATH: "/usr/local/lib/lua/?/?.so;/usr/local/lib/lua/?.so;/usr/lib/lua/?.lua;"
-  LD_PRELOAD: "/usr/local/lib/libmimalloc.so"
+  LD_PRELOAD: "/usr/lib/libmimalloc.so"
 
 work-dir:  /etc/nginx
 

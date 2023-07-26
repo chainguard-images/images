@@ -34,9 +34,9 @@ module "version-tags" {
 }
 
 module "test-latest" {
-  source = "./tests"
+  source    = "./tests"
   image_tag = module.version-tags.tag_list[2] #[id=1,1.8,1.8.0,1.8.0-r3] need 1.8.0 for helm 
-  digest = module.latest.image_ref
+  digest    = module.latest.image_ref
 }
 
 module "tagger" {
