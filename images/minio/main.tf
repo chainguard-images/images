@@ -13,6 +13,11 @@ locals {
     "minio" : "minio",
     "minio-client" : "mc",
   }
+
+  repositories = {
+    "minio" : var.target_repository,
+    "minio-client" : "${var.target_repository}-client",
+  }
 }
 
 module "latest" {
@@ -21,7 +26,7 @@ module "latest" {
 
   name = basename(path.module)
 
-  target_repository = "${var.target_repository}${trimprefix(each.key, "minio")}"
+  target_repository = local.repositories[each.key]
   config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
 }
 
@@ -33,7 +38,7 @@ module "latest-dev" {
 
   name = basename(path.module)
 
-  target_repository = "${var.target_repository}${trimprefix(each.key, "minio")}"
+  target_repository = local.repositories[each.key]
   # Make the dev variant an explicit extension of the
   # locked original.
   config         = jsonencode(module.latest[each.key].config)
@@ -48,9 +53,8 @@ module "version-tags" {
 }
 
 module "test-latest" {
-  for_each = local.packages
-  source   = "./tests"
-  digest   = module.latest[each.key].image_ref
+  source  = "./tests"
+  digests = { for k, v in module.latest : k => module.latest[k].image_ref }
 }
 
 module "tagger" {
