@@ -6,6 +6,10 @@ terraform {
 
 variable "digests" {
   description = "The image digests to run tests over."
+  type = object({
+    minio        = string
+    minio-client = string
+  })
 }
 
 data "oci_exec_test" "version" {
