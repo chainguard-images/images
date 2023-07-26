@@ -1,7 +1,6 @@
 contents:
   packages:
     - busybox
-    - bind-tools
     - tini
     - newrelic-nri-kube-events
 

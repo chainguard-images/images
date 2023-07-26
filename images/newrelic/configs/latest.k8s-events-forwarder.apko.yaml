@@ -1,6 +1,5 @@
 contents:
   packages:
-    - bind-tools
     - tini
     - curl
     - newrelic-infrastructure-agent
