@@ -533,11 +533,6 @@ module "minio" {
   target_repository = "${var.target_repository}/minio"
 }
 
-module "minio-client" {
-  source            = "./images/minio-client"
-  target_repository = "${var.target_repository}/minio-client"
-}
-
 module "nats" {
   source            = "./images/nats"
   target_repository = "${var.target_repository}/nats"

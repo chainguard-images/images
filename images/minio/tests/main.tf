@@ -4,11 +4,17 @@ terraform {
   }
 }
 
-variable "digest" {
-  description = "The image digest to run tests over."
+variable "digests" {
+  description = "The image digests to run tests over."
+  type = object({
+    minio        = string
+    minio-client = string
+  })
 }
 
 data "oci_exec_test" "version" {
-  digest = var.digest
+  for_each = var.digests
+  digest   = each.value
+
   script = "docker run --rm $IMAGE_NAME --version"
 }
