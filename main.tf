@@ -650,6 +650,11 @@ module "redis" {
   target_repository = "${var.target_repository}/redis"
 }
 
+module "redis-sentinel" {
+  source            = "./images/redis-sentinel"
+  target_repository = "${var.target_repository}/redis-sentinel"
+}
+
 module "rqlite" {
   source            = "./images/rqlite"
   target_repository = "${var.target_repository}/rqlite"
