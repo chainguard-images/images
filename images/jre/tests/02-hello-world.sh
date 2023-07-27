@@ -17,7 +17,7 @@ chmod 777 "${TMP}"
 
 docker run --rm -v $(pwd)/HelloWorld.java:/src/HelloWorld.java -v "${TMP}:/tmp" \
   `# Build using the latest JDK image` \
-  --entrypoint "javac" cgr.dev/chainguard/jdk \
+  --entrypoint "javac" "${SDK_IMAGE}" \
   `# Targeting Java 11 so that all our JREs can run the produced .class file` \
   -source 11 -target 11 \
   /src/HelloWorld.java -d /tmp
