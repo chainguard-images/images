@@ -1,6 +1,6 @@
 module hello
 
-go 1.19
+go 1.17
 
 require github.com/google/go-containerregistry v0.15.2
 
