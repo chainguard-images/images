@@ -75,7 +75,7 @@ runs:
           terraform init
           echo ::endgroup::
           echo ::group::terraform plan
-          terraform plan
+          terraform plan "-target=module.${MODULE}"
           echo ::endgroup::
           terraform apply -auto-approve "-target=module.${MODULE}" -json | tee /tmp/${MODULE}.tf.json | jq -r '.["@message"]'
         else
@@ -84,7 +84,7 @@ runs:
           terraform init
           echo ::endgroup::
           echo ::group::terraform plan
-          terraform plan
+          terraform plan "-target=module.${MODULE}"
           echo ::endgroup::
           terraform apply -auto-approve -json | tee /tmp/${MODULE}.tf.json | jq -r '.["@message"]'
         fi
