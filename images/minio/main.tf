@@ -57,6 +57,12 @@ module "test-latest" {
   digests = { for k, v in module.latest : k => module.latest[k].image_ref }
 }
 
+module "test-latest-dev" {
+  source    = "./tests"
+  check-dev = true
+  digests   = { for k, v in module.latest-dev : k => module.latest-dev[k].image_ref }
+}
+
 module "tagger" {
   for_each = local.packages
   source   = "../../tflib/tagger"
