@@ -33,6 +33,6 @@ data "oci_exec_test" "check-numpy" {
 data "oci_exec_test" "check-build" {
   count       = var.check-dev ? 1 : 0
   digest      = var.digest
-  script      = "${path.module}/04-build.sh"
+  script      = "./04-build.sh"
   working_dir = path.module
 }

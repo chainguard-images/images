@@ -6,7 +6,7 @@ NEW_IMAGE_TAG="app-${RANDOM}"
 
 docker build \
   --build-arg=IMAGE_NAME="${IMAGE_NAME}" \
-  --tag "${NEW_IMAGE_TAG}"
+  --tag "${NEW_IMAGE_TAG}" .
 
 id=$(docker run --detach --publish "${FREE_PORT}:5000" ${NEW_IMAGE_TAG})
 trap "docker kill ${id}" EXIT
