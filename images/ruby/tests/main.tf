@@ -27,3 +27,13 @@ data "oci_exec_test" "base-image" {
   digest = var.digest
   script = "${path.module}/03-base-image.sh"
 }
+
+data "oci_exec_test" "base-image" {
+  digest = var.digest
+  script = "${path.module}/03-base-image.sh"
+}
+
+data "oci_exec_test" "hello-world-with-gem" {
+  digest = var.digest
+  script = "${path.module}/03-hello-world-with-gem.sh"
+}
