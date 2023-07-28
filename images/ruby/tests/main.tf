@@ -17,3 +17,8 @@ data "oci_exec_test" "irb-version" {
   digest = var.digest
   script = "docker run --rm --entrypoint irb $IMAGE_NAME -v"
 }
+
+data "oci_exec_test" "hello-world" {
+  digest = var.digest
+  script = "${path.module}/02-hello-world.sh"
+}
