@@ -10,5 +10,5 @@ variable "digest" {
 
 data "oci_exec_test" "runs" {
   digest = var.digest
-  script = "${path.module}/01-runs.sh"
+  script = "docker run --rm $IMAGE_NAME --info > /dev/null"
 }
