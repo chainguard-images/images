@@ -22,3 +22,8 @@ data "oci_exec_test" "hello-world" {
   digest = var.digest
   script = "${path.module}/02-hello-world.sh"
 }
+
+data "oci_exec_test" "base-image" {
+  digest = var.digest
+  script = "${path.module}/03-base-image.sh"
+}
