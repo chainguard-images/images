@@ -7,6 +7,7 @@ gha-creds-*.json
 .terraform*
 terraform.tfstate*
 plan.out*
+.test-data
 
 # Files added by running `apko build` directly
 sbom-*.json
