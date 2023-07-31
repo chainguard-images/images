@@ -75,8 +75,32 @@ module "tagger" {
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },
     { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-dev" => module.latest-dev.image_ref },
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-images" => module.latest-images.image_ref },
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-images-dev" => module.latest-images-dev.image_ref },
+  )
+}
+
+module "tagger-images" {
+  source = "../../tflib/tagger"
+
+  depends_on = [
+    module.test-latest,
+    module.test-embedded,
+  ]
+
+  tags = merge(
+    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}" => module.latest-images.image_ref },
+    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-dev" => module.latest-images-dev.image_ref },
+  )
+}
+
+module "tagger-embedded" {
+  source = "../../tflib/tagger"
+
+  depends_on = [
+    module.test-latest,
+    module.test-embedded,
+  ]
+
+  tags = merge(
     { for t in toset(concat(["latest"], module.version-tags-embedded.tag_list)) : t => module.latest-embedded.image_ref },
   )
 }
