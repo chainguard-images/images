@@ -40,19 +40,6 @@ module "latest-images" {
   config            = file("${path.module}/configs/latest.images.apko.yaml")
 }
 
-module "latest-images-dev" {
-  source = "../../tflib/publisher"
-
-  name              = basename(path.module)
-  target_repository = "${var.target_repository}-images"
-  config            = file("${path.module}/configs/latest.images.apko.yaml")
-  extra_packages = concat(module.dev.extra_packages, [
-    "crictl",
-    "kubectl",
-    "ctr",
-  ])
-}
-
 module "version-tags" {
   source  = "../../tflib/version-tags"
   package = "k3s"
@@ -87,8 +74,7 @@ module "tagger-images" {
   ]
 
   tags = merge(
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}" => module.latest-images.image_ref },
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-dev" => module.latest-images-dev.image_ref },
+    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest-images.image_ref },
   )
 }
 
@@ -102,5 +88,6 @@ module "tagger-embedded" {
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags-embedded.tag_list)) : t => module.latest-embedded.image_ref },
+    { for t in toset(concat(["latest"], module.version-tags-embedded.tag_list)) : "${t}-dev" => module.latest-embedded-dev.image_ref },
   )
 }
