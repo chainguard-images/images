@@ -33,3 +33,10 @@ resource "helm_release" "metrics-server" {
     args = ["--kubelet-insecure-tls"]
   })]
 }
+
+data "oci_exec_test" "check-metrics-server" {
+  digest      = var.digest
+  script      = "./check-metrics-server.sh"
+  working_dir = path.module
+  depends_on  = [helm_release.metrics-server]
+}

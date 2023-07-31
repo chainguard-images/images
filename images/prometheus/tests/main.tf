@@ -45,12 +45,6 @@ data "oci_exec_test" "cloudwatch-runs" {
   working_dir = path.module
 }
 
-data "oci_exec_test" "node-runs" {
-  digest      = var.digests["node-exporter"]
-  script      = "./node-runs.sh"
-  working_dir = path.module
-}
-
 data "oci_exec_test" "redis-runs" {
   digest      = var.digests["redis-exporter"]
   script      = "./redis-installs.sh"
@@ -62,23 +56,109 @@ resource "helm_release" "kube-prometheus-stack" {
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
 
-  values = [
-    jsonencode({
-      prometheusOperator = {
-        prometheusConfigReloader = {
-          image = {
-            registry   = data.oci_string.ref["config-reloader"].registry,
-            repository = data.oci_string.ref["config-reloader"].repo,
-            tag        = data.oci_string.ref["config-reloader"].pseudo_tag,
-          }
-        }
-        image = {
-          registry   = data.oci_string.ref["operator"].registry,
-          repository = data.oci_string.ref["operator"].repo,
-          tag        = data.oci_string.ref["operator"].pseudo_tag,
-        }
-      }
-    })
-  ]
+  namespace        = "prometheus"
+  create_namespace = true
+
+  // NOTE: we use "set" over "values" here because the upstream
+  // values.yaml is 4000 lines long, and it isn't worth trying
+  // to sort out which of the many knobs to stand things up properly.
+
+  // config-reloader
+  set {
+    name  = "prometheusOperator.prometheusConfigReloader.image.registry"
+    value = data.oci_string.ref["config-reloader"].registry
+  }
+  set {
+    name  = "prometheusOperator.prometheusConfigReloader.image.repository"
+    value = data.oci_string.ref["config-reloader"].repo
+  }
+  set {
+    name  = "prometheusOperator.prometheusConfigReloader.image.tag"
+    value = data.oci_string.ref["config-reloader"].pseudo_tag
+  }
+
+  // operator
+  set {
+    name  = "prometheusOperator.image.registry"
+    value = data.oci_string.ref["operator"].registry
+  }
+  set {
+    name  = "prometheusOperator.image.repository"
+    value = data.oci_string.ref["operator"].repo
+  }
+  set {
+    name  = "prometheusOperator.image.tag"
+    value = data.oci_string.ref["operator"].pseudo_tag
+  }
+
+  // prometheus
+  set {
+    name  = "prometheus.prometheusSpec.image.registry"
+    value = data.oci_string.ref["core"].registry
+  }
+  set {
+    name  = "prometheus.prometheusSpec.image.repository"
+    value = data.oci_string.ref["core"].repo
+  }
+  set {
+    name  = "prometheus.prometheusSpec.image.sha"
+    value = trimprefix(data.oci_string.ref["core"].digest, "sha256:")
+  }
+
+  // alertmanager
+  set {
+    name  = "alertmanager.alertmanagerSpec.image.registry"
+    value = data.oci_string.ref["alertmanager"].registry
+  }
+  set {
+    name  = "alertmanager.alertmanagerSpec.image.repository"
+    value = data.oci_string.ref["alertmanager"].repo
+  }
+  set {
+    name  = "alertmanager.alertmanagerSpec.image.sha"
+    value = trimprefix(data.oci_string.ref["alertmanager"].digest, "sha256:")
+  }
+
+  // node-exporter
+  set {
+    name  = "prometheus-node-exporter.image.registry"
+    value = data.oci_string.ref["node-exporter"].registry
+  }
+  set {
+    name  = "prometheus-node-exporter.image.repository"
+    value = data.oci_string.ref["node-exporter"].repo
+  }
+  set {
+    name  = "prometheus-node-exporter.image.digest"
+    value = data.oci_string.ref["node-exporter"].digest
+  }
+
+  // Test with our kube-state-metrics, even if its not a fresh build.
+  set {
+    name  = "kube-state-metrics.image.registry"
+    value = "cgr.dev"
+  }
+  set {
+    name  = "kube-state-metrics.image.repository"
+    value = "chainguard/kube-state-metrics"
+  }
+  set {
+    name  = "kube-state-metrics.image.tag"
+    value = "latest"
+  }
 }
 
+data "oci_exec_test" "check-prometheus" {
+  digest      = var.digests["core"]
+  script      = "./check-kube-prometheus-stack.sh"
+  working_dir = path.module
+  depends_on  = [helm_release.kube-prometheus-stack]
+}
+
+data "oci_exec_test" "node-runs" {
+  depends_on = [data.oci_exec_test.check-prometheus]
+
+  digest      = var.digests["node-exporter"]
+  script      = "./node-runs.sh"
+  working_dir = path.module
+}
