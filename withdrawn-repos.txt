@@ -1,0 +1,3 @@
+nri-kube-events
+nri-kubernetes
+nri-prometheus
