@@ -93,3 +93,11 @@ jobs:
           registry-authority: registry.local:5000
       - uses: ./.github/actions/release-image-terraform
         with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
+
+      - uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
+        if: ${{ failure() && github.event_name == 'schedule' }}
+        with:
+          payload: '{"text": "[images] release failed ${{ matrix.imageName }}: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
