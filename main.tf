@@ -124,6 +124,11 @@ module "calico" {
   target_repository = "${var.target_repository}/calico"
 }
 
+module "cassandra" {
+  source            = "./images/cassandra"
+  target_repository = "${var.target_repository}/cassandra"
+}
+
 module "cc-dynamic" {
   source            = "./images/cc-dynamic"
   target_repository = "${var.target_repository}/cc-dynamic"
