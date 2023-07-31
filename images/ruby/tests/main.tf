@@ -28,12 +28,7 @@ data "oci_exec_test" "base-image" {
   script = "${path.module}/03-base-image.sh"
 }
 
-data "oci_exec_test" "base-image" {
+data "oci_exec_test" "hello-world-with-openssl" {
   digest = var.digest
-  script = "${path.module}/03-base-image.sh"
-}
-
-data "oci_exec_test" "hello-world-with-gem" {
-  digest = var.digest
-  script = "${path.module}/03-hello-world-with-gem.sh"
+  script = "${path.module}/04-hello-world-with-openssl.sh"
 }
