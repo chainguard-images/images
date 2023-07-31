@@ -1,6 +1,1 @@
-alpine-base
-nri-kube-events
-nri-kubernetes
-nri-prometheus
-sdk
-spire
+
