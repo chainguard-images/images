@@ -2,7 +2,7 @@ contents:
   packages:
     - busybox
     - nghttp2
-    - nodejs
+    - nodejs-18
 
 # By convention, Node apps run in an /app directory, which should be owned by
 # the non-root node user.
