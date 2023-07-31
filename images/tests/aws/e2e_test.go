@@ -17,7 +17,7 @@ func TestAws(t *testing.T) {
 	t.Parallel()
 
 	setupPath := "./setup/"
-	defer ts.RunTestStage(t, "teardown", func() {
+	defer ts.RunTestStage(t, "TEARDOWN", func() {
 		terraform.Destroy(t, ts.LoadTerraformOptions(t, setupPath))
 	})
 	ts.RunTestStage(t, "setup", func() {
@@ -51,11 +51,11 @@ func TestAws(t *testing.T) {
 				},
 			}
 
-			down, err := tUp(t, opts)
+			cleanup := up(t, opts)
 			if err != nil {
 				t.Fatalf("Failed to create ALB: %s", err)
 			}
-			defer down()
+			defer cleanup()
 
 			t.Run("should have a valid ALB", func(t *testing.T) {
 				albHostname := terraform.Output(t, opts, "alb_hostname")
@@ -78,11 +78,11 @@ func TestAws(t *testing.T) {
 				},
 			}
 
-			down, err := tUp(t, opts)
+			cleanup := up(t, opts)
 			if err != nil {
 				t.Fatalf("Failed to create EBS CSI driver: %s", err)
 			}
-			defer down()
+			defer cleanup()
 
 			t.Run("pods should be writing to a pvc", func(t *testing.T) {
 				// TODO: Placeholder idea
@@ -101,11 +101,11 @@ func TestAws(t *testing.T) {
 				},
 			})
 
-			down, err := tUp(t, opts)
+			cleanup := up(t, opts)
 			if err != nil {
 				t.Fatalf("Failed to create EFS CSI driver: %s", err)
 			}
-			defer down()
+			defer cleanup()
 
 			t.Run("pods should be writing to a shared pvc", func(t *testing.T) {
 				// TODO: Placeholder
@@ -114,9 +114,18 @@ func TestAws(t *testing.T) {
 	})
 }
 
-func tUp(t *testing.T, opts *terraform.Options) (func(), error) {
+func up(t *testing.T, opts *terraform.Options) func() error {
 	_, err := terraform.InitAndApplyE(t, opts)
-	return func() {
-		terraform.Destroy(t, opts)
-	}, err
+	if err != nil {
+		// Purposely keep things around, it's useful for debugging
+		t.Fatalf("Failed to apply terraform: %s", err)
+	}
+
+	return func() error {
+		if os.Getenv("SKIP_TEARDOWN") != "" {
+			return nil
+		}
+		_, err := terraform.DestroyE(t, opts)
+		return err
+	}
 }

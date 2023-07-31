@@ -19,20 +19,21 @@ data "oci_string" "ref" {
 }
 
 resource "helm_release" "argocd-repo-server" {
-  name = "argocd-repo-server"
-
-  repository = "https://argoproj.github.io/argo-helm"
-  chart      = "argo"
-
-  namespace        = "argocd-repo-server"
+  name             = "argocd"
+  namespace        = "argocd"
+  repository       = "https://argoproj.github.io/argo-helm"
+  chart            = "argo-cd"
   create_namespace = true
 
-  # The argocd helm chart installs CRDs from the `templates/` directory,
-  # and the default value (`false`) conflicts with the providers
-  # assumption of them being in `crds/`
-  skip_crds = true
-
   values = [
+    jsonencode({
+      crds = {
+        install = true
+        keep    = false
+      }
+    }),
+
+    # Chainguardification
     jsonencode({
       image = {
         tag        = data.oci_string.ref["argocd"].pseudo_tag
@@ -46,4 +47,6 @@ resource "helm_release" "argocd-repo-server" {
       }
     }),
   ]
+
+  timeout = 120
 }

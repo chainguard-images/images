@@ -74,7 +74,7 @@ module "version-tags" {
 }
 
 module "test-latest" {
-  source = "./tests"
+  source = "./tests/smoke"
 
   digests = { for k, v in module.latest : k => v.image_ref }
 }
