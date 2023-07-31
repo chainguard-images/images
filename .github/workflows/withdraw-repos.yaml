@@ -17,7 +17,6 @@ jobs:
       - uses: chainguard-dev/actions/setup-chainctl@main
         with:
           identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
-      - uses: imjasonh/setup-crane@v0.3
       - run: |
           for repo in $(grep -v '\#' withdrawn-repos.txt); do
             if [[ "${{ github.event.inputs.dry_run }}" == "false" ]]; then
