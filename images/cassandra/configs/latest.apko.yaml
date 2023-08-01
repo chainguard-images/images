@@ -1,19 +1,46 @@
 contents:
   packages:
     - cassandra
-    - python-3.12
-
+    - python3
+    - bash 
+    - cassandra-compat
 accounts:
   groups:
     - groupname: cassandra
-      gid: 65532
+      gid: 999
   users:
     - username: cassandra
-      uid: 65532
-  run-as: 65532
+      uid: 999
+  run-as: 999
 
 entrypoint:
-  command: /usr/share/java/cassandra/bin/cassandra 
+  command: cassandra -f
+environment: 
+  LANG: en_US.UTF-8
+  CASSANDRA_HOME: /opt/cassandra
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin:/opt/cassandra/bin/
 
-work-dir: /
-
+paths:
+  - path: /var/lib/cassandra
+    type: directory
+    permissions: 0o777
+    uid: 999
+    gid: 999
+    recursive: true
+  - path: /opt/cassandra
+    type: directory
+    permissions: 0o777
+    uid: 999
+    gid: 999
+    recursive: true
+  - path: /var/lib/cassandra
+    type: directory
+    permissions: 0o777
+    uid: 999
+    gid: 999
+  - path: /var/log/cassandra
+    type: directory
+    permissions: 0o777
+    uid: 999
+    gid: 999
+    recursive: true
