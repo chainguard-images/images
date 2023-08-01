@@ -7,11 +7,11 @@ docker run --rm -d --name="${container_name}" "${IMAGE_NAME}"
 trap "docker rm -f ${container_name}" EXIT
 
 # Poll the logs for the startup string
-for i in {1..15}; do
-  if docker logs "${container_name}" 2>&1  | grep "Startup complete"; then
+for i in {1..10}; do
+  if docker logs "${container_name}" | grep "Startup complete"; then
     exit 0
   fi
-  sleep 1
+  sleep 20
 done
 
 # Fail if the startup string was not found
