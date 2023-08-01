@@ -2,7 +2,6 @@ contents:
   packages:
     - cassandra
     - python3
-    - bash 
     - busybox
     - cassandra-compat
 accounts:
