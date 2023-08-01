@@ -17,6 +17,8 @@ accounts:
     - username: cassandra
       uid: 999
   run-as: 999
+  
+work-dir: /
 
 entrypoint:
   command: cassandra -f
@@ -49,3 +51,4 @@ paths:
     uid: 999
     gid: 999
     recursive: true
+
