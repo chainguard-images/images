@@ -1,10 +1,14 @@
 contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+    - ../packages
   packages:
     - cassandra
     - python3
     - bash 
     - cassandra-compat
-    - busybox
 accounts:
   groups:
     - groupname: cassandra
@@ -15,13 +19,10 @@ accounts:
   run-as: 999
 
 entrypoint:
-  command: bash cassandra
-  
+  command: cassandra -f
 environment: 
   LANG: en_US.UTF-8
   CASSANDRA_HOME: /opt/cassandra
-  CASSANDRA_CONF: /opt/cassandra/conf
-  CLASSPATH: /opt/cassandra/conf
   PATH: /usr/sbin:/sbin:/usr/bin:/bin:/opt/cassandra/bin/
 
 paths:
