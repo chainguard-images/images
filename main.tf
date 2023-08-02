@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    apko = { source = "chainguard-dev/apko" }
+    apko = { source = "chainguard-dev/apko" 
+    }
   }
 }
 
