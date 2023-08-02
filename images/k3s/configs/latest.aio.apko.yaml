@@ -1,9 +1,15 @@
+# k3s-images is identical to k3s, except with the existence of the `k3s-images`
+# package, which is just the core k3s image components pre-packaged into
+# /var/lib/rancher/k3s/agent/images. This image can be used in places where an
+# all-in-one distribution is helpful, such as airgap environments.
+# Ref: https://docs.k3s.io/installation/airgap#prepare-the-images-directory-and-k3s-binary
 contents:
   packages:
+    - k3s
+    - k3s-images
     - mount
     - umount
     - kmod
-    - k3s-embedded
 
 accounts:
   groups:
@@ -30,5 +36,3 @@ volumes:
 entrypoint:
   command: /bin/k3s
 cmd: agent
-
-
