@@ -13,22 +13,16 @@ data "oci_string" "ref" { input = var.digest }
 variable "image_tag" {
   description = "image tag to pass to helm"
 }
-resource "random_string" "helm" {
-  length  = 8
-  special = false
-  numeric = false
-  upper   = false
-}
 
 resource "helm_release" "ingress-nginx-controller" {
-  name = random_string.helm.result
+  name = "ingress-nginx"
 
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
 
   namespace        = "ingress-nginx"
   create_namespace = true
-
+  timeout = 120
   values = [
     jsonencode({
       controller = {

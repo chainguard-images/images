@@ -33,6 +33,8 @@ contents:
     - lua-resty-core
     - lua-resty-global-throttle
     - lua-resty-ipmatcher
+    - lua-resty-memcached
+    - lua-resty-http
     - lua-resty-lock
     - lua-resty-redis
     - lua-resty-string
