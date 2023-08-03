@@ -2,6 +2,9 @@ contents:
   packages:
     - aws-ebs-csi-driver
     - umount
+    - util-linux
+    - e2fsprogs
+    - e2fsprogs-extra
 
 accounts:
   groups:
