@@ -33,9 +33,9 @@ resource "kubernetes_manifest" "prerequisitesS" {
 
 resource "kubernetes_manifest" "stateful_set" {
   manifest = yamldecode(templatefile("${path.module}/manifests/cassandra-stateful-set.yaml.tpl",
-  {
-    cassandra_tag = data.oci_string.ref.pseudo_tag
-    cassandra_repo = data.oci_string.ref.registry_repo
-  })
+    {
+      cassandra_tag  = data.oci_string.ref.pseudo_tag
+      cassandra_repo = data.oci_string.ref.registry_repo
+    })
   )
 }
