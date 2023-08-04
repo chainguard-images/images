@@ -17,7 +17,7 @@ jobs:
       - run: ./lint.sh
 
       - id: files
-        uses: tj-actions/changed-files@e1754a427f478b8778d349341b8f1d80f1f47f44 # v36.4.0
+        uses: tj-actions/changed-files@85c8b8252fc9893e00b3633a16670e53040e6d71 # v37.5.2
         with:
           separator: ','
       - id: generate-matrix-0
