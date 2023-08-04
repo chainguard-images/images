@@ -33,7 +33,7 @@ module "latest-dev" {
 
 module "version-tags" {
   source  = "../../tflib/version-tags"
-  package = "consul"
+  package = "consul-1.16"
   config  = module.latest.config
 }
 
