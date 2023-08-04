@@ -4,6 +4,7 @@ contents:
     - python3
     - busybox
     - cassandra-compat
+    - bash
 accounts:
   groups:
     - groupname: cassandra
