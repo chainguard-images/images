@@ -12,3 +12,6 @@ plan.out*
 sbom-*.json
 sbom-*.cdx
 *.tar
+
+# Created by testing suite
+images/.tests

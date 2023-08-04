@@ -38,7 +38,7 @@ module "version-tags" {
 }
 
 module "test-latest" {
-  source = "./tests"
+  source = "./tests/smoke"
   digest = module.latest.image_ref
 }
 
