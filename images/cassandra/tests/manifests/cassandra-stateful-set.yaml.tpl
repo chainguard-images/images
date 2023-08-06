@@ -19,9 +19,7 @@ spec:
       terminationGracePeriodSeconds: 1800
       containers:
       - name: cassandra
-        image:
-          repository: ${cassandra_repo}
-          tag: ${cassandra_tag}
+        image: ${cassandra_repo}/${cassandra_tag}
         imagePullPolicy: Always
         ports:
         - containerPort: 7000
