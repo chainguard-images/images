@@ -24,10 +24,7 @@ variable "extra_packages" {
   default = ["wolfi-baselayout"]
 }
 
-variable "name" {
-  type    = string
-  default = "TODO" // TODO remove this
-}
+variable "name" { type = string }
 
 output "path" {
   value = basename(path.cwd)
@@ -35,7 +32,6 @@ output "path" {
 
 locals {
   updated_config = merge(yamldecode(var.config),
-    var.name == "TODO" ? {} :
     { "annotations" = {
       "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/",
       "org.opencontainers.image.url" : "https://edu.chainguard.dev/chainguard/chainguard-images/reference/${var.name}/",
