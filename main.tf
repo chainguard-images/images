@@ -473,6 +473,11 @@ module "kube-fluentd-operator" {
   target_repository = "${var.target_repository}/kube-fluentd-operator"
 }
 
+module "kube-logging-operator" {
+  source            = "./images/kube-logging-operator"
+  target_repository = "${var.target_repository}/kube-logging-operator"
+}
+
 module "kubewatch" {
   source            = "./images/kubewatch"
   target_repository = "${var.target_repository}/kubewatch"
