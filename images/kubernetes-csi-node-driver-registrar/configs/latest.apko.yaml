@@ -1,6 +1,7 @@
 contents:
   packages:
     - kubernetes-csi-node-driver-registrar
+    - kubernetes-csi-node-driver-registrar-compat
 
 accounts:
   groups:
