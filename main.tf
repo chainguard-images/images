@@ -600,6 +600,11 @@ module "opensearch" {
   target_repository = "${var.target_repository}/opensearch"
 }
 
+module "opentelemetry-collector-contrib" {
+  source            = "./images/opentelemetry-collector-contrib"
+  target_repository = "${var.target_repository}/opentelemetry-collector-contrib"
+}
+
 module "paranoia" {
   source            = "./images/paranoia"
   target_repository = "${var.target_repository}/paranoia"
