@@ -11,6 +11,9 @@ contents:
     - file
     - openssh-client
     - build-base
+    - jq
+    - patch
+    - python3
 
 accounts:
   groups:
