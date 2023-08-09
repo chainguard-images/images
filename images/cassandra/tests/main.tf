@@ -8,6 +8,11 @@ terraform {
   }
 }
 
+provider "kubernetes" {
+  config_path    = "~/.kube/config"
+  config_context = "kind-kind"
+}
+
 variable "digest" {
   description = "The image digest to run tests over."
 }
