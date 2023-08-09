@@ -7,6 +7,8 @@ contents:
     - busybox
     - git
     - build-base
+    - ca-certificates-bundle
+    - ca-certificates
     - openssl
     - openssl-dev
     - ingress-nginx-controller
@@ -18,6 +20,7 @@ contents:
     - tzdata
     - opentracing-cpp
     - msgpack
+    - mimalloc
     - datadog-cpp
     - yaml-cpp
     - yaml-cpp-dev
@@ -57,7 +60,7 @@ annotations:
 environment:
   PATH: "$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/luajit/bin:/usr/local/nginx/sbin/"
   LUA_PATH: "/usr/local/share/luajit-2.1.0-beta3/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/lib/lua/?.lua;/usr/lib/lua/?.lua;"
-  LUA_CPATH: "/usr/local/lib/lua/?/?.so;/usr/local/lib/lua/?.so;/usr/lib/lua/?.lua;"
+  LUA_CPATH: "/usr/local/lib/lua/5.1/?.so;/usr/local/lib/lua/?/?.so;/usr/local/lib/lua/?.so;/usr/lib/lua/?.lua;"
   LD_PRELOAD: "/usr/lib/libmimalloc.so"
 
 work-dir:  /etc/nginx
@@ -173,3 +176,9 @@ paths:
     uid: 101
     gid: 101
     permissions: 0o755
+  - path: /var/log/nginx/
+    uid: 101
+    gid: 101
+    permissions: 0o755
+    type: directory
+    recursive: true
