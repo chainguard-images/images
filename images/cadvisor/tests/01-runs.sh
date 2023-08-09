@@ -6,15 +6,13 @@ NAMESPACE=cadvisor
 
 function manifests() {
   # if image tag is latest then find the latest version of the git release
-  if [[ "${IMAGE_TAG}" == "latest" ]]; then
-    IMAGE_TAG=$(gh api repos/google/cadvisor/releases/latest | jq -r '.tag_name')
-  fi
+  LATEST=$(curl -s "https://api.github.com/repos/google/cadvisor/releases/latest" | jq -r '.tag_name')
 
   cat <<EOF > kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - https://github.com/google/cadvisor/deploy/kubernetes/base?ref=${IMAGE_TAG}
+  - https://github.com/google/cadvisor/deploy/kubernetes/base?ref=${LATEST}
 images:
   - name: gcr.io/cadvisor/cadvisor
     newName: ${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}

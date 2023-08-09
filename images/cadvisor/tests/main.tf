@@ -30,6 +30,6 @@ data "oci_exec_test" "runs" {
   }
   env {
     name  = "IMAGE_TAG"
-    value = "unused@${element(split("@", var.digest), 1)}"
+    value = data.oci_string.ref.pseudo_tag
   }
 }
