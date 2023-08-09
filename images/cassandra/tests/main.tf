@@ -8,11 +8,6 @@ terraform {
   }
 }
 
-provider "kubernetes" {
-  config_path    = "~/.kube/config"
-  config_context = "kind-kind"
-}
-
 variable "digest" {
   description = "The image digest to run tests over."
 }
@@ -26,22 +21,13 @@ data "oci_exec_test" "test" {
   script = "${path.module}/${each.value}"
 }
 
-resource "kubernetes_manifest" "prerequisites" {
-  for_each = fileset(path.module, "manifests/*.yaml")
-  manifest = yamldecode(file("${path.module}/${each.value}"))
+resource "kubernetes_namespace" "cassandra" {
+  metadata {
+    name = "cassandra"
+  }
 }
 
-# resource "kubectl_manifest" "stateful_set" {
-#   depends_on = [kubernetes_manifest.prerequisites]
-#   yaml_body = templatefile("${path.module}/manifests/cassandra-stateful-set.yaml.tpl",
-#     {
-#       cassandra_tag  = data.oci_string.ref.pseudo_tag
-#       cassandra_repo = data.oci_string.ref.registry_repo
-#   })
-# }
-
-resource "kubernetes_stateful_set" "cassandra" {
-  depends_on = [kubernetes_manifest.prerequisites]
+resource "kubernetes_service" "cassandra" {
   metadata {
     name      = "cassandra"
     namespace = "cassandra"
@@ -52,7 +38,30 @@ resource "kubernetes_stateful_set" "cassandra" {
   }
 
   spec {
-    replicas = 3
+    port {
+      port = 9042
+    }
+
+    selector = {
+      app = "cassandra"
+    }
+
+    cluster_ip = "None"
+  }
+}
+
+resource "kubernetes_stateful_set" "cassandra" {
+  metadata {
+    name      = "cassandra"
+    namespace = kubernetes_namespace.cassandra.metadata[0].name
+
+    labels = {
+      app = "cassandra"
+    }
+  }
+
+  spec {
+    replicas = 1
 
     selector {
       match_labels = {
@@ -70,7 +79,7 @@ resource "kubernetes_stateful_set" "cassandra" {
       spec {
         container {
           name  = "cassandra"
-          image = "${data.oci_string.ref.registry_repo}/${data.oci_string.ref.pseudo_tag}"
+          image = "${data.oci_string.ref.registry_repo}:${data.oci_string.ref.pseudo_tag}"
 
           port {
             name           = "intra-node"
@@ -176,6 +185,6 @@ resource "kubernetes_stateful_set" "cassandra" {
       }
     }
 
-    service_name = "cassandra"
+    service_name = kubernetes_service.cassandra.metadata[0].name
   }
 }
