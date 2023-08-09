@@ -3,6 +3,7 @@ contents:
     - build-base
     - busybox
     - clang-15
+    - clang-15-default
 
 paths:
   - path: /work
