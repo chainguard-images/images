@@ -1,7 +1,4 @@
 module "latest-alpine" {
-  providers = {
-    apko = apko.alpine
-  }
   source = "../../tflib/publisher"
 
   name = basename(path.module)

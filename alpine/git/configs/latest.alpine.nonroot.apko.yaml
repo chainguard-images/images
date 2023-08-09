@@ -1,0 +1,24 @@
+#nolint:tf-minimal
+contents:
+  repositories:
+    - https://dl-cdn.alpinelinux.org/alpine/edge/community
+  packages:
+    - git
+    - git-lfs
+    - openssh-client
+
+entrypoint:
+  command: /usr/bin/git
+
+work-dir: /home/git
+
+accounts:
+  groups:
+    - groupname: git
+      gid: 65532
+  users:
+    - username: git
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+

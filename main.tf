@@ -38,18 +38,6 @@ provider "apko" {
   }
 }
 
-provider "apko" {
-  alias = "alpine"
-
-  extra_repositories = ["https://dl-cdn.alpinelinux.org/alpine/edge/main"]
-  # These packages match chainguard-images/static
-  extra_packages = ["alpine-baselayout-data", "alpine-release", "ca-certificates-bundle"]
-  default_archs  = var.archs # defaults to all
-  default_annotations = {
-    "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/", // TODO: remove this when everything is migrated to TF annotations
-  }
-}
-
 provider "helm" {
   kubernetes {
     config_path = "~/.kube/config"
@@ -114,9 +102,6 @@ module "buck2" {
 module "busybox" {
   source            = "./images/busybox"
   target_repository = "${var.target_repository}/busybox"
-  providers = {
-    apko.alpine = apko.alpine
-  }
 }
 
 module "calico" {
@@ -272,9 +257,6 @@ module "glibc-dynamic" {
 module "git" {
   source            = "./images/git"
   target_repository = "${var.target_repository}/git"
-  providers = {
-    apko.alpine = apko.alpine
-  }
 }
 
 module "go" {
@@ -703,9 +685,6 @@ module "stakater-reloader" {
 module "static" {
   source            = "./images/static"
   target_repository = "${var.target_repository}/static"
-  providers = {
-    apko.alpine = apko.alpine
-  }
 }
 
 module "tekton" {

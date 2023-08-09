@@ -14,11 +14,10 @@ module "tagger" {
   source = "../../tflib/tagger"
 
   depends_on = [
-    module.test-latest-wolfi,
+    module.test-latest-alpine,
   ]
 
   tags = merge(
-    { for t in toset(module.version-tags-wolfi.tag_list) : "glibc-${t}" => module.latest-wolfi.image_ref },
-    { "latest-glibc" = module.latest-wolfi.image_ref },
+    { for t in toset(concat(["latest"], module.version-tags-alpine.tag_list)) : t => module.latest-alpine.image_ref },
   )
 }

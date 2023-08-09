@@ -1,7 +1,4 @@
 module "latest-alpine" {
-  providers = {
-    apko = apko.alpine
-  }
   for_each = local.accounts
   source   = "../../tflib/publisher"
 
@@ -14,9 +11,6 @@ module "latest-alpine" {
 }
 
 module "latest-alpine-dev" {
-  providers = {
-    apko = apko.alpine
-  }
   for_each = local.accounts
   source   = "../../tflib/publisher"
 
