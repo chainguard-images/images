@@ -155,13 +155,9 @@ resource "kubernetes_stateful_set" "cassandra" {
             }
           }
 
-          readiness_probe {
-            exec {
-              command = ["/bin/bash", "-c", "/ready-probe.sh"]
-            }
-
-            initial_delay_seconds = 15
-            timeout_seconds       = 5
+          volume_mount {
+            name       = "cassandra-data"
+            mount_path = "/cassandra_data"
           }
 
           lifecycle {
@@ -182,6 +178,24 @@ resource "kubernetes_stateful_set" "cassandra" {
         }
 
         termination_grace_period_seconds = 1800
+      }
+    }
+
+    volume_claim_template {
+      metadata {
+        name = "cassandra-data"
+      }
+
+      spec {
+        access_modes = ["ReadWriteOnce"]
+
+        resources {
+          requests = {
+            storage = "1Gi"
+          }
+        }
+
+        storage_class_name = "standard"
       }
     }
 
