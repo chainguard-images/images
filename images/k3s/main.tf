@@ -66,3 +66,30 @@ module "tagger-aio" {
     { for t in toset(concat(["latest"], module.version-tags-aio.tag_list)) : "${t}-dev" => module.latest-aio-dev.image_ref },
   )
 }
+
+# A slightly more complicated output form. Since there's no component loop,
+# just manually define each image variant and it's attributes.
+output "images" {
+  value = {
+    latest = {
+      oci_ref     = module.latest.image_ref
+      oci_tags    = module.tagger.oci_tags
+      apko_config = module.latest.config
+    }
+    latest-dev = {
+      oci_ref     = module.latest-dev.image_ref
+      oci_tags    = module.tagger.oci_tags
+      apko_config = module.latest-dev.config
+    }
+    aio = {
+      oci_ref     = module.latest-aio.image_ref
+      oci_tags    = module.tagger-aio.oci_tags
+      apko_config = module.latest-aio.config
+    }
+    aio-dev = {
+      oci_ref     = module.latest-aio-dev.image_ref
+      oci_tags    = module.tagger-aio.oci_tags
+      apko_config = module.latest-aio-dev.config
+    }
+  }
+}

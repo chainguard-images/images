@@ -34,3 +34,10 @@ resource "oci_tag" "this" {
     }
   }
 }
+
+output "oci_tags" {
+  description = "A list of tags applied to the given digest."
+  value = [
+    for k, v in oci_tag.this : v.tagged_ref
+  ]
+}

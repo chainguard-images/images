@@ -90,3 +90,15 @@ module "tagger" {
     { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : "${t}-dev" => module.latest-dev[each.key].image_ref },
   )
 }
+
+# The slightly more complicated output form that leverages the component's
+# for_each to produce a map of each images required attributes.
+output "images" {
+  value = {
+    for k, v in module.latest : k => {
+      oci_ref     = v.image_ref
+      oci_tags    = module.tagger[k].oci_tags
+      apko_config = v.config
+    }
+  }
+}

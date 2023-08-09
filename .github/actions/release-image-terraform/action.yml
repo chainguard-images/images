@@ -68,6 +68,17 @@ runs:
     - uses: sigstore/cosign-installer@v3.1.0
     - uses: imjasonh/setup-crane@v0.3
 
+    - name: Update Codegen
+      shell: bash
+      run: |
+        make tfgen
+
+    - name: Verify
+      uses: chainguard-dev/actions/nodiff@main
+      with:
+        path: .
+        fixup-command: "make tfgen"
+
     - shell: bash
       run: |
         # Turn comma-delimited list into JSON-style list.

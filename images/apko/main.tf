@@ -37,3 +37,14 @@ module "tagger" {
     { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },
   )
 }
+
+# The simplest output form, with a single image variant and the expected values.
+output "images" {
+  value = {
+    latest = {
+      oci_ref     = module.latest.image_ref
+      oci_tags    = module.tagger.oci_tags
+      apko_config = module.latest.config
+    }
+  }
+}

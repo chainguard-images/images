@@ -41,6 +41,17 @@ runs:
         terraform_version: '1.3.*'
         terraform_wrapper: false
 
+    - name: Update Codegen
+      shell: bash
+      run: |
+        make tfgen
+
+    - name: Verify
+      uses: chainguard-dev/actions/nodiff@main
+      with:
+        path: .
+        fixup-command: "make tfgen"
+
     - shell: bash
       run: |
         # Turn comma-delimited list into JSON-style list.

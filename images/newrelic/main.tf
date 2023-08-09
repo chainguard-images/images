@@ -34,7 +34,7 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-variable "license_key" {}
+variable "license_key" { default = "foo" }
 
 module "latest" {
   for_each = local.repositories
@@ -70,4 +70,14 @@ module "tagger" {
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : t => module.latest[each.key].image_ref },
   )
+}
+
+output "images" {
+  value = {
+    for k, v in module.latest : k => {
+      oci_ref     = v.image_ref
+      oci_tags    = module.tagger[k].oci_tags
+      apko_config = v.config
+    }
+  }
 }
