@@ -66,33 +66,23 @@ runs:
 
         if [ -n "${{ inputs.workingDirectory }}" ]; then
           cd ${{ inputs.workingDirectory }}
+          MODULE=alpine
+          ARGS=""
+        else
+          MODULE=$(basename ${{ inputs.terraformDirectory }})
+          ARGS="-target=module.${MODULE}"
         fi
+        echo "module=${MODULE}" >> $GITHUB_OUTPUT
 
         env | grep '^TF_VAR_'
 
-        MODULE=$(basename ${{ inputs.terraformDirectory }})
-        echo "module=${MODULE}" >> $GITHUB_OUTPUT
-
-        # When we have a "mega module", use it to invoke the module
-        # for the appropriate image.
-        if [ -f "main.tf" ]; then
-          echo ::group::terraform init
-          terraform init
-          echo ::endgroup::
-          echo ::group::terraform plan
-          terraform plan "-target=module.${MODULE}"
-          echo ::endgroup::
-          terraform apply -auto-approve "-target=module.${MODULE}" -json | tee /tmp/${MODULE}.tf.json | jq -r '.["@message"]'
-        else
-          cd ${{ inputs.terraformDirectory }}
-          echo ::group::terraform init
-          terraform init
-          echo ::endgroup::
-          echo ::group::terraform plan
-          terraform plan "-target=module.${MODULE}"
-          echo ::endgroup::
-          terraform apply -auto-approve -json | tee /tmp/${MODULE}.tf.json | jq -r '.["@message"]'
-        fi
+        echo ::group::terraform init
+        terraform init
+        echo ::endgroup::
+        echo ::group::terraform plan
+        terraform plan ${ARGS}
+        echo ::endgroup::
+        terraform apply -auto-approve ${ARGS} -json | tee /tmp/${MODULE}.tf.json | jq -r '.["@message"]'
 
     - name: Surface terraform warnings.
       if: always()
