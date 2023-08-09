@@ -22,5 +22,10 @@ COPY ./hello-world-dockerfile.rb /home/nonroot/hello-world.rb
 ENTRYPOINT ["ruby", "/home/nonroot/hello-world.rb"]
 EOF
 
+# Using registry.local:5000 as the FROM in `docker build` fails with
+# current versions of docker that use containerd under the hood.
+# Pre-pulling it uses docker's heuristics for allowing insecure registries.
+docker pull ${IMAGE_NAME}
+
 docker build -t hello-gem $TMP/
 docker run --rm hello-gem | grep "Hello World"
