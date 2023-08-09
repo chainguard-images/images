@@ -47,6 +47,21 @@ jobs:
         sharding-factor: 1
         modified-files: ${{ steps.build-filter.outputs.filter }}
 
+
+  build-alpine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+      - name: Add additional inputs
+        id: augmented-inputs
+        uses: chainguard-dev/actions/matrix-extra-inputs@main
+        env:
+          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:94c1512d9c359148059a13cb8df972d15f196e5901f0132238d0376e0bfb597c
+          EXTRA_INPUT_WORKING_DIRECTORY: ./alpine
+
+      - uses: ./.github/actions/build-image-terraform
+        with: ${{ fromJSON(steps.augmented-inputs.outputs.matrix-json) }}
+
   build-0:
     runs-on: ubuntu-latest
     needs: [generate-matrix]
