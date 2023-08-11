@@ -37,3 +37,11 @@ module "tagger" {
     { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },
   )
 }
+
+module "output" {
+  source = "../../tflib/image-outputer"
+  images = { latest = module.latest }
+  tagger = module.tagger
+}
+
+output "images" { value = module.output.images }

@@ -34,3 +34,11 @@ resource "oci_tag" "this" {
     }
   }
 }
+
+output "oci_tags" {
+  description = "A map of digests to the list of tags applied."
+  value = {
+    # The ... is syntatic sugar for coalescing the duplicates keys (the digests)
+    for k, v in oci_tag.this : v.digest_ref => v.tagged_ref...
+  }
+}

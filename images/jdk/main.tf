@@ -26,3 +26,18 @@ module "tagger" {
     { "latest" : module.seventeen.image_ref, "latest-dev" : module.seventeen-dev.image_ref },
   )
 }
+
+module "output" {
+  source = "../../tflib/image-outputer"
+  images = {
+    "eleven"        = module.eleven
+    "eleven-dev"    = module.eleven-dev
+    "seventeen"     = module.seventeen
+    "seventeen-dev" = module.seventeen-dev
+  }
+  tagger = module.tagger
+}
+
+output "images" {
+  value = module.output.images
+}

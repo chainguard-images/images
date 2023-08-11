@@ -66,3 +66,28 @@ module "tagger-aio" {
     { for t in toset(concat(["latest"], module.version-tags-aio.tag_list)) : "${t}-dev" => module.latest-aio-dev.image_ref },
   )
 }
+
+module "output" {
+  source = "../../tflib/image-outputer"
+  images = {
+    latest     = module.latest
+    latest-dev = module.latest-dev
+  }
+  tagger = module.tagger
+}
+
+module "aio-output" {
+  source = "../../tflib/image-outputer"
+  images = {
+    latest     = module.latest-aio
+    latest-dev = module.latest-aio-dev
+  }
+  tagger = module.tagger-aio
+}
+
+output "images" {
+  value = {
+    k3s     = module.output.images
+    k3s-aio = module.aio-output.images
+  }
+}

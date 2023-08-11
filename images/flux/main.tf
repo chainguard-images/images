@@ -90,3 +90,17 @@ module "tagger" {
     { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : "${t}-dev" => module.latest-dev[each.key].image_ref },
   )
 }
+
+module "output" {
+  for_each = local.components
+  source   = "../../tflib/image-outputer"
+  images = {
+    latest     = module.latest[each.key]
+    latest-dev = module.latest-dev[each.key]
+  }
+  tagger = module.tagger[each.key]
+}
+
+output "images" {
+  value = { for k, v in module.output : k => v.images }
+}
