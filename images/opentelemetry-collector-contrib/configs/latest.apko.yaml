@@ -2,6 +2,8 @@ contents:
   packages:
     - opentelemetry-collector-contrib
     - opentelemetry-collector-contrib-compat
+    # Required for hostmetrics receivers and certain resourcedetection processors (like eks)
+    - busybox
 
 accounts:
   groups:
