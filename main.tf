@@ -29,7 +29,7 @@ variable "archs" {
 }
 
 provider "apko" {
-  extra_repositories = concat(["https://packages.wolfi.dev/os"], var.extra_repositories)
+  extra_repositories = concat(["https://packages.wolfi.dev/os", ], var.extra_repositories)
   extra_keyring      = concat(["https://packages.wolfi.dev/os/wolfi-signing.rsa.pub"], var.extra_keyring)
   extra_packages     = concat(["wolfi-baselayout"], var.extra_packages)
   default_archs      = length(var.archs) == 0 ? ["x86_64", "aarch64"] : var.archs
@@ -755,6 +755,11 @@ module "tigera-operator" {
 module "traefik" {
   source            = "./images/traefik"
   target_repository = "${var.target_repository}/traefik"
+}
+
+module "trino" {
+  source            = "./images/trino"
+  target_repository = "${var.target_repository}/trino"
 }
 
 module "trust-manager" {
