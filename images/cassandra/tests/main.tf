@@ -14,13 +14,6 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-data "oci_exec_test" "test" {
-  for_each = toset(fileset(path.module, "*.sh"))
-
-  digest = var.digest
-  script = "${path.module}/${each.value}"
-}
-
 resource "kubernetes_namespace" "cassandra" {
   metadata {
     name = "cassandra"

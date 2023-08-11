@@ -56,10 +56,6 @@ provider "helm" {
   }
 }
 
-provider "kubernetes" {
-  config_path = "~/.kube/config"
-}
-
 module "apko" {
   source            = "./images/apko"
   target_repository = "${var.target_repository}/apko"
