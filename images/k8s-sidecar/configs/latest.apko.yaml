@@ -7,7 +7,7 @@ environment:
   PYTHONUNBUFFERED: 1
 
 entrypoint:
-  command: /usr/share/app/.venv/bin/python -u /usr/share/app/sidecar.py
+  command: python -u /usr/share/app/sidecar.py
 
 accounts:
   groups:
