@@ -20,7 +20,7 @@ contents:
     - tzdata
     - opentracing-cpp
     - msgpack
-    - mimalloc
+    - mimalloc=1.7.6-r2
     - datadog-cpp
     - yaml-cpp
     - yaml-cpp-dev
