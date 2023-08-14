@@ -44,10 +44,14 @@ provider "apko" {
   extra_repositories = ["https://dl-cdn.alpinelinux.org/alpine/edge/main"]
   # These packages match chainguard-images/static
   extra_packages = ["alpine-baselayout-data", "alpine-release", "ca-certificates-bundle"]
-  default_archs  = var.archs # defaults to all
+  default_archs  = length(var.archs) == 0 ? ["386", "amd64", "arm/v6", "arm/v7", "arm64", "ppc64le", "s390x"] : var.archs // All arches *except* riscv64
   default_annotations = {
     "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/", // TODO: remove this when everything is migrated to TF annotations
   }
+}
+
+provider "kubernetes" {
+  config_path = "~/.kube/config"
 }
 
 provider "helm" {
@@ -127,6 +131,11 @@ module "cadvisor" {
 module "calico" {
   source            = "./images/calico"
   target_repository = "${var.target_repository}/calico"
+}
+
+module "cassandra" {
+  source            = "./images/cassandra"
+  target_repository = "${var.target_repository}/cassandra"
 }
 
 module "cc-dynamic" {
@@ -466,6 +475,11 @@ module "kubernetes-csi-node-driver-registrar" {
 module "kubernetes-dashboard" {
   source            = "./images/kubernetes-dashboard"
   target_repository = "${var.target_repository}/kubernetes-dashboard"
+}
+
+module "kubernetes-dns-node-cache" {
+  source            = "./images/kubernetes-dns-node-cache"
+  target_repository = "${var.target_repository}/kubernetes-dns-node-cache"
 }
 
 module "kubernetes-ingress-defaultbackend" {

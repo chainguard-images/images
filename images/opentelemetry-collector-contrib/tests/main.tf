@@ -1,7 +1,8 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci        = { source = "chainguard-dev/oci" }
+    helm       = { source = "hashicorp/helm" }
+    kubernetes = { source = "hashicorp/kubernetes" }
   }
 }
 
@@ -11,34 +12,57 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-resource "helm_release" "open-telemetry-daemonset" {
-  name = "open-telemetry"
+resource "helm_release" "open-telemetry-deploy" {
+  name = "otelc"
 
   repository       = "https://open-telemetry.github.io/opentelemetry-helm-charts"
   chart            = "opentelemetry-collector"
-  namespace        = "open-telemetry-daemonset"
+  namespace        = "otelc-deploy"
   create_namespace = true
 
   values = [jsonencode({
     mode = "deployment"
     image = {
       digest     = data.oci_string.ref.digest
-      repository = "${data.oci_string.ref.registry}/${data.oci_string.ref.repo}"
+      repository = data.oci_string.ref.registry_repo
+    }
+    # Enable everything testable for a deployment based install
+    presets = {
+      clusterMetrics       = { enabled = true }
+      kubernetesAttributes = { enabled = true }
+      kubeletMetrics       = { enabled = true }
+      hostMetrics          = { enabled = true }
+      logsCollection = {
+        enabled              = true
+        includeCollectorLogs = true
+      }
     }
   })]
 }
 
-data "oci_exec_test" "custom-config" {
-  digest = var.digest
-  script = "${path.module}/custom_config.sh"
+resource "kubernetes_namespace" "open-telemetry-custom-config" {
+  metadata {
+    name = "otelc-daemonset"
+  }
+}
+
+resource "kubernetes_config_map" "open-telemetry-custom-config" {
+  metadata {
+    name      = "otelc-daemonset-custom-config"
+    namespace = kubernetes_namespace.open-telemetry-custom-config.metadata[0].name
+  }
+
+  data = {
+    "custom-config.yaml" = file("${path.module}/custom-config.yaml")
+  }
 }
 
 resource "helm_release" "open-telemetry-custom-config" {
-  name = "open-telemetry"
+  name = "otelc-daemonset"
 
   repository       = "https://open-telemetry.github.io/opentelemetry-helm-charts"
   chart            = "opentelemetry-collector"
-  namespace        = "open-telemetry-custom-config"
+  namespace        = kubernetes_namespace.open-telemetry-custom-config.metadata[0].name
   create_namespace = false
 
   values = [jsonencode({
@@ -46,9 +70,15 @@ resource "helm_release" "open-telemetry-custom-config" {
     configMap = {
       create : false
     }
+    # Enable testable daemonset things not covered by Deployment install
+    presets = {
+      # clusterMetrics       = { enabled = true }
+      kubernetesAttributes = { enabled = true }
+      kubeletMetrics       = { enabled = true }
+    }
     image = {
       digest     = data.oci_string.ref.digest
-      repository = "${data.oci_string.ref.registry}/${data.oci_string.ref.repo}"
+      repository = data.oci_string.ref.registry_repo
     }
     command = {
       extraArgs = [
@@ -65,10 +95,9 @@ resource "helm_release" "open-telemetry-custom-config" {
       {
         name : "custom-vm",
         configMap : {
-          name : "custom"
+          name : kubernetes_config_map.open-telemetry-custom-config.metadata[0].name
         }
       }
     ]
   })]
-  depends_on = [data.oci_exec_test.custom-config]
 }
