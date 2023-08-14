@@ -162,3 +162,28 @@ data "oci_exec_test" "node-runs" {
   script      = "./node-runs.sh"
   working_dir = path.module
 }
+
+resource "helm_release" "cloudwatch-exporter" {
+  name       = "cloudwatch-exporter"
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart      = "prometheus-cloudwatch-exporter"
+
+  namespace        = "prometheus-cloudwatch-exporter"
+  create_namespace = true
+
+  set {
+    name  = "image.repository"
+    value = data.oci_string.ref["cloudwatch-exporter"].registry_repo
+  }
+  set {
+    name  = "image.tag"
+    value = "latest"
+  }
+}
+
+data "oci_exec_test" "check-cloudwatch-exporter" {
+  digest      = var.digests["cloudwatch-exporter"]
+  script      = "./check-cloudwatch-exporter.sh"
+  working_dir = path.module
+  depends_on  = [helm_release.cloudwatch-exporter]
+}
