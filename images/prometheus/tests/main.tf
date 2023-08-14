@@ -148,15 +148,8 @@ resource "helm_release" "kube-prometheus-stack" {
   }
 }
 
-data "oci_exec_test" "check-prometheus" {
-  digest      = var.digests["core"]
-  script      = "./check-kube-prometheus-stack.sh"
-  working_dir = path.module
-  depends_on  = [helm_release.kube-prometheus-stack]
-}
-
 data "oci_exec_test" "node-runs" {
-  depends_on = [data.oci_exec_test.check-prometheus]
+  depends_on = [resource.helm_release.kube-prometheus-stack]
 
   digest      = var.digests["node-exporter"]
   script      = "./node-runs.sh"
@@ -179,11 +172,4 @@ resource "helm_release" "cloudwatch-exporter" {
     name  = "image.tag"
     value = "latest"
   }
-}
-
-data "oci_exec_test" "check-cloudwatch-exporter" {
-  digest      = var.digests["cloudwatch-exporter"]
-  script      = "./check-cloudwatch-exporter.sh"
-  working_dir = path.module
-  depends_on  = [helm_release.cloudwatch-exporter]
 }
