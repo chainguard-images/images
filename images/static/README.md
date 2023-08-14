@@ -33,15 +33,14 @@ Here's an example Dockerfile that builds a Rust static binary
 and puts it into the static image:
 
 ```Dockerfile
-FROM --platform=x86_64 rust:alpine as build
+FROM cgr.dev/chainguard/rust as build
 
-RUN rustup target add x86_64-unknown-linux-musl
 RUN echo 'fn main() { println!("Hello"); }' > hello.rs
-RUN rustc --target x86_64-unknown-linux-musl hello.rs
+RUN rustc -C target-feature=+crt-static hello.rs
 
 FROM cgr.dev/chainguard/static:latest
 
-COPY --from=build /hello /hello
+COPY --from=build /work/hello /hello
 CMD ["/hello"]
 ```
 To build and run it:
@@ -57,14 +56,14 @@ Note the size!
 
 ```bash
 $ docker images rusty-cgr
-REPOSITORY      TAG       IMAGE ID       CREATED         SIZE
-rusty-cgr       latest    aff4c01fd4f0   6 minutes ago   6.09MB
+REPOSITORY   TAG       IMAGE ID       CREATED          SIZE
+rusty-cgr    latest    c3793a4d4270   22 seconds ago   3.33MB
 ```
 And a C static binary:
 
 ```Dockerfile
 # syntax=docker/dockerfile:1.4
-FROM gcc:latest as build
+FROM cgr.dev/chainguard/gcc-glibc as build
 
 COPY <<EOF /hello.c
 #include <stdio.h>
@@ -91,8 +90,8 @@ It's even smaller:
 
 ```bash
 $ docker images c-cgr
-REPOSITORY   TAG       IMAGE ID       CREATED              SIZE
-c-cgr        latest    f3648380711c   About a minute ago   2.88MB
+REPOSITORY   TAG       IMAGE ID       CREATED         SIZE
+c-cgr         latest    a6671209830b   9 seconds ago   2.78MB
 ```
 
 For Go programs, we recommend using [ko](https://github.com/google/ko) and setting
