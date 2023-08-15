@@ -33,7 +33,7 @@ module "latest-dev" {
 
 module "version-tags" {
   source  = "../../tflib/version-tags"
-  package = "openai"
+  package = "py3-openai"
   config  = module.latest.config
 }
 
