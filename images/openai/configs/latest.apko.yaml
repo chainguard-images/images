@@ -1,7 +1,7 @@
 contents:
   packages:
     - busybox
-    - openai
+    - py3-openai
 
 accounts:
   groups:
