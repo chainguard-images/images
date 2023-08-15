@@ -14,16 +14,11 @@ module "tagger" {
   source = "../../tflib/tagger"
 
   depends_on = [
-    module.test-nineteen,
     module.test-twenty,
     module.test-twenty-one,
   ]
 
   tags = merge(
-    # 1.19
-    { for t in module.version-tags-19.tag_list : t => module.nineteen.image_ref },
-    { for t in module.version-tags-19.tag_list : "${t}-dev" => module.nineteen-dev.image_ref },
-
     # 1.20
     { for t in module.version-tags-20.tag_list : t => module.twenty.image_ref },
     { for t in module.version-tags-20.tag_list : "${t}-dev" => module.twenty-dev.image_ref },
