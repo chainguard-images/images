@@ -170,6 +170,6 @@ resource "helm_release" "cloudwatch-exporter" {
   }
   set {
     name  = "image.tag"
-    value = "latest"
+    value = format("latest@%s", data.oci_string.ref["cloudwatch-exporter"].digest)
   }
 }
