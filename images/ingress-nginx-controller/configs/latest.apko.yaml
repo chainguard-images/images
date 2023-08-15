@@ -170,6 +170,18 @@ paths:
     uid: 101
     gid: 101
     permissions: 0o755
+  - path: /usr/lib/libmimalloc.so
+    source: /usr/lib/libmimalloc.so.1.7
+    type: symlink
+    uid: 101
+    gid: 101
+    permissions: 0o755    
+  - path: /usr/local/lib/libmimalloc.so
+    source: /usr/lib/libmimalloc.so.1.7
+    type: symlink
+    uid: 101
+    gid: 101
+    permissions: 0o755        
   - path: /usr/bin/nginx
     source: /sbin/nginx
     type: symlink
