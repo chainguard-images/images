@@ -206,8 +206,6 @@ cgr.dev/chainguard/source-controller:0.36.1-r1-dev
 cgr.dev/chainguard/tekton-chains:0.16.0-r1
 cgr.dev/chainguard/tekton-chains:0.16.0-r1-dev
 cgr.dev/chainguard/vela-cli:1.9.5-r1
-cgr.dev/chainguard/wait-for-it:latest-20230113
-cgr.dev/chainguard/wait-for-it:latest-20230517
 cgr.dev/chainguard/zookeeper:latest-dev-20230315-dev
 cgr.dev/chainguard/zookeeper:latest-dev-20230316-dev
 cgr.dev/chainguard/zookeeper:latest-dev-20230317-dev
