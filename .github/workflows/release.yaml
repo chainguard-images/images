@@ -92,11 +92,9 @@ jobs:
           k8s-version: v1.24.x
           registry-authority: registry.local:5000
 
-      # Disable version tags for ko.
+      # Disable creating new version tags.
       - run: |
-          if [[ "${{ matrix.imageName }}" == "ko" ]]; then
-            echo "TF_APKO_DISABLE_VERSION_TAGS=true" >> $GITHUB_ENV
-          fi
+          echo "TF_APKO_DISABLE_VERSION_TAGS=true" >> $GITHUB_ENV
 
       - uses: ./.github/actions/release-image-terraform
         with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
