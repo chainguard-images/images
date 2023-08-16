@@ -432,6 +432,11 @@ module "kubectl" {
   target_repository = "${var.target_repository}/kubectl"
 }
 
+module "kubeflow-jupyter-web-app" {
+  source            = "./images/kubeflow-jupyter-web-app"
+  target_repository = "${var.target_repository}/kubeflow-jupyter-web-app"
+}
+
 module "kubernetes-csi-external-attacher" {
   source            = "./images/kubernetes-csi-external-attacher"
   target_repository = "${var.target_repository}/kubernetes-csi-external-attacher"
