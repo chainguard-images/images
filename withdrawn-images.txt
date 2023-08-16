@@ -8440,7 +8440,6 @@ cgr.dev/chainguard/wait-for-it:latest-20230109
 cgr.dev/chainguard/wait-for-it:latest-20230110
 cgr.dev/chainguard/wait-for-it:latest-20230111
 cgr.dev/chainguard/wait-for-it:latest-20230112
-cgr.dev/chainguard/wait-for-it:latest-20230113
 cgr.dev/chainguard/wait-for-it:latest-20230114
 cgr.dev/chainguard/wait-for-it:latest-20230115
 cgr.dev/chainguard/wait-for-it:latest-20230116
@@ -8562,7 +8561,6 @@ cgr.dev/chainguard/wait-for-it:latest-20230513
 cgr.dev/chainguard/wait-for-it:latest-20230514
 cgr.dev/chainguard/wait-for-it:latest-20230515
 cgr.dev/chainguard/wait-for-it:latest-20230516
-cgr.dev/chainguard/wait-for-it:latest-20230517
 cgr.dev/chainguard/wait-for-it:latest-20230518
 cgr.dev/chainguard/wait-for-it:latest-20230519
 cgr.dev/chainguard/wait-for-it:latest-20230520
