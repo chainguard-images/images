@@ -15,8 +15,3 @@ accounts:
 
 entrypoint:
   command: /bin/bash -c "gunicorn -w 3 --bind 0.0.0.0:5000 --chdir usr/share/kubeflow-jupyter-web-app --access-logfile - entrypoint:app"
-
-annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/kubeflow-jupyter-web-app/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/kubeflow-jupyter-web-app
