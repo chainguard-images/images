@@ -33,7 +33,7 @@ module "latest-dev" {
 
 module "version-tags" {
   source  = "../../tflib/version-tags"
-  package = "kubectl"
+  package = "kubectl-1.28"
   config  = module.latest.config
 }
 
