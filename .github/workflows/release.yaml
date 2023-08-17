@@ -99,9 +99,7 @@ jobs:
       # Disable creating new version tags.
       - run: | 
           # temporarily generate tags for these modules
-          skip_images=("busybox" "jre" "node")
-
-          if [[ ! " ${skip_images[@]} " =~ " ${matrix.imageName} " ]]; then
+          if [[ "${{ matrix.imageName }}" != "busybox" ]] && [[ "${{ matrix.imageName }}" != "jre" ]] && [[ "${{ matrix.imageName }}" != "node" ]]; then
             echo "TF_APKO_DISABLE_VERSION_TAGS=true" >> $GITHUB_ENV
           fi
 
