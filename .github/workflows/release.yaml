@@ -98,7 +98,9 @@ jobs:
 
       # Disable creating new version tags.
       - run: |
-          echo "TF_APKO_DISABLE_VERSION_TAGS=true" >> $GITHUB_ENV
+          if [[ "${{ matrix.imageName }}" != "busybox" ]]; then
+            echo "TF_APKO_DISABLE_VERSION_TAGS=true" >> $GITHUB_ENV
+          fi
 
       - uses: ./.github/actions/release-image-terraform
         with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
