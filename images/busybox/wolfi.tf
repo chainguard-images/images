@@ -7,6 +7,15 @@ module "latest-wolfi" {
   config            = file("${path.module}/configs/latest.wolfi.apko.yaml")
 }
 
+module "one-tirtysix-wolfi" {
+  source = "../../tflib/publisher"
+
+  name = basename(path.module)
+
+  target_repository = var.target_repository
+  config            = file("${path.module}/configs/1.36.wolfi.apko.yaml")
+}
+
 module "version-tags-wolfi" {
   source  = "../../tflib/version-tags"
   package = "busybox"
