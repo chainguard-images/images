@@ -2,5 +2,13 @@ contents:
   packages:
     - wolfi-base
 
-cmd: /bin/sh -l
+#Create a nonroot user but run as root by default
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
 
+cmd: /bin/sh -l
