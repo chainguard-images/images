@@ -2,7 +2,9 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail
 
-cat > hello-world.rb <<EOF
+TMP=$(mktemp -d)
+
+cat > $TMP/hello-world.rb <<EOF
 # Exercise the gem
 gem 'chronic', '~>0.6'
 require 'chronic'
@@ -16,11 +18,11 @@ TMP=$(mktemp -d)
 chmod 777 "${TMP}"
 
 # Install the gem
-docker run --rm -v "${TMP}:/home/nonroot" -v $(pwd)/hello-world.rb:/src/hello-world.rb \
+docker run --rm -v "${TMP}:/home/nonroot" -v $TMP/hello-world.rb:/src/hello-world.rb \
   --entrypoint "gem" "${IMAGE_NAME}" install --user-install chronic
 
 # Run the container
-docker run --rm -v "${TMP}:/home/nonroot" -v $(pwd)/hello-world.rb:/src/hello-world.rb \
+docker run --rm -v "${TMP}:/home/nonroot" -v $TMP/hello-world.rb:/src/hello-world.rb \
   --entrypoint "ruby" "${IMAGE_NAME}" \
   /src/hello-world.rb \
   | grep "Hello World"
