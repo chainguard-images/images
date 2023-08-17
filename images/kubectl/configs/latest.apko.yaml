@@ -1,7 +1,6 @@
 contents:
   packages:
-    - kubectl-1.28
-    - kubernetes-1.28-default
+    - kubectl-latest
 
 accounts:
   groups:

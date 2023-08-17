@@ -1,7 +1,7 @@
 contents:
   packages:
     - kyverno-init-container
-    - kubectl
+    - kubectl-latest
 
 accounts:
   groups:

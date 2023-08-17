@@ -1,7 +1,7 @@
 contents:
   packages:
     - kyverno-reports-controller
-    - kubectl
+    - kubectl-latest
 
 accounts:
   groups:
