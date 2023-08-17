@@ -1,6 +1,6 @@
 # Chainguard Images
 
-## :warning::exclamation: On August 16th we will be making changes to how image tags are pulled. Please see [the announcement](https://www.chainguard.dev/unchained/scaling-chainguard-images-with-a-growing-catalog-and-proactive-security-updates) for further details. :exclamation::warning:
+## :warning::exclamation: On August 16th we made changes to how image tags are pulled. Please see [the announcement](https://www.chainguard.dev/unchained/important-updates-for-chainguard-images-public-catalog-users) for further details. :exclamation::warning:
 
 | Name | OCI Reference | Status | Variants/Tags |
 | ----- | ----- | ----- |  -------- |
