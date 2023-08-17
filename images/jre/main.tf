@@ -23,6 +23,12 @@ module "tagger" {
     { for t in toset(module.version-tags-11.tag_list) : "openjdk-${t}-dev" => module.eleven-dev.image_ref },
     { for t in toset(module.version-tags-17.tag_list) : "openjdk-${t}" => module.seventeen.image_ref },
     { for t in toset(module.version-tags-17.tag_list) : "openjdk-${t}-dev" => module.seventeen-dev.image_ref },
+
+    # jre 17.0.8.2
+    { for t in toset(module.version-tags-seventeen-zero-eight-two.tag_list) : "openjdk-${t}" => module.seventeen-zero-eight-two.image_ref },
+
+    # jre 11.0.20.4
+    { for t in toset(module.version-tags-eleven-zero-twenty-four.tag_list) : "openjdk-${t}" => module.eleven-zero-twenty-four.image_ref },
     { "latest" : module.seventeen.image_ref, "latest-dev" : module.seventeen-dev.image_ref },
   )
 }

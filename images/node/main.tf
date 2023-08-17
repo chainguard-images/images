@@ -39,5 +39,9 @@ module "tagger" {
     # Node 18 (latest)
     { for t in toset(concat(["latest"], module.eighteen-version-tags.tag_list)) : t => module.eighteen.image_ref },
     { for t in toset(concat(["latest"], module.eighteen-version-tags.tag_list)) : "${t}-dev" => module.eighteen-dev.image_ref },
+
+    # Node 18.16.0-r.2
+    { for t in toset(concat(["latest"], module.eighteen-sixteen-zero-version-tags.tag_list)) : t => module.eighteen.image_ref },
+    { for t in toset(concat(["latest"], module.eighteen-sixteen-zero-version-tags.tag_list)) : "${t}-dev" => module.eighteen-dev.image_ref },
   )
 }

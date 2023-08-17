@@ -97,8 +97,11 @@ jobs:
           registry-authority: registry.local:5000
 
       # Disable creating new version tags.
-      - run: |
-          if [[ "${{ matrix.imageName }}" != "busybox" ]]; then
+      - run: | 
+          # temporarily generate tags for these modules
+          skip_images=("busybox" "jre" "node")
+
+          if [[ ! " ${skip_images[@]} " =~ " ${matrix.imageName} " ]]; then
             echo "TF_APKO_DISABLE_VERSION_TAGS=true" >> $GITHUB_ENV
           fi
 
