@@ -1,0 +1,14 @@
+contents:
+  packages:
+    - busybox~1.36.1-r2
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+
