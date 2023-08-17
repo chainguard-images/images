@@ -1,7 +1,7 @@
 contents:
   packages:
     - kyverno-background-controller
-    - kubectl
+    - kubectl-latest
 
 accounts:
   groups:
