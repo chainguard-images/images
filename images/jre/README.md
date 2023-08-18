@@ -46,12 +46,12 @@ Next create a multistage Dockerfile and add the Java class
 
 ```sh
 cat >Dockerfile <<EOL
-FROM cgr.dev/chainguard/jdk:openjdk-17
+FROM cgr.dev/chainguard/jdk
 
 COPY HelloWolfi.java /home/build/
-RUN /usr/lib/jvm/java-17-openjdk/bin/javac HelloWolfi.java
+RUN javac HelloWolfi.java
 
-FROM cgr.dev/chainguard/jre:openjdk-17
+FROM cgr.dev/chainguard/jre
 
 COPY --from=0 /home/build/HelloWolfi.class /app/
 CMD ["HelloWolfi"]
