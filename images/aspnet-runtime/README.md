@@ -19,4 +19,4 @@ Container image with the latest ASP.NET runtime.
 
 The image is available on `cgr.dev`:
 
-    docker pull cgr.dev/chainguard/aspnet-runtime:7.0
+    docker pull cgr.dev/chainguard/aspnet-runtime:latest
