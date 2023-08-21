@@ -33,7 +33,7 @@ module "latest-dev" {
 
 module "version-tags" {
   source  = "../../tflib/version-tags"
-  package = "telegraf"
+  package = "telegraf-1.27"
   config  = module.latest.config
 }
 
