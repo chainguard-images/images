@@ -18,6 +18,8 @@ accounts:
 
 environment:
   GODEBUG: tarinsecurepath=0,zipinsecurepath=0
+  # See: https://go.dev/doc/toolchain
+  GOTOOLCHAIN: local+auto
 
 entrypoint:
   command: /usr/bin/go
