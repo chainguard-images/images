@@ -21,7 +21,7 @@ It can be used for statistical analysis, machine learning and data visualization
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/r:latest
+docker pull cgr.dev/chainguard/r-base:latest
 ```
 
 ## Use It!
