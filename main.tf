@@ -669,6 +669,12 @@ module "python" {
   target_repository = "${var.target_repository}/python"
 }
 
+module "r-base" {
+  source            = "./images/r-base"
+  target_repository = "${var.target_repository}/r-base"
+}
+
+
 module "rabbitmq" {
   source            = "./images/rabbitmq"
   target_repository = "${var.target_repository}/rabbitmq"
