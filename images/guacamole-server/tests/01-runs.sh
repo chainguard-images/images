@@ -8,7 +8,7 @@ trap "docker rm -f ${container_name}" EXIT
 
 # Poll the logs for the startup string
 for i in {1..5}; do
-  if docker logs "${container_name}" 2>&1  | grep "Guacamole proxy daemon (guacd) version 1.5.2 started"; then
+  if docker logs "${container_name}" 2>&1  | grep -e "Guacamole proxy daemon (guacd) version .* started"; then
     exit 0
   fi
   sleep 1
