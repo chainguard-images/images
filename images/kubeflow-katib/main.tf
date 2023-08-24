@@ -8,6 +8,7 @@ locals {
   components = toset([
     "suggestion-goptuna",
     "file-metricscollector",
+    "controller"
   ])
 
   packages = merge(
@@ -15,6 +16,7 @@ locals {
     {
       "suggestion-goptuna"    = "katib-suggestion-goptuna"
       "file-metricscollector" = "katib-file-metricscollector"
+      "controller"            = "katib-controller"
     },
   )
 
@@ -23,6 +25,7 @@ locals {
     {
       "suggestion-goptuna"    = "${var.target_repository}-suggestion-goptuna"
       "file-metricscollector" = "${var.target_repository}-file-metricscollector"
+      "controller"            = "${var.target_repository}-controller"
     },
   )
 }

@@ -4,8 +4,16 @@ terraform {
   }
 }
 
-variable "digest" {
-  description = "The image digest to run tests over."
+variable "digests" {
+  description = "The image digests to run tests over."
+  type = object({
+    suggestion-goptuna    = string
+    file-metricscollector = string
+    controller            = string
+  })
 }
 
-data "oci_string" "ref" { input = var.digest }
+data "oci_string" "ref" {
+  for_each = var.digests
+  input    = each.value
+}
