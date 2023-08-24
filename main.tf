@@ -437,6 +437,11 @@ module "kubeflow-jupyter-web-app" {
   target_repository = "${var.target_repository}/kubeflow-jupyter-web-app"
 }
 
+module "kubeflow-katib-file-metricscollector" {
+  source            = "./images/kubeflow-katib-file-metricscollector"
+  target_repository = "${var.target_repository}/kubeflow-katib-file-metricscollector"
+}
+
 module "kubernetes-csi-external-attacher" {
   source            = "./images/kubernetes-csi-external-attacher"
   target_repository = "${var.target_repository}/kubernetes-csi-external-attacher"
