@@ -423,6 +423,11 @@ module "kubectl" {
   target_repository = "${var.target_repository}/kubectl"
 }
 
+module "kubeflow-katib-suggestion-goptuna" {
+  source            = "./images/kubeflow-katib-suggestion-goptuna"
+  target_repository = "${var.target_repository}/kubeflow-katib-suggestion-goptuna"
+}
+
 module "kubernetes-csi-external-attacher" {
   source            = "./images/kubernetes-csi-external-attacher"
   target_repository = "${var.target_repository}/kubernetes-csi-external-attacher"
