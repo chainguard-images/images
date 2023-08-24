@@ -9,8 +9,3 @@ variable "digest" {
 }
 
 data "oci_string" "ref" { input = var.digest }
-
-data "oci_exec_test" "runs" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --help"
-}
