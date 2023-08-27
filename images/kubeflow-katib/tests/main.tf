@@ -10,6 +10,7 @@ variable "digests" {
     suggestion-goptuna    = string
     file-metricscollector = string
     controller            = string
+    db-manager            = string
   })
 }
 
