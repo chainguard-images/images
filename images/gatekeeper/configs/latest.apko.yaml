@@ -1,7 +1,7 @@
 contents:
   packages:
-    - gatekeeper
-    - gatekeeper-compat
+    - gatekeeper-3.13
+    - gatekeeper-compat-3.13
 
 accounts:
   groups:
