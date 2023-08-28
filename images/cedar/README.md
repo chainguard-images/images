@@ -46,6 +46,4 @@ Commands:
 Options:
   -h, --help     Print help
   -V, --version  Print version
-  ```
-
 ```
