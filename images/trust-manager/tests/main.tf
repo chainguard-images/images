@@ -14,7 +14,7 @@ data "oci_exec_test" "version" {
   digest = var.digest
   script = <<EOF
     # We expect the command to fail, but want its output anyway.
-    ( docker run --rm $IMAGE_NAME 2>&1 || true ) | grep "failed to create manager"
+    ( docker run --rm $IMAGE_NAME 2>&1 || true ) | grep "failed to register Bundle controller"
   EOF
 }
 
