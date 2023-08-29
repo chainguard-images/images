@@ -3,7 +3,7 @@ contents:
     - curl
     - bash
     - busybox
-    - git 
+    - git
     - curl
     - grpcurl
     - drill
@@ -32,7 +32,3 @@ contents:
 
 entrypoint:
   command: /bin/bash -c
-
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/debug/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/debug
