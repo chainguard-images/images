@@ -1,8 +1,8 @@
 contents:
   packages:
     - busybox
-    - argo-cd-2.8
-    - argo-cd-2.8-compat
+    - argo-cd
+    - argo-cd-compat
 
 accounts:
   groups:
