@@ -769,6 +769,8 @@ module "thanos-operator" {
 }
 
 module "tigera-operator" {
+  depends_on = [module.calico] // Uses calico images, which should be built first.
+
   source            = "./images/tigera-operator"
   target_repository = "${var.target_repository}/tigera-operator"
 }
