@@ -17,3 +17,6 @@ chmod 777 $APPDIR
 # Setup a zig sample app and run it!
 docker run --rm -v ${APPDIR}:/work --workdir /work "${IMAGE_NAME}" init-exe
 docker run --rm -v ${APPDIR}:/work --workdir /work "${IMAGE_NAME}" build run 2>&1 | grep "All your codebase are belong to us" 
+
+# Give us permission to delete anything in here.
+chmod -R 777 $APPDIR
