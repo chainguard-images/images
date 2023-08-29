@@ -33,7 +33,7 @@ module "latest-dev" {
 
 module "version-tags" {
   source  = "../../tflib/version-tags"
-  package = "gatekeeper"
+  package = "gatekeeper-3.13"
   config  = module.latest.config
 }
 
