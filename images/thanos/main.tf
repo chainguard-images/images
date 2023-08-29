@@ -33,7 +33,7 @@ module "latest-dev" {
 
 module "version-tags" {
   source  = "../../tflib/version-tags"
-  package = "thanos"
+  package = "thanos-0.32"
   config  = module.latest.config
 }
 
