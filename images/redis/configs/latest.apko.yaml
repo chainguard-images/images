@@ -1,6 +1,7 @@
 contents:
   packages:
     - redis
+    - redis-cli
     - busybox
 
 accounts:
