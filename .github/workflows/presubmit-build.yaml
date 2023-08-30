@@ -58,11 +58,9 @@ jobs:
           k8s-version: v1.24.x
           registry-authority: registry.local:5000
 
-      # Disable version tags for ko.
+      # Disable version tags.
       - run: |
-          if [[ "${{ matrix.imageName }}" == "ko" ]]; then
-            echo "TF_APKO_DISABLE_VERSION_TAGS=true" >> $GITHUB_ENV
-          fi
+          echo "TF_APKO_DISABLE_VERSION_TAGS=true" >> $GITHUB_ENV
 
       - uses: ./.github/actions/build-image-terraform
         with: ${{ fromJSON(steps.augmented-inputs.outputs.matrix-json) }}
@@ -70,6 +68,8 @@ jobs:
       - name: Collect diagnostics and upload
         if: ${{ failure() }}
         uses: chainguard-dev/actions/kind-diag@main
+        with:
+          artifact-name: ${{ matrix.imageName }}-diagnostics
 
   presubmit-roundup:
     needs:
