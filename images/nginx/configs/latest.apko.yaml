@@ -1,6 +1,6 @@
 contents:
   packages:
-    - nginx
+    - nginx-mainline
     - nginx-package-config
 
 accounts:
