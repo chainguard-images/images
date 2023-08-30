@@ -32,6 +32,8 @@ preInstall:
 image:
   repository: ${data.oci_string.ref.registry_repo}
   release: ${data.oci_string.ref.pseudo_tag}
+
+validatingWebhookCheckIgnoreFailurePolicy: Ignore
 EOF
   ]
 }
