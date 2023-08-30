@@ -87,7 +87,7 @@ spec:
   - metadata:
       name: data
     spec:
-      storageClassName: standard # NOTE: This assumes kind
+      storageClassName: local-path # NOTE: This assumes k3s
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
