@@ -188,7 +188,7 @@ resource "kubernetes_stateful_set" "cassandra" {
           }
         }
 
-        storage_class_name = "standard"
+        storage_class_name = "local-path" # Assumes K3s, use standard for KinD
       }
     }
 
