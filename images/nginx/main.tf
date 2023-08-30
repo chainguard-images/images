@@ -33,7 +33,7 @@ module "latest-dev" {
 
 module "version-tags" {
   source  = "../../tflib/version-tags"
-  package = "nginx"
+  package = "nginx-mainline"
   config  = module.latest.config
 }
 
