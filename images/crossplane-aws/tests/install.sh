@@ -6,24 +6,16 @@ cat <<EOF | kubectl apply -f -
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
-  name: aws
+  name: provider-aws-iam
 spec:
-  package: ${AWS_DIGEST}
+  package: ${IAM_DIGEST}
 EOF
 
 cat <<EOF | kubectl apply -f -
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
-  name: iam
-spec:
-  package: ${IAM_DIGEST}
-EOF
-cat <<EOF | kubectl apply -f -
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: rds
+  name: provider-aws-rds
 spec:
   package: ${RDS_DIGEST}
 EOF
@@ -32,14 +24,14 @@ cat <<EOF | kubectl apply -f -
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
-  name: s3
+  name: provider-aws-s3
 spec:
   package: ${S3_DIGEST}
 EOF
 
-for provider in aws iam rds s3; do
-  kubectl wait --for=condition=Installed "provider/${provider}" --timeout=1m
-
-  # TODO
-  # kubectl wait --for=condition=Healthy "provider/${provider}" --timeout=1m
+for provider in iam rds s3; do
+  kubectl wait --for=condition=Installed "provider/provider-aws-${provider}" --timeout=1m
+  kubectl wait --for=condition=Healthy   "provider/provider-aws-${provider}" --timeout=5m
 done
+
+# TODO(jason): These install the upstream upbound AWS provider, not ours.

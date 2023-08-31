@@ -22,7 +22,20 @@ resource "helm_release" "crossplane" {
   namespace        = "crossplane-system"
   create_namespace = true
 
-  wait = true
+  values = [jsonencode({
+    // Our images have package config in one big layer, which might cause the
+    // Crossplane control plane to have difficulty.
+    resourcesCrossplane = {
+      limits = {
+        cpu    = "1"
+        memory = "1Gi"
+      }
+      requests = {
+        cpu    = "1"
+        memory = "1Gi"
+      }
+    }
+  })]
 }
 
 data "oci_exec_test" "install" {
