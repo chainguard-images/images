@@ -8,12 +8,13 @@ terraform {
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
-    node             = string
-    calicoctl        = string
-    cni              = string
-    kube-controllers = string
-    csi              = string
-    typha            = string
+    node                  = string
+    calicoctl             = string
+    cni                   = string
+    kube-controllers      = string
+    csi                   = string
+    typha                 = string
+    node-driver-registrar = string
   })
 }
 
@@ -43,6 +44,6 @@ data "oci_exec_test" "install" {
   }
   env {
     name  = "CSI_NODE_DRIVER_REGISTRAR_IMAGE"
-    value = "cgr.dev/chainguard/kubernetes-csi-node-driver-registrar:latest"
+    value = var.digests["node-driver-registrar"]
   }
 }

@@ -13,19 +13,22 @@ locals {
     "csi",
     "typha",
     "pod2daemon",
+    "node-driver-registrar"
   ])
 
   // Normally the package is named like "calico-{component}"
   // But some packages are named differently:
-  // - calicoctl    -> calicoctl
-  // - calico-csi   -> calico-pod2daemon
-  // - calico-typha -> calico-typhad
+  // - calicoctl             -> calicoctl
+  // - calico-csi            -> calico-pod2daemon
+  // - calico-typha          -> calico-typhad
+  // - node-driver-registrar -> kubernetes-csi-node-driver-registrar
   packages = merge({
     for k, v in local.components : k => "calico-${k}"
     }, {
     "calicoctl" : "calicoctl",
     "csi" : "calico-pod2daemon",
     "typha" : "calico-typhad",
+    "node-driver-registrar" : "kubernetes-csi-node-driver-registrar",
   })
 
   // Normally the repository is named like "calico-{component}"
@@ -48,9 +51,8 @@ module "latest" {
   for_each = local.components
   source   = "../../tflib/publisher"
 
-  name = basename(path.module)
-
-  target_repository = (each.key == "calicoctl" ? "${var.target_repository}" : "${var.target_repository}-${each.key}")
+  name              = basename(path.module)
+  target_repository = local.repositories[each.key]
   config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
 }
 
