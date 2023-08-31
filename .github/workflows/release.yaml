@@ -93,11 +93,11 @@ jobs:
 
       - uses: chainguard-dev/actions/setup-kind@main
         with:
-          k8s-version: v1.24.x
+          k8s-version: v1.25.x
           registry-authority: registry.local:5000
 
       # Disable creating new version tags.
-      - run: | 
+      - run: |
           # temporarily generate tags for these modules
           if [[ "${{ matrix.imageName }}" != "busybox" ]] && [[ "${{ matrix.imageName }}" != "jre" ]] && [[ "${{ matrix.imageName }}" != "node" ]]; then
             echo "TF_APKO_DISABLE_VERSION_TAGS=true" >> $GITHUB_ENV
