@@ -1,8 +1,7 @@
 terraform {
   required_providers {
-    oci        = { source = "chainguard-dev/oci" }
-    helm       = { source = "hashicorp/helm" }
-    kubernetes = { source = "hashicorp/kubernetes" }
+    oci  = { source = "chainguard-dev/oci" }
+    helm = { source = "hashicorp/helm" }
   }
 }
 
@@ -26,37 +25,26 @@ resource "helm_release" "crossplane" {
   wait = true
 }
 
-resource "kubernetes_manifest" "providers" {
+data "oci_exec_test" "install" {
   depends_on = [helm_release.crossplane]
 
-  for_each = var.digests
+  script = "${path.module}/install.sh"
+  digest = var.digests.aws // Unused but required by the data source
 
-  manifest = {
-    apiVersion = "pkg.crossplane.io/v1"
-    kind       = "Provider"
-    metadata = {
-      name = each.key == "aws" ? "provider-aws" : "provider-aws-${each.key}"
-    }
-    spec = {
-      package = each.value
-    }
+  env {
+    name  = "AWS_DIGEST"
+    value = var.digests.aws
   }
-
-  wait {
-    condition {
-      type   = "Installed"
-      status = "True"
-    }
-    /*
-    condition {
-      type   = "Healthy"
-      status = "True"
-    }
-    */
+  env {
+    name  = "IAM_DIGEST"
+    value = var.digests.iam
   }
-
-  timeouts {
-    create = "1m"
-    update = "1m"
+  env {
+    name  = "RDS_DIGEST"
+    value = var.digests.rds
+  }
+  env {
+    name  = "S3_DIGEST"
+    value = var.digests.s3
   }
 }
