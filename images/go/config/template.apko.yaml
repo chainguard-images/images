@@ -4,7 +4,7 @@ contents:
     - build-base
     - git
     - openssh
-    - go-1.21
+    # Go comes via var.extra_packages
 
 accounts:
   groups:
