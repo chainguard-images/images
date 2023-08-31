@@ -197,6 +197,11 @@ module "crossplane-aws" {
   target_repository = "${var.target_repository}/crossplane-aws"
 }
 
+module "crossplane-azure" {
+  source            = "./images/crossplane-azure"
+  target_repository = "${var.target_repository}/crossplane-azure"
+}
+
 module "curl" {
   source            = "./images/curl"
   target_repository = "${var.target_repository}/curl"
