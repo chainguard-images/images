@@ -1,8 +1,7 @@
 contents:
   packages:
-    - calico-pod2daemon
-    - calico-pod2daemon-flexvol-compat
-    - busybox
+    - kubernetes-csi-node-driver-registrar
+    - kubernetes-csi-node-driver-registrar-compat
 
 accounts:
   groups:
@@ -12,7 +11,7 @@ accounts:
     - username: nonroot
       uid: 65532
       gid: 65532
-  run-as: 0
+  run-as: 65532
 
 entrypoint:
-  command: /usr/bin/flexvol.sh
+  command: /usr/bin/csi-node-driver-registrar
