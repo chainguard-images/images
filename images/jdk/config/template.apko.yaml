@@ -2,9 +2,8 @@ contents:
   packages:
     - glibc-locale-en
     - busybox
-    - openjdk-17
-    - openjdk-17-default-jvm
     - libstdc++
+    # Java comes via var.extra_packages
 
 accounts:
   groups:
@@ -20,7 +19,7 @@ work-dir: /home/build
 
 environment:
   LANG: en_US.UTF-8
-  JAVA_HOME: /usr/lib/jvm/java-17-openjdk
+  JAVA_HOME: /usr/lib/jvm/default-jvm
 
 paths:
   - path: /home/build
