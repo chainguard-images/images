@@ -34,14 +34,6 @@ data "oci_exec_test" "install-calico" {
   script     = "${path.module}/install-calico.sh"
 
   env {
-    name  = "REGISTRY"
-    value = data.oci_string.ref.registry
-  }
-  env {
-    name  = "REPOSITORY"
-    value = split("/", data.oci_string.ref.repo)[1]
-  }
-  env {
     name  = "CALICO_NODE_DIGEST"
     value = data.oci_ref.calico["node"].digest
   }
@@ -85,5 +77,5 @@ locals {
 
 data "oci_ref" "calico" {
   for_each = toset(local.calico_images)
-  ref      = "${data.oci_string.ref.registry}/${split("/", data.oci_string.ref.repo)[0]}/calico-${each.value}"
+  ref      = "cgr.dev/chainguard/calico-${each.value}"
 }

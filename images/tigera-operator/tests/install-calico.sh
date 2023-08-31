@@ -35,8 +35,8 @@ metadata:
   name: default
 spec:
   variant: Calico
-  registry: ${REGISTRY}
-  imagePath: ${REPOSITORY}
+  registry: cgr.dev
+  imagePath: chainguard
   imagePrefix: calico-
 EOF
 
