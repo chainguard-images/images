@@ -1,6 +1,7 @@
 contents:
   packages:
     - calico-pod2daemon
+    - calico-pod2daemon-compat
     - busybox
 
 accounts:
