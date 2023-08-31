@@ -53,10 +53,9 @@ jobs:
           EXTRA_INPUT_APKO_REPOSITORY_APPEND: ${{ steps.determine-appends.outputs.repository-append }}
           EXTRA_INPUT_APKO_KEYRING_APPEND: ${{ steps.determine-appends.outputs.keyring-append }}
 
-      - uses: chainguard-dev/actions/setup-kind@main
+      - uses: chainguard-dev/actions/setup-k3d@main
         with:
-          k8s-version: v1.25.x
-          registry-authority: registry.local:5000
+          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:4e6fca8f1cbe304d06d870c0b0b3634d017f184a4de65000f288b51d34b549f5
 
       # Disable version tags for ko.
       - run: |
@@ -69,7 +68,9 @@ jobs:
 
       - name: Collect diagnostics and upload
         if: ${{ failure() }}
-        uses: chainguard-dev/actions/kind-diag@main
+        uses: chainguard-dev/actions/k8s-diag@main
+        with:
+          cluster-type: k3d
 
   presubmit-roundup:
     needs:
