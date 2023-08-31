@@ -33,9 +33,6 @@ provider "apko" {
   extra_keyring      = concat(["https://packages.wolfi.dev/os/wolfi-signing.rsa.pub"], var.extra_keyring)
   extra_packages     = concat(["wolfi-baselayout"], var.extra_packages)
   default_archs      = length(var.archs) == 0 ? ["x86_64", "aarch64"] : var.archs
-  default_annotations = {
-    "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/", // TODO: remove this when everything is migrated to TF annotations
-  }
 }
 
 provider "apko" {
@@ -45,9 +42,6 @@ provider "apko" {
   # These packages match chainguard-images/static
   extra_packages = ["alpine-baselayout-data", "alpine-release", "ca-certificates-bundle"]
   default_archs  = length(var.archs) == 0 ? ["386", "amd64", "arm/v6", "arm/v7", "arm64", "ppc64le", "s390x"] : var.archs // All arches *except* riscv64
-  default_annotations = {
-    "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/", // TODO: remove this when everything is migrated to TF annotations
-  }
 }
 
 provider "kubernetes" {
@@ -769,8 +763,6 @@ module "thanos-operator" {
 }
 
 module "tigera-operator" {
-  depends_on = [module.calico] // Uses calico images, which should be built first.
-
   source            = "./images/tigera-operator"
   target_repository = "${var.target_repository}/tigera-operator"
 }
