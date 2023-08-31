@@ -9,13 +9,19 @@ variable "digests" {
   description = "The image digests to run tests over."
   type = object({
     node                  = string
-    calicoctl             = string
     cni                   = string
     kube-controllers      = string
+    pod2daemon            = string
     csi                   = string
     typha                 = string
     node-driver-registrar = string
+    calicoctl             = string
   })
+}
+
+data "oci_string" "image" {
+  for_each = var.digests
+  input    = each.value
 }
 
 data "oci_exec_test" "install" {
@@ -23,27 +29,40 @@ data "oci_exec_test" "install" {
   script = "${path.module}/install.sh"
 
   env {
-    name  = "NODE_IMAGE"
-    value = var.digests["node"]
+    name  = "REGISTRY"
+    value = data.oci_string.image["node"].registry
   }
   env {
-    name  = "CNI_IMAGE"
-    value = var.digests["cni"]
+    name  = "REPOSITORY"
+    value = split("/", data.oci_string.image["node"].repo)[0]
+  }
+
+  env {
+    name  = "NODE_DIGEST"
+    value = data.oci_string.image["node"].digest
   }
   env {
-    name  = "KUBE_CONTROLLERS_IMAGE"
-    value = var.digests["kube-controllers"]
+    name  = "CNI_DIGEST"
+    value = data.oci_string.image["cni"].digest
   }
   env {
-    name  = "CSI_IMAGE"
-    value = var.digests["csi"]
+    name  = "KUBE_CONTROLLERS_DIGEST"
+    value = data.oci_string.image["kube-controllers"].digest
   }
   env {
-    name  = "TYPHA_IMAGE"
-    value = var.digests["typha"]
+    name  = "POD2DAEMON_FLEXVOL_DIGEST"
+    value = data.oci_string.image["pod2daemon"].digest
   }
   env {
-    name  = "CSI_NODE_DRIVER_REGISTRAR_IMAGE"
-    value = var.digests["node-driver-registrar"]
+    name  = "CSI_DIGEST"
+    value = data.oci_string.image["csi"].digest
+  }
+  env {
+    name  = "TYPHA_DIGEST"
+    value = data.oci_string.image["typha"].digest
+  }
+  env {
+    name  = "NODE_DRIVER_REGISTRAR_DIGEST"
+    value = data.oci_string.image["node-driver-registrar"].digest
   }
 }
