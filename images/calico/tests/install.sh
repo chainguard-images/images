@@ -75,4 +75,4 @@ kubectl rollout status deployment calico-kube-controllers -n calico-system --tim
 kubectl rollout status deployment calico-typha -n calico-system --timeout 3m
 kubectl rollout status daemonset csi-node-driver -n calico-system --timeout 3m
 
-trap "kubectl describe installation.operator.tigera.io/default default" EXIT
+trap "kubectl describe installation.operator.tigera.io/default" EXIT
