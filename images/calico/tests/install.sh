@@ -27,20 +27,50 @@ for name in $(docker ps --format '{{.Names}}'); do
 	fi
 done
 
-# This installs calico node, kube-controllers, and typha.
-curl -o calico-typha.yaml https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/calico-typha.yaml
-sed -i.bak "s|docker.io/calico/cni:.*|${CNI_IMAGE}|g" calico-typha.yaml
-sed -i.bak "s|docker.io/calico/node:.*|${NODE_IMAGE}|g" calico-typha.yaml
-sed -i.bak "s|docker.io/calico/kube-controllers:.*|${KUBE_CONTROLLERS_IMAGE}|g" calico-typha.yaml
-sed -i.bak "s|docker.io/calico/typha:.*|${TYPHA_IMAGE}|g" calico-typha.yaml
-kubectl apply -f calico-typha.yaml
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/tigera-operator.yaml
 
-curl -o calico-csi.yaml https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/csi-driver.yaml
-sed -i.bak "s|docker.io/calico/csi:.*|${CSI_IMAGE}|g" calico-csi.yaml
-sed -i.bak "s|docker.io/calico/node-driver-registrar:.*|${CSI_NODE_DRIVER_REGISTRAR_IMAGE}|g" calico-csi.yaml
-kubectl apply -f calico-csi.yaml
+cat <<EOF | kubectl apply -f -
+apiVersion: operator.tigera.io/v1
+kind: ImageSet
+metadata:
+  name: calico-v3.26.1
+spec:
+  images:
+    - image: calico/node
+      digest: ${NODE_DIGEST}
+    - image: calico/cni
+      digest: ${CNI_DIGEST}
+    - image: calico/kube-controllers
+      digest: ${KUBE_CONTROLLERS_DIGEST}
+    - image: calico/pod2daemon-flexvol
+      digest: ${POD2DAEMON_FLEXVOL_DIGEST}
+    - image: calico/csi
+      digest: ${CSI_DIGEST}
+    - image: calico/typha
+      digest: ${TYPHA_DIGEST}
+    - image: calico/node-driver-registrar
+      digest: ${NODE_DRIVER_REGISTRAR_DIGEST}
+    # This isn't used on Linux, it just needs to have a value.
+    - image: calico/windows-upgrade
+      digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
+EOF
 
-kubectl rollout status daemonset calico-node -n kube-system --timeout 60s
-kubectl rollout status deployment calico-kube-controllers -n kube-system --timeout 60s
-kubectl rollout status deployment calico-typha -n kube-system --timeout 60s
+cat <<EOF | kubectl apply -f -
+apiVersion: operator.tigera.io/v1
+kind: Installation
+metadata:
+  name: default
+spec:
+  variant: Calico
+  registry: ${REGISTRY}
+  imagePath: ${REPOSITORY}
+  imagePrefix: calico-
+EOF
+
+kubectl rollout status deployment tigera-operator -n tigera-operator --timeout 60s
+kubectl wait --for condition=ready installation.operator.tigera.io/default
+
+kubectl rollout status daemonset calico-node -n calico-system --timeout 120s
+kubectl rollout status deployment calico-kube-controllers -n calico-system --timeout 60s
+kubectl rollout status deployment calico-typha -n calico-system --timeout 60s
 kubectl rollout status daemonset csi-node-driver -n calico-system --timeout 60s

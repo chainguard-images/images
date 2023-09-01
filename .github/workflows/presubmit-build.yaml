@@ -55,7 +55,7 @@ jobs:
 
       - uses: chainguard-dev/actions/setup-kind@main
         with:
-          k8s-version: v1.24.x
+          k8s-version: v1.25.x
           registry-authority: registry.local:5000
 
       # Disable version tags.

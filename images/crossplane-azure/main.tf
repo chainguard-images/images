@@ -6,40 +6,29 @@ terraform {
 
 locals {
   components = toset([
-    "calicoctl",
-    "node",
-    "kube-controllers",
-    "cni",
-    "csi",
-    "typha",
-    "pod2daemon",
-    "node-driver-registrar"
+    "azure",
+    "authorization",
+    "managedidentity",
+    "sql",
+    "storage",
   ])
 
-  // Normally the package is named like "calico-{component}"
+  // Normally the package is named like "crossplane-provider-azure-{component}"
   // But some packages are named differently:
-  // - calicoctl             -> calicoctl
-  // - calico-csi            -> calico-pod2daemon
-  // - calico-typha          -> calico-typhad
-  // - node-driver-registrar -> kubernetes-csi-node-driver-registrar
+  // - azure -> crossplane-provider-azure-family
   packages = merge({
-    for k, v in local.components : k => "calico-${k}"
+    for k, v in local.components : k => "crossplane-provider-azure-${k}"
     }, {
-    "calicoctl" : "calicoctl",
-    "csi" : "calico-pod2daemon",
-    "typha" : "calico-typhad",
-    "node-driver-registrar" : "kubernetes-csi-node-driver-registrar",
+    "azure" : "crossplane-provider-azure-family",
   })
 
-  // Normally the repository is named like "calico-{component}"
+  // Normally the repository is named like "crossplane-provider-azure-{component}"
   // But some repositories are named differently:
-  // - calicoctl  -> calicoctl
-  // - pod2daemon -> calico-pod2daemon-flexvol
+  // - azure -> crossplane-provider-azure
   repositories = merge({
     for k, v in local.components : k => "${var.target_repository}-${k}"
     }, {
-    "calicoctl" : "${var.target_repository}ctl",
-    "pod2daemon" : "${var.target_repository}-pod2daemon-flexvol",
+    "azure" : var.target_repository,
   })
 }
 
@@ -78,9 +67,5 @@ module "tagger" {
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : t => module.latest[each.key].image_ref },
-
-    # This will also tag the image with :v1, :v1.2, :v1.2.3, :v1.2.3-r4, for compatibility with Tigera Operator to install Calico.
-    # TODO(jason): Do this for all images, not just calico, and potentially only for `:v1.2.3` and `:v1.2.3-r4` (not `:v1` or `:v1.2`).
-    { for t in module.version-tags[each.key].tag_list : "v${t}" => module.latest[each.key].image_ref },
   )
 }
