@@ -4,7 +4,7 @@ contents:
     - build-base
     - git
     - openssh
-    - go-1.20
+    # Go comes via var.extra_packages
 
 accounts:
   groups:
@@ -18,6 +18,8 @@ accounts:
 
 environment:
   GODEBUG: tarinsecurepath=0,zipinsecurepath=0
+  # See: https://go.dev/doc/toolchain
+  GOTOOLCHAIN: local+auto
 
 entrypoint:
   command: /usr/bin/go

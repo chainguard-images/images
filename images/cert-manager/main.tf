@@ -41,7 +41,7 @@ module "version-tags" {
   for_each = local.components
   source   = "../../tflib/version-tags"
 
-  package = "cert-manager-${each.key}"
+  package = "cert-manager-1.12-${each.key}"
   config  = module.latest[each.key].config
 }
 
