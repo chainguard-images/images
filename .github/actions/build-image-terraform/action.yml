@@ -106,6 +106,13 @@ runs:
         name: ${{ steps.terraform-apply.outputs.module }}.tf.json
         path: /tmp/${{ steps.terraform-apply.outputs.module }}.tf.json
 
+    - name: Upload terraform state
+      if: always()
+      uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3
+      with:
+        name: ${{ steps.terraform-apply.outputs.module }}.tfstate
+        path: terraform.tfstate
+
     - name: Touch actions file to prevent postrun failure
       if: always()
       shell: bash
