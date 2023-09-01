@@ -67,10 +67,12 @@ spec:
   imagePrefix: calico-
 EOF
 
-kubectl rollout status deployment tigera-operator -n tigera-operator --timeout 60s
-kubectl wait --for condition=ready installation.operator.tigera.io/default
+kubectl rollout status deployment tigera-operator -n tigera-operator --timeout 3m
+kubectl wait --for condition=ready installation.operator.tigera.io/default --timeout=3m
 
-kubectl rollout status daemonset calico-node -n calico-system --timeout 120s
-kubectl rollout status deployment calico-kube-controllers -n calico-system --timeout 60s
-kubectl rollout status deployment calico-typha -n calico-system --timeout 60s
-kubectl rollout status daemonset csi-node-driver -n calico-system --timeout 60s
+kubectl rollout status daemonset calico-node -n calico-system --timeout 5m
+kubectl rollout status deployment calico-kube-controllers -n calico-system --timeout 3m
+kubectl rollout status deployment calico-typha -n calico-system --timeout 3m
+kubectl rollout status daemonset csi-node-driver -n calico-system --timeout 3m
+
+trap "kubectl describe installation.operator.tigera.io/default" EXIT
