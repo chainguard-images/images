@@ -1,6 +1,7 @@
 contents:
-  packages:
-    - python-3.10
+  packages: [
+    # Python comes via var.extra_packages
+  ]
 
 entrypoint:
   command: /usr/bin/python
@@ -14,4 +15,3 @@ accounts:
       uid: 65532
       gid: 65532
   run-as: 65532
-
