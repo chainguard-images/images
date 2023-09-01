@@ -8,3 +8,4 @@ cgr.dev/chainguard/node:18.16
 cgr.dev/chainguard/go:1.20
 cgr.dev/chainguard/curl:8.1.2
 cgr.dev/chainguard/bazel:6.2.1
+cgr.dev/chainguard/python:latest-glibc
