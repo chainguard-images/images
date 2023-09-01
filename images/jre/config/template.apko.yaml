@@ -1,9 +1,8 @@
 contents:
   packages:
     - glibc-locale-en
-    - openjdk-11-jre
-    - openjdk-11-default-jvm
     - libstdc++
+    # Java comes via var.extra_packages
 
 accounts:
   groups:
@@ -21,5 +20,5 @@ entrypoint:
 
 environment:
   LANG: en_US.UTF-8
-  JAVA_HOME: /usr/lib/jvm/java-11-openjdk
+  JAVA_HOME: /usr/lib/jvm/default-jvm
 
