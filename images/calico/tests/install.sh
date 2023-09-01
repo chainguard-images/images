@@ -21,9 +21,31 @@ pushd "${TMP}"
 # https://github.com/docker/for-mac/issues/4454 -
 # https://github.com/kubernetes-sigs/kind/blob/c13c54b9564aed8bc4f28b90af20a1100da66963/images/base/files/usr/local/bin/entrypoint#L53-L62
 for name in $(docker ps --format '{{.Names}}'); do
-	if [[ $name =~ k3d-.*-(server|agent)- ]]; then
+	if [[ $name =~ k3d-.*-(server|agent)-.* ]]; then
+		echo $name
 		docker exec $name mount -o remount,ro /sys
 		docker exec $name mount --make-rshared /
+
+		# on startup, k3d rewrites /etc/hosts from:
+		#
+		# 127.0.0.1 localhost
+		# ::1 ip6-localhost ip6-loopback localhost
+		#
+		# to
+		#
+		# ::1 ip6-localhost ip6-loopback localhost
+		# 127.0.0.1 localhost
+		#
+		# which defaults any 'localhost' resolution to the disabled ::1 address.
+		# This means that any service looking to explicitly resolve localhost on
+		# the node (like the calico-typha readiness check) will attempt and fail to
+		# bind to ::1
+		#
+		# This simply prepends 127.0.0.1 localhost to /etc/hosts to ensure the ipv4
+		# localhost is chosen.
+		# TODO: I have no idea why this doesn't affect the upstream image, which
+		# k3d also reorders.
+		docker exec $name /bin/sh -c '{ echo "127.0.0.1 localhost"; cat /etc/hosts; } > /tmp/hosts_temp && cat /tmp/hosts_temp > /etc/hosts && rm /tmp/hosts_temp'
 	fi
 done
 
@@ -67,8 +89,8 @@ spec:
   imagePrefix: calico-
 EOF
 
-kubectl rollout status deployment tigera-operator -n tigera-operator --timeout 60s
-kubectl wait --for condition=ready installation.operator.tigera.io/default
+kubectl rollout status deployment tigera-operator -n tigera-operator --timeout 180s
+kubectl wait --for condition=ready installation.operator.tigera.io/default --timeout 180s
 
 kubectl rollout status daemonset calico-node -n calico-system --timeout 120s
 kubectl rollout status deployment calico-kube-controllers -n calico-system --timeout 60s
