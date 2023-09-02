@@ -1,6 +1,7 @@
 contents:
-  packages:
-    - ruby-3.2
+  packages: [
+    # Ruby comes via var.extra_packages
+  ]
 
 accounts:
   groups:
@@ -22,4 +23,3 @@ work-dir: /work
 entrypoint:
   command: /usr/bin/ruby
 cmd: --version
-
