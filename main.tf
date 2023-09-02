@@ -663,6 +663,11 @@ module "prometheus" {
   target_repository = "${var.target_repository}/prometheus"
 }
 
+module "promtail" {
+  source            = "./images/promtail"
+  target_repository = "${var.target_repository}/promtail"
+}
+
 module "proxysql" {
   source            = "./images/proxysql"
   target_repository = "${var.target_repository}/proxysql"
