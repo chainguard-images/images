@@ -51,6 +51,7 @@ module "latest-dev" {
 
 module "test-latest" {
   source = "./tests"
+
   digest = module.latest.image_ref
 }
 
