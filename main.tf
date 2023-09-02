@@ -516,6 +516,11 @@ module "kyverno" {
   target_repository = "${var.target_repository}/kyverno"
 }
 
+module "loki" {
+  source            = "./images/loki"
+  target_repository = "${var.target_repository}/loki"
+}
+
 module "mariadb" {
   source            = "./images/mariadb"
   target_repository = "${var.target_repository}/mariadb"
