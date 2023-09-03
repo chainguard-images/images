@@ -1,9 +1,7 @@
 contents:
   packages:
     - busybox
-    - dotnet-7-sdk
-    - aspnet-7-runtime
-    - aspnet-7-targeting-pack
+    # dotnet comes via var.extra_packages
 
 accounts:
   groups:
