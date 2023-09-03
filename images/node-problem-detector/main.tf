@@ -30,7 +30,7 @@ module "latest-dev" {
 
 module "version-tags" {
   source  = "../../tflib/version-tags"
-  package = "node-problem-detector"
+  package = "node-problem-detector-0.8"
   config  = module.latest.config
 }
 
