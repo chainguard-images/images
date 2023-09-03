@@ -1,6 +1,7 @@
 contents:
-  packages:
-    - kubectl-latest
+  packages: [
+    # kubectl comes via var.extra_packages
+  ]
 
 accounts:
   groups:
@@ -15,4 +16,3 @@ accounts:
 entrypoint:
   command: /usr/bin/kubectl
 cmd: help
-
