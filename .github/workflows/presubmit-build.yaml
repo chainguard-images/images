@@ -55,7 +55,7 @@ jobs:
 
       - uses: chainguard-dev/actions/setup-k3d@main
         with:
-          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:4e6fca8f1cbe304d06d870c0b0b3634d017f184a4de65000f288b51d34b549f5
+          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:8fa32f1d5bd91717cb316492f38212fbeb681b9c56805bc18a75278a6553046f
           registry-authority: registry.local:5000
 
       # Disable version tags.
