@@ -1,9 +1,6 @@
 contents:
-  packages:
-    - node-problem-detector
-    - node-problem-detector-compat
-    - health-checker
-    - log-counter
+  # All packages come from extra_packages
+  packages: []
 
 accounts:
   groups:
