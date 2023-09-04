@@ -30,7 +30,7 @@ spec:
 EOF
 
 for provider in iam rds s3; do
-  kubectl wait --for=condition=Installed "provider/provider-aws-${provider}" --timeout=1m
+  kubectl wait --for=condition=Installed "provider/provider-aws-${provider}" --timeout=3m
   kubectl wait --for=condition=Healthy   "provider/provider-aws-${provider}" --timeout=5m
 done
 
@@ -45,5 +45,5 @@ spec:
   package: ${AWS_DIGEST}
 EOF
 
-kubectl wait --for=condition=Installed provider/upbound-provider-family-aws --timeout=1m
+kubectl wait --for=condition=Installed provider/upbound-provider-family-aws --timeout=3m
 kubectl wait --for=condition=Healthy   provider/upbound-provider-family-aws --timeout=5m

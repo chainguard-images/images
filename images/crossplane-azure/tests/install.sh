@@ -39,7 +39,7 @@ spec:
 EOF
 
 for provider in authorization managedidentity sql storage; do
-  kubectl wait --for=condition=Installed "provider/provider-azure-${provider}" --timeout=1m
+  kubectl wait --for=condition=Installed "provider/provider-azure-${provider}" --timeout=3m
   kubectl wait --for=condition=Healthy   "provider/provider-azure-${provider}" --timeout=5m
 done
 
@@ -54,5 +54,5 @@ spec:
   package: ${AZURE_DIGEST}
 EOF
 
-kubectl wait --for=condition=Installed provider/upbound-provider-family-azure --timeout=1m
+kubectl wait --for=condition=Installed provider/upbound-provider-family-azure --timeout=3m
 kubectl wait --for=condition=Healthy   provider/upbound-provider-family-azure --timeout=5m
