@@ -1,12 +1,12 @@
 contents:
   packages:
-    - buck2
     - build-base
     - bash
     - busybox
     - clang-15
     - git
     - llvm-lld
+    # Buck2 comes via var.extra_packages
 
 accounts:
   groups:
@@ -22,4 +22,3 @@ entrypoint:
   command: /usr/bin/buck2
 
 cmd: help
-
