@@ -1,6 +1,7 @@
 contents:
-  packages:
-    - configmap-reload
+  packages: [
+    # crane comes via var.extra_packages
+  ]
 
 accounts:
   groups:
@@ -13,5 +14,4 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command: /usr/bin/configmap-reload
-
+  command: /usr/bin/crane
