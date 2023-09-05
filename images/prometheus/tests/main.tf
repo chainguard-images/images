@@ -17,6 +17,7 @@ variable "digests" {
     node-exporter          = string
     operator               = string
     postgres-exporter      = string
+    pushgateway            = string
     redis-exporter         = string
   })
 }
@@ -171,5 +172,23 @@ resource "helm_release" "cloudwatch-exporter" {
   set {
     name  = "image.tag"
     value = format("latest@%s", data.oci_string.ref["cloudwatch-exporter"].digest)
+  }
+}
+
+resource "helm_release" "pushgateway" {
+  name       = "pushgateway"
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart      = "prometheus-pushgateway"
+
+  namespace        = "prometheus-pushgateway"
+  create_namespace = true
+
+  set {
+    name  = "image.repository"
+    value = data.oci_string.ref["pushgateway"].registry_repo
+  }
+  set {
+    name  = "image.tag"
+    value = data.oci_string.ref["pushgateway"].pseudo_tag
   }
 }
