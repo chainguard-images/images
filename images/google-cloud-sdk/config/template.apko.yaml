@@ -1,9 +1,9 @@
 contents:
   packages:
-    - google-cloud-sdk
     - apk-tools
     - busybox
     - bash
+    # gcloud comes via var.extra_packages
 
 accounts:
   groups:

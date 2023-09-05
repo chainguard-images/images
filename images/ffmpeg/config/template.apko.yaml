@@ -1,6 +1,7 @@
 contents:
-  packages:
-    - dive
+  packages: [
+    # ffmpeg comes via var.extra_packages
+  ]
 
 accounts:
   groups:
@@ -13,5 +14,5 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command: dive
-
+  command: /usr/bin/ffmpeg
+cmd: --help
