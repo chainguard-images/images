@@ -4,11 +4,9 @@ terraform {
   }
 }
 
-# TODO: Create a dotnet-runtime virtual that we can track.
-
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. dotnet-7-runtime)."
-  default     = ["dotnet-7-runtime"]
+  description = "The additional packages to install (e.g. dotnet-runtime, dotnet-7-runtime)."
+  default     = ["dotnet-runtime"]
 }
 
 data "apko_config" "this" {

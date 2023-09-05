@@ -4,11 +4,9 @@ terraform {
   }
 }
 
-# TODO: Create a dotnet-sdk virtual that we can track.
-
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. dotnet-7-sdk)."
-  default     = ["dotnet-7-sdk"]
+  description = "The additional packages to install (e.g. dotnet-sdk, dotnet-7-sdk)."
+  default     = ["dotnet-sdk"]
 }
 
 data "apko_config" "this" {
