@@ -1,7 +1,6 @@
 contents:
   packages:
     - kubeflow-jupyter-web-app
-    - busybox
 
 accounts:
   groups:

@@ -1,7 +1,6 @@
 contents:
   packages:
     - kubeflow-volumes-web-app
-    - busybox
 
 accounts:
   groups:
@@ -14,4 +13,4 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  commond: /bin/bash -c "gunicorn -w 3 --bind 0.0.0.0:5000 --access-logfile - entrypoint:app"
+  command: /bin/bash -c "gunicorn -w 3 --bind 0.0.0.0:5000 --access-logfile - entrypoint:app"
