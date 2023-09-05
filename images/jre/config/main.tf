@@ -4,12 +4,9 @@ terraform {
   }
 }
 
-# TODO: We should have virtual packages that we use here
-# that the appropriate versions "provide".
-
 variable "extra_packages" {
   description = "The additional packages to install (e.g. openjdk-17-default-jvm)."
-  default     = ["openjdk-17-default-jvm"]
+  default     = ["default-jvm-lts"]
 }
 
 data "apko_config" "this" {
