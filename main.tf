@@ -361,6 +361,12 @@ module "influxdb" {
   target_repository = "${var.target_repository}/influxdb"
 }
 
+module "istio-proxy" {
+  source            = "./images/istio-proxy"
+  target_repository = "${var.target_repository}/istio-proxy"
+}
+
+
 module "jdk" {
   source            = "./images/jdk"
   target_repository = "${var.target_repository}/jdk"

@@ -1,0 +1,36 @@
+contents:
+  packages:
+    - wolfi-baselayout
+    - glibc
+    - iptables
+    - ip6tables
+    - libnetfilter_conntrack
+    - libnfnetlink
+    - libmnl
+    - istio-envoy
+    - istio-envoy-compat
+    - istio-pilot-agent
+    - istio-pilot-agent-compat
+
+paths:
+- path: /run
+  type: directory
+  permissions: 0o755
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nobody
+      uid: 65532
+      gid: 65532
+    - username: nobody
+      uid: 65534
+  run-as: 65532
+
+entrypoint:
+  command: /usr/local/bin/pilot-agent
+
+environment:
+  ISTIO_META_ISTIO_PROXY_SHA: f826f1dbddd3326abee19009ea9f019e8a9d5997
