@@ -1,7 +1,7 @@
 contents:
-  packages:
-    - nginx-mainline
-    - nginx-package-config
+  packages: [
+    # Python comes via var.extra_packages
+  ]
 
 accounts:
   groups:
