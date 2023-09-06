@@ -638,6 +638,11 @@ module "opentelemetry-collector-contrib" {
   target_repository = "${var.target_repository}/opentelemetry-collector-contrib"
 }
 
+module "opentf" {
+  source            = "./images/opentf"
+  target_repository = "${var.target_repository}/opentf"
+}
+
 module "paranoia" {
   source            = "./images/paranoia"
   target_repository = "${var.target_repository}/paranoia"
