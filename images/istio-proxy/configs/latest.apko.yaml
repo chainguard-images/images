@@ -1,6 +1,5 @@
 contents:
   packages:
-    - wolfi-baselayout
     - glibc
     - iptables
     - ip6tables
@@ -33,4 +32,5 @@ entrypoint:
   command: /usr/local/bin/pilot-agent
 
 environment:
+  # TODO(tcnghia): This should come from the istio-envoy package
   ISTIO_META_ISTIO_PROXY_SHA: f826f1dbddd3326abee19009ea9f019e8a9d5997
