@@ -1,7 +1,6 @@
 contents:
-  packages: [
-    # crane comes via var.extra_packages
-  ]
+  packages:
+  - crane
 
 accounts:
   groups:

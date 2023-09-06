@@ -1,7 +1,7 @@
 contents:
   packages:
     - busybox
-    # conda comes via var.extra_packages
+    - conda
 
 accounts:
   groups:

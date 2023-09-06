@@ -1,7 +1,6 @@
 contents:
-  packages: [
-    # ffmpeg comes via var.extra_packages
-  ]
+  packages:
+  - ffmpeg
 
 accounts:
   groups:

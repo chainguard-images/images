@@ -4,11 +4,9 @@ terraform {
   }
 }
 
-# TODO: We should have a virtual package for tracking clang
-
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. clang-15)."
-  default     = ["clang-15", "clang-15-default"]
+  description = "The additional packages to install (e.g. clang, clang-15-default)."
+  default     = ["clang"]
 }
 
 data "apko_config" "this" {

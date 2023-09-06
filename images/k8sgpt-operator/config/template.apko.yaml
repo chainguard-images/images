@@ -1,7 +1,6 @@
 contents:
-  packages: [
-    # k8sgpt-operator comes from var.extra_packages
-  ]
+  packages:
+  - k8sgpt-operator
 
 accounts:
   groups:

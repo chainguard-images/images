@@ -1,7 +1,6 @@
 contents:
-  packages: [
-    # cadvisor comes via var.extra_packages
-  ]
+  packages:
+  - cadvisor
 
 accounts:
   groups:

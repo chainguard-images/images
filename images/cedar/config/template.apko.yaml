@@ -1,7 +1,6 @@
 contents:
-  packages: [
-    # cedar comes via var.extra_packages
-  ]
+  packages:
+  - cedar
 
 accounts:
   groups:

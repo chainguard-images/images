@@ -1,7 +1,7 @@
 contents:
   packages:
     - kubectl-latest
-    # helm comes via var.extra_packages
+    - helm
 
 accounts:
   groups:

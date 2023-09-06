@@ -6,7 +6,7 @@ contents:
     - clang-15
     - git
     - llvm-lld
-    # Buck2 comes via var.extra_packages
+    - buck2
 
 accounts:
   groups:

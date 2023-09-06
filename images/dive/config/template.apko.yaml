@@ -1,7 +1,6 @@
 contents:
-  packages: [
-    # dive comes via var.extra_packages
-  ]
+  packages:
+  - dive
 
 accounts:
   groups:

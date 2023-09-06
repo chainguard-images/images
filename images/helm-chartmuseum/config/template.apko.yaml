@@ -1,7 +1,6 @@
 contents:
-  packages: [
-    # chartmuseum comes via var.extra_packages
-  ]
+  packages:
+  - chartmuseum
 
 accounts:
   groups:

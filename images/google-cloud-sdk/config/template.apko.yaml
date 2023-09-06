@@ -3,7 +3,7 @@ contents:
     - apk-tools
     - busybox
     - bash
-    # gcloud comes via var.extra_packages
+    - google-cloud-sdk
 
 accounts:
   groups:

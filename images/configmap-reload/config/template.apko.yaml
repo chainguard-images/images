@@ -1,7 +1,6 @@
 contents:
-  packages: [
-    # configmap-reload comes via var.extra_packages
-  ]
+  packages:
+  - configmap-reload
 
 accounts:
   groups:
