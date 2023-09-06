@@ -33,7 +33,7 @@ module "latest-dev" {
 
 module "version-tags" {
   source  = "../../tflib/version-tags"
-  package = "terraform"
+  package = "opentf"
   config  = module.latest.config
 }
 
