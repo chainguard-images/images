@@ -2,8 +2,8 @@ contents:
   packages:
     - bash
     - busybox
-    - kafka
     - openjdk-11-default-jvm
+    - kafka
 
 accounts:
   groups:
