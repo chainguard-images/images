@@ -1,7 +1,7 @@
 contents:
   packages:
-    - k8s-sidecar
     - busybox
+    # k8s-sidecar comes from var.extra_packages
 
 environment:
   PYTHONUNBUFFERED: 1

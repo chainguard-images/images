@@ -1,6 +1,7 @@
 contents:
-  packages:
-    - k8sgpt
+  packages: [
+    # k8sgpt-operator comes from var.extra_packages
+  ]
 
 accounts:
   groups:
@@ -13,5 +14,5 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command: k8sgpt
+  command: manager
 

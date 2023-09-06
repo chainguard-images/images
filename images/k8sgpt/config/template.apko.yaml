@@ -1,7 +1,7 @@
 contents:
-  packages:
-    - helm
-    - kubectl-latest
+  packages: [
+    # k8sgpt comes from var.extra_packages
+  ]
 
 accounts:
   groups:
@@ -14,7 +14,5 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command: /usr/bin/helm
-
-cmd: help
+  command: k8sgpt
 

@@ -1,6 +1,7 @@
 contents:
-  packages:
-    - hugo
+  packages: [
+    # hugo comes from var.extra_packages
+  ]
 
 entrypoint:
   command: /usr/bin/hugo
