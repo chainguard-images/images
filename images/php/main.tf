@@ -37,7 +37,7 @@ module "latest-dev" {
 
 module "version-tags" {
   source  = "../../tflib/version-tags"
-  package = "php"
+  package = "php-8.2"
   config  = module.latest.config
 }
 

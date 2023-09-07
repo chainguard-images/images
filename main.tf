@@ -516,6 +516,11 @@ module "kyverno" {
   target_repository = "${var.target_repository}/kyverno"
 }
 
+module "loki" {
+  source            = "./images/loki"
+  target_repository = "${var.target_repository}/loki"
+}
+
 module "mariadb" {
   source            = "./images/mariadb"
   target_repository = "${var.target_repository}/mariadb"
@@ -633,6 +638,11 @@ module "opentelemetry-collector-contrib" {
   target_repository = "${var.target_repository}/opentelemetry-collector-contrib"
 }
 
+module "opentf" {
+  source            = "./images/opentf"
+  target_repository = "${var.target_repository}/opentf"
+}
+
 module "paranoia" {
   source            = "./images/paranoia"
   target_repository = "${var.target_repository}/paranoia"
@@ -656,6 +666,11 @@ module "powershell" {
 module "prometheus" {
   source            = "./images/prometheus"
   target_repository = "${var.target_repository}/prometheus"
+}
+
+module "promtail" {
+  source            = "./images/promtail"
+  target_repository = "${var.target_repository}/promtail"
 }
 
 module "proxysql" {

@@ -1,7 +1,6 @@
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
-    oci  = { source = "chainguard-dev/oci" }
   }
 }
 
@@ -12,7 +11,8 @@ variable "target_repository" {
 module "latest" {
   source = "../../tflib/publisher"
 
-  name              = basename(path.module)
+  name = basename(path.module)
+
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.apko.yaml")
 }
@@ -25,12 +25,15 @@ module "latest-dev" {
   name = basename(path.module)
 
   target_repository = var.target_repository
-  config            = jsonencode(module.latest.config)
+  # Make the dev variant an explicit extension of the
+  # locked original.
+  config         = jsonencode(module.latest.config)
+  extra_packages = module.dev.extra_packages
 }
 
 module "version-tags" {
   source  = "../../tflib/version-tags"
-  package = "node-problem-detector-0.8"
+  package = "opentf"
   config  = module.latest.config
 }
 
