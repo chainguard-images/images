@@ -15,6 +15,7 @@ module "test-latest" {
   source = "./tests"
   digests = {
     proxy = module.proxy.image_ref
+    pilot = module.proxy.image_ref
   }
 }
 
@@ -22,6 +23,7 @@ resource "oci_tag" "latest" {
   depends_on = [module.test-latest]
   for_each = {
     "proxy" : module.proxy.image_ref,
+    "pilot" : module.pilot.image_ref,
   }
   digest_ref = each.value
   tag        = "latest"
@@ -31,6 +33,7 @@ resource "oci_tag" "latest-dev" {
   depends_on = [module.test-latest]
   for_each = {
     "proxy" : module.proxy-dev.image_ref,
+    "pilot" : module.pilot-dev.image_ref,
   }
   digest_ref = each.value
   tag        = "latest-dev"
