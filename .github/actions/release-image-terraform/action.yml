@@ -128,6 +128,13 @@ runs:
         name: ${{ steps.terraform-apply.outputs.module }}.tf.json
         path: /tmp/${{ steps.terraform-apply.outputs.module }}.tf.json
 
+    - name: Upload terraform state
+      if: always()
+      uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3
+      with:
+        name: ${{ steps.terraform-apply.outputs.module }}.tfstate
+        path: terraform.tfstate
+
     # Generate build status badge from shields.io and save it in ./badges-output/
     - if: always()
       name: BADGINATOR-5000.sh
