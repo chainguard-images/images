@@ -6,23 +6,35 @@ terraform {
 
 locals {
   components = toset([
-    "jupyter-web-app",
-    "volumes-web-app",
+    "api-server",
+    "cache-server",
+    "metadata-writer",
+    "persistenceagent",
+    "scheduledworkflow",
+    "viewer-crd-controller",
   ])
 
   packages = merge(
     { for k in local.components : k => k },
     {
-      "jupyter-web-app" = "kubeflow-jupyter-web-app"
-      "volumes-web-app" = "kubeflow-volumes-web-app"
+      "api-server"            = "kubeflow-pipelines-apiserver"
+      "cache-server"          = "kubeflow-pipelines-cache_server"
+      "metadata-writer"       = "kubeflow-pipelines-metadata-writer"
+      "persistenceagent"      = "kubeflow-pipelines-persistence_agent"
+      "scheduledworkflow"     = "kubeflow-pipelines-scheduledworkflow"
+      "viewer-crd-controller" = "kubeflow-pipelines-viewer-crd-controller"
     },
   )
 
   repositories = merge(
     { for k in local.components : k => k },
     {
-      "jupyter-web-app" = "${var.target_repository}-jupyter-web-app"
-      "volumes-web-app" = "${var.target_repository}-volumes-web-app"
+      "api-server"            = "${var.target_repository}-api-server"
+      "cache-server"          = "${var.target_repository}-cache-server"
+      "metadata-writer"       = "${var.target_repository}-metadata-writer"
+      "persistenceagent"      = "${var.target_repository}-persistenceagent"
+      "scheduledworkflow"     = "${var.target_repository}-scheduledworkflow"
+      "viewer-crd-controller" = "${var.target_repository}-viewer-crd-controller"
     },
   )
 }
@@ -74,7 +86,7 @@ module "tagger" {
   for_each = local.components
   source   = "../../tflib/tagger"
 
-  //depends_on = [module.test-latest]
+  depends_on = [module.test-latest]
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : t => module.latest[each.key].image_ref },

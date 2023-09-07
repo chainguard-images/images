@@ -442,6 +442,16 @@ module "kubeflow" {
   target_repository = "${var.target_repository}/kubeflow"
 }
 
+module "kubeflow-katib" {
+  source            = "./images/kubeflow-katib"
+  target_repository = "${var.target_repository}/kubeflow-katib"
+}
+
+module "kubeflow-pipelines" {
+  source            = "./images/kubeflow-pipelines"
+  target_repository = "${var.target_repository}/kubeflow-pipelines"
+}
+
 module "kubernetes-csi-external-attacher" {
   source            = "./images/kubernetes-csi-external-attacher"
   target_repository = "${var.target_repository}/kubernetes-csi-external-attacher"

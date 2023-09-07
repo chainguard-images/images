@@ -6,23 +6,38 @@ terraform {
 
 locals {
   components = toset([
-    "jupyter-web-app",
-    "volumes-web-app",
+    "earlystopping",
+    "suggestion-hyperband",
+    "suggestion-hyperopt",
+    "suggestion-nas-darts",
+    "suggestion-optuna-enas",
+    "suggestion-pbt-enas",
+    "suggestion-skopt-enas",
   ])
 
   packages = merge(
     { for k in local.components : k => k },
     {
-      "jupyter-web-app" = "kubeflow-jupyter-web-app"
-      "volumes-web-app" = "kubeflow-volumes-web-app"
+      "earlystopping"          = "katib-earlystopping"
+      "suggestion-hyperband"   = "katib-suggestion-hyperband"
+      "suggestion-hyperopt"    = "katib-suggestion-hyperopt"
+      "suggestion-nas-darts"   = "katib-suggestion-nas-darts"
+      "suggestion-optuna-enas" = "katib-suggestion-optuna-enas"
+      "suggestion-pbt-enas"    = "katib-suggestion-pbt-enas"
+      "suggestion-skopt-enas"  = "katib-suggestion-skopt-enas"
     },
   )
 
   repositories = merge(
     { for k in local.components : k => k },
     {
-      "jupyter-web-app" = "${var.target_repository}-jupyter-web-app"
-      "volumes-web-app" = "${var.target_repository}-volumes-web-app"
+      "earlystopping"          = "${var.target_repository}-earlystopping"
+      "suggestion-hyperband"   = "${var.target_repository}-suggestion-hyperband"
+      "suggestion-hyperopt"    = "${var.target_repository}-suggestion-hyperopt"
+      "suggestion-nas-darts"   = "${var.target_repository}-suggestion-nas-darts"
+      "suggestion-optuna-enas" = "${var.target_repository}-suggestion-optuna-enas"
+      "suggestion-pbt-enas"    = "${var.target_repository}-suggestion-pbt-enas"
+      "suggestion-skopt-enas"  = "${var.target_repository}-suggestion-skopt-enas"
     },
   )
 }
@@ -74,7 +89,7 @@ module "tagger" {
   for_each = local.components
   source   = "../../tflib/tagger"
 
-  //depends_on = [module.test-latest]
+  depends_on = [module.test-latest]
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : t => module.latest[each.key].image_ref },
