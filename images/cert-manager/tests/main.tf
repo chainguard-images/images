@@ -26,6 +26,7 @@ resource "helm_release" "cert-manager" {
   repository       = "https://charts.jetstack.io"
   chart            = "cert-manager"
   create_namespace = true
+  timeout          = 600
 
   values = [jsonencode({
     installCRDs = "true"
