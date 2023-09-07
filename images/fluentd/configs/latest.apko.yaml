@@ -1,6 +1,7 @@
 contents:
   packages:
     - ruby3.2-fluentd
+    - libpq-11
 
 entrypoint:
   type: service-bundle

@@ -2,6 +2,7 @@ contents:
   packages:
     - aws-for-fluent-bit
     - aws-for-fluent-bit-compat
+    - libpq-11
 
 accounts:
   groups:
