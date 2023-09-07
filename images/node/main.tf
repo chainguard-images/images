@@ -1,11 +1,23 @@
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
+    oci  = { source = "chainguard-dev/oci" }
   }
 }
 
 variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
+}
+
+module "latest-config" { source = "./config" }
+
+module "latest" {
+  source = "../../tflib/publisher"
+
+  name = basename(path.module)
+
+  target_repository = var.target_repository
+  config            = module.latest-config.config
 }
 
 module "dev" { source = "../../tflib/dev-subvariant" }
@@ -18,30 +30,31 @@ locals {
   ]
 }
 
-module "tagger" {
-  source = "../../tflib/tagger"
+module "latest-dev" {
+  source = "../../tflib/publisher"
 
-  depends_on = [
-    module.test-nineteen,
-    module.test-twenty,
-    module.test-eighteen,
-  ]
+  name = basename(path.module)
 
-  tags = merge(
-    # Node 19
-    { for t in toset(module.nineteen-version-tags.tag_list) : t => module.nineteen.image_ref },
-    { for t in toset(module.nineteen-version-tags.tag_list) : "${t}-dev" => module.nineteen-dev.image_ref },
+  target_repository = var.target_repository
+  # Make the dev variant an explicit extension of the
+  # locked original.
+  config         = jsonencode(module.latest.config)
+  extra_packages = concat(module.dev.extra_packages, local.node_dev_packages)
+}
 
-    # Node 20
-    { for t in toset(module.twenty-version-tags.tag_list) : t => module.twenty.image_ref },
-    { for t in toset(module.twenty-version-tags.tag_list) : "${t}-dev" => module.twenty-dev.image_ref },
+module "test-latest" {
+  source = "./tests"
+  digest = module.latest.image_ref
+}
 
-    # Node 18 (latest)
-    { for t in toset(concat(["latest"], module.eighteen-version-tags.tag_list)) : t => module.eighteen.image_ref },
-    { for t in toset(concat(["latest"], module.eighteen-version-tags.tag_list)) : "${t}-dev" => module.eighteen-dev.image_ref },
+resource "oci_tag" "latest" {
+  depends_on = [module.test-latest]
+  digest_ref = module.latest.image_ref
+  tag        = "latest"
+}
 
-    # Node 18.16.0-r.2
-    { for t in toset(concat(["latest"], module.eighteen-sixteen-zero-version-tags.tag_list)) : t => module.eighteen.image_ref },
-    { for t in toset(concat(["latest"], module.eighteen-sixteen-zero-version-tags.tag_list)) : "${t}-dev" => module.eighteen-dev.image_ref },
-  )
+resource "oci_tag" "latest-dev" {
+  depends_on = [module.test-latest]
+  digest_ref = module.latest-dev.image_ref
+  tag        = "latest-dev"
 }
