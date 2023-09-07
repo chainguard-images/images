@@ -15,8 +15,11 @@
 
 # Istio images:
 
-## Proxy 
+## proxy
 This is the data plane part of Istio, consisting of:
 - A custom-built Envoy that contains Istio plugins (Wasm, telemetry)
 - iptables to route inbound/outbound traffic through the Envoy proxy when acting as a sidecar
 - pilot-agent to bootstrap the Envoy with some Istio-specific configurations
+
+## pilot 
+Istio Pilot provides mesh-wide traffic management, security and policy capabilities in the Istio Service Mesh.
