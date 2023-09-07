@@ -6,10 +6,6 @@ contents:
     - libnetfilter_conntrack
     - libnfnetlink
     - libmnl
-    - istio-envoy
-    - istio-envoy-compat
-    - istio-pilot-agent
-    - istio-pilot-agent-compat
 
 paths:
 - path: /run

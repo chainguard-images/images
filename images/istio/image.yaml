@@ -1,0 +1,3 @@
+versions:
+  - apko:
+      config: proxy/configs/latest.apko.yaml

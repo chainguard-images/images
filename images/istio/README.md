@@ -13,7 +13,10 @@
 ---
 <!--monopod:end-->
 
-This is the dataplane part of Istio, consisting of:
+# Istio images:
+
+## Proxy 
+This is the data plane part of Istio, consisting of:
 - A custom-built Envoy that contains Istio plugins (Wasm, telemetry)
 - iptables to route inbound/outbound traffic through the Envoy proxy when acting as a sidecar
 - pilot-agent to bootstrap the Envoy with some Istio-specific configurations
