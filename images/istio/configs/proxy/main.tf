@@ -7,7 +7,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install (e.g. istio-envoy, istio-proxy-agent-1.18.2-compat)."
-  default     = [
+  default = [
     "istio-envoy",
     "istio-envoy-compat",
     "istio-pilot-agent",
