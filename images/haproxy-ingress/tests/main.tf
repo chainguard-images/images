@@ -30,7 +30,7 @@ resource "helm_release" "haproxy-ingress" {
     controller = {
       image = {
         repository = data.oci_string.ref.registry_repo
-        tag        = data.oci_string.ref.digest
+        tag        = data.oci_string.ref.pseudo_tag
       }
     }
   })]
