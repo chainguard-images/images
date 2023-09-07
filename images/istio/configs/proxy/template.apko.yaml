@@ -20,8 +20,6 @@ accounts:
     - username: nobody
       uid: 65532
       gid: 65532
-    - username: nobody
-      uid: 65534
   run-as: 65532
 
 entrypoint:
