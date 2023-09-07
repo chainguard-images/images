@@ -222,14 +222,9 @@ module "dive" {
   target_repository = "${var.target_repository}/dive"
 }
 
-module "dotnet-runtime" {
-  source            = "./images/dotnet-runtime"
-  target_repository = "${var.target_repository}/dotnet-runtime"
-}
-
-module "dotnet-sdk" {
-  source            = "./images/dotnet-sdk"
-  target_repository = "${var.target_repository}/dotnet-sdk"
+module "dotnet" {
+  source            = "./images/dotnet"
+  target_repository = "${var.target_repository}/dotnet"
 }
 
 module "envoy" {
