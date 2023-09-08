@@ -763,6 +763,11 @@ module "static" {
   }
 }
 
+module "stunnel" {
+  source            = "./images/stunnel"
+  target_repository = "${var.target_repository}/stunnel"
+}
+
 module "tekton" {
   source            = "./images/tekton"
   target_repository = "${var.target_repository}/tekton"
