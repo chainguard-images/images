@@ -8,10 +8,10 @@ terraform {
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
-    aws = string
-    iam = string
-    rds = string
-    s3  = string
+    family = string
+    iam    = string
+    rds    = string
+    s3     = string
   })
 }
 
@@ -42,11 +42,11 @@ data "oci_exec_test" "install" {
   depends_on = [helm_release.crossplane]
 
   script = "${path.module}/install.sh"
-  digest = var.digests.aws // Unused but required by the data source
+  digest = var.digests.family // Unused but required by the data source
 
   env {
     name  = "AWS_DIGEST"
-    value = var.digests.aws
+    value = var.digests.family
   }
   env {
     name  = "IAM_DIGEST"
