@@ -1,5 +1,6 @@
 on:
   pull_request:
+    paths-ignore: '**/*.md'
 
 concurrency:
   group: presubmit-build-${{ github.head_ref }}
