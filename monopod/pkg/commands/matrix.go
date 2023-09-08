@@ -23,7 +23,6 @@ monopod matrix
 `,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			impl := &matrixImpl{
-				TestTags:        mo.TestTags,
 				ModifiedFiles:   mo.ModifiedFiles,
 				UniqueImages:    mo.UniqueImages,
 				Shard:           mo.Shard,
@@ -38,7 +37,6 @@ monopod matrix
 }
 
 type matrixImpl struct {
-	TestTags        string
 	ModifiedFiles   string
 	UniqueImages    bool
 	Shard           uint
@@ -71,11 +69,7 @@ type imageSummary struct {
 }
 
 func (i *matrixImpl) Do() error {
-	testTags := []string{}
-	if i.TestTags != "" {
-		testTags = strings.Split(i.TestTags, "")
-	}
-	allImages, err := images.ListAll(images.WithTestTags(testTags), images.WithDefaultRegistry(i.DefaultRegistry))
+	allImages, err := images.ListAll(images.WithDefaultRegistry(i.DefaultRegistry))
 	if err != nil {
 		return err
 	}

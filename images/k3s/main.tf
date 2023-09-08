@@ -11,6 +11,8 @@ variable "target_repository" {
 module "latest" {
   source = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.apko.yaml")
 }
@@ -18,31 +20,12 @@ module "latest" {
 module "dev" { source = "../../tflib/dev-subvariant" }
 
 module "latest-dev" {
-  source            = "../../tflib/publisher"
+  source = "../../tflib/publisher"
+
+  name              = basename(path.module)
   target_repository = var.target_repository
   config            = jsonencode(module.latest.config)
-  extra_packages = concat(module.dev.extra_packages, [
-    "crictl",
-    "kubectl",
-    "ctr",
-  ])
-}
-
-module "latest-images" {
-  source            = "../../tflib/publisher"
-  target_repository = "${var.target_repository}-images"
-  config            = file("${path.module}/configs/latest.images.apko.yaml")
-}
-
-module "latest-images-dev" {
-  source            = "../../tflib/publisher"
-  target_repository = "${var.target_repository}-images"
-  config            = file("${path.module}/configs/latest.images.apko.yaml")
-  extra_packages = concat(module.dev.extra_packages, [
-    "crictl",
-    "kubectl",
-    "ctr",
-  ])
+  extra_packages    = module.dev.extra_packages
 }
 
 module "version-tags" {
@@ -61,14 +44,25 @@ module "tagger" {
 
   depends_on = [
     module.test-latest,
-    module.test-embedded,
   ]
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },
     { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-dev" => module.latest-dev.image_ref },
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-images" => module.latest-images.image_ref },
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-images-dev" => module.latest-images-dev.image_ref },
-    { for t in toset(concat(["latest"], module.version-tags-embedded.tag_list)) : t => module.latest-embedded.image_ref },
+  )
+}
+
+module "tagger-aio" {
+  source = "../../tflib/tagger"
+
+  # k3s-aio is identical to k3s except for the included image bits, so
+  # functionally we can share the same test
+  depends_on = [
+    module.test-latest,
+  ]
+
+  tags = merge(
+    { for t in toset(concat(["latest"], module.version-tags-aio.tag_list)) : t => module.latest-aio.image_ref },
+    { for t in toset(concat(["latest"], module.version-tags-aio.tag_list)) : "${t}-dev" => module.latest-aio-dev.image_ref },
   )
 }

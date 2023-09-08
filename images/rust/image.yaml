@@ -1,4 +1,3 @@
-status: experimental
 versions:
   - apko:
       config: configs/latest.apko.yaml

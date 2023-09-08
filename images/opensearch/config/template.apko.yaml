@@ -1,0 +1,23 @@
+contents:
+  packages:
+    - busybox
+    - opensearch-2
+    - openjdk-11-default-jvm
+
+accounts:
+  groups:
+    - groupname: opensearch
+      gid: 65532
+  users:
+    - username: opensearch
+      uid: 65532
+  run-as: 65532
+  recursive: true
+
+environment:
+  JAVA_HOME: /usr/lib/jvm/java-11-openjdk
+
+entrypoint:
+  command: /usr/bin/docker-entrypoint.sh
+cmd: opensearchwrapper
+

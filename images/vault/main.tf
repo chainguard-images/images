@@ -10,6 +10,11 @@ locals {
     "vault-k8s",
   ])
 
+  packages = {
+    vault     = "vault-1.14",
+    vault-k8s = "vault-k8s",
+  }
+
   repositories = {
     vault     = var.target_repository,
     vault-k8s = "${var.target_repository}-k8s",
@@ -24,6 +29,8 @@ module "latest" {
   for_each = local.repositories
   source   = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = each.value
   config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
 }
@@ -33,6 +40,8 @@ module "dev" { source = "../../tflib/dev-subvariant" }
 module "latest-dev" {
   for_each = local.repositories
   source   = "../../tflib/publisher"
+
+  name = basename(path.module)
 
   target_repository = each.value
   # Make the dev variant an explicit extension of the
@@ -45,7 +54,7 @@ module "version-tags" {
   for_each = local.components
   source   = "../../tflib/version-tags"
 
-  package = each.key
+  package = local.packages[each.key]
   config  = module.latest[each.key].config
 }
 

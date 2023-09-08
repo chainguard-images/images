@@ -1,6 +1,7 @@
 contents:
   packages:
     - aws-ebs-csi-driver
+    - umount
 
 accounts:
   groups:
@@ -23,6 +24,3 @@ accounts:
 entrypoint:
   command: aws-ebs-csi-driver
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/aws-ebs-csi-driver/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/aws-ebs-csi-driver

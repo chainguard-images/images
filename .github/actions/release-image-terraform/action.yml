@@ -1,7 +1,5 @@
 name: release-image-terraform
 inputs:
-  slackWebhookUrl:
-    default: ''
   gcsBucketName:
     default: ''
 runs:
@@ -88,24 +86,54 @@ runs:
       env:
         TF_VAR_target_tag: ${{ inputs.apkoTargetTag }}
         TF_VAR_tag_suffix: ${{ inputs.apkoTargetTagSuffix }}
+        APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:d2364015923325f0f1e77a1f8e2095e749a4848ced33c32d5e0e0ac434d6c3a3
       run: |
-        set -x
+        set -x -o pipefail
         env | grep '^TF_VAR_'
 
         MODULE=$(basename ${{ inputs.terraformDirectory }})
+        echo "module=${MODULE}" >> $GITHUB_OUTPUT
 
         # When we have a "mega module", use it to invoke the module
         # for the appropriate image.
         if [ -f "main.tf" ]; then
           export TF_VAR_target_repository=$(dirname ${{ inputs.apkoBaseTag }})
+          echo ::group::terraform init
           terraform init
-          terraform apply -auto-approve "-target=module.${MODULE}"
+          echo ::endgroup::
+          terraform apply -auto-approve "-target=module.${MODULE}" -json | tee /tmp/${MODULE}.tf.json | jq -r '.["@message"]'
         else
           cd ${{ inputs.terraformDirectory }}
           export TF_VAR_target_repository=${{ inputs.apkoBaseTag }}
+          echo ::group::terraform init
           terraform init
-          terraform apply -auto-approve
+          echo ::endgroup::
+          terraform apply -auto-approve -json | tee /tmp/${MODULE}.tf.json | jq -r '.["@message"]'
         fi
+
+    - name: Surface terraform warnings.
+      if: always()
+      shell: bash
+      run: grep '"@level":"warn"' /tmp/${{ steps.terraform-apply.outputs.module }}.tf.json | jq || true
+
+    - name: Surface terraform errors
+      if: failure()
+      shell: bash
+      run: grep '"@level":"error"' /tmp/${{ steps.terraform-apply.outputs.module }}.tf.json | jq  || true
+
+    - name: Upload terraform logs
+      if: always()
+      uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3
+      with:
+        name: ${{ steps.terraform-apply.outputs.module }}.tf.json
+        path: /tmp/${{ steps.terraform-apply.outputs.module }}.tf.json
+
+    - name: Upload terraform state
+      if: always()
+      uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3
+      with:
+        name: ${{ steps.terraform-apply.outputs.module }}.tfstate
+        path: terraform.tfstate
 
     # Generate build status badge from shields.io and save it in ./badges-output/
     - if: always()
@@ -137,36 +165,6 @@ runs:
       shell: bash
       run: |
         trap "rm -f BADGINATOR-5000.sh" EXIT && bash -e BADGINATOR-5000.sh success
-
-    # There is currently no way to obtain the job ID for a single matrix leg, so we have to
-    # try to hit the GitHub API and match the job based on the name, then extract the html_url
-    # See the following issue for more details: https://github.com/orgs/community/discussions/40291
-    - shell: bash
-      if: failure() && inputs.slackWebhookUrl != ''
-      id: slacklink
-      run: |
-        function get_actions_job_url {
-          curl -s -L -H "Authorization: Bearer ${{ github.token }}" \
-            "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs?per_page=100" \
-            | jq -r ".jobs[] | select(.name | contains(\"${1}\")) | .html_url"
-        }
-        # TODO: support specific matrix leg for subvariants (they have same apkoConfig input as parent)
-        ACTIONS_URL=""
-        if [[ "${{ inputs.apkoTargetTagSuffix }}" == "" ]]; then
-          ACTIONS_URL="$(get_actions_job_url ${{ inputs.apkoConfig }})"
-        fi
-        ACTIONS_URL="${ACTIONS_URL:-https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}}"
-        echo "link=${ACTIONS_URL}" >> $GITHUB_OUTPUT
-
-    # Slack notification if build failing
-    - uses: slackapi/slack-github-action@007b2c3c751a190b6f0f040e47ed024deaa72844 # v1.23.0
-      if: failure() && inputs.slackWebhookUrl != ''
-      id: slack
-      with:
-        payload: '{"text": "[release-image] ${{ inputs.imageName }} ${{ inputs.apkoTargetTag }} failed: ${{ steps.slacklink.outputs.link }}"}'
-      env:
-        SLACK_WEBHOOK_URL: ${{ inputs.slackWebhookUrl }}
-        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
     # Upload badges from ./badges-output/
     - uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb # v3.1.1

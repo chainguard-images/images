@@ -30,7 +30,7 @@ resource "helm_release" "keda" {
   repository       = "https://kedacore.github.io/charts"
   chart            = "keda"
   create_namespace = true
-  timeout          = 120
+  timeout          = 600
 
   values = [
     <<EOF

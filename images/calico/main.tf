@@ -13,19 +13,22 @@ locals {
     "csi",
     "typha",
     "pod2daemon",
+    "node-driver-registrar"
   ])
 
   // Normally the package is named like "calico-{component}"
   // But some packages are named differently:
-  // - calicoctl    -> calicoctl
-  // - calico-csi   -> calico-pod2daemon
-  // - calico-typha -> calico-typhad
+  // - calicoctl             -> calicoctl
+  // - calico-csi            -> calico-pod2daemon
+  // - calico-typha          -> calico-typhad
+  // - node-driver-registrar -> kubernetes-csi-node-driver-registrar
   packages = merge({
     for k, v in local.components : k => "calico-${k}"
     }, {
     "calicoctl" : "calicoctl",
     "csi" : "calico-pod2daemon",
     "typha" : "calico-typhad",
+    "node-driver-registrar" : "kubernetes-csi-node-driver-registrar",
   })
 
   // Normally the repository is named like "calico-{component}"
@@ -48,7 +51,8 @@ module "latest" {
   for_each = local.components
   source   = "../../tflib/publisher"
 
-  target_repository = (each.key == "calicoctl" ? "${var.target_repository}" : "${var.target_repository}-${each.key}")
+  name              = basename(path.module)
+  target_repository = local.repositories[each.key]
   config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
 }
 
@@ -74,5 +78,9 @@ module "tagger" {
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : t => module.latest[each.key].image_ref },
+
+    # This will also tag the image with :v1, :v1.2, :v1.2.3, :v1.2.3-r4, for compatibility with Tigera Operator to install Calico.
+    # TODO(jason): Do this for all images, not just calico, and potentially only for `:v1.2.3` and `:v1.2.3-r4` (not `:v1` or `:v1.2`).
+    { for t in module.version-tags[each.key].tag_list : "v${t}" => module.latest[each.key].image_ref },
   )
 }

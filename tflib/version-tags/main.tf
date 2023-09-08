@@ -1,3 +1,9 @@
+terraform {
+  required_providers {
+    apko = { source = "chainguard-dev/apko" }
+  }
+}
+
 variable "config" {
   description = "The resolved apko configuration."
 }
@@ -7,8 +13,11 @@ variable "package" {
   description = "The name of the package from which to extract version tags."
 }
 
+data "apko_tags" "tags" {
+  config         = var.config
+  target_package = var.package
+}
+
 output "tag_list" {
-  value = [
-    for x in var.config.contents.packages : regexall("(((([a-z0-9]+)(?:[.][a-z0-9]+)?)(?:[.][a-z0-9]+)?)(?:[-][a-z0-9]+)?)", trimprefix(x, "${var.package}=")) if startswith(x, "${var.package}=")
-  ][0][0]
+  value = data.apko_tags.tags.tags
 }

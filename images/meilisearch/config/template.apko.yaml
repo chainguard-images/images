@@ -1,0 +1,25 @@
+contents:
+  packages:
+    - meilisearch
+
+accounts:
+  groups:
+    - groupname: meilisearch
+      gid: 999
+  users:
+    - username: meilisearch
+      uid: 999
+  recursive: true
+  run-as: 999
+
+entrypoint:
+  command: /usr/bin/meilisearch
+cmd: --help
+
+paths:
+  - path: /var/data.ms
+    type: directory
+    uid: 999
+    gid: 999
+    permissions: 0o755
+

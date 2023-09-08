@@ -1,3 +1,5 @@
 versions:
   - apko:
       config: configs/latest.alpine.apko.yaml
+  - apko:
+      config: configs/1.36.wolfi.apko.yaml

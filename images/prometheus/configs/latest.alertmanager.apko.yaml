@@ -22,6 +22,3 @@ entrypoint:
   command: /usr/bin/alertmanager
 cmd: --config.file=/etc/alertmanager/alertmanager.yml --storage.path=/alertmanager
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/prometheus-alertmanager/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/prometheus-alertmanager

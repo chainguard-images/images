@@ -1,6 +1,7 @@
 contents:
   packages:
     - calico-pod2daemon
+    - calico-pod2daemon-flexvol-compat
     - busybox
 
 accounts:
@@ -15,7 +16,3 @@ accounts:
 
 entrypoint:
   command: /usr/bin/flexvol.sh
-
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/calico/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/calico

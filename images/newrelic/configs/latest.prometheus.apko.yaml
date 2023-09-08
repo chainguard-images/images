@@ -1,7 +1,6 @@
 contents:
   packages:
     - busybox
-    - bind-tools
     - tini
     - nri-prometheus
 
@@ -18,6 +17,3 @@ accounts:
 entrypoint:
   command: /sbin/tini -- /usr/bin/nri-prometheus
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/nri-prometheus/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/nri-prometheus

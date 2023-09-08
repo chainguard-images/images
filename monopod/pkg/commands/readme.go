@@ -256,8 +256,8 @@ func getRootReadmeContents(allImages []images.Image, badgeRootUrl string, defaul
 	buf := new(bytes.Buffer)
 	buf.WriteString("# Chainguard Images\n")
 	buf.WriteString("\n")
-	// TODO: Remove after August 16th
-	buf.WriteString("## :warning::exclamation: On August 16th we will be making changes to how image tags are pulled. Please see [the announcement](https://www.chainguard.dev/unchained/scaling-chainguard-images-with-a-growing-catalog-and-proactive-security-updates) for further details. :exclamation::warning:\n")
+	// TODO: Remove in October
+	buf.WriteString("## :warning::exclamation: On August 16th we made changes to how image tags are pulled. Please see [the announcement](https://www.chainguard.dev/unchained/important-updates-for-chainguard-images-public-catalog-users) for further details. :exclamation::warning:\n")
 	buf.WriteString("\n")
 	buf.WriteString("| Name | OCI Reference | Status |")
 	if badgeRootUrl != "" {

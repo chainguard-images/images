@@ -11,13 +11,15 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "stakater-reloader" {
-  name = "stakater-reloader"
+  name = "stakater-reloader-${random_pet.suffix.id}"
 
   repository = "https://stakater.github.io/stakater-charts"
   chart      = "reloader"
 
-  namespace        = "stakater-reloader"
+  namespace        = "stakater-reloader-${random_pet.suffix.id}"
   create_namespace = true
 
   values = [jsonencode({

@@ -1,6 +1,7 @@
 contents:
   packages:
     - kubernetes-csi-node-driver-registrar
+    - kubernetes-csi-node-driver-registrar-compat
 
 accounts:
   groups:
@@ -15,6 +16,3 @@ accounts:
 entrypoint:
   command: /usr/bin/csi-node-driver-registrar
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/kubernetes-csi-node-driver-registrar/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/kubernetes-csi-node-driver-registrar

@@ -49,6 +49,3 @@ paths:
     gid: 999
     recursive: true
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/argocd-repo-server/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/argocd-repo-server

@@ -17,6 +17,8 @@ module "latest" {
 
   source = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = (each.key == "argocd" ? var.target_repository : "${var.target_repository}-repo-server")
   config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
 }
@@ -27,6 +29,8 @@ module "latest-dev" {
   for_each = local.components
 
   source = "../../tflib/publisher"
+
+  name = basename(path.module)
 
   target_repository = (each.key == "argocd" ? var.target_repository : "${var.target_repository}-repo-server")
   # Make the dev variant an explicit extension of the
@@ -39,7 +43,7 @@ module "version-tags" {
   for_each = local.components
 
   source  = "../../tflib/version-tags"
-  package = (each.key == "argocd" ? "argo-cd" : "argo-cd-repo-server")
+  package = (each.key == "argocd" ? "argo-cd-2.8" : "argo-cd-2.8-repo-server")
   config  = module.latest[each.key].config
 }
 

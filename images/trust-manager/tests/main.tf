@@ -12,7 +12,10 @@ data "oci_string" "ref" { input = var.digest }
 
 data "oci_exec_test" "version" {
   digest = var.digest
-  script = "${path.module}/01-version.sh"
+  script = <<EOF
+    # We expect the command to fail, but want its output anyway.
+    ( docker run --rm $IMAGE_NAME 2>&1 || true ) | grep "failed to register Bundle controller"
+  EOF
 }
 
 data "oci_exec_test" "helm-install" {

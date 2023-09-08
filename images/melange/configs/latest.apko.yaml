@@ -1,10 +1,9 @@
 contents:
   packages:
     - alpine-keys
-    - wolfi-base
-    - alpine-keys
     - bubblewrap
     - melange
+    - wolfi-keys
 
 paths:
   - path: /work
@@ -17,6 +16,3 @@ entrypoint:
   command: /usr/bin/melange
 cmd: --help
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/melange/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/melange

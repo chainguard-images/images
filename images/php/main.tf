@@ -11,6 +11,8 @@ variable "target_repository" {
 module "latest" {
   source = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.apko.yaml")
 }
@@ -24,6 +26,8 @@ locals {
 module "latest-dev" {
   source = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = var.target_repository
   # Make the dev variant an explicit extension of the
   # locked original.
@@ -33,7 +37,7 @@ module "latest-dev" {
 
 module "version-tags" {
   source  = "../../tflib/version-tags"
-  package = "php"
+  package = "php-8.2"
   config  = module.latest.config
 }
 

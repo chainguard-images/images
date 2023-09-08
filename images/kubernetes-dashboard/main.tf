@@ -16,6 +16,8 @@ module "latest" {
   for_each = local.components
   source   = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = (each.key == "dashboard" ? "${var.target_repository}" : "${var.target_repository}-${each.key}")
 
   config = file("${path.module}/configs/latest.${each.key}.apko.yaml")
@@ -26,6 +28,8 @@ module "dev" { source = "../../tflib/dev-subvariant" }
 module "latest-dev" {
   for_each = local.components
   source   = "../../tflib/publisher"
+
+  name = basename(path.module)
 
   target_repository = (each.key == "dashboard" ? "${var.target_repository}" : "${var.target_repository}-${each.key}")
 

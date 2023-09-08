@@ -58,7 +58,6 @@ terraform init -upgrade
 TF_VAR_target_repository=... terraform apply
 ```
 
-
 ### Building a single Image module
 
 Every image defines a module in `images/{foo}` that can be used to build, sign,
@@ -91,7 +90,27 @@ and Alpine-based images are built for all architectures supported by Alpine.
 
 During testing it can be useful to only build for certain architectures, such as the host architecture.
 
-To achieve this, pass `-var='archs=["x86_64"]'` or `-var='archs=["aarch64"]'` to `terraform apply`.
+To achieve this, set the `archs` variable, for example `-var='archs=["x86_64"]'` or `TF_VAR_archs='["x86_64"]'`.
+
+See [Assigning Values to Root Module Variables](https://developer.hashicorp.com/terraform/language/values/variables#assigning-values-to-root-module-variables).
+
+The `[]`s are important here; omitting them results in an error saying `Variables may not be used here.`
+
+### Building from local packages
+
+During testing it can be useful to build images from packages you've built and signed locally.
+
+To achieve this, set the `extra_repositories` and `extra_keyring` variables.
+
+During testing it can be useful to only build for certain architectures, such as the host architecture, for example:
+
+```
+terraform apply \
+    -var='extra_repositories=["/path/to/packages"]' \
+    -var='extra_keyring=["/path/to/local-signing.rsa.pub"]'
+```
+
+See [Assigning Values to Root Module Variables](https://developer.hashicorp.com/terraform/language/values/variables#assigning-values-to-root-module-variables).
 
 The `[]`s are important here; omitting them results in an error saying `Variables may not be used here.`
 

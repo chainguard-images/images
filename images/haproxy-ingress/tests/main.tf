@@ -26,15 +26,12 @@ resource "helm_release" "haproxy-ingress" {
   namespace        = "haproxy-ingress"
   create_namespace = true
 
-  # Split the digest ref into repository and digest. The helm chart expects a
-  # tag, but it just appends it to the repository again, so we just specify a
-  # dummy tag and the digest to test.
-  set {
-    name  = "controller.image.repository"
-    value = data.oci_string.ref.registry_repo
-  }
-  set {
-    name  = "controller.image.tag"
-    value = data.oci_string.ref.pseudo_tag
-  }
+  values = [jsonencode({
+    controller = {
+      image = {
+        repository = data.oci_string.ref.registry_repo
+        tag        = data.oci_string.ref.pseudo_tag
+      }
+    }
+  })]
 }

@@ -10,7 +10,9 @@ variable "target_repository" {
 }
 
 module "latest" {
-  source            = "../../tflib/publisher"
+  source = "../../tflib/publisher"
+
+  name              = basename(path.module)
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.apko.yaml")
 }
@@ -20,13 +22,15 @@ module "dev" { source = "../../tflib/dev-subvariant" }
 module "latest-dev" {
   source = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = var.target_repository
   config            = jsonencode(module.latest.config)
 }
 
 module "version-tags" {
   source  = "../../tflib/version-tags"
-  package = "node-problem-detector"
+  package = "node-problem-detector-0.8"
   config  = module.latest.config
 }
 

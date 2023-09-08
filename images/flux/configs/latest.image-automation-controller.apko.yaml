@@ -23,6 +23,3 @@ paths:
     gid: 65532
     recursive: true
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/flux-image-automation-controller/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/flux-image-automation-controller

@@ -16,6 +16,8 @@ module "latest" {
   for_each = local.components
   source   = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = "${var.target_repository}-${each.key}"
   config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
 }
@@ -28,6 +30,8 @@ module "latest-dev" {
   for_each = local.components
   source   = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = "${var.target_repository}-${each.key}"
   config            = jsonencode(module.latest[each.key].config)
   extra_packages    = concat(module.dev.extra_packages, ["cmctl"])
@@ -37,7 +41,7 @@ module "version-tags" {
   for_each = local.components
   source   = "../../tflib/version-tags"
 
-  package = "cert-manager-${each.key}"
+  package = "cert-manager-1.12-${each.key}"
   config  = module.latest[each.key].config
 }
 

@@ -42,6 +42,8 @@ module "latest" {
   for_each = local.components
   source   = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = local.repositories[each.key]
   config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
 }

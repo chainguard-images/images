@@ -2,6 +2,10 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - README.md
+      - withdrawn-images.txt
+      - withdrawn-repos.txt
   schedule:
     - cron: '0 0 * * *'
   workflow_dispatch:
@@ -89,14 +93,32 @@ jobs:
 
       - uses: chainguard-dev/actions/setup-kind@main
         with:
-          k8s-version: v1.24.x
+          k8s-version: v1.25.x
           registry-authority: registry.local:5000
+
+      # Disable creating new version tags.
+      - run: |
+          # temporarily generate tags for these modules
+          if [[ "${{ matrix.imageName }}" != "busybox" ]] && \
+             [[ "${{ matrix.imageName }}" != "jre" ]] && \
+             [[ "${{ matrix.imageName }}" != "node" ]] && \
+             [[ "${{ matrix.imageName }}" != "minio" ]] && \
+             [[ "${{ matrix.imageName }}" != "rqlite" ]] && \
+             [[ "${{ matrix.imageName }}" != "dex" ]]; then
+            echo "TF_APKO_DISABLE_VERSION_TAGS=true" >> $GITHUB_ENV
+          fi
+
       - uses: ./.github/actions/release-image-terraform
         with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
-      # TODO: https://github.com/chainguard-images/images/issues/941
-      # - uses: ./.github/actions/policy-check-image
-      #   with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
 
       - name: Collect diagnostics and upload
         if: ${{ failure() }}
         uses: chainguard-dev/actions/kind-diag@main
+
+      - uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
+        if: ${{ failure() && github.event_name == 'schedule' }}
+        with:
+          payload: '{"text": "[images] release failed ${{ matrix.imageName }}: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK

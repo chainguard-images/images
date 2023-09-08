@@ -11,6 +11,9 @@ contents:
     - file
     - openssh-client
     - build-base
+    - jq
+    - patch
+    - python3
 
 accounts:
   groups:
@@ -29,6 +32,3 @@ environment:
 
 work-dir: /home/bazel
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/bazel/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/bazel

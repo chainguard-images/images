@@ -1,6 +1,7 @@
 contents:
   packages:
     - fluent-bit
+    - libpq-11
 
 accounts:
   groups:
@@ -22,6 +23,3 @@ entrypoint:
   command: /usr/bin/fluent-bit
 cmd: -c /fluent-bit/etc/fluent-bit.conf
 
-annotations:
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/fluent-bit/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/fluent-bit

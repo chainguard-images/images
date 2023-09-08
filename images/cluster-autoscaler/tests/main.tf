@@ -13,7 +13,10 @@ data "oci_string" "ref" { input = var.digest }
 
 data "oci_exec_test" "run" {
   digest = var.digest
-  script = "${path.module}/01-version.sh"
+  script = <<EOF
+    # We expect the command to fail, but want its output anyway.
+    ( docker run --rm $IMAGE_NAME --help 2>&1 || true ) | grep autoscaler
+  EOF
 }
 
 resource "helm_release" "cluster-autoscaler" {

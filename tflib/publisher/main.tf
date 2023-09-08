@@ -2,15 +2,15 @@ terraform {
   required_providers {
     cosign = {
       source  = "chainguard-dev/cosign"
-      version = "0.0.6"
+      version = "0.0.10"
     }
     apko = {
       source  = "chainguard-dev/apko"
-      version = "0.9.0"
+      version = "0.9.2"
     }
     oci = {
       source  = "chainguard-dev/oci"
-      version = "0.0.6"
+      version = "0.0.7"
     }
   }
 }
@@ -24,12 +24,29 @@ variable "extra_packages" {
   default = ["wolfi-baselayout"]
 }
 
+variable "name" { type = string }
+
+output "path" {
+  value = basename(path.cwd)
+}
+
+locals {
+  updated_config = merge(yamldecode(var.config),
+    { "annotations" = {
+      "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/",
+      "org.opencontainers.image.url" : "https://edu.chainguard.dev/chainguard/chainguard-images/reference/${var.name}/",
+      "org.opencontainers.image.source" : "https://github.com/chainguard-images/images/tree/main/images/${var.name}",
+      },
+    },
+  )
+}
+
 module "this" {
   source  = "chainguard-dev/apko/publisher"
   version = "0.0.6"
 
   target_repository = var.target_repository
-  config            = var.config
+  config            = yamlencode(local.updated_config)
   extra_packages    = var.extra_packages
 }
 
@@ -59,6 +76,21 @@ data "oci_structure_test" "structure" {
     files { path = "/etc/ssl/certs/ca-certificates.crt" }
     files { path = "/lib/apk/db/installed" }
     files { path = "/etc/os-release" } // TODO: we can check the contents
+  }
+
+  lifecycle {
+    precondition {
+      condition     = module.this.config.annotations["org.opencontainers.image.authors"] == "Chainguard Team https://www.chainguard.dev/"
+      error_message = "image.authors annotation must be Chainguard Team (got '${module.this.config.annotations["org.opencontainers.image.authors"]}')"
+    }
+    precondition {
+      condition     = startswith(module.this.config.annotations["org.opencontainers.image.url"], "https://edu.chainguard.dev/chainguard/chainguard-images/reference/")
+      error_message = "image.url annotation must be edu.chainguard.dev (got '${module.this.config.annotations["org.opencontainers.image.url"]}')"
+    }
+    precondition {
+      condition     = startswith(module.this.config.annotations["org.opencontainers.image.source"], "https://github.com/chainguard-images/images/tree/main/images/")
+      error_message = "image.source annotation must be github.com/chainguard-images (got '${module.this.config.annotations["org.opencontainers.image.source"]}')"
+    }
   }
 }
 
