@@ -111,6 +111,10 @@ jobs:
       - uses: ./.github/actions/release-image-terraform
         with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
 
+      - name: Collect diagnostics and upload
+        if: ${{ failure() }}
+        uses: chainguard-dev/actions/kind-diag@main
+
       - uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
         if: ${{ failure() && github.event_name == 'schedule' }}
         with:
