@@ -2,15 +2,15 @@ terraform {
   required_providers {
     cosign = {
       source  = "chainguard-dev/cosign"
-      version = "0.0.10"
+      version = "0.0.12"
     }
     apko = {
       source  = "chainguard-dev/apko"
-      version = "0.10.4"
+      version = "0.10.5"
     }
     oci = {
       source  = "chainguard-dev/oci"
-      version = "0.0.7"
+      version = "0.0.9"
     }
   }
 }
@@ -24,7 +24,21 @@ variable "extra_packages" {
   default = ["wolfi-baselayout"]
 }
 
+variable "extra_dev_packages" {
+  type    = list(string)
+  default = []
+}
+
+variable "build-dev" {
+  # If extra_dev_packages is non-empty, then build-dev is implicitly true
+  default = false
+}
+
 variable "name" { type = string }
+
+locals {
+  build-dev = var.build-dev || length(var.extra_dev_packages) > 0
+}
 
 output "path" {
   value = basename(path.cwd)
@@ -43,11 +57,26 @@ locals {
 
 module "this" {
   source  = "chainguard-dev/apko/publisher"
-  version = "0.0.6"
+  version = "0.0.7"
 
   target_repository = var.target_repository
   config            = yamlencode(local.updated_config)
   extra_packages    = var.extra_packages
+}
+
+module "dev" { source = "../dev-subvariant" }
+
+module "this-dev" {
+  count   = local.build-dev ? 1 : 0
+  source  = "chainguard-dev/apko/publisher"
+  version = "0.0.7"
+
+  target_repository = var.target_repository
+
+  # Make the dev variant an explicit extension of the
+  # locked original.
+  config         = jsonencode(module.this.config)
+  extra_packages = concat(module.dev.extra_packages, var.extra_dev_packages)
 }
 
 data "oci_exec_test" "check-reproducibility" {
@@ -96,6 +125,11 @@ data "oci_structure_test" "structure" {
 
 output "image_ref" {
   value = data.oci_structure_test.structure.tested_ref
+}
+
+output "dev_ref" {
+  depends_on = [data.oci_structure_test.structure]
+  value      = local.build-dev ? module.this-dev[0].image_ref : ""
 }
 
 output "config" {
