@@ -12,7 +12,10 @@ helm upgrade --install nvdp nvdp/nvidia-device-plugin \
 # Since it's challenging to satisfy the prerequisites as described in the
 # https://github.com/NVIDIA/k8s-device-plugin#prerequisites, we'll just wait
 # for the Pod to be CrashLoopBackOff and then ensure some of the expected
-# output is present in the logs.
+# output is present in the logs. We cannot kubectl rollout status to wait for
+# pods, so sleep and pray instead.
+
+sleep 20
 
 kubectl wait --for=jsonpath='{.status.containerStatuses[0].state.waiting.reason}'=CrashLoopBackOff pod --selector app.kubernetes.io/name=nvidia-device-plugin -n nvidia-device-plugin
 
