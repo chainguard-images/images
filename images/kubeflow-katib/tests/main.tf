@@ -7,7 +7,11 @@ terraform {
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
+    controller             = string
+    db-manager             = string
     earlystopping          = string
+    file-metricscollector  = string
+    suggestion-goptuna     = string
     suggestion-hyperband   = string
     suggestion-hyperopt    = string
     suggestion-nas-darts   = string

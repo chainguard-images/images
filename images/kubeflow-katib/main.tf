@@ -6,7 +6,11 @@ terraform {
 
 locals {
   components = toset([
+    "controller",
+    "db-manager",
     "earlystopping",
+    "file-metricscollector",
+    "suggestion-goptuna",
     "suggestion-hyperband",
     "suggestion-hyperopt",
     "suggestion-nas-darts",
@@ -18,7 +22,11 @@ locals {
   packages = merge(
     { for k in local.components : k => k },
     {
+      "controller"             = "katib-controller"
+      "db-manager"             = "katib-db-manager"
       "earlystopping"          = "katib-earlystopping"
+      "file-metricscollector"  = "katib-file-metricscollector"
+      "suggestion-goptuna"     = "katib-suggestion-goptuna"
       "suggestion-hyperband"   = "katib-suggestion-hyperband"
       "suggestion-hyperopt"    = "katib-suggestion-hyperopt"
       "suggestion-nas-darts"   = "katib-suggestion-nas-darts"
@@ -31,7 +39,11 @@ locals {
   repositories = merge(
     { for k in local.components : k => k },
     {
+      "controller"             = "${var.target_repository}-controller"
+      "db-manager"             = "${var.target_repository}-db-manager"
       "earlystopping"          = "${var.target_repository}-earlystopping"
+      "file-metricscollector"  = "${var.target_repository}-file-metricscollector"
+      "suggestion-goptuna"     = "${var.target_repository}-suggestion-goptuna"
       "suggestion-hyperband"   = "${var.target_repository}-suggestion-hyperband"
       "suggestion-hyperopt"    = "${var.target_repository}-suggestion-hyperopt"
       "suggestion-nas-darts"   = "${var.target_repository}-suggestion-nas-darts"
