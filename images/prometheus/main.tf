@@ -15,6 +15,7 @@ locals {
     "node-exporter",
     "operator",
     "postgres-exporter",
+    "pushgateway",
     "redis-exporter",
   ])
 
