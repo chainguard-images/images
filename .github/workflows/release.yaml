@@ -91,9 +91,9 @@ jobs:
           EXTRA_INPUT_APKO_REPOSITORY_APPEND: ${{ steps.determine-appends.outputs.repository-append }}
           EXTRA_INPUT_APKO_KEYRING_APPEND: ${{ steps.determine-appends.outputs.keyring-append }}
 
-      - uses: chainguard-dev/actions/setup-kind@main
+      - uses: chainguard-dev/actions/setup-k3d@main
         with:
-          k8s-version: v1.25.x
+          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:8fa32f1d5bd91717cb316492f38212fbeb681b9c56805bc18a75278a6553046f
           registry-authority: registry.local:5000
 
       # Disable creating new version tags.
@@ -113,7 +113,9 @@ jobs:
 
       - name: Collect diagnostics and upload
         if: ${{ failure() }}
-        uses: chainguard-dev/actions/kind-diag@main
+        uses: chainguard-dev/actions/k8s-diag@main
+        with:
+          cluster-type: k3d
 
       - uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
         if: ${{ failure() && github.event_name == 'schedule' }}

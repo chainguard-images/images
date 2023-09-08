@@ -23,7 +23,7 @@ resource "helm_release" "aws-load-balancer-controller" {
       tag        = data.oci_string.ref.pseudo_tag
       repository = data.oci_string.ref.registry_repo
     }
-    clusterName = "kind-kind"
+    clusterName = "k3d-k3s-default"
     serviceAccount = {
       create = true
     }

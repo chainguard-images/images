@@ -4,10 +4,10 @@ set -o errexit -o errtrace -o pipefail -x
 
 ONLY_TEST_LANG="${ONLY_TEST_LANG:-}"
 
-KIND_IP="$(docker ps | grep 'control-plane' | awk '{print $1}' | xargs docker inspect | jq -r '.[0].NetworkSettings.Networks["kind"].IPAddress')"
-if [[ "${KIND_IP}" == "" ]]; then
-    echo "Could not get KIND_IP. Is kind running? Exiting."
-    exit 1
+K3S_IP="$(docker ps | grep 'k3d-k3s-default-server-0' | awk '{print $1}' | xargs docker inspect | jq -r '.[0].NetworkSettings.Networks["k3d-k3s-default"].IPAddress')"
+if [[ "${K3S_IP}" == "" ]]; then
+	echo "Could not get K3S_IP. Is k3s running? Exiting."
+	exit 1
 fi
 
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
@@ -17,19 +17,19 @@ cd "${SCRIPT_DIR}/../"
 TMPDIR="$(mktemp -d)"
 cp -r examples/* "${TMPDIR}"
 
-# Get the kind kubeconfig
-# Create a kubeconfig with admin access to kind (from inside docker network)
+# Get the k3s kubeconfig
+# Create a kubeconfig with admin access to k3s (from inside docker network)
 mkdir -p "${TMPDIR}/.pulumi"
 mkdir -p "${TMPDIR}/.kube"
-kind get kubeconfig | yq '.clusters[].cluster.server = "https://'${KIND_IP}':6443"' \
-    > "${TMPDIR}/.kube/config"
+k3d kubeconfig get k3s-default | yq '.clusters[].cluster.server = "https://'${K3S_IP}':6443"' \
+	>"${TMPDIR}/.kube/config"
 chmod -R go+wrx "${TMPDIR}"
 
 function pulumi_docker_exec {
     lang="${1}"
     name="${2}"
     args="${3}"
-    docker run --rm -w /work/smoketest-${lang} --network kind \
+    docker run --rm -w /work/smoketest-${lang} --network k3d-k3s-default \
         -v "${TMPDIR}:/work" \
         -e KUBECONFIG=/work/.kube/config \
         -e PULUMI_HOME=/work/.pulumi \
