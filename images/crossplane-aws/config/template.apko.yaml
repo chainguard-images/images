@@ -1,7 +1,6 @@
 contents:
   packages:
     - crossplane-provider-aws
-    - crossplane-provider-aws-s3
 
 accounts:
   groups:
