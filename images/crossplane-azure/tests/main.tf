@@ -8,7 +8,7 @@ terraform {
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
-    azure           = string
+    family          = string
     authorization   = string
     managedidentity = string
     sql             = string
@@ -43,11 +43,11 @@ data "oci_exec_test" "install" {
   depends_on = [helm_release.crossplane]
 
   script = "${path.module}/install.sh"
-  digest = var.digests.azure // Unused but required by the data source
+  digest = var.digests.family // Unused but required by the data source
 
   env {
     name  = "AZURE_DIGEST"
-    value = var.digests.azure
+    value = var.digests.family
   }
   env {
     name  = "AUTHORIZATION_DIGEST"

@@ -1,7 +1,6 @@
 contents:
   packages:
     - crossplane-provider-azure
-    - crossplane-provider-azure-storage
 
 accounts:
   groups:
