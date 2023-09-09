@@ -1,0 +1,80 @@
+contents:
+  keyring:
+    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  repositories:
+    - https://packages.wolfi.dev/os
+  packages:
+    - ca-certificates-bundle
+    - wolfi-base
+    - ca-certificates-bundle
+    # php packages
+    - php-8.1
+    - php-xml
+    - php-curl
+    - php-mysqlnd
+    - php-curl
+    - php-soap
+    - php-mbstring
+    - php-zip
+    - php-bcmath
+    - php-dev
+    - php-ldap
+    - php-pgsql
+    - php-gd
+    - php-fpm
+    # python packages
+    - python3
+    - py3-pip
+    - py3-setuptools
+    # Base packages:
+    - gpg-agent
+    - curl
+    - zip
+    - wget
+    - nginx
+    - unixodbc-dev
+    - gcc
+    - cmake
+    # Missing ones so far for php
+    # - php-cli
+    # - php-sqllite
+    # - php-interbase
+    # - php-sybase
+    # - php-odbc
+    # - php-http
+    # - php-raphf
+    # Missing base packages:
+    # - software-properties-common
+    # - cron
+    # - unzip # Though perhaps it's installed by zip above?
+    # - lsof
+    # - mcrypt
+    # - libmcrypt-dev
+    # - libreadline-dev
+    # - sudo
+    # - build-essential
+    # Missing pecl packages:
+    # These are currently installed via RUN in docker file, and we can't do
+    # that so they need to be added to the package list above.
+    # - pecl install mcrypt
+    # - pecl install mongodb
+    # - pecl install igbinary
+    # - pecl install sqlsrv
+    # - pecl install pdo_sqlsrv
+
+
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+
+entrypoint:
+  command: /usr/bin/php
+cmd: --help
+
