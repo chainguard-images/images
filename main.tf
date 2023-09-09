@@ -649,6 +649,11 @@ module "paranoia" {
   target_repository = "${var.target_repository}/paranoia"
 }
 
+module "pgbouncer" {
+  source            = "./images/pgbouncer"
+  target_repository = "${var.target_repository}/pgbouncer"
+}
+
 module "php" {
   source            = "./images/php"
   target_repository = "${var.target_repository}/php"
