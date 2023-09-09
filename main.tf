@@ -798,6 +798,11 @@ module "tigera-operator" {
   target_repository = "${var.target_repository}/tigera-operator"
 }
 
+module "timoni" {
+  source            = "./images/timoni"
+  target_repository = "${var.target_repository}/timoni"
+}
+
 module "traefik" {
   source            = "./images/traefik"
   target_repository = "${var.target_repository}/traefik"
