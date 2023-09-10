@@ -14,7 +14,7 @@ module "latest" {
   name = basename(path.module)
 
   target_repository = var.target_repository
-  config            = file("${path.module}/configs/latest.apko.yaml")
+  config            = file("${path.module}/config/template.apko.yaml")
 }
 
 module "dev" { source = "../../tflib/dev-subvariant" }
