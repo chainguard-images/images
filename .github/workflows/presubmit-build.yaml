@@ -49,13 +49,13 @@ jobs:
         with:
           matrix-json: ${{ toJSON(matrix) }}
         env:
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:94c1512d9c359148059a13cb8df972d15f196e5901f0132238d0376e0bfb597c
+          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:36e1fdffb0d54aa92bd614eb68f0fe1e4a8e42f939e00e1ea58e2cc2ac1da99d
           EXTRA_INPUT_APKO_REPOSITORY_APPEND: ${{ steps.determine-appends.outputs.repository-append }}
           EXTRA_INPUT_APKO_KEYRING_APPEND: ${{ steps.determine-appends.outputs.keyring-append }}
 
       - uses: chainguard-dev/actions/setup-k3d@main
         with:
-          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:8fa32f1d5bd91717cb316492f38212fbeb681b9c56805bc18a75278a6553046f
+          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:1c6b0d93bb57ec7e54c90077f4baddefc02d9264f5896aedbb4b4f7ae9a3fb5e
           registry-authority: registry.local:5000
 
       # Disable version tags.
