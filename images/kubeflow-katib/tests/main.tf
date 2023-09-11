@@ -37,47 +37,47 @@ data "oci_exec_test" "smoke" {
 
   env {
     name  = "IMAGE_REPOSITORY_CONTROLLER"
-    value = var.digests["controller"]
+    value = var.digests["controller"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_DB_MANAGER"
-    value = var.digests["db-manager"]
+    value = var.digests["db-manager"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_EARLYSTOPPING"
-    value = var.digests["earlystopping"]
+    value = var.digests["earlystopping"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_FILE_METRICSCOLLECTOR"
-    value = var.digests["file-metricscollector"]
+    value = var.digests["file-metricscollector"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_SUGGESTION_GOPTUNA"
-    value = var.digests["suggestion-goptuna"]
+    value = var.digests["suggestion-goptuna"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_SUGGESTION_HYPERBAND"
-    value = var.digests["suggestion-hyperband"]
+    value = var.digests["suggestion-hyperband"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_SUGGESTION_HYPEROPT"
-    value = var.digests["suggestion-hyperopt"]
+    value = var.digests["suggestion-hyperopt"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_SUGGESTION_NAS_DARTS"
-    value = var.digests["suggestion-nas-darts"]
+    value = var.digests["suggestion-nas-darts"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_SUGGESTION_OPTUNA"
-    value = var.digests["suggestion-optuna"]
+    value = var.digests["suggestion-optuna"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_SUGGESTION_PBT"
-    value = var.digests["suggestion-pbt"]
+    value = var.digests["suggestion-pbt"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_SUGGESTION_SKOPT"
-    value = var.digests["suggestion-skopt"]
+    value = var.digests["suggestion-skopt"].registry_repo
   }
   env {
     name  = "IMAGE_TAG"

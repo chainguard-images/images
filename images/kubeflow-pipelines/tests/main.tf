@@ -27,27 +27,27 @@ data "oci_exec_test" "smoke" {
 
   env {
     name  = "IMAGE_REPOSITORY_APISERVER"
-    value = var.digests["api-server"]
+    value = var.digests["api-server"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_CACHESERVER"
-    value = var.digests["cache-server"]
+    value = var.digests["cache-server"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_METADATAWRITER"
-    value = var.digests["metadata-writer"]
+    value = var.digests["metadata-writer"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_PERSISTENCEAGENT"
-    value = var.digests["persistenceagent"]
+    value = var.digests["persistenceagent"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_SCHEDULEDWORKFLOW"
-    value = var.digests["scheduledworkflow"]
+    value = var.digests["scheduledworkflow"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_VIEWERCRDCONTROLLER"
-    value = var.digests["viewer-crd-controller"]
+    value = var.digests["viewer-crd-controller"].registry_repo
   }
   env {
     name  = "IMAGE_TAG"
