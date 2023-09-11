@@ -22,7 +22,7 @@ data "oci_string" "ref" {
 }
 
 data "oci_exec_test" "smoke" {
-  digest = var.digests.controller # This doesn't actually matter here, just pass it something valid
+  digest = var.digests["controller"] # This doesn't actually matter here, just pass it something valid
   script = "${path.module}/smoke-test.sh"
 
   env {

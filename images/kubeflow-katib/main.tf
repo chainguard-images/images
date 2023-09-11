@@ -42,14 +42,14 @@ locals {
       "controller"             = "${var.target_repository}-controller"
       "db-manager"             = "${var.target_repository}-db-manager"
       "earlystopping"          = "${var.target_repository}-earlystopping"
-      "file-metricscollector"  = "${var.target_repository}-file-metricscollector"
+      "file-metricscollector"  = "${var.target_repository}-file-metrics-collector"
       "suggestion-goptuna"     = "${var.target_repository}-suggestion-goptuna"
       "suggestion-hyperband"   = "${var.target_repository}-suggestion-hyperband"
       "suggestion-hyperopt"    = "${var.target_repository}-suggestion-hyperopt"
-      "suggestion-nas-darts"   = "${var.target_repository}-suggestion-nas-darts"
-      "suggestion-optuna-enas" = "${var.target_repository}-suggestion-optuna-enas"
-      "suggestion-pbt-enas"    = "${var.target_repository}-suggestion-pbt-enas"
-      "suggestion-skopt-enas"  = "${var.target_repository}-suggestion-skopt-enas"
+      "suggestion-nas-darts"   = "${var.target_repository}-suggestion-darts"
+      "suggestion-optuna-enas" = "${var.target_repository}-suggestion-optuna"
+      "suggestion-pbt-enas"    = "${var.target_repository}-suggestion-pbt"
+      "suggestion-skopt-enas"  = "${var.target_repository}-suggestion-skopt"
     },
   )
 }
