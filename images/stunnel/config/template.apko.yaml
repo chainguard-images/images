@@ -1,5 +1,7 @@
 contents:
   packages:
+  - ca-certificates
+  - curl
   - stunnel
 
 accounts:
