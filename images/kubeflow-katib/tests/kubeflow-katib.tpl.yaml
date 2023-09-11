@@ -30,17 +30,17 @@ runtime:
     - algorithmName: tpe
       image: ${IMAGE_REPOSITORY_SUGGESTION_HYPEROPT}
     - algorithmName: grid
-      image: ${IMAGE_REPOSITORY_SUGGESTION_OPTUNA_ENAS}
+      image: ${IMAGE_REPOSITORY_SUGGESTION_OPTUNAS}
     - algorithmName: hyperband
       image: ${IMAGE_REPOSITORY_SUGGESTION_HYPERBAND}
     - algorithmName: bayesianoptimization
-      image: ${IMAGE_REPOSITORY_SUGGESTION_SKOPT_ENAS}
+      image: ${IMAGE_REPOSITORY_SUGGESTION_SKOPT}
     - algorithmName: cmaes
       image: ${IMAGE_REPOSITORY_SUGGESTION_GOPTUNA}
     - algorithmName: sobol
       image: ${IMAGE_REPOSITORY_SUGGESTION_GOPTUNA}
     - algorithmName: multivariate-tpe
-      image: ${IMAGE_REPOSITORY_SUGGESTION_OPTUNA_ENAS}
+      image: ${IMAGE_REPOSITORY_SUGGESTION_OPTUNA}
     - algorithmName: enas
       image: docker.io/kubeflowkatib/suggestion-enas:latest
       resources:
@@ -49,7 +49,7 @@ runtime:
     - algorithmName: darts
       image: ${IMAGE_REPOSITORY_SUGGESTION_NAS_DARTS}
     - algorithmName: pbt
-      image: ${IMAGE_REPOSITORY_SUGGESTION_PBT_ENAS}
+      image: ${IMAGE_REPOSITORY_SUGGESTION_PBT}
       persistentVolumeClaimSpec:
         accessModes:
           - ReadWriteMany

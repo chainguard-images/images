@@ -7,17 +7,17 @@ terraform {
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
-    controller             = string
-    db-manager             = string
-    earlystopping          = string
-    file-metricscollector  = string
-    suggestion-goptuna     = string
-    suggestion-hyperband   = string
-    suggestion-hyperopt    = string
-    suggestion-nas-darts   = string
-    suggestion-optuna-enas = string
-    suggestion-pbt-enas    = string
-    suggestion-skopt-enas  = string
+    controller            = string
+    db-manager            = string
+    earlystopping         = string
+    file-metricscollector = string
+    suggestion-goptuna    = string
+    suggestion-hyperband  = string
+    suggestion-hyperopt   = string
+    suggestion-nas-darts  = string
+    suggestion-optuna     = string
+    suggestion-pbt        = string
+    suggestion-skopt      = string
   })
 }
 
@@ -29,6 +29,11 @@ data "oci_string" "ref" {
 data "oci_exec_test" "smoke" {
   digest = var.digests["controller"] # This doesn't actually matter here, just pass it something valid
   script = "${path.module}/smoke-test.sh"
+
+  env {
+    name  = "PATH_MODULE"
+    value = path.module
+  }
 
   env {
     name  = "IMAGE_REPOSITORY_CONTROLLER"
@@ -63,16 +68,16 @@ data "oci_exec_test" "smoke" {
     value = var.digests["suggestion-nas-darts"]
   }
   env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_OPTUNA_ENAS"
-    value = var.digests["suggestion-optuna-enas"]
+    name  = "IMAGE_REPOSITORY_SUGGESTION_OPTUNA"
+    value = var.digests["suggestion-optuna"]
   }
   env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_PBT_ENAS"
-    value = var.digests["suggestion-pbt-enas"]
+    name  = "IMAGE_REPOSITORY_SUGGESTION_PBT"
+    value = var.digests["suggestion-pbt"]
   }
   env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_SKOPT_ENAS"
-    value = var.digests["suggestion-skopt-enas"]
+    name  = "IMAGE_REPOSITORY_SUGGESTION_SKOPT"
+    value = var.digests["suggestion-skopt"]
   }
   env {
     name  = "IMAGE_TAG"

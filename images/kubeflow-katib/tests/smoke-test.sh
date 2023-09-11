@@ -8,6 +8,7 @@ NAMESPACE=kubeflow
 KATIB_VERSION=0.15.0
 
 function manifests() {
+  envsubst < ${PATH_MODULE}/kubeflow-katib.tpl.yaml > ${PATH_MODULE}/kubeflow-katib.yaml
   cat <<EOF > kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
@@ -21,15 +22,14 @@ images:
     newName: ${IMAGE_REPOSITORY_DB_MANAGER}
     newTag: ${IMAGE_TAG}
 namespace: ${NAMESPACE}
-EOF
-
 configMapGenerator:
   - name: katib-config
     behavior: merge
     files:
-      - ./katib-config.yaml
+      - ${PATH_MODULE}/kubeflow-katib.yaml
     options:
       disableNameSuffixHash: true
+EOF
 }
 
 manifests
