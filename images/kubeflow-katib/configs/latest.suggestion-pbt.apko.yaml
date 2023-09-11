@@ -15,6 +15,7 @@ accounts:
 environment:
   SUGGESTION_DIR: "cmd/suggestion/pbt/v1beta1"
   PYTHONPATH: /opt/katib:/opt/katib/pkg/apis/manager/v1beta1/python:/opt/katib/pkg/apis/manager/health/python
+  PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
 
 entrypoint:
   command: python3 /opt/katib/cmd/suggestion/pbt/v1beta1/main.py
