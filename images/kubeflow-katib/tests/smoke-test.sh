@@ -7,9 +7,17 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 NAMESPACE=kubeflow
 KATIB_VERSION=0.15.0
 
+
 function manifests() {
-  envsubst < kubeflow-katib.tpl.yaml > kubeflow-katib.yaml
-  cat kubeflow-katib.yaml
+  # Get the directory path of this script
+  SCRIPT_DIR=$(
+  	cd "$(dirname "$0")"
+  	pwd
+  )
+
+
+  envsubst < $SCRIPT_DIR/kubeflow-katib.tpl.yaml > $SCRIPT_DIR/kubeflow-katib.yaml
+  cat $SCRIPT_DIR/kubeflow-katib.yaml
   cat <<EOF > kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
@@ -28,7 +36,7 @@ EOF
 
 manifests
 kubectl apply -k .
-kubectl apply -f kubeflow-katib.yaml
+kubectl apply -f $SCRIPT_DIR/kubeflow-katib.yaml
 
 kubectl wait --for=condition=ready pod --selector katib.kubeflow.org/component=db-manager
 kubectl wait --for=condition=ready pod --selector katib.kubeflow.org/component=controller
