@@ -8,7 +8,11 @@ git clone --depth 1 https://github.com/kubeflow/kubeflow.git ${TMP}/kubeflow
 pushd ${TMP}/kubeflow/components || exit
 
 # Install the Istio
-./testing/gh-actions/install_istio.sh
+
+# if istio is already install skip this
+if ! kubectl get namespace istio-system; then
+  ./testing/gh-actions/install_istio.sh
+fi
 
 # Install the App
 
