@@ -1,6 +1,7 @@
 contents:
   packages:
     - kubeflow-pipelines-apiserver
+    - wget
 
 accounts:
   groups:
