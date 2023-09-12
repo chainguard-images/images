@@ -12,6 +12,7 @@ locals {
     "persistenceagent",
     "scheduledworkflow",
     "viewer-crd-controller",
+    "cache-deployer"
   ])
 
   packages = merge(
@@ -23,6 +24,7 @@ locals {
       "persistenceagent"      = "kubeflow-pipelines-persistence_agent"
       "scheduledworkflow"     = "kubeflow-pipelines-scheduledworkflow"
       "viewer-crd-controller" = "kubeflow-pipelines-viewer-crd-controller"
+      "cache-deployer"        = "kubeflow-pipelines-cache-deployer"
     },
   )
 
@@ -35,6 +37,7 @@ locals {
       "persistenceagent"      = "${var.target_repository}-persistenceagent"
       "scheduledworkflow"     = "${var.target_repository}-scheduledworkflow"
       "viewer-crd-controller" = "${var.target_repository}-viewer-crd-controller"
+      "cache-deployer"        = "${var.target_repository}-cache-deployer"
     },
   )
 }

@@ -48,7 +48,9 @@ kubectl apply -k .
 kubectl wait -n kubeflow --for=condition=ready pod --selector app=ml-pipeline --timeout=120s
 kubectl wait -n kubeflow --for=condition=ready pod --selector app=cache-server --timeout=120s
 kubectl wait -n kubeflow --for=condition=ready pod --selector app=metadata-writer --timeout=120s
+kubectl wait -n kubeflow --for=condition=ready pod --selector app=cache-deployer --timeout=120s
 kubectl wait -n kubeflow --for=condition=ready pod --selector app=ml-pipeline-persistenceagent --timeout=120s
 kubectl wait -n kubeflow --for=condition=ready pod --selector app=ml-pipeline-scheduledworkflow --timeout=120s
 kubectl wait -n kubeflow --for=condition=ready pod --selector app=ml-pipeline-viewer-crd --timeout=120s
+
 

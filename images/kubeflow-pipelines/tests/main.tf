@@ -13,6 +13,7 @@ variable "digests" {
     persistenceagent      = string
     scheduledworkflow     = string
     viewer-crd-controller = string
+    cache-deployer        = string
   })
 }
 
@@ -33,7 +34,6 @@ data "oci_exec_test" "smoke" {
     name  = "IMAGE_REPOSITORY_APISERVER_TAG"
     value = data.oci_string.ref["api-server"].pseudo_tag
   }
-
   env {
     name  = "IMAGE_REPOSITORY_CACHESERVER"
     value = data.oci_string.ref["cache-server"].registry_repo
@@ -42,7 +42,14 @@ data "oci_exec_test" "smoke" {
     name  = "IMAGE_REPOSITORY_CACHESERVER_TAG"
     value = data.oci_string.ref["cache-server"].pseudo_tag
   }
-
+  env {
+    name  = "IMAGE_REPOSITORY_CACHEDEPLOYER"
+    value = data.oci_string.ref["cache-deployer"].registry_repo
+  }
+  env {
+    name  = "IMAGE_REPOSITORY_CACHEDEPLOYER_TAG"
+    value = data.oci_string.ref["cache-deployer"].pseudo_tag
+  }
   env {
     name  = "IMAGE_REPOSITORY_METADATAWRITER"
     value = data.oci_string.ref["metadata-writer"].registry_repo
