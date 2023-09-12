@@ -26,4 +26,6 @@ paths:
     gid: 65532
     recursive: true
 
-cmd: /usr/bin/apiserver --config=/config --sampleconfig=/config/sample_config.json -logtostderr=true
+# TODO(Dentrax,developer-guy): Support samples:
+# --sampleconfig=/config/sample_config.json 
+cmd: /usr/bin/apiserver --config=/config -logtostderr=true
