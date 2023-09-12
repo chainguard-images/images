@@ -7,13 +7,6 @@ git clone --depth 1 https://github.com/kubeflow/kubeflow.git ${TMP}/kubeflow
 
 pushd ${TMP}/kubeflow/components || exit
 
-# Install the Istio
-
-# if istio is already install skip this
-if ! kubectl get namespace istio-system; then
-  ./testing/gh-actions/install_istio.sh
-fi
-
 # Install the App
 
 # In the `crud-web-apps` folder, all the directory names uses the
@@ -27,7 +20,7 @@ function generate() {
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - https://github.com/kubeflow/kubeflow/components/crud-web-apps/${FOLDER}/manifests/overlays/istio?ref=master
+  - https://github.com/kubeflow/kubeflow/components/crud-web-apps/${FOLDER}/manifests/base?ref=master
 images:
   - name: docker.io/kubeflownotebookswg/${APP}
     newName: ${IMAGE_REGISTRY_REPO}
