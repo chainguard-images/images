@@ -3,6 +3,7 @@ contents:
     - kubeflow-pipelines-cache-deployer
     - kubeflow-pipelines-cache-deployer-compat
     - busybox
+    - bash
     - kubectl-latest
     - openssl
 
@@ -27,4 +28,4 @@ paths:
 work-dir: /kfp/cache/deployer
 
 entrypoint:
-  command: /bin/sh /kfp/cache/deployer/deploy-cache-service.sh
+  command: /bin/bash /kfp/cache/deployer/deploy-cache-service.sh
