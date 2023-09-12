@@ -386,6 +386,10 @@ module "istio" {
   target_repository = "${var.target_repository}/istio"
 }
 
+module "ingress-nginx-controller" {
+  source            = "./images/ingress-nginx-controller"
+  target_repository = "${var.target_repository}/ingress-nginx-controller"
+}
 
 module "jdk" {
   source            = "./images/jdk"
