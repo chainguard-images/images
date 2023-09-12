@@ -16,9 +16,9 @@ init:
 runtime:
   metricsCollectors:
     - kind: StdOut
-      image: ${IMAGE_REPOSITORY_FILE_METRICSCOLLECTOR}
+      image: ${IMAGE_REPOSITORY_FILE_METRICSCOLLECTOR}:${IMAGE_REPOSITORY_FILE_METRICSCOLLECTOR_TAG}
     - kind: File
-      image: ${IMAGE_REPOSITORY_FILE_METRICSCOLLECTOR}
+      image: ${IMAGE_REPOSITORY_FILE_METRICSCOLLECTOR}:${IMAGE_REPOSITORY_FILE_METRICSCOLLECTOR_TAG}
     - kind: TensorFlowEvent
       image: docker.io/kubeflowkatib/tfevent-metrics-collector:latest
       resources:
@@ -26,30 +26,30 @@ runtime:
           memory: 1Gi
   suggestions:
     - algorithmName: random
-      image: ${IMAGE_REPOSITORY_SUGGESTION_HYPEROPT}
+      image: ${IMAGE_REPOSITORY_SUGGESTION_HYPEROPT}:${IMAGE_REPOSITORY_SUGGESTION_HYPEROPT_TAG}
     - algorithmName: tpe
-      image: ${IMAGE_REPOSITORY_SUGGESTION_HYPEROPT}
+      image: ${IMAGE_REPOSITORY_SUGGESTION_HYPEROPT}:${IMAGE_REPOSITORY_SUGGESTION_HYPEROPT_TAG}
     - algorithmName: grid
-      image: ${IMAGE_REPOSITORY_SUGGESTION_OPTUNAS}
+      image: ${IMAGE_REPOSITORY_SUGGESTION_OPTUNAS}:${IMAGE_REPOSITORY_SUGGESTION_OPTUNAS_TAG}
     - algorithmName: hyperband
-      image: ${IMAGE_REPOSITORY_SUGGESTION_HYPERBAND}
+      image: ${IMAGE_REPOSITORY_SUGGESTION_HYPERBAND}:${IMAGE_REPOSITORY_SUGGESTION_HYPERBAND_TAG}
     - algorithmName: bayesianoptimization
-      image: ${IMAGE_REPOSITORY_SUGGESTION_SKOPT}
+      image: ${IMAGE_REPOSITORY_SUGGESTION_SKOPT}:${IMAGE_REPOSITORY_SUGGESTION_SKOPT_TAG}
     - algorithmName: cmaes
-      image: ${IMAGE_REPOSITORY_SUGGESTION_GOPTUNA}
+      image: ${IMAGE_REPOSITORY_SUGGESTION_GOPTUNA}:${IMAGE_REPOSITORY_SUGGESTION_GOPTUNA_TAG}
     - algorithmName: sobol
-      image: ${IMAGE_REPOSITORY_SUGGESTION_GOPTUNA}
+      image: ${IMAGE_REPOSITORY_SUGGESTION_GOPTUNA}:${IMAGE_REPOSITORY_SUGGESTION_GOPTUNA_TAG}
     - algorithmName: multivariate-tpe
-      image: ${IMAGE_REPOSITORY_SUGGESTION_OPTUNA}
+      image: ${IMAGE_REPOSITORY_SUGGESTION_OPTUNA}:${IMAGE_REPOSITORY_SUGGESTION_OPTUNA_TAG}
     - algorithmName: enas
       image: docker.io/kubeflowkatib/suggestion-enas:latest
       resources:
         limits:
           memory: 200Mi
     - algorithmName: darts
-      image: ${IMAGE_REPOSITORY_SUGGESTION_NAS_DARTS}
+      image: ${IMAGE_REPOSITORY_SUGGESTION_NAS_DARTS}:${IMAGE_REPOSITORY_SUGGESTION_NAS_DARTS_TAG}
     - algorithmName: pbt
-      image: ${IMAGE_REPOSITORY_SUGGESTION_PBT}
+      image: ${IMAGE_REPOSITORY_SUGGESTION_PBT}:${IMAGE_REPOSITORY_SUGGESTION_PBT_TAG}
       persistentVolumeClaimSpec:
         accessModes:
           - ReadWriteMany
@@ -58,4 +58,4 @@ runtime:
             storage: 5Gi
   earlyStoppings:
     - algorithmName: medianstop
-      image: ${IMAGE_REPOSITORY_EARLYSTOPPING}
+      image: ${IMAGE_REPOSITORY_EARLYSTOPPING}:${IMAGE_REPOSITORY_EARLYSTOPPING_TAG}
