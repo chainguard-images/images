@@ -17,6 +17,9 @@ images:
   - name: gcr.io/ml-pipeline/api-server
     newName: ${IMAGE_REPOSITORY_APISERVER}
     newTag: ${IMAGE_REPOSITORY_APISERVER_TAG}
+  - name: gcr.io/ml-pipeline/cache-deployer
+    newName: ${IMAGE_REPOSITORY_CACHEDEPLOYER}
+    newTag: ${IMAGE_REPOSITORY_CACHEDEPLOYER_TAG}
   - name: gcr.io/ml-pipeline/cache-server
     newName: ${IMAGE_REPOSITORY_CACHESERVER}
     newTag: ${IMAGE_REPOSITORY_CACHESERVER_TAG}
