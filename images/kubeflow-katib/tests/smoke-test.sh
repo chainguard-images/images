@@ -36,7 +36,7 @@ EOF
 
 manifests
 kubectl apply -k .
-kubectl apply -f $SCRIPT_DIR/kubeflow-katib.yaml
+kubectl create configmap katib-config --from-file $SCRIPT_DIR/kubeflow-katib.yaml
 
 kubectl wait --for=condition=ready pod --selector katib.kubeflow.org/component=db-manager
 kubectl wait --for=condition=ready pod --selector katib.kubeflow.org/component=controller
