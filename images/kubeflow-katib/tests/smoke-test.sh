@@ -38,5 +38,5 @@ manifests
 kubectl apply -k .
 kubectl create configmap katib-config --from-file $SCRIPT_DIR/kubeflow-katib.yaml
 
-kubectl wait --for=condition=ready pod --selector katib.kubeflow.org/component=db-manager
-kubectl wait --for=condition=ready pod --selector katib.kubeflow.org/component=controller
+kubectl wait --for=condition=ready pod --selector katib.kubeflow.org/component=db-manager --timeout=120s -n kubeflow 
+kubectl wait --for=condition=ready pod --selector katib.kubeflow.org/component=controller --timeout=120s -n kubeflow 

@@ -42,9 +42,10 @@ kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.
 manifests
 kubectl apply -k .
 
-kubectl wait --for=condition=ready pod --selector app=ml-pipeline
-kubectl wait --for=condition=ready pod --selector app=cache-server
-kubectl wait --for=condition=ready pod --selector app=metadata-writer
-kubectl wait --for=condition=ready pod --selector app=ml-pipeline-persistenceagent
-kubectl wait --for=condition=ready pod --selector app=ml-pipeline-scheduledworkflow
-kubectl wait --for=condition=ready pod --selector app=ml-pipeline-viewer-crd
+kubectl wait -n kubeflow --for=condition=ready pod --selector app=ml-pipeline --timeout=120s
+kubectl wait -n kubeflow --for=condition=ready pod --selector app=cache-server --timeout=120s
+kubectl wait -n kubeflow --for=condition=ready pod --selector app=metadata-writer --timeout=120s
+kubectl wait -n kubeflow --for=condition=ready pod --selector app=ml-pipeline-persistenceagent --timeout=120s
+kubectl wait -n kubeflow --for=condition=ready pod --selector app=ml-pipeline-scheduledworkflow --timeout=120s
+kubectl wait -n kubeflow --for=condition=ready pod --selector app=ml-pipeline-viewer-crd --timeout=120s
+
