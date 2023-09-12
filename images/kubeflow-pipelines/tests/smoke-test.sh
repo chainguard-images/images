@@ -16,22 +16,22 @@ resources:
 images:
   - name: gcr.io/ml-pipeline/api-server
     newName: ${IMAGE_REPOSITORY_APISERVER}
-    newTag: ${IMAGE_TAG}
+    newTag: ${IMAGE_REPOSITORY_APISERVER_TAG}
   - name: gcr.io/ml-pipeline/cache-server
     newName: ${IMAGE_REPOSITORY_CACHESERVER}
-    newTag: ${IMAGE_TAG}
+    newTag: ${IMAGE_REPOSITORY_CACHESERVER_TAG}
   - name: gcr.io/ml-pipeline/metadata-writer
     newName: ${IMAGE_REPOSITORY_METADATAWRITER}
-    newTag: ${IMAGE_TAG}
+    newTag: ${IMAGE_REPOSITORY_METADATAWRITER_TAG}
   - name: gcr.io/ml-pipeline/persistenceagent
     newName: ${IMAGE_REPOSITORY_PERSISTENCEAGENT}
-    newTag: ${IMAGE_TAG}
+    newTag: ${IMAGE_REPOSITORY_PERSISTENCEAGENT_TAG}
   - name: gcr.io/ml-pipeline/scheduledworkflow
     newName: ${IMAGE_REPOSITORY_SCHEDULEDWORKFLOW}
-    newTag: ${IMAGE_TAG}
+    newTag: ${IMAGE_REPOSITORY_SCHEDULEDWORKFLOW_TAG}
   - name: gcr.io/ml-pipeline/viewer-crd-controller
     newName: ${IMAGE_REPOSITORY_VIEWERCRDCONTROLLER}
-    newTag: ${IMAGE_TAG}
+    newTag: ${IMAGE_REPOSITORY_VIEWERCRDCONTROLLER_TAG}
 namespace: ${NAMESPACE}
 EOF
 }

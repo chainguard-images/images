@@ -27,30 +27,55 @@ data "oci_exec_test" "smoke" {
 
   env {
     name  = "IMAGE_REPOSITORY_APISERVER"
-    value = var.digests["api-server"].registry_repo
+    value = data.oci_string.ref["api-server"].registry_repo
   }
+  env {
+    name  = "IMAGE_REPOSITORY_APISERVER_TAG"
+    value = data.oci_string.ref["api-server"].pseudo_tag
+  }
+
   env {
     name  = "IMAGE_REPOSITORY_CACHESERVER"
-    value = var.digests["cache-server"].registry_repo
+    value = data.oci_string.ref["cache-server"].registry_repo
   }
+  env {
+    name  = "IMAGE_REPOSITORY_CACHESERVER_TAG"
+    value = data.oci_string.ref["cache-server"].pseudo_tag
+  }
+
   env {
     name  = "IMAGE_REPOSITORY_METADATAWRITER"
-    value = var.digests["metadata-writer"].registry_repo
+    value = data.oci_string.ref["metadata-writer"].registry_repo
   }
+  env {
+    name  = "IMAGE_REPOSITORY_METADATAWRITER_TAG"
+    value = data.oci_string.ref["metadata-writer"].pseudo_tag
+  }
+
   env {
     name  = "IMAGE_REPOSITORY_PERSISTENCEAGENT"
-    value = var.digests["persistenceagent"].registry_repo
+    value = data.oci_string.ref["persistenceagent"].registry_repo
   }
+  env {
+    name  = "IMAGE_REPOSITORY_PERSISTENCEAGENT_TAG"
+    value = data.oci_string.ref["persistenceagent"].pseudo_tag
+  }
+
   env {
     name  = "IMAGE_REPOSITORY_SCHEDULEDWORKFLOW"
-    value = var.digests["scheduledworkflow"].registry_repo
+    value = data.oci_string.ref["scheduledworkflow"].registry_repo
   }
+  env {
+    name  = "IMAGE_REPOSITORY_SCHEDULEDWORKFLOW_TAG"
+    value = data.oci_string.ref["scheduledworkflow"].pseudo_tag
+  }
+
   env {
     name  = "IMAGE_REPOSITORY_VIEWERCRDCONTROLLER"
-    value = var.digests["viewer-crd-controller"].registry_repo
+    value = data.oci_string.ref["viewer-crd-controller"].registry_repo
   }
   env {
-    name  = "IMAGE_TAG"
-    value = "latest"
+    name  = "IMAGE_REPOSITORY_VIEWERCRDCONTROLLER_TAG"
+    value = data.oci_string.ref["viewer-crd-controller"].pseudo_tag
   }
 }

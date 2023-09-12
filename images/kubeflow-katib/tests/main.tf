@@ -29,100 +29,100 @@ data "oci_string" "ref" {
 data "oci_exec_test" "smoke" {
   digest = var.digests["controller"] # This doesn't actually matter here, just pass it something valid
   script = "${path.module}/smoke-test.sh"
-  env {
-    name  = "PATH_MODULE"
-    value = path.module
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_CONTROLLER_NAME"
-    value = data.oci_string.ref["controller"].registry_repo
-  }
 
   env {
     name  = "IMAGE_REPOSITORY_CONTROLLER"
-    value = var.digests["controller"].registry_repo
-  }
-
-
-  env {
-    name  = "IMAGE_REPOSITORY_DB_MANAGER"
-    value = var.digests["db-manager"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_EARLYSTOPPING"
-    value = var.digests["earlystopping"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_FILE_METRICSCOLLECTOR"
-    value = var.digests["file-metricscollector"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_GOPTUNA"
-    value = var.digests["suggestion-goptuna"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_HYPERBAND"
-    value = var.digests["suggestion-hyperband"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_HYPEROPT"
-    value = var.digests["suggestion-hyperopt"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_NAS_DARTS"
-    value = var.digests["suggestion-nas-darts"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_OPTUNA"
-    value = var.digests["suggestion-optuna"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_PBT"
-    value = var.digests["suggestion-pbt"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_SKOPT"
-    value = var.digests["suggestion-skopt"].registry_repo
+    value = data.oci_string.ref["controller"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_CONTROLLER_TAG"
     value = data.oci_string.ref["controller"].pseudo_tag
   }
+
+  env {
+    name  = "IMAGE_REPOSITORY_DB_MANAGER"
+    value = data.oci_string.ref["db-manager"].registry_repo
+  }
   env {
     name  = "IMAGE_REPOSITORY_DB_MANAGER_TAG"
     value = data.oci_string.ref["db-manager"].pseudo_tag
+  }
+
+  env {
+    name  = "IMAGE_REPOSITORY_EARLYSTOPPING"
+    value = data.oci_string.ref["earlystopping"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_EARLYSTOPPING_TAG"
     value = data.oci_string.ref["earlystopping"].pseudo_tag
   }
+
+  env {
+    name  = "IMAGE_REPOSITORY_FILE_METRICSCOLLECTOR"
+    value = data.oci_string.ref["file-metricscollector"].registry_repo
+  }
   env {
     name  = "IMAGE_REPOSITORY_FILE_METRICSCOLLECTOR_TAG"
     value = data.oci_string.ref["file-metricscollector"].pseudo_tag
+  }
+
+  env {
+    name  = "IMAGE_REPOSITORY_SUGGESTION_GOPTUNA"
+    value = data.oci_string.ref["suggestion-goptuna"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_SUGGESTION_GOPTUNA_TAG"
     value = data.oci_string.ref["suggestion-goptuna"].pseudo_tag
   }
+
+  env {
+    name  = "IMAGE_REPOSITORY_SUGGESTION_HYPERBAND"
+    value = data.oci_string.ref["suggestion-hyperband"].registry_repo
+  }
   env {
     name  = "IMAGE_REPOSITORY_SUGGESTION_HYPERBAND_TAG"
     value = data.oci_string.ref["suggestion-hyperband"].pseudo_tag
+  }
+
+  env {
+    name  = "IMAGE_REPOSITORY_SUGGESTION_HYPEROPT"
+    value = data.oci_string.ref["suggestion-hyperopt"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_SUGGESTION_HYPEROPT_TAG"
     value = data.oci_string.ref["suggestion-hyperopt"].pseudo_tag
   }
+
+  env {
+    name  = "IMAGE_REPOSITORY_SUGGESTION_NAS_DARTS"
+    value = data.oci_string.ref["suggestion-nas-darts"].registry_repo
+  }
   env {
     name  = "IMAGE_REPOSITORY_SUGGESTION_NAS_DARTS_TAG"
     value = data.oci_string.ref["suggestion-nas-darts"].pseudo_tag
+  }
+
+  env {
+    name  = "IMAGE_REPOSITORY_SUGGESTION_OPTUNA"
+    value = data.oci_string.ref["suggestion-optuna"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_SUGGESTION_OPTUNA_TAG"
     value = data.oci_string.ref["suggestion-optuna"].pseudo_tag
   }
+
+  env {
+    name  = "IMAGE_REPOSITORY_SUGGESTION_PBT"
+    value = data.oci_string.ref["suggestion-pbt"].registry_repo
+  }
   env {
     name  = "IMAGE_REPOSITORY_SUGGESTION_PBT_TAG"
     value = data.oci_string.ref["suggestion-pbt"].pseudo_tag
+  }
+
+  env {
+    name  = "IMAGE_REPOSITORY_SUGGESTION_SKOPT"
+    value = data.oci_string.ref["suggestion-skopt"].registry_repo
   }
   env {
     name  = "IMAGE_REPOSITORY_SUGGESTION_SKOPT_TAG"

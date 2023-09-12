@@ -13,4 +13,4 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command: /bin/bash -c "gunicorn -w 3 --bind 0.0.0.0:5000 --access-logfile - entrypoint:app"
+  command: /bin/bash -c "gunicorn -w 3 --bind 0.0.0.0:5000 --chdir /usr/share/kubeflow-volumes-web-app --access-logfile - entrypoint:app"
