@@ -36,7 +36,16 @@ EOF
 
 manifests
 kubectl apply -k .
+
+kubectl rollout status -n kubeflow deployment/katib-db-manager --timeout=120s -n kubeflow 
+kubectl rollout status -n kubeflow deployment/katib-controller --timeout=120s -n kubeflow 
+
 kubectl create configmap katib-config --from-file $SCRIPT_DIR/kubeflow-katib.yaml
 
-kubectl wait --for=condition=ready pod --selector katib.kubeflow.org/component=db-manager --timeout=120s -n kubeflow 
-kubectl wait --for=condition=ready pod --selector katib.kubeflow.org/component=controller --timeout=120s -n kubeflow 
+kubectl rollout restart -n kubeflow deployment/katib-db-manager
+kubectl rollout restart -n kubeflow deployment/katib-controller
+
+kubectl rollout status -n kubeflow deployment/katib-db-manager --timeout=120s -n kubeflow 
+kubectl rollout status -n kubeflow deployment/katib-controller --timeout=120s -n kubeflow
+
+

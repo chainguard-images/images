@@ -45,12 +45,11 @@ kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.
 manifests
 kubectl apply -k .
 
-kubectl wait -n ${NAMESPACE} --for=condition=ready pod --selector app=ml-pipeline --timeout=120s
-kubectl wait -n ${NAMESPACE} --for=condition=ready pod --selector app=cache-server --timeout=120s
-kubectl wait -n ${NAMESPACE} --for=condition=ready pod --selector app=metadata-writer --timeout=120s
-kubectl wait -n ${NAMESPACE} --for=condition=ready pod --selector app=cache-deployer --timeout=120s
-kubectl wait -n ${NAMESPACE} --for=condition=ready pod --selector app=ml-pipeline-persistenceagent --timeout=120s
-kubectl wait -n ${NAMESPACE} --for=condition=ready pod --selector app=ml-pipeline-scheduledworkflow --timeout=120s
-kubectl wait -n ${NAMESPACE} --for=condition=ready pod --selector app=ml-pipeline-viewer-crd --timeout=120s
-
+kubectl rollout status -n ${NAMESPACE} deployment/ml-pipeline-persistenceagent
+kubectl rollout status -n ${NAMESPACE} deployment/ml-pipeline-scheduledworkflow
+kubectl rollout status -n ${NAMESPACE} deployment/ml-pipeline-viewer-crd
+kubectl rollout status -n ${NAMESPACE} deployment/ml-pipeline
+kubectl rollout status -n ${NAMESPACE} deployment/cache-server
+kubectl rollout status -n ${NAMESPACE} deployment/cache-deployer-deployment
+kubectl rollout status -n ${NAMESPACE} deployment/metadata-writer
 
