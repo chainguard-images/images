@@ -1,7 +1,7 @@
 contents:
   packages:
     - katib-db-manager-compat
-    - grpc-health-probe
+    - grpc-health-probe-compat
 
 accounts:
   groups:

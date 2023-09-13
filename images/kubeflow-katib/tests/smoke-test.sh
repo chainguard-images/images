@@ -40,12 +40,10 @@ kubectl apply -k .
 kubectl rollout status -n ${NAMESPACE} deployment/katib-db-manager --timeout=200s 
 kubectl rollout status -n ${NAMESPACE} deployment/katib-controller --timeout=200s 
 
-kubectl create configmap katib-config --from-file $SCRIPT_DIR/kubeflow-katib.yaml
+kubectl create configmap katib-config -n ${NAMESPACE} --from-file $SCRIPT_DIR/kubeflow-katib.yaml
 
 kubectl rollout restart -n ${NAMESPACE} deployment/katib-db-manager
 kubectl rollout restart -n ${NAMESPACE} deployment/katib-controller
 
 kubectl rollout status -n ${NAMESPACE} deployment/katib-db-manager --timeout=200s
 kubectl rollout status -n ${NAMESPACE} deployment/katib-controller --timeout=200s
-
-
