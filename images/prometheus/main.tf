@@ -11,6 +11,7 @@ locals {
     "config-reloader",
     "core",
     "elasticsearch-exporter",
+    "mongodb-exporter",
     "mysqld-exporter",
     "node-exporter",
     "operator",
