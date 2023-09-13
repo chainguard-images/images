@@ -1,6 +1,7 @@
 contents:
   packages:
     - kubeflow-pipelines-scheduledworkflow
+    - busybox
 
 accounts:
   groups:

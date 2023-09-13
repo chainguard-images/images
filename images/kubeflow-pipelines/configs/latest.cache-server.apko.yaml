@@ -1,6 +1,7 @@
 contents:
   packages:
     - kubeflow-pipelines-cache_server
+    - busybox
 
 accounts:
   groups:

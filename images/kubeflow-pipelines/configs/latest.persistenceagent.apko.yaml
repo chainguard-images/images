@@ -1,6 +1,7 @@
 contents:
   packages:
     - kubeflow-pipelines-persistence_agent
+    - busybox
 
 accounts:
   groups:
