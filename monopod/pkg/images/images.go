@@ -121,6 +121,9 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 		if !imageDir.IsDir() {
 			continue
 		}
+		if imageDir.Name() == "TEMPLATE" { // Ignore the template repo.
+			continue
+		}
 		imageName := imageDir.Name()
 		p := filepath.Join(constants.ImagesDirName, imageName, constants.ImageManifestFilename)
 		b, err := os.ReadFile(p)
