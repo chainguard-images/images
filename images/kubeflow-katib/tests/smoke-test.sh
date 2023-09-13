@@ -16,7 +16,7 @@ function manifests() {
   )
 
 
-  envsubst < $SCRIPT_DIR/kubeflow-katib.tpl.yaml > $SCRIPT_DIR/kubeflow-katib.yaml
+  envsubst < $SCRIPT_DIR/kubeflow-katib.yaml.tpl > $SCRIPT_DIR/kubeflow-katib.yaml
   cat $SCRIPT_DIR/kubeflow-katib.yaml
   cat <<EOF > kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -37,15 +37,15 @@ EOF
 manifests
 kubectl apply -k .
 
-kubectl rollout status -n kubeflow deployment/katib-db-manager --timeout=120s -n kubeflow 
-kubectl rollout status -n kubeflow deployment/katib-controller --timeout=120s -n kubeflow 
+kubectl rollout status -n ${NAMESPACE} deployment/katib-db-manager --timeout=200s 
+kubectl rollout status -n ${NAMESPACE} deployment/katib-controller --timeout=200s 
 
 kubectl create configmap katib-config --from-file $SCRIPT_DIR/kubeflow-katib.yaml
 
-kubectl rollout restart -n kubeflow deployment/katib-db-manager
-kubectl rollout restart -n kubeflow deployment/katib-controller
+kubectl rollout restart -n ${NAMESPACE} deployment/katib-db-manager
+kubectl rollout restart -n ${NAMESPACE} deployment/katib-controller
 
-kubectl rollout status -n kubeflow deployment/katib-db-manager --timeout=120s -n kubeflow 
-kubectl rollout status -n kubeflow deployment/katib-controller --timeout=120s -n kubeflow
+kubectl rollout status -n ${NAMESPACE} deployment/katib-db-manager --timeout=200s
+kubectl rollout status -n ${NAMESPACE} deployment/katib-controller --timeout=200s
 
 
