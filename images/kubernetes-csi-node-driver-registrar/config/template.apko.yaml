@@ -1,7 +1,7 @@
 contents:
-  packages:
-    - kubernetes-csi-node-driver-registrar
-    - kubernetes-csi-node-driver-registrar-compat
+  packages: [
+    # CSI Node Driver comes from var.extra_packages
+  ]
 
 accounts:
   groups:
