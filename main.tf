@@ -104,6 +104,11 @@ module "bazel" {
   target_repository = "${var.target_repository}/bazel"
 }
 
+module "boring-registry" {
+  source            = "./images/boring-registry"
+  target_repository = "${var.target_repository}/boring-registry"
+}
+
 module "buck2" {
   source            = "./images/buck2"
   target_repository = "${var.target_repository}/buck2"
