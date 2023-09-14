@@ -28,7 +28,7 @@ locals {
     "calicoctl" : "calicoctl",
     "csi" : "calico-pod2daemon",
     "typha" : "calico-typhad",
-    "node-driver-registrar" : "kubernetes-csi-node-driver-registrar",
+    "node-driver-registrar" : "kubernetes-csi-node-driver-registrar-2.9",
   })
 
   // Normally the repository is named like "calico-{component}"
