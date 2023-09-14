@@ -9,6 +9,11 @@ contents:
     - bazel-6
     - zip
     - file
+    - openssh-client
+    - build-base
+    - jq
+    - patch
+    - python3
 
 accounts:
   groups:
@@ -17,7 +22,7 @@ accounts:
   users:
     - username: bazel
       uid: 65532
-  run-as: bazel
+  run-as: 65532
 
 entrypoint:
   command: /usr/bin/bazel
@@ -27,7 +32,3 @@ environment:
 
 work-dir: /home/bazel
 
-annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/bazel/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/bazel

@@ -1,0 +1,28 @@
+contents:
+  packages:
+    - busybox
+    - build-base
+    - git
+    - openssh
+    # Go comes via var.extra_packages
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 0
+
+environment:
+  GODEBUG: tarinsecurepath=0,zipinsecurepath=0
+  # See: https://go.dev/doc/toolchain
+  GOTOOLCHAIN: local+auto
+
+entrypoint:
+  command: /usr/bin/go
+
+cmd: help
+

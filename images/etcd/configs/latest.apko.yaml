@@ -9,7 +9,7 @@ accounts:
   users:
     - username: etcd
       uid: 65532
-  run-as: etcd
+  run-as: 65532
 
 paths:
   - path: /var/lib/etcd
@@ -24,7 +24,3 @@ environment:
 entrypoint:
   command: /usr/bin/etcd
 
-annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/etcd/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/etcd

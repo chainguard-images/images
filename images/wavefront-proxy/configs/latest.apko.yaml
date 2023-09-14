@@ -37,7 +37,3 @@ paths:
 entrypoint:
   command: /usr/local/bin/run.sh
 
-annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/wavefront-proxy/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/wavefront-proxy

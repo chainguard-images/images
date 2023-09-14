@@ -14,7 +14,3 @@ accounts:
 entrypoint:
   command: /usr/bin/controller
 
-annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/aws-load-balancer-controller/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/aws-load-balancer-controller

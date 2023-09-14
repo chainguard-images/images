@@ -84,12 +84,13 @@ By default Images should run as a non-root user account - as well as being best 
 **Example**:
 
 ```
- run-as: maven
+ run-as: 65532
  recursive: true
 ```
 
 In some cases it may be more user friendly to run as root (for example we had multiple issues trying to run the Go image as `nonroot`). In these cases, make sure there is still a `nonroot` user in the image so it can be easily changed and add docs on how to do so (e.g. ``docker run –user nonroot …``). Also consider making a `nonroot` tag variant that runs as the `nonroot` user.
 
+Additionally, we enforce that the `run-as` user must be the `uid` (and not the user name). This is to prevent policy checkers from needing to crack the file system just to convert the user name into the already known `uid`.
 
 ### Switching User
 
@@ -129,25 +130,6 @@ Set the ENTRYPOINT and CMD as follows:
 ## Process Managers / Supervisors / Init System
 
 In most cases this shouldn’t be necessary, but occasionally you may find an image needs to use a process manager or init system, perhaps for handling multiple processes, logging or signals. Docker bundles [tini ](https://github.com/krallin/tini)for this reason, and we bundle [s6](https://skarnet.org/software/s6/s6-supervise.html). See the [apko docs](https://github.com/chainguard-dev/apko/blob/main/docs/apko_file.md#entrypoint-top-level-element) for usage.
-
-
-## Labels and Annotations  {#labels-and-annotations}
-
-_NOTE: Annotations/Labels are [currently broken](https://github.com/chainguard-dev/apko/issues/481) in apko but this should be fixed soon. They can still be added to the config._
-
-Set the following annotations on the images using apko:
-
-```
-annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/busybox/ #use the academy site here
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/bazel #use github here
-```
-
-Please add any annotations that are missing here - it’s an easy way to add value to our users.
-
-These are based on the OCI default annotations here [https://github.com/opencontainers/image-spec/blob/main/annotations.md](https://github.com/opencontainers/image-spec/blob/main/annotations.md).
-
 
 ## Environment Variables
 
@@ -286,13 +268,6 @@ Other tests that should be considered:
     * For utilities/tooling bring up help e.g. `–help`
     * For base images with a shell, call it e.g. [/bin/sh]
 * Consider where and how the image deviates from popular alternatives. Is there a good reason and is it documented?
-* Add annotations e.g:
-
-        annotations:
-          "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-          "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/busybox/ #use the academy site here
-          "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/bazel #use github here
-
 * Check if environment variables are needed e.g. to set data locations
 * Ensure the image responds to SIGTERM
     *  `docker kill $(docker run -d --rm cgr.dev/chainguard/nginx)`

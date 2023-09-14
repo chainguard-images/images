@@ -1,0 +1,18 @@
+contents:
+  packages:
+    - mc
+    - bash
+
+accounts:
+  groups:
+    - groupname: minio
+      gid: 65532
+  users:
+    - username: minio
+      uid: 65532
+  run-as: 65532
+  recursive: true
+
+entrypoint:
+  command: /usr/bin/mc
+

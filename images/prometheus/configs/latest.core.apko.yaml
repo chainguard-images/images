@@ -1,0 +1,7 @@
+contents:
+  packages:
+    - prometheus
+
+entrypoint:
+  command: prometheus
+

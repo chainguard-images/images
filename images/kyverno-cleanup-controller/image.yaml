@@ -1,8 +1,0 @@
-# Opt-out of the new terraform-based release
-terraform: false
-
-versions:
-  - apko:
-      config: configs/latest.apko.yaml
-      extractTagsFrom:
-        package: kyverno-cleanup-controller

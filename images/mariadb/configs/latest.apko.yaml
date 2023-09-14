@@ -11,7 +11,7 @@ accounts:
   users:
     - username: mysql
       uid: 65532
-  run-as: mysql
+  run-as: 65532
 
 entrypoint:
   command: /usr/local/bin/docker-entrypoint.sh mariadbd
@@ -38,7 +38,3 @@ paths:
     uid: 65532
     gid: 65532
 
-annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/mariadb/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/mariadb

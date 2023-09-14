@@ -10,10 +10,11 @@ variable "digest" {
 
 data "oci_exec_test" "version" {
   digest = var.digest
-  script = "${path.module}/01-version.sh"
+  script = "docker run --rm $IMAGE_NAME javac -version"
 }
 
-data "oci_exec_test" "hello-world" {
-  digest = var.digest
-  script = "${path.module}/02-hello-world.sh"
+module "jre-test" {
+  source    = "../../jre/tests"
+  digest    = var.digest
+  sdk-image = var.digest
 }

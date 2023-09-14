@@ -15,7 +15,3 @@ accounts:
 entrypoint:
   command: /usr/bin/livenessprobe
 
-annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/kubernetes-csi-livenessprobe/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/kubernetes-csi-livenessprobe

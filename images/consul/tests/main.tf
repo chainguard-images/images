@@ -8,7 +8,31 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "skip_crds" {
+  description = "Used to deconflict between multiple installations within the same cluster."
+  default     = false
+}
+
 data "oci_exec_test" "version" {
   digest = var.digest
-  script = "${path.module}/01-version.sh"
+  script = "docker run --rm $IMAGE_NAME --version"
+}
+
+resource "random_pet" "suffix" {}
+
+resource "helm_release" "consul" {
+  name = "consul-${random_pet.suffix.id}"
+
+  repository = "https://helm.releases.hashicorp.com"
+  chart      = "consul"
+
+  namespace        = "consul-${random_pet.suffix.id}"
+  create_namespace = true
+  skip_crds        = var.skip_crds
+
+  values = [jsonencode({
+    global = {
+      images = var.digest
+    }
+  })]
 }

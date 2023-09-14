@@ -1,0 +1,18 @@
+contents:
+  packages:
+    - calico-pod2daemon
+    - calico-pod2daemon-flexvol-compat
+    - busybox
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 0
+
+entrypoint:
+  command: /usr/bin/flexvol.sh

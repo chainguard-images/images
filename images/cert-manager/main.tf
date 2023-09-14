@@ -16,29 +16,32 @@ module "latest" {
   for_each = local.components
   source   = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = "${var.target_repository}-${each.key}"
   config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
 }
 
 module "dev" {
-  for_each = local.components
-  source   = "../../tflib/dev-subvariant"
+  source = "../../tflib/dev-subvariant"
 }
 
 module "latest-dev" {
   for_each = local.components
   source   = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = "${var.target_repository}-${each.key}"
   config            = jsonencode(module.latest[each.key].config)
-  extra_packages    = concat(module.dev[each.key].extra_packages, ["cmctl"])
+  extra_packages    = concat(module.dev.extra_packages, ["cmctl"])
 }
 
 module "version-tags" {
   for_each = local.components
   source   = "../../tflib/version-tags"
 
-  package = "cert-manager-${each.key}"
+  package = "cert-manager-1.12-${each.key}"
   config  = module.latest[each.key].config
 }
 
@@ -48,20 +51,12 @@ module "test-latest" {
   digests = { for k, v in module.latest : k => v.image_ref }
 }
 
-module "test-latest-dev" {
-  source = "./tests"
-
-  digests   = { for k, v in module.latest : k => v.image_ref }
-  skip_crds = true
-}
-
 module "tagger" {
   for_each = local.components
   source   = "../../tflib/tagger"
 
   depends_on = [
     module.test-latest,
-    module.test-latest-dev,
   ]
 
   tags = merge(

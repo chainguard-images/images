@@ -14,7 +14,7 @@ accounts:
   users:
     - username: zookeeper
       uid: 65532
-  run-as: zookeeper
+  run-as: 65532
   recursive: true
 
 entrypoint:
@@ -32,7 +32,3 @@ environment:
   LANG: en_US.UTF-8
   JAVA_HOME: /usr/lib/jvm/java-17-openjdk
 
-annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/zookeeper/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/zookeeper

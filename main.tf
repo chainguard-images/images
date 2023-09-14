@@ -1,12 +1,6 @@
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
-    oci = {
-      source  = "chainguard-dev/oci"
-      version = "0.0.5"
-    }
-    helm   = { source = "hashicorp/helm" }
-    cosign = { source = "chainguard-dev/cosign" }
   }
 }
 
@@ -29,11 +23,29 @@ variable "extra_packages" {
   default = []
 }
 
+variable "archs" {
+  type    = list(string)
+  default = []
+}
+
 provider "apko" {
   extra_repositories = concat(["https://packages.wolfi.dev/os"], var.extra_repositories)
   extra_keyring      = concat(["https://packages.wolfi.dev/os/wolfi-signing.rsa.pub"], var.extra_keyring)
   extra_packages     = concat(["wolfi-baselayout"], var.extra_packages)
-  default_archs      = ["x86_64", "aarch64"]
+  default_archs      = length(var.archs) == 0 ? ["x86_64", "aarch64"] : var.archs
+}
+
+provider "apko" {
+  alias = "alpine"
+
+  extra_repositories = ["https://dl-cdn.alpinelinux.org/alpine/edge/main"]
+  # These packages match chainguard-images/static
+  extra_packages = ["alpine-baselayout-data", "alpine-release", "ca-certificates-bundle"]
+  default_archs  = length(var.archs) == 0 ? ["386", "amd64", "arm/v6", "arm/v7", "arm64", "ppc64le", "s390x"] : var.archs // All arches *except* riscv64
+}
+
+provider "kubernetes" {
+  config_path = "~/.kube/config"
 }
 
 provider "helm" {
@@ -50,11 +62,6 @@ module "apko" {
 module "argocd" {
   source            = "./images/argocd"
   target_repository = "${var.target_repository}/argocd"
-}
-
-module "argocd-repo-server" {
-  source            = "./images/argocd-repo-server"
-  target_repository = "${var.target_repository}/argocd-repo-server"
 }
 
 module "aspnet-runtime" {
@@ -77,6 +84,11 @@ module "aws-efs-csi-driver" {
   target_repository = "${var.target_repository}/aws-efs-csi-driver"
 }
 
+module "aws-for-fluent-bit" {
+  source            = "./images/aws-for-fluent-bit"
+  target_repository = "${var.target_repository}/aws-for-fluent-bit"
+}
+
 module "aws-load-balancer-controller" {
   source            = "./images/aws-load-balancer-controller"
   target_repository = "${var.target_repository}/aws-load-balancer-controller"
@@ -92,14 +104,47 @@ module "bazel" {
   target_repository = "${var.target_repository}/bazel"
 }
 
+module "boring-registry" {
+  source            = "./images/boring-registry"
+  target_repository = "${var.target_repository}/boring-registry"
+}
+
 module "buck2" {
   source            = "./images/buck2"
   target_repository = "${var.target_repository}/buck2"
 }
 
+module "busybox" {
+  source            = "./images/busybox"
+  target_repository = "${var.target_repository}/busybox"
+  providers = {
+    apko.alpine = apko.alpine
+  }
+}
+
+module "cadvisor" {
+  source            = "./images/cadvisor"
+  target_repository = "${var.target_repository}/cadvisor"
+}
+
+module "calico" {
+  source            = "./images/calico"
+  target_repository = "${var.target_repository}/calico"
+}
+
+module "cassandra" {
+  source            = "./images/cassandra"
+  target_repository = "${var.target_repository}/cassandra"
+}
+
 module "cc-dynamic" {
   source            = "./images/cc-dynamic"
   target_repository = "${var.target_repository}/cc-dynamic"
+}
+
+module "cedar" {
+  source            = "./images/cedar"
+  target_repository = "${var.target_repository}/cedar"
 }
 
 module "clang" {
@@ -117,9 +162,29 @@ module "cluster-autoscaler" {
   target_repository = "${var.target_repository}/cluster-autoscaler"
 }
 
+module "cluster-proportional-autoscaler" {
+  source            = "./images/cluster-proportional-autoscaler"
+  target_repository = "${var.target_repository}/cluster-proportional-autoscaler"
+}
+
+module "conda" {
+  source            = "./images/conda"
+  target_repository = "${var.target_repository}/conda"
+}
+
+module "configmap-reload" {
+  source            = "./images/configmap-reload"
+  target_repository = "${var.target_repository}/configmap-reload"
+}
+
 module "consul" {
   source            = "./images/consul"
   target_repository = "${var.target_repository}/consul"
+}
+
+module "coredns" {
+  source            = "./images/coredns"
+  target_repository = "${var.target_repository}/coredns"
 }
 
 module "cosign" {
@@ -132,6 +197,16 @@ module "crane" {
   target_repository = "${var.target_repository}/crane"
 }
 
+module "crossplane-aws" {
+  source            = "./images/crossplane-aws"
+  target_repository = "${var.target_repository}/crossplane-aws"
+}
+
+module "crossplane-azure" {
+  source            = "./images/crossplane-azure"
+  target_repository = "${var.target_repository}/crossplane-azure"
+}
+
 module "curl" {
   source            = "./images/curl"
   target_repository = "${var.target_repository}/curl"
@@ -142,19 +217,19 @@ module "deno" {
   target_repository = "${var.target_repository}/deno"
 }
 
+module "dex" {
+  source            = "./images/dex"
+  target_repository = "${var.target_repository}/dex"
+}
+
 module "dive" {
   source            = "./images/dive"
   target_repository = "${var.target_repository}/dive"
 }
 
-module "dotnet-runtime" {
-  source            = "./images/dotnet-runtime"
-  target_repository = "${var.target_repository}/dotnet-runtime"
-}
-
-module "dotnet-sdk" {
-  source            = "./images/dotnet-sdk"
-  target_repository = "${var.target_repository}/dotnet-sdk"
+module "dotnet" {
+  source            = "./images/dotnet"
+  target_repository = "${var.target_repository}/dotnet"
 }
 
 module "envoy" {
@@ -162,14 +237,29 @@ module "envoy" {
   target_repository = "${var.target_repository}/envoy"
 }
 
+module "envoy-ratelimit" {
+  source            = "./images/envoy-ratelimit"
+  target_repository = "${var.target_repository}/envoy-ratelimit"
+}
+
 module "etcd" {
   source            = "./images/etcd"
   target_repository = "${var.target_repository}/etcd"
 }
 
+module "external-secrets" {
+  source            = "./images/external-secrets"
+  target_repository = "${var.target_repository}/external-secrets"
+}
+
 module "ffmpeg" {
   source            = "./images/ffmpeg"
   target_repository = "${var.target_repository}/ffmpeg"
+}
+
+module "fluent-bit" {
+  source            = "./images/fluent-bit"
+  target_repository = "${var.target_repository}/fluent-bit"
 }
 
 module "fluentd" {
@@ -182,6 +272,11 @@ module "flux" {
   target_repository = "${var.target_repository}/flux"
 }
 
+module "gatekeeper" {
+  source            = "./images/gatekeeper"
+  target_repository = "${var.target_repository}/gatekeeper"
+}
+
 module "gcc-glibc" {
   source            = "./images/gcc-glibc"
   target_repository = "${var.target_repository}/gcc-glibc"
@@ -190,6 +285,14 @@ module "gcc-glibc" {
 module "glibc-dynamic" {
   source            = "./images/glibc-dynamic"
   target_repository = "${var.target_repository}/glibc-dynamic"
+}
+
+module "git" {
+  source            = "./images/git"
+  target_repository = "${var.target_repository}/git"
+  providers = {
+    apko.alpine = apko.alpine
+  }
 }
 
 module "go" {
@@ -202,14 +305,35 @@ module "google-cloud-sdk" {
   target_repository = "${var.target_repository}/google-cloud-sdk"
 }
 
+
+module "external-dns" {
+  source            = "./images/external-dns"
+  target_repository = "${var.target_repository}/external-dns"
+}
+
+module "graalvm-native" {
+  source            = "./images/graalvm-native"
+  target_repository = "${var.target_repository}/graalvm-native"
+}
+
 module "gradle" {
   source            = "./images/gradle"
   target_repository = "${var.target_repository}/gradle"
 }
 
+module "guacamole-server" {
+  source            = "./images/guacamole-server"
+  target_repository = "${var.target_repository}/guacamole-server"
+}
+
 module "haproxy" {
   source            = "./images/haproxy"
   target_repository = "${var.target_repository}/haproxy"
+}
+
+module "haproxy-ingress" {
+  source            = "./images/haproxy-ingress"
+  target_repository = "${var.target_repository}/haproxy-ingress"
 }
 
 module "helm" {
@@ -222,11 +346,6 @@ module "helm-chartmuseum" {
   target_repository = "${var.target_repository}/helm-chartmuseum"
 }
 
-module "helm-controller" {
-  source            = "./images/helm-controller"
-  target_repository = "${var.target_repository}/helm-controller"
-}
-
 module "hugo" {
   source            = "./images/hugo"
   target_repository = "${var.target_repository}/hugo"
@@ -236,6 +355,17 @@ module "http-echo" {
   source            = "./images/http-echo"
   target_repository = "${var.target_repository}/http-echo"
 }
+
+module "influxdb" {
+  source            = "./images/influxdb"
+  target_repository = "${var.target_repository}/influxdb"
+}
+
+module "istio" {
+  source            = "./images/istio"
+  target_repository = "${var.target_repository}/istio"
+}
+
 
 module "jdk" {
   source            = "./images/jdk"
@@ -252,6 +382,11 @@ module "jre" {
   target_repository = "${var.target_repository}/jre"
 }
 
+module "k3s" {
+  source            = "./images/k3s"
+  target_repository = "${var.target_repository}/k3s"
+}
+
 module "k8s-sidecar" {
   source            = "./images/k8s-sidecar"
   target_repository = "${var.target_repository}/k8s-sidecar"
@@ -260,6 +395,11 @@ module "k8s-sidecar" {
 module "k8sgpt" {
   source            = "./images/k8sgpt"
   target_repository = "${var.target_repository}/k8sgpt"
+}
+
+module "k8sgpt-operator" {
+  source            = "./images/k8sgpt-operator"
+  target_repository = "${var.target_repository}/k8sgpt-operator"
 }
 
 module "kafka" {
@@ -272,14 +412,59 @@ module "karpenter" {
   target_repository = "${var.target_repository}/karpenter"
 }
 
+module "keda" {
+  source            = "./images/keda"
+  target_repository = "${var.target_repository}/keda"
+}
+
 module "ko" {
   source            = "./images/ko"
   target_repository = "${var.target_repository}/ko"
 }
 
+module "kube-bench" {
+  source            = "./images/kube-bench"
+  target_repository = "${var.target_repository}/kube-bench"
+}
+
+module "kube-downscaler" {
+  source            = "./images/kube-downscaler"
+  target_repository = "${var.target_repository}/kube-downscaler"
+}
+
+module "kube-state-metrics" {
+  source            = "./images/kube-state-metrics"
+  target_repository = "${var.target_repository}/kube-state-metrics"
+}
+
 module "kubectl" {
   source            = "./images/kubectl"
   target_repository = "${var.target_repository}/kubectl"
+}
+
+module "kubeflow-jupyter-web-app" {
+  source            = "./images/kubeflow-jupyter-web-app"
+  target_repository = "${var.target_repository}/kubeflow-jupyter-web-app"
+}
+
+module "kubernetes-csi-external-attacher" {
+  source            = "./images/kubernetes-csi-external-attacher"
+  target_repository = "${var.target_repository}/kubernetes-csi-external-attacher"
+}
+
+module "kubernetes-csi-external-provisioner" {
+  source            = "./images/kubernetes-csi-external-provisioner"
+  target_repository = "${var.target_repository}/kubernetes-csi-external-provisioner"
+}
+
+module "kubernetes-csi-external-resizer" {
+  source            = "./images/kubernetes-csi-external-resizer"
+  target_repository = "${var.target_repository}/kubernetes-csi-external-resizer"
+}
+
+module "kubernetes-csi-external-snapshot-controller" {
+  source            = "./images/kubernetes-csi-external-snapshot-controller"
+  target_repository = "${var.target_repository}/kubernetes-csi-external-snapshot-controller"
 }
 
 module "kubernetes-csi-external-snapshot-validation-webhook" {
@@ -302,14 +487,44 @@ module "kubernetes-csi-node-driver-registrar" {
   target_repository = "${var.target_repository}/kubernetes-csi-node-driver-registrar"
 }
 
+module "kubernetes-dashboard" {
+  source            = "./images/kubernetes-dashboard"
+  target_repository = "${var.target_repository}/kubernetes-dashboard"
+}
+
+module "kubernetes-dns-node-cache" {
+  source            = "./images/kubernetes-dns-node-cache"
+  target_repository = "${var.target_repository}/kubernetes-dns-node-cache"
+}
+
 module "kubernetes-ingress-defaultbackend" {
   source            = "./images/kubernetes-ingress-defaultbackend"
   target_repository = "${var.target_repository}/kubernetes-ingress-defaultbackend"
 }
 
-module "kyverno-cli" {
-  source            = "./images/kyverno-cli"
-  target_repository = "${var.target_repository}/kyverno-cli"
+module "kube-fluentd-operator" {
+  source            = "./images/kube-fluentd-operator"
+  target_repository = "${var.target_repository}/kube-fluentd-operator"
+}
+
+module "kube-logging-operator" {
+  source            = "./images/kube-logging-operator"
+  target_repository = "${var.target_repository}/kube-logging-operator"
+}
+
+module "kubewatch" {
+  source            = "./images/kubewatch"
+  target_repository = "${var.target_repository}/kubewatch"
+}
+
+module "kyverno" {
+  source            = "./images/kyverno"
+  target_repository = "${var.target_repository}/kyverno"
+}
+
+module "loki" {
+  source            = "./images/loki"
+  target_repository = "${var.target_repository}/loki"
 }
 
 module "mariadb" {
@@ -327,6 +542,11 @@ module "mdbook" {
   target_repository = "${var.target_repository}/mdbook"
 }
 
+module "meilisearch" {
+  source            = "./images/meilisearch"
+  target_repository = "${var.target_repository}/meilisearch"
+}
+
 module "melange" {
   source            = "./images/melange"
   target_repository = "${var.target_repository}/melange"
@@ -342,14 +562,19 @@ module "memcached-exporter" {
   target_repository = "${var.target_repository}/memcached-exporter"
 }
 
+module "metrics-server" {
+  source            = "./images/metrics-server"
+  target_repository = "${var.target_repository}/metrics-server"
+}
+
+module "metacontroller" {
+  source            = "./images/metacontroller"
+  target_repository = "${var.target_repository}/metacontroller"
+}
+
 module "minio" {
   source            = "./images/minio"
   target_repository = "${var.target_repository}/minio"
-}
-
-module "minio-client" {
-  source            = "./images/minio-client"
-  target_repository = "${var.target_repository}/minio-client"
 }
 
 module "nats" {
@@ -362,6 +587,13 @@ module "netcat" {
   target_repository = "${var.target_repository}/netcat"
 }
 
+variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
+module "newrelic" {
+  source            = "./images/newrelic"
+  target_repository = "${var.target_repository}/newrelic"
+  license_key       = var.newrelic_license_key
+}
+
 module "nginx" {
   source            = "./images/nginx"
   target_repository = "${var.target_repository}/nginx"
@@ -372,9 +604,24 @@ module "node" {
   target_repository = "${var.target_repository}/node"
 }
 
+module "nodetaint" {
+  source            = "./images/nodetaint"
+  target_repository = "${var.target_repository}/nodetaint"
+}
+
+module "node-problem-detector" {
+  source            = "./images/node-problem-detector"
+  target_repository = "${var.target_repository}/node-problem-detector"
+}
+
 module "ntpd-rs" {
   source            = "./images/ntpd-rs"
   target_repository = "${var.target_repository}/ntpd-rs"
+}
+
+module "nvidia-device-plugin" {
+  source            = "./images/nvidia-device-plugin"
+  target_repository = "${var.target_repository}/nvidia-device-plugin"
 }
 
 module "oauth2-proxy" {
@@ -392,9 +639,24 @@ module "opensearch" {
   target_repository = "${var.target_repository}/opensearch"
 }
 
+module "opentelemetry-collector-contrib" {
+  source            = "./images/opentelemetry-collector-contrib"
+  target_repository = "${var.target_repository}/opentelemetry-collector-contrib"
+}
+
+module "opentf" {
+  source            = "./images/opentf"
+  target_repository = "${var.target_repository}/opentf"
+}
+
 module "paranoia" {
   source            = "./images/paranoia"
   target_repository = "${var.target_repository}/paranoia"
+}
+
+module "pgbouncer" {
+  source            = "./images/pgbouncer"
+  target_repository = "${var.target_repository}/pgbouncer"
 }
 
 module "php" {
@@ -417,29 +679,14 @@ module "prometheus" {
   target_repository = "${var.target_repository}/prometheus"
 }
 
-module "prometheus-alertmanager" {
-  source            = "./images/prometheus-alertmanager"
-  target_repository = "${var.target_repository}/prometheus-alertmanager"
+module "promtail" {
+  source            = "./images/promtail"
+  target_repository = "${var.target_repository}/promtail"
 }
 
-module "prometheus-cloudwatch-exporter" {
-  source            = "./images/prometheus-cloudwatch-exporter"
-  target_repository = "${var.target_repository}/prometheus-cloudwatch-exporter"
-}
-
-module "prometheus-elasticsearch-exporter" {
-  source            = "./images/prometheus-elasticsearch-exporter"
-  target_repository = "${var.target_repository}/prometheus-elasticsearch-exporter"
-}
-
-module "prometheus-mysqld-exporter" {
-  source            = "./images/prometheus-mysqld-exporter"
-  target_repository = "${var.target_repository}/prometheus-mysqld-exporter"
-}
-
-module "prometheus-postgres-exporter" {
-  source            = "./images/prometheus-postgres-exporter"
-  target_repository = "${var.target_repository}/prometheus-postgres-exporter"
+module "proxysql" {
+  source            = "./images/proxysql"
+  target_repository = "${var.target_repository}/proxysql"
 }
 
 module "pulumi" {
@@ -452,6 +699,12 @@ module "python" {
   target_repository = "${var.target_repository}/python"
 }
 
+module "r-base" {
+  source            = "./images/r-base"
+  target_repository = "${var.target_repository}/r-base"
+}
+
+
 module "rabbitmq" {
   source            = "./images/rabbitmq"
   target_repository = "${var.target_repository}/rabbitmq"
@@ -460,6 +713,11 @@ module "rabbitmq" {
 module "redis" {
   source            = "./images/redis"
   target_repository = "${var.target_repository}/redis"
+}
+
+module "redis-sentinel" {
+  source            = "./images/redis-sentinel"
+  target_repository = "${var.target_repository}/redis-sentinel"
 }
 
 module "rqlite" {
@@ -492,6 +750,44 @@ module "skaffold" {
   target_repository = "${var.target_repository}/skaffold"
 }
 
+module "slim-toolkit-debug" {
+  source            = "./images/slim-toolkit-debug"
+  target_repository = "${var.target_repository}/slim-toolkit-debug"
+}
+
+module "spire" {
+  source            = "./images/spire"
+  target_repository = "${var.target_repository}/spire"
+}
+
+module "stakater-reloader" {
+  source            = "./images/stakater-reloader"
+  target_repository = "${var.target_repository}/stakater-reloader"
+}
+
+module "static" {
+  source            = "./images/static"
+  target_repository = "${var.target_repository}/static"
+  providers = {
+    apko.alpine = apko.alpine
+  }
+}
+
+module "stunnel" {
+  source            = "./images/stunnel"
+  target_repository = "${var.target_repository}/stunnel"
+}
+
+module "tekton" {
+  source            = "./images/tekton"
+  target_repository = "${var.target_repository}/tekton"
+}
+
+module "telegraf" {
+  source            = "./images/telegraf"
+  target_repository = "${var.target_repository}/telegraf"
+}
+
 module "terraform" {
   source            = "./images/terraform"
   target_repository = "${var.target_repository}/terraform"
@@ -502,9 +798,34 @@ module "thanos" {
   target_repository = "${var.target_repository}/thanos"
 }
 
+module "thanos-operator" {
+  source            = "./images/thanos-operator"
+  target_repository = "${var.target_repository}/thanos-operator"
+}
+
+module "tigera-operator" {
+  source            = "./images/tigera-operator"
+  target_repository = "${var.target_repository}/tigera-operator"
+}
+
+module "timoni" {
+  source            = "./images/timoni"
+  target_repository = "${var.target_repository}/timoni"
+}
+
 module "traefik" {
   source            = "./images/traefik"
   target_repository = "${var.target_repository}/traefik"
+}
+
+module "trust-manager" {
+  source            = "./images/trust-manager"
+  target_repository = "${var.target_repository}/trust-manager"
+}
+
+module "vault" {
+  source            = "./images/vault"
+  target_repository = "${var.target_repository}/vault"
 }
 
 module "vela-cli" {
@@ -512,14 +833,9 @@ module "vela-cli" {
   target_repository = "${var.target_repository}/vela-cli"
 }
 
-module "vertical-pod-autoscaler-recommender" {
-  source            = "./images/vertical-pod-autoscaler-recommender"
-  target_repository = "${var.target_repository}/vertical-pod-autoscaler-recommender"
-}
-
-module "vertical-pod-autoscaler-updater" {
-  source            = "./images/vertical-pod-autoscaler-updater"
-  target_repository = "${var.target_repository}/vertical-pod-autoscaler-updater"
+module "vertical-pod-autoscaler" {
+  source            = "./images/vertical-pod-autoscaler"
+  target_repository = "${var.target_repository}/vertical-pod-autoscaler"
 }
 
 module "vt" {
@@ -532,14 +848,39 @@ module "wait-for-it" {
   target_repository = "${var.target_repository}/wait-for-it"
 }
 
+module "wasmer" {
+  source            = "./images/wasmer"
+  target_repository = "${var.target_repository}/wasmer"
+}
+
+module "wasmtime" {
+  source            = "./images/wasmtime"
+  target_repository = "${var.target_repository}/wasmtime"
+}
+
 module "wavefront-proxy" {
   source            = "./images/wavefront-proxy"
   target_repository = "${var.target_repository}/wavefront-proxy"
 }
 
+module "wazero" {
+  source            = "./images/wazero"
+  target_repository = "${var.target_repository}/wazero"
+}
+
+module "weaviate" {
+  source            = "./images/weaviate"
+  target_repository = "${var.target_repository}/weaviate"
+}
+
 module "wolfi-base" {
   source            = "./images/wolfi-base"
   target_repository = "${var.target_repository}/wolfi-base"
+}
+
+module "zig" {
+  source            = "./images/zig"
+  target_repository = "${var.target_repository}/zig"
 }
 
 module "zookeeper" {

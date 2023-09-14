@@ -58,7 +58,6 @@ terraform init -upgrade
 TF_VAR_target_repository=... terraform apply
 ```
 
-
 ### Building a single Image module
 
 Every image defines a module in `images/{foo}` that can be used to build, sign,
@@ -84,6 +83,37 @@ TF_VAR_target_repository=... terraform apply \
     -target=module.consul
 ```
 
+### Building for certain architectures
+
+By default all Wolfi-based images are built for `x86_64` (`amd64`) and `aarch64` (`arm64`),
+and Alpine-based images are built for all architectures supported by Alpine.
+
+During testing it can be useful to only build for certain architectures, such as the host architecture.
+
+To achieve this, set the `archs` variable, for example `-var='archs=["x86_64"]'` or `TF_VAR_archs='["x86_64"]'`.
+
+See [Assigning Values to Root Module Variables](https://developer.hashicorp.com/terraform/language/values/variables#assigning-values-to-root-module-variables).
+
+The `[]`s are important here; omitting them results in an error saying `Variables may not be used here.`
+
+### Building from local packages
+
+During testing it can be useful to build images from packages you've built and signed locally.
+
+To achieve this, set the `extra_repositories` and `extra_keyring` variables.
+
+During testing it can be useful to only build for certain architectures, such as the host architecture, for example:
+
+```
+terraform apply \
+    -var='extra_repositories=["/path/to/packages"]' \
+    -var='extra_keyring=["/path/to/local-signing.rsa.pub"]'
+```
+
+See [Assigning Values to Root Module Variables](https://developer.hashicorp.com/terraform/language/values/variables#assigning-values-to-root-module-variables).
+
+The `[]`s are important here; omitting them results in an error saying `Variables may not be used here.`
+
 ### Running Tests
 
 Every image defines a module in `images/{foo}/tests` that can be used to run the
@@ -106,4 +136,24 @@ TF_VAR_digest=... terraform apply
 
 Virtually all tests require Docker installed locally to run.
 
-> TODO(imjasonh): define and document the process for testing on K8s.
+Many tests require access to a Kubernetes cluster, such as a local [KinD cluster](https://kind.sigs.k8s.io/).
+These tests may install a Helm chart and/or issue `kubectl` commands against the cluster.
+The tests use the config file at `$HOME/.kube/config` to connect to the cluster.
+
+### Building with `apko` directly
+
+Images in this repo are designed to be built with Terraform as described above, but they can also be built directly with `apko`:
+
+To build a Wolfi-based image:
+
+```shell
+make cfg=images/static/configs/wolfi.apko.yaml apko-build
+```
+
+To build an Alpine-based image (i.e., `static:latest`, `busybox:latest`, `git:latest`)
+
+```shell
+make cfg=images/static/configs/alpine.apko.yaml apko-build-alpine
+```
+
+These will build the image into a tarball in the local directory, which can be loaded into Docker with `docker load < image.tar`.

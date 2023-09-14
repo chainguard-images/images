@@ -1,13 +1,3 @@
-# Opt-out of the new terraform-based release
-terraform: false
-
-status: experimental
 versions:
   - apko:
       config: configs/latest.apko.yaml
-      subvariants:
-        - suffix: -dev
-          options:
-            - dev
-      extractTagsFrom:
-        package: dex

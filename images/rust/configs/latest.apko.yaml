@@ -25,7 +25,3 @@ entrypoint:
   command: /usr/bin/rustc
 cmd: --help
 
-annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/rust/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/rust

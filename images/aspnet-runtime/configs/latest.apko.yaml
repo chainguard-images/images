@@ -11,14 +11,10 @@ accounts:
   users:
     - username: nonroot
       uid: 65532
-  run-as: nonroot
+  run-as: 65532
   recursive: true
 
 entrypoint:
   command: /usr/bin/dotnet
 cmd: --help
 
-annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/aspnet-runtime/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/aspnet-runtime

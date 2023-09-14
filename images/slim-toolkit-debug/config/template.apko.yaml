@@ -1,0 +1,34 @@
+contents:
+  packages:
+    - curl
+    - bash
+    - busybox
+    - git
+    - curl
+    - grpcurl
+    - drill
+    - nmap
+    - dhcping
+    - tcptraceroute
+    - bind-tools
+    - net-tools
+    - iproute2
+    - socat
+    - openssl
+    - gperf
+    - jq
+    - yq
+    - strace
+    - redis
+    - oras
+    - crane
+    - fatrace
+    - ngrep
+    - sysstat
+    - ltrace
+    - dstat
+    - mycli
+    - py3-pgcli
+
+entrypoint:
+  command: /bin/bash -c

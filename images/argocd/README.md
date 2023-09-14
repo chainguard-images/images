@@ -17,10 +17,11 @@
 
 ## Get It!
 
-The image is available on `cgr.dev`:
+The images available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/argocd
+docker pull cgr.dev/chainguard/argocd-repo-server
 ```
 
 ## Using argocd
@@ -57,13 +58,13 @@ Optionally, you can use Chainguard Images to replace the other ArgoCD dependenci
 
 ```yaml
 redis:
-  image: 
+  image:
     repository: cgr.dev/chainguard/redis
-    tag: 7.0
+    tag: latest
 
 dex:
   image:
-    repository: cgr.dev/chainguard/dev
+    repository: cgr.dev/chainguard/dex
     tag: latest
 ```
 

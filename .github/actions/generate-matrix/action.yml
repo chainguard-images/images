@@ -16,29 +16,14 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
-      with:
-        repository: ${{ inputs.repository }}
-        ref: ${{ inputs.ref }}
-        token: ${{ inputs.token }}
-        path: monopod-setup-gha
     - uses: actions/setup-go@v3
       with:
         go-version: '1.20'
-    - id: monopod
-      shell: bash
+
+    # Build and install monopod.
+    - shell: bash
       run: |
-        set -x
-        (cd monopod-setup-gha/monopod/ && go build -o /tmp/bin/monopod monopod.go)
-        rm -rf monopod-setup-gha/
-    - if: inputs.overrideCheckoutRef == '' && inputs.overrideCheckoutRepository == ''
-      uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
-    - if: inputs.overrideCheckoutRef != '' || inputs.overrideCheckoutRepository != ''
-      uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
-      with:
-        clean: false
-        ref: ${{ inputs.overrideCheckoutRef }}
-        repository: ${{ inputs.overrideCheckoutRepository }}
+        go install ./monopod
 
     - id: generate-matrix
       shell: bash
@@ -55,7 +40,7 @@ runs:
            --shard=${{ inputs.shard }} \
            --sharding-factor=${{ inputs.sharding-factor }} \
            --modified-files=${{ inputs.modified-files }} \
-           --test-tags=${{ inputs.test-tags }} $default_registry_args > "${MATRIX}"
+           $default_registry_args > "${MATRIX}"
         echo "matrix=$(cat "${MATRIX}")" >> $GITHUB_OUTPUT
 
         MATRIX_UNIQUE_IMAGES=$(mktemp)
@@ -63,7 +48,6 @@ runs:
            --shard=${{ inputs.shard }} \
            --sharding-factor=${{ inputs.sharding-factor }} \
            --modified-files=${{ inputs.modified-files }} \
-           --test-tags=${{ inputs.test-tags }} \
            --unique-images $default_registry_args > "${MATRIX_UNIQUE_IMAGES}"
         echo "matrix-unique-images=$(cat "${MATRIX_UNIQUE_IMAGES}")" >> $GITHUB_OUTPUT
 

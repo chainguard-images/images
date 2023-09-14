@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       shard-0: ${{ steps.generate-matrix-0.outputs.matrix }}
-      shard-1: ${{ steps.generate-matrix-1.outputs.matrix }}
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
 
-      - run: terraform fmt -check -recursive
+      - run: terraform fmt -check -recursive -diff
+      - run: ./lint.sh
 
       - id: files
         uses: tj-actions/changed-files@e1754a427f478b8778d349341b8f1d80f1f47f44 # v36.4.0
@@ -24,13 +24,7 @@ jobs:
         uses: ./.github/actions/generate-matrix
         with:
           shard: 0
-          sharding-factor: 2
-          modified-files: ${{ steps.files.outputs.all_changed_files }}
-      - id: generate-matrix-1
-        uses: ./.github/actions/generate-matrix
-        with:
-          shard: 1
-          sharding-factor: 2
+          sharding-factor: 1
           modified-files: ${{ steps.files.outputs.all_changed_files }}
 
   presubmit-build-0:
@@ -41,11 +35,6 @@ jobs:
       matrix: ${{ fromJson(needs.presubmit-matrix.outputs.shard-0) }}
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-      - name: Ensure image has tests
-        if: matrix.testCommandExe == ''
-        run: |
-          echo "Error: ${{ matrix.imageName }} image is missing tests."
-          exit 1
       - id: determine-appends
         run: |
           # Do not append out repo/keyring/package to Alpine images.
@@ -60,73 +49,32 @@ jobs:
         with:
           matrix-json: ${{ toJSON(matrix) }}
         env:
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:94c1512d9c359148059a13cb8df972d15f196e5901f0132238d0376e0bfb597c
+          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:36e1fdffb0d54aa92bd614eb68f0fe1e4a8e42f939e00e1ea58e2cc2ac1da99d
           EXTRA_INPUT_APKO_REPOSITORY_APPEND: ${{ steps.determine-appends.outputs.repository-append }}
           EXTRA_INPUT_APKO_KEYRING_APPEND: ${{ steps.determine-appends.outputs.keyring-append }}
 
-      - uses: chainguard-dev/actions/setup-kind@main
+      - uses: chainguard-dev/actions/setup-k3d@main
         with:
-          k8s-version: v1.24.x
+          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:fb45446042c7dd5750321e08e9e4b1474866cdc2d9a2eb12582c566e799c985b
           registry-authority: registry.local:5000
 
+      # Disable version tags.
+      - run: |
+          echo "TF_APKO_DISABLE_VERSION_TAGS=true" >> $GITHUB_ENV
+
       - uses: ./.github/actions/build-image-terraform
-        if: ${{ matrix.useTerraform }}
-        with: ${{ fromJSON(steps.augmented-inputs.outputs.matrix-json) }}
-      - uses: ./.github/actions/build-image
-        if: ${{ ! matrix.useTerraform }}
         with: ${{ fromJSON(steps.augmented-inputs.outputs.matrix-json) }}
 
       - name: Collect diagnostics and upload
         if: ${{ failure() }}
-        uses: chainguard-dev/actions/kind-diag@main
-
-  presubmit-build-1:
-    runs-on: ubuntu-latest
-    needs: presubmit-matrix
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJson(needs.presubmit-matrix.outputs.shard-1) }}
-    steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-      - name: Ensure image has tests
-        if: matrix.testCommandExe == ''
-        run: |
-          echo "Error: ${{ matrix.imageName }} image is missing tests."
-          exit 1
-      - id: determine-appends
-        run: |
-          # Do not append out repo/keyring/package to Alpine images.
-          set -x
-          if ! grep 'alpinelinux\.org' "${{ matrix.apkoConfig }}" &>/dev/null; then
-            echo "repository-append=https://packages.wolfi.dev/os" >> $GITHUB_OUTPUT
-            echo "keyring-append=https://packages.wolfi.dev/os/wolfi-signing.rsa.pub" >> $GITHUB_OUTPUT
-          fi
-      - name: Add additional inputs
-        id: augmented-inputs
-        uses: chainguard-dev/actions/matrix-extra-inputs@main
+        uses: chainguard-dev/actions/k8s-diag@main
         with:
-          matrix-json: ${{ toJSON(matrix) }}
-        env:
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:94c1512d9c359148059a13cb8df972d15f196e5901f0132238d0376e0bfb597c
-          EXTRA_INPUT_APKO_REPOSITORY_APPEND: ${{ steps.determine-appends.outputs.repository-append }}
-          EXTRA_INPUT_APKO_KEYRING_APPEND: ${{ steps.determine-appends.outputs.keyring-append }}
-
-      - uses: chainguard-dev/actions/setup-kind@main
-        with:
-          k8s-version: v1.24.x
-          registry-authority: registry.local:5000
-
-      - uses: ./.github/actions/build-image-terraform
-        if: ${{ matrix.useTerraform }}
-        with: ${{ fromJSON(steps.augmented-inputs.outputs.matrix-json) }}
-      - uses: ./.github/actions/build-image
-        if: ${{ ! matrix.useTerraform }}
-        with: ${{ fromJSON(steps.augmented-inputs.outputs.matrix-json) }}
+          cluster-type: k3d
+          artifact-name: ${{ matrix.imageName }}-diagnostics
 
   presubmit-roundup:
     needs:
       - presubmit-build-0
-      - presubmit-build-1
     runs-on: ubuntu-latest
     if: always()
     steps:

@@ -11,6 +11,8 @@ variable "target_repository" {
 module "latest" {
   source = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.apko.yaml")
 }
@@ -19,6 +21,8 @@ module "dev" { source = "../../tflib/dev-subvariant" }
 
 module "latest-dev" {
   source = "../../tflib/publisher"
+
+  name = basename(path.module)
 
   target_repository = var.target_repository
   # Make the dev variant an explicit extension of the
@@ -38,18 +42,10 @@ module "test-latest" {
   digest = module.latest.image_ref
 }
 
-module "test-latest-dev" {
-  source = "./tests"
-  digest = module.latest-dev.image_ref
-}
-
 module "tagger" {
   source = "../../tflib/tagger"
 
-  depends_on = [
-    module.test-latest,
-    module.test-latest-dev,
-  ]
+  depends_on = [module.test-latest]
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },

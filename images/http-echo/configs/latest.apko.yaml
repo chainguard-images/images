@@ -15,7 +15,3 @@ accounts:
 entrypoint:
   command: /http-echo
 
-annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/http-echo/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/http-echo

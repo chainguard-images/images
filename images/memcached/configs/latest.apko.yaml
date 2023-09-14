@@ -9,12 +9,8 @@ accounts:
   users:
     - username: memcached
       uid: 65532
-  run-as: memcached
+  run-as: 65532
 
 entrypoint:
   command: memcached
 
-annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/memcached/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/memcached

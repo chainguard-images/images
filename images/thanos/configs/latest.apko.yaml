@@ -9,12 +9,8 @@ accounts:
   users:
     - username: thanos
       uid: 65532
-  run-as: thanos
+  run-as: 65532
 
 entrypoint:
   command: thanos
 
-annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/thanos/ #use the academy site here
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/thanos #use github here

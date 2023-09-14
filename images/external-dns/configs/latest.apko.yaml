@@ -1,12 +1,6 @@
 contents:
-  repositories:
-    - https://packages.wolfi.dev/os
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
-    - ca-certificates-bundle
     - external-dns
-    - wolfi-baselayout
 
 accounts:
   groups:
@@ -15,18 +9,10 @@ accounts:
   users:
     - username: external-dns
       uid: 65532
-  run-as: external-dns
+  run-as: 65532
   recursive: true
 
 entrypoint:
   command: /usr/bin/external-dns
 cmd: --help
 
-archs:
-  - x86_64
-  - aarch64
-
-annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/external-dns/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/external-dns

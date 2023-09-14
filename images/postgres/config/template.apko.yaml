@@ -1,0 +1,34 @@
+contents:
+  packages:
+    - glibc-locale-en
+    - busybox
+    - su-exec
+    # Postgres comes via var.extra_packages
+
+
+accounts:
+  groups:
+    - groupname: postgres
+      gid: 70
+  users:
+    - username: postgres
+      uid: 70
+  run-as: 0
+
+entrypoint:
+  command: /var/lib/postgres/initdb/postgresql-entrypoint.sh postgres
+
+environment:
+  PGDATA: /var/lib/postgresql/data
+  # Postgres defers to locale and docker-library/postgres sets UTF-8 as default.
+  LANG: en_US.UTF-8
+
+work-dir: /home/postgres
+
+paths:
+  - path: /var/lib/postgresql/data
+    type: directory
+    uid: 70
+    gid: 70
+    permissions: 0o777
+

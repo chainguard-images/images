@@ -23,7 +23,6 @@ cat <<EOF >> override.yaml
 image:
   repository: ttl.sh/aws/efs-csi-driver
   tag: latest
-  pullPolicy: IfNotPresent
 
 controller:
   serviceAccount:

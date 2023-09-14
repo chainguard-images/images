@@ -9,7 +9,7 @@ accounts:
   users:
     - username: traefik
       uid: 65532
-  run-as: traefik
+  run-as: 65532
 
 paths:
 - path: /tmp
@@ -19,7 +19,3 @@ paths:
 entrypoint:
   command: /usr/bin/traefik
 
-annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/traefik/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/traefik

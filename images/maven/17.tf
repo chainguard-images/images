@@ -1,12 +1,16 @@
 module "seventeen" {
   source = "../../tflib/publisher"
 
+  name = basename(path.module)
+
   target_repository = var.target_repository
   config            = file("${path.module}/configs/openjdk-17.apko.yaml")
 }
 
 module "seventeen-dev" {
   source = "../../tflib/publisher"
+
+  name = basename(path.module)
 
   target_repository = var.target_repository
   # Make the dev variant an explicit extension of the
@@ -26,7 +30,3 @@ module "test-seventeen" {
   digest = module.seventeen.image_ref
 }
 
-module "test-seventeen-dev" {
-  source = "./tests"
-  digest = module.seventeen-dev.image_ref
-}

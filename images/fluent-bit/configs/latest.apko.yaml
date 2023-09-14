@@ -1,11 +1,7 @@
 contents:
-  repositories:
-    - https://packages.wolfi.dev/os
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   packages:
     - fluent-bit
-    - wolfi-baselayout
+    - libpq-11
 
 accounts:
   groups:
@@ -14,7 +10,7 @@ accounts:
   users:
     - username: nonroot
       uid: 65532
-  run-as: nonroot
+  run-as: 65532
 
 paths:
   - path: /var/lib/fluent-bit
@@ -27,11 +23,3 @@ entrypoint:
   command: /usr/bin/fluent-bit
 cmd: -c /fluent-bit/etc/fluent-bit.conf
 
-archs:
-  - x86_64
-  - aarch64
-
-annotations:
-  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
-  "org.opencontainers.image.url": https://edu.chainguard.dev/chainguard/chainguard-images/reference/fluent-bit/
-  "org.opencontainers.image.source": https://github.com/chainguard-images/images/tree/main/images/fluent-bit
