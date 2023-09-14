@@ -745,6 +745,11 @@ module "secrets-store-csi-driver" {
   target_repository = "${var.target_repository}/secrets-store-csi-driver"
 }
 
+module "semgrep" {
+  source            = "./images/semgrep"
+  target_repository = "${var.target_repository}/semgrep"
+}
+
 module "skaffold" {
   source            = "./images/skaffold"
   target_repository = "${var.target_repository}/skaffold"
