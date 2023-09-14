@@ -49,6 +49,7 @@ kubectl rollout status -n ${NAMESPACE} deployment/ml-pipeline-persistenceagent
 kubectl rollout status -n ${NAMESPACE} deployment/ml-pipeline-scheduledworkflow
 kubectl rollout status -n ${NAMESPACE} deployment/ml-pipeline-viewer-crd
 kubectl rollout status -n ${NAMESPACE} deployment/ml-pipeline
+kubectl rollout status -n ${NAMESPACE} deployment/ml-pipeline-ui
 kubectl rollout status -n ${NAMESPACE} deployment/cache-server
 kubectl rollout status -n ${NAMESPACE} deployment/cache-deployer-deployment
 kubectl rollout status -n ${NAMESPACE} deployment/metadata-writer

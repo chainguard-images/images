@@ -74,7 +74,7 @@ module "tagger" {
   for_each = local.components
   source   = "../../tflib/tagger"
 
-  //depends_on = [module.test-latest]
+  depends_on = [module.test-latest]
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : t => module.latest[each.key].image_ref },

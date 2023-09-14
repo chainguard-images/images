@@ -1,6 +1,5 @@
 contents:
   packages:
-    - kubeflow-pipelines-cache-deployer
     - kubeflow-pipelines-cache-deployer-compat
     - busybox
     - bash
