@@ -192,6 +192,11 @@ module "cosign" {
   target_repository = "${var.target_repository}/cosign"
 }
 
+module "cowsay" {
+  source            = "./images/cowsay"
+  target_repository = "${var.target_repository}/cowsay"
+}
+
 module "crane" {
   source            = "./images/crane"
   target_repository = "${var.target_repository}/crane"
