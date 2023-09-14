@@ -9,6 +9,7 @@ variable "digest" {
 }
 
 // Invoke the image's version command.
+// $IMAGE_NAME is populated with the image name by digest.
 // TODO: Update or remove this test as appropriate.
 data "oci_exec_test" "version" {
   digest = var.digest
@@ -16,9 +17,11 @@ data "oci_exec_test" "version" {
 }
 
 // Invoke a script with the test.
+// $IMAGE_NAME is populated with the image name by digest.
 // TODO: Update or remove this test as appropriate.
 data "oci_exec_test" "manifest" {
-  digest = var.digest
-  script = "${path.module}/EXAMPLE_TEST.sh"
+  digest      = var.digest
+  script      = "./EXAMPLE_TEST.sh"
+  working_dir = path.module
 }
 
