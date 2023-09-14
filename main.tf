@@ -152,6 +152,11 @@ module "clang" {
   target_repository = "${var.target_repository}/clang"
 }
 
+module "cowsay" {
+  source            = "./images/cowsay"
+  target_repository = "${var.target_repository}/cowsay"
+}
+
 module "cert-manager" {
   source            = "./images/cert-manager"
   target_repository = "${var.target_repository}/cert-manager"

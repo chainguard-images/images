@@ -15,5 +15,5 @@ data "oci_exec_test" "version" {
 
 data "oci_exec_test" "manifest" {
   digest = var.digest
-  script = "${path.module}/02-manifest.sh"
+  script = "${path.module}/01-wolfi.sh"
 }
