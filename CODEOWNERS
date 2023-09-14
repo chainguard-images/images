@@ -1,10 +1,6 @@
 # Docs for CODEOWNERS:
 # https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
-# By default, everything is owned by images-repository-maintainers
-*       @chainguard-images/images-repository-maintainers
-
-
 # We consider these images to worthy of additional review.
 busybox/image.yaml               @amdawson @imjasonh @kaniini @mattmoor @patflynn
 busybox/configs/*.apko.yaml      @amdawson @imjasonh @kaniini @mattmoor @patflynn
@@ -14,3 +10,6 @@ static/image.yaml                @amdawson @imjasonh @kaniini @mattmoor @patflyn
 static/configs/*.apko.yaml       @amdawson @imjasonh @kaniini @mattmoor @patflynn
 wolfi-base/image.yaml            @amdawson @imjasonh @kaniini @mattmoor @patflynn
 wolfi-base/configs/*.apko.yaml   @amdawson @imjasonh @kaniini @mattmoor @patflynn
+
+# Ensure that CODEOWNERS itself is only able to be modified by super owners.
+CODEOWNERS @chainguard-images/images-owners
