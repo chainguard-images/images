@@ -1,7 +1,8 @@
 contents:
-  packages:
-    - cluster-autoscaler
-    - cluster-autoscaler-compat
+  packages: [
+    # cluster-autoscaler comes in via var.extra_packages
+  ]
+
 accounts:
   groups:
     - groupname: cluster-autoscaler
@@ -15,4 +16,3 @@ entrypoint:
   command: /usr/bin/cluster-autoscaler
 
 work-dir: /
-
