@@ -1,6 +1,6 @@
 contents:
   packages:
-    - cert-manager-acmesolver
+    # Provided by extra-packages
 
 accounts:
   groups:

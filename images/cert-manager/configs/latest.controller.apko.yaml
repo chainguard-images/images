@@ -1,6 +1,6 @@
 contents:
   packages:
-    - cert-manager-controller
+    # Provided by extra-packages
 
 accounts:
   groups:

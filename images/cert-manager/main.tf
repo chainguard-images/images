@@ -12,6 +12,13 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
+module "config" {
+  for_each = local.components
+  source   = "./configs"
+
+  name = each.key
+}
+
 module "latest" {
   for_each = local.components
   source   = "../../tflib/publisher"
@@ -19,7 +26,7 @@ module "latest" {
   name = basename(path.module)
 
   target_repository = "${var.target_repository}-${each.key}"
-  config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
+  config            = module.config[each.key].config
 }
 
 module "dev" {
