@@ -19,13 +19,15 @@ data "oci_exec_test" "run" {
   EOF
 }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "cluster-autoscaler" {
-  name = "cluster-autoscaler"
+  name = "cluster-autoscaler-${random_pet.suffix.id}"
 
   repository = "https://kubernetes.github.io/autoscaler"
   chart      = "cluster-autoscaler"
 
-  namespace        = "cluster-autoscaler"
+  namespace        = "cluster-autoscaler-${random_pet.suffix.id}"
   create_namespace = true
 
   values = [jsonencode({
