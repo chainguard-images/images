@@ -1,6 +1,7 @@
 contents:
   packages:
     - redis
+    - redis-cli
     - busybox
 
 accounts:
@@ -22,5 +23,4 @@ paths:
 work-dir: /data
 
 entrypoint:
-  command: redis-server
-
+  command: /usr/bin/redis-server
