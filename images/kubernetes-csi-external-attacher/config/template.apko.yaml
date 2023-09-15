@@ -1,6 +1,7 @@
 contents:
-  packages:
-    - kubernetes-csi-external-attacher
+  packages: [
+    # Package comes from extra-packages
+  ]
 
 accounts:
   groups:
