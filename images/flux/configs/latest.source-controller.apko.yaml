@@ -5,12 +5,13 @@ contents:
 accounts:
   groups:
     - groupname: nonroot
-      gid: 65532
+      gid: 1337
   users:
     - username: nonroot
-      uid: 65532
-      gid: 65532
-  run-as: 65532
+      uid: 1337
+      gid: 1337
+  # Upstream charts deploy with fsGroup: 1337 by default.
+  run-as: 1337
 
 entrypoint:
   command: /usr/bin/source-controller
@@ -20,7 +21,7 @@ paths:
   - path: /home/nonroot
     type: directory
     permissions: 0o777
-    uid: 65532
-    gid: 65532
+    uid: 1337
+    gid: 1337
     recursive: true
 
