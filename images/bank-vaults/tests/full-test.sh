@@ -14,4 +14,4 @@ kubectl kustomize https://github.com/bank-vaults/vault-operator/deploy/rbac | ku
 
 kubectl apply -f https://raw.githubusercontent.com/bank-vaults/vault-operator/v1.21.0/deploy/examples/cr-raft.yaml
 
-kubectl -n default wait --for=condition=healthy vault vault
+kubectl -n default wait --for=condition=healthy vault vault --timeout=300s
