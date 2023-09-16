@@ -1,6 +1,6 @@
 contents:
   packages:
-    - cert-manager-webhook
+    # Provided by extra-packages
 
 accounts:
   groups:

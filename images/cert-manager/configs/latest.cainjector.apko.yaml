@@ -1,6 +1,6 @@
 contents:
   packages:
-    - cert-manager-cainjector
+    # Provided by extra-packages
 
 accounts:
   groups:
