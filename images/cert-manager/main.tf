@@ -8,7 +8,7 @@ variable "target_repository" {
 
 module "config" {
   for_each = local.components
-  source   = "./configs"
+  source   = "./config"
   name     = each.key
 }
 
