@@ -99,6 +99,11 @@ module "bash" {
   target_repository = "${var.target_repository}/bash"
 }
 
+module "bank-vaults" {
+  source            = "./images/bank-vaults"
+  target_repository = "${var.target_repository}/bank-vaults"
+}
+
 module "bazel" {
   source            = "./images/bazel"
   target_repository = "${var.target_repository}/bazel"
