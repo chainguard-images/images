@@ -18,16 +18,13 @@ locals {
   ])
 }
 
-module "dev" { source = "../../tflib/splunk-dev-subvariant" }
+module "splunk-dev" { source = "../../tflib/splunk-dev-subvariant" }
 
 locals {
-  fluentd_splunk_dev = concat(module.dev.extra_packages, [
+  fluentd_splunk_dev = concat(module.splunk-dev.extra_packages, [
     "build-base",
     "ruby3.2-bundler",
     "ruby-3.2-dev",
-    "ruby3.2-fluent-plugin-splunk-hec",
-    "fluent-plugin-out-http",
-    "busybox,
   ]) 
 }
 
@@ -45,7 +42,7 @@ module "tagger" {
     { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : t => module.latest.image_ref },
     { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : "${t}-dev" => module.latest-dev.image_ref },
     { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : "${t}-splunk" => module.latest-splunk.image_ref }
-    { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : "${t}-splunk-dev" => module.latest-splunk.image_ref }
+    { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : "${t}-splunk-dev" => module.latest-splunk-dev.image_ref }
   )
 }
 
