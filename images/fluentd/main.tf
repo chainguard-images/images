@@ -25,7 +25,6 @@ locals {
     "build-base",
     "ruby3.2-bundler",
     "ruby-3.2-dev",
-    "busybox",
   ]) 
 }
 
