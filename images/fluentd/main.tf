@@ -25,7 +25,6 @@ locals {
     "busybox",
 
   ])
-  
 }
 
 module "tagger" {
