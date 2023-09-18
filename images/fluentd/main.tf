@@ -15,17 +15,13 @@ locals {
     "build-base",
     "ruby3.2-bundler",
     "ruby-3.2-dev",
-  ])
+  ]
 }
 
 module "splunk-dev" { source = "../../tflib/splunk-dev-subvariant" }
 
 locals {
-  fluentd_splunk_dev = concat(module.splunk-dev.extra_packages, [
-    "build-base",
-    "ruby3.2-bundler",
-    "ruby-3.2-dev",
-  ]) 
+  fluentd_splunk_dev = concat(module.splunk-dev.extra_packages, ["build-base","ruby3.2-bundler","ruby-3.2-dev"])
 }
 
 module "tagger" {
