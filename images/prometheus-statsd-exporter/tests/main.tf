@@ -17,8 +17,10 @@ data "oci_string" "ref" {
   input = var.digest
 }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "test" {
-  name       = "prometheus"
+  name       = "prometheus-statsd-exporter-${random_pet.suffix.id}"
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "prometheus-statsd-exporter"
 
