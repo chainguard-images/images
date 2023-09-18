@@ -18,12 +18,6 @@ locals {
   ]
 }
 
-module "splunk-dev" { source = "../../tflib/splunk-dev-subvariant" }
-
-locals {
-  fluentd_splunk_dev = concat(module.splunk-dev.extra_packages, ["build-base","ruby3.2-bundler","ruby-3.2-dev"])
-}
-
 module "tagger" {
   source = "../../tflib/tagger"
 
@@ -84,7 +78,7 @@ module "latest-splunk-dev" {
   # Make the dev variant an explicit extension of the
   # locked original.
   config         = jsonencode(module.latest.config)
-  extra_packages = local.fluentd_splunk_dev
+  extra_packages = local.fluentd_dev
 }
 
 module "version-tags-latest" {
