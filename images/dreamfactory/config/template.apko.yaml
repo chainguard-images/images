@@ -1,33 +1,37 @@
 contents:
-  keyring:
-    - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+  #keyring:
+  #  - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
   repositories:
+    - /work/packages
     - https://packages.wolfi.dev/os
   packages:
+    - busybox
     - ca-certificates-bundle
     - wolfi-base
     - ca-certificates-bundle
     # php packages
     - php-8.1
-    - php-xml
-    - php-curl
-    - php-mysqlnd
-    - php-curl
-    - php-soap
-    - php-mbstring
-    - php-zip
-    - php-bcmath
-    - php-dev
-    - php-ldap
-    - php-pgsql
-    - php-gd
-    - php-fpm
+    - php-8.1-xml
+    - php-8.1-curl
+    - php-8.1-mysqlnd
+    - php-8.1-curl
+    - php-8.1-soap
+    - php-8.1-mbstring
+    - php-8.1-zip
+    - php-8.1-bcmath
+    - php-8.1-dev
+    - php-8.1-ldap
+    - php-8.1-pgsql
+    - php-8.1-gd
+    - php-8.1-fpm
+    - php-igbinary
     # python packages
     - python3
     - py3-pip
     - py3-setuptools
     # Base packages:
     - gpg-agent
+    - libmcrypt-dev
     - curl
     - zip
     - wget
@@ -35,6 +39,19 @@ contents:
     - unixodbc-dev
     - gcc
     - cmake
+    - libpq-15
+    - nodejs
+    - npm
+    - readline-dev
+    # PECL packages
+    - php-8.1-pecl-mcrypt
+    - php-8.1-pecl-mongodb
+    - php-8.1-pecl-raphf
+    - php-8.1-pecl-sqlsrv
+    # Disable for now, it fails currently when initializing with:
+    # PHP Warning:  PHP Startup: Unable to load dynamic library 'pdo_sqlsrv' (tried: /usr/lib/php/modules/pdo_sqlsrv (/usr/lib/php/modules/pdo_sqlsrv: cannot open shared object file: No such file or directory), /usr/lib/php/modules/pdo_sqlsrv.so (/usr/lib/php/modules/pdo_sqlsrv.so: undefined symbol: php_pdo_unregister_driver)) in Unknown on line 0
+    #- php-8.1-pecl-pdosqlsrv
+
     # Missing ones so far for php
     # - php-cli
     # - php-sqllite
@@ -42,27 +59,14 @@ contents:
     # - php-sybase
     # - php-odbc
     # - php-http
-    # - php-raphf
     # Missing base packages:
     # - software-properties-common
-    # - cron
-    # - unzip # Though perhaps it's installed by zip above?
-    # - lsof
+    # - cron  # This is installed by busybox
+    # - unzip # This is installed by busybox
+    # - lsof  # This is installed by busybox
     # - mcrypt
-    # - libmcrypt-dev
-    # - libreadline-dev
     # - sudo
     # - build-essential
-    # Missing pecl packages:
-    # These are currently installed via RUN in docker file, and we can't do
-    # that so they need to be added to the package list above.
-    # - pecl install mcrypt
-    # - pecl install mongodb
-    # - pecl install igbinary
-    # - pecl install sqlsrv
-    # - pecl install pdo_sqlsrv
-
-
 
 accounts:
   groups:
