@@ -65,7 +65,7 @@ module "latest-splunk" {
   # Make the dev variant an explicit extension of the
   # locked original.
   config         = jsonencode(module.latest.config)
-  extra_packages = ["ruby3.2-fluent-plugin-splunk-hec"]
+  extra_packages = ["ruby3.2-fluent-plugin-splunk-hec", "fluent-plugin-out-http"]
 }
 
 module "version-tags-latest" {
