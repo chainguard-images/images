@@ -1,6 +1,7 @@
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
+    oci  = { source = "chainguard-dev/oci" }
   }
 }
 
@@ -8,37 +9,27 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
+module "latest-config" { source = "./config" }
+
 module "latest" {
   source = "../../tflib/publisher"
 
-  name = basename(path.module)
-
+  name              = basename(path.module)
   target_repository = var.target_repository
-  config            = file("${path.module}/configs/latest.apko.yaml")
+  config            = module.latest-config.config
 }
 
 module "dev" { source = "../../tflib/dev-subvariant" }
 
-locals {
-  php_dev = concat(module.dev.extra_packages, ["composer"])
-}
-
 module "latest-dev" {
   source = "../../tflib/publisher"
 
-  name = basename(path.module)
-
+  name              = basename(path.module)
   target_repository = var.target_repository
   # Make the dev variant an explicit extension of the
   # locked original.
   config         = jsonencode(module.latest.config)
-  extra_packages = local.php_dev
-}
-
-module "version-tags" {
-  source  = "../../tflib/version-tags"
-  package = "php-8.2"
-  config  = module.latest.config
+  extra_packages = concat(module.dev.extra_packages, ["composer"])
 }
 
 module "test-latest" {
@@ -48,27 +39,18 @@ module "test-latest" {
 
 module "test-latest-dev" {
   source    = "./tests"
+  check-dev = true # Check for PIP in dev variants.
   digest    = module.latest-dev.image_ref
-  check-dev = true
 }
 
-module "tagger" {
-  source = "../../tflib/tagger"
+resource "oci_tag" "latest" {
+  depends_on = [module.test-latest]
+  digest_ref = module.latest.image_ref
+  tag        = "latest"
+}
 
-  depends_on = [
-    module.test-fpm,
-    module.test-fpm-dev,
-    module.test-latest,
-    module.test-latest-dev,
-  ]
-
-  tags = merge(
-    # PHP fpm
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-fpm" => module.fpm.image_ref },
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-fpm-dev" => module.fpm-dev.image_ref },
-
-    # PHP
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-dev" => module.latest-dev.image_ref },
-  )
+resource "oci_tag" "latest-dev" {
+  depends_on = [module.test-latest-dev]
+  digest_ref = module.latest-dev.image_ref
+  tag        = "latest-dev"
 }
