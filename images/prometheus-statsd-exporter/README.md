@@ -27,11 +27,15 @@ docker pull cgr.dev/chainguard/prometheus-statsd-exporter:latest
 
 The easiest way to install the Prometheus StatsD Exporter is to use the Helm chart.
 
+Get the digest of the image, and then install the chart:
+
 ```bash
 $ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 $ helm repo update
 $ helm install prom-statsd-exporter prometheus-community/prometheus-statsd-exporter \
- --set image.repository=cgr.dev/chainguard/prometheus-statsd-exporter --set image.tag=latest
+ --set image.registry=cgr.dev\
+ --set image.repository=chainguard/prometheus-statsd-exporter \
+ --set image.digest=[DIGEST]
 ```
 
 For more detail, please refer to the [StatsD Exporter documentation](https://github.com/prometheus/statsd_exporter).
