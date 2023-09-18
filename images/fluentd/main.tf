@@ -16,7 +16,7 @@ locals {
     "ruby3.2-bundler",
     "ruby-3.2-dev",
 
-  ]),
+  ])
 
   fluentd_splunk_dev = concat(module.dev.extra_packages, [
     "build-base",
