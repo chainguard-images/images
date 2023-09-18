@@ -25,6 +25,7 @@ locals {
     "build-base",
     "ruby3.2-bundler",
     "ruby-3.2-dev",
+    "busybox",
   ]) 
 }
 
@@ -41,7 +42,7 @@ module "tagger" {
 
     { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : t => module.latest.image_ref },
     { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : "${t}-dev" => module.latest-dev.image_ref },
-    { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : "${t}-splunk" => module.latest-splunk.image_ref }
+    { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : "${t}-splunk" => module.latest-splunk.image_ref },
     { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : "${t}-splunk-dev" => module.latest-splunk-dev.image_ref }
   )
 }
