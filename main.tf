@@ -775,6 +775,11 @@ module "slim-toolkit-debug" {
   target_repository = "${var.target_repository}/slim-toolkit-debug"
 }
 
+module "spark-operator" {
+  source            = "./images/spark-operator"
+  target_repository = "${var.target_repository}/spark-operator"
+}
+
 module "spire" {
   source            = "./images/spire"
   target_repository = "${var.target_repository}/spire"

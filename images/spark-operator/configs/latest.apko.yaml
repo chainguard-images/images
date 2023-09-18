@@ -1,0 +1,18 @@
+contents:
+  packages:
+    - spark-operator
+    - spark-operator-oci-entrypoint
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+
+entrypoint:
+  command: /usr/bin/entrypoint.sh
+
