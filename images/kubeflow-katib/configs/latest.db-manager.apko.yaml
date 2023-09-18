@@ -1,0 +1,19 @@
+contents:
+  packages:
+    - katib-db-manager-compat
+    - grpc-health-probe-compat
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+
+work-dir: /opt/katib
+
+entrypoint:
+  command: ./katib-db-manager

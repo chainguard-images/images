@@ -1,0 +1,16 @@
+contents:
+  packages:
+    - kubeflow-volumes-web-app
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+
+entrypoint:
+  command: /bin/bash -c "gunicorn -w 3 --bind 0.0.0.0:5000 --chdir /usr/share/kubeflow-volumes-web-app --access-logfile - entrypoint:app"

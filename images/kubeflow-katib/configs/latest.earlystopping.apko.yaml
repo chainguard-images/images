@@ -1,0 +1,21 @@
+contents:
+  packages:
+    - katib-earlystopping
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+
+environment:
+  EARLY_STOPPING_DIR: "cmd/earlystopping/medianstop/v1beta1"
+  PYTHONPATH: /opt/katib:/opt/katib/pkg/apis/manager/v1beta1/python
+  PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
+
+entrypoint:
+  command: python3 /opt/katib/cmd/earlystopping/medianstop/v1beta1/main.py
