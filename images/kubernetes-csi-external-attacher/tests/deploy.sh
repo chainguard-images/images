@@ -11,6 +11,8 @@ curl https://raw.githubusercontent.com/kubernetes-csi/external-attacher/master/d
 
 curl https://raw.githubusercontent.com/kubernetes-csi/external-attacher/master/deploy/kubernetes/rbac.yaml \
     | sed "s|namespace: default|namespace: $NAMESPACE|g" \
+    | sed "s|csi-attacher-role|csi-attacher-role-$NAMESPACE|g" \
+    | sed "s|external-attacher-runner|external-attacher-runner-$NAMESPACE|g" \
     | kubectl apply -n $NAMESPACE -f -
 
 sleep 5
