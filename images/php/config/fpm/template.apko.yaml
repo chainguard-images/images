@@ -2,7 +2,6 @@ contents:
   packages:
     - ca-certificates
     - curl
-    - php
     - php-curl
     - php-openssl
     - php-iconv
@@ -13,7 +12,7 @@ contents:
     - php-pdo_mysql
     - php-sodium
     - php-phar
-    - php-fpm
+    # PHP and FPM come from var.extra_packages
 
 entrypoint:
   type: service-bundle
