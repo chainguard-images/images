@@ -68,6 +68,18 @@ module "latest-splunk" {
   extra_packages = ["ruby3.2-fluent-plugin-splunk-hec", "fluent-plugin-out-http"]
 }
 
+module "latest-splunk-dev" {
+  source = "../../tflib/publisher"
+
+  name = basename(path.module)
+
+  target_repository = var.target_repository
+  # Make the dev variant an explicit extension of the
+  # locked original.
+  config         = jsonencode(module.latest.config)
+  extra_packages = ["ruby3.2-fluent-plugin-splunk-hec", "fluent-plugin-out-http", local.fluent_dev]
+}
+
 module "version-tags-latest" {
   source  = "../../tflib/version-tags"
   package = "ruby3.2-fluentd"
