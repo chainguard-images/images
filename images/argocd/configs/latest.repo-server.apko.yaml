@@ -3,6 +3,7 @@ contents:
     - busybox
     - argo-cd-repo-server
     - argo-cd-compat
+    - gpg
 
 accounts:
   groups:
