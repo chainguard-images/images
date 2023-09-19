@@ -80,10 +80,10 @@ module "latest-splunk-dev" {
   name = basename(path.module)
 
   target_repository = var.target_repository
-  # Make the dev variant an explicit extension of the
-  # locked original.
+  # Make the splunk-dev variant an explicit extension of the
+  # original dev variant, with splunk packages.
   config         = jsonencode(module.latest-dev.config)
-  extra_packages = concat(local.fluentd_dev, local.splunk)
+  extra_packages = local.splunk
 }
 
 module "version-tags-latest" {
