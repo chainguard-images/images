@@ -412,6 +412,11 @@ module "kafka" {
   target_repository = "${var.target_repository}/kafka"
 }
 
+module "kargo" {
+  source            = "./images/kargo"
+  target_repository = "${var.target_repository}/kargo"
+}
+
 module "karpenter" {
   source            = "./images/karpenter"
   target_repository = "${var.target_repository}/karpenter"
