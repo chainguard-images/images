@@ -13,8 +13,9 @@ module "dev" { source = "../../tflib/dev-subvariant" }
 module "test-latest" {
   source = "./tests"
   digests = {
-    proxy = module.proxy.image_ref
-    pilot = module.proxy.image_ref
+    proxy    = module.proxy.image_ref
+    pilot    = module.pilot.image_ref
+    operator = module.operator.image_ref
   }
 }
 
@@ -23,6 +24,7 @@ resource "oci_tag" "latest" {
   for_each = {
     "proxy" : module.proxy.image_ref,
     "pilot" : module.pilot.image_ref,
+    "operator" : module.operator.image_ref,
   }
   digest_ref = each.value
   tag        = "latest"
@@ -33,6 +35,7 @@ resource "oci_tag" "latest-dev" {
   for_each = {
     "proxy" : module.proxy-dev.image_ref,
     "pilot" : module.pilot-dev.image_ref,
+    "operator" : module.operator-dev.image_ref,
   }
   digest_ref = each.value
   tag        = "latest-dev"
