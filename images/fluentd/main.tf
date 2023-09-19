@@ -16,6 +16,11 @@ locals {
     "ruby3.2-bundler",
     "ruby-3.2-dev",
   ])
+
+  splunk = [
+    "ruby3.2-fluent-plugin-splunk-hec",
+    "fluent-plugin-out-http",
+  ]
 }
 
 module "tagger" {
@@ -31,7 +36,8 @@ module "tagger" {
 
     { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : t => module.latest.image_ref },
     { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : "${t}-dev" => module.latest-dev.image_ref },
-    { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : "${t}-splunk" => module.latest-splunk.image_ref }
+    { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : "${t}-splunk" => module.latest-splunk.image_ref },
+    { for t in toset(concat(["latest"], module.version-tags-latest.tag_list)) : "${t}-splunk-dev" => module.latest-splunk-dev.image_ref }
   )
 }
 
@@ -65,7 +71,19 @@ module "latest-splunk" {
   # Make the dev variant an explicit extension of the
   # locked original.
   config         = jsonencode(module.latest.config)
-  extra_packages = ["ruby3.2-fluent-plugin-splunk-hec", "fluent-plugin-out-http"]
+  extra_packages = local.splunk
+}
+
+module "latest-splunk-dev" {
+  source = "../../tflib/publisher"
+
+  name = basename(path.module)
+
+  target_repository = var.target_repository
+  # Make the splunk-dev variant an explicit extension of the
+  # original dev variant, with splunk packages.
+  config         = jsonencode(module.latest-dev.config)
+  extra_packages = local.splunk
 }
 
 module "version-tags-latest" {
