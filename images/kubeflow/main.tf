@@ -1,9 +1,3 @@
-terraform {
-  required_providers {
-    apko = { source = "chainguard-dev/apko" }
-  }
-}
-
 locals {
   components = toset([
     "jupyter-web-app",

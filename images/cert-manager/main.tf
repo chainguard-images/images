@@ -1,9 +1,3 @@
-terraform {
-  required_providers {
-    apko = { source = "chainguard-dev/apko" }
-  }
-}
-
 locals {
   components = toset(["acmesolver", "controller", "cainjector", "webhook"])
 }
@@ -15,8 +9,7 @@ variable "target_repository" {
 module "config" {
   for_each = local.components
   source   = "./configs"
-
-  name = each.key
+  name     = each.key
 }
 
 module "latest" {

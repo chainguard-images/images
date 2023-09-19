@@ -1,7 +1,6 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    apko = { source = "chainguard-dev/apko" }
+    oci = { source = "chainguard-dev/oci" }
   }
 }
 
