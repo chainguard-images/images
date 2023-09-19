@@ -15,16 +15,12 @@ locals {
     "build-base",
     "ruby3.2-bundler",
     "ruby-3.2-dev",
-
   ])
 
-  fluentd_splunk_dev = concat(module.dev.extra_packages, [
-    "build-base",
-    "ruby3.2-bundler",
-    "ruby-3.2-dev",
-    "busybox",
-
-  ])
+  splunk = [
+    "ruby3.2-fluent-plugin-splunk-hec",
+    "fluent-plugin-out-http",
+  ]
 }
 
 module "tagger" {
@@ -75,7 +71,7 @@ module "latest-splunk" {
   # Make the dev variant an explicit extension of the
   # locked original.
   config         = jsonencode(module.latest.config)
-  extra_packages = local.fluentd_splunk_dev
+  extra_packages = local.splunk
 }
 
 module "latest-splunk-dev" {
@@ -86,8 +82,8 @@ module "latest-splunk-dev" {
   target_repository = var.target_repository
   # Make the dev variant an explicit extension of the
   # locked original.
-  config         = jsonencode(module.latest.config)
-  extra_packages = local.fluentd_splunk_dev
+  config         = jsonencode(module.latest-dev.config)
+  extra_packages = concat(local.fluentd_dev, local.splunk)
 }
 
 module "version-tags-latest" {
