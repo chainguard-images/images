@@ -217,6 +217,11 @@ module "curl" {
   target_repository = "${var.target_repository}/curl"
 }
 
+module "dask-gateway" {
+  source            = "./images/dask-gateway"
+  target_repository = "${var.target_repository}/dask-gateway"
+}
+
 module "deno" {
   source            = "./images/deno"
   target_repository = "${var.target_repository}/deno"
