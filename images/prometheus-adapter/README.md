@@ -33,7 +33,7 @@ The easiest way to install the Prometheus Adapter is to use the Helm chart.
 $ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 $ helm repo update
 $ helm install adapter prometheus-community/prometheus-adapter \
- --set image.repository=cgr.dev/chainguard/adapter --set image.tag=latest
+ --set image.repository=cgr.dev/chainguard/prometheus-adapter --set image.tag=latest
 ```
 
 For more detail, please refer to the [Adapter documentation](https://github.com/kubernetes-sigs/prometheus-adapter).
