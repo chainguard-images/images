@@ -699,6 +699,11 @@ module "prometheus" {
   target_repository = "${var.target_repository}/prometheus"
 }
 
+module "prometheus-adapter" {
+  source            = "./images/prometheus-adapter"
+  target_repository = "${var.target_repository}/prometheus-adapter"
+}
+
 module "prometheus-statsd-exporter" {
   source            = "./images/prometheus-statsd-exporter"
   target_repository = "${var.target_repository}/prometheus-statsd-exporter"
