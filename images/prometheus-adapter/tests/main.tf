@@ -12,10 +12,8 @@ data "oci_string" "ref" {
   input = var.digest
 }
 
-resource "random_pet" "suffix" {}
-
 resource "helm_release" "test" {
-  name       = "prometheus-adapter-${random_pet.suffix.id}"
+  name       = "prometheus-adapter"
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "prometheus-adapter"
 
@@ -25,4 +23,10 @@ resource "helm_release" "test" {
       tag        = data.oci_string.ref.pseudo_tag
     }
   })]
+}
+
+data "oci_exec_test" "cleanup" {
+  digest     = var.digest
+  script     = "${path.module}/cleanup.sh"
+  depends_on = [helm_release.test]
 }
