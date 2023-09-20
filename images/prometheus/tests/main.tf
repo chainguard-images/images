@@ -39,7 +39,7 @@ data "oci_exec_test" "healthy" {
 resource "random_pet" "suffix" {}
 
 resource "helm_release" "kube-prometheus-stack" {
-  name       = "prometheus-${random_pet.suffix.id}"
+  name       = "prometheus"
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
 
