@@ -1,0 +1,50 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: test-gateway
+spec:
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "ingress.test.foo"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: test-virtual-service
+spec:
+  gateways:
+  - test-gateway
+  hosts:
+  - "ingress.test.foo"
+  http:
+  - directResponse:
+      status: 200
+      body:
+        string: "Yes it's working\n"
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: curl
+spec:
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+    spec:
+      containers:
+      - name: curl
+        image: cgr.dev/chainguard/curl:latest
+        command:
+        - curl
+        - -v
+        - --fail-with-body
+        - -H
+        - "Host:ingress.test.foo"
+        - ISTIO_NAMESPACE-gateway.ISTIO_NAMESPACE.svc
+      restartPolicy: Never
+  backoffLimit: 20

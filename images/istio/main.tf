@@ -10,6 +10,8 @@ variable "target_repository" {
 
 module "dev" { source = "../../tflib/dev-subvariant" }
 
+resource "random_pet" "suffix" {}
+
 module "test-latest" {
   source = "./tests"
   digests = {
@@ -17,6 +19,7 @@ module "test-latest" {
     pilot    = module.pilot.image_ref
     operator = module.operator.image_ref
   }
+  namespace = "istio-system-${random_pet.suffix.id}"
 }
 
 resource "oci_tag" "latest" {
