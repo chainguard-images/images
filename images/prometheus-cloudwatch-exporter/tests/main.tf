@@ -34,6 +34,6 @@ resource "helm_release" "test" {
   }
   set {
     name  = "image.tag"
-    value = format("latest@%s", data.oci_string.ref.digest)
+    value = data.oci_string.ref.pseudo_tag
   }
 }
