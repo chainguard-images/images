@@ -1,6 +1,7 @@
 contents:
-  packages:
-    - prometheus-redis-exporter
+  packages: [
+    # prometheus-redis-exporter comes in via var.extra_packages
+  ]
 
 accounts:
   groups:
@@ -15,4 +16,3 @@ accounts:
 
 entrypoint:
   command: /usr/bin/redis_exporter
-
