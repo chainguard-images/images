@@ -13,36 +13,40 @@ data "oci_exec_test" "version" {
   script = "docker run --rm $IMAGE_NAME --version"
 }
 
+
 data "oci_string" "ref" {
   input = var.digest
 }
 
-resource "random_pet" "suffix" {}
+resource "random_id" "hex" { byte_length = 4 }
 
-resource "helm_release" "test" {
-  name       = "prometheus-node-exporter-${random_pet.suffix.id}"
+resource "helm_release" "kube-prometheus-stack" {
+  name       = "prometheus-${random_id.hex.hex}"
   repository = "https://prometheus-community.github.io/helm-charts"
-  chart      = "prometheus-node-exporter"
+  chart      = "kube-prometheus-stack"
 
-  values = [jsonencode({
-    image = {
-      registry   = data.oci_string.ref.registry
-      repository = data.oci_string.ref.repo
-      digest     = data.oci_string.ref.digest
-    }
-  })]
+  namespace        = "prometheus-${random_id.hex.hex}"
+  create_namespace = true
+
+  // node-exporter
+  set {
+    name  = "prometheus-node-exporter.image.registry"
+    value = data.oci_string.ref.registry
+  }
+  set {
+    name  = "prometheus-node-exporter.image.repository"
+    value = data.oci_string.ref.repo
+  }
+  set {
+    name  = "prometheus-node-exporter.image.digest"
+    value = data.oci_string.ref.digest
+  }
 }
 
-resource "helm_release" "bitnami" {
-  name       = "bitnami-prometheus-node-exporter-${random_pet.suffix.id}"
-  repository = "oci://registry-1.docker.io/bitnamicharts"
-  chart      = "node-exporter"
+data "oci_exec_test" "node-runs" {
+  depends_on = [resource.helm_release.kube-prometheus-stack]
 
-  values = [jsonencode({
-    image = {
-      registry   = data.oci_string.ref.registry
-      repository = data.oci_string.ref.repo
-      digest     = data.oci_string.ref.digest
-    }
-  })]
+  digest      = var.digest
+  script      = "./node-runs.sh ${random_id.hex.hex}"
+  working_dir = path.module
 }
