@@ -1,6 +1,6 @@
 contents:
   packages:
-    - opentf
+    - opentofu
 
 accounts:
   groups:
@@ -12,7 +12,7 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command: /usr/bin/opentf
+  command: /usr/bin/opentofu
 
 cmd: --help
 
