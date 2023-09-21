@@ -1,4 +1,5 @@
 monopod/monopod
+generated/
 .idea
 
 # Ignore generated credentials from google-github-actions/auth

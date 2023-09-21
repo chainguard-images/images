@@ -8,12 +8,12 @@ contents:
 accounts:
   groups:
     - groupname: nonroot
-      gid: 65532
+      gid: {{ .GroupGid }}
   users:
     - username: nonroot
-      uid: 65532
-      gid: 65532
-  run-as: 65532
+      uid: {{ .UserUid }}
+      gid: {{ .UserGid }}
+  run-as: {{ .RunAs}}
 
 entrypoint:
-  command: /usr/bin/TODO # TODO: set entrypoint here.
+  command: {{ .Entrypoint }} # TODO: set entrypoint here.
