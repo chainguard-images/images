@@ -43,7 +43,7 @@ locals {
 
 module "this" {
   source  = "chainguard-dev/apko/publisher"
-  version = "0.0.6"
+  version = "0.0.7"
 
   target_repository = var.target_repository
   config            = yamlencode(local.updated_config)
