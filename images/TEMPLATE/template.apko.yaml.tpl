@@ -1,6 +1,6 @@
 contents:
   packages: [
-    # TODO: Add packages here.
+    # Package "{{ .PackageName }}" comes in via var.extra_packages
     # To add a version stream image, see the extra_packages variable in config/main.tf to add packages conditionally.
     # Otherwise, just add packages here.
   ]

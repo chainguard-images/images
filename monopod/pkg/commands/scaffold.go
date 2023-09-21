@@ -11,8 +11,9 @@ import (
 )
 
 const (
-	MainTfTemplate = "main.tf.tpl"
-	ApkoTemplate   = "template.apko.yaml.tpl"
+	MainTfTemplate       = "main.tf.tpl"
+	MainConfigTfTemplate = "main-config.tf.tpl"
+	ApkoTemplate         = "template.apko.yaml.tpl"
 
 	ConfigsFolder   = "configs"
 	TestsFolder     = "tests"
@@ -34,12 +35,12 @@ type scaffoldOptions struct {
 
 var (
 	outputMappings = map[string]string{
-		MainTfTemplate: "main.tf",
-		ApkoTemplate:   "latest.apko.yaml",
+		MainTfTemplate:       "main.tf",
+		MainConfigTfTemplate: "main.tf",
+		ApkoTemplate:         "latest.apko.yaml",
 	}
 
 	copyOutputMappings = map[string]string{
-		"main-config.tf":  filepath.Join(ConfigsFolder, "main.tf"),
 		"main-test.tf":    filepath.Join(TestsFolder, "main.tf"),
 		"EXAMPLE_TEST.sh": filepath.Join(TestsFolder, "EXAMPLE_TEST.sh"),
 		"README.md":       "README.md",
@@ -77,6 +78,10 @@ func Scaffold() *cobra.Command {
 			}
 
 			if err := o.scaffoldMainTerraform(); err != nil {
+				return err
+			}
+
+			if err := o.scaffoldMainConfigTerraform(); err != nil {
 				return err
 			}
 
@@ -228,8 +233,25 @@ func (o scaffoldOptions) scaffoldApkoYaml() error {
 		return err
 	}
 
-	// this file should be written into the configs directory
+	// this file should be written in the configs directory
 	file, err := o.createOutputFile(filepath.Join(ConfigsFolder, outputMappings[ApkoTemplate]))
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	return o.processTemplate(tmpl, file)
+}
+
+// scaffoldMainConfigTerraform
+func (o scaffoldOptions) scaffoldMainConfigTerraform() error {
+	tmpl, err := o.loadTemplateFile(MainConfigTfTemplate)
+	if err != nil {
+		return err
+	}
+
+	// this file should be written in the configs directory
+	file, err := o.createOutputFile(filepath.Join(ConfigsFolder, outputMappings[MainConfigTfTemplate]))
 	if err != nil {
 		return err
 	}
