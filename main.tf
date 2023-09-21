@@ -704,6 +704,21 @@ module "prometheus-adapter" {
   target_repository = "${var.target_repository}/prometheus-adapter"
 }
 
+module "prometheus-cloudwatch-exporter" {
+  source            = "./images/prometheus-cloudwatch-exporter"
+  target_repository = "${var.target_repository}/prometheus-cloudwatch-exporter"
+}
+
+module "prometheus-elasticsearch-exporter" {
+  source            = "./images/prometheus-elasticsearch-exporter"
+  target_repository = "${var.target_repository}/prometheus-elasticsearch-exporter"
+}
+
+module "prometheus-redis-exporter" {
+  source            = "./images/prometheus-redis-exporter"
+  target_repository = "${var.target_repository}/prometheus-redis-exporter"
+}
+
 module "prometheus-statsd-exporter" {
   source            = "./images/prometheus-statsd-exporter"
   target_repository = "${var.target_repository}/prometheus-statsd-exporter"

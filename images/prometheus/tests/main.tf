@@ -8,18 +8,15 @@ terraform {
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
-    alertmanager           = string
-    cloudwatch-exporter    = string
-    core                   = string
-    config-reloader        = string
-    elasticsearch-exporter = string
-    mongodb-exporter       = string
-    mysqld-exporter        = string
-    node-exporter          = string
-    operator               = string
-    postgres-exporter      = string
-    pushgateway            = string
-    redis-exporter         = string
+    alertmanager      = string
+    core              = string
+    config-reloader   = string
+    mongodb-exporter  = string
+    mysqld-exporter   = string
+    node-exporter     = string
+    operator          = string
+    postgres-exporter = string
+    pushgateway       = string
   })
 }
 
@@ -29,9 +26,7 @@ data "oci_string" "ref" {
 }
 
 data "oci_exec_test" "version" {
-  # cloud-watch exporter treats --version as the config filename,
-  # and has a more interesting test below!
-  for_each = { for k, v in var.digests : k => v if k != "cloudwatch-exporter" }
+  for_each = { for k, v in var.digests : k => v }
   digest   = each.value
   script   = "docker run --rm $IMAGE_NAME --version"
 }
@@ -41,17 +36,7 @@ data "oci_exec_test" "healthy" {
   script = "${path.module}/02-healthy.sh"
 }
 
-data "oci_exec_test" "cloudwatch-runs" {
-  digest      = var.digests["cloudwatch-exporter"]
-  script      = "./cloudwatch-runs.sh"
-  working_dir = path.module
-}
-
-data "oci_exec_test" "redis-runs" {
-  digest      = var.digests["redis-exporter"]
-  script      = "./redis-installs.sh"
-  working_dir = path.module
-}
+resource "random_pet" "suffix" {}
 
 resource "helm_release" "kube-prometheus-stack" {
   name       = "prometheus"
@@ -158,26 +143,8 @@ data "oci_exec_test" "node-runs" {
   working_dir = path.module
 }
 
-resource "helm_release" "cloudwatch-exporter" {
-  name       = "cloudwatch-exporter"
-  repository = "https://prometheus-community.github.io/helm-charts"
-  chart      = "prometheus-cloudwatch-exporter"
-
-  namespace        = "prometheus-cloudwatch-exporter"
-  create_namespace = true
-
-  set {
-    name  = "image.repository"
-    value = data.oci_string.ref["cloudwatch-exporter"].registry_repo
-  }
-  set {
-    name  = "image.tag"
-    value = format("latest@%s", data.oci_string.ref["cloudwatch-exporter"].digest)
-  }
-}
-
 resource "helm_release" "pushgateway" {
-  name       = "pushgateway"
+  name       = "pushgateway-${random_pet.suffix.id}"
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "prometheus-pushgateway"
 
@@ -195,7 +162,7 @@ resource "helm_release" "pushgateway" {
 }
 
 resource "helm_release" "mongodb" {
-  name       = "mongodb"
+  name       = "mongodb-${random_pet.suffix.id}"
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "prometheus-mongodb-exporter"
 
