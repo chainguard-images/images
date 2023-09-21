@@ -16,4 +16,4 @@ accounts:
   run-as: {{ .RunAs}}
 
 entrypoint:
-  command: {{ .Entrypoint }} # TODO: set entrypoint here.
+  command: {{ .Entrypoint }}

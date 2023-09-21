@@ -3,6 +3,7 @@ package commands
 import (
 	"errors"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"text/template"
@@ -50,8 +51,7 @@ var (
 
 // Scaffold creates the command that will process the scaffolding.
 func Scaffold() *cobra.Command {
-	var o = &scaffoldOptions{}
-
+	o := &scaffoldOptions{}
 	scaffoldCmd := &cobra.Command{
 		Use:   "scaffold",
 		Short: "scaffold generates scaffolding for an image",
@@ -68,32 +68,8 @@ func Scaffold() *cobra.Command {
   # Generate a test image with run-as, user-gid, and group-gid
   monopod scaffold --package-name test --entrypoint /usr/bin/test --run-as 65530 --user-gid 65534 --group-gid 65534`,
 
-		RunE: func(cmd *cobra.Command, args []string) error {
-			if err := o.validateOptions(); err != nil {
-				return err
-			}
-
-			if err := o.createOutputFolderStructure(); err != nil {
-				return err
-			}
-
-			if err := o.scaffoldMainTerraform(); err != nil {
-				return err
-			}
-
-			if err := o.scaffoldMainConfigTerraform(); err != nil {
-				return err
-			}
-
-			if err := o.scaffoldApkoYaml(); err != nil {
-				return err
-			}
-
-			if err := o.copyNonScaffoldedFiles(); err != nil {
-				return err
-			}
-
-			return nil
+		RunE: func(_ *cobra.Command, _ []string) error {
+			return o.runScaffold()
 		},
 		Args: cobra.NoArgs,
 	}
@@ -110,6 +86,57 @@ func Scaffold() *cobra.Command {
 	scaffoldCmd.Flags().Uint16Var(&o.GroupGid, "group-gid", 65532, "GID that should be used for the non-root-group gid value")
 
 	return scaffoldCmd
+}
+
+// runScaffold does the real work of creating the folders, files, and evaluating
+// templates.
+func (o scaffoldOptions) runScaffold() error {
+	if err := o.validateOptions(); err != nil {
+		return err
+	}
+
+	if err := o.createOutputFolderStructure(); err != nil {
+		return err
+	}
+
+	// this file should be written to the root of the resulting folder
+	mainTfOutfile, err := o.createOutputFile(outputMappings[MainTfTemplate])
+	if err != nil {
+		return err
+	}
+	defer mainTfOutfile.Close()
+
+	if err := o.scaffoldMainTerraform(mainTfOutfile); err != nil {
+		return err
+	}
+
+	// this file should be written in the configs directory
+	mainConfigTfOutfile, err := o.createOutputFile(filepath.Join(ConfigsFolder, outputMappings[MainConfigTfTemplate]))
+	if err != nil {
+		return err
+	}
+	defer mainConfigTfOutfile.Close()
+
+	if err := o.scaffoldMainConfigTerraform(mainConfigTfOutfile); err != nil {
+		return err
+	}
+
+	// this file should be written in the configs directory
+	apkoOutfile, err := o.createOutputFile(filepath.Join(ConfigsFolder, outputMappings[ApkoTemplate]))
+	if err != nil {
+		return err
+	}
+	defer apkoOutfile.Close()
+
+	if err := o.scaffoldApkoYaml(apkoOutfile); err != nil {
+		return err
+	}
+
+	if err := o.copyNonScaffoldedFiles(); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // validateOptions validates that the set of options specified is valid and
@@ -178,7 +205,7 @@ func (o scaffoldOptions) loadTemplateFile(templateName string) (*template.Templa
 }
 
 // processTemplate is a helper to evaluate the loaded template.
-func (o scaffoldOptions) processTemplate(template *template.Template, outfile *os.File) error {
+func (o scaffoldOptions) processTemplate(template *template.Template, outfile io.Writer) error {
 	err := template.Execute(outfile, o)
 	if err != nil {
 		return fmt.Errorf("failed to execute template: %w", err)
@@ -210,54 +237,33 @@ func copyFiles(src, dest string) error {
 }
 
 // scaffoldMainTerraform scaffolds the main.tf file
-func (o scaffoldOptions) scaffoldMainTerraform() error {
+func (o scaffoldOptions) scaffoldMainTerraform(writer io.Writer) error {
 	tmpl, err := o.loadTemplateFile(MainTfTemplate)
 	if err != nil {
 		return err
 	}
 
-	// this file should be written to the root of the resulting folder
-	file, err := o.createOutputFile(outputMappings[MainTfTemplate])
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	return o.processTemplate(tmpl, file)
+	return o.processTemplate(tmpl, writer)
 }
 
 // scaffoldApkoYaml scaffolds the latest.apko.yaml file.
-func (o scaffoldOptions) scaffoldApkoYaml() error {
+func (o scaffoldOptions) scaffoldApkoYaml(writer io.Writer) error {
 	tmpl, err := o.loadTemplateFile(ApkoTemplate)
 	if err != nil {
 		return err
 	}
 
-	// this file should be written in the configs directory
-	file, err := o.createOutputFile(filepath.Join(ConfigsFolder, outputMappings[ApkoTemplate]))
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	return o.processTemplate(tmpl, file)
+	return o.processTemplate(tmpl, writer)
 }
 
 // scaffoldMainConfigTerraform
-func (o scaffoldOptions) scaffoldMainConfigTerraform() error {
+func (o scaffoldOptions) scaffoldMainConfigTerraform(writer io.Writer) error {
 	tmpl, err := o.loadTemplateFile(MainConfigTfTemplate)
 	if err != nil {
 		return err
 	}
 
-	// this file should be written in the configs directory
-	file, err := o.createOutputFile(filepath.Join(ConfigsFolder, outputMappings[MainConfigTfTemplate]))
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	return o.processTemplate(tmpl, file)
+	return o.processTemplate(tmpl, writer)
 }
 
 // copyNonScaffoldedFiles copies the files that do not have templating.

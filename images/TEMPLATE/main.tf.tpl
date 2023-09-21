@@ -33,7 +33,6 @@ module "{{ .ModuleName }}-dev" {
   extra_packages = module.dev.extra_packages
 }
 {{ end }}
-
 module "test-{{ .ModuleName }}" {
   source = "./tests"
   digest = module.{{ .ModuleName }}.image_ref
