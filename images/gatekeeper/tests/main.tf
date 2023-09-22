@@ -9,32 +9,39 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "skip_crds" {
+  description = "Used to deconflict between multiple installations within the same cluster."
+  default     = false
+}
+
 data "oci_string" "ref" {
   input = var.digest
 }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "gatekeeper" {
-  name             = "gatekeeper"
-  namespace        = "gatekeeper-system"
+  name             = "gatekeeper-${random_pet.suffix.id}"
+  namespace        = "gatekeeper-${random_pet.suffix.id}"
   create_namespace = true
   timeout          = 600
 
   repository = "https://open-policy-agent.github.io/gatekeeper/charts"
   chart      = "gatekeeper"
 
-
-  values = [
-    <<EOF
-preInstall:
-  crdRepository:
-    image:
-      repository: openpolicyagent/gatekeeper-crds
-      tag: v3.13.0-beta.1
-image:
-  repository: ${data.oci_string.ref.registry_repo}
-  release: ${data.oci_string.ref.pseudo_tag}
-
-validatingWebhookCheckIgnoreFailurePolicy: Ignore
-EOF
-  ]
+  values = [jsonencode({
+    preInstall = var.skip_crds ? null : {
+      crdRepository = {
+        image = {
+          repository = "openpolicyagent/gatekeeper-crds"
+          tag        = "v3.13.0-beta.1"
+        }
+      }
+    }
+    image = {
+      repository = data.oci_string.ref.registry_repo
+      release    = data.oci_string.ref.pseudo_tag
+    }
+    validatingWebhookCheckIgnoreFailurePolicy = "Ignore"
+  })]
 }
