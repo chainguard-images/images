@@ -60,6 +60,11 @@ data "oci_exec_test" "check-reproducibility" {
   timeout_seconds = 600
 }
 
+locals {
+  parts           = split("/", var.target_repository)
+  is_maybe_alpine = contains(toset(["static", "busybox", "git"]), local.parts[length(local.parts) - 1])
+}
+
 data "oci_structure_test" "structure" {
   digest = data.oci_exec_test.check-reproducibility.tested_ref
 
@@ -75,7 +80,12 @@ data "oci_structure_test" "structure" {
     //}
     files { path = "/etc/ssl/certs/ca-certificates.crt" }
     files { path = "/lib/apk/db/installed" }
-    files { path = "/etc/os-release" } // TODO: we can check the contents
+    files {
+      path = "/etc/os-release"
+      // Images should report as "Wolfi".
+      // Some repos are special and some report as Alpine.
+      regex = local.is_maybe_alpine ? "" : "PRETTY_NAME=\"Wolfi\""
+    }
   }
 
   lifecycle {
