@@ -664,9 +664,9 @@ module "opentelemetry-collector-contrib" {
   target_repository = "${var.target_repository}/opentelemetry-collector-contrib"
 }
 
-module "opentf" {
-  source            = "./images/opentf"
-  target_repository = "${var.target_repository}/opentf"
+module "opentofu" {
+  source            = "./images/opentofu"
+  target_repository = "${var.target_repository}/opentofu"
 }
 
 module "paranoia" {

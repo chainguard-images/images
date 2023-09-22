@@ -5,8 +5,8 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. opentf)."
-  default     = ["opentf"]
+  description = "The additional packages to install (e.g. opentofu)."
+  default     = ["opentofu"]
 }
 
 data "apko_config" "this" {
