@@ -1,6 +1,7 @@
 contents:
-  packages:
-    - external-dns
+  packages: [
+    # external-dns comes via var.extra_packages.
+  ]
 
 accounts:
   groups:
