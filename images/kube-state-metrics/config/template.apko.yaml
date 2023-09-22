@@ -1,6 +1,7 @@
 contents:
-  packages:
-    - kube-state-metrics
+  packages: [
+    # kube-state-metrics comes from var.extra_packages
+  ]
 
 accounts:
   groups:
