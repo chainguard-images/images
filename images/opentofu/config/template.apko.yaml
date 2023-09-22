@@ -12,7 +12,7 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command: /usr/bin/opentofu
+  command: /usr/bin/tofu
 
 cmd: --help
 
