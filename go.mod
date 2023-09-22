@@ -1,6 +1,8 @@
 module github.com/chainguard-images/images
 
-go 1.20
+go 1.21
+
+toolchain go1.21.1
 
 require (
 	chainguard.dev/apko v0.10.0
