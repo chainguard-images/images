@@ -5,7 +5,7 @@ a consistent and smooth experience. New images must meet these standards or docu
 
 ## Experimental and Stable
 
-Images that are not ready for production use should be marked as ‘Experimental’via the [images.yaml configuration file](https://github.com/chainguard-images/images/blob/main/images/rabbitmq/image.yaml).  Once an image has seen enough usage without issue it will be removed.
+Images that are not ready for production use should be marked as ‘Experimental’ via the [images.yaml configuration file](https://github.com/chainguard-images/images/blob/main/images/rabbitmq/image.yaml).  Once an image has seen enough usage without issue it will be removed.
 
 We realize ‘enough usage’ leaves a lot of ambiguity.  This is intentional as some images are simple enough we can feel confident in them without using the experimental tag, while others may need to be validated with more usage.
 
