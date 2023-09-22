@@ -12,13 +12,15 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "kube-state-metrics" {
-  name = "kube-state-metrics"
+  name = "kube-state-metrics-${random_pet.suffix.id}"
 
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-state-metrics"
 
-  namespace        = "kube-state-metrics"
+  namespace        = "kube-state-metrics-${random_pet.suffix.id}"
   create_namespace = true
 
   values = [
