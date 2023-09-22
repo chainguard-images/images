@@ -1,6 +1,7 @@
 contents:
-  packages:
-    - aws-load-balancer-controller
+  packages: [
+    # aws-load-balancer-controller comes via var.extra_packages
+  ]
 
 accounts:
   groups:
