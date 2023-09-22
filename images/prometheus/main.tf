@@ -1,17 +1,14 @@
 locals {
   components = toset([
     "alertmanager",
-    "cloudwatch-exporter",
     "config-reloader",
     "core",
-    "elasticsearch-exporter",
     "mongodb-exporter",
     "mysqld-exporter",
     "node-exporter",
     "operator",
     "postgres-exporter",
     "pushgateway",
-    "redis-exporter",
   ])
 
   // Normally the package is named like "prometheus-{component}"
@@ -20,7 +17,6 @@ locals {
   packages = merge({
     for k, v in local.components : k => "prometheus-${k}"
     }, {
-    "cloudwatch-exporter" : "cloudwatch-exporter",
     "core" : "prometheus",
   })
 
