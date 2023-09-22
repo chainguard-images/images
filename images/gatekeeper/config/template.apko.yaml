@@ -1,7 +1,7 @@
 contents:
-  packages:
-    - gatekeeper
-    - gatekeeper-compat
+  packages: [
+    # gatekeeper is added via var.extra_packages.
+  ]
 
 accounts:
   groups:
@@ -17,4 +17,3 @@ entrypoint:
   command: manager
 
 cmd: --help
-
