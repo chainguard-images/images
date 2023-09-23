@@ -1,4 +1,0 @@
-status: stable
-versions:
-  - apko:
-      config: configs/latest.apko.yaml

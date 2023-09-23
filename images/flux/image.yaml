@@ -1,3 +1,0 @@
-versions:
-  - apko:
-      config: configs/latest.cli.apko.yaml

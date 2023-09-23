@@ -1,9 +1,0 @@
-contents:
-  packages:
-    - curl
-    - bash
-    - busybox
-
-entrypoint:
-  command: /bin/bash -c
-
