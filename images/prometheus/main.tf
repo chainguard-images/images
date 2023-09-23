@@ -5,7 +5,6 @@ locals {
     "core",
     "mongodb-exporter",
     "mysqld-exporter",
-    "node-exporter",
     "operator",
     "postgres-exporter",
     "pushgateway",
