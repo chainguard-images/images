@@ -371,6 +371,11 @@ module "influxdb" {
   target_repository = "${var.target_repository}/influxdb"
 }
 
+module "ip-masq-agent" {
+  source            = "./images/ip-masq-agent"
+  target_repository = "${var.target_repository}/ip-masq-agent"
+}
+
 module "istio" {
   source            = "./images/istio"
   target_repository = "${var.target_repository}/istio"
