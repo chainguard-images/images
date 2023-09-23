@@ -32,9 +32,9 @@ Get the digest of the image, and then install the chart:
 ```bash
 $ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 $ helm repo update
-$ helm install prom-statsd-exporter prometheus-community/prometheus-node-exporter \
+$ helm install prom-node-exporter prometheus-community/prometheus-node-exporter \
  --set image.registry=cgr.dev \
- --set image.repository=chainguard/prometheus-statsd-exporter \
+ --set image.repository=chainguard/prometheus-node-exporter \
  --set image.digest=[DIGEST]
 ```
 
