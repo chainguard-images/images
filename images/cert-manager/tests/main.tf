@@ -15,21 +15,30 @@ variable "digests" {
   })
 }
 
+variable "skip_crds" {
+  description = "Used to deconflict between multiple installations within the same cluster."
+  default     = false
+}
+
 data "oci_string" "ref" {
   for_each = var.digests
   input    = each.value
 }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "cert-manager" {
-  name             = "cert-manager"
-  namespace        = "cert-manager"
-  repository       = "https://charts.jetstack.io"
-  chart            = "cert-manager"
+  name       = "cert-manager-${random_pet.suffix.id}"
+  repository = "https://charts.jetstack.io"
+  chart      = "cert-manager"
+  timeout    = 600
+
+  namespace        = "cert-manager-${random_pet.suffix.id}"
   create_namespace = true
-  timeout          = 600
+  skip_crds        = var.skip_crds
 
   values = [jsonencode({
-    installCRDs = "true"
+    installCRDs = "${!var.skip_crds}"
     image = {
       repository = data.oci_string.ref["controller"].registry_repo
       tag        = data.oci_string.ref["controller"].pseudo_tag
