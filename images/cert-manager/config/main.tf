@@ -18,7 +18,7 @@ module "accts" { source = "../../../tflib/accts" }
 output "config" {
   value = jsonencode({
     contents = {
-      packages = concat(["cert-manager-${var.name}${var.suffix}"], var.extra_packages)
+      packages = concat(["cert-manager${var.suffix}-${var.name}"], var.extra_packages)
     }
     accounts = module.accts.block
     entrypoint = {
