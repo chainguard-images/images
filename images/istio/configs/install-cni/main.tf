@@ -5,9 +5,12 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. istio-operator."
+  description = "The additional packages to install (e.g. istio-install-cni, istio-cni...)"
   default = [
-    "istio-operator",
+    "istio-install-cni",
+    "istio-install-cni-compat",
+    "istio-cni",
+    "istio-cni-compat",
   ]
 }
 
