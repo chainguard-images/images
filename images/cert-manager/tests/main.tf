@@ -44,16 +44,27 @@ resource "helm_release" "cert-manager" {
       tag        = data.oci_string.ref["controller"].pseudo_tag
     }
     acmesolver = {
-      repository = data.oci_string.ref["acmesolver"].registry_repo
-      tag        = data.oci_string.ref["acmesolver"].pseudo_tag
+      image = {
+        repository = data.oci_string.ref["acmesolver"].registry_repo
+        tag        = data.oci_string.ref["acmesolver"].pseudo_tag
+      }
     }
     cainjector = {
-      repository = data.oci_string.ref["cainjector"].registry_repo
-      tag        = data.oci_string.ref["cainjector"].pseudo_tag
+      image = {
+        repository = data.oci_string.ref["cainjector"].registry_repo
+        tag        = data.oci_string.ref["cainjector"].pseudo_tag
+      }
     }
     webhook = {
-      repository = data.oci_string.ref["webhook"].registry_repo
-      tag        = data.oci_string.ref["webhook"].pseudo_tag
+      image = {
+        repository = data.oci_string.ref["webhook"].registry_repo
+        tag        = data.oci_string.ref["webhook"].pseudo_tag
+      }
     }
   })]
+}
+
+data "oci_exec_test" "test" {
+  digest = var.digests["controller"]
+  script = "exit 1"
 }
