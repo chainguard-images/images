@@ -38,26 +38,12 @@ module "config" {
 }
 
 module "latest" {
-  for_each = local.components
-  source   = "../../tflib/publisher"
-
+  for_each          = local.components
+  source            = "../../tflib/publisher"
   name              = basename(path.module)
   target_repository = "${var.target_repository}-${each.key}"
   config            = module.config[each.key].config
-}
-
-module "dev" { source = "../../tflib/dev-subvariant" }
-
-module "latest-dev" {
-  for_each = local.components
-  source   = "../../tflib/publisher"
-
-  name              = basename(path.module)
-  target_repository = "${var.target_repository}-${each.key}"
-  # Make the dev variant an explicit extension of the
-  # locked original.
-  config         = jsonencode(module.latest[each.key].config)
-  extra_packages = module.dev.extra_packages
+  build-dev         = true
 }
 
 module "test-latest" {
@@ -75,6 +61,6 @@ resource "oci_tag" "latest" {
 resource "oci_tag" "latest-dev" {
   for_each   = local.components
   depends_on = [module.test-latest]
-  digest_ref = module.latest-dev[each.key].image_ref
+  digest_ref = module.latest[each.key].dev_ref
   tag        = "latest-dev"
 }
