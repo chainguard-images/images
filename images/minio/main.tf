@@ -15,28 +15,12 @@ locals {
 }
 
 module "latest" {
-  for_each = local.packages
-  source   = "../../tflib/publisher"
-
-  name = basename(path.module)
-
+  for_each          = local.packages
+  source            = "../../tflib/publisher"
+  name              = basename(path.module)
   target_repository = local.repositories[each.key]
   config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
-}
-
-module "dev" { source = "../../tflib/dev-subvariant" }
-
-module "latest-dev" {
-  for_each = local.packages
-  source   = "../../tflib/publisher"
-
-  name = basename(path.module)
-
-  target_repository = local.repositories[each.key]
-  # Make the dev variant an explicit extension of the
-  # locked original.
-  config         = jsonencode(module.latest[each.key].config)
-  extra_packages = module.dev.extra_packages
+  build-dev         = true
 }
 
 module "version-tags" {
@@ -54,7 +38,7 @@ module "test-latest" {
 module "test-latest-dev" {
   source    = "./tests"
   check-dev = true
-  digests   = { for k, v in module.latest-dev : k => module.latest-dev[k].image_ref }
+  digests   = { for k, v in module.latest : k => module.latest[k].dev_ref }
 }
 
 module "tagger" {
@@ -65,6 +49,6 @@ module "tagger" {
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : t => module.latest[each.key].image_ref },
-    { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : "${t}-dev" => module.latest-dev[each.key].image_ref },
+    { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : "${t}-dev" => module.latest[each.key].dev_ref },
   )
 }

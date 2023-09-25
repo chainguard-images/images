@@ -16,19 +16,7 @@ module "latest" {
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.latest-config.config
-}
-
-module "dev" { source = "../../tflib/dev-subvariant" }
-
-module "latest-dev" {
-  source = "../../tflib/publisher"
-
-  name              = basename(path.module)
-  target_repository = var.target_repository
-  # Make the dev variant an explicit extension of the
-  # locked original.
-  config         = jsonencode(module.latest.config)
-  extra_packages = module.dev.extra_packages
+  build-dev         = true
 }
 
 module "test-latest" {
@@ -44,6 +32,6 @@ resource "oci_tag" "latest" {
 
 resource "oci_tag" "latest-dev" {
   depends_on = [module.test-latest]
-  digest_ref = module.latest-dev.image_ref
+  digest_ref = module.latest.dev_ref
   tag        = "latest-dev"
 }

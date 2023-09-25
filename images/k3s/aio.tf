@@ -1,18 +1,9 @@
 module "latest-aio" {
-  source = "../../tflib/publisher"
-
+  source            = "../../tflib/publisher"
   name              = basename(path.module)
   target_repository = "${var.target_repository}-allinone"
   config            = file("${path.module}/configs/latest.aio.apko.yaml")
-}
-
-module "latest-aio-dev" {
-  source = "../../tflib/publisher"
-
-  name              = basename(path.module)
-  target_repository = "${var.target_repository}-allinone"
-  config            = jsonencode(module.latest-aio.config)
-  extra_packages    = module.dev.extra_packages
+  build-dev         = true
 }
 
 module "version-tags-aio" {
