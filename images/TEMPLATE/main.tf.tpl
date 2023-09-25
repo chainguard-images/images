@@ -11,28 +11,15 @@ variable "target_repository" {
 module "{{ .ModuleName }}-config" { source = "./config" }
 
 module "{{ .ModuleName }}" {
-  source = "../../tflib/publisher"
-
-  name = basename(path.module)
-
+  source            = "../../tflib/publisher"
+  name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.{{ .ModuleName }}-config.config
-}
 {{ if .DevVariant }}
-module "dev" { source = "../../tflib/dev-subvariant" }
-
-module "{{ .ModuleName }}-dev" {
-  source = "../../tflib/publisher"
-
-  name = basename(path.module)
-
-  target_repository = var.target_repository
-  # Make the dev variant an explicit extension of the
-  # locked original.
-  config         = jsonencode(module.{{ .ModuleName }}.config)
-  extra_packages = module.dev.extra_packages
-}
+  build-dev         = true
 {{ end }}
+}
+
 module "test-{{ .ModuleName }}" {
   source = "./tests"
   digest = module.{{ .ModuleName }}.image_ref
@@ -46,7 +33,7 @@ resource "oci_tag" "latest" {
 {{ if .DevVariant }}
 resource "oci_tag" "latest-dev" {
   depends_on = [module.test-{{ .ModuleName }}]
-  digest_ref = module.{{ .ModuleName }}-dev.image_ref
+  digest_ref = module.{{ .ModuleName }}.dev_ref
   tag        = "latest-dev"
 }
 {{ end }}

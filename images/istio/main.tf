@@ -8,8 +8,6 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "dev" { source = "../../tflib/dev-subvariant" }
-
 resource "random_pet" "suffix" {}
 
 module "test-latest" {
@@ -36,9 +34,9 @@ resource "oci_tag" "latest" {
 resource "oci_tag" "latest-dev" {
   depends_on = [module.test-latest]
   for_each = {
-    "proxy" : module.proxy-dev.image_ref,
-    "pilot" : module.pilot-dev.image_ref,
-    "operator" : module.operator-dev.image_ref,
+    "proxy" : module.proxy.dev_ref,
+    "pilot" : module.pilot.dev_ref,
+    "operator" : module.operator.dev_ref,
   }
   digest_ref = each.value
   tag        = "latest-dev"

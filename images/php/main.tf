@@ -11,24 +11,11 @@ variable "target_repository" {
 module "latest-config" { source = "./config" }
 
 module "latest" {
-  source = "../../tflib/publisher"
-
-  name              = basename(path.module)
-  target_repository = var.target_repository
-  config            = module.latest-config.config
-}
-
-module "dev" { source = "../../tflib/dev-subvariant" }
-
-module "latest-dev" {
-  source = "../../tflib/publisher"
-
-  name              = basename(path.module)
-  target_repository = var.target_repository
-  # Make the dev variant an explicit extension of the
-  # locked original.
-  config         = jsonencode(module.latest.config)
-  extra_packages = concat(module.dev.extra_packages, ["composer"])
+  source             = "../../tflib/publisher"
+  name               = basename(path.module)
+  target_repository  = var.target_repository
+  config             = module.latest-config.config
+  extra_dev_packages = ["composer"]
 }
 
 module "test-latest" {
@@ -39,7 +26,7 @@ module "test-latest" {
 module "test-latest-dev" {
   source    = "./tests"
   check-dev = true # Check for PIP in dev variants.
-  digest    = module.latest-dev.image_ref
+  digest    = module.latest.dev_ref
 }
 
 resource "oci_tag" "latest" {
@@ -50,6 +37,6 @@ resource "oci_tag" "latest" {
 
 resource "oci_tag" "latest-dev" {
   depends_on = [module.test-latest-dev]
-  digest_ref = module.latest-dev.image_ref
+  digest_ref = module.latest.dev_ref
   tag        = "latest-dev"
 }
