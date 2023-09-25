@@ -25,8 +25,7 @@ resource "helm_release" "test" {
   })]
 }
 
-data "oci_exec_test" "cleanup" {
-  digest     = var.digest
-  script     = "${path.module}/cleanup.sh"
-  depends_on = [helm_release.test]
+module "helm_cleanup" {
+  source = "../../../tflib/helm-cleanup"
+  name   = helm_release.test.id
 }
