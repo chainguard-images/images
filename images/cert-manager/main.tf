@@ -39,13 +39,6 @@ module "latest-dev" {
   extra_packages    = concat(module.dev.extra_packages, ["cmctl"])
 }
 
-module "version-tags" {
-  for_each = local.components
-  source   = "../../tflib/version-tags"
-  package  = "cert-manager-${each.key}"
-  config   = module.latest[each.key].config
-}
-
 module "test-latest" {
   source  = "./tests"
   digests = { for k, v in module.latest : k => v.image_ref }
