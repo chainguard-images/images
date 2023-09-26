@@ -6,8 +6,12 @@ import (
 	"github.com/chainguard-images/images/monopod/pkg/constants"
 )
 
-func ListAll() ([]string, error) {
-	allImages := []string{}
+type Image struct {
+	ImageName string `json:"imageName"`
+}
+
+func ListAll() ([]Image, error) {
+	allImages := []Image{}
 	imageDirs, err := os.ReadDir(constants.ImagesDirName)
 	if err != nil {
 		return nil, err
@@ -21,7 +25,7 @@ func ListAll() ([]string, error) {
 			continue
 		}
 		imageName := imageDir.Name()
-		allImages = append(allImages, imageName)
+		allImages = append(allImages, Image{ImageName: imageName})
 	}
 	return allImages, nil
 }
