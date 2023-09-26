@@ -13,6 +13,7 @@ locals {
     "ruby3.2-fluent-plugin-splunk-hec",
     "ruby3.2-fluent-plugin-prometheus",
     "ruby3.2-fluent-plugin-rewrite-tag-filter",
+    "net-tools", # hostname command is required by rewrite-tag-filter plugin
   ]
 }
 
