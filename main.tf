@@ -262,6 +262,11 @@ module "external-secrets" {
   target_repository = "${var.target_repository}/external-secrets"
 }
 
+module "falcoctl" {
+  source            = "./images/falcoctl"
+  target_repository = "${var.target_repository}/falcoctl"
+}
+
 module "ffmpeg" {
   source            = "./images/ffmpeg"
   target_repository = "${var.target_repository}/ffmpeg"
