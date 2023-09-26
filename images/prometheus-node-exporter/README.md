@@ -2,7 +2,7 @@
 # prometheus-node-exporter
 | | |
 | - | - |
-| **OCI Reference** | cgr.dev/chainguard/prometheus-node-exporter |
+| **OCI Reference** | `cgr.dev/chainguard/prometheus-node-exporter` |
 
 
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/prometheus-node-exporter/overview/)

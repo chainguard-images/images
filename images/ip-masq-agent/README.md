@@ -2,7 +2,7 @@
 # ip-masq-agent
 | | |
 | - | - |
-| **OCI Reference** | cgr.dev/chainguard/ip-masq-agent |
+| **OCI Reference** | `cgr.dev/chainguard/ip-masq-agent` |
 
 
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/ip-masq-agent/overview/)
