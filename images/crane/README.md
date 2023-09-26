@@ -27,5 +27,5 @@ docker pull cgr.dev/chainguard/crane:latest
 Inspect the crane image manifest using the crane image:
 
 ```
-docker run --rm cgr.dev/chainguard/crane:latest manifest cgr.dev/chainguard/crane:latest
+docker run --rm cgr.dev/chainguard/crane:latest manifest cgr.dev/chainguard/crane:latest --platform=linux/amd64
 ```
