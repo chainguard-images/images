@@ -1,122 +1,18 @@
 package images
 
 import (
-	"fmt"
 	"os"
-	"path"
-	"path/filepath"
-	"strings"
-
-	"chainguard.dev/apko/pkg/build/types"
-	"gopkg.in/yaml.v3"
 
 	"github.com/chainguard-images/images/monopod/pkg/constants"
 )
 
-type Image struct {
-	ImageName                   string `json:"imageName"`
-	ImageStatus                 string `json:"imageStatus"`
-	ImageSummaryJson            string `json:"imageSummaryJson"`
-	ApkoConfig                  string `json:"apkoConfig"`
-	ApkoKeyringAppend           string `json:"apkoKeyringAppend"`
-	ApkoRepositoryAppend        string `json:"apkoRepositoryAppend"`
-	ApkoAdditionalTags          string `json:"apkoAdditionalTags"`
-	ApkoBaseTag                 string `json:"apkoBaseTag"`
-	ApkoTargetTag               string `json:"apkoTargetTag"`
-	ApkoTargetTagSuffix         string `json:"apkoTargetTagSuffix"`
-	ApkoPackageVersionTag       string `json:"apkoPackageVersionTag"`
-	ApkoPackageVersionTagPrefix string `json:"apkoPackageVersionTagPrefix"`
-	ApkoPackageAppend           string `json:"apkoPackageAppend"`
-	TestCommandExe              string `json:"testCommandExe"`
-	TestCommandDir              string `json:"testCommandDir"`
-	ExcludeTags                 string `json:"excludeTags"`
-	UseTerraform                bool   `json:"useTerraform"`
-	TerraformDirectory          string `json:"terraformDirectory"`
-	ExcludeContact              bool   `json:"-"`
-}
-
-type ImageManifest struct {
-	Ref            string                       `yaml:"ref"`
-	Status         string                       `yaml:"status"`
-	ExcludeContact bool                         `yaml:"excludeContact"`
-	Terraform      *bool                        `yaml:"terraform,omitempty"`
-	Variants       []ImageManifestVariant       `yaml:"versions"`
-	Options        map[string]types.BuildOption `yaml:"options,omitempty"`
-}
-
-type ImageManifestVariant struct {
-	Apko ImageManifestVariantApko `yaml:"apko"`
-}
-
-type ImageManifestVariantApko struct {
-	Config          string                                  `yaml:"config"`
-	Options         []string                                `yaml:"options"`
-	ExtractTagsFrom ImageManifestVariantApkoExtractTagsFrom `yaml:"extractTagsFrom"`
-	Tags            []string                                `yaml:"tags"`
-	Subvariants     []ImageManifestVariantApkoSubvariant    `yaml:"subvariants"`
-}
-
-type ImageManifestVariantApkoSubvariant struct {
-	Suffix  string   `yaml:"suffix"`
-	Options []string `yaml:"options"`
-}
-
-type ImageManifestVariantApkoExtractTagsFrom struct {
-	Package string   `yaml:"package"`
-	Prefix  string   `yaml:"prefix"`
-	Exclude []string `yaml:"exclude"`
-}
-
-// Our miniature schema of the Apko manifest so we dont have to import it here
-type ApkoManifest struct {
-	Archs []string `yaml:"archs"`
-}
-
-type variantIterator struct {
-	Variant    ImageManifestVariant
-	Subvariant ImageManifestVariantApkoSubvariant
-}
-
-type (
-	listConfig struct {
-		DefaultRegistry string
-	}
-
-	ListOption func(c *listConfig)
-)
-
-func WithDefaultRegistry(defaultRegistry string) ListOption {
-	return func(c *listConfig) {
-		c.DefaultRegistry = defaultRegistry
-	}
-}
-
-func ListAll(opts ...ListOption) ([]Image, error) {
-	config := &listConfig{
-		DefaultRegistry: constants.DefaultRegistry,
-	}
-	for _, opt := range opts {
-		opt(config)
-	}
-
-	var g ImageManifest
-	b, err := os.ReadFile(filepath.Join(constants.GlobalManifestFilename))
-	if err != nil {
-		if !os.IsNotExist(err) {
-			return nil, fmt.Errorf("reading %q: %v", constants.GlobalManifestFilename, err)
-		}
-		// Allow the global manifest to be omitted.
-	} else if err := yaml.Unmarshal(b, &g); err != nil {
-		return nil, err
-	}
-
-	allImages := []Image{}
+func ListAll() ([]string, error) {
+	allImages := []string{}
 	imageDirs, err := os.ReadDir(constants.ImagesDirName)
 	if err != nil {
 		return nil, err
 	}
 
-	seen := map[string]bool{}
 	for _, imageDir := range imageDirs {
 		if !imageDir.IsDir() {
 			continue
@@ -125,137 +21,7 @@ func ListAll(opts ...ListOption) ([]Image, error) {
 			continue
 		}
 		imageName := imageDir.Name()
-		p := filepath.Join(constants.ImagesDirName, imageName, constants.ImageManifestFilename)
-		b, err := os.ReadFile(p)
-		if err != nil {
-			return nil, fmt.Errorf("reading %q: %v", p, err)
-		}
-		var m ImageManifest
-		if err := yaml.Unmarshal(b, &m); err != nil {
-			return nil, err
-		}
-		imageStatus := m.Status
-		if imageStatus == "" {
-			imageStatus = constants.DefaultImageStatus
-		}
-		imageExcludeContact := m.ExcludeContact
-		variants := []variantIterator{}
-		for _, variant := range m.Variants {
-			variants = append(variants, variantIterator{
-				Variant: variant,
-			})
-			for _, subvariant := range variant.Apko.Subvariants {
-				variants = append(variants, variantIterator{
-					Variant:    variant,
-					Subvariant: subvariant,
-				})
-			}
-		}
-		for _, iterator := range variants {
-			variant := iterator.Variant
-			subvariant := iterator.Subvariant
-			apkoConfig := filepath.Join(constants.ImagesDirName, imageName, variant.Apko.Config)
-			apkoTargetTag := strings.Replace(filepath.Base(apkoConfig), constants.ApkoYamlFileExtension, "", 1)
-			apkoAdditionalTags := strings.Join(variant.Apko.Tags, ",")
-			apkoTargetTagSuffix := ""
-
-			apkoPackageAppend := make([]string, 0, len(iterator.Variant.Apko.Options))
-			for _, opt := range iterator.Variant.Apko.Options {
-				// Look it up in the image's configuration first.
-				vp, ok := extraPackages(m, opt)
-				if ok {
-					apkoPackageAppend = append(apkoPackageAppend, vp...)
-					continue
-				}
-				// Then look it up in the global configuration.
-				gp, ok := extraPackages(g, opt)
-				if ok {
-					apkoPackageAppend = append(apkoPackageAppend, gp...)
-					continue
-				}
-				return nil, fmt.Errorf("could not find variant option %q", opt)
-			}
-
-			if subvariant.Suffix != "" {
-				apkoTargetTag = apkoTargetTag + subvariant.Suffix
-				apkoTargetTagSuffix = subvariant.Suffix
-				for _, opt := range subvariant.Options {
-					// Look it up in the image's configuration first.
-					vp, ok := extraPackages(m, opt)
-					if ok {
-						apkoPackageAppend = append(apkoPackageAppend, vp...)
-						continue
-					}
-					// Then look it up in the global configuration.
-					gp, ok := extraPackages(g, opt)
-					if ok {
-						apkoPackageAppend = append(apkoPackageAppend, gp...)
-						continue
-					}
-					return nil, fmt.Errorf("could not find subvariant option %q", opt)
-				}
-			}
-
-			// Ensure that we dont have duplicate entries for any image/variant combo
-			seenKey := fmt.Sprintf("%s--%s", imageName, apkoTargetTag)
-			if _, ok := seen[seenKey]; ok {
-				return nil, fmt.Errorf("more than one variant with image=%s tag=%s", imageName, apkoTargetTag)
-			}
-			seen[seenKey] = true
-
-			testCommandExe := ""
-			testCommandDir := ""
-
-			var apkoBaseTag string
-			if m.Ref != "" {
-				apkoBaseTag = m.Ref
-			} else {
-				apkoBaseTag = path.Join(config.DefaultRegistry, imageName)
-			}
-
-			apkoKeyringAppend := ""
-			apkoRepositoryAppend := ""
-
-			useTerraform := m.Terraform == nil || *m.Terraform
-			terraformDir := ""
-			if useTerraform {
-				terraformDir = filepath.Join(constants.ImagesDirName, imageName)
-			}
-
-			i := Image{
-				ImageName:                   imageName,
-				ImageStatus:                 imageStatus,
-				ImageSummaryJson:            "",
-				ApkoConfig:                  apkoConfig,
-				ApkoKeyringAppend:           apkoKeyringAppend,
-				ApkoRepositoryAppend:        apkoRepositoryAppend,
-				ApkoBaseTag:                 apkoBaseTag,
-				ApkoTargetTag:               apkoTargetTag,
-				ApkoTargetTagSuffix:         apkoTargetTagSuffix,
-				ApkoAdditionalTags:          apkoAdditionalTags,
-				ApkoPackageVersionTag:       variant.Apko.ExtractTagsFrom.Package,
-				ApkoPackageVersionTagPrefix: variant.Apko.ExtractTagsFrom.Prefix,
-				ApkoPackageAppend:           strings.Join(apkoPackageAppend, ","),
-				TestCommandExe:              testCommandExe,
-				TestCommandDir:              testCommandDir,
-				ExcludeTags:                 strings.Join(variant.Apko.ExtractTagsFrom.Exclude, ","),
-				UseTerraform:                useTerraform,
-				TerraformDirectory:          terraformDir,
-				ExcludeContact:              imageExcludeContact,
-			}
-			allImages = append(allImages, i)
-		}
+		allImages = append(allImages, imageName)
 	}
 	return allImages, nil
-}
-
-func extraPackages(m ImageManifest, variant string) ([]string, bool) {
-	for v, bo := range m.Options {
-		if variant != v {
-			continue
-		}
-		// Return the packages to add.
-		return bo.Contents.Packages.Add, true
-	}
-	return nil, false
 }

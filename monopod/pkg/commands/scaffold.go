@@ -45,7 +45,6 @@ var (
 		"main-test.tf":    filepath.Join(TestsFolder, "main.tf"),
 		"EXAMPLE_TEST.sh": filepath.Join(TestsFolder, "EXAMPLE_TEST.sh"),
 		"README.md":       "README.md",
-		"image.yaml":      "image.yaml",
 	}
 )
 
@@ -64,7 +63,7 @@ func Scaffold() *cobra.Command {
 
   # Generate a test image in a custom folder
   monopod scaffold --package-name test --entrypoint /usr/bin/test --output-path /tmp/output
-  
+
   # Generate a test image with run-as, user-gid, and group-gid
   monopod scaffold --package-name test --entrypoint /usr/bin/test --run-as 65530 --user-gid 65534 --group-gid 65534`,
 
