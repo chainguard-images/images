@@ -78,7 +78,9 @@ func (i *readmeImpl) check() error {
 		}
 	}
 
-	sort.Strings(allImages)
+	sort.Slice(allImages, func(i, j int) bool {
+		return allImages[i].ImageName < allImages[j].ImageName
+	})
 	for _, img := range allImages {
 		// Generate the section to prepend to beginning of file
 		readmeInsert := fmt.Sprintf("# %s\n| | |\n| - | - |\n", img)
@@ -90,7 +92,7 @@ func (i *readmeImpl) check() error {
 		readmeInsert += "* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*\n\n"
 		readmeInsert += "---"
 
-		filename := path.Join(constants.ImagesDirName, img, "README.md")
+		filename := path.Join(constants.ImagesDirName, img.ImageName, "README.md")
 		existingContent, err := os.ReadFile(filename)
 		if err != nil {
 			fmt.Printf("Error opening %s: %s", filename, err.Error())
@@ -136,8 +138,11 @@ func (i *readmeImpl) fixAllReadmes() error {
 	}
 
 	// Individual image README.md files
-	sort.Strings(allImages)
-	for _, img := range allImages {
+	sort.Slice(allImages, func(i, j int) bool {
+		return allImages[i].ImageName < allImages[j].ImageName
+	})
+	for _, i := range allImages {
+		img := i.ImageName
 		// Generate the section to prepend to beginning of file
 		readmeInsert := fmt.Sprintf("# %s\n| | |\n| - | - |\n", img)
 		readmeInsert += fmt.Sprintf("| **OCI Reference** | `cgr.dev/chainguard/%s` |\n", img)
@@ -194,7 +199,7 @@ func (i *readmeImpl) rootReadmeToStdout() error {
 	return nil
 }
 
-func getRootReadmeContents(allImages []string, defaultRegistry string) ([]byte, error) {
+func getRootReadmeContents(allImages []images.Image, defaultRegistry string) ([]byte, error) {
 	buf := new(bytes.Buffer)
 	buf.WriteString("# Chainguard Images\n")
 	buf.WriteString("\n")
@@ -206,8 +211,11 @@ func getRootReadmeContents(allImages []string, defaultRegistry string) ([]byte, 
 	buf.WriteString("| ----- | ----- |")
 	buf.WriteString("\n")
 
-	sort.Strings(allImages)
-	for _, img := range allImages {
+	sort.Slice(allImages, func(i, j int) bool {
+		return allImages[i].ImageName < allImages[j].ImageName
+	})
+	for _, i := range allImages {
+		img := i.ImageName
 		reference := defaultRegistry + "/" + img
 		buf.WriteString(fmt.Sprintf("| [%s](./%s/%s) | `%s` |", img, constants.ImagesDirName, img, reference))
 		buf.WriteString("\n")

@@ -44,7 +44,7 @@ type matrixImpl struct {
 }
 
 type matrixResponse struct {
-	Include []string `json:"include"`
+	Include []images.Image `json:"include"`
 }
 
 func (i *matrixImpl) Do() error {
@@ -68,9 +68,9 @@ func (i *matrixImpl) Do() error {
 			}
 		}
 		if len(includeImages) > 0 {
-			allImagesNew := []string{}
+			allImagesNew := []images.Image{}
 			for _, image := range allImages {
-				if _, ok := includeImages[image]; ok {
+				if _, ok := includeImages[image.ImageName]; ok {
 					allImagesNew = append(allImagesNew, image)
 				}
 			}
@@ -79,7 +79,7 @@ func (i *matrixImpl) Do() error {
 	}
 
 	if i.ShardingFactor > 1 {
-		shards := make([][]string, i.ShardingFactor)
+		shards := make([][]images.Image, i.ShardingFactor)
 		for idx, img := range allImages {
 			idx = idx % int(i.ShardingFactor)
 			shards[idx] = append(shards[idx], img)
