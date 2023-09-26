@@ -23,7 +23,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/rabbitmq
 ```
 
-## Using Redis
+## Using RabbitMQ
 
 The default RabbitMQ port is 5672.
 To run with Docker using default configuration:
