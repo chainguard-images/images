@@ -11,7 +11,7 @@ locals {
 
   splunk = [
     "ruby3.2-fluent-plugin-splunk-hec",
-    "fluent-plugin-out-http",
+    "ruby3.2-fluent-plugin-prometheus",
   ]
 }
 
