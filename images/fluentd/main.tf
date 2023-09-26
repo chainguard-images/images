@@ -12,6 +12,7 @@ locals {
   splunk = [
     "ruby3.2-fluent-plugin-splunk-hec",
     "ruby3.2-fluent-plugin-prometheus",
+    "ruby3.2-fluent-plugin-rewrite-tag-filter",
   ]
 }
 
