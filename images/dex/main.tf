@@ -34,5 +34,5 @@ module "tagger" {
     # TODO(jason): Do this for all images, not just dex, and potentially only for `:v1.2.3` and `:v1.2.3-r4` (not `:v1` or `:v1.2`).
     { for t in module.version-tags.tag_list : "v${t}" => module.latest.image_ref },
     { for t in module.version-tags.tag_list : "v${t}-dev" => module.latest.dev_ref },
-  }
+  )
 }
