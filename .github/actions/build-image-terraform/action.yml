@@ -27,39 +27,36 @@ runs:
         set -x -o pipefail
         env | grep '^TF_VAR_'
 
-        MODULE=${{ inputs.imageName }}
-        echo "module=${MODULE}" >> $GITHUB_OUTPUT
-
         echo ::group::terraform init
         terraform init
         echo ::endgroup::
         echo ::group::terraform plan
-        terraform plan "-target=module.${MODULE}"
+        terraform plan "-target=module.${{ inputs.imageName }}"
         echo ::endgroup::
-        terraform apply -auto-approve "-target=module.${MODULE}" -json | tee /tmp/${MODULE}.tf.json | jq -r '.["@message"]'
+        terraform apply -auto-approve "-target=module.${{ inputs.imageName }}" -json | tee /tmp/${{ inputs.imageName }}.tf.json | jq -r '.["@message"]'
 
     - name: Surface terraform warnings.
       if: always()
       shell: bash
-      run: grep '"@level":"warn"' /tmp/${{ steps.terraform-apply.outputs.module }}.tf.json | jq || true
+      run: grep '"@level":"warn"' /tmp/${{ inputs.imageName }}.tf.json | jq || true
 
     - name: Surface terraform errors
       if: failure()
       shell: bash
-      run: grep '"@level":"error"' /tmp/${{ steps.terraform-apply.outputs.module }}.tf.json | jq  || true
+      run: grep '"@level":"error"' /tmp/${{ inputs.imageName }}.tf.json | jq  || true
 
     - name: Upload terraform logs
       if: always()
       uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3
       with:
-        name: ${{ steps.terraform-apply.outputs.module }}.tf.json
-        path: /tmp/${{ steps.terraform-apply.outputs.module }}.tf.json
+        name: ${{ inputs.imageName }}.tf.json
+        path: /tmp/${{ inputs.imageName }}.tf.json
 
     - name: Upload terraform state
       if: always()
       uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3
       with:
-        name: ${{ steps.terraform-apply.outputs.module }}.tfstate
+        name: ${{ inputs.imageName }}.tfstate
         path: terraform.tfstate
 
     - name: Touch actions file to prevent postrun failure
