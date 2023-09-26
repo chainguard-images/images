@@ -33,13 +33,12 @@ runs:
       shell: bash
       env:
         APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:36e1fdffb0d54aa92bd614eb68f0fe1e4a8e42f939e00e1ea58e2cc2ac1da99d
+        TF_VAR_target_repository: ${{inputs.targetRepository}}
+
       run: |
         set -x -o pipefail
         env | grep '^TF_VAR_'
 
-        # When we have a "mega module", use it to invoke the module
-        # for the appropriate image.
-        export TF_VAR_target_repository=${{inputs.targetRepository}}
         echo ::group::terraform init
         terraform init
         echo ::endgroup::
