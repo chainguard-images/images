@@ -14,4 +14,3 @@ accounts:
 
 entrypoint:
   command: /usr/bin/spire-server run
-

@@ -4,4 +4,3 @@ contents:
 
 entrypoint:
   command: prometheus
-

@@ -1,7 +1,5 @@
 contents:
-  packages: [
-    # istio-operator comes from extra_packages
-  ]
+  packages:
 
 accounts:
   groups:

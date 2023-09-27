@@ -13,7 +13,7 @@ accounts:
       gid: 65532
   run-as: 65532
 
-  paths:
+paths:
   - path: /etc/
     type: directory
     uid: 65532
@@ -23,4 +23,3 @@ accounts:
 
 entrypoint:
   command: aws-ebs-csi-driver
-

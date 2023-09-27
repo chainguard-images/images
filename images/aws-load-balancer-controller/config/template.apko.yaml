@@ -1,7 +1,5 @@
 contents:
-  packages: [
-    # aws-load-balancer-controller comes via var.extra_packages
-  ]
+  packages:
 
 accounts:
   groups:
@@ -14,4 +12,3 @@ accounts:
 
 entrypoint:
   command: /usr/bin/controller
-

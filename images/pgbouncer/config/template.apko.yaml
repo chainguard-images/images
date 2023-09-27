@@ -1,6 +1,6 @@
 contents:
   packages:
-  - pgbouncer
+    - pgbouncer
 
 accounts:
   groups:
@@ -14,5 +14,5 @@ accounts:
 
 entrypoint:
   command: /usr/bin/pgbouncer
-cmd: --help
 
+cmd: --help

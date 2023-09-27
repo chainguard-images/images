@@ -1,12 +1,10 @@
 contents:
-  packages: [
-    # istio-pilot-discovery comes from extra_packages
-  ]
+  packages:
 
 paths:
-- path: /run
-  type: directory
-  permissions: 0o755
+  - path: /run
+    type: directory
+    permissions: 0o755
 
 accounts:
   groups:

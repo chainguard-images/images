@@ -1,7 +1,5 @@
 contents:
-  packages: [
-    # Ruby comes via var.extra_packages
-  ]
+  packages:
 
 accounts:
   groups:
@@ -22,4 +20,5 @@ work-dir: /work
 
 entrypoint:
   command: /usr/bin/ruby
+
 cmd: --version

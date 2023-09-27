@@ -17,5 +17,3 @@ accounts:
     - username: k8s-sidecar
       uid: 65532
   run-as: 65532
-  recursive: true
-

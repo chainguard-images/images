@@ -1,6 +1,6 @@
 contents:
   packages:
-  - crane
+    - crane
 
 accounts:
   groups:

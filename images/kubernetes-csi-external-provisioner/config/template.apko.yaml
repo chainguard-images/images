@@ -11,8 +11,6 @@ accounts:
       uid: 65532
       gid: 65532
   run-as: 0 # image doesn't work with nonroot user
-  recursive: true
 
 entrypoint:
   command: /usr/bin/csi-provisioner
-

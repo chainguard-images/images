@@ -1,7 +1,5 @@
 contents:
-  packages: [
-    # gatekeeper is added via var.extra_packages.
-  ]
+  packages:
 
 accounts:
   groups:

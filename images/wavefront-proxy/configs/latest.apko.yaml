@@ -1,13 +1,13 @@
 contents:
-    packages:
-      - openjdk-11-jre
-      - openjdk-11-default-jvm
-      - wavefront-proxy
-      - wavefront-proxy-config
-      - wavefront-proxy-licenses
-      - wavefront-proxy-oci-entrypoint
-      - bash
-      - busybox
+  packages:
+    - openjdk-11-jre
+    - openjdk-11-default-jvm
+    - wavefront-proxy
+    - wavefront-proxy-config
+    - wavefront-proxy-licenses
+    - wavefront-proxy-oci-entrypoint
+    - bash
+    - busybox
 
 accounts:
   groups:
@@ -18,7 +18,6 @@ accounts:
       uid: 65532
       gid: 65532
   run-as: 65532
-
 
 paths:
   - path: /var/spool/wavefront-proxy
@@ -36,4 +35,3 @@ paths:
 
 entrypoint:
   command: /usr/local/bin/run.sh
-

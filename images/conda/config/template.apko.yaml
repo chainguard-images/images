@@ -15,4 +15,5 @@ accounts:
 
 entrypoint:
   command: /usr/bin/conda
+
 cmd: --help

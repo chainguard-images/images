@@ -14,4 +14,3 @@ accounts:
 
 entrypoint:
   command: snapshot-controller
-

@@ -1,6 +1,6 @@
 contents:
   packages:
-  - stunnel
+    - stunnel
 
 accounts:
   groups:
@@ -14,5 +14,5 @@ accounts:
 
 entrypoint:
   command: /usr/bin/stunnel
-cmd: -help
 
+cmd: -help

@@ -3,11 +3,9 @@ contents:
     - pulumi
     - pulumi-watch
     - busybox # Needed for language support
-
     # for Pulumi Go support
     - pulumi-language-go
     - go
-
     # for Pulumi Dotnet support
     - pulumi-language-dotnet
     - dotnet-7
@@ -15,18 +13,15 @@ contents:
     - dotnet-7-sdk
     - aspnet-7-runtime
     - aspnet-7-targeting-pack
-
     # for Pulumi Python support
     - pulumi-language-python
     - python-3.11
     - py3.11-pip
     - python-3.11-dev
-
     # for Pulumi Node.js support
     - pulumi-language-nodejs
     - nodejs
     - nghttp2
-
     # for Pulumi Java support
     - pulumi-language-java
     - glibc-locale-en
@@ -35,10 +30,8 @@ contents:
     - openjdk-17
     - libstdc++
     - maven
-
     # for Pulumi YAML support
     - pulumi-language-yaml
-
     # other miscellaneous
     - git
     - bash
@@ -63,6 +56,7 @@ environment:
 
 entrypoint:
   command: /usr/bin/pulumi
+
 cmd: -h
 
 paths:
@@ -71,4 +65,3 @@ paths:
     uid: 65532
     gid: 65532
     permissions: 0o777
-

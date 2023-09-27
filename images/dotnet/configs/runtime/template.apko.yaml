@@ -1,7 +1,5 @@
 contents:
-  packages: [
-    # dotnet comes via var.extra_packages
-  ]
+  packages:
 
 accounts:
   groups:
@@ -11,8 +9,8 @@ accounts:
     - username: nonroot
       uid: 65532
   run-as: 65532
-  recursive: true
 
 entrypoint:
   command: /usr/bin/dotnet
+
 cmd: --help

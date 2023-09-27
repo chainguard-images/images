@@ -16,4 +16,3 @@ accounts:
 
 entrypoint:
   command: /usr/bin/keda-adapter --secure-port=6443 --logtostderr=true --v=0
-

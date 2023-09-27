@@ -1,6 +1,6 @@
 contents:
   packages:
-  - dive
+    - dive
 
 accounts:
   groups:

@@ -1,7 +1,5 @@
 contents:
-  packages: [
-    # prometheus-node-exporter comes in via var.extra_packages
-  ]
+  packages:
 
 accounts:
   groups:

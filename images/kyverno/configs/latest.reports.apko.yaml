@@ -17,4 +17,3 @@ entrypoint:
   command: /usr/bin/reports-controller
 
 cmd: help
-

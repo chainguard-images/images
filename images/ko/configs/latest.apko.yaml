@@ -17,4 +17,3 @@ accounts:
 
 entrypoint:
   command: /usr/bin/ko
-

@@ -18,4 +18,3 @@ entrypoint:
   command: /usr/bin/flux
 
 cmd: help
-

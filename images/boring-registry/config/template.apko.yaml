@@ -15,4 +15,5 @@ accounts:
 
 entrypoint:
   command: /usr/bin/boring-registry
+
 cmd: server

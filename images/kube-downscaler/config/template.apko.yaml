@@ -15,4 +15,3 @@ accounts:
 
 entrypoint:
   command: python3 -m kube_downscaler
-

@@ -14,4 +14,3 @@ accounts:
 
 entrypoint:
   command: aws
-

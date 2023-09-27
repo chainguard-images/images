@@ -14,5 +14,5 @@ accounts:
 
 entrypoint:
   command: /usr/bin/updater
-cmd: "--v=4 --stderrthreshold=info"
 
+cmd: "--v=4 --stderrthreshold=info"

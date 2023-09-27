@@ -1,6 +1,7 @@
 contents:
   packages:
     - mdbook
+
 accounts:
   groups:
     - groupname: nonroot
@@ -10,6 +11,8 @@ accounts:
       uid: 65532
       gid: 65532
   run-as: 65532
+
 entrypoint:
   command: /usr/bin/mdbook
+
 cmd: --help

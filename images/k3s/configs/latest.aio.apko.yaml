@@ -35,4 +35,5 @@ volumes:
 
 entrypoint:
   command: /bin/k3s
+
 cmd: agent

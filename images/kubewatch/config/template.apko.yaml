@@ -17,4 +17,3 @@ entrypoint:
 
 environment:
   KW_CONFIG: /opt/bitnami/kubewatch
-

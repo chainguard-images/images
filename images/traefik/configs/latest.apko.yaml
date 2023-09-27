@@ -12,10 +12,9 @@ accounts:
   run-as: 65532
 
 paths:
-- path: /tmp
-  type: directory
-  permissions: 0o777
+  - path: /tmp
+    type: directory
+    permissions: 0o777
 
 entrypoint:
   command: /usr/bin/traefik
-

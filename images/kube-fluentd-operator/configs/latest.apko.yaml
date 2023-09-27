@@ -24,4 +24,3 @@ accounts:
       uid: 65532
       gid: 65532
   run-as: 0 # need to write to /var/log and hostPath volumes are mounted as root
-

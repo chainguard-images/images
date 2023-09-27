@@ -1,7 +1,5 @@
 contents:
-  packages: [
-    # Python comes via var.extra_packages
-  ]
+  packages:
 
 entrypoint:
   command: /usr/bin/python

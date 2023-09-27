@@ -2,6 +2,7 @@ contents:
   packages:
     - busybox
     - netcat-openbsd
+
 accounts:
   groups:
     - groupname: nonroot
@@ -14,6 +15,7 @@ accounts:
 
 entrypoint:
   command: /usr/bin/nc
-cmd: -h
-work-dir: /home/nc
 
+cmd: -h
+
+work-dir: /home/nc

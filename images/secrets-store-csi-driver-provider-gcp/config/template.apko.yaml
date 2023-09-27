@@ -10,8 +10,6 @@ accounts:
     - username: secrets-store-csi-driver-provider-gcp
       uid: 65532
   run-as: 0 # run as root
-  recursive: true
 
 entrypoint:
   command: /usr/bin/secrets-store-csi-driver-provider-gcp
-

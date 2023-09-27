@@ -15,4 +15,3 @@ accounts:
 
 entrypoint:
   command: /usr/bin/vt
-

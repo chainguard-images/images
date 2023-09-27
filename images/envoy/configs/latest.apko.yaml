@@ -13,7 +13,6 @@ accounts:
     - username: envoy
       uid: 65532
   run-as: 65532
-  recursive: true
 
 entrypoint:
   command: /var/lib/envoy/init/envoy-entrypoint.sh
@@ -24,4 +23,3 @@ paths:
     uid: 65532
     gid: 65532
     permissions: 0o755
-

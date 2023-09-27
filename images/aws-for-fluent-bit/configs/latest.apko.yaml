@@ -22,5 +22,5 @@ paths:
 
 entrypoint:
   command: /fluent-bit/bin/fluent-bit
-cmd: -e /fluent-bit/firehose.so -e /fluent-bit/cloudwatch.so -e /fluent-bit/kinesis.so -c /fluent-bit/etc/fluent-bit.conf
 
+cmd: -e /fluent-bit/firehose.so -e /fluent-bit/cloudwatch.so -e /fluent-bit/kinesis.so -c /fluent-bit/etc/fluent-bit.conf

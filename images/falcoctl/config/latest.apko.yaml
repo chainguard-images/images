@@ -1,7 +1,5 @@
 contents:
-  packages: [
-    # falcoctl comes in via var.extra_packages
-  ]
+  packages:
 
 accounts:
   groups:

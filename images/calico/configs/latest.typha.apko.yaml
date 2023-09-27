@@ -15,6 +15,5 @@ accounts:
 
 entrypoint:
   command: /sbin/tini --
+
 cmd: /usr/bin/calico-typha
-
-

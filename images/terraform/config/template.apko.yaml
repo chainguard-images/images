@@ -15,4 +15,3 @@ entrypoint:
   command: /usr/bin/terraform
 
 cmd: --help
-

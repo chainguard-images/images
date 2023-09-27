@@ -1,7 +1,5 @@
 contents:
-  packages: [
-    # kube-state-metrics comes from var.extra_packages
-  ]
+  packages:
 
 accounts:
   groups:
@@ -14,4 +12,3 @@ accounts:
 
 entrypoint:
   command: /usr/bin/kube-state-metrics
-

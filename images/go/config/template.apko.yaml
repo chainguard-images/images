@@ -25,4 +25,3 @@ entrypoint:
   command: /usr/bin/go
 
 cmd: help
-

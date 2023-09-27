@@ -16,6 +16,7 @@ accounts:
 
 entrypoint:
   command: /sbin/tini --
+
 cmd: /usr/bin/newrelic-infra-service
 
 environment:
@@ -23,4 +24,3 @@ environment:
   NRIA_OVERRIDE_HOST_ROOT: ""
   NRIA_IS_SECURE_FORWARD_ONLY: true
   NRIA_HTTP_SERVER_ENABLED: true
-

@@ -1,7 +1,5 @@
 contents:
-  packages: [
-    # metrics-server comes from var.extra_packages
-  ]
+  packages:
 
 accounts:
   groups:
@@ -23,4 +21,3 @@ paths:
 
 entrypoint:
   command: metrics-server --cert-dir=/tmp
-
