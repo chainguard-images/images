@@ -1,6 +1,7 @@
 contents:
-  packages:
-    - kubernetes-csi-external-resizer
+  packages: [
+    # Package comes from extra-packages
+  ]
 
 accounts:
   groups:
@@ -14,4 +15,3 @@ accounts:
 
 entrypoint:
   command: csi-resizer
-

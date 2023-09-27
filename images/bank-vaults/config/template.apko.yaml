@@ -1,7 +1,7 @@
 contents:
-  packages:
-    - bank-vaults-template
-    - bank-vaults
+  packages: [
+    # Package comes from extra-packages
+  ]
 
 accounts:
   groups:
@@ -14,3 +14,4 @@ accounts:
 
 entrypoint:
   command: /usr/bin/bank-vaults
+
