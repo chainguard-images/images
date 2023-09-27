@@ -46,6 +46,7 @@
 | [etcd](./images/etcd) | `cgr.dev/chainguard/etcd` |
 | [external-dns](./images/external-dns) | `cgr.dev/chainguard/external-dns` |
 | [external-secrets](./images/external-secrets) | `cgr.dev/chainguard/external-secrets` |
+| [falcoctl](./images/falcoctl) | `cgr.dev/chainguard/falcoctl` |
 | [ffmpeg](./images/ffmpeg) | `cgr.dev/chainguard/ffmpeg` |
 | [fluent-bit](./images/fluent-bit) | `cgr.dev/chainguard/fluent-bit` |
 | [fluentd](./images/fluentd) | `cgr.dev/chainguard/fluentd` |
