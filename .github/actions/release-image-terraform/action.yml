@@ -1,5 +1,10 @@
 name: release-image-terraform
+description: "Like build-image-terraform but release instead"
 inputs:
+  chainguardIdentity:
+    description: "Used with setup-chainctl"
+  imageName:
+    description: "Name of the terraform module"
   targetRepository:
     default: cgr.dev/chainguard
     description: "Base registry+repository to push images"

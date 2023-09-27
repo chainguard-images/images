@@ -70,7 +70,6 @@ jobs:
         with:
           matrix-json: ${{ toJSON(matrix) }}
         env:
-          EXTRA_INPUT_SLACK_WEBHOOK_URL: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
           # This allows chainguard-images/images to publish images to cgr.dev/chainguard
           # We maintain this identity here:
           # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
@@ -79,7 +78,6 @@ jobs:
       - uses: chainguard-dev/actions/setup-k3d@main
         with:
           k3s-image: cgr.dev/chainguard/k3s:latest@sha256:fb45446042c7dd5750321e08e9e4b1474866cdc2d9a2eb12582c566e799c985b
-          registry-authority: registry.local:5000
 
       # Disable creating new version tags.
       - run: |
