@@ -3,10 +3,6 @@ description: "Build an image using terraform-provider-apko"
 inputs:
   imageName:
     description: "name of the terraform module"
-  apkoRepositoryAppend:
-    description: "equivalent to --repository-append"
-  apkoKeyringAppend:
-    description: "equivalent to --keyring-append"
 runs:
   using: composite
   steps:
