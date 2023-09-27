@@ -67,6 +67,7 @@
 | [http-echo](./images/http-echo) | `cgr.dev/chainguard/http-echo` |
 | [hugo](./images/hugo) | `cgr.dev/chainguard/hugo` |
 | [influxdb](./images/influxdb) | `cgr.dev/chainguard/influxdb` |
+| [ingress-nginx-controller](./images/ingress-nginx-controller) | `cgr.dev/chainguard/ingress-nginx-controller` |
 | [ip-masq-agent](./images/ip-masq-agent) | `cgr.dev/chainguard/ip-masq-agent` |
 | [istio](./images/istio) | `cgr.dev/chainguard/istio` |
 | [jdk](./images/jdk) | `cgr.dev/chainguard/jdk` |
