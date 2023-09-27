@@ -26,7 +26,7 @@ runs:
       shell: bash
       env:
         TF_VAR_target_repository: registry.local:5000/testing
-        APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:36e1fdffb0d54aa92bd614eb68f0fe1e4a8e42f939e00e1ea58e2cc2ac1da99d
+        APKO_IMAGE: ${{inputs.apkoImage}}
       run: |
         set -x -o pipefail
         env | grep '^TF_VAR_'

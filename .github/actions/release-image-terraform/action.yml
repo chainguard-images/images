@@ -8,6 +8,9 @@ inputs:
   targetRepository:
     default: cgr.dev/chainguard
     description: "Base registry+repository to push images"
+  apkoImage:
+    default: ghcr.io/wolfi-dev/apko:latest
+    description: "Image to use for apko"
 runs:
   using: composite
   steps:
@@ -37,7 +40,7 @@ runs:
       id: terraform-apply
       shell: bash
       env:
-        APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:36e1fdffb0d54aa92bd614eb68f0fe1e4a8e42f939e00e1ea58e2cc2ac1da99d
+        APKO_IMAGE: ${{inputs.apkoImage}}
         TF_VAR_target_repository: ${{inputs.targetRepository}}
 
       run: |
