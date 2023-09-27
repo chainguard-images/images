@@ -23,7 +23,7 @@ jobs:
       shard-0: ${{ steps.generate-matrix-0.outputs.matrix }}
       unique-images-shard-0: ${{ steps.generate-matrix-0.outputs.matrix-unique-images }}
     steps:
-    - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+    - uses: actions/checkout@v4 # v3.5.2
     # On push to main branch, only build images necessary
     - id: files
       if: ${{ github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' }}
@@ -63,7 +63,7 @@ jobs:
       contents: read
       actions: read
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+      - uses: actions/checkout@v4 # v3.5.2
       - id: release-image-inputs
         name: Add additional inputs for release-image action
         uses: chainguard-dev/actions/matrix-extra-inputs@main
