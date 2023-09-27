@@ -1,11 +1,4 @@
 name: verify-readme
-inputs:
-  repository:
-    default: ${{ github.repository }}
-  token:
-    default: ${{ github.token }}
-  gcsBucketName:
-    default: ''
 runs:
   using: composite
   steps:
@@ -27,16 +20,8 @@ runs:
       shell: bash
       run: |
         set -x
-        BADGE_ROOT_URL=""
-        SUMMARY_ROOT_URL=""
-        if [[ "${{ inputs.gcsBucketName }}" != "" ]]; then
-          BADGE_ROOT_URL="https://storage.googleapis.com/${{ inputs.gcsBucketName }}/badges"
-          SUMMARY_ROOT_URL="https://storage.googleapis.com/${{ inputs.gcsBucketName }}/summary"
-        fi
-        if [[ "${{ inputs.defaultRegistryOverride }}" != "" ]]; then
-          default_registry_args="--default-registry=${{ inputs.defaultRegistryOverride }}"
-        fi
-        monopod readme --check --badge-root-url="${BADGE_ROOT_URL}" --summary-root-url="${SUMMARY_ROOT_URL}" $default_registry_args
+        monopod readme --check
+
     - name: Touch actions file to prevent postrun failure
       if: always()
       shell: bash
