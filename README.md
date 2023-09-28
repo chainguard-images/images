@@ -148,6 +148,7 @@
 | [rabbitmq](./images/rabbitmq) | `cgr.dev/chainguard/rabbitmq` |
 | [redis](./images/redis) | `cgr.dev/chainguard/redis` |
 | [redis-sentinel](./images/redis-sentinel) | `cgr.dev/chainguard/redis-sentinel` |
+| [rekor](./images/rekor) | `cgr.dev/chainguard/rekor` |
 | [rqlite](./images/rqlite) | `cgr.dev/chainguard/rqlite` |
 | [ruby](./images/ruby) | `cgr.dev/chainguard/ruby` |
 | [rust](./images/rust) | `cgr.dev/chainguard/rust` |
