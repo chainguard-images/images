@@ -3,5 +3,7 @@ contents:
     - prometheus
 
 entrypoint:
-  command: prometheus
+  command: /usr/bin/prometheus
+
+cmd: --config.file /etc/prometheus/prometheus.yml
 
