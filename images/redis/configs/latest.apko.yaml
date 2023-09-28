@@ -1,7 +1,6 @@
 contents:
   packages:
-    - redis
-    - redis-cli
+    # redis and redis-cli come in via var.extra_packages
     - busybox
 
 accounts:
