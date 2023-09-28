@@ -14,4 +14,3 @@ accounts:
 
 entrypoint:
   command: /usr/share/kubernetes-dashboard/dashboard --insecure-bind-address=0.0.0.0 --bind-address=0.0.0.0
-

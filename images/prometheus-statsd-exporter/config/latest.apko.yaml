@@ -1,7 +1,5 @@
 contents:
-  packages: [
-    # prometheus-statsd-exporter comes in via var.extra_packages
-  ]
+  packages:
 
 accounts:
   groups:

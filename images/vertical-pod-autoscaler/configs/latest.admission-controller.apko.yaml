@@ -13,7 +13,6 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command:  /usr/bin/admission-controller
+  command: /usr/bin/admission-controller
 
 cmd: "--v=4 --stderrthreshold=info"
-

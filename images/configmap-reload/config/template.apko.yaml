@@ -1,6 +1,6 @@
 contents:
   packages:
-  - configmap-reload
+    - configmap-reload
 
 accounts:
   groups:
@@ -14,4 +14,3 @@ accounts:
 
 entrypoint:
   command: /usr/bin/configmap-reload
-

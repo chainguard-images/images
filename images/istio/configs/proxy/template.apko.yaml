@@ -8,9 +8,9 @@ contents:
     - libmnl
 
 paths:
-- path: /run
-  type: directory
-  permissions: 0o755
+  - path: /run
+    type: directory
+    permissions: 0o755
 
 accounts:
   groups:

@@ -15,10 +15,10 @@ accounts:
     - username: zookeeper
       uid: 65532
   run-as: 65532
-  recursive: true
 
 entrypoint:
   command: /usr/share/java/zookeeper/bin/zkServer.sh
+
 cmd: start-foreground
 
 paths:
@@ -31,4 +31,3 @@ paths:
 environment:
   LANG: en_US.UTF-8
   JAVA_HOME: /usr/lib/jvm/java-17-openjdk
-

@@ -1,8 +1,3 @@
-contents:
-  packages: [
-    # external-dns comes via var.extra_packages.
-  ]
-
 accounts:
   groups:
     - groupname: external-dns
@@ -15,5 +10,5 @@ accounts:
 
 entrypoint:
   command: /usr/bin/external-dns
-cmd: --help
 
+cmd: --help

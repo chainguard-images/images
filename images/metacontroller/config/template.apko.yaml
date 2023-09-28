@@ -1,6 +1,6 @@
 contents:
-    packages:
-      - metacontroller
+  packages:
+    - metacontroller
 
 accounts:
   groups:
@@ -13,4 +13,3 @@ accounts:
 
 entrypoint:
   command: /usr/bin/metacontroller
-

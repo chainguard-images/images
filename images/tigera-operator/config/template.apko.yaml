@@ -1,7 +1,5 @@
 contents:
-  packages: [
-    # Package comes from extra-packages
-  ]
+  packages:
 
 accounts:
   groups:
@@ -14,4 +12,5 @@ accounts:
 
 entrypoint:
   command: /usr/bin/operator
+
 cmd: --help

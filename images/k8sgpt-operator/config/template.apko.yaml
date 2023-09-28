@@ -1,6 +1,6 @@
 contents:
   packages:
-  - k8sgpt-operator
+    - k8sgpt-operator
 
 accounts:
   groups:
@@ -14,4 +14,3 @@ accounts:
 
 entrypoint:
   command: manager
-

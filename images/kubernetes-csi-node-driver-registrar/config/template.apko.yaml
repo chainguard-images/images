@@ -1,7 +1,5 @@
 contents:
-  packages: [
-    # CSI Node Driver comes from var.extra_packages
-  ]
+  packages:
 
 accounts:
   groups:
@@ -15,4 +13,3 @@ accounts:
 
 entrypoint:
   command: /usr/bin/csi-node-driver-registrar
-

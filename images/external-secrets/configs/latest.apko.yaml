@@ -1,6 +1,6 @@
 contents:
-    packages:
-      - external-secrets-operator
+  packages:
+    - external-secrets-operator
 
 accounts:
   groups:
@@ -13,4 +13,3 @@ accounts:
 
 entrypoint:
   command: /usr/bin/external-secrets
-

@@ -23,4 +23,3 @@ environment:
 
 entrypoint:
   command: /usr/bin/etcd
-

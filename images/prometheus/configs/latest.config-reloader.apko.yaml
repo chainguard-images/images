@@ -1,7 +1,7 @@
 contents:
-    packages:
-      - prometheus-config-reloader
-      - prometheus-config-reloader-oci-entrypoint-compat
+  packages:
+    - prometheus-config-reloader
+    - prometheus-config-reloader-oci-entrypoint-compat
 
 accounts:
   groups:
@@ -15,4 +15,3 @@ accounts:
 
 entrypoint:
   command: /bin/prometheus-config-reloader
-

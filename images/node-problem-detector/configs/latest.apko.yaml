@@ -43,5 +43,5 @@ paths:
 
 entrypoint:
   command: /usr/bin/node-problem-detector
-cmd: --config.system-log-monitor=/config/kernel-monitor.json
 
+cmd: --config.system-log-monitor=/config/kernel-monitor.json

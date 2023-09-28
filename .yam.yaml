@@ -1,0 +1,7 @@
+gap:
+  - '.'
+
+sort:
+  - ".contents.packages"
+
+indent: 2

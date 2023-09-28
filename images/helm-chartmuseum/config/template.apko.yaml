@@ -1,6 +1,6 @@
 contents:
   packages:
-  - chartmuseum
+    - chartmuseum
 
 accounts:
   groups:
@@ -29,4 +29,3 @@ environment:
 
 entrypoint:
   command: /usr/bin/chartmuseum
-

@@ -17,4 +17,3 @@ entrypoint:
   command: /usr/bin/kyverno
 
 cmd: help
-

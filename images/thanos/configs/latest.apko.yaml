@@ -13,4 +13,3 @@ accounts:
 
 entrypoint:
   command: thanos
-

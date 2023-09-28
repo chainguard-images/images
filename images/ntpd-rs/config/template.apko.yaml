@@ -9,9 +9,6 @@ accounts:
   users:
     - username: ntpd-rs
       uid: 65532
-  recursive: true
-  # Until apko supports capabilities, we need to run this as root.
 
 entrypoint:
   command: /usr/bin/ntp-daemon
-

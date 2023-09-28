@@ -14,13 +14,13 @@ accounts:
   users:
     - username: consul
       uid: 65532
-  recursive: true
   # NOTE: we don't run as consul here. The consul entrypoint expects to run as root
   # and drops permissions to the consul user itself using su-exec
   run-as: 0
 
 entrypoint:
   command: /usr/bin/docker-entrypoint.sh
+
 cmd: agent -dev -client 0.0.0.0
 
 paths:

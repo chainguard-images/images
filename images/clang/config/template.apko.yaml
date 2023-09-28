@@ -23,5 +23,5 @@ accounts:
 
 entrypoint:
   command: /usr/bin/clang
-cmd: --help
 
+cmd: --help

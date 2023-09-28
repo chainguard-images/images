@@ -31,4 +31,3 @@ environment:
   JAVA_HOME: /usr/lib/jvm/java-17-openjdk
 
 work-dir: /home/bazel
-

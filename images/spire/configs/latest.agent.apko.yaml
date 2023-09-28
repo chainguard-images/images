@@ -18,4 +18,3 @@ accounts:
 
 entrypoint:
   command: /usr/bin/spire-agent run
-

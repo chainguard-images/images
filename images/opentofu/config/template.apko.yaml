@@ -15,4 +15,3 @@ entrypoint:
   command: /usr/bin/tofu
 
 cmd: --help
-

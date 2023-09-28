@@ -23,5 +23,5 @@ work-dir: /work
 
 entrypoint:
   command: /usr/bin/rustc
-cmd: --help
 
+cmd: --help

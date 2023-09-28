@@ -1,6 +1,6 @@
 contents:
   packages:
-  - cadvisor
+    - cadvisor
 
 accounts:
   groups:
@@ -50,4 +50,5 @@ environment:
 
 entrypoint:
   command: /usr/bin/cadvisor
+
 cmd: -logtostderr

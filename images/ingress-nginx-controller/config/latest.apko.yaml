@@ -1,7 +1,5 @@
 contents:
-  packages: [
-    # Package comes from extra-packages
-  ]
+  packages:
 
 accounts:
   groups:
@@ -17,11 +15,12 @@ environment:
   LUA_PATH: "/usr/share/lua/5.1/?.lua;/usr/lib/lua/?.lua;/usr/lib/lua/?.lua;/usr/share/lua/?.lua"
   LUA_CPATH: "/usr/lib/lua/5.1/?.so;/usr/lib/lua/?/?.so;/usr/lib/lua/?.so;/usr/lib/lua/?.lua;"
 
-work-dir:  /etc/nginx
+work-dir: /etc/nginx
+
+cmd: "/usr/bin/dumb-init ---"
 
 entrypoint:
-  cmd: /nginx-ingress-controller
-cmd: "/usr/bin/dumb-init ---"
+  command: /nginx-ingress-controller
 
 paths:
   - path: /etc/ingress-controller

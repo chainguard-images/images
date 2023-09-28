@@ -14,6 +14,7 @@ accounts:
 
 entrypoint:
   command: /usr/bin/loki
+
 cmd: -config.file=/etc/loki/local-config.yaml
 
 paths:
