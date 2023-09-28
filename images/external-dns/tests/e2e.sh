@@ -165,7 +165,7 @@ kind: Ingress
 metadata:
   name: dummy
 spec:
-  ingressClassName: nginx # NOTE: This assumes kind
+  ingressClassName: traefik # NOTE: This assumes k3s
   rules:
   - host: ${domain}
     http:
