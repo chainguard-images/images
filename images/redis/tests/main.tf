@@ -13,7 +13,7 @@ data "oci_exec_test" "version" {
   script = "docker run --rm $IMAGE_NAME --version"
 }
 
-# data "oci_exec_test" "server" {
-#   digest = var.digest
-#   script = "${path.module}/02-server.sh"
-# }
+data "oci_exec_test" "server" {
+  digest = var.digest
+  script = "${path.module}/02-server.sh"
+}
