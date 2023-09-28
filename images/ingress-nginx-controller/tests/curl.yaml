@@ -2,7 +2,6 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: curl
-  namespace: ingress-nginx
 spec:
   template:
     spec:
@@ -14,6 +13,6 @@ spec:
         - --fail-with-body
         - -H
         - "Host:httpbin.test.ingress"
-        - ingress-nginx-controller.ingress-nginx.svc
+        - ingress-INGRESS_CLASS-controller.ingress-INGRESS_CLASS.svc/status/202
       restartPolicy: Never
   backoffLimit: 10

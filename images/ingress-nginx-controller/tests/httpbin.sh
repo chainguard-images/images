@@ -1,19 +1,38 @@
 #!/usr/bin/env bash
 
-set -e
+: "${INGRESS_CLASS:=nginx}"
+
+set -o errexit -o nounset -o errtrace -o pipefail -x
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-kubectl apply -f $SCRIPT_DIR/httpbin.yaml
+NAMESPACE="ingress-$INGRESS_CLASS"
+
+# Make sure that Ingresses create in this namespace are managed by the controller
+# and webhook in test.
+kubectl label namespace $NAMESPACE controllerNamespace=$NAMESPACE
+
+# Webhook doesn't expose Readiness: we will need to retry until webhooks are fully configured.
+set +o errexit
+for i in {1..10}; do
+    sed -e "s/INGRESS_CLASS/$INGRESS_CLASS/g" $SCRIPT_DIR/httpbin.yaml | kubectl apply -f - -n $NAMESPACE \
+        && s=0 && break
+    s=$?
+    sleep 5
+done
+if [ $s -ne 0 ]; then
+    exit $s
+fi
+set -o errexit
 
 echo "Waiting for Deployment..."
-kubectl wait --for=condition=ready --timeout=120s pod -l app=httpbin -n ingress-nginx
+kubectl wait --for=condition=ready --timeout=120s pod -l app=httpbin -n $NAMESPACE
 
 ingress_ip=""
 
 # There is no kubectl wait for Ingress
 for i in {1..10}; do
     echo "Waiting for Ingress..."
-    ingress_ip=$(kubectl get ingress ingress-httpbin -n ingress-nginx -ojsonpath='{.status.loadBalancer.ingress[0].ip}')
+    ingress_ip=$(kubectl get ingress ingress-httpbin -n $NAMESPACE -ojsonpath='{.status.loadBalancer.ingress[0].ip}')
     if [ -z "$ingress_ip" ]; then
         sleep 15
     else
@@ -29,7 +48,7 @@ fi
 echo "Ingress has IP: $ingress_ip"
 
 echo "Running curl..."
-kubectl apply -f $SCRIPT_DIR/curl.yaml
-kubectl wait --for=condition=complete --timeout=60s -n ingress-nginx job/curl
+sed -e "s/INGRESS_CLASS/$INGRESS_CLASS/g" $SCRIPT_DIR/curl.yaml | kubectl apply -f - -n $NAMESPACE
+kubectl wait --for=condition=complete --timeout=60s -n $NAMESPACE job/curl
 
 echo "Done"
