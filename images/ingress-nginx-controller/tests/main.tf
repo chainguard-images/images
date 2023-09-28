@@ -9,15 +9,20 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "ingress_class" {
+  description = "The ingressClass to use. This is useful for running multiple ingress tests side-by-side"
+  default     = "nginx"
+}
+
 data "oci_string" "ref" { input = var.digest }
 
 resource "helm_release" "ingress-nginx-controller" {
-  name = "ingress-nginx"
+  name = "ingress-${var.ingress_class}"
 
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
 
-  namespace        = "ingress-nginx"
+  namespace        = "ingress-${var.ingress_class}"
   create_namespace = true
   timeout          = 600
   values = [
@@ -28,8 +33,21 @@ resource "helm_release" "ingress-nginx-controller" {
           registry = data.oci_string.ref.registry
           digest   = data.oci_string.ref.digest
         }
+        ingressClass = var.ingress_class
+        ingressClassResource = {
+          name            = var.ingress_class
+          controllerValue = "k8s.io/ingress-${var.ingress_class}"
+        }
         service = {
           type = "NodePort"
+        }
+        admissionWebhooks = {
+          failurePolicy = "Ignore"
+          namespaceSelector = {
+            matchLabels = {
+              controllerNamespace = "ingress-${var.ingress_class}"
+            }
+          }
         }
       }
     })
@@ -39,5 +57,9 @@ resource "helm_release" "ingress-nginx-controller" {
 data "oci_exec_test" "httpbin" {
   digest     = var.digest
   depends_on = [helm_release.ingress-nginx-controller]
-  script     = "${path.module}/httpbin.sh"
+  env {
+    name  = "INGRESS_CLASS"
+    value = var.ingress_class
+  }
+  script = "${path.module}/httpbin.sh"
 }
