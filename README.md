@@ -169,6 +169,7 @@
 | [tigera-operator](./images/tigera-operator) | `cgr.dev/chainguard/tigera-operator` |
 | [timoni](./images/timoni) | `cgr.dev/chainguard/timoni` |
 | [traefik](./images/traefik) | `cgr.dev/chainguard/traefik` |
+| [trillian](./images/trillian) | `cgr.dev/chainguard/trillian` |
 | [trust-manager](./images/trust-manager) | `cgr.dev/chainguard/trust-manager` |
 | [vault](./images/vault) | `cgr.dev/chainguard/vault` |
 | [vela-cli](./images/vela-cli) | `cgr.dev/chainguard/vela-cli` |

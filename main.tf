@@ -892,6 +892,11 @@ module "traefik" {
   target_repository = "${var.target_repository}/traefik"
 }
 
+module "trillian" {
+  source            = "./images/trillian"
+  target_repository = "${var.target_repository}/trillian"
+}
+
 module "trust-manager" {
   source            = "./images/trust-manager"
   target_repository = "${var.target_repository}/trust-manager"
