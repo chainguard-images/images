@@ -11,4 +11,8 @@ variable "digest" {
 data "oci_exec_test" "test" {
   digest = var.digest
   script = "${path.module}/01-test.sh"
+  env {
+    name  = "MODULE_PATH"
+    value = "${path.module}"
+  }
 }
