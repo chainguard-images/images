@@ -10,7 +10,7 @@ fi
 
 #
 # start_fluentd_detached is a helper function to start up a detached fluentd
-# container with the config in the examples directory. The `docker run`
+# container with the config in the tests/configs directory. The `docker run`
 # command will spit out the container id on stdout so it can be captured to
 # operate on the container further.
 #
@@ -18,7 +18,7 @@ start_fluentd_detached() {
   docker run \
     --detach --rm \
     --publish 127.0.0.1:${FREE_PORT}:24224 \
-    --volume "$(pwd)/images/fluentd/examples/basic_docker.conf:/etc/fluent/fluent.conf" \
+    --volume "$(pwd)/images/fluentd/tests/configs/basic_docker.conf:/etc/fluent/fluent.conf" \
     "${IMAGE_NAME}"
   sleep 2
 }
