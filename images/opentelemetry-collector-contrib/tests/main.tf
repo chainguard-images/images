@@ -20,6 +20,10 @@ resource "helm_release" "open-telemetry-deploy" {
   namespace        = "otelc-deploy"
   create_namespace = true
 
+  // After https://github.com/open-telemetry/opentelemetry-helm-charts/pull/892 we
+  // fail to install because of unrecognized exporters.
+  version = "0.69.0"
+
   values = [jsonencode({
     mode = "deployment"
     image = {
