@@ -19,6 +19,11 @@ variable "skip_crds" {
   default     = false
 }
 
+variable "chart-version" {
+  description = "The version of the Helm chart to install."
+  default     = "latest"
+}
+
 data "oci_string" "ref" {
   for_each = var.digests
   input    = each.value
@@ -31,6 +36,8 @@ resource "helm_release" "keda" {
   chart            = "keda"
   create_namespace = true
   timeout          = 600
+
+  version = var.chart-version == "latest" ? null : var.chart-version
 
   values = [
     <<EOF
