@@ -95,15 +95,22 @@ resource "helm_release" "trillian" {
   }
 }
 
-module "helm_cleanup-trillian" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.trillian.id
-  namespace = helm_release.trillian.namespace
+data "oci_exec_test" "test-helm" {
+  depends_on = [helm_release.trillian]
+  digest     = data.oci_string.ref["logsigner"].id
+  script     = "${path.module}/test-helm.sh"
 }
 
-data "oci_exec_test" "test" {
+module "helm_cleanup-trillian" {
+  depends_on = [data.oci_exec_test.test-helm]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.trillian.id
+  namespace  = helm_release.trillian.namespace
+}
+
+data "oci_exec_test" "compose-test" {
   digest = data.oci_string.ref["logsigner"].id
-  script = "${path.module}/test.sh"
+  script = "${path.module}/compose-test.sh"
 
   env {
     name  = "TRILLIAN_LOG_SIGNER"

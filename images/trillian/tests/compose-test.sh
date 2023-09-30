@@ -21,7 +21,7 @@ services:
       - MYSQL_PASSWORD=zaphod
     restart: always # keep the MySQL server running
   trillian-log-server:
-    image: $TRILLIAN_LOG_SERVER
+    image: ${TRILLIAN_LOG_SERVER}
     command: [
       "--storage_system=mysql",
       "--mysql_uri=test:zaphod@tcp(mysql:3306)/test",
@@ -32,11 +32,11 @@ services:
     restart: always # retry while mysql is starting up
     ports:
       - "8090:8090"
-      - "8091:8091"
+      - "${FREE_PORT}:8091"
     depends_on:
       - mysql
   trillian-log-signer:
-    image: $TRILLIAN_LOG_SIGNER
+    image: ${TRILLIAN_LOG_SIGNER}
     command: [
       "--storage_system=mysql",
       "--mysql_uri=test:zaphod@tcp(mysql:3306)/test",
@@ -53,5 +53,5 @@ services:
 EOF
 
 docker compose up --wait
-curl --retry 10 --retry-all-errors localhost:8091/metrics
+curl --retry 10 --retry-all-errors "localhost:${FREE_PORT}/metrics"
 docker compose down
