@@ -64,8 +64,6 @@ module "this" {
   extra_packages    = var.extra_packages
 }
 
-module "dev" { source = "../dev-subvariant" }
-
 module "this-dev" {
   count   = local.build-dev ? 1 : 0
   source  = "chainguard-dev/apko/publisher"
@@ -75,8 +73,13 @@ module "this-dev" {
 
   # Make the dev variant an explicit extension of the
   # locked original.
-  config         = jsonencode(module.this.config)
-  extra_packages = concat(module.dev.extra_packages, var.extra_dev_packages)
+  config = jsonencode(module.this.config)
+  extra_packages = concat([
+    "apk-tools",
+    "bash",
+    "busybox",
+    "git",
+  ], var.extra_dev_packages)
 }
 
 data "oci_exec_test" "check-reproducibility" {
