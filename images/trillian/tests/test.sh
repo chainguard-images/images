@@ -53,5 +53,5 @@ services:
 EOF
 
 docker compose up --wait
-curl --retry 10 --retry-all-errors localhost:8091/metrics 
+curl --retry 10 --retry-all-errors localhost:8091/metrics
 docker compose down
