@@ -768,7 +768,6 @@ module "r-base" {
   target_repository = "${var.target_repository}/r-base"
 }
 
-
 module "rabbitmq" {
   source            = "./images/rabbitmq"
   target_repository = "${var.target_repository}/rabbitmq"
@@ -782,6 +781,11 @@ module "redis" {
 module "redis-sentinel" {
   source            = "./images/redis-sentinel"
   target_repository = "${var.target_repository}/redis-sentinel"
+}
+
+module "rekor" {
+  source            = "./images/rekor"
+  target_repository = "${var.target_repository}/rekor"
 }
 
 module "rqlite" {
