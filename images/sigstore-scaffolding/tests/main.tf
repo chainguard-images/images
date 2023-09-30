@@ -79,10 +79,18 @@ variable "trillian-images" {
   }
 }
 
-# TODO: Fulcio, CTLog
+variable "ctlog-server" {
+  description = "The image digests to run tests over."
+  type        = string
+
+  # TODO: switch this to our image once it is published.
+  default = "ghcr.io/sigstore/scaffolding/ct_server:latest"
+}
+
+# TODO: Fulcio
 
 locals {
-  all-images = merge(var.scaffolding-images, var.support-images, var.rekor-images, var.trillian-images)
+  all-images = merge(var.scaffolding-images, var.support-images, var.rekor-images, var.trillian-images, { "ctlog-server" : var.ctlog-server })
 }
 
 data "oci_ref" "images" {
@@ -100,9 +108,6 @@ resource "helm_release" "scaffold" {
   repository = "https://sigstore.github.io/helm-charts"
   chart      = "scaffold"
   timeout    = 600
-
-  namespace        = "scaffold"
-  create_namespace = true
 
   // scaffolding trillian createdb
   set {
@@ -272,6 +277,20 @@ resource "helm_release" "scaffold" {
     value = data.oci_string.images["logsigner"].digest
   }
 
+  // ctlog server
+  set {
+    name  = "ctlog.server.image.registry"
+    value = data.oci_string.images["ctlog-server"].registry
+  }
+  set {
+    name  = "ctlog.server.image.repository"
+    value = data.oci_string.images["ctlog-server"].repo
+  }
+  set {
+    name  = "ctlog.server.image.version"
+    value = data.oci_string.images["ctlog-server"].digest
+  }
+
   # TODO: namespace everything.
 }
 
@@ -340,12 +359,21 @@ resource "kubernetes_job_v1" "check_rekor" {
 
 # TODO: More tests!
 
+# This is a useful trick for intentionally breaking things to
+# inspect the deployed images and ensure we aren't pulling things
+# from public registries.
+# data "oci_exec_test" "break" {
+#   depends_on = [helm_release.scaffold]
+#   digest     = data.oci_string.images["rekor-cli"].id
+#   script     = "exit 1"
+# }
+
 module "helm_cleanup" {
   depends_on = [
     # Don't clean up until all of the tests complete.
     kubernetes_job_v1.check_rekor,
+    # data.oci_exec_test.break,
   ]
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.scaffold.id
-  namespace = helm_release.scaffold.namespace
+  source = "../../../tflib/helm-cleanup"
+  name   = helm_release.scaffold.id
 }
