@@ -326,6 +326,11 @@ module "external-dns" {
   target_repository = "${var.target_repository}/external-dns"
 }
 
+module "gitness" {
+  source            = "./images/gitness"
+  target_repository = "${var.target_repository}/gitness"
+}
+
 module "graalvm-native" {
   source            = "./images/graalvm-native"
   target_repository = "${var.target_repository}/graalvm-native"

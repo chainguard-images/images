@@ -54,6 +54,7 @@
 | [gatekeeper](./images/gatekeeper) | `cgr.dev/chainguard/gatekeeper` |
 | [gcc-glibc](./images/gcc-glibc) | `cgr.dev/chainguard/gcc-glibc` |
 | [git](./images/git) | `cgr.dev/chainguard/git` |
+| [gitness](./images/gitness) | `cgr.dev/chainguard/gitness` |
 | [glibc-dynamic](./images/glibc-dynamic) | `cgr.dev/chainguard/glibc-dynamic` |
 | [go](./images/go) | `cgr.dev/chainguard/go` |
 | [google-cloud-sdk](./images/google-cloud-sdk) | `cgr.dev/chainguard/google-cloud-sdk` |
