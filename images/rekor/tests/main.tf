@@ -22,6 +22,10 @@ data "oci_ref" "redis" {
   ref = "cgr.dev/chainguard/redis:latest"
 }
 
+data "oci_ref" "createtree" {
+  ref = "cgr.dev/chainguard/sigstore-scaffolding-trillian-createtree:latest"
+}
+
 data "oci_string" "ref" {
   for_each = var.digests
   input    = each.value
@@ -100,18 +104,17 @@ resource "helm_release" "rekor" {
   }
 
   // scaffolding createtree
-  // TODO(mattmoor): Switch to chainguard image
   set {
     name  = "createtree.image.registry"
-    value = "ghcr.io"
+    value = "cgr.dev"
   }
   set {
     name  = "createtree.image.repository"
-    value = "sigstore/scaffolding/createtree"
+    value = "chainguard/sigstore-scaffolding-trillian-createtree"
   }
   set {
     name  = "createtree.image.version"
-    value = "sha256:8e921d028b46d5ad98994d58f79e2724cf84e99e3270f5799fe0f1a6b518bc4e"
+    value = data.oci_ref.createtree.digest
   }
 }
 
