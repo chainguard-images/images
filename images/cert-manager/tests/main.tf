@@ -63,3 +63,9 @@ resource "helm_release" "cert-manager" {
     }
   })]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.cert-manager.id
+  namespace = helm_release.cert-manager.namespace
+}
