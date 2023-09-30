@@ -23,6 +23,11 @@ resource "helm_release" "aws-load-balancer-controller" {
   create_namespace = true
 
   values = [jsonencode({
+    webhookNamespaceSelectors = {
+      matchLabels = {
+        "aws-load-balancer-controller-namespace" = "aws-lbc-${random_pet.suffix.id}"
+      }
+    }
     image = {
       tag        = data.oci_string.ref.pseudo_tag
       repository = data.oci_string.ref.registry_repo
