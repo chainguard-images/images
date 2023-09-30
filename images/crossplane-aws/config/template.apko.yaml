@@ -13,7 +13,7 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command: /usr/local/bin/provider
+  command: /usr/bin/provider
 
 environment:
   TERRAFORM_NATIVE_PROVIDER_PATH: /usr/bin/terraform-provider-aws
