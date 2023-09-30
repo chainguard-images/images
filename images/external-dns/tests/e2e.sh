@@ -159,13 +159,31 @@ kubectl wait --for=condition=ready pod --selector app.kubernetes.io/name=externa
 domain="foo.example.org"
 
 # apply the ingress
+ingress_class=""
+# Try the built-in one, to avoid flakiness as they are up when the cluster is.
+for c in nginx traefik; do
+  set +e
+  ingress_class=$(kubectl get ingressclasses.networking.k8s.io $c -ojsonpath="{.metadata.name}")
+done
+set -e
+# The built-in ones aren't available, just use any other.
+if [ -z "$ingress_class" ]; then
+  ingress_class=$(kubectl get ingressclasses.networking.k8s.io -ojsonpath="{.metadata.name}" | cut -f1 -d' ')
+fi
+if [ -z "$ingress_class" ]; then
+  echo "Cluster has no ingress class"
+  exit 1
+else
+  echo "Testing using ingressClass=$ingress_class"
+fi
+
 cat >$TMPDIR/ingress.yaml <<EOF
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: dummy
 spec:
-  ingressClassName: nginx # NOTE: This assumes kind
+  ingressClassName: ${ingress_class}
   rules:
   - host: ${domain}
     http:
@@ -180,20 +198,42 @@ spec:
 EOF
 kubectl apply -f $TMPDIR/ingress.yaml
 
-kubectl port-forward svc/coredns-coredns ${FREE_PORT}:53 &
-fwd_pid=$!
-trap cleanup_pid EXIT
+
+ingress_ip=""
+
+# There is no kubectl wait for Ingress
+for i in {1..10}; do
+    echo "Waiting for Ingress..."
+    ingress_ip=$(kubectl get ingress dummy -ojsonpath='{.status.loadBalancer.ingress[0].ip}')
+    if [ -z "$ingress_ip" ]; then
+        sleep 15
+    else
+        break
+    fi
+done
+
+if [ -z "$ingress_ip" ]; then
+    echo "Ingress does not become Ready"
+    exit 1
+fi
 
 cleanup_pid() {
 	kill -9 $fwd_pid
 }
+kubectl port-forward svc/coredns-coredns ${FREE_PORT}:53 &
+fwd_pid=$!
+trap cleanup_pid EXIT
 
-trap cleanup EXIT
+for i in {1..10}; do
+  digged=$(dig +short -p ${FREE_PORT} +tcp @localhost "$domain" A || true)
 
-# TODO: This sucks, but edns doesn't always forward the ingress request fast enough
-sleep 20
-ing_ip=$(kubectl get ingress dummy -ojsonpath='{.status.loadBalancer.ingress[0].ip}')
+  if [ "$digged" == "$ingress_ip" ]; then
+    break
+  else
+    echo "Record hasn't propagated.. retrying #$i.."
+    sleep 5
+  fi
+done
 
-digged=$(dig +short -p ${FREE_PORT} +tcp @localhost "$domain" A)
 kill -9 $fwd_pid
-[[ "$digged" == "$ing_ip" ]] || exit 1
+[[ "$digged" == "$ingress_ip" ]] || exit 1
