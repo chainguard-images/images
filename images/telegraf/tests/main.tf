@@ -31,3 +31,9 @@ resource "helm_release" "telegraf" {
     }),
   ]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.telegraf.id
+  namespace = helm_release.telegraf.namespace
+}

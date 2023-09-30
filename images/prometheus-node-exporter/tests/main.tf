@@ -44,9 +44,16 @@ resource "helm_release" "kube-prometheus-stack" {
 }
 
 data "oci_exec_test" "node-runs" {
-  depends_on = [resource.helm_release.kube-prometheus-stack]
+  depends_on = [helm_release.kube-prometheus-stack]
 
   digest      = var.digest
   script      = "./node-runs.sh ${random_id.hex.hex}"
   working_dir = path.module
+}
+
+module "helm_cleanup" {
+  depends_on = [data.oci_exec_test.node-runs]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.kube-prometheus-stack.id
+  namespace  = helm_release.kube-prometheus-stack.namespace
 }

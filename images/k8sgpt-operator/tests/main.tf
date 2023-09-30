@@ -27,3 +27,9 @@ resource "helm_release" "k8sgpt-operator" {
     }
   })]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.k8sgpt-operator.id
+  namespace = helm_release.k8sgpt-operator.namespace
+}

@@ -40,3 +40,9 @@ resource "helm_release" "cluster-proportional-autoscaler" {
     }
   })]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.cluster-proportional-autoscaler.id
+  namespace = helm_release.cluster-proportional-autoscaler.namespace
+}

@@ -56,3 +56,9 @@ resource "helm_release" "spire" {
     }),
   ]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.spire.id
+  namespace = helm_release.spire.namespace
+}

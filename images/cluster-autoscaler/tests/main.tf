@@ -42,3 +42,9 @@ resource "helm_release" "cluster-autoscaler" {
     }
   })]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.cluster-autoscaler.id
+  namespace = helm_release.cluster-autoscaler.namespace
+}

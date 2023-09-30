@@ -28,3 +28,9 @@ resource "helm_release" "influxdb" {
     }
   })]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.influxdb.id
+  namespace = helm_release.influxdb.namespace
+}

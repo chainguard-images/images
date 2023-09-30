@@ -24,3 +24,9 @@ resource "helm_release" "node-problem-detector" {
     }
   })]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.node-problem-detector.id
+  namespace = helm_release.node-problem-detector.namespace
+}

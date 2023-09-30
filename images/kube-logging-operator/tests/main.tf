@@ -37,3 +37,10 @@ data "oci_exec_test" "smoke" {
 
   depends_on = [helm_release.kube-logging-operator]
 }
+
+module "helm_cleanup" {
+  depends_on = [data.oci_exec_test.smoke]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.kube-logging-operator.id
+  namespace  = helm_release.kube-logging-operator.namespace
+}

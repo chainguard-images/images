@@ -26,3 +26,9 @@ resource "helm_release" "spark-operator" {
     }
   })]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.spark-operator.id
+  namespace = helm_release.spark-operator.namespace
+}

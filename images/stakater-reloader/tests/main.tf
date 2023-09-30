@@ -33,3 +33,9 @@ resource "helm_release" "stakater-reloader" {
     }
   })]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.stakater-reloader.id
+  namespace = helm_release.stakater-reloader.namespace
+}

@@ -63,3 +63,10 @@ resource "kubernetes_job_v1" "check_coredns" {
 
   depends_on = [helm_release.coredns]
 }
+
+module "helm_cleanup" {
+  depends_on = [kubernetes_job_v1.check_coredns]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.coredns.id
+  namespace  = helm_release.coredns.namespace
+}

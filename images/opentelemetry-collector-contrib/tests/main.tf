@@ -44,6 +44,12 @@ resource "helm_release" "open-telemetry-deploy" {
   })]
 }
 
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.open-telemetry-deploy.id
+  namespace = helm_release.open-telemetry-deploy.namespace
+}
+
 resource "kubernetes_namespace" "open-telemetry-custom-config" {
   metadata {
     name = "otelc-daemonset"
@@ -104,4 +110,10 @@ resource "helm_release" "open-telemetry-custom-config" {
       }
     ]
   })]
+}
+
+module "custom_helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.open-telemetry-custom-config.id
+  namespace = helm_release.open-telemetry-custom-config.namespace
 }

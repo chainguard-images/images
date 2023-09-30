@@ -63,3 +63,10 @@ data "oci_exec_test" "httpbin" {
   }
   script = "${path.module}/httpbin.sh"
 }
+
+module "helm_cleanup" {
+  depends_on = [data.oci_exec_test.httpbin]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.ingress-nginx-controller.id
+  namespace  = helm_release.ingress-nginx-controller.namespace
+}
