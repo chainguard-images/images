@@ -37,3 +37,9 @@ resource "helm_release" "test" {
     value = data.oci_string.ref.pseudo_tag
   }
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.test.id
+  namespace = helm_release.test.namespace
+}

@@ -45,3 +45,10 @@ data "oci_exec_test" "check-kube-state-metrics" {
     value = helm_release.kube-state-metrics.name
   }
 }
+
+module "helm_cleanup" {
+  depends_on = [data.oci_exec_test.check-kube-state-metrics]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.kube-state-metrics.id
+  namespace  = helm_release.kube-state-metrics.namespace
+}

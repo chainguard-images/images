@@ -36,3 +36,9 @@ resource "helm_release" "aws-load-balancer-controller" {
     awsApiEndpoints = "ec2=http://amazon-ec2-metadata-mock-service.default"
   })]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.aws-load-balancer-controller.id
+  namespace = helm_release.aws-load-balancer-controller.namespace
+}

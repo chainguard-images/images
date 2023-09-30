@@ -27,3 +27,10 @@ resource "helm_release" "tigera-operator" {
     }
   })]
 }
+
+# This doesn't seem to cleanly uninstall things.
+# module "helm_cleanup" {
+#   source    = "../../../tflib/helm-cleanup"
+#   name      = helm_release.tigera-operator.id
+#   namespace = helm_release.tigera-operator.namespace
+# }

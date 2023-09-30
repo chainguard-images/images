@@ -70,3 +70,9 @@ config:
     EOF
   ]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.dex.id
+  namespace = helm_release.dex.namespace
+}

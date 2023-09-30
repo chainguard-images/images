@@ -156,3 +156,9 @@ resource "helm_release" "mongodb" {
     value = data.oci_string.ref["mongodb-exporter"].pseudo_tag
   }
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.kube-prometheus-stack.id
+  namespace = helm_release.kube-prometheus-stack.namespace
+}

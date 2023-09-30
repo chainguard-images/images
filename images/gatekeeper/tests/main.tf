@@ -45,3 +45,9 @@ resource "helm_release" "gatekeeper" {
     validatingWebhookCheckIgnoreFailurePolicy = "Ignore"
   })]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.gatekeeper.id
+  namespace = helm_release.gatekeeper.namespace
+}

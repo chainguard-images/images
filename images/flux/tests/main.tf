@@ -63,3 +63,9 @@ resource "helm_release" "flux" {
     })
   ]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.flux.id
+  namespace = helm_release.flux.namespace
+}

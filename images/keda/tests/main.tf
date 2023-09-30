@@ -57,3 +57,10 @@ data "oci_exec_test" "smoke" {
 
   depends_on = [helm_release.keda]
 }
+
+module "helm_cleanup" {
+  depends_on = [data.oci_exec_test.smoke]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.keda.id
+  namespace  = helm_release.keda.namespace
+}

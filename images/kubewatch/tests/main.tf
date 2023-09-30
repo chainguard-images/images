@@ -32,3 +32,9 @@ resource "helm_release" "kubewatch" {
     }),
   ]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.kubewatch.id
+  namespace = helm_release.kubewatch.namespace
+}

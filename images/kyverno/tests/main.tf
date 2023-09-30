@@ -81,3 +81,9 @@ resource "helm_release" "kyverno" {
     }
   })]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.kyverno.id
+  namespace = helm_release.kyverno.namespace
+}

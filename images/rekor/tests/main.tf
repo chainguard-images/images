@@ -175,3 +175,10 @@ resource "kubernetes_job_v1" "check_rekor" {
 
   wait_for_completion = true
 }
+
+module "helm_cleanup" {
+  depends_on = [kubernetes_job_v1.check_rekor]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.rekor.id
+  namespace  = helm_release.rekor.namespace
+}

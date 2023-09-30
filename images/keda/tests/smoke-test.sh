@@ -19,6 +19,7 @@ kubectl wait --for=condition=ready pod --selector app=test --timeout=120s -n def
 
 # Use the keda autoscaler to scale the test deployment
 kubectl apply -f $SCRIPT_DIR/scaledobject.yaml -n default
+trap "kubectl delete -f $SCRIPT_DIR/scaledobject.yaml -n default" EXIT
 
 sleep 5
 
