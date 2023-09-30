@@ -818,6 +818,11 @@ module "semgrep" {
   target_repository = "${var.target_repository}/semgrep"
 }
 
+module "sigstore-scaffolding" {
+  source            = "./images/sigstore-scaffolding"
+  target_repository = "${var.target_repository}/sigstore-scaffolding"
+}
+
 module "skaffold" {
   source            = "./images/skaffold"
   target_repository = "${var.target_repository}/skaffold"
