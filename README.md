@@ -155,6 +155,7 @@
 | [secrets-store-csi-driver](./images/secrets-store-csi-driver) | `cgr.dev/chainguard/secrets-store-csi-driver` |
 | [secrets-store-csi-driver-provider-gcp](./images/secrets-store-csi-driver-provider-gcp) | `cgr.dev/chainguard/secrets-store-csi-driver-provider-gcp` |
 | [semgrep](./images/semgrep) | `cgr.dev/chainguard/semgrep` |
+| [sigstore-scaffolding](./images/sigstore-scaffolding) | `cgr.dev/chainguard/sigstore-scaffolding` |
 | [skaffold](./images/skaffold) | `cgr.dev/chainguard/skaffold` |
 | [slim-toolkit-debug](./images/slim-toolkit-debug) | `cgr.dev/chainguard/slim-toolkit-debug` |
 | [spark-operator](./images/spark-operator) | `cgr.dev/chainguard/spark-operator` |
