@@ -157,43 +157,36 @@ kubectl rollout status --timeout 5m deployment/edns-external-dns
 kubectl wait --for=condition=ready pod --selector app.kubernetes.io/name=external-dns --timeout 60s
 
 domain="foo.example.org"
-
-# apply the ingress
-cat >$TMPDIR/ingress.yaml <<EOF
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+ip="42.42.42.42"
+# Create an external name service handled by ExternalDNS
+kubectl apply -f- <<EOF
+kind: Service
+apiVersion: v1
 metadata:
-  name: dummy
+  name: external-dns-test
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: ${domain}
 spec:
-  ingressClassName: nginx # NOTE: This assumes kind
-  rules:
-  - host: ${domain}
-    http:
-      paths:
-      - path: /testpath
-        pathType: Prefix
-        backend:
-          service:
-            name: test
-            port:
-              number: 80
+  type: ExternalName
+  externalName: ${ip}
 EOF
-kubectl apply -f $TMPDIR/ingress.yaml
 
 kubectl port-forward svc/coredns-coredns ${FREE_PORT}:53 &
 fwd_pid=$!
-trap cleanup_pid EXIT
 
 cleanup_pid() {
 	kill -9 $fwd_pid
 }
+trap cleanup_pid EXIT
 
-trap cleanup EXIT
+for i in {1..10}; do
+  echo "Checking A record for $domain"
+  digged=$(dig +short -p ${FREE_PORT} +retry=10 +tcp @localhost "$domain" A || true)
+  if [[ "$digged" == "$ip" ]]; then
+    break
+  fi
+  sleep 5
+done
 
-# TODO: This sucks, but edns doesn't always forward the ingress request fast enough
-sleep 20
-ing_ip=$(kubectl get ingress dummy -ojsonpath='{.status.loadBalancer.ingress[0].ip}')
-
-digged=$(dig +short -p ${FREE_PORT} +tcp @localhost "$domain" A)
 kill -9 $fwd_pid
-[[ "$digged" == "$ing_ip" ]] || exit 1
+[[ "$digged" == "$ip" ]] || exit 1
