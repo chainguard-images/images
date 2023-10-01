@@ -5,7 +5,7 @@ contents:
     - wavefront-proxy
     - wavefront-proxy-config
     - wavefront-proxy-licenses
-    - wavefront-proxy-oci-entrypoint
+    - wavefront-proxy-compat
     - bash
     - busybox
 
