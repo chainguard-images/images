@@ -42,8 +42,8 @@ module "latest" {
 }
 
 module "test-latest" {
-  source  = "./tests"
-  digests = { for k, v in module.latest : k => v.image_ref }
+  source             = "./tests"
+  scaffolding-images = { for k, v in module.latest : k => v.image_ref }
 }
 
 resource "oci_tag" "latest" {
