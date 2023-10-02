@@ -1,6 +1,5 @@
 contents:
   packages:
-    - kubernetes-csi-livenessprobe
 
 accounts:
   groups:
