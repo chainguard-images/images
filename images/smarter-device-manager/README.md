@@ -12,12 +12,11 @@
 ---
 <!--monopod:end-->
 
-Smarter Device Manager is a Kubernetes device plugin designed to help manage
-host-specific devices and allow them to be utilized by pods. 
+Smarter-device-manager is a Kubernetes tool designed for IoT applications,
+enabling containers to securely access host devices like sensors, actuators,
+and various hardware interfaces.
 
-It focuses primarily on edge-specific hardware like GPUs, TPUs, FPGAs, and other
-peripherals on ARM hardware. Users deploy this tool to ensure that specialized
-devices on edge nodes are appropriately allocated to Kubernetes workloads.
+This repository produces a Minimalist Wolfi-based image for smarter device manager.
 
 ## Get It!
 
