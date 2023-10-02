@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"bytes"
 	"fmt"
 	"os"
 	"path"
@@ -45,9 +44,6 @@ type readmeImpl struct {
 }
 
 func (i *readmeImpl) Do() error {
-	if i.RootReadmeToStdout {
-		return i.rootReadmeToStdout()
-	}
 	if i.Check {
 		return i.check()
 	}
@@ -61,22 +57,6 @@ func (i *readmeImpl) check() error {
 	}
 
 	numIssues := 0
-
-	// Top-level README.md
-	expectedRootReadmeContents, err := getRootReadmeContents(allImages, i.DefaultRegistry)
-	if err != nil {
-		fmt.Println(err.Error())
-		numIssues++
-	} else {
-		actualRootReadmeContents, err := os.ReadFile("README.md")
-		if err != nil {
-			fmt.Println(err.Error())
-			numIssues++
-		} else if !bytes.Equal(actualRootReadmeContents, expectedRootReadmeContents) {
-			fmt.Println("README.md is out-of-date.")
-			numIssues++
-		}
-	}
 
 	sort.Slice(allImages, func(i, j int) bool {
 		return allImages[i].ImageName < allImages[j].ImageName
@@ -129,15 +109,6 @@ func (i *readmeImpl) fixAllReadmes() error {
 		return err
 	}
 
-	// Top-level README.md
-	rootReadmeContents, err := getRootReadmeContents(allImages, i.DefaultRegistry)
-	if err != nil {
-		return err
-	}
-	if err := os.WriteFile("README.md", rootReadmeContents, 0644); err != nil {
-		return err
-	}
-
 	// Individual image README.md files
 	sort.Slice(allImages, func(i, j int) bool {
 		return allImages[i].ImageName < allImages[j].ImageName
@@ -185,41 +156,4 @@ func (i *readmeImpl) fixAllReadmes() error {
 		}
 	}
 	return nil
-}
-
-func (i *readmeImpl) rootReadmeToStdout() error {
-	allImages, err := images.ListAll()
-	if err != nil {
-		return err
-	}
-	b, err := getRootReadmeContents(allImages, i.DefaultRegistry)
-	if err != nil {
-		return err
-	}
-	fmt.Print(string(b))
-	return nil
-}
-
-func getRootReadmeContents(allImages []images.Image, defaultRegistry string) ([]byte, error) {
-	buf := new(bytes.Buffer)
-	buf.WriteString("# Chainguard Images\n")
-	buf.WriteString("\n")
-	// TODO: Remove in October
-	buf.WriteString("## :warning::exclamation: On August 16th we made changes to how image tags are pulled. Please see [the announcement](https://www.chainguard.dev/unchained/important-updates-for-chainguard-images-public-catalog-users) for further details. :exclamation::warning:\n")
-	buf.WriteString("\n")
-	buf.WriteString("| Name | OCI Reference |")
-	buf.WriteString("\n")
-	buf.WriteString("| ----- | ----- |")
-	buf.WriteString("\n")
-
-	sort.Slice(allImages, func(i, j int) bool {
-		return allImages[i].ImageName < allImages[j].ImageName
-	})
-	for _, i := range allImages {
-		img := i.ImageName
-		reference := defaultRegistry + "/" + img
-		buf.WriteString(fmt.Sprintf("| [%s](./%s/%s) | `%s` |", img, constants.ImagesDirName, img, reference))
-		buf.WriteString("\n")
-	}
-	return buf.Bytes(), nil
 }
