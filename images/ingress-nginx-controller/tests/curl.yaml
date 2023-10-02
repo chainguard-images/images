@@ -12,7 +12,7 @@ spec:
         - curl
         - --fail-with-body
         - -H
-        - "Host:httpbin.test.ingress"
+        - "Host:test.nginx.ingress"
         - ingress-INGRESS_CLASS-controller.ingress-INGRESS_CLASS.svc/status/202
       restartPolicy: Never
   backoffLimit: 10

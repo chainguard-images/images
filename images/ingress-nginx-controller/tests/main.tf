@@ -54,18 +54,18 @@ resource "helm_release" "ingress-nginx-controller" {
   ]
 }
 
-data "oci_exec_test" "httpbin" {
+data "oci_exec_test" "can-expose-a-backend" {
   digest     = var.digest
   depends_on = [helm_release.ingress-nginx-controller]
   env {
     name  = "INGRESS_CLASS"
     value = var.ingress_class
   }
-  script = "${path.module}/httpbin.sh"
+  script = "${path.module}/backend.sh"
 }
 
 module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.httpbin]
+  depends_on = [data.oci_exec_test.can-expose-a-backend]
   source     = "../../../tflib/helm-cleanup"
   name       = helm_release.ingress-nginx-controller.id
   namespace  = helm_release.ingress-nginx-controller.namespace
