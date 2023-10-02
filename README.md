@@ -189,3 +189,15 @@
 | [zig](./images/zig) | `cgr.dev/chainguard/zig` |
 | [zookeeper](./images/zookeeper) | `cgr.dev/chainguard/zookeeper` |
 | [zot](./images/zot) | `cgr.dev/chainguard/zot` |
+
+### Learn more about Chainguard Images
+
+https://edu.chainguard.dev/chainguard/chainguard-images/
+
+### See available images
+
+https://edu.chainguard.dev/chainguard/chainguard-images/reference/
+
+### Log in to view the full catalog
+
+https://console.enforce.dev/images/catalog

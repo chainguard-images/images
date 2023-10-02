@@ -8,9 +8,10 @@ terraform {
 variable "digests" {
   description = "The image digest to run tests over."
   type = object({
-    proxy    = string
-    pilot    = string
-    operator = string
+    install-cni = string
+    proxy       = string
+    pilot       = string
+    operator    = string
   })
 }
 
@@ -35,6 +36,7 @@ data "oci_exec_test" "operator-version" {
 
 data "oci_string" "operator-ref" { input = var.digests.operator }
 data "oci_string" "proxy-ref" { input = var.digests.proxy }
+data "oci_string" "install-cni-ref" { input = var.digests.install-cni }
 
 resource "helm_release" "operator" {
   name             = "operator"
@@ -109,7 +111,10 @@ resource "helm_release" "istiod" {
 }
 
 resource "helm_release" "gateway" {
-  depends_on       = [helm_release.istiod]
+  # Technically this should only depend on `istiod` installation, but
+  # we block this until `install-cni` is done to make sure the CNI plugin
+  # installation did not break Pod sandbox creation.
+  depends_on       = [helm_release.istiod, helm_release.install-cni]
   name             = "${local.namespace}-gateway"
   namespace        = local.namespace
   create_namespace = true
@@ -136,6 +141,39 @@ resource "helm_release" "gateway" {
       }
     }
   })]
+}
+
+resource "helm_release" "install-cni" {
+  depends_on = [helm_release.base]
+  name       = "${local.namespace}-cni"
+  namespace  = local.namespace
+  repository = "https://istio-release.storage.googleapis.com/charts/"
+  chart      = "cni"
+  values = [jsonencode({
+    global = {
+      # We have to trim the suffix and specify it in `image`, because this
+      # Helm chart does not like slashes in the image name.
+      hub = replace(data.oci_string.install-cni-ref.registry_repo, "/istio-install-cni", "")
+      tag = data.oci_string.install-cni-ref.pseudo_tag
+    }
+    cni = {
+      image = "istio-install-cni"
+
+      # These two settings are highly dependent on the K8s cluster setup.
+      cniBinDir  = "/var/lib/rancher/k3s/data/current/bin" # Special thanks to Wolf
+      cniConfDir = "/var/lib/rancher/k3s/agent/etc/cni/net.d"
+    }
+    # Set the revision so that only namespace with istio.io/rev=local.namespace
+    # will be managed.
+    revision = local.namespace
+  })]
+}
+
+# Wait for the CNI daemonset to come up
+data "oci_exec_test" "install-cni-daemonset-up" {
+  depends_on = [helm_release.install-cni]
+  digest     = var.digests.proxy
+  script     = "kubectl rollout status daemonset -n ${local.namespace} istio-cni-node --timeout 60s"
 }
 
 # Test the sidecar injection.
