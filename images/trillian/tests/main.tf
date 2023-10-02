@@ -54,15 +54,15 @@ resource "helm_release" "trillian" {
 
   // logServer
   set {
-    name  = "logSigner.image.registry"
+    name  = "logServer.image.registry"
     value = data.oci_string.ref["logserver"].registry
   }
   set {
-    name  = "logSigner.image.repository"
+    name  = "logServer.image.repository"
     value = data.oci_string.ref["logserver"].repo
   }
   set {
-    name  = "logSigner.image.version"
+    name  = "logServer.image.version"
     value = data.oci_string.ref["logserver"].digest
   }
 
