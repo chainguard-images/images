@@ -1,0 +1,57 @@
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    inputs:
+      only:
+        description: 'Specific image name to mirror'
+        type: string
+        required: false
+        default: ''
+  push:
+    branches:
+      - gcr-mirror # TODO: remove this.
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - uses: sigstore/cosign-installer@v3.1.1
+      - uses: imjasonh/setup-crane@v0.3
+      - uses: chainguard-dev/actions/setup-chainctl@main
+        with:
+          identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
+
+      - uses: google-github-actions/auth@v0
+        with:
+          workload_identity_provider: "projects/618116202522/locations/global/workloadIdentityPools/gha-pool/providers/gha-pool-provider"
+          service_account: "public-mirror-bot@chainguard-public-images.iam.gserviceaccount.com"
+      - uses: google-github-actions/setup-gcloud@v0
+        with:
+          project_id: chainguard-public-images
+      - run: |
+          # List all repos in the group.
+          chainctl img repo ls --group=720909c9f5279097d847ad02a2f24ba8f59de36a -otable | cut -d'|' -f2 | sort > repos.txt
+          cat repos.txt
+
+          # This is just a simple test that we can copy an image to the destination.
+          # TODO: remove this.
+          crane cp alpine us-central1-docker.pkg.dev/chainguard-public-images/mirror/alpine
+
+          # For each repo, list tags; for each tag, mirror that tag to gcr.io.
+          #while read repo; do
+          #  echo "--- $repo"
+          #  while read tag; do
+          #    cosign copy cgr.dev/chainguard/$repo:$tag gcr.io/chainguard-public-images/mirror/$repo:$tag
+          #  done < $(crane ls cgr.dev/chainguard/$repo)
+          #done < repos.txt
+
+      - uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
+        if: ${{ failure() && github.event_name == 'schedule' }}
+        with:
+          payload: '{"text": "[images] release mirror to gcr failed: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
