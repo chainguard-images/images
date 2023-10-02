@@ -159,6 +159,7 @@
 | [sigstore-scaffolding](./images/sigstore-scaffolding) | `cgr.dev/chainguard/sigstore-scaffolding` |
 | [skaffold](./images/skaffold) | `cgr.dev/chainguard/skaffold` |
 | [slim-toolkit-debug](./images/slim-toolkit-debug) | `cgr.dev/chainguard/slim-toolkit-debug` |
+| [smarter-device-manager](./images/smarter-device-manager) | `cgr.dev/chainguard/smarter-device-manager` |
 | [spark-operator](./images/spark-operator) | `cgr.dev/chainguard/spark-operator` |
 | [spire](./images/spire) | `cgr.dev/chainguard/spire` |
 | [stakater-reloader](./images/stakater-reloader) | `cgr.dev/chainguard/stakater-reloader` |
