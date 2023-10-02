@@ -29,8 +29,12 @@ module "latest" {
 }
 
 module "test-latest" {
-  source  = "./tests"
-  digests = { for k, v in module.latest : k => v.image_ref }
+  source = "../sigstore-scaffolding/tests"
+  rekor-images = {
+    backfill-redis = module.latest["backfill-redis"].image_ref
+    rekor-cli      = module.latest["cli"].image_ref
+    rekor-server   = module.latest["server"].image_ref
+  }
 }
 
 resource "oci_tag" "latest" {

@@ -29,8 +29,8 @@ module "latest" {
 }
 
 module "test-latest" {
-  source  = "./tests"
-  digests = { for k, v in module.latest : k => v.image_ref }
+  source       = "../sigstore-scaffolding/tests"
+  ctlog-server = module.latest["trillian-ctserver"].image_ref
 }
 
 resource "oci_tag" "latest" {

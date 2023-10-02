@@ -292,6 +292,11 @@ module "flux" {
   target_repository = "${var.target_repository}/flux"
 }
 
+module "fulcio" {
+  source            = "./images/fulcio"
+  target_repository = "${var.target_repository}/fulcio"
+}
+
 module "gatekeeper" {
   source            = "./images/gatekeeper"
   target_repository = "${var.target_repository}/gatekeeper"
