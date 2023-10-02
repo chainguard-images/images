@@ -401,6 +401,11 @@ module "jdk" {
   target_repository = "${var.target_repository}/jdk"
 }
 
+module "jdk-lts" {
+  source            = "./images/jdk-lts"
+  target_repository = "${var.target_repository}/jdk-lts"
+}
+
 module "jenkins" {
   source            = "./images/jenkins"
   target_repository = "${var.target_repository}/jenkins"
@@ -409,6 +414,11 @@ module "jenkins" {
 module "jre" {
   source            = "./images/jre"
   target_repository = "${var.target_repository}/jre"
+}
+
+module "jre-lts" {
+  source            = "./images/jre-lts"
+  target_repository = "${var.target_repository}/jre-lts"
 }
 
 module "k3s" {
