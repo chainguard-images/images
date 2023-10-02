@@ -2,6 +2,14 @@ terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
   }
+
+  # We don't take advantage of terraform.tfstate, so we don't need to save state anywhere.
+  #
+  # The default "local" backend has pathological performance as state gets large, see:
+  # https://github.com/opentofu/opentofu/issues/578
+  #
+  # Consider removing this if that's ever fixed and/or if we want to use tfstate.
+  backend "inmem" {}
 }
 
 variable "target_repository" {
@@ -1000,3 +1008,4 @@ module "zot" {
   source            = "./images/zot"
   target_repository = "${var.target_repository}/zot"
 }
+
