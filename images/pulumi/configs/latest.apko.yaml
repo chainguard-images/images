@@ -15,9 +15,9 @@ contents:
     - aspnet-7-targeting-pack
     # for Pulumi Python support
     - pulumi-language-python
-    - python-3.11
-    - py3.11-pip
-    - python-3.11-dev
+    - python3
+    - python3-dev
+    - py3-pip
     # for Pulumi Node.js support
     - pulumi-language-nodejs
     - nodejs
