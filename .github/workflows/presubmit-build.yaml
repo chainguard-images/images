@@ -62,7 +62,7 @@ jobs:
         uses: chainguard-dev/actions/k8s-diag@main
         with:
           cluster-type: k3d
-          namespace-resources: pods,svc,deploy,sts,daemonset
+          namespace-resources: pods,svc,deploy,sts,daemonset,configmaps
           artifact-name: ${{ matrix.imageName }}-diagnostics
 
   presubmit-roundup:
