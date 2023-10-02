@@ -20,9 +20,9 @@ data "oci_exec_test" "server" {
 resource "random_pet" "suffix" {}
 
 resource "helm_release" "test" {
-  name       = "smarter-device-manager-${random_pet.suffix.id}" # The Helm release name
-  repository = "https://charts.gabe565.com"                    # The Helm repo URL
-  chart      = "smarter-device-manager"                # The Chart to install
+  name       = "smarter-device-manager-${random_pet.suffix.id}"
+  repository = "https://charts.gabe565.com"
+  chart      = "smarter-device-manager"
 
   values = [jsonencode({
     image = {
