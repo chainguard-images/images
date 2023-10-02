@@ -22,6 +22,7 @@ locals {
     "trillian-updatetree",
     "tsa-createcertchain",
     "tuf-createsecret",
+    "tuf-server",
   ])
 }
 

@@ -19,6 +19,7 @@ variable "scaffolding-images" {
     trillian-updatetree  = string
     tsa-createcertchain  = string
     tuf-createsecret     = string
+    tuf-server           = string
   })
 
   default = {
@@ -34,6 +35,8 @@ variable "scaffolding-images" {
     trillian-updatetree  = "cgr.dev/chainguard/sigstore-scaffolding-trillian-updatetree:latest"
     tsa-createcertchain  = "cgr.dev/chainguard/sigstore-scaffolding-tsa-createcertchain:latest"
     tuf-createsecret     = "cgr.dev/chainguard/sigstore-scaffolding-tuf-createsecret:latest"
+    # TODO: switch this to our image once it is published.
+    tuf-server = "ghcr.io/sigstore/scaffolding/server:latest"
   }
 }
 
@@ -82,9 +85,7 @@ variable "trillian-images" {
 variable "ctlog-server" {
   description = "The image digests to run tests over."
   type        = string
-
-  # TODO: switch this to our image once it is published.
-  default = "ghcr.io/sigstore/scaffolding/ct_server:latest"
+  default     = "cgr.dev/chainguard/ctlog-trillian-ctserver:latest"
 }
 
 # TODO: Fulcio
@@ -108,6 +109,27 @@ resource "helm_release" "scaffold" {
   repository = "https://sigstore.github.io/helm-charts"
   chart      = "scaffold"
   timeout    = 600
+
+  // Enable TUF
+  set {
+    name  = "tuf.enabled"
+    value = "true"
+  }
+  set {
+    name  = "copySecretJob.enabled"
+    value = "true"
+  }
+
+  # TODO: Enable TSA
+  # Warning  FailedMount  114s (x12 over 10m)  kubelet            MountVolume.SetUp failed for volume "tsa-key" : secret "tsa-server-secret" not found
+  # set {
+  #   name  = "tsa.enabled"
+  #   value = "true"
+  # }
+  # set {
+  #   name  = "tsa.server.args.signer"
+  #   value = "file"
+  # }
 
   // scaffolding trillian createdb
   set {
@@ -219,6 +241,20 @@ resource "helm_release" "scaffold" {
   set {
     name  = "ctlog.createctconfig.initContainerImage.curl.version"
     value = data.oci_string.images["curl"].digest
+  }
+
+  // tuf server
+  set {
+    name  = "tuf.deployment.registry"
+    value = data.oci_string.images["tuf-server"].registry
+  }
+  set {
+    name  = "tuf.deployment.repository"
+    value = data.oci_string.images["tuf-server"].repo
+  }
+  set {
+    name  = "tuf.deployment.version"
+    value = data.oci_string.images["tuf-server"].digest
   }
 
   // rekor server
