@@ -1,4 +1,8 @@
 name: build-image-terraform
+description: "Build an image using terraform-provider-apko"
+inputs:
+  imageName:
+    description: "name of the terraform module"
 runs:
   using: composite
   steps:
@@ -11,106 +15,52 @@ runs:
         ref: ${{ inputs.overrideCheckoutRef }}
         repository: ${{ inputs.overrideCheckoutRepository }}
 
-    # optionally fetch a gcs bucket to be used by apko builds
-    - if: inputs.gcsFetchBucketName != ''
-      uses: google-github-actions/auth@ef5d53e30bbcd8d0836f4288f5e50ff3e086997d # v1.0.0
-      with:
-        workload_identity_provider: ${{ inputs.gcsFetchAuthWorkloadIdentityProvider }}
-        service_account: ${{ inputs.gcsFetchAuthServiceAccount }}
-    - if: inputs.gcsFetchBucketName != ''
-      uses: google-github-actions/setup-gcloud@d51b5346f85640ec2aa2fa057354d2b82c2fcbce # v1.0.1
-      with:
-        project_id: ${{ inputs.gcsFetchAuthProjectId }}
-    - if: inputs.gcsFetchBucketName != ''
-      shell: bash
-      name: 'Check that GCloud is properly configured'
-      run: |
-        gcloud info
-        gcloud --quiet alpha storage ls
-    - shell: bash
-      if: inputs.gcsFetchBucketName != ''
-      run: |
-        mkdir -p "${{ github.workspace }}/packages"
-        gsutil -m rsync -r "${{ inputs.gcsFetchBucketName }}" "${{ github.workspace }}/packages/"
-        find "${{ github.workspace }}/packages" -print -exec touch \{} \;
-        ls -al "${{ github.workspace }}/packages/"
-
     - name: Setup Terrafrom
       uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: '1.3.*'
         terraform_wrapper: false
 
-    - shell: bash
-      run: |
-        # Turn comma-delimited list into JSON-style list.
-        export TF_VAR_extra_repositories="$(echo "${{ inputs.apkoRepositoryAppend }}" | tr -d '[:space:]' | jq --raw-input -c --slurp 'split(",")')"
-        export TF_VAR_extra_keyring="$(echo "${{ inputs.apkoKeyringAppend }}" | tr -d '[:space:]' | jq --raw-input -c --slurp 'split(",")')"
-        export TF_VAR_extra_packages="$(echo "${{ inputs.apkoPackageAppend }}" | tr -d '[:space:]' | jq --raw-input -c --slurp 'split(",")')"
-
-        # Expose as TF_VAR to the next step.
-        echo "TF_VAR_extra_repositories=${TF_VAR_extra_repositories}" >> $GITHUB_ENV
-        echo "TF_VAR_extra_keyring=${TF_VAR_extra_keyring}" >> $GITHUB_ENV
-        echo "TF_VAR_extra_packages=${TF_VAR_extra_packages}" >> $GITHUB_ENV
-
     - name: Terraform apply (apko publish)
       id: terraform-apply
       shell: bash
       env:
         TF_VAR_target_repository: registry.local:5000/testing
-        TF_VAR_target_tag: ${{ inputs.apkoTargetTag }}
-        TF_VAR_tag_suffix: ${{ inputs.apkoTargetTagSuffix }}
         APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:36e1fdffb0d54aa92bd614eb68f0fe1e4a8e42f939e00e1ea58e2cc2ac1da99d
       run: |
         set -x -o pipefail
         env | grep '^TF_VAR_'
 
-        MODULE=$(basename ${{ inputs.terraformDirectory }})
-        echo "module=${MODULE}" >> $GITHUB_OUTPUT
-
-        # When we have a "mega module", use it to invoke the module
-        # for the appropriate image.
-        if [ -f "main.tf" ]; then
-          echo ::group::terraform init
-          terraform init
-          echo ::endgroup::
-          echo ::group::terraform plan
-          terraform plan "-target=module.${MODULE}"
-          echo ::endgroup::
-          terraform apply -auto-approve "-target=module.${MODULE}" -json | tee /tmp/${MODULE}.tf.json | jq -r '.["@message"]'
-        else
-          cd ${{ inputs.terraformDirectory }}
-          echo ::group::terraform init
-          terraform init
-          echo ::endgroup::
-          echo ::group::terraform plan
-          terraform plan "-target=module.${MODULE}"
-          echo ::endgroup::
-          terraform apply -auto-approve -json | tee /tmp/${MODULE}.tf.json | jq -r '.["@message"]'
-        fi
+        echo ::group::terraform init
+        terraform init
+        echo ::endgroup::
+        echo ::group::terraform plan
+        terraform plan "-target=module.${{ inputs.imageName }}"
+        echo ::endgroup::
+        terraform apply -auto-approve "-target=module.${{ inputs.imageName }}" -json | tee /tmp/${{ inputs.imageName }}.tf.json | jq -r '.["@message"]'
 
     - name: Surface terraform warnings.
       if: always()
       shell: bash
-      run: grep '"@level":"warn"' /tmp/${{ steps.terraform-apply.outputs.module }}.tf.json | jq || true
+      run: grep '"@level":"warn"' /tmp/${{ inputs.imageName }}.tf.json | jq || true
 
     - name: Surface terraform errors
       if: failure()
       shell: bash
-      run: grep '"@level":"error"' /tmp/${{ steps.terraform-apply.outputs.module }}.tf.json | jq  || true
+      run: grep '"@level":"error"' /tmp/${{ inputs.imageName }}.tf.json | jq  || true
 
     - name: Upload terraform logs
       if: always()
       uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3
       with:
-        name: ${{ steps.terraform-apply.outputs.module }}.tf.json
-        path: /tmp/${{ steps.terraform-apply.outputs.module }}.tf.json
+        name: ${{ inputs.imageName }}.tf.json
+        path: /tmp/${{ inputs.imageName }}.tf.json
 
     - name: Upload terraform state
       if: always()
       uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3
       with:
-        name: ${{ steps.terraform-apply.outputs.module }}.tfstate
+        name: ${{ inputs.imageName }}.tfstate
         path: terraform.tfstate
 
     - name: Touch actions file to prevent postrun failure

@@ -14,5 +14,5 @@ accounts:
 
 entrypoint:
   command: /usr/bin/wasmer
-cmd: --help
 
+cmd: --help

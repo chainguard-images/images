@@ -12,5 +12,5 @@ work-dir: /work
 
 entrypoint:
   command: /usr/bin/gcc
-cmd: --help
 
+cmd: --help

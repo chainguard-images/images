@@ -44,3 +44,9 @@ resource "helm_release" "kubernetes-dashboard" {
     }
   })]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.kubernetes-dashboard.id
+  namespace = helm_release.kubernetes-dashboard.namespace
+}

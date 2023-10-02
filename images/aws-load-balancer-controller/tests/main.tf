@@ -11,12 +11,16 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "aws-load-balancer-controller" {
-  name = "aws-load-balancer-controller"
+  name = "aws-load-balancer-controller-${random_pet.suffix.id}"
 
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
-  namespace  = "kube-system"
+
+  namespace        = "aws-lbc-${random_pet.suffix.id}"
+  create_namespace = true
 
   values = [jsonencode({
     image = {
@@ -31,4 +35,10 @@ resource "helm_release" "aws-load-balancer-controller" {
     vpcId           = "local"
     awsApiEndpoints = "ec2=http://amazon-ec2-metadata-mock-service.default"
   })]
+}
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.aws-load-balancer-controller.id
+  namespace = helm_release.aws-load-balancer-controller.namespace
 }

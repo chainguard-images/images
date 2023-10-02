@@ -20,6 +20,7 @@ environment:
 
 entrypoint:
   command: /usr/bin/skaffold
+
 cmd: --help
 
 accounts:
@@ -30,4 +31,3 @@ accounts:
     - username: skaffold
       uid: 65532
   run-as: 65532
-

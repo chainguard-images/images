@@ -13,7 +13,6 @@ variable "digests" {
     config-reloader   = string
     mongodb-exporter  = string
     mysqld-exporter   = string
-    node-exporter     = string
     operator          = string
     postgres-exporter = string
     pushgateway       = string
@@ -106,20 +105,6 @@ resource "helm_release" "kube-prometheus-stack" {
     value = trimprefix(data.oci_string.ref["alertmanager"].digest, "sha256:")
   }
 
-  // node-exporter
-  set {
-    name  = "prometheus-node-exporter.image.registry"
-    value = data.oci_string.ref["node-exporter"].registry
-  }
-  set {
-    name  = "prometheus-node-exporter.image.repository"
-    value = data.oci_string.ref["node-exporter"].repo
-  }
-  set {
-    name  = "prometheus-node-exporter.image.digest"
-    value = data.oci_string.ref["node-exporter"].digest
-  }
-
   // Test with our kube-state-metrics, even if its not a fresh build.
   set {
     name  = "kube-state-metrics.image.registry"
@@ -135,13 +120,6 @@ resource "helm_release" "kube-prometheus-stack" {
   }
 }
 
-data "oci_exec_test" "node-runs" {
-  depends_on = [resource.helm_release.kube-prometheus-stack]
-
-  digest      = var.digests["node-exporter"]
-  script      = "./node-runs.sh"
-  working_dir = path.module
-}
 
 resource "helm_release" "pushgateway" {
   name       = "pushgateway-${random_pet.suffix.id}"
@@ -177,4 +155,10 @@ resource "helm_release" "mongodb" {
     name  = "image.tag"
     value = data.oci_string.ref["mongodb-exporter"].pseudo_tag
   }
+}
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.kube-prometheus-stack.id
+  namespace = helm_release.kube-prometheus-stack.namespace
 }

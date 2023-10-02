@@ -23,4 +23,3 @@ entrypoint:
   command: /usr/bin/kube-bench
 
 cmd: help
-

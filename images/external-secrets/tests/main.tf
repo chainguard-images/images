@@ -59,3 +59,10 @@ data "oci_exec_test" "check-external-secrets" {
   working_dir = path.module
   depends_on  = [helm_release.external-secrets]
 }
+
+module "helm_cleanup" {
+  depends_on = [data.oci_exec_test.check-external-secrets]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.external-secrets.id
+  namespace  = helm_release.external-secrets.namespace
+}

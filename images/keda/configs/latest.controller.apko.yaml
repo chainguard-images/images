@@ -16,4 +16,3 @@ accounts:
 
 entrypoint:
   command: /usr/bin/keda --zap-log-level=info --zap-encoder=console
-

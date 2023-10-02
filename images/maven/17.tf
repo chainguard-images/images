@@ -1,22 +1,9 @@
 module "seventeen" {
-  source = "../../tflib/publisher"
-
-  name = basename(path.module)
-
+  source            = "../../tflib/publisher"
+  name              = basename(path.module)
   target_repository = var.target_repository
   config            = file("${path.module}/configs/openjdk-17.apko.yaml")
-}
-
-module "seventeen-dev" {
-  source = "../../tflib/publisher"
-
-  name = basename(path.module)
-
-  target_repository = var.target_repository
-  # Make the dev variant an explicit extension of the
-  # locked original.
-  config         = jsonencode(module.seventeen.config)
-  extra_packages = module.dev.extra_packages
+  build-dev         = true
 }
 
 module "version-tags-17" {

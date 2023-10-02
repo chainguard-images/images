@@ -1,0 +1,35 @@
+contents:
+  packages:
+    - git
+    - busybox
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+
+paths:
+  - path: /data
+    type: directory
+    uid: 65532
+    gid: 65532
+    permissions: 0o755
+
+environment:
+  XDG_CACHE_HOME: /data
+  GITRPC_SERVER_GIT_ROOT: /data
+  GITNESS_DATABASE_DRIVER: sqlite3
+  GITNESS_DATABASE_DATASOURCE: /data/database.sqlite
+  GITNESS_METRIC_ENABLED: false
+  GITNESS_METRIC_ENDPOINT: https://stats.drone.ci/api/v1/gitness
+  GITNESS_TOKEN_COOKIE_NAME: token
+
+entrypoint:
+  command: /usr/bin/gitness
+
+cmd: server

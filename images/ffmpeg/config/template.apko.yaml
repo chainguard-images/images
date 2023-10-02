@@ -1,6 +1,6 @@
 contents:
   packages:
-  - ffmpeg
+    - ffmpeg
 
 accounts:
   groups:
@@ -14,4 +14,5 @@ accounts:
 
 entrypoint:
   command: /usr/bin/ffmpeg
+
 cmd: --help

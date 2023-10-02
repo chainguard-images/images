@@ -1,6 +1,6 @@
 contents:
   packages:
-  - k8sgpt
+    - k8sgpt
 
 accounts:
   groups:
@@ -14,4 +14,3 @@ accounts:
 
 entrypoint:
   command: k8sgpt
-

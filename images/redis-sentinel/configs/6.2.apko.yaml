@@ -30,4 +30,5 @@ environment:
 
 entrypoint:
   command: /opt/bitnami/scripts/redis-sentinel/entrypoint.sh
+
 cmd: /opt/bitnami/scripts/redis-sentinel/run.sh

@@ -64,37 +64,20 @@ jobs:
       actions: read
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-      - id: determine-appends
-        run: |
-          # Do not append out repo/keyring/package to Alpine images.
-          set -x
-          if ! grep 'alpinelinux\.org' "${{ matrix.apkoConfig }}" &>/dev/null; then
-            echo "repository-append=https://packages.wolfi.dev/os" >> $GITHUB_OUTPUT
-            echo "keyring-append=https://packages.wolfi.dev/os/wolfi-signing.rsa.pub" >> $GITHUB_OUTPUT
-          fi
       - id: release-image-inputs
         name: Add additional inputs for release-image action
         uses: chainguard-dev/actions/matrix-extra-inputs@main
         with:
           matrix-json: ${{ toJSON(matrix) }}
         env:
-          EXTRA_INPUT_SLACK_WEBHOOK_URL: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-          EXTRA_INPUT_GCS_AUTH_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCS_AUTH_WORKLOAD_IDENTITY_PROVIDER }}
-          EXTRA_INPUT_GCS_AUTH_SERVICE_ACCOUNT: ${{ secrets.GCS_AUTH_SERVICE_ACCOUNT }}
-          EXTRA_INPUT_GCS_AUTH_PROJECT_ID: ${{ secrets.GCS_AUTH_PROJECT_ID }}
-          EXTRA_INPUT_GCS_BUCKET_NAME: chainguard-images-build-outputs
           # This allows chainguard-images/images to publish images to cgr.dev/chainguard
           # We maintain this identity here:
           # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
           EXTRA_INPUT_CHAINGUARD_IDENTITY: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:36e1fdffb0d54aa92bd614eb68f0fe1e4a8e42f939e00e1ea58e2cc2ac1da99d
-          EXTRA_INPUT_APKO_REPOSITORY_APPEND: ${{ steps.determine-appends.outputs.repository-append }}
-          EXTRA_INPUT_APKO_KEYRING_APPEND: ${{ steps.determine-appends.outputs.keyring-append }}
 
       - uses: chainguard-dev/actions/setup-k3d@main
         with:
           k3s-image: cgr.dev/chainguard/k3s:latest@sha256:fb45446042c7dd5750321e08e9e4b1474866cdc2d9a2eb12582c566e799c985b
-          registry-authority: registry.local:5000
 
       # Disable creating new version tags.
       - run: |

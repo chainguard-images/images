@@ -1,9 +1,7 @@
 package constants
 
 const (
-	ImagesDirName          = "images"
-	ImageManifestFilename  = "image.yaml"
-	GlobalManifestFilename = "globals.yaml"
+	ImagesDirName = "images"
 
 	GithubActionsDirName = ".github"
 

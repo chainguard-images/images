@@ -5,6 +5,7 @@ contents:
 
 entrypoint:
   command: /sbin/tini -g --
+
 cmd: /usr/bin/dask-gateway-server --config /etc/dask-gateway/dask_gateway_config.py
 
 accounts:

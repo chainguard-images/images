@@ -5,6 +5,7 @@ contents:
     - busybox
     - cassandra-compat
     - bash
+
 accounts:
   groups:
     - groupname: cassandra
@@ -18,7 +19,8 @@ work-dir: /
 
 entrypoint:
   command: cassandra -f
-environment: 
+
+environment:
   LANG: en_US.UTF-8
   CASSANDRA_HOME: /opt/cassandra
   PATH: /usr/sbin:/sbin:/usr/bin:/bin:/opt/cassandra/bin/
@@ -47,4 +49,3 @@ paths:
     uid: 999
     gid: 999
     recursive: true
-

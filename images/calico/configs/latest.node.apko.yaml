@@ -32,5 +32,3 @@ paths:
 
 entrypoint:
   command: /usr/sbin/start_runit
-
-

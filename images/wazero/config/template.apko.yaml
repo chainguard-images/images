@@ -14,5 +14,5 @@ accounts:
 
 entrypoint:
   command: /usr/bin/wazero
-cmd: --help
 
+cmd: --help

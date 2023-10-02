@@ -12,7 +12,6 @@ accounts:
     - username: influxdb
       uid: 1000
   run-as: 1000
-  recursive: true
 
 entrypoint:
   command: /usr/bin/entrypoint.sh
@@ -33,4 +32,3 @@ paths:
     uid: 1000
     gid: 1000
     permissions: 0o755
-

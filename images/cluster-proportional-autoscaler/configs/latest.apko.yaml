@@ -1,6 +1,6 @@
 contents:
-    packages:
-      - cluster-proportional-autoscaler
+  packages:
+    - cluster-proportional-autoscaler
 
 accounts:
   groups:
@@ -13,4 +13,3 @@ accounts:
 
 entrypoint:
   command: /usr/bin/cluster-proportional-autoscaler
-

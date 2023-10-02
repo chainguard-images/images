@@ -39,3 +39,10 @@ data "oci_exec_test" "smoke" {
 
   depends_on = [helm_release.kfo]
 }
+
+module "helm_cleanup" {
+  depends_on = [data.oci_exec_test.smoke]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.kfo.id
+  namespace  = helm_release.kfo.namespace
+}

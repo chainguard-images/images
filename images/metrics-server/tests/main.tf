@@ -40,3 +40,10 @@ data "oci_exec_test" "check-metrics-server" {
   working_dir = path.module
   depends_on  = [helm_release.metrics-server]
 }
+
+module "helm_cleanup" {
+  depends_on = [data.oci_exec_test.check-metrics-server]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.metrics-server.id
+  namespace  = helm_release.metrics-server.namespace
+}

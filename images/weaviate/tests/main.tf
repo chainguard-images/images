@@ -41,3 +41,9 @@ resource "helm_release" "weaviate" {
     value = data.oci_string.ref.pseudo_tag
   }
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.weaviate.id
+  namespace = helm_release.weaviate.namespace
+}

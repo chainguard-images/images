@@ -16,4 +16,3 @@ entrypoint:
   command: /usr/bin/oidc-discovery-provider
 
 cmd: --help
-

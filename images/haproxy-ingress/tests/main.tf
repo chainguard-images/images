@@ -35,3 +35,9 @@ resource "helm_release" "haproxy-ingress" {
     }
   })]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.haproxy-ingress.id
+  namespace = helm_release.haproxy-ingress.namespace
+}

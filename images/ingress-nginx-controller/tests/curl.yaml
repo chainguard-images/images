@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: curl
+spec:
+  template:
+    spec:
+      containers:
+      - name: curl
+        image: cgr.dev/chainguard/curl:latest
+        command:
+        - curl
+        - --fail-with-body
+        - -H
+        - "Host:httpbin.test.ingress"
+        - ingress-INGRESS_CLASS-controller.ingress-INGRESS_CLASS.svc/status/202
+      restartPolicy: Never
+  backoffLimit: 10

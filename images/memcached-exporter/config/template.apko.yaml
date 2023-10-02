@@ -13,4 +13,3 @@ accounts:
 
 entrypoint:
   command: /usr/bin/memcached_exporter
-

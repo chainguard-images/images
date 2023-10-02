@@ -3,26 +3,11 @@ variable "target_repository" {
 }
 
 module "latest" {
-  source = "../../tflib/publisher"
-
-  name = basename(path.module)
-
-  target_repository = var.target_repository
-  config            = file("${path.module}/configs/latest.apko.yaml")
-}
-
-module "dev" { source = "../../tflib/dev-subvariant" }
-
-module "latest-dev" {
-  source = "../../tflib/publisher"
-
-  name = basename(path.module)
-
-  target_repository = var.target_repository
-  # Make the dev variant an explicit extension of the
-  # locked original.
-  config         = jsonencode(module.latest.config)
-  extra_packages = concat(module.dev.extra_packages, ["nats", "nsc"])
+  source             = "../../tflib/publisher"
+  name               = basename(path.module)
+  target_repository  = var.target_repository
+  config             = file("${path.module}/configs/latest.apko.yaml")
+  extra_dev_packages = ["nats", "nsc"]
 }
 
 module "version-tags" {
@@ -43,6 +28,6 @@ module "tagger" {
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-dev" => module.latest-dev.image_ref },
+    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-dev" => module.latest.dev_ref },
   )
 }

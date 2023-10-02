@@ -52,11 +52,18 @@ resource "helm_release" "operator" {
   })]
 }
 
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.operator.id
+  namespace = helm_release.operator.namespace
+}
+
 resource "random_pet" "suffix" {}
 
 locals {
   namespace = "istio-system-${random_pet.suffix.id}"
 }
+
 resource "helm_release" "base" {
   name             = "${local.namespace}-base"
   namespace        = local.namespace
@@ -155,4 +162,25 @@ data "oci_exec_test" "gateway" {
     name  = "ISTIO_NAMESPACE"
     value = local.namespace
   }
+}
+
+module "helm_cleanup-gateway" {
+  depends_on = [data.oci_exec_test.gateway]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.gateway.id
+  namespace  = helm_release.gateway.namespace
+}
+
+module "helm_cleanup-istiod" {
+  depends_on = [data.oci_exec_test.sidecar-injection-works]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.istiod.id
+  namespace  = helm_release.istiod.namespace
+}
+
+module "helm_cleanup-base" {
+  depends_on = [module.helm_cleanup-gateway, module.helm_cleanup-istiod]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.base.id
+  namespace  = helm_release.base.namespace
 }

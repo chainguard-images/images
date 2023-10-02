@@ -35,5 +35,5 @@ paths:
 
 entrypoint:
   command: /usr/bin/docker-entrypoint
-cmd: dex serve /etc/dex/config.docker.yaml
 
+cmd: dex serve /etc/dex/config.docker.yaml

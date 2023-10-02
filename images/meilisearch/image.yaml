@@ -1,6 +1,0 @@
-status: experimental
-versions:
-  - apko:
-      extractTagsFrom:
-        package: meilisearch
-      config: configs/latest.apko.yaml

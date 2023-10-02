@@ -13,6 +13,7 @@ inputs:
     default: 0
   sharding-factor:
     default: 1
+  modified-files: {}
 runs:
   using: composite
   steps:

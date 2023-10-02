@@ -20,6 +20,10 @@ resource "helm_release" "open-telemetry-deploy" {
   namespace        = "otelc-deploy"
   create_namespace = true
 
+  // After https://github.com/open-telemetry/opentelemetry-helm-charts/pull/892 we
+  // fail to install because of unrecognized exporters.
+  version = "0.69.0"
+
   values = [jsonencode({
     mode = "deployment"
     image = {
@@ -38,6 +42,12 @@ resource "helm_release" "open-telemetry-deploy" {
       }
     }
   })]
+}
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.open-telemetry-deploy.id
+  namespace = helm_release.open-telemetry-deploy.namespace
 }
 
 resource "kubernetes_namespace" "open-telemetry-custom-config" {
@@ -100,4 +110,10 @@ resource "helm_release" "open-telemetry-custom-config" {
       }
     ]
   })]
+}
+
+module "custom_helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.open-telemetry-custom-config.id
+  namespace = helm_release.open-telemetry-custom-config.namespace
 }

@@ -19,6 +19,11 @@ variable "skip_crds" {
   default     = false
 }
 
+variable "chart-version" {
+  description = "The version of the Helm chart to install."
+  default     = "latest"
+}
+
 data "oci_string" "ref" {
   for_each = var.digests
   input    = each.value
@@ -31,6 +36,8 @@ resource "helm_release" "keda" {
   chart            = "keda"
   create_namespace = true
   timeout          = 600
+
+  version = var.chart-version == "latest" ? null : var.chart-version
 
   values = [
     <<EOF
@@ -56,4 +63,11 @@ data "oci_exec_test" "smoke" {
   script      = "./smoke-test.sh"
 
   depends_on = [helm_release.keda]
+}
+
+module "helm_cleanup" {
+  depends_on = [data.oci_exec_test.smoke]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.keda.id
+  namespace  = helm_release.keda.namespace
 }

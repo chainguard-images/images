@@ -5,7 +5,6 @@ contents:
     - su-exec
     # Postgres comes via var.extra_packages
 
-
 accounts:
   groups:
     - groupname: postgres
@@ -31,4 +30,3 @@ paths:
     uid: 70
     gid: 70
     permissions: 0o777
-

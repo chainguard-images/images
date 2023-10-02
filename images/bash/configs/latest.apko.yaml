@@ -6,4 +6,3 @@ contents:
 
 entrypoint:
   command: /bin/bash -c
-

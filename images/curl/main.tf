@@ -3,12 +3,11 @@ variable "target_repository" {
 }
 
 module "latest" {
-  source = "../../tflib/publisher"
-
-  name = basename(path.module)
-
+  source            = "../../tflib/publisher"
+  name              = basename(path.module)
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.apko.yaml")
+  build-dev         = true
 }
 
 module "version-tags" {
@@ -29,5 +28,6 @@ module "tagger" {
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },
+    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-dev" => module.latest.dev_ref },
   )
 }

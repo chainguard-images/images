@@ -13,7 +13,7 @@ paths:
     permissions: 0o777
     uid: 999
     gid: 999
-    resursive: true
+    recursive: true
   - path: /app
     type: directory
     permissions: 0o777
@@ -63,4 +63,3 @@ accounts:
     - username: rabbitmq
       uid: 999
   run-as: 999
-

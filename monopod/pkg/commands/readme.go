@@ -25,7 +25,6 @@ monopod readme
 `,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			impl := &readmeImpl{
-				BadgeRootUrl:       ro.BadgeRootUrl,
 				SummaryRootUrl:     ro.SummaryRootUrl,
 				RootReadmeToStdout: ro.RootReadmeToStdout,
 				Check:              ro.Check,
@@ -39,7 +38,6 @@ monopod readme
 }
 
 type readmeImpl struct {
-	BadgeRootUrl       string
 	SummaryRootUrl     string
 	RootReadmeToStdout bool
 	Check              bool
@@ -57,7 +55,7 @@ func (i *readmeImpl) Do() error {
 }
 
 func (i *readmeImpl) check() error {
-	allImages, err := images.ListAll(images.WithDefaultRegistry(i.DefaultRegistry))
+	allImages, err := images.ListAll()
 	if err != nil {
 		return err
 	}
@@ -65,7 +63,7 @@ func (i *readmeImpl) check() error {
 	numIssues := 0
 
 	// Top-level README.md
-	expectedRootReadmeContents, err := getRootReadmeContents(allImages, i.BadgeRootUrl, i.DefaultRegistry)
+	expectedRootReadmeContents, err := getRootReadmeContents(allImages, i.DefaultRegistry)
 	if err != nil {
 		fmt.Println(err.Error())
 		numIssues++
@@ -80,47 +78,22 @@ func (i *readmeImpl) check() error {
 		}
 	}
 
-	imageToStatusMap := map[string]string{}
-	imageToExcludeContactMap := map[string]bool{}
-	imageToReferenceMap := map[string]string{}
-	imageToVariantMap := map[string][]string{}
-	for _, image := range allImages {
-		imageToStatusMap[image.ImageName] = image.ImageStatus
-		imageToExcludeContactMap[image.ImageName] = image.ExcludeContact
-		imageToReferenceMap[image.ImageName] = fmt.Sprintf("`%s`", image.ApkoBaseTag)
-		variant := fmt.Sprintf("`%s`", image.ApkoTargetTag)
-		if image.ApkoAdditionalTags != "" {
-			tmp := []string{}
-			for _, tag := range strings.Split(image.ApkoAdditionalTags, ",") {
-				tmp = append(tmp, fmt.Sprintf("`%s`", tag))
-			}
-			variant = fmt.Sprintf("%s (%s)", variant, strings.Join(tmp, " / "))
-		}
-		imageToVariantMap[image.ImageName] = append(imageToVariantMap[image.ImageName], variant)
-	}
-	keys := []string{}
-	for k := range imageToVariantMap {
-		keys = append(keys, k)
-	}
-	sort.Slice(keys, func(i, j int) bool {
-		return keys[i] < keys[j]
+	sort.Slice(allImages, func(i, j int) bool {
+		return allImages[i].ImageName < allImages[j].ImageName
 	})
-	for _, k := range keys {
+	for _, i := range allImages {
+		img := i.ImageName
 		// Generate the section to prepend to beginning of file
-		readmeInsert := fmt.Sprintf("# %s\n| | |\n| - | - |\n", k)
-		readmeInsert += fmt.Sprintf("| **Status** | %s |\n", imageToStatusMap[k])
-		readmeInsert += fmt.Sprintf("| **OCI Reference** | %s |\n", imageToReferenceMap[k])
+		readmeInsert := fmt.Sprintf("# %s\n| | |\n| - | - |\n", img)
+		readmeInsert += fmt.Sprintf("| **OCI Reference** | `cgr.dev/chainguard/%s` |\n", img)
 
 		readmeInsert += "\n\n"
-		readmeInsert += fmt.Sprintf("* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/%s/overview/)\n", k)
+		readmeInsert += fmt.Sprintf("* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/%s/overview/)\n", img)
 		readmeInsert += "* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.\n"
-
-		if !imageToExcludeContactMap[k] {
-			readmeInsert += "*[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*\n\n"
-		}
+		readmeInsert += "* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*\n\n"
 		readmeInsert += "---"
 
-		filename := path.Join(constants.ImagesDirName, k, "README.md")
+		filename := path.Join(constants.ImagesDirName, img, "README.md")
 		existingContent, err := os.ReadFile(filename)
 		if err != nil {
 			fmt.Printf("Error opening %s: %s", filename, err.Error())
@@ -151,13 +124,13 @@ func (i *readmeImpl) check() error {
 }
 
 func (i *readmeImpl) fixAllReadmes() error {
-	allImages, err := images.ListAll(images.WithDefaultRegistry(i.DefaultRegistry))
+	allImages, err := images.ListAll()
 	if err != nil {
 		return err
 	}
 
 	// Top-level README.md
-	rootReadmeContents, err := getRootReadmeContents(allImages, i.BadgeRootUrl, i.DefaultRegistry)
+	rootReadmeContents, err := getRootReadmeContents(allImages, i.DefaultRegistry)
 	if err != nil {
 		return err
 	}
@@ -166,47 +139,22 @@ func (i *readmeImpl) fixAllReadmes() error {
 	}
 
 	// Individual image README.md files
-	imageToStatusMap := map[string]string{}
-	imageToExcludeContactMap := map[string]bool{}
-	imageToReferenceMap := map[string]string{}
-	imageToVariantMap := map[string][]string{}
-	for _, image := range allImages {
-		imageToStatusMap[image.ImageName] = image.ImageStatus
-		imageToExcludeContactMap[image.ImageName] = image.ExcludeContact
-		imageToReferenceMap[image.ImageName] = fmt.Sprintf("`%s`", image.ApkoBaseTag)
-		variant := fmt.Sprintf("`%s`", image.ApkoTargetTag)
-		if image.ApkoAdditionalTags != "" {
-			tmp := []string{}
-			for _, tag := range strings.Split(image.ApkoAdditionalTags, ",") {
-				tmp = append(tmp, fmt.Sprintf("`%s`", tag))
-			}
-			variant = fmt.Sprintf("%s (%s)", variant, strings.Join(tmp, " / "))
-		}
-		imageToVariantMap[image.ImageName] = append(imageToVariantMap[image.ImageName], variant)
-	}
-	keys := []string{}
-	for k := range imageToVariantMap {
-		keys = append(keys, k)
-	}
-	sort.Slice(keys, func(i, j int) bool {
-		return keys[i] < keys[j]
+	sort.Slice(allImages, func(i, j int) bool {
+		return allImages[i].ImageName < allImages[j].ImageName
 	})
-	for _, k := range keys {
+	for _, i := range allImages {
+		img := i.ImageName
 		// Generate the section to prepend to beginning of file
-		readmeInsert := fmt.Sprintf("# %s\n| | |\n| - | - |\n", k)
-		readmeInsert += fmt.Sprintf("| **Status** | %s |\n", imageToStatusMap[k])
-		readmeInsert += fmt.Sprintf("| **OCI Reference** | %s |\n", imageToReferenceMap[k])
+		readmeInsert := fmt.Sprintf("# %s\n| | |\n| - | - |\n", img)
+		readmeInsert += fmt.Sprintf("| **OCI Reference** | `cgr.dev/chainguard/%s` |\n", img)
 
 		readmeInsert += "\n\n"
-		readmeInsert += fmt.Sprintf("* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/%s/overview/)\n", k)
+		readmeInsert += fmt.Sprintf("* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/%s/overview/)\n", img)
 		readmeInsert += "* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.\n"
-
-		if !imageToExcludeContactMap[k] {
-			readmeInsert += "*[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*\n\n"
-		}
+		readmeInsert += "* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*\n\n"
 		readmeInsert += "---"
 		padded := fmt.Sprintf("%s\n%s\n%s\n", constants.ImageReadmeGenStartComment, readmeInsert, constants.ImageReadmeGenEndComment)
-		filename := path.Join(constants.ImagesDirName, k, "README.md")
+		filename := path.Join(constants.ImagesDirName, img, "README.md")
 		existingContent, err := os.ReadFile(filename)
 		if err != nil {
 			// does not yet exist, create it!
@@ -240,11 +188,11 @@ func (i *readmeImpl) fixAllReadmes() error {
 }
 
 func (i *readmeImpl) rootReadmeToStdout() error {
-	allImages, err := images.ListAll(images.WithDefaultRegistry(i.DefaultRegistry))
+	allImages, err := images.ListAll()
 	if err != nil {
 		return err
 	}
-	b, err := getRootReadmeContents(allImages, i.BadgeRootUrl, i.DefaultRegistry)
+	b, err := getRootReadmeContents(allImages, i.DefaultRegistry)
 	if err != nil {
 		return err
 	}
@@ -252,69 +200,25 @@ func (i *readmeImpl) rootReadmeToStdout() error {
 	return nil
 }
 
-func getRootReadmeContents(allImages []images.Image, badgeRootUrl string, defaultRegistry string) ([]byte, error) {
+func getRootReadmeContents(allImages []images.Image, defaultRegistry string) ([]byte, error) {
 	buf := new(bytes.Buffer)
 	buf.WriteString("# Chainguard Images\n")
 	buf.WriteString("\n")
 	// TODO: Remove in October
 	buf.WriteString("## :warning::exclamation: On August 16th we made changes to how image tags are pulled. Please see [the announcement](https://www.chainguard.dev/unchained/important-updates-for-chainguard-images-public-catalog-users) for further details. :exclamation::warning:\n")
 	buf.WriteString("\n")
-	buf.WriteString("| Name | OCI Reference | Status |")
-	if badgeRootUrl != "" {
-		buf.WriteString(" Variants/Tags |")
-	}
+	buf.WriteString("| Name | OCI Reference |")
 	buf.WriteString("\n")
-	buf.WriteString("| ----- | ----- | ----- |")
-	if badgeRootUrl != "" {
-		buf.WriteString("  -------- |")
-	}
+	buf.WriteString("| ----- | ----- |")
 	buf.WriteString("\n")
-	imageToReferenceMap := map[string]string{}
-	imageToStatusMap := map[string]string{}
-	imageToBadgeMap := map[string][]string{}
-	imageToHasLatestMap := map[string]bool{}
-	if badgeRootUrl != "" {
-		for _, image := range allImages {
-			if _, ok := imageToBadgeMap[image.ImageName]; !ok {
-				imageToBadgeMap[image.ImageName] = []string{}
-			}
-			link := image.ApkoConfig
-			ref := image.ApkoBaseTag
-			if strings.HasPrefix(ref, fmt.Sprintf("%s/", constants.DefaultRegistry)) {
-				// Only point to Registry UI for public images
-				link = fmt.Sprintf("%s/?image=%s:%s", constants.RegistryUI, ref, image.ApkoTargetTag)
-			}
-			s := fmt.Sprintf("[![](%s/%s.build.status.%s.svg)](%s)", badgeRootUrl, image.ImageName, image.ApkoTargetTag, link)
-			imageToBadgeMap[image.ImageName] = append(imageToBadgeMap[image.ImageName], s)
-			imageToReferenceMap[image.ImageName] = ref
-			imageToStatusMap[image.ImageName] = image.ImageStatus
-			for _, tag := range strings.Split(image.ApkoAdditionalTags, ",") {
-				// TODO: support images with multiple extra tags (not just latest)
-				if tag == "latest" {
-					imageToHasLatestMap[image.ImageName] = true
-					break
-				}
-			}
-		}
-	}
-	keys := []string{}
-	for k := range imageToBadgeMap {
-		keys = append(keys, k)
-	}
-	sort.Slice(keys, func(i, j int) bool {
-		return keys[i] < keys[j]
+
+	sort.Slice(allImages, func(i, j int) bool {
+		return allImages[i].ImageName < allImages[j].ImageName
 	})
-	for _, k := range keys {
-		v := imageToBadgeMap[k]
-		sort.Slice(v, func(i, j int) bool {
-			return v[i] < v[j]
-		})
-		reference := imageToReferenceMap[k]
-		status := imageToStatusMap[k]
-		buf.WriteString(fmt.Sprintf("| [%s](./%s/%s) | `%s` | %s |", k, constants.ImagesDirName, k, reference, status))
-		if badgeRootUrl != "" {
-			buf.WriteString(fmt.Sprintf(" %s |", strings.Join(v, "<br/>")))
-		}
+	for _, i := range allImages {
+		img := i.ImageName
+		reference := defaultRegistry + "/" + img
+		buf.WriteString(fmt.Sprintf("| [%s](./%s/%s) | `%s` |", img, constants.ImagesDirName, img, reference))
 		buf.WriteString("\n")
 	}
 	return buf.Bytes(), nil

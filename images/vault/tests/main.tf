@@ -51,3 +51,10 @@ data "oci_exec_test" "acceptance" {
   script     = "${path.module}/acceptance.sh"
   depends_on = [helm_release.vault]
 }
+
+module "helm_cleanup" {
+  depends_on = [data.oci_exec_test.acceptance]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.vault.id
+  namespace  = helm_release.vault.namespace
+}

@@ -7,30 +7,12 @@ locals {
 }
 
 module "latest" {
-  for_each = local.components
-
-  source = "../../tflib/publisher"
-
-  name = basename(path.module)
-
+  for_each          = local.components
+  source            = "../../tflib/publisher"
+  name              = basename(path.module)
   target_repository = (each.key == "argocd" ? var.target_repository : "${var.target_repository}-repo-server")
   config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
-}
-
-module "dev" { source = "../../tflib/dev-subvariant" }
-
-module "latest-dev" {
-  for_each = local.components
-
-  source = "../../tflib/publisher"
-
-  name = basename(path.module)
-
-  target_repository = (each.key == "argocd" ? var.target_repository : "${var.target_repository}-repo-server")
-  # Make the dev variant an explicit extension of the
-  # locked original.
-  config         = jsonencode(module.latest[each.key].config)
-  extra_packages = module.dev.extra_packages
+  build-dev         = true
 }
 
 module "version-tags" {
@@ -57,6 +39,10 @@ module "tagger" {
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : t => module.latest[each.key].image_ref },
-    { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : "${t}-dev" => module.latest-dev[each.key].image_ref },
+    { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : "${t}-dev" => module.latest[each.key].dev_ref },
+
+    # This will also tag the image with :v1, :v1.2, :v1.2.3, :v1.2.3-r4, for compatibility with upstream kustomize instructions.
+    # TODO(jason): Do this for all images, not just argocd, and potentially only for `:v1.2.3` and `:v1.2.3-r4` (not `:v1` or `:v1.2`).
+    { for t in module.version-tags[each.key].tag_list : "v${t}" => module.latest[each.key].image_ref },
   )
 }

@@ -17,4 +17,3 @@ entrypoint:
   command: /usr/bin/background-controller
 
 cmd: help
-

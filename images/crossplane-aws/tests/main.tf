@@ -61,3 +61,10 @@ data "oci_exec_test" "install" {
     value = var.digests.s3
   }
 }
+
+module "helm_cleanup" {
+  depends_on = [data.oci_exec_test.install]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.crossplane.id
+  namespace  = helm_release.crossplane.namespace
+}

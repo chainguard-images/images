@@ -50,3 +50,9 @@ resource "helm_release" "dask-gateway" {
     }),
   ]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.dask-gateway.id
+  namespace = helm_release.dask-gateway.namespace
+}

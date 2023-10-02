@@ -2,13 +2,12 @@
 # rabbitmq
 | | |
 | - | - |
-| **Status** | stable |
 | **OCI Reference** | `cgr.dev/chainguard/rabbitmq` |
 
 
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/rabbitmq/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
-*[Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
 ---
 <!--monopod:end-->
@@ -23,7 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/rabbitmq
 ```
 
-## Using Redis
+## Using RabbitMQ
 
 The default RabbitMQ port is 5672.
 To run with Docker using default configuration:

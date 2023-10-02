@@ -1,7 +1,5 @@
 contents:
-  packages: [
-    # Package comes from extra-packages
-  ]
+  packages:
 
 accounts:
   groups:
@@ -11,8 +9,6 @@ accounts:
     - username: nonroot
       uid: 65532
   run-as: 0
-  recursive: true
 
 entrypoint:
-  command: csi-attacher
-
+  command: /usr/bin/csi-attacher

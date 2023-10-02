@@ -24,3 +24,9 @@ resource "helm_release" "thanos-operator" {
     }
   })]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.thanos-operator.id
+  namespace = helm_release.thanos-operator.namespace
+}

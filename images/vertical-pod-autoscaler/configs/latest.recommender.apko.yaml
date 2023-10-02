@@ -16,4 +16,3 @@ entrypoint:
   command: /usr/bin/recommender
 
 cmd: "--v=4 --stderrthreshold=info"
-

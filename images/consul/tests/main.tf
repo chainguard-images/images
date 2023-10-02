@@ -36,3 +36,9 @@ resource "helm_release" "consul" {
     }
   })]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.consul.id
+  namespace = helm_release.consul.namespace
+}

@@ -47,3 +47,9 @@ resource "helm_release" "argocd" {
     }),
   ]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.argocd.id
+  namespace = helm_release.argocd.namespace
+}

@@ -51,11 +51,6 @@ exporters:
     endpoint: "http://zipkin-all-in-one:9411/api/v2/spans"
     format: proto
 
-  jaeger:
-    endpoint: jaeger-all-in-one:14250
-    tls:
-      insecure: true
-
   # datadog:
   #   api:
   #     site: us5.datadoghq.com
@@ -68,7 +63,7 @@ processors:
     timeout: 10s
   resourcedetection:
     # These warn when not applicable, so just include everything
-    detectors: 
+    detectors:
       - env
       - eks
       - ec2
@@ -89,46 +84,45 @@ extensions:
     size_in_percentage: 5
 
 service:
-  extensions: 
+  extensions:
     - pprof
     - zpages
     - health_check
     - memory_ballast
   pipelines:
     metrics:
-      receivers: 
+      receivers:
         - otlp
         - hostmetrics
-      processors: 
+      processors:
         - resourcedetection
         - k8sattributes
         - batch
-      exporters: 
+      exporters:
         - logging
         - prometheus
         # - datadog
 
     traces:
-      receivers: 
+      receivers:
         - otlp
-      processors: 
+      processors:
         - resourcedetection
         - k8sattributes
         - batch
-      exporters: 
+      exporters:
         - logging
         - zipkin # fails (with warning) without zipkin deployed
-        - jaeger # fails (with warning) without jaeger deployed
         # - datadog
 
     logs:
-      receivers: 
+      receivers:
         - filelog
-      processors: 
+      processors:
         - resourcedetection
         - k8sattributes
         - batch
-      exporters: 
+      exporters:
         - logging
         # - datadog
 

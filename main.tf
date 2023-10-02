@@ -262,6 +262,11 @@ module "external-secrets" {
   target_repository = "${var.target_repository}/external-secrets"
 }
 
+module "falcoctl" {
+  source            = "./images/falcoctl"
+  target_repository = "${var.target_repository}/falcoctl"
+}
+
 module "ffmpeg" {
   source            = "./images/ffmpeg"
   target_repository = "${var.target_repository}/ffmpeg"
@@ -321,6 +326,11 @@ module "external-dns" {
   target_repository = "${var.target_repository}/external-dns"
 }
 
+module "gitness" {
+  source            = "./images/gitness"
+  target_repository = "${var.target_repository}/gitness"
+}
+
 module "graalvm-native" {
   source            = "./images/graalvm-native"
   target_repository = "${var.target_repository}/graalvm-native"
@@ -371,11 +381,20 @@ module "influxdb" {
   target_repository = "${var.target_repository}/influxdb"
 }
 
+module "ip-masq-agent" {
+  source            = "./images/ip-masq-agent"
+  target_repository = "${var.target_repository}/ip-masq-agent"
+}
+
 module "istio" {
   source            = "./images/istio"
   target_repository = "${var.target_repository}/istio"
 }
 
+module "ingress-nginx-controller" {
+  source            = "./images/ingress-nginx-controller"
+  target_repository = "${var.target_repository}/ingress-nginx-controller"
+}
 
 module "jdk" {
   source            = "./images/jdk"
@@ -664,9 +683,9 @@ module "opentelemetry-collector-contrib" {
   target_repository = "${var.target_repository}/opentelemetry-collector-contrib"
 }
 
-module "opentf" {
-  source            = "./images/opentf"
-  target_repository = "${var.target_repository}/opentf"
+module "opentofu" {
+  source            = "./images/opentofu"
+  target_repository = "${var.target_repository}/opentofu"
 }
 
 module "paranoia" {
@@ -714,6 +733,11 @@ module "prometheus-elasticsearch-exporter" {
   target_repository = "${var.target_repository}/prometheus-elasticsearch-exporter"
 }
 
+module "prometheus-node-exporter" {
+  source            = "./images/prometheus-node-exporter"
+  target_repository = "${var.target_repository}/prometheus-node-exporter"
+}
+
 module "prometheus-redis-exporter" {
   source            = "./images/prometheus-redis-exporter"
   target_repository = "${var.target_repository}/prometheus-redis-exporter"
@@ -749,7 +773,6 @@ module "r-base" {
   target_repository = "${var.target_repository}/r-base"
 }
 
-
 module "rabbitmq" {
   source            = "./images/rabbitmq"
   target_repository = "${var.target_repository}/rabbitmq"
@@ -763,6 +786,11 @@ module "redis" {
 module "redis-sentinel" {
   source            = "./images/redis-sentinel"
   target_repository = "${var.target_repository}/redis-sentinel"
+}
+
+module "rekor" {
+  source            = "./images/rekor"
+  target_repository = "${var.target_repository}/rekor"
 }
 
 module "rqlite" {
@@ -793,6 +821,11 @@ module "secrets-store-csi-driver" {
 module "semgrep" {
   source            = "./images/semgrep"
   target_repository = "${var.target_repository}/semgrep"
+}
+
+module "sigstore-scaffolding" {
+  source            = "./images/sigstore-scaffolding"
+  target_repository = "${var.target_repository}/sigstore-scaffolding"
 }
 
 module "skaffold" {
@@ -871,6 +904,11 @@ module "timoni" {
 module "traefik" {
   source            = "./images/traefik"
   target_repository = "${var.target_repository}/traefik"
+}
+
+module "trillian" {
+  source            = "./images/trillian"
+  target_repository = "${var.target_repository}/trillian"
 }
 
 module "trust-manager" {

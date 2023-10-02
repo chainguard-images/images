@@ -59,3 +59,9 @@ resource "helm_release" "vertical-pod-autoscaler" {
     }
   })]
 }
+
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.vertical-pod-autoscaler.id
+  namespace = helm_release.vertical-pod-autoscaler.namespace
+}
