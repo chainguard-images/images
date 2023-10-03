@@ -13,27 +13,33 @@ terraform {
 }
 
 variable "target_repository" {
-  description = "The docker repo into which the image and attestations should be published."
+  type        = string
+  description = "The roof repo into which the images should be published (e.g., cgr.dev/chainguard). Individual images will be published within this root repo."
 }
 
+
 variable "extra_repositories" {
-  type    = list(string)
-  default = []
+  type        = list(string)
+  default     = []
+  description = "Extra repositories to look for when finding packages."
 }
 
 variable "extra_keyring" {
-  type    = list(string)
-  default = []
+  type        = list(string)
+  default     = []
+  description = "Extra keyrings to use when finding packages."
 }
 
 variable "extra_packages" {
-  type    = list(string)
-  default = []
+  type        = list(string)
+  default     = []
+  description = "Extra packages to install in all images."
 }
 
 variable "archs" {
-  type    = list(string)
-  default = []
+  type        = list(string)
+  default     = []
+  description = "The architectures to build for. If empty, defaults to x86_64 and aarch64."
 }
 
 provider "apko" {
