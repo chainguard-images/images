@@ -87,10 +87,16 @@ variable "ctlog-server" {
   default = "ghcr.io/sigstore/scaffolding/ct_server:latest"
 }
 
-# TODO: Fulcio
+variable "fulcio-server" {
+  description = "The image digests to run tests over."
+  type        = string
+
+  # TODO: switch this to our image once it is published.
+  default = "gcr.io/projectsigstore/fulcio:v1.4.0"
+}
 
 locals {
-  all-images = merge(var.scaffolding-images, var.support-images, var.rekor-images, var.trillian-images, { "ctlog-server" : var.ctlog-server })
+  all-images = merge(var.scaffolding-images, var.support-images, var.rekor-images, var.trillian-images, { "ctlog-server" : var.ctlog-server }, { "fulcio-server" : var.fulcio-server })
 }
 
 data "oci_ref" "images" {
@@ -289,6 +295,20 @@ resource "helm_release" "scaffold" {
   set {
     name  = "ctlog.server.image.version"
     value = data.oci_string.images["ctlog-server"].digest
+  }
+
+  // fulcio server
+  set {
+    name  = "fulcio.server.image.registry"
+    value = data.oci_string.images["fulcio-server"].registry
+  }
+  set {
+    name  = "fulcio.server.image.repository"
+    value = data.oci_string.images["fulcio-server"].repo
+  }
+  set {
+    name  = "fulcio.server.image.version"
+    value = data.oci_string.images["fulcio-server"].digest
   }
 
   # TODO: namespace everything.
