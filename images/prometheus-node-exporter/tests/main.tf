@@ -35,11 +35,12 @@ resource "helm_release" "kube-prometheus-stack" {
 
   values = [
     jsonencode({
-      service = {
-        port       = random_integer.port.result
-        targetPort = random_integer.port.result
-      }
       prometheus-node-exporter = {
+        service = {
+          port       = random_integer.port.result
+          nodePort   = random_integer.port.result
+          targetPort = random_integer.port.result
+        }
         image = {
           registry   = data.oci_string.ref.registry
           repository = data.oci_string.ref.repo
@@ -55,6 +56,10 @@ data "oci_exec_test" "node-runs" {
   digest      = var.digest
   script      = "./node-runs.sh ${random_id.hex.hex}"
   working_dir = path.module
+  env = [{
+    name  = "PROM_PORT"
+    value = random_integer.port.result
+  }]
 }
 
 module "helm_cleanup" {
