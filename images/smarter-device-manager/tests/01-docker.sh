@@ -18,8 +18,9 @@ start_detached_container() {
     "${IMAGE_NAME}"
 }
 
-TEST_started_ok() {
+TEST_starts_ok() {
   local -r container_id=$(start_detached_container)
+  trap "docker stop ${container_id}" EXIT
 
   local elapsed_time=0
   local interval_secs=5
@@ -31,6 +32,7 @@ TEST_started_ok() {
       echo "Error detected within $elapsed_time seconds!"
       echo "Error logs:"
       echo "$logs" | grep "ERROR"
+      docker stop "${container_id}"
       exit 1
     fi
     sleep $interval_secs
@@ -38,4 +40,4 @@ TEST_started_ok() {
   done
 }
 
-TEST_started_ok
+TEST_starts_ok
