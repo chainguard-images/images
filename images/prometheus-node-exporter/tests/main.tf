@@ -20,6 +20,11 @@ data "oci_string" "ref" {
 
 resource "random_id" "hex" { byte_length = 4 }
 
+resource "random_integer" "port" {
+  min = 9100
+  max = 60000
+}
+
 resource "helm_release" "kube-prometheus-stack" {
   name       = "prometheus-${random_id.hex.hex}"
   repository = "https://prometheus-community.github.io/helm-charts"
@@ -28,19 +33,20 @@ resource "helm_release" "kube-prometheus-stack" {
   namespace        = "prometheus-${random_id.hex.hex}"
   create_namespace = true
 
-  // node-exporter
-  set {
-    name  = "prometheus-node-exporter.image.registry"
-    value = data.oci_string.ref.registry
-  }
-  set {
-    name  = "prometheus-node-exporter.image.repository"
-    value = data.oci_string.ref.repo
-  }
-  set {
-    name  = "prometheus-node-exporter.image.digest"
-    value = data.oci_string.ref.digest
-  }
+  values = [
+    jsonencode({
+      service = {
+        port       = random_integer.port.result
+        targetPort = random_integer.port.result
+      }
+      prometheus-node-exporter = {
+        image = {
+          registry   = data.oci_string.ref.registry
+          repository = data.oci_string.ref.repo
+          digest     = data.oci_string.ref.digest
+        }
+      }
+  })]
 }
 
 data "oci_exec_test" "node-runs" {
