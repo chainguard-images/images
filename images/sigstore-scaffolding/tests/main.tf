@@ -35,8 +35,7 @@ variable "scaffolding-images" {
     trillian-updatetree  = "cgr.dev/chainguard/sigstore-scaffolding-trillian-updatetree:latest"
     tsa-createcertchain  = "cgr.dev/chainguard/sigstore-scaffolding-tsa-createcertchain:latest"
     tuf-createsecret     = "cgr.dev/chainguard/sigstore-scaffolding-tuf-createsecret:latest"
-    # TODO: switch this to our image once it is published.
-    tuf-server = "ghcr.io/sigstore/scaffolding/server:latest"
+    tuf-server           = "cgr.dev/chainguard/sigstore-scaffolding-tuf-server:latest"
   }
 }
 
@@ -91,13 +90,17 @@ variable "ctlog-server" {
 variable "fulcio-server" {
   description = "The image digests to run tests over."
   type        = string
+  default     = "cgr.dev/chainguard/fulcio:latest"
+}
 
-  # TODO: switch this to our image once it is published.
-  default = "gcr.io/projectsigstore/fulcio:v1.4.0"
+variable "cosign-cli" {
+  description = "The image digests to run tests over."
+  type        = string
+  default     = "cgr.dev/chainguard/cosign:latest"
 }
 
 locals {
-  all-images = merge(var.scaffolding-images, var.support-images, var.rekor-images, var.trillian-images, { "ctlog-server" : var.ctlog-server }, { "fulcio-server" : var.fulcio-server })
+  all-images = merge(var.scaffolding-images, var.support-images, var.rekor-images, var.trillian-images, { "ctlog-server" : var.ctlog-server }, { "fulcio-server" : var.fulcio-server }, { "cosign-cli" : var.cosign-cli })
 }
 
 data "oci_ref" "images" {
@@ -124,6 +127,13 @@ resource "helm_release" "scaffold" {
   set {
     name  = "copySecretJob.enabled"
     value = "true"
+  }
+  // This works around a problem where "cosign initialize"
+  // cannot handle the TUF root without the file matching
+  // this name.
+  set {
+    name  = "tuf.secrets.ctlog.path"
+    value = "ctfe.pub"
   }
 
   # TODO: Enable TSA
@@ -350,69 +360,6 @@ resource "helm_release" "scaffold" {
   # TODO: namespace everything.
 }
 
-resource "random_pet" "test-value" {}
-
-# Based on https://github.com/sigstore/rekor/blob/main/types.md#hashed-rekord
-resource "kubernetes_job_v1" "check_rekor" {
-  depends_on = [helm_release.scaffold]
-
-  metadata {
-    name      = "check-rekor"
-    namespace = "rekor-system"
-  }
-
-  spec {
-    template {
-      metadata {}
-      spec {
-        init_container {
-          name        = "sign"
-          image       = "cgr.dev/chainguard/wolfi-base:latest"
-          working_dir = "/workspace"
-          command     = ["/bin/sh", "-c"]
-          args = [<<EOF
-          set -ex
-          apk add openssl
-          openssl ecparam -genkey -name prime256v1 > ec_private.pem
-          openssl ec -in ec_private.pem -pubout > ec_public.pem
-          echo -n ${random_pet.test-value.id} | openssl dgst -sha256 -sign ec_private.pem -out foo.sig
-          EOF
-          ]
-          volume_mount {
-            name       = "workspace"
-            mount_path = "/workspace"
-          }
-        }
-        container {
-          name  = "check-rekor"
-          image = data.oci_string.images["rekor-cli"].id
-          args = [
-            "upload",
-            "--rekor_server=http://rekor-server.rekor-system.svc",
-            "--type=hashedrekord:0.0.1",
-            "--artifact-hash=${sha256(random_pet.test-value.id)}",
-            "--signature=foo.sig",
-            "--pki-format=x509",
-            "--public-key=ec_public.pem",
-          ]
-          working_dir = "/workspace"
-          volume_mount {
-            name       = "workspace"
-            mount_path = "/workspace"
-          }
-        }
-        volume {
-          name = "workspace"
-          empty_dir {}
-        }
-        restart_policy = "Never"
-      }
-    }
-  }
-
-  wait_for_completion = true
-}
-
 # TODO: More tests!
 
 # This is a useful trick for intentionally breaking things to
@@ -428,6 +375,7 @@ module "helm_cleanup" {
   depends_on = [
     # Don't clean up until all of the tests complete.
     kubernetes_job_v1.check_rekor,
+    kubernetes_job_v1.keyless_sign_verify,
     # data.oci_exec_test.break,
   ]
   source = "../../../tflib/helm-cleanup"
