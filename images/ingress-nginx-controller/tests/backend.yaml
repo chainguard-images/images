@@ -1,55 +1,56 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: httpbin
+  name: backend
   labels:
-    app: httpbin
-    service: httpbin
+    app: backend
+    service: backend
 spec:
   ports:
   - name: http
-    port: 8000
-    targetPort: 80
+    port: 9898
+    targetPort: 9898 
   selector:
-    app: httpbin
+    app: backend
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: httpbin
+  name: backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: httpbin
+      app: backend
       version: v1
   template:
     metadata:
       labels:
-        app: httpbin
+        app: backend
         version: v1
     spec:
       containers:
-      - image: docker.io/kong/httpbin
+      - image: stefanprodan/podinfo
+        command:
         imagePullPolicy: IfNotPresent
-        name: httpbin
+        name: backend
         ports:
-        - containerPort: 80
+        - containerPort: 9898
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-httpbin
+  name: test-ingress
 spec:
   ingressClassName: "INGRESS_CLASS"
   rules:
-  - host: httpbin.test.ingress
+  - host: test.nginx.ingress
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: httpbin
+            name: backend
             port:
-              number: 80
+              number: 9898

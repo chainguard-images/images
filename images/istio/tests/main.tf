@@ -37,7 +37,6 @@ data "oci_exec_test" "operator-version" {
 data "oci_string" "operator-ref" { input = var.digests.operator }
 data "oci_string" "proxy-ref" { input = var.digests.proxy }
 data "oci_string" "install-cni-ref" { input = var.digests.install-cni }
-
 resource "helm_release" "operator" {
   name             = "operator"
   namespace        = local.namespace
@@ -96,16 +95,19 @@ resource "helm_release" "istiod" {
     }
     global = {
       istioNamespace = local.namespace
-      # We have to trim the suffix and specify it in `image`, because this
-      # Helm chart does not like slashes in the image name.
-      hub = replace(data.oci_string.proxy-ref.registry_repo, "/istio-proxy", "")
-      tag = data.oci_string.proxy-ref.pseudo_tag
+      # These Helm charts do not like slashes in the image name.
+      #
+      # If the registry_repo is gcr.io/my/repo/istio-proxy, we need to set
+      #   hub   = gcr.io/my/repo
+      #   image = istio-proxy
+      hub = dirname(data.oci_string.proxy-ref.registry_repo)
       proxy = {
-        image = "istio-proxy"
+        image = basename(data.oci_string.proxy-ref.registry_repo)
       }
       proxy-init = {
-        image = "istio_proxy"
+        image = basename(data.oci_string.proxy-ref.registry_repo)
       }
+      tag = data.oci_string.proxy-ref.pseudo_tag
     }
   })]
 }
@@ -129,16 +131,19 @@ resource "helm_release" "gateway" {
     }
     global = {
       istioNamespace = local.namespace
-      # We have to trim the suffix and specify it in `image`, because this
-      # Helm chart does not like slashes in the image name.
-      hub = replace(data.oci_string.proxy-ref.registry_repo, "/istio-proxy", "")
-      tag = data.oci_string.proxy-ref.pseudo_tag
+      # These Helm charts do not like slashes in the image param.
+      #
+      # If the registry_repo is gcr.io/my/repo/istio-proxy, we need to set
+      #   hub   = gcr.io/my/repo
+      #   image = istio-proxy
+      hub = dirname(data.oci_string.proxy-ref.registry_repo)
       proxy = {
-        image = "istio-proxy"
+        image = basename(data.oci_string.proxy-ref.registry_repo)
       }
       proxy-init = {
-        image = "istio_proxy"
+        image = basename(data.oci_string.proxy-ref.registry_repo)
       }
+      tag = data.oci_string.proxy-ref.pseudo_tag
     }
   })]
 }
@@ -151,13 +156,16 @@ resource "helm_release" "install-cni" {
   chart      = "cni"
   values = [jsonencode({
     global = {
-      # We have to trim the suffix and specify it in `image`, because this
-      # Helm chart does not like slashes in the image name.
-      hub = replace(data.oci_string.install-cni-ref.registry_repo, "/istio-install-cni", "")
+      # These Helm charts do not like slashes in the image param.
+      #
+      # If the registry_repo is gcr.io/my/repo/istio-install-cni, we need to set
+      #   hub   = gcr.io/my/repo
+      #   image = istio-install-cni
+      hub = dirname(data.oci_string.install-cni-ref.registry_repo)
       tag = data.oci_string.install-cni-ref.pseudo_tag
     }
     cni = {
-      image = "istio-install-cni"
+      image = basename(data.oci_string.install-cni-ref.registry_repo)
 
       # These two settings are highly dependent on the K8s cluster setup.
       cniBinDir  = "/var/lib/rancher/k3s/data/current/bin" # Special thanks to Wolf

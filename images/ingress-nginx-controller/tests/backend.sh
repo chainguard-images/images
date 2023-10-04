@@ -14,7 +14,7 @@ kubectl label namespace $NAMESPACE controllerNamespace=$NAMESPACE
 # Webhook doesn't expose Readiness: we will need to retry until webhooks are fully configured.
 set +o errexit
 for i in {1..10}; do
-    sed -e "s/INGRESS_CLASS/$INGRESS_CLASS/g" $SCRIPT_DIR/httpbin.yaml | kubectl apply -f - -n $NAMESPACE \
+    sed -e "s/INGRESS_CLASS/$INGRESS_CLASS/g" $SCRIPT_DIR/backend.yaml | kubectl apply -f - -n $NAMESPACE \
         && s=0 && break
     s=$?
     sleep 5
@@ -25,14 +25,14 @@ fi
 set -o errexit
 
 echo "Waiting for Deployment..."
-kubectl wait --for=condition=ready --timeout=120s pod -l app=httpbin -n $NAMESPACE
+kubectl wait --for=condition=ready --timeout=240s pod -l app=backend -n $NAMESPACE
 
 ingress_ip=""
 
 # There is no kubectl wait for Ingress
 for i in {1..10}; do
     echo "Waiting for Ingress..."
-    ingress_ip=$(kubectl get ingress ingress-httpbin -n $NAMESPACE -ojsonpath='{.status.loadBalancer.ingress[0].ip}')
+    ingress_ip=$(kubectl get ingress test-ingress -n $NAMESPACE -ojsonpath='{.status.loadBalancer.ingress[0].ip}')
     if [ -z "$ingress_ip" ]; then
         sleep 15
     else
@@ -49,6 +49,6 @@ echo "Ingress has IP: $ingress_ip"
 
 echo "Running curl..."
 sed -e "s/INGRESS_CLASS/$INGRESS_CLASS/g" $SCRIPT_DIR/curl.yaml | kubectl apply -f - -n $NAMESPACE
-kubectl wait --for=condition=complete --timeout=60s -n $NAMESPACE job/curl
+kubectl wait --for=condition=complete --timeout=240s -n $NAMESPACE job/curl
 
 echo "Done"

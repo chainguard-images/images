@@ -2,6 +2,14 @@ terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
   }
+
+  # We don't take advantage of terraform.tfstate, so we don't need to save state anywhere.
+  #
+  # The default "local" backend has pathological performance as state gets large, see:
+  # https://github.com/opentofu/opentofu/issues/578
+  #
+  # Consider removing this if that's ever fixed and/or if we want to use tfstate.
+  backend "inmem" {}
 }
 
 variable "target_repository" {
@@ -212,6 +220,11 @@ module "crossplane-azure" {
   target_repository = "${var.target_repository}/crossplane-azure"
 }
 
+module "ctlog" {
+  source            = "./images/ctlog"
+  target_repository = "${var.target_repository}/ctlog"
+}
+
 module "curl" {
   source            = "./images/curl"
   target_repository = "${var.target_repository}/curl"
@@ -285,6 +298,11 @@ module "fluentd" {
 module "flux" {
   source            = "./images/flux"
   target_repository = "${var.target_repository}/flux"
+}
+
+module "fulcio" {
+  source            = "./images/fulcio"
+  target_repository = "${var.target_repository}/fulcio"
 }
 
 module "gatekeeper" {
@@ -401,6 +419,11 @@ module "jdk" {
   target_repository = "${var.target_repository}/jdk"
 }
 
+module "jdk-lts" {
+  source            = "./images/jdk-lts"
+  target_repository = "${var.target_repository}/jdk-lts"
+}
+
 module "jenkins" {
   source            = "./images/jenkins"
   target_repository = "${var.target_repository}/jenkins"
@@ -409,6 +432,11 @@ module "jenkins" {
 module "jre" {
   source            = "./images/jre"
   target_repository = "${var.target_repository}/jre"
+}
+
+module "jre-lts" {
+  source            = "./images/jre-lts"
+  target_repository = "${var.target_repository}/jre-lts"
 }
 
 module "k3s" {
@@ -990,3 +1018,4 @@ module "zot" {
   source            = "./images/zot"
   target_repository = "${var.target_repository}/zot"
 }
+
