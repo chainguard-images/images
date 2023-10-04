@@ -4,13 +4,20 @@ variable "target_repository" {
 
 locals {
   components = toset(["dask-gateway", "dask-gateway-server"])
+
+  // target_repository is going to be something like `cgr.dev/chainguard/dask-gateway`,
+  // so append this suffix to get the full repo name.
+  repositories = {
+    "dask-gateway" : var.target_repository,
+    "dask-gateway-server" : "${var.target_repository}-server",
+  }
 }
 
 module "latest" {
   for_each          = local.components
   source            = "../../tflib/publisher"
   name              = basename(path.module)
-  target_repository = "${var.target_repository}-${each.key}"
+  target_repository = local.repositories[each.key]
   config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
   build-dev         = true
 }
