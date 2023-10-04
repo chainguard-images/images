@@ -3,7 +3,7 @@ resource "kubernetes_job_v1" "keyless_sign_verify" {
 
   metadata {
     name      = "keyless-sign-verify"
-    namespace = "tuf-system" // To mount the tuf root secret
+    namespace = "tuf-${random_pet.suffix.id}" // To mount the tuf root secret
   }
 
   spec {
@@ -37,7 +37,7 @@ resource "kubernetes_job_v1" "keyless_sign_verify" {
           working_dir = "/workspace"
           args = [
             "initialize",
-            "--mirror", "http://tuf-server.tuf-system.svc",
+            "--mirror", "http://tuf-server.tuf-${random_pet.suffix.id}.svc",
             "--root", "./root.json",
           ]
           volume_mount {
@@ -56,8 +56,8 @@ resource "kubernetes_job_v1" "keyless_sign_verify" {
           working_dir = "/workspace"
           args = [
             "sign-blob", "/etc/os-release",
-            "--fulcio-url", "http://fulcio-server.fulcio-system.svc",
-            "--rekor-url", "http://rekor-server.rekor-system.svc",
+            "--fulcio-url", "http://fulcio-server.fulcio-${random_pet.suffix.id}.svc",
+            "--rekor-url", "http://rekor-server.rekor-${random_pet.suffix.id}.svc",
             "--output-certificate", "cert.pem",
             "--output-signature", "sig",
             "--yes",
@@ -83,11 +83,11 @@ resource "kubernetes_job_v1" "keyless_sign_verify" {
           working_dir = "/workspace"
           args = [
             "verify-blob", "/etc/os-release",
-            "--rekor-url", "http://rekor-server.rekor-system.svc",
+            "--rekor-url", "http://rekor-server.rekor-${random_pet.suffix.id}.svc",
             "--certificate", "cert.pem",
             "--signature", "sig",
             "--certificate-oidc-issuer", "https://kubernetes.default.svc",
-            "--certificate-identity", "https://kubernetes.io/namespaces/tuf-system/serviceaccounts/default",
+            "--certificate-identity", "https://kubernetes.io/namespaces/tuf-${random_pet.suffix.id}/serviceaccounts/default",
           ]
           volume_mount {
             name       = "workspace"

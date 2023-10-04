@@ -113,8 +113,10 @@ data "oci_string" "images" {
   input    = length(regexall("[@]", each.value)) > 0 ? each.value : "${each.value}@${data.oci_ref.images[each.key].digest}"
 }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "scaffold" {
-  name       = "scaffold"
+  name       = "scaffold-${random_pet.suffix.id}"
   repository = "https://sigstore.github.io/helm-charts"
   chart      = "scaffold"
   timeout    = 600
@@ -146,6 +148,83 @@ resource "helm_release" "scaffold" {
   #   name  = "tsa.server.args.signer"
   #   value = "file"
   # }
+
+  // Override the Fulcio namespace
+  set {
+    name  = "fulcio.namespace.name"
+    value = "fulcio-${random_pet.suffix.id}"
+  }
+  set {
+    name  = "fulcio.forceNamespace"
+    value = "fulcio-${random_pet.suffix.id}"
+  }
+  set {
+    name  = "ctlog.createctconfig.fulcioURL"
+    value = "http://fulcio-server.fulcio-${random_pet.suffix.id}.svc"
+  }
+
+  // Override the Rekor namespace
+  set {
+    name  = "rekor.namespace.name"
+    value = "rekor-${random_pet.suffix.id}"
+  }
+  set {
+    name  = "rekor.forceNamespace"
+    value = "rekor-${random_pet.suffix.id}"
+  }
+  set {
+    name  = "rekor.backfillredis.rekorAddress"
+    value = "rekor-server.rekor-${random_pet.suffix.id}.svc"
+  }
+
+  // Override the TUF namespace
+  set {
+    name  = "tuf.namespace.name"
+    value = "tuf-${random_pet.suffix.id}"
+  }
+  set {
+    name  = "tuf.forceNamespace"
+    value = "tuf-${random_pet.suffix.id}"
+  }
+
+  // Override the ctlog namespace
+  set {
+    name  = "ctlog.namespace.name"
+    value = "ctlog-${random_pet.suffix.id}"
+  }
+  set {
+    name  = "ctlog.forceNamespace"
+    value = "ctlog-${random_pet.suffix.id}"
+  }
+  set {
+    name  = "fulcio.ctlog.namespace.name"
+    value = "ctlog-${random_pet.suffix.id}"
+  }
+
+  // Override the trillian namespace
+  set {
+    name  = "trillian.namespace.name"
+    value = "trillian-${random_pet.suffix.id}"
+  }
+  set {
+    name  = "trillian.forceNamespace"
+    value = "trillian-${random_pet.suffix.id}"
+  }
+  set {
+    name  = "ctlog.trillian.namespace"
+    value = "trillian-${random_pet.suffix.id}"
+  }
+  set {
+    name  = "rekor.trillian.namespace.name"
+    value = "trillian-${random_pet.suffix.id}"
+  }
+  // TODO(mattmoor): Upstream should probably use
+  // namespace.name for these, but for some reason
+  // it uses forceNamespace.
+  set {
+    name  = "rekor.trillian.forceNamespace"
+    value = "trillian-${random_pet.suffix.id}"
+  }
 
   // scaffolding trillian createdb
   set {
@@ -356,8 +435,6 @@ resource "helm_release" "scaffold" {
     name  = "fulcio.server.image.version"
     value = data.oci_string.images["fulcio-server"].digest
   }
-
-  # TODO: namespace everything.
 }
 
 # TODO: More tests!

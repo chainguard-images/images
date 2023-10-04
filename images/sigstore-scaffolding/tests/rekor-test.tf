@@ -6,7 +6,7 @@ resource "kubernetes_job_v1" "check_rekor" {
 
   metadata {
     name      = "check-rekor"
-    namespace = "rekor-system"
+    namespace = "rekor-${random_pet.suffix.id}"
   }
 
   spec {
@@ -36,7 +36,7 @@ resource "kubernetes_job_v1" "check_rekor" {
           image = data.oci_string.images["rekor-cli"].id
           args = [
             "upload",
-            "--rekor_server=http://rekor-server.rekor-system.svc",
+            "--rekor_server=http://rekor-server.rekor-${random_pet.suffix.id}.svc",
             "--type=hashedrekord:0.0.1",
             "--artifact-hash=${sha256(random_pet.test-value.id)}",
             "--signature=foo.sig",
