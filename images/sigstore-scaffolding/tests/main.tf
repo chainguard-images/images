@@ -226,6 +226,12 @@ resource "helm_release" "scaffold" {
     value = "trillian-${random_pet.suffix.id}"
   }
 
+  // Override the secret job's SA (used to namespace Cluster-scoped resources)
+  set {
+    name  = "copySecretJob.serviceaccount"
+    value = "tscj-${random_pet.suffix.id}"
+  }
+
   // scaffolding trillian createdb
   set {
     name  = "trillian.createdb.image.registry"
