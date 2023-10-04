@@ -100,12 +100,12 @@ resource "helm_release" "istiod" {
       # If the registry_repo is gcr.io/my/repo/istio-proxy, we need to set
       #   hub   = gcr.io/my/repo
       #   image = istio-proxy
-      hub = replace(data.oci_string.proxy-ref.registry_repo, "//[^/]*$/", "")
+      hub = dirname(data.oci_string.proxy-ref.registry_repo)
       proxy = {
-        image = replace(data.oci_string.proxy-ref.registry_repo, "/^.*//", "")
+        image = basename(data.oci_string.proxy-ref.registry_repo)
       }
       proxy-init = {
-        image = replace(data.oci_string.proxy-ref.registry_repo, "/^.*//", "")
+        image = basename(data.oci_string.proxy-ref.registry_repo)
       }
       tag = data.oci_string.proxy-ref.pseudo_tag
     }
@@ -136,12 +136,12 @@ resource "helm_release" "gateway" {
       # If the registry_repo is gcr.io/my/repo/istio-proxy, we need to set
       #   hub   = gcr.io/my/repo
       #   image = istio-proxy
-      hub = replace(data.oci_string.proxy-ref.registry_repo, "//[^/]*$/", "")
+      hub = dirname(data.oci_string.proxy-ref.registry_repo)
       proxy = {
-        image = replace(data.oci_string.proxy-ref.registry_repo, "/^.*//", "")
+        image = basename(data.oci_string.proxy-ref.registry_repo)
       }
       proxy-init = {
-        image = replace(data.oci_string.proxy-ref.registry_repo, "/^.*//", "")
+        image = basename(data.oci_string.proxy-ref.registry_repo)
       }
       tag = data.oci_string.proxy-ref.pseudo_tag
     }
@@ -161,11 +161,11 @@ resource "helm_release" "install-cni" {
       # If the registry_repo is gcr.io/my/repo/istio-install-cni, we need to set
       #   hub   = gcr.io/my/repo
       #   image = istio-install-cni
-      hub = replace(data.oci_string.install-cni-ref.registry_repo, "//[^/]*$/", "")
+      hub = dirname(data.oci_string.install-cni-ref.registry_repo)
       tag = data.oci_string.install-cni-ref.pseudo_tag
     }
     cni = {
-      image = replace(data.oci_string.install-cni-ref.registry_repo, "/^.*//", "")
+      image = basename(data.oci_string.install-cni-ref.registry_repo)
 
       # These two settings are highly dependent on the K8s cluster setup.
       cniBinDir  = "/var/lib/rancher/k3s/data/current/bin" # Special thanks to Wolf
