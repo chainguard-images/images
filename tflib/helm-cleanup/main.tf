@@ -1,6 +1,12 @@
-variable "name" {}
+variable "name" {
+  type        = string
+  description = "Name of the helm release to cleanup"
+
+}
 variable "namespace" {
-  default = "default"
+  default     = "default"
+  type        = string
+  description = "Namespace of the helm release to cleanup"
 }
 
 resource "null_resource" "cleanup" {

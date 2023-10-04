@@ -5,11 +5,13 @@ terraform {
 }
 
 variable "tags" {
+  type        = map(string)
   description = "A map from tag name to the digest it should tag."
 }
 
 variable "exclude" {
   default     = []
+  type        = list(string)
   description = "The set of tags to exclude."
 }
 

@@ -15,26 +15,45 @@ terraform {
   }
 }
 
-variable "target_repository" {}
+variable "target_repository" {
+  type        = string
+  description = "The repository to publish to (e.g., cgr.dev/chainguard/foo)."
+}
 
-variable "config" {}
+variable "config" {
+  type        = string
+  description = "The YAML-encoded locked image config."
+}
 
 variable "extra_packages" {
-  type    = list(string)
-  default = ["wolfi-baselayout"]
+  type        = list(string)
+  default     = []
+  description = "Extra packages to install in the image."
 }
 
 variable "extra_dev_packages" {
-  type    = list(string)
-  default = []
+  type        = list(string)
+  default     = []
+  description = "Extra packages to install in the dev variant of the image. This makes build-dev default to true."
 }
 
 variable "build-dev" {
-  # If extra_dev_packages is non-empty, then build-dev is implicitly true
-  default = false
+  type        = bool
+  default     = false
+  description = "If true, build a dev variant of the image. If extra_dev_packages is non-empty, then build-dev is implicitly true."
 }
 
-variable "name" { type = string }
+variable "main_package" {
+  type        = string
+  default     = ""
+  description = "If set, this determines which package in the image will be used to generate version tags."
+}
+
+variable "name" {
+  type        = string
+  description = "Name of the image, which gets used in the image annotations."
+}
+
 
 locals {
   build-dev = var.build-dev || length(var.extra_dev_packages) > 0
