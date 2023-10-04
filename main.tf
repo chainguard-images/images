@@ -14,7 +14,7 @@ terraform {
 
 variable "target_repository" {
   type        = string
-  description = "The roof repo into which the images should be published (e.g., cgr.dev/chainguard). Individual images will be published within this root repo."
+  description = "The root repo into which the images should be published (e.g., cgr.dev/chainguard). Individual images will be published within this root repo."
 }
 
 
