@@ -52,7 +52,7 @@ jobs:
         modified-files: ${{ steps.build-filter.outputs.filter }}
 
   build-0:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-4-cores
     needs: [generate-matrix]
     strategy:
       fail-fast: false
