@@ -1,0 +1,19 @@
+contents:
+  packages:
+    # smarter-device-manager defined in .main.tf
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  # smarter-device-manager requires root to interact with directories creaed by device plugins
+  run-as: 0
+
+entrypoint:
+  command: /usr/bin/smarter-device-management
+
+cmd: -config=/etc/smarter-device-manager/conf.yaml -logtostderr=true -v=2

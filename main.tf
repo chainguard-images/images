@@ -866,6 +866,11 @@ module "slim-toolkit-debug" {
   target_repository = "${var.target_repository}/slim-toolkit-debug"
 }
 
+module "smarter-device-manager" {
+  source            = "./images/smarter-device-manager"
+  target_repository = "${var.target_repository}/smarter-device-manager"
+}
+
 module "spark-operator" {
   source            = "./images/spark-operator"
   target_repository = "${var.target_repository}/spark-operator"
