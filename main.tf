@@ -767,6 +767,11 @@ module "prometheus-elasticsearch-exporter" {
   target_repository = "${var.target_repository}/prometheus-elasticsearch-exporter"
 }
 
+module "prometheus-mongodb-exporter" {
+  source            = "./images/prometheus-mongodb-exporter"
+  target_repository = "${var.target_repository}/prometheus-mongodb-exporter"
+}
+
 module "prometheus-node-exporter" {
   source            = "./images/prometheus-node-exporter"
   target_repository = "${var.target_repository}/prometheus-node-exporter"
