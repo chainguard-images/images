@@ -75,7 +75,7 @@ jobs:
           # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
           EXTRA_INPUT_CHAINGUARD_IDENTITY: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
           EXTRA_INPUT_TARGET_REPOSITORY: cgr.dev/chainguard
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:b5ba1a93415482ba5fc066f4bf6298f3c9bbfb1658f0d1a553045ca66699cac1
+          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:0e59c4b632ffc02ef2bd3472124d2abc7834c896e79c1d67dafea51dab09e31c
 
       - uses: chainguard-dev/actions/setup-k3d@main
         with:
