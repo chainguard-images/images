@@ -11,7 +11,6 @@ variable "digests" {
     alertmanager      = string
     core              = string
     config-reloader   = string
-    mongodb-exporter  = string
     mysqld-exporter   = string
     operator          = string
     postgres-exporter = string
@@ -136,24 +135,6 @@ resource "helm_release" "pushgateway" {
   set {
     name  = "image.tag"
     value = data.oci_string.ref["pushgateway"].pseudo_tag
-  }
-}
-
-resource "helm_release" "mongodb" {
-  name       = "mongodb-${random_pet.suffix.id}"
-  repository = "https://prometheus-community.github.io/helm-charts"
-  chart      = "prometheus-mongodb-exporter"
-
-  namespace        = "prometheus-mongodb-exporter"
-  create_namespace = true
-
-  set {
-    name  = "image.repository"
-    value = data.oci_string.ref["mongodb-exporter"].registry_repo
-  }
-  set {
-    name  = "image.tag"
-    value = data.oci_string.ref["mongodb-exporter"].pseudo_tag
   }
 }
 

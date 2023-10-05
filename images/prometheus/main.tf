@@ -3,7 +3,6 @@ locals {
     "alertmanager",
     "config-reloader",
     "core",
-    "mongodb-exporter",
     "mysqld-exporter",
     "operator",
     "postgres-exporter",
