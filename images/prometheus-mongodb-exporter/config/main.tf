@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install"
-  default = ["prometheus-mongodb-exporter"]
+  default     = ["prometheus-mongodb-exporter"]
 }
 
 data "apko_config" "this" {
