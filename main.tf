@@ -677,6 +677,11 @@ module "node" {
   target_repository = "${var.target_repository}/node"
 }
 
+module "node-lts" {
+  source            = "./images/node-lts"
+  target_repository = "${var.target_repository}/node-lts"
+}
+
 module "nodetaint" {
   source            = "./images/nodetaint"
   target_repository = "${var.target_repository}/nodetaint"
