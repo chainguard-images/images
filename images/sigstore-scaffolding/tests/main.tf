@@ -42,14 +42,17 @@ variable "scaffolding-images" {
 variable "support-images" {
   description = "The image digests to run tests over."
   type = object({
-    curl  = string
-    redis = string
-    // TODO: mysql, netcat
+    curl   = string
+    mysql  = string
+    netcat = string
+    redis  = string
   })
 
   default = {
-    curl  = "cgr.dev/chainguard/curl:latest-dev"
-    redis = "cgr.dev/chainguard/redis:latest"
+    curl   = "cgr.dev/chainguard/curl:latest-dev"
+    mysql  = "gcr.io/trillian-opensource-ci/db_server:v1.5.2"
+    netcat = "cgr.dev/chainguard/netcat:latest"
+    redis  = "cgr.dev/chainguard/redis:latest"
   }
 }
 
@@ -302,6 +305,20 @@ resource "helm_release" "scaffold" {
     value = data.oci_string.images["fulcio-createcerts"].digest
   }
 
+  // trillian mysql
+  set {
+    name  = "trillian.mysql.image.registry"
+    value = data.oci_string.images["mysql"].registry
+  }
+  set {
+    name  = "trillian.mysql.image.repository"
+    value = data.oci_string.images["mysql"].repo
+  }
+  set {
+    name  = "trillian.mysql.image.version"
+    value = data.oci_string.images["mysql"].digest
+  }
+
   // rekor redis
   set {
     name  = "rekor.redis.image.registry"
@@ -328,6 +345,34 @@ resource "helm_release" "scaffold" {
   set {
     name  = "rekor.initContainerImage.curl.version"
     value = data.oci_string.images["curl"].digest
+  }
+
+  // trillian curl
+  set {
+    name  = "trillian.initContainerImage.curl.registry"
+    value = data.oci_string.images["curl"].registry
+  }
+  set {
+    name  = "trillian.initContainerImage.curl.repository"
+    value = data.oci_string.images["curl"].repo
+  }
+  set {
+    name  = "trillian.initContainerImage.curl.version"
+    value = data.oci_string.images["curl"].digest
+  }
+
+  // trillian netcat
+  set {
+    name  = "trillian.initContainerImage.netcat.registry"
+    value = data.oci_string.images["netcat"].registry
+  }
+  set {
+    name  = "trillian.initContainerImage.netcat.repository"
+    value = data.oci_string.images["netcat"].repo
+  }
+  set {
+    name  = "trillian.initContainerImage.netcat.version"
+    value = data.oci_string.images["netcat"].digest
   }
 
   // ctlog curl
