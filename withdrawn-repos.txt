@@ -1,3 +1,6 @@
 nri-kube-events
 nri-kubernetes
 nri-prometheus
+
+dask-gateway-dask-gateway
+dask-gateway-dask-gateway-server
