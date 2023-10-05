@@ -101,6 +101,12 @@ module "this-dev" {
   ], var.extra_dev_packages)
 }
 
+data "oci_exec_test" "grype-scan" {
+  digest      = module.this.image_ref
+  script      = "grype registry:$IMAGE_NAME"
+  working_dir = path.module
+}
+
 data "oci_exec_test" "check-reproducibility" {
   digest = module.this.image_ref
   script = "${path.module}/check-reproducibility.sh"

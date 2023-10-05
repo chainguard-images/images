@@ -46,12 +46,16 @@ jobs:
         with:
           matrix-json: ${{ toJSON(matrix) }}
 
+      - uses: anchore/scan-action/download-grype@v3
       - uses: chainguard-dev/actions/setup-k3d@main
         with:
           k3s-image: cgr.dev/chainguard/k3s:latest@sha256:6c681e718bbd0bd77d8af94f7373edf6fd3a577c30d8dc6603ab39a3886f4370
 
       # Disable version tags.
       - run: |
+          # DO NOT SUBMIT
+          which grype
+
           echo "TF_APKO_DISABLE_VERSION_TAGS=true" >> $GITHUB_ENV
 
       - uses: ./.github/actions/build-image-terraform
