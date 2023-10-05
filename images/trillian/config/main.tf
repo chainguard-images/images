@@ -24,7 +24,7 @@ locals {
 output "config" {
   value = jsonencode({
     contents = {
-      packages = concat(["trillian-${var.name}"], var.extra_packages)
+      packages = concat(["trillian${var.suffix}-${var.name}"], var.extra_packages)
     }
     accounts = module.accts.block
     entrypoint = {

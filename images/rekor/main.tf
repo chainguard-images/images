@@ -15,7 +15,7 @@ locals {
 module "config" {
   for_each = local.components
   source   = "./config"
-  name     = "rekor-${each.key}"
+  name     = each.key
 }
 
 module "latest" {
