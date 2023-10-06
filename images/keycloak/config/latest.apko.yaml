@@ -2,7 +2,6 @@ contents:
   packages:
     # jdk and keycloak packages passed in via 'extra_packages' in ./main.tf
     - busybox
-    - ca-certificates-bundle
 
 accounts:
   groups:
