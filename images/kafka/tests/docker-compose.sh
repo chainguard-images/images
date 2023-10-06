@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # This is based on:
-# https://github.com/bitnami/containers/blob/561da6cf36010ee9ff382cc0dabbfc6d5c4ec681/bitnami/kafka/3.5/debian-11/docker-compose.yaml
-
+# https://github.com/bitnami/containers/blob/561da6cf36010ee9ff382cc0dabbfc6d5c4ec681/bitnami/kafka/3.5/debian-11/docker-compose.yml
 set -euxo pipefail
 
 IMAGE_NAME=${IMAGE_NAME:-"bitnami/kafka:3.5"}
@@ -31,7 +30,6 @@ services:
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
-      - ALLOW_PLAINTEXT_LISTENER=yes
 volumes:
   kafka_data:
     driver: local
