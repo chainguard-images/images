@@ -11,3 +11,27 @@
 
 ---
 <!--monopod:end-->
+
+## Minimal Wolfi-based [Sigstore](https://sigstore.dev) images.
+
+The images in this directory are just the "glue" for bootstrapping the stack,
+but Chainguard offers minimal images for each of the elements needed by the
+[Sigstore "scaffold" Helm chart](https://github.com/sigstore/helm-charts/tree/main/charts/scaffold)
+for bootstrapping a full sigstore stack.
+
+In addition to these images, the stack also pulls in images from:
+- [`cosign`](../cosign)
+- [`fulcio`](../fulcio/)
+- [`rekor`](../rekor)
+- [`trillian`](../trillian)
+- [`ctlog`](../ctlog)
+- (NYI) `timestamp-authority` (an optional component only used in some setups)
+
+The stack also pulls in several support images:
+- [`curl`](../curl)
+- [`netcat`](../netcat)
+- [`redis`](../redis)
+- (NYI) `mysql` - Currently sigstore relies on the nearly EOL `mysql` 5.7
+
+To see an example of how we substitute images into the `scaffold` Helm chart's
+`values.yaml` see our [`values.tf`](./tests/values.tf) example.

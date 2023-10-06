@@ -22,3 +22,8 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/trillian-logserver
 docker pull cgr.dev/chainguard/trillian-logsigner
 ```
+
+## Sigstore
+
+Trillian is also deployed as part of the sigstore stack.  For more information
+on this see [`sigstore-scaffolding`](../sigstore-scaffolding/).
