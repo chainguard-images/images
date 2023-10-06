@@ -47,9 +47,21 @@ module "test-latest" {
   digests = { for k, v in module.latest : k => v.image_ref }
 }
 
-resource "oci_tag" "latest" {
-  for_each   = toset(local.components)
+module "version-tags" {
+  for_each = toset(local.components)
+  source   = "../../tflib/version-tags"
+  package  = "crossplane-provider-aws-${each.key}"
+  config   = module.latest[each.key].config
+}
+
+module "tagger" {
+  for_each = toset(local.components)
+  source   = "../../tflib/tagger"
+
   depends_on = [module.test-latest]
-  digest_ref = module.latest[each.key].image_ref
-  tag        = "latest"
+
+  tags = merge(
+    { for t in module.version-tags[each.key].tag_list : t => module.latest[each.key].image_ref },
+    { "latest" : module.latest[each.key].image_ref },
+  )
 }
