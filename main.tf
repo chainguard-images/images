@@ -480,6 +480,11 @@ module "keda" {
   target_repository = "${var.target_repository}/keda"
 }
 
+module "keycloak" {
+  source            = "./images/keycloak"
+  target_repository = "${var.target_repository}/keycloak"
+}
+
 module "ko" {
   source            = "./images/ko"
   target_repository = "${var.target_repository}/ko"

@@ -13,3 +13,6 @@ plan.out*
 sbom-*.json
 sbom-*.cdx
 *.tar
+
+# macOS
+.DS_Store
