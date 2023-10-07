@@ -25,26 +25,3 @@ spec:
       status: 200
       body:
         string: "Yes it's working\n"
----
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: curl
-spec:
-  template:
-    metadata:
-      annotations:
-        sidecar.istio.io/inject: "false"
-    spec:
-      containers:
-      - name: curl
-        image: cgr.dev/chainguard/curl:latest
-        command:
-        - curl
-        - -v
-        - --fail-with-body
-        - -H
-        - "Host:ingress.test.foo"
-        - ISTIO_NAMESPACE-gateway.ISTIO_NAMESPACE.svc
-      restartPolicy: Never
-  backoffLimit: 20

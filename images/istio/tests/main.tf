@@ -218,7 +218,7 @@ module "helm_cleanup-gateway" {
 }
 
 module "helm_cleanup-istiod" {
-  depends_on = [data.oci_exec_test.sidecar-injection-works]
+  depends_on = [data.oci_exec_test.sidecar-injection-works, data.oci_exec_test.gateway]
   source     = "../../../tflib/helm-cleanup"
   name       = helm_release.istiod.id
   namespace  = helm_release.istiod.namespace
