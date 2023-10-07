@@ -8,10 +8,20 @@ terraform {
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
-    family = string
-    iam    = string
-    rds    = string
-    s3     = string
+    family         = string
+    cloudfront     = string
+    cloudwatchlogs = string
+    dynamodb       = string
+    ec2            = string
+    eks            = string
+    firehose       = string
+    iam            = string
+    kms            = string
+    lambda         = string
+    rds            = string
+    s3             = string
+    sns            = string
+    sqs            = string
   })
 }
 
@@ -44,21 +54,15 @@ data "oci_exec_test" "install" {
   script = "${path.module}/install.sh"
   digest = var.digests.family // Unused but required by the data source
 
-  env {
-    name  = "AWS_DIGEST"
-    value = var.digests.family
-  }
-  env {
-    name  = "IAM_DIGEST"
-    value = var.digests.iam
-  }
-  env {
-    name  = "RDS_DIGEST"
-    value = var.digests.rds
-  }
-  env {
-    name  = "S3_DIGEST"
-    value = var.digests.s3
+  // We are waiting for a lot of stuff to become ready!
+  timeout_seconds = 600
+
+  dynamic "env" {
+    for_each = var.digests
+    content {
+      name  = env.key == "family" ? "AWS_DIGEST" : "${upper(env.key)}_DIGEST"
+      value = env.value
+    }
   }
 }
 
