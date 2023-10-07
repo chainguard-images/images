@@ -213,6 +213,21 @@ resource "helm_release" "scaffold" {
     name  = "copySecretJob.serviceaccount"
     value = "tscj-${random_pet.suffix.id}"
   }
+
+  // Disable all of the ingresses because we test from on the cluster itself
+  // using cluster-local services.
+  set {
+    name  = "fulcio.server.ingress.http.enabled"
+    value = "false"
+  }
+  set {
+    name  = "rekor.server.ingress.enabled"
+    value = "false"
+  }
+  set {
+    name  = "tuf.ingress.create"
+    value = "false"
+  }
 }
 
 # TODO: More tests!
