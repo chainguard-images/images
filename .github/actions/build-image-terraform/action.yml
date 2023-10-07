@@ -6,15 +6,6 @@ inputs:
 runs:
   using: composite
   steps:
-    - if: inputs.overrideCheckoutRef == '' && inputs.overrideCheckoutRepository == ''
-      uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
-    - if: inputs.overrideCheckoutRef != '' || inputs.overrideCheckoutRepository != ''
-      uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # v3.1.0
-      with:
-        clean: false
-        ref: ${{ inputs.overrideCheckoutRef }}
-        repository: ${{ inputs.overrideCheckoutRepository }}
-
     - name: Setup Terrafrom
       uses: hashicorp/setup-terraform@v2
       with:
