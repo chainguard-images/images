@@ -21,6 +21,13 @@ runs:
         terraform_version: '1.3.*'
         terraform_wrapper: false
 
+    # Make cosign/crane CLI available to the tests
+    # NOTE: this shouldn't actually be needed, but setup-crane
+    # automatically logs into ghcr.io which appears to be necessary
+    # for several test legs.
+    - uses: sigstore/cosign-installer@v3.1.0
+    - uses: imjasonh/setup-crane@v0.3
+
     - name: Terraform apply (apko publish)
       id: terraform-apply
       shell: bash
