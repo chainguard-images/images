@@ -1,7 +1,7 @@
 contents:
+  # envoy package comes from extra_packages
   packages:
     - su-exec
-    - envoy
     - envoy-oci-entrypoint
     - envoy-config
 
