@@ -15,6 +15,26 @@ module "latest" {
   build-dev         = true
 }
 
+module "test-latest" {
+  source  = "./tests"
+  digests = { for k, v in module.latest : k => v.image_ref }
+}
+
+resource "oci_tag" "latest" {
+  for_each = module.latest
+
+  digest_ref = each.value.image_ref
+  tag        = "latest"
+}
+
+resource "oci_tag" "latest" {
+  for_each = module.latest
+
+  digest_ref = each.value.dev_ref
+  tag        = "latest-dev"
+}
+
+// TODO: Remove this.
 module "version-tags" {
   for_each = local.components
 
@@ -23,11 +43,7 @@ module "version-tags" {
   config  = module.latest[each.key].config
 }
 
-module "test-latest" {
-  source  = "./tests"
-  digests = { for k, v in module.latest : k => v.image_ref }
-}
-
+// TODO: Remove this.
 module "tagger" {
   for_each = local.components
 
@@ -38,8 +54,8 @@ module "tagger" {
   ]
 
   tags = merge(
-    { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : t => module.latest[each.key].image_ref },
-    { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : "${t}-dev" => module.latest[each.key].dev_ref },
+    { for t in module.version-tags[each.key].tag_list : t => module.latest[each.key].image_ref },
+    { for t in module.version-tags[each.key].tag_list : "${t}-dev" => module.latest[each.key].dev_ref },
 
     # This will also tag the image with :v1, :v1.2, :v1.2.3, :v1.2.3-r4, for compatibility with upstream kustomize instructions.
     # TODO(jason): Do this for all images, not just argocd, and potentially only for `:v1.2.3` and `:v1.2.3-r4` (not `:v1` or `:v1.2`).

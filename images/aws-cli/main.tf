@@ -10,24 +10,38 @@ module "latest" {
   build-dev         = true
 }
 
+module "test-latest" {
+  source = "./tests"
+  digest = module.latest.image_ref
+}
+
+resource "oci_tag" "latest" {
+  depends_on = [module.test-latest]
+  digest_ref = module.latest.image_ref
+  tag        = "latest"
+}
+
+resource "oci_tag" "latest-dev" {
+  depends_on = [module.test-latest]
+  digest_ref = module.latest.dev_ref
+  tag        = "latest-dev"
+}
+
+// TODO: Remove this.
 module "version-tags" {
   source  = "../../tflib/version-tags"
   package = "aws-cli"
   config  = module.latest.config
 }
 
-module "test-latest" {
-  source = "./tests"
-  digest = module.latest.image_ref
-}
-
+// TODO: Remove this.
 module "tagger" {
   source = "../../tflib/tagger"
 
   depends_on = [module.test-latest]
 
   tags = merge(
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-dev" => module.latest.dev_ref },
+    { for t in module.version-tags.tag_list : t => module.latest.image_ref },
+    { for t in module.version-tags.tag_list : "${t}-dev" => module.latest.dev_ref },
   )
 }

@@ -11,23 +11,13 @@ module "latest" {
   config            = file("${path.module}/configs/latest.apko.yaml")
 }
 
-module "version-tags" {
-  source  = "../../tflib/version-tags"
-  package = "aspnet-7-runtime"
-  config  = module.latest.config
-}
-
 module "test-latest" {
   source = "./tests"
   digest = module.latest.image_ref
 }
 
-module "tagger" {
-  source = "../../tflib/tagger"
-
+resource "oci_tag" "latest" {
   depends_on = [module.test-latest]
-
-  tags = merge(
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },
-  )
+  digest_ref = module.latest.image_ref
+  tag        = "latest"
 }
