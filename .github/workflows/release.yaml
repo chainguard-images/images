@@ -66,24 +66,27 @@ jobs:
       # In some cases, we runs out of disk space during tests, so this hack frees up approx 10G.
       # See the following issue for more info: https://github.com/actions/runner-images/issues/2840#issuecomment-1284059930
       - name: Free up runner disk space
-        shell: bash
         run: |
           set -x
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+
       - uses: actions/checkout@v4 # v3.5.2
-      - id: release-image-inputs
-        name: Add additional inputs for release-image action
-        uses: chainguard-dev/actions/matrix-extra-inputs@main
+
+      - uses: hashicorp/setup-terraform@v2
         with:
-          matrix-json: ${{ toJSON(matrix) }}
-        env:
+          terraform_version: '1.3.*'
+          terraform_wrapper: false
+      # Make cosign/crane CLI available to the tests
+      - uses: sigstore/cosign-installer@v3.1.0
+      - uses: imjasonh/setup-crane@v0.3
+
+      - uses: chainguard-dev/actions/setup-chainctl@main
+        with:
           # This allows chainguard-images/images to publish images to cgr.dev/chainguard
           # We maintain this identity here:
           # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
-          EXTRA_INPUT_CHAINGUARD_IDENTITY: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
-          EXTRA_INPUT_TARGET_REPOSITORY: cgr.dev/chainguard
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:2af07abf691c0da2226076b90cbbcbb38462ca8fbe61320d9eaeb278f18b0eaa
+          identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
 
       - uses: chainguard-dev/actions/setup-k3d@main
         with:
@@ -101,14 +104,45 @@ jobs:
             echo "TF_APKO_DISABLE_VERSION_TAGS=true" >> $GITHUB_ENV
           fi
 
-      - uses: ./.github/actions/release-image-terraform
-        with: ${{ fromJSON(steps.release-image-inputs.outputs.matrix-json) }}
+      - name: Terraform apply
+        env:
+          APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:0e59c4b632ffc02ef2bd3472124d2abc7834c896e79c1d67dafea51dab09e31c
+          TF_VAR_target_repository: cgr.dev/chainguard
+        run: |
+          set -x -o pipefail
+          env | grep '^TF_VAR_'
+
+          echo ::group::terraform init
+          terraform init
+          echo ::endgroup::
+          terraform apply -auto-approve "-target=module.${{ matrix.imageName }}" -json | tee /tmp/${{ matrix.imageName }}.tf.json | jq -r '.["@message"]'
 
       - name: Collect diagnostics and upload
         if: ${{ failure() }}
         uses: chainguard-dev/actions/k8s-diag@main
         with:
           cluster-type: k3d
+
+      - name: Surface terraform warnings.
+        if: always()
+        run: grep '"@level":"warn"' /tmp/${{ matrix.imageName }}.tf.json | jq || true
+
+      - name: Surface terraform errors
+        if: failure()
+        run: grep '"@level":"error"' /tmp/${{ matrix.imageName }}.tf.json | jq  || true
+
+      - name: Upload terraform logs
+        if: always()
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3
+        with:
+          name: ${{ matrix.imageName }}.tf.json
+          path: /tmp/${{ matrix.imageName }}.tf.json
+
+      - name: Touch actions file to prevent postrun failure
+        if: always()
+        run: |
+          set -x && [[ -f .github/actions/release-image/action.yml ]] || ( \
+            mkdir -p .github/actions/release-image/ && echo 'runs: {using: composite, steps: []}' > .github/actions/release-image/action.yml )
 
       - uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
         if: ${{ failure() && github.event_name == 'schedule' }}
