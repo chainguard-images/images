@@ -10,7 +10,9 @@ variable "digest" {
 
 data "oci_exec_test" "help" {
   digest = var.digest
-  script = "${path.module}/01-help.sh"
+  # Cosign 2.1 requires a TTY
+  # https://github.com/sigstore/cosign/issues/3081
+  script = "docker run -t $IMAGE_NAME help"
 }
 
 module "sigstore-scaffolding" {

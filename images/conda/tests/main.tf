@@ -8,9 +8,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "test" {
-  for_each = toset(fileset(path.module, "*.sh"))
-
+data "oci_exec_test" "help" {
   digest = var.digest
-  script = "${path.module}/${each.value}"
+  script = "docker run --rm $IMAGE_NAME --help"
 }

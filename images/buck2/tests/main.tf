@@ -10,7 +10,7 @@ variable "digest" {
 
 data "oci_exec_test" "help" {
   digest = var.digest
-  script = "${path.module}/01-help.sh"
+  script = "docker run --rm $IMAGE_NAME help"
 }
 
 // TODO(#1054): Re-enable this when we can make it consistently pass.
