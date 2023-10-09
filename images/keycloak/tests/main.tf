@@ -30,10 +30,6 @@ resource "helm_release" "test" {
       repository = data.oci_string.ref.registry_repo,
       digest     = data.oci_string.ref.digest
     },
-    // TODO: Temp change to see if it impacts CI
-    diagnosticMode = {
-      enabled = true
-    },
     args = ["start-dev"]
   })]
 }
