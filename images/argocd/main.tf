@@ -1,3 +1,9 @@
+terraform {
+  required_providers {
+    oci = { source = "chainguard-dev/oci" }
+  }
+}
+
 variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
@@ -27,7 +33,7 @@ resource "oci_tag" "latest" {
   tag        = "latest"
 }
 
-resource "oci_tag" "latest" {
+resource "oci_tag" "latest-dev" {
   for_each = module.latest
 
   digest_ref = each.value.dev_ref

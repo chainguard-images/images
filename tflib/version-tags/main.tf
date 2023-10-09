@@ -5,8 +5,7 @@ terraform {
 }
 
 variable "config" {
-  description         = "The resolved apko configuration. This is the structured config object, not a YAML-encoded string."
-  deprecation_message = "Use the config module instead."
+  description = "The resolved apko configuration. This is the structured config object, not a YAML-encoded string."
 }
 
 variable "package" {
