@@ -166,6 +166,11 @@ module "cedar" {
   target_repository = "${var.target_repository}/cedar"
 }
 
+module "cfssl" {
+  source            = "./images/cfssl"
+  target_repository = "${var.target_repository}/cfssl"
+}
+
 module "clang" {
   source            = "./images/clang"
   target_repository = "${var.target_repository}/clang"
