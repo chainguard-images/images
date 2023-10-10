@@ -11,8 +11,7 @@ SIDECARLOGRESULTS_IMAGE=${SIDECARLOGRESULTS_IMAGE:-gcr.io/tekton-releases/github
 WEBHOOK_IMAGE=${WEBHOOK_IMAGE:-gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/webhook:v0.49.0}
 WORKINGDIRINIT_IMAGE=${WORKINGDIRINIT_IMAGE:-gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/workingdirinit:v0.49.0}
 
-# TODO(jason): Use latest when it's kept up to date with releases.
-curl -sL https://storage.googleapis.com/tekton-releases/pipeline/previous/v0.52.0/release.yaml | \
+curl -sL https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml | \
     sed "s|gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/controller[a-z0-9:@.]\{1,\}|${CONTROLLER_IMAGE}|g" | \
     sed "s|gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/entrypoint[a-z0-9:@.]\{1,\}|${ENTRYPOINT_IMAGE}|g" | \
     sed "s|gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/events[a-z0-9:@.]\{1,\}|${EVENTS_IMAGE}|g" | \
