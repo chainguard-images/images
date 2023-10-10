@@ -141,6 +141,11 @@ module "busybox" {
   }
 }
 
+module "caddy" {
+  source            = "./images/caddy"
+  target_repository = "${var.target_repository}/caddy"
+}
+
 module "cadvisor" {
   source            = "./images/cadvisor"
   target_repository = "${var.target_repository}/cadvisor"
