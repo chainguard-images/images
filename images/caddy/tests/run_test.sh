@@ -2,11 +2,14 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-ID=$(docker run -p 2019 -d ${IMAGE_NAME})
+echo "hello world" > index.html
+ID=$(docker run -p ${FREE_PORT}:80 -v $PWD/index.html:/usr/share/caddy/index.html -v $PWD/Caddyfile:/etc/caddy/Caddyfile -d ${IMAGE_NAME} run --config /etc/caddy/Caddyfile)
 
 docker logs $ID
 
-trap "docker logs $ID; docker stop $ID" EXIT
+trap "docker logs $ID && docker rm -f $ID" EXIT
+sleep 5
 
-# The healthcheck endpoint requires auth, so just hit the normal URL.
-curl localhost:$(docker port $ID | cut -d ' ' -f 3)
+# The healthcheck endpoin
+curl http://localhost:${FREE_PORT} | grep "hello world"
+
