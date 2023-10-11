@@ -2,7 +2,7 @@ terraform {
   required_providers {
     cosign = {
       source  = "chainguard-dev/cosign"
-      version = "0.0.13"
+      version = "0.0.14"
     }
     apko = {
       source  = "chainguard-dev/apko"
