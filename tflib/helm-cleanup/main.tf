@@ -14,7 +14,6 @@ resource "null_resource" "cleanup" {
     command = <<EOF
     set -ex
     helm list -n ${var.namespace}
-    helm get all -n ${var.namespace} ${var.name}
     helm uninstall -n ${var.namespace} ${var.name} --wait
     EOF
   }
