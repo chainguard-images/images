@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install (e.g. openjdk-17-default-jvm)."
-  default     = ["default-jvm-lts"]
+  default     = ["default-jvm"]
 }
 
 data "apko_config" "this" {
