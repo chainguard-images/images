@@ -25,33 +25,31 @@ resource "random_integer" "port" {
   max = 60000
 }
 
-resource "helm_release" "kube-prometheus-stack" {
-  name       = "prometheus-${random_id.hex.hex}"
-  repository = "https://prometheus-community.github.io/helm-charts"
-  chart      = "kube-prometheus-stack"
+resource "helm_release" "bitnami" {
+  name       = "prometheus-node-bitnami-${random_id.hex.hex}"
+  repository = "oci://registry-1.docker.io/bitnamicharts"
+  chart      = "node-exporter"
 
-  namespace        = "prometheus-${random_id.hex.hex}"
+  namespace        = "prometheus-node-bitnami-${random_id.hex.hex}"
   create_namespace = true
 
   values = [
     jsonencode({
-      prometheus-node-exporter = {
-        service = {
-          port       = random_integer.port.result
-          nodePort   = random_integer.port.result
-          targetPort = random_integer.port.result
+      service = {
+        ports = {
+          metrics = random_integer.port.result
         }
-        image = {
-          registry   = data.oci_string.ref.registry
-          repository = data.oci_string.ref.repo
-          digest     = data.oci_string.ref.digest
-        }
+      }
+      image = {
+        registry   = data.oci_string.ref.registry
+        repository = data.oci_string.ref.repo
+        digest     = data.oci_string.ref.digest
       }
   })]
 }
 
 data "oci_exec_test" "node-runs" {
-  depends_on = [helm_release.kube-prometheus-stack]
+  depends_on = [helm_release.bitnami]
 
   digest      = var.digest
   script      = "./node-runs.sh ${random_id.hex.hex}"
@@ -62,9 +60,9 @@ data "oci_exec_test" "node-runs" {
   }]
 }
 
-module "helm_cleanup" {
+module "helm_cleanup_bitnami" {
   depends_on = [data.oci_exec_test.node-runs]
   source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.kube-prometheus-stack.id
-  namespace  = helm_release.kube-prometheus-stack.namespace
+  name       = helm_release.bitnami.id
+  namespace  = helm_release.bitnami.namespace
 }
