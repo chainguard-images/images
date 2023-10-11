@@ -29,8 +29,11 @@ module "latest" {
 }
 
 module "test-latest" {
-  source  = "./tests"
-  digests = { for k, v in module.latest : k => v.image_ref }
+  source = "../sigstore-scaffolding/tests"
+  trillian-images = {
+    logserver = module.latest["logserver"].image_ref
+    logsigner = module.latest["logsigner"].image_ref
+  }
 }
 
 resource "oci_tag" "latest" {
