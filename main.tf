@@ -677,6 +677,11 @@ module "newrelic" {
   license_key       = var.newrelic_license_key
 }
 
+module "nfs-subdir-external-provisioner" {
+  source            = "./images/nfs-subdir-external-provisioner"
+  target_repository = "${var.target_repository}/nfs-subdir-external-provisioner"
+}
+
 module "nginx" {
   source            = "./images/nginx"
   target_repository = "${var.target_repository}/nginx"
