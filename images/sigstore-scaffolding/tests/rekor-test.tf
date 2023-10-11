@@ -59,4 +59,9 @@ resource "kubernetes_job_v1" "check_rekor" {
   }
 
   wait_for_completion = true
+  // Give this time to complete on a potentially busy cluster.
+  timeouts {
+    create = "5m"
+    update = "5m"
+  }
 }

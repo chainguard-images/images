@@ -131,4 +131,9 @@ resource "kubernetes_job_v1" "keyless_sign_verify" {
   }
 
   wait_for_completion = true
+  // Give this time to complete on a potentially busy cluster.
+  timeouts {
+    create = "5m"
+    update = "5m"
+  }
 }
