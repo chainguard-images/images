@@ -8,28 +8,17 @@ set -o errexit -o nounset -o errtrace -o pipefail
 # I am testing only that the proxy does in fact intercept a call to a specified endpoint to demand
 # auth (but am not verifying successful auth and redirect)
 
-
-# Find an unused tcp port (http)
-port_num=8080
-i=49152; while [ $i -ne 65535 ]; do
-  if netstat -tln | grep :$i >/dev/null; then
-    i=$(($i+1))
-  else
-    port_num=$i; break
-  fi
-done
-
 container_name="testing-oauth2-redirect-interception"
 
 # cookie-secret: Randomly generated (head -c32 /dev/urandom | base64), required by API but no functional utility here
 # redirect-url: Oauth application's callback url
 # upstream-file: Target of redirect
-docker run --detach --name "${container_name}" -p $port_num:$port_num "${IMAGE_NAME}" \
+docker run --detach --name "${container_name}" -p ${FREE_PORT}:${FREE_PORT} "${IMAGE_NAME}" \
   --cookie-secure=false \
   --cookie-secret=RYC2VBUYWQ6aenOkoN6jELQsrjtmwb23a7NdtrLI0ao= \
   --upstream=file:///dev/null \
-  --http-address=0.0.0.0:$port_num \
-  --redirect-url=http://localhost:${port_num}/oauth2/callback \
+  --http-address=0.0.0.0:${FREE_PORT} \
+  --redirect-url=http://localhost:${FREE_PORT}/oauth2/callback \
   --client-id=dummy-id \
   --client-secret=dummy-secret \
   --email-domain="*" \
@@ -55,7 +44,7 @@ if ! "${config_text_present}"; then exit 1; fi
 # curl the redirect url and confirm proxy intercepts request to demand GitHub auth
 tmp_file=$(mktemp)
 
-curl "http://localhost:${port_num}" -o "${tmp_file}"
+curl "http://localhost:${FREE_PORT}" -o "${tmp_file}"
 lookup_intercept_text="Sign in with GitHub"
 if ! grep -q "${lookup_intercept_text}" "${tmp_file}"; then
   exit 1
