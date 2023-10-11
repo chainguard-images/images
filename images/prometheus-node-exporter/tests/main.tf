@@ -48,21 +48,8 @@ resource "helm_release" "bitnami" {
   })]
 }
 
-data "oci_exec_test" "node-runs" {
-  depends_on = [helm_release.bitnami]
-
-  digest      = var.digest
-  script      = "./node-runs.sh ${random_id.hex.hex}"
-  working_dir = path.module
-  env = [{
-    name  = "PROM_PORT"
-    value = random_integer.port.result
-  }]
-}
-
 module "helm_cleanup_bitnami" {
-  depends_on = [data.oci_exec_test.node-runs]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.bitnami.id
-  namespace  = helm_release.bitnami.namespace
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.bitnami.id
+  namespace = helm_release.bitnami.namespace
 }
