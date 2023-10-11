@@ -157,3 +157,14 @@ output "dev_ref" {
 output "config" {
   value = module.this.config
 }
+
+data "apko_tags" "tags" {
+  count          = var.main_package == "" ? 0 : 1
+  config         = module.this.config
+  target_package = var.main_package
+}
+
+
+output "tag_list" {
+  value = var.main_package == "" ? [] : data.apko_tags.tags[0].tags
+}
