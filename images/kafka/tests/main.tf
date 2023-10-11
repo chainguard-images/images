@@ -32,6 +32,16 @@ resource "helm_release" "bitnami" {
       digest     = data.oci_string.ref.digest
     }
   })]
+
+  set {
+    name  = "extraEnvVars[0].name"
+    value = "ALLOW_PLAINTEXT_LISTENER"
+  }
+
+  set {
+    name  = "extraEnvVars[0].value"
+    value = "yes"
+  }
 }
 
 module "helm-cleanup" {
