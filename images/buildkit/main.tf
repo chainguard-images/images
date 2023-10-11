@@ -49,26 +49,14 @@ module "rootless" {
 
 */
 
-module "tagger" {
-  source = "../../tflib/tagger"
+resource "oci_tag" "latest" {
+  depends_on = [module.test-latest]
+  digest_ref = module.latest.image_ref
+  tag        = "latest"
+}
 
-  tags = merge(
-    /*
-    { for t in module.rootless.tag_list : "${t}-rootless" => module.rootless.image_ref },
-    { for t in module.rootless.tag_list : "${t}-rootless-dev" => module.rootless.image_ref },
-    {
-      
-      "rootless": module.rootless.image_ref,
-      "rootless-dev": module.rootless.dev_ref,
-    },
-    */
-
-    { for t in module.latest.tag_list : "${t}" => module.latest.image_ref },
-    { for t in module.latest.tag_list : "${t}-dev" => module.latest.image_ref },
-    {
-      "latest" : module.latest.image_ref,
-      "latest-dev" : module.latest.dev_ref,
-    },
-
-  )
+resource "oci_tag" "latest-dev" {
+  depends_on = [module.test-latest]
+  digest_ref = module.latest.dev_ref
+  tag        = "latest-dev"
 }

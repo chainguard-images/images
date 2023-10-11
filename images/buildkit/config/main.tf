@@ -10,14 +10,6 @@ variable "extra_packages" {
   default     = []
 }
 
-module "rootfull" {
-  source = "../../../tflib/accts"
-  name   = "root"
-  uid    = 0
-  gid    = 0
-  run-as = 0
-}
-
 module "rootless" { source = "../../../tflib/accts" }
 
 output "config" {
