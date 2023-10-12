@@ -128,7 +128,7 @@ data "oci_structure_test" "structure" {
     files {
       path = "/etc/apk/repositories"
       // Allow Wolfi, and possibly others added by --var=extra_repositories=...
-      regex = "^https://packages.wolfi.dev/os",
+      regex = "^https://packages.wolfi.dev/os"
     }
     files { path = "/etc/os-release" } // TODO: we can check the contents
   }
