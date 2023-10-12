@@ -1,13 +1,11 @@
 package commands
 
 import (
-	"bufio"
 	"errors"
 	"fmt"
 	"io"
 	"os"
 	"path/filepath"
-	"strings"
 	"text/template"
 
 	"github.com/spf13/cobra"
@@ -46,7 +44,6 @@ var (
 	copyOutputMappings = map[string]string{
 		"main-test.tf":    filepath.Join(TestsFolder, "main.tf"),
 		"EXAMPLE_TEST.sh": filepath.Join(TestsFolder, "EXAMPLE_TEST.sh"),
-		"README.md":       "README.md",
 	}
 )
 
@@ -134,10 +131,6 @@ func (o scaffoldOptions) runScaffold() error {
 	}
 
 	if err := o.copyNonScaffoldedFiles(); err != nil {
-		return err
-	}
-
-	if err := o.addModuleToMainTf(); err != nil {
 		return err
 	}
 
@@ -278,76 +271,6 @@ func (o scaffoldOptions) copyNonScaffoldedFiles() error {
 			return err
 		}
 	}
-
-	return nil
-}
-
-func (o scaffoldOptions) addModuleToMainTf() error {
-	// Define the module source
-	moduleSource := "./images/%s"
-
-	// Define the target repository
-	targetRepository := "${var.target_repository}"
-
-	file, err := os.OpenFile(outputMappings[MainTfTemplate], os.O_RDWR, os.ModePerm)
-	if err != nil {
-		fmt.Printf("Error opening file: %v\n", err)
-		os.Exit(1)
-	}
-	defer file.Close()
-
-	// Create a slice to hold the lines of the updated content
-	var updatedContent []string
-
-	// Track whether the module block has been inserted
-	moduleInserted := false
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := scanner.Text()
-
-		// Check if this is where the module block should be inserted
-		if !moduleInserted && strings.HasPrefix(line, "module ") {
-			l := strings.TrimPrefix(strings.ReplaceAll(strings.TrimSuffix(line, " {"), "\"", ""), "module ")
-			if strings.Compare(o.PackageName, l) == 0 {
-				return fmt.Errorf("module %s block already exists in main.tf", o.PackageName)
-			}
-			if strings.Compare(o.PackageName, l) < 0 {
-				// Insert the new module block here
-				updatedContent = append(updatedContent,
-					fmt.Sprintf("module \"%s\" {", o.PackageName),
-					fmt.Sprintf("  source            = \"%s\"", fmt.Sprintf(moduleSource, o.PackageName)),
-					fmt.Sprintf("  target_repository = \"%s/%s\"", targetRepository, o.PackageName), "}",
-					fmt.Sprintf(""), // this line will be added as a blank line after the new module added
-				)
-				moduleInserted = true
-			}
-		}
-
-		// Append the current line to the updated content
-		updatedContent = append(updatedContent, line)
-	}
-
-	// If the module block wasn't inserted, append it to the end
-	if !moduleInserted {
-		updatedContent = append(updatedContent,
-			fmt.Sprintf("module \"%s\" {", o.PackageName),
-			fmt.Sprintf("  source            = \"%s\"", fmt.Sprintf(moduleSource, o.PackageName)),
-			fmt.Sprintf("  target_repository = \"%s/%s\"", targetRepository, o.PackageName), "}",
-			fmt.Sprintf(""), // this line will be added as a blank line after the new module added
-		)
-	}
-
-	// Truncate the file to remove any remaining content
-	file.Truncate(0)
-	file.Seek(0, 0)
-
-	// Write the updated content back to the file
-	writer := bufio.NewWriter(file)
-	for _, line := range updatedContent {
-		fmt.Fprintln(writer, line)
-	}
-	writer.Flush()
 
 	return nil
 }

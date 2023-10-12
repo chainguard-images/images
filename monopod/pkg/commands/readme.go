@@ -14,6 +14,39 @@ import (
 	"github.com/chainguard-images/images/monopod/pkg/images"
 )
 
+<<<<<<< Updated upstream
+=======
+// const hclTemplate = `name      = "%s"
+// image     = "%s"
+// overview  = "A sentence describing the image"
+// body      = <<EOBODY
+// EOBODY
+// logo      = "https://storage.googleapis.com/chainguard-academy/logos/%s.svg"
+// endoflife = ""
+// `
+
+type completeReadme struct {
+	Body      string `tfsdk:"body" hcl:"body"`
+	Overview  string `tfsdk:"overview" hcl:"overview"`
+	Image     string `tfsdk:"image" hcl:"image"`
+	Name      string `tfsdk:"name" hcl:"name"`
+	Logo      string `tfsdk:"logo" hcl:"logo"`
+	EndOfLife string `tfsdk:"endoflife" hcl:"endoflife"`
+}
+
+type templateData struct {
+	Readme *completeReadme
+}
+
+var (
+	templates = template.Must(
+		template.New("").
+			Funcs(template.FuncMap{}).
+			ParseGlob(filepath.Join(os.Getenv("PWD"), "monopod/pkg/commands/templates/*.tpl")),
+	)
+)
+
+>>>>>>> Stashed changes
 func Readme() *cobra.Command {
 	ro := &options.ReadmeOptions{}
 	cmd := &cobra.Command{
@@ -115,6 +148,7 @@ func (i *readmeImpl) fixAllReadmes() error {
 	})
 	for _, i := range allImages {
 		img := i.ImageName
+<<<<<<< Updated upstream
 		// Generate the section to prepend to beginning of file
 		readmeInsert := fmt.Sprintf("# %s\n| | |\n| - | - |\n", img)
 		readmeInsert += fmt.Sprintf("| **OCI Reference** | `cgr.dev/chainguard/%s` |\n", img)
@@ -153,7 +187,30 @@ func (i *readmeImpl) fixAllReadmes() error {
 					return err
 				}
 			}
+=======
+		filename := path.Join(constants.ImagesDirName, img, "README.hcl")
+
+		var readme completeReadme
+		err := hclsimple.DecodeFile(filename, nil, &readme)
+		if err != nil {
+			// does not yet exist, create it!
+			fmt.Printf("Error opening %s: %#v\n", filename, err)
+
+>>>>>>> Stashed changes
 		}
+
+		doc := new(bytes.Buffer)
+		err = templates.ExecuteTemplate(doc, "README.md.tpl", templateData{
+			Readme: &readme,
+		})
+		if err != nil {
+			return err
+		}
+		err = os.WriteFile(filename, doc.Bytes(), 0o644)
+		if err != nil {
+			return err
+		}
+
 	}
 	return nil
 }
