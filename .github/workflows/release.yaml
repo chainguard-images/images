@@ -83,11 +83,11 @@ jobs:
           # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
           EXTRA_INPUT_CHAINGUARD_IDENTITY: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
           EXTRA_INPUT_TARGET_REPOSITORY: cgr.dev/chainguard
-          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:1a818567c955e91614303faa6dbc94fbdba3f6e4dac914b0fcdee480b8e5c6c7
+          EXTRA_INPUT_APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:2af07abf691c0da2226076b90cbbcbb38462ca8fbe61320d9eaeb278f18b0eaa
 
       - uses: chainguard-dev/actions/setup-k3d@main
         with:
-          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:3aa5725385b6b41b1c30dce4b24e49c7cb3f3fbde65e54f09b85ff3e2f5cf098
+          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:5bf7e7eebcff66a03f360511155b90732dd2b9ebcf4079bbf0c3d9501d717ddc
 
       # Disable creating new version tags.
       - run: |

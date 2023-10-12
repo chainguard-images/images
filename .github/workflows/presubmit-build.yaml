@@ -16,7 +16,7 @@ jobs:
       - run: terraform fmt -check -recursive -diff
       - run: ./lint.sh
       - name: Enforce YAML formatting
-        uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:af90b214067afca5c015245d04d01c23ae612e9b14d00cc2ad33f2501bf8bef9
+        uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:9437d20a511dd2db6393f7cf1a29cbc89df5fd4304389d040c1e722165b7fe03
         with:
           entrypoint: wolfictl
           args: lint yam images/
@@ -56,7 +56,7 @@ jobs:
 
       - uses: chainguard-dev/actions/setup-k3d@main
         with:
-          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:3aa5725385b6b41b1c30dce4b24e49c7cb3f3fbde65e54f09b85ff3e2f5cf098
+          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:5bf7e7eebcff66a03f360511155b90732dd2b9ebcf4079bbf0c3d9501d717ddc
 
       # Disable version tags.
       - run: |
