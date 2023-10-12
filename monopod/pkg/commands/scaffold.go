@@ -18,7 +18,7 @@ const (
 	MainConfigTfTemplate = "main-config.tf.tpl"
 	ApkoTemplate         = "template.apko.yaml.tpl"
 
-	ConfigsFolder   = "configs"
+	ConfigFolder    = "config"
 	TestsFolder     = "tests"
 	GeneratedFolder = "generated"
 )
@@ -112,7 +112,7 @@ func (o scaffoldOptions) runScaffold() error {
 	}
 
 	// this file should be written in the configs directory
-	mainConfigTfOutfile, err := o.createOutputFile(filepath.Join(ConfigsFolder, outputMappings[MainConfigTfTemplate]))
+	mainConfigTfOutfile, err := o.createOutputFile(filepath.Join(ConfigFolder, outputMappings[MainConfigTfTemplate]))
 	if err != nil {
 		return err
 	}
@@ -123,7 +123,7 @@ func (o scaffoldOptions) runScaffold() error {
 	}
 
 	// this file should be written in the configs directory
-	apkoOutfile, err := o.createOutputFile(filepath.Join(ConfigsFolder, outputMappings[ApkoTemplate]))
+	apkoOutfile, err := o.createOutputFile(filepath.Join(ConfigFolder, outputMappings[ApkoTemplate]))
 	if err != nil {
 		return err
 	}
@@ -175,7 +175,7 @@ func (o scaffoldOptions) createOutputFolderStructure() error {
 		return fmt.Errorf("unable to generate target folder %s: %w", path, err)
 	}
 
-	for _, f := range []string{ConfigsFolder, TestsFolder} {
+	for _, f := range []string{ConfigFolder, TestsFolder} {
 		subPath := filepath.Join(path, f)
 		if err := os.MkdirAll(subPath, os.ModePerm); err != nil {
 			return fmt.Errorf("unable to generate target folder %s: %w", subPath, err)
