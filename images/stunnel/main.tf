@@ -11,11 +11,11 @@ variable "target_repository" {
 module "latest-config" { source = "./config" }
 
 module "latest" {
-  source            = "../../tflib/publisher"
-  name              = basename(path.module)
-  target_repository = var.target_repository
-  config            = module.latest-config.config
-  build-dev         = true
+  source             = "../../tflib/publisher"
+  name               = basename(path.module)
+  target_repository  = var.target_repository
+  config             = module.latest-config.config
+  extra_dev_packages = ["curl"]
 }
 
 module "test-latest" {
