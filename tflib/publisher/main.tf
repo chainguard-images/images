@@ -128,8 +128,8 @@ data "oci_structure_test" "structure" {
     files {
       path = "/etc/apk/repositories"
       // Allow Wolfi, and possibly others added by --var=extra_repositories=...
-        // Anything passed via extra_repositories ends up before Wolfi.
-        // Wolfi is last.
+      // Anything passed via extra_repositories ends up before Wolfi.
+      // Wolfi is last.
       regex = "https://packages.wolfi.dev/os\n$"
     }
     files {
