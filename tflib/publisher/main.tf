@@ -133,8 +133,9 @@ data "oci_structure_test" "structure" {
       regex = "https://packages.wolfi.dev/os\n$"
     }
     files {
-      path  = "/etc/os-release"
-      regex = "PRETTY_NAME=\"Wolfi\""
+      path = "/etc/os-release"
+      // TODO: Check this iff we're building on Wolfi (not static,busybox,git
+      //regex = "PRETTY_NAME=\"Wolfi\""
     }
   }
 
