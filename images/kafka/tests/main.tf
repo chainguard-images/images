@@ -30,8 +30,11 @@ resource "helm_release" "bitnami" {
       registry   = data.oci_string.ref.registry
       repository = data.oci_string.ref.repo
       digest     = data.oci_string.ref.digest
-      debug      = true
     }
+    command = [
+      "/scripts/postunpack.sh",
+      "/scripts/setup.sh"
+    ]
   })]
 
   # ref https://github.com/bitnami/containers/issues/33796#issuecomment-1568061626
