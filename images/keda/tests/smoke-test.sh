@@ -15,6 +15,9 @@ kubectl apply -f $SCRIPT_DIR/test-deployment.yaml -n default
 
 sleep 5
 
+# Wait for the replicaset to be ready and old pods to terminated
+kubectl rollout status deployment/test-deployment --timeout=120s -n default
+
 kubectl wait --for=condition=ready pod --selector app=test --timeout=120s -n default
 
 # Use the keda autoscaler to scale the test deployment
