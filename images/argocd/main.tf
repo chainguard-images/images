@@ -39,32 +39,3 @@ resource "oci_tag" "latest-dev" {
   digest_ref = each.value.dev_ref
   tag        = "latest-dev"
 }
-
-// TODO: Remove this.
-module "version-tags" {
-  for_each = local.components
-
-  source  = "../../tflib/version-tags"
-  package = (each.key == "argocd" ? "argo-cd-2.8" : "argo-cd-2.8-repo-server")
-  config  = module.latest[each.key].config
-}
-
-// TODO: Remove this.
-module "tagger" {
-  for_each = local.components
-
-  source = "../../tflib/tagger"
-
-  depends_on = [
-    module.test-latest,
-  ]
-
-  tags = merge(
-    { for t in module.version-tags[each.key].tag_list : t => module.latest[each.key].image_ref },
-    { for t in module.version-tags[each.key].tag_list : "${t}-dev" => module.latest[each.key].dev_ref },
-
-    # This will also tag the image with :v1, :v1.2, :v1.2.3, :v1.2.3-r4, for compatibility with upstream kustomize instructions.
-    # TODO(jason): Do this for all images, not just argocd, and potentially only for `:v1.2.3` and `:v1.2.3-r4` (not `:v1` or `:v1.2`).
-    { for t in module.version-tags[each.key].tag_list : "v${t}" => module.latest[each.key].image_ref },
-  )
-}

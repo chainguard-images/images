@@ -32,22 +32,3 @@ resource "oci_tag" "latest-dev" {
   digest_ref = module.latest.dev_ref
   tag        = "latest-dev"
 }
-
-// TODO: Remove this.
-module "version-tags" {
-  source  = "../../tflib/version-tags"
-  package = "aws-cli"
-  config  = module.latest.config
-}
-
-// TODO: Remove this.
-module "tagger" {
-  source = "../../tflib/tagger"
-
-  depends_on = [module.test-latest]
-
-  tags = merge(
-    { for t in module.version-tags.tag_list : t => module.latest.image_ref },
-    { for t in module.version-tags.tag_list : "${t}-dev" => module.latest.dev_ref },
-  )
-}
