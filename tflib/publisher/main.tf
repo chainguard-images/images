@@ -54,7 +54,6 @@ variable "name" {
   description = "Name of the image, which gets used in the image annotations."
 }
 
-
 locals {
   build-dev = var.build-dev || length(var.extra_dev_packages) > 0
 }

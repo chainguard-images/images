@@ -1,3 +1,9 @@
+terraform {
+  required_providers {
+    oci = { source = "chainguard-dev/oci" }
+  }
+}
+
 variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
@@ -15,34 +21,21 @@ module "latest" {
   build-dev         = true
 }
 
-module "version-tags" {
-  for_each = local.components
-
-  source  = "../../tflib/version-tags"
-  package = (each.key == "argocd" ? "argo-cd-2.8" : "argo-cd-2.8-repo-server")
-  config  = module.latest[each.key].config
-}
-
 module "test-latest" {
   source  = "./tests"
   digests = { for k, v in module.latest : k => v.image_ref }
 }
 
-module "tagger" {
-  for_each = local.components
+resource "oci_tag" "latest" {
+  for_each = module.latest
 
-  source = "../../tflib/tagger"
+  digest_ref = each.value.image_ref
+  tag        = "latest"
+}
 
-  depends_on = [
-    module.test-latest,
-  ]
+resource "oci_tag" "latest-dev" {
+  for_each = module.latest
 
-  tags = merge(
-    { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : t => module.latest[each.key].image_ref },
-    { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : "${t}-dev" => module.latest[each.key].dev_ref },
-
-    # This will also tag the image with :v1, :v1.2, :v1.2.3, :v1.2.3-r4, for compatibility with upstream kustomize instructions.
-    # TODO(jason): Do this for all images, not just argocd, and potentially only for `:v1.2.3` and `:v1.2.3-r4` (not `:v1` or `:v1.2`).
-    { for t in module.version-tags[each.key].tag_list : "v${t}" => module.latest[each.key].image_ref },
-  )
+  digest_ref = each.value.dev_ref
+  tag        = "latest-dev"
 }
