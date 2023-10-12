@@ -15,6 +15,7 @@ const (
 	MainTfTemplate       = "main.tf.tpl"
 	MainConfigTfTemplate = "main-config.tf.tpl"
 	ApkoTemplate         = "template.apko.yaml.tpl"
+	MainReadme           = "README.hcl.tpl"
 
 	ConfigsFolder   = "configs"
 	TestsFolder     = "tests"
@@ -39,6 +40,7 @@ var (
 		MainTfTemplate:       "main.tf",
 		MainConfigTfTemplate: "main.tf",
 		ApkoTemplate:         "latest.apko.yaml",
+		MainReadme:           "README.hcl",
 	}
 
 	copyOutputMappings = map[string]string{
@@ -127,6 +129,17 @@ func (o scaffoldOptions) runScaffold() error {
 	defer apkoOutfile.Close()
 
 	if err := o.scaffoldApkoYaml(apkoOutfile); err != nil {
+		return err
+	}
+
+	// this file should be written in the configs directory
+	readmeOutfile, err := o.createOutputFile(outputMappings[MainReadme])
+	if err != nil {
+		return err
+	}
+	defer readmeOutfile.Close()
+
+	if err := o.scaffoldMainReadme(readmeOutfile); err != nil {
 		return err
 	}
 
@@ -257,6 +270,16 @@ func (o scaffoldOptions) scaffoldApkoYaml(writer io.Writer) error {
 // scaffoldMainConfigTerraform
 func (o scaffoldOptions) scaffoldMainConfigTerraform(writer io.Writer) error {
 	tmpl, err := o.loadTemplateFile(MainConfigTfTemplate)
+	if err != nil {
+		return err
+	}
+
+	return o.processTemplate(tmpl, writer)
+}
+
+// scaffoldMainReadme
+func (o scaffoldOptions) scaffoldMainReadme(writer io.Writer) error {
+	tmpl, err := o.loadTemplateFile(MainReadme)
 	if err != nil {
 		return err
 	}

@@ -5,3 +5,4 @@ logo      = "https://storage.googleapis.com/chainguard-academy/logos/{{ .Readme.
 endoflife = ""
 body      = <<EOBODY
 EOBODY
+

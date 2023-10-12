@@ -71,6 +71,7 @@ func (r *renderReadmeImpl) renderReadme() error {
 		return err
 	}
 
+	filename = path.Join(constants.ImagesDirName, r.Image, "README.md")
 	err = os.WriteFile(filename, doc.Bytes(), 0o644)
 	if err != nil {
 		return err

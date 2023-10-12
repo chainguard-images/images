@@ -11,6 +11,8 @@ type ReadmeOptions struct {
 	RootReadmeToStdout bool
 	Check              bool
 	DefaultRegistry    string
+	New                bool
+	Render             bool
 }
 
 func (o *ReadmeOptions) AddFlags(cmd *cobra.Command) {
@@ -24,4 +26,22 @@ func (o *ReadmeOptions) AddFlags(cmd *cobra.Command) {
 		"only generate the root README.md to stdout (does not modify files)")
 	cmd.Flags().BoolVar(&o.Check, "check", false,
 		"simply check to make sure all README.md files are up-to-date")
+}
+
+type NewReadmeOptions struct {
+	Image string
+}
+
+func (o *NewReadmeOptions) AddFlags(cmd *cobra.Command) {
+	cmd.Flags().StringVar(&o.Image, "image", "",
+		"name of the image to add a README.hcl")
+}
+
+type RenderReadmeOptions struct {
+	Image string
+}
+
+func (o *RenderReadmeOptions) AddFlags(cmd *cobra.Command) {
+	cmd.Flags().StringVar(&o.Image, "image", "",
+		"name of the image to render README.hcl into README.md")
 }
