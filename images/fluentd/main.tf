@@ -75,3 +75,7 @@ resource "oci_tag" "latest-splunk-dev" {
   digest_ref = module.latest-splunk.dev_ref
   tag        = "latest-splunk-dev"
 }
+
+output "latest-splunk-config" {
+    value = module.latest-splunk.config
+}
