@@ -110,6 +110,10 @@ data "oci_exec_test" "check-reproducibility" {
   timeout_seconds = 600
 }
 
+locals {
+  is_wolfi = !endswith(var.target_repository, "/busybox") && !endswith(var.target_repository, "/static") && !endswith(var.target_repository, "/git")
+}
+
 data "oci_structure_test" "structure" {
   digest = data.oci_exec_test.check-reproducibility.tested_ref
 
@@ -123,20 +127,30 @@ data "oci_structure_test" "structure" {
     //  key   = "PATH"
     //  value = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
     //}
-    files { path = "/etc/ssl/certs/ca-certificates.crt" }
-    files { path = "/lib/apk/db/installed" }
-    files {
-      path = "/etc/apk/repositories"
-      // Allow Wolfi, and possibly others added by --var=extra_repositories=...
-      // Anything passed via extra_repositories ends up before Wolfi.
-      // Wolfi is last.
-      regex = "https://packages.wolfi.dev/os\n$"
-    }
-    files {
-      path = "/etc/os-release"
-      // TODO: Check this iff we're building on Wolfi (not static,busybox,git
-      //regex = "PRETTY_NAME=\"Wolfi\""
-    }
+
+    files = [
+      {
+        path  = "/etc/ssl/certs/ca-certificates.crt"
+        regex = ""
+      },
+      {
+        path  = "/lib/apk/db/installed"
+        regex = ""
+      },
+      {
+        path = "/etc/os-release"
+        // Wolfi images report as Wolfi.
+        // Non-Wolfi images (static, busybox, git) report as Alpine, and are exempt from this check.
+        regex = local.is_wolfi ? "" : "PRETTY_NAME=\"Wolfi\""
+      },
+      {
+        path = "/etc/apk/repositories"
+        // Allow Wolfi, and possibly others added by --var=extra_repositories=...
+        // Anything passed via extra_repositories ends up before Wolfi.
+        // Wolfi is last.
+        regex = local.is_wolfi ? "" : "https://packages.wolfi.dev/os\n$"
+      }
+    ]
   }
 
   lifecycle {
@@ -146,7 +160,7 @@ data "oci_structure_test" "structure" {
     }
     precondition {
       condition     = startswith(module.this.config.annotations["org.opencontainers.image.url"], "https://edu.chainguard.dev/chainguard/chainguard-images/reference/")
-      error_message = "image.url annotation must be edu.chainguard.dev (got '${module.this.config.annotations["org.opencontainers.image.url"]}')"
+      error_message = "image.uri annotation must be edu.chainguard.dev (got '${module.this.config.annotations["org.opencontainers.image.url"]}')"
     }
     precondition {
       condition     = startswith(module.this.config.annotations["org.opencontainers.image.source"], "https://github.com/chainguard-images/images/tree/main/images/")
