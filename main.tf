@@ -266,6 +266,11 @@ module "dotnet" {
   target_repository = "${var.target_repository}/dotnet"
 }
 
+module "dynamic-localpv-provisioner" {
+  source            = "./images/dynamic-localpv-provisioner"
+  target_repository = "${var.target_repository}/dynamic-localpv-provisioner"
+}
+
 module "envoy" {
   source            = "./images/envoy"
   target_repository = "${var.target_repository}/envoy"
