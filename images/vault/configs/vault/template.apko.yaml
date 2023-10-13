@@ -1,7 +1,5 @@
 contents:
   packages:
-    - vault
-    - vault-entrypoint
 
 accounts:
   groups:
