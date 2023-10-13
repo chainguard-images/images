@@ -14,13 +14,6 @@ locals {
     "ruby3.2-bundler",
     "ruby-3.2-dev",
   ]
-
-  splunk = [
-    "ruby3.2-fluent-plugin-splunk-hec",
-    "ruby3.2-fluent-plugin-prometheus",
-    "ruby3.2-fluent-plugin-rewrite-tag-filter",
-    "net-tools", # hostname command is required by rewrite-tag-filter plugin
-  ]
 }
 
 module "latest-config" { source = "./config" }
@@ -37,8 +30,7 @@ module "latest-splunk" {
   source             = "../../tflib/publisher"
   name               = basename(path.module)
   target_repository  = var.target_repository
-  config             = module.latest-config.config
-  extra_packages     = local.splunk
+  config             = module.latest-config.splunk-config
   extra_dev_packages = local.fluentd_dev
 }
 
@@ -74,8 +66,4 @@ resource "oci_tag" "latest-splunk-dev" {
   depends_on = [module.test-splunk]
   digest_ref = module.latest-splunk.dev_ref
   tag        = "latest-splunk-dev"
-}
-
-output "latest-splunk-config" {
-    value = module.latest-splunk.config
 }

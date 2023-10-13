@@ -14,6 +14,22 @@ data "apko_config" "this" {
   extra_packages  = var.extra_packages
 }
 
+data "apko_config" "splunk" {
+  config_contents = file("${path.module}/template.apko.yaml")
+  extra_packages = concat(
+    var.extra_packages,
+    [
+      "ruby3.2-fluent-plugin-splunk-hec",
+      "ruby3.2-fluent-plugin-prometheus",
+      "ruby3.2-fluent-plugin-rewrite-tag-filter",
+      "net-tools", # hostname command is required by rewrite-tag-filter plugin
+  ])
+}
+
 output "config" {
   value = jsonencode(data.apko_config.this.config)
+}
+
+output "splunk-config" {
+  value = jsonencode(data.apko_config.splunk.config)
 }
