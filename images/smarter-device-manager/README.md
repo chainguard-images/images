@@ -47,5 +47,5 @@ You'll need to override the image and tag:
 helm repo add gabe565 https://charts.gabe565.com
 helm repo update
 helm install smart-device-manager gabe565/smarter-device-manager \
- --set image.repository=ttl.sh/mark/smarter-device-manager --set image.tag=latest
+ --set image.repository=cgr.dev/chainguard/smarter-device-manager --set image.tag=latest
 ```
