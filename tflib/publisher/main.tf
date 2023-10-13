@@ -111,7 +111,7 @@ data "oci_exec_test" "check-reproducibility" {
 }
 
 locals {
-  is_wolfi = !endswith(var.target_repository, "/busybox") && !endswith(var.target_repository, "/static") && !endswith(var.target_repository, "/git")
+  is_wolfi = !endswith(var.target_repository, "busybox") && !endswith(var.target_repository, "static") && !endswith(var.target_repository, "git")
 }
 
 data "oci_structure_test" "structure" {
@@ -141,14 +141,14 @@ data "oci_structure_test" "structure" {
         path = "/etc/os-release"
         // Wolfi images report as Wolfi.
         // Non-Wolfi images (static, busybox, git) report as Alpine, and are exempt from this check.
-        regex = local.is_wolfi ? "" : "PRETTY_NAME=\"Wolfi\""
+        regex = local.is_wolfi ? "PRETTY_NAME=\"Wolfi\"" : ""
       },
       {
         path = "/etc/apk/repositories"
         // Allow Wolfi, and possibly others added by --var=extra_repositories=...
         // Anything passed via extra_repositories ends up before Wolfi.
         // Wolfi is last.
-        regex = local.is_wolfi ? "" : "https://packages.wolfi.dev/os\n$"
+        regex = local.is_wolfi ? "https://packages.wolfi.dev/os\n$" : ""
       }
     ]
   }
