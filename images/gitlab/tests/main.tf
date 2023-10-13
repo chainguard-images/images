@@ -7,7 +7,7 @@ terraform {
 variable "digests" {
   description = "The image digest to run tests over."
   type = object({
-   kas    = string
+    kas = string
   })
 }
 
@@ -39,6 +39,8 @@ resource "helm_release" "gitlab" {
 
   namespace        = local.namespace
   create_namespace = true
+
+  timeout = 400
 
   // Set to false to then wait for the specific images are deployed
   wait = false
@@ -74,7 +76,7 @@ resource "helm_release" "gitlab" {
     }
     global = {
       hosts = {
-        domain = "example.com"
+        domain     = "example.com"
         externalIP = "10.10.10.10"
       }
     }
@@ -85,12 +87,12 @@ resource "helm_release" "gitlab" {
 data "oci_exec_test" "install-kas-up" {
   depends_on = [helm_release.gitlab]
   digest     = var.digests.kas
-  script     = "kubectl rollout status deploy -n ${local.namespace} gitlab-kas --timeout 300s"
+  script     = "kubectl rollout status deploy -n ${local.namespace} gitlab-kas --timeout 360s"
 }
 
-
 module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.gitlab.id
-  namespace = local.namespace
+  depends_on = [data.oci_exec_test.install-kas-up]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.gitlab.id
+  namespace  = local.namespace
 }

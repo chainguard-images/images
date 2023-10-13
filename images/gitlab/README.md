@@ -12,11 +12,39 @@
 ---
 <!--monopod:end-->
 
-This is a template README.md for new images.
+# Gitlab Images
 
-1. Include a brief description of the image here, and instructions about how to use it.
-1. Run `monopod readme`, which will update the top section of this file and the root README.md file.
-1. Update your new `config/template.apko.yaml` file to specify packages you want the image to include, and any other necessary image config.
-1. Call this module from the `main.tf` in the root of this repo, in alphabetical order. (`lint.sh` will yell at you if you don't)
+## Get It!
 
-If you need to support version streams, you can leave `packages` empty in `latest.apko.yaml`, and instead add packages to the images using the `extra_packages` TF variable in `config/main.tf`.
+The images are available on `cgr.dev`, e.g. `gitlab-kas`:
+
+```
+docker pull cgr.dev/chainguard/gitlab-kas:latest
+```
+
+## Usage
+
+This replace the Gitlab images used in the deployment by our Chainguar images for Gitlab.
+See the [full documentation](https://docs.gitlab.com/charts/) for installation and usage.
+
+We can use the different Gitlab Chainguard images that we've built for Gitlab with the Helm chart of the project using the following commands.
+
+First, you need to install the Helm repository:
+
+```shell
+helm repo add gitlab https://charts.gitlab.io/
+helm repo update
+```
+
+Once you did this, you can install Gatekeeper to the target cluster:
+
+```shell
+    helm upgrade --install gitlab gitlab/gitlab \
+        --timeout 600s \
+        --set global.hosts.domain=example.com \
+        --set gitlab.kas.image.repository="cgr.dev/chainguard/gitlab-kas" \
+        --set gitlab.kas.image.tag="latest" \
+        --set global.hosts.externalIP=10.10.10.10 \
+        --set certmanager-issuer.email=me@example.com \
+        --set postgresql.image.tag=13.6.0
+```

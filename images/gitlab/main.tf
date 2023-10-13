@@ -11,7 +11,7 @@ variable "target_repository" {
 module "test-latest" {
   source = "./tests"
   digests = {
-    kas    = module.kas.image_ref
+    kas = module.kas.image_ref
   }
   namespace = "gitlab-${random_pet.suffix.id}"
 }
@@ -29,7 +29,7 @@ resource "oci_tag" "latest" {
 
 resource "oci_tag" "latest-dev" {
   depends_on = [module.test-latest]
-   for_each = {
+  for_each = {
     "kas" : module.kas.dev_ref,
   }
   digest_ref = each.value
