@@ -14,4 +14,4 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command: /usr/bin/ratelimit
+  command: /usr/bin/service_cmd
