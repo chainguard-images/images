@@ -31,11 +31,8 @@ paths:
     uid: 65532
     gid: 65532
 
-cmd: /opt/bitnami/scripts/kafka/run.sh
 entrypoint:
-  command: /opt/bitnami/scripts/kafka/entrypoint.sh
+  command: /opt/bitnami/scripts/kafka/entrypoint.sh /opt/bitnami/scripts/kafka/run.sh
 
 environment:
-  PATH: /opt/bitnami/common/bin:/opt/bitnami/java/bin:/opt/bitnami/kafka/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
   BITNAMI_APP_NAME: kafka
-  OS_NAME: linux
