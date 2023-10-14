@@ -31,6 +31,14 @@ resource "helm_release" "bitnami" {
       repository = data.oci_string.ref.repo
       digest     = data.oci_string.ref.digest
     }
+    controller = {
+      containerSecurityContext = {
+        runAsUser = 65532
+        # Running with a read-only filesystem fails for some
+        # reason I cannot explain.
+        readOnlyRootFilesystem = false
+      }
+    }
   })]
 }
 
