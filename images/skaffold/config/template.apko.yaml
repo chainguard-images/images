@@ -5,6 +5,8 @@ contents:
     - helm
     - kustomize
     - kpt
+    # Pin to python 3.11 until issues with 3.12 are resolved.
+    - python3~3.11
 
 paths:
   - path: /app
