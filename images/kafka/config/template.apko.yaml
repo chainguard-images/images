@@ -38,6 +38,4 @@ entrypoint:
 environment:
   PATH: /opt/bitnami/common/bin:/opt/bitnami/java/bin:/opt/bitnami/kafka/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
   BITNAMI_APP_NAME: kafka
-  JAVA_HOME: /opt/bitnami/java
   OS_NAME: linux
-
