@@ -8,30 +8,41 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "test-latest" {
-  source = "./tests"
-  digests = {
-    kas = module.kas.image_ref
-  }
-  namespace = "gitlab-${random_pet.suffix.id}"
+locals {
+  components = toset(["kas"])
 }
 
-resource "random_pet" "suffix" {}
+module "config" {
+  for_each = local.components
+  source   = "./config"
+  name     = each.key
+}
+
+module "latest" {
+  for_each = local.components
+  source   = "../../tflib/publisher"
+
+  name               = basename(path.module)
+  target_repository  = "${var.target_repository}-${each.key}"
+  config             = module.config[each.key].config
+  extra_dev_packages = ["cmctl"]
+}
+
+module "test-latest" {
+  source  = "./tests"
+  digests = { for k, v in module.latest : k => v.image_ref }
+}
 
 resource "oci_tag" "latest" {
+  for_each   = local.components
   depends_on = [module.test-latest]
-  for_each = {
-    "kas" : module.kas.image_ref,
-  }
-  digest_ref = each.value
+  digest_ref = module.latest[each.key].image_ref
   tag        = "latest"
 }
 
 resource "oci_tag" "latest-dev" {
+  for_each   = local.components
   depends_on = [module.test-latest]
-  for_each = {
-    "kas" : module.kas.dev_ref,
-  }
-  digest_ref = each.value
+  digest_ref = module.latest[each.key].dev_ref
   tag        = "latest-dev"
 }

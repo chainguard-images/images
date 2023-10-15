@@ -11,10 +11,6 @@ variable "digests" {
   })
 }
 
-variable "namespace" {
-  description = "The namespace to install Gitlab in."
-}
-
 // Invoke the image's version command.
 // $IMAGE_NAME is populated with the image name by digest.
 // TODO: Update or remove this test as appropriate.
@@ -25,11 +21,10 @@ data "oci_exec_test" "kas-version" {
 
 resource "random_pet" "suffix" {}
 
-locals {
-  namespace = "gitlab-${random_pet.suffix.id}"
+data "oci_string" "ref" {
+  for_each = var.digests
+  input    = each.value
 }
-
-data "oci_string" "kas-ref" { input = var.digests.kas }
 
 resource "helm_release" "gitlab" {
   name = "gitlab"
@@ -37,7 +32,7 @@ resource "helm_release" "gitlab" {
   repository = "https://charts.gitlab.io"
   chart      = "gitlab"
 
-  namespace        = local.namespace
+  namespace        = "gitlab-${random_pet.suffix.id}"
   create_namespace = true
 
   timeout = 400
@@ -49,8 +44,8 @@ resource "helm_release" "gitlab" {
     gitlab = {
       kas = {
         image = {
-          tag        = data.oci_string.kas-ref.pseudo_tag
-          repository = data.oci_string.kas-ref.registry_repo
+          tag        = data.oci_string.ref["kas"].pseudo_tag
+          repository = data.oci_string.ref["kas"].registry_repo
         }
       }
       webservice = {
@@ -87,12 +82,12 @@ resource "helm_release" "gitlab" {
 data "oci_exec_test" "install-kas-up" {
   depends_on = [helm_release.gitlab]
   digest     = var.digests.kas
-  script     = "kubectl rollout status deploy -n ${local.namespace} gitlab-kas --timeout 360s"
+  script     = "kubectl rollout status deploy -n ${helm_release.gitlab.namespace} gitlab-kas --timeout 360s"
 }
 
 module "helm_cleanup" {
   depends_on = [data.oci_exec_test.install-kas-up]
   source     = "../../../tflib/helm-cleanup"
   name       = helm_release.gitlab.id
-  namespace  = local.namespace
+  namespace  = helm_release.gitlab.namespace
 }

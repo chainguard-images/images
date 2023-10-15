@@ -12,7 +12,7 @@
 ---
 <!--monopod:end-->
 
-# Gitlab Images
+# GitLab Images
 
 ## Get It!
 
@@ -24,10 +24,10 @@ docker pull cgr.dev/chainguard/gitlab-kas:latest
 
 ## Usage
 
-This replace the Gitlab images used in the deployment by our Chainguar images for Gitlab.
+This replaces the GitLab images used in the deployment by our Chainguard images for GitLab.
 See the [full documentation](https://docs.gitlab.com/charts/) for installation and usage.
 
-We can use the different Gitlab Chainguard images that we've built for Gitlab with the Helm chart of the project using the following commands.
+We can use the different GitLab Chainguard images that we've built for GitLab with the Helm chart of the project using the following commands.
 
 First, you need to install the Helm repository:
 
