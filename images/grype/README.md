@@ -24,11 +24,11 @@ Our `latest` tag uses the most recent build of the [Wolfi grype](https://github.
 
 - `latest`: This is an image for running `grype` commands. It does not include a shell or other applications.
 
-### grype Version
-This will automatically pull the image to your local system and execute the command `grype version`:
+### grype help
+This will automatically pull the image to your local system and execute the command `grype help`:
 
 ```shell
-docker run --rm cgr.dev/chainguard/grype version
+docker run --rm cgr.dev/chainguard/grype help
 ```
 A vulnerability scanner for container images, filesystems, and SBOMs.
 
