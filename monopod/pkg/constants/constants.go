@@ -21,4 +21,7 @@ const (
 	ImageReadmeGenStartComment = "<!--monopod:start-->"
 
 	ImageReadmeGenEndComment = "<!--monopod:end-->"
+
+	WithdrawImagesFileName = "withdrawn-images.txt"
+	WithdrawReposFileName  = "withdrawn-repos.txt"
 )

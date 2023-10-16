@@ -3,13 +3,23 @@ package commands
 import (
 	"encoding/json"
 	"fmt"
+	"io"
+	"os"
 	"strings"
 
 	"github.com/spf13/cobra"
+	"k8s.io/apimachinery/pkg/util/sets"
 
 	"github.com/chainguard-images/images/monopod/pkg/commands/options"
 	"github.com/chainguard-images/images/monopod/pkg/constants"
 	"github.com/chainguard-images/images/monopod/pkg/images"
+)
+
+var (
+	matrixBypassAllowlist = sets.New(
+		constants.WithdrawImagesFileName,
+		constants.WithdrawReposFileName,
+	)
 )
 
 func Matrix() *cobra.Command {
@@ -22,6 +32,7 @@ monopod matrix
 `,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			impl := &matrixImpl{
+				Output:          os.Stdout,
 				ModifiedFiles:   mo.ModifiedFiles,
 				UniqueImages:    mo.UniqueImages,
 				Shard:           mo.Shard,
@@ -36,6 +47,7 @@ monopod matrix
 }
 
 type matrixImpl struct {
+	Output          io.Writer
 	ModifiedFiles   string
 	UniqueImages    bool
 	Shard           uint
@@ -55,22 +67,32 @@ func (i *matrixImpl) Do() error {
 
 	// Filter for only images affected by this change
 	if i.ModifiedFiles != "" {
-		includeImages := map[string]bool{}
+		// Determine if this set of change can bypass the matrix and allow to return
+		// an empty list.
+		bypassAllowed := true
+		includeImages := sets.New[string]()
 		modifiedFiles := strings.Split(i.ModifiedFiles, ",")
 		for _, filename := range modifiedFiles {
+			if bypassAllowed && !matrixBypassAllowlist.Has(filename) {
+				// Disable the CI bypass if any file is not explicitely in the bypass
+				// allowlist.
+				bypassAllowed = false
+			}
 			// If any changes detected in .github/ or monopod/, must build all
-			if strings.HasPrefix(filename, fmt.Sprintf("%s/", constants.GithubActionsDirName)) ||
-				strings.HasPrefix(filename, fmt.Sprintf("%s/", constants.MonopodDirName)) {
+			if strings.HasPrefix(filename, constants.GithubActionsDirName+"/") ||
+				strings.HasPrefix(filename, constants.MonopodDirName+"/") {
+				bypassAllowed = false
+				includeImages = sets.New[string]()
 				break
 			}
 			if strings.HasPrefix(filename, fmt.Sprintf("%s/", constants.ImagesDirName)) {
-				includeImages[strings.Split(filename, "/")[1]] = true
+				includeImages.Insert(strings.Split(filename, "/")[1])
 			}
 		}
-		if len(includeImages) > 0 {
+		if bypassAllowed || len(includeImages) > 0 {
 			allImagesNew := []images.Image{}
 			for _, image := range allImages {
-				if _, ok := includeImages[image.ImageName]; ok {
+				if includeImages.Has(image.ImageName) {
 					allImagesNew = append(allImagesNew, image)
 				}
 			}
@@ -97,6 +119,6 @@ func (i *matrixImpl) Do() error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(string(b))
+	fmt.Fprintln(i.Output, string(b))
 	return nil
 }
