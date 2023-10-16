@@ -10,22 +10,29 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
+resource "helm_release" "vault" {
+  name       = "vault-operator"
+  repository = "oci://ghcr.io/bank-vaults/helm-charts"
+  chart      = "vault-operator"
+
+  values = [jsonencode({
+    bankVaults = {
+      image = {
+        repository = data.oci_string.ref.registry_repo
+        tag        = data.oci_string.ref.pseudo_tag
+      }
+    }
+  })]
+}
+
 data "oci_exec_test" "test" {
-  digest = var.digest
-  script = "${path.module}/full-test.sh"
+  depends_on = [helm_release.vault]
+  digest     = var.digest
+  script     = "${path.module}/full-test.sh"
+}
 
-  env {
-    name  = "IMAGE_REGISTRY"
-    value = data.oci_string.ref.registry
-  }
-
-  env {
-    name  = "IMAGE_REPOSITORY"
-    value = data.oci_string.ref.repo
-  }
-
-  env {
-    name  = "IMAGE_TAG"
-    value = data.oci_string.ref.pseudo_tag
-  }
+module "helm-cleanup" {
+  depends_on = [data.oci_exec_test.test]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.vault.id
 }
