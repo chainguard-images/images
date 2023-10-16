@@ -56,7 +56,7 @@ data "oci_exec_test" "check-prometheus-postgres-exporter" {
 
 module "helm-cleanup" {
   depends_on = [data.oci_exec_test.check-prometheus-postgres-exporter]
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.bitnami.id
-  namespace = helm_release.bitnami.namespace
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.bitnami.id
+  namespace  = helm_release.bitnami.namespace
 }
