@@ -42,7 +42,20 @@ resource "helm_release" "bitnami" {
   })]
 }
 
+data "oci_exec_test" "check-prometheus-postgres-exporter" {
+  digest      = var.digest
+  script      = "./check-ppe.sh"
+  working_dir = path.module
+  depends_on  = [helm_release.bitnami]
+
+  env {
+    name  = "PPE_NAME"
+    value = helm_release.bitnami.name
+  }
+}
+
 module "helm-cleanup" {
+  depends_on = [data.oci_exec_test.check-prometheus-postgres-exporter]
   source    = "../../../tflib/helm-cleanup"
   name      = helm_release.bitnami.id
   namespace = helm_release.bitnami.namespace
