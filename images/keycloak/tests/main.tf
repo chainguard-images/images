@@ -8,6 +8,14 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+# Allows us to define the args passed to the helm chart test. We need to change
+# these for the FIPS image, which also invokes this test.
+variable "args" {
+  description = "Args for the helm test"
+  type        = list(string)
+  default     = ["start-dev"]
+}
+
 # invoking '--help' instead of '--version' due to:
 # - https://github.com/keycloak/keycloak/issues/23783
 data "oci_exec_test" "help" {
@@ -30,7 +38,7 @@ resource "helm_release" "test" {
       repository = data.oci_string.ref.registry_repo,
       digest     = data.oci_string.ref.digest
     },
-    args = ["start-dev"]
+    args = var.args
   })]
 }
 

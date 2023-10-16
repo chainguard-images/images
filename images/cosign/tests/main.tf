@@ -12,7 +12,7 @@ data "oci_exec_test" "help" {
   digest = var.digest
   # Cosign 2.1 requires a TTY
   # https://github.com/sigstore/cosign/issues/3081
-  script = "docker run -t $IMAGE_NAME help"
+  script = "docker run --rm -t $IMAGE_NAME help"
 }
 
 module "sigstore-scaffolding" {

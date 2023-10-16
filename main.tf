@@ -266,6 +266,11 @@ module "dotnet" {
   target_repository = "${var.target_repository}/dotnet"
 }
 
+module "dynamic-localpv-provisioner" {
+  source            = "./images/dynamic-localpv-provisioner"
+  target_repository = "${var.target_repository}/dynamic-localpv-provisioner"
+}
+
 module "envoy" {
   source            = "./images/envoy"
   target_repository = "${var.target_repository}/envoy"
@@ -368,6 +373,11 @@ module "graalvm-native" {
 module "gradle" {
   source            = "./images/gradle"
   target_repository = "${var.target_repository}/gradle"
+}
+
+module "grype" {
+  source            = "./images/grype"
+  target_repository = "${var.target_repository}/grype"
 }
 
 module "guacamole-server" {
@@ -677,6 +687,11 @@ module "newrelic" {
   license_key       = var.newrelic_license_key
 }
 
+module "nfs-subdir-external-provisioner" {
+  source            = "./images/nfs-subdir-external-provisioner"
+  target_repository = "${var.target_repository}/nfs-subdir-external-provisioner"
+}
+
 module "nginx" {
   source            = "./images/nginx"
   target_repository = "${var.target_repository}/nginx"
@@ -834,6 +849,12 @@ module "rabbitmq" {
 
 module "redis" {
   source            = "./images/redis"
+  target_repository = "${var.target_repository}/redis"
+}
+
+module "redis-bitnami" {
+  source = "./images/redis-bitnami"
+  # -bitnami is added in the module
   target_repository = "${var.target_repository}/redis"
 }
 
@@ -1044,4 +1065,3 @@ module "zot" {
   source            = "./images/zot"
   target_repository = "${var.target_repository}/zot"
 }
-

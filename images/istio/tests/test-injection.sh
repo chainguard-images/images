@@ -43,7 +43,7 @@ spec:
     name: $POD_NAME
 EOF
 
-kubectl wait -n $NAMESPACE pods/$POD_NAME --for=condition=ready
+kubectl wait -n $NAMESPACE pods/$POD_NAME --for=condition=ready --timeout=4m
 
 # Count the number of containers
 PODS=$(kubectl get pod -n $NAMESPACE $POD_NAME \
@@ -54,3 +54,5 @@ PODS=$(kubectl get pod -n $NAMESPACE $POD_NAME \
 if [ "$PODS" -ne "2" ]; then
     exit -1
 fi
+
+kubectl delete -n $NAMESPACE pod/$POD_NAME

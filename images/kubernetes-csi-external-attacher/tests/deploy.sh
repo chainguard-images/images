@@ -4,6 +4,7 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 
 : "${NAMESPACE:=default}"
 kubectl create ns $NAMESPACE || true
+trap "kubectl delete ns $NAMESPACE" EXIT
 
 curl https://raw.githubusercontent.com/kubernetes-csi/external-attacher/master/deploy/kubernetes/deployment.yaml \
     | sed "s|registry.k8s.io/k8s-staging-sig-storage/csi-attacher:.*|${IMAGE_NAME}|g" \

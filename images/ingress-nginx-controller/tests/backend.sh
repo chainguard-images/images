@@ -25,6 +25,7 @@ fi
 set -o errexit
 
 echo "Waiting for Deployment..."
+kubectl rollout status deployment backend -n $NAMESPACE --timeout 3m
 kubectl wait --for=condition=ready --timeout=240s pod -l app=backend -n $NAMESPACE
 
 ingress_ip=""

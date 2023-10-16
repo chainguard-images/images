@@ -45,7 +45,7 @@ as this is dependent on environment-specific settings and customizatons.
 ### Helm
 
 To launch a development instance of keycloak in k8s using the following
-[helm chart](https://github.com/codecentric/helm-charts/blob/master/charts/keycloak/README.md):
+[helm chart](https://github.com/bitnami/charts/tree/main/bitnami/keycloak):
 
 ```bash
 helm install keycloak oci://registry-1.docker.io/bitnamicharts/keycloak \
@@ -55,7 +55,7 @@ helm install keycloak oci://registry-1.docker.io/bitnamicharts/keycloak \
 ```
 
 Refer to the [keycloak](https://github.com/keycloak/keycloak/blob/main/docs/guides/server/containers.adoc)
-and [helm](https://github.com/codecentric/helm-charts/blob/master/charts/keycloak/README.md)
+and [helm chart](https://github.com/bitnami/charts/tree/main/bitnami/keycloak)
 documentation for more detail.
 
 ### Customizing the image
