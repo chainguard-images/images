@@ -10,7 +10,7 @@ variable "digest" {
 
 data "oci_exec_test" "help" {
   digest = var.digest
-  script = "docker run $IMAGE_NAME -h"
+  script = "docker run --rm $IMAGE_NAME -h"
 }
 
 data "oci_exec_test" "test-open-port" {

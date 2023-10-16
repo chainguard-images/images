@@ -18,4 +18,4 @@ FROM ${IMAGE_NAME}
 RUN busybox
 ENTRYPOINT ["busybox"]
 EOF
-docker run version | grep "BusyBox .* multi-call binary."
+docker run --rm version | grep "BusyBox .* multi-call binary."
