@@ -29,7 +29,8 @@ This will automatically pull the image to your local system and execute the comm
 
 ```shell
 docker run --rm cgr.dev/chainguard/grype help
-```
+
+
 A vulnerability scanner for container images, filesystems, and SBOMs.
 
 Supports the following image sources:
@@ -53,3 +54,4 @@ You can also pipe in Syft JSON directly:
 
 Usage:
   grype [command]
+```
