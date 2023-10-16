@@ -375,6 +375,11 @@ module "gradle" {
   target_repository = "${var.target_repository}/gradle"
 }
 
+module "grype" {
+  source            = "./images/grype"
+  target_repository = "${var.target_repository}/grype"
+}
+
 module "guacamole-server" {
   source            = "./images/guacamole-server"
   target_repository = "${var.target_repository}/guacamole-server"
