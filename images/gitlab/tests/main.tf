@@ -11,14 +11,6 @@ variable "digests" {
   })
 }
 
-// Invoke the image's version command.
-// $IMAGE_NAME is populated with the image name by digest.
-// TODO: Update or remove this test as appropriate.
-data "oci_exec_test" "kas-version" {
-  digest = var.digests.kas
-  script = "docker run --rm $IMAGE_NAME -v"
-}
-
 resource "random_pet" "suffix" {}
 
 data "oci_string" "ref" {

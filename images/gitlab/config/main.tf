@@ -10,7 +10,7 @@ variable "name" {
 
 variable "suffix" {
   description = "Package name suffix (e.g. version stream)"
-  default     = "gitlab"
+  default     = ""
 }
 
 variable "extra_packages" {
@@ -24,7 +24,7 @@ module "accts" { source = "../../../tflib/accts" }
 output "config" {
   value = jsonencode({
     contents = {
-      packages = concat(["${var.suffix}-${var.name}"], var.extra_packages)
+      packages = concat(["gitlab-${var.name}${var.suffix}"], var.extra_packages)
     }
     accounts = module.accts.block
     entrypoint = {

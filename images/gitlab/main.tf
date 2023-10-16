@@ -22,10 +22,11 @@ module "latest" {
   for_each = local.components
   source   = "../../tflib/publisher"
 
-  name               = basename(path.module)
-  target_repository  = "${var.target_repository}-${each.key}"
-  config             = module.config[each.key].config
-  extra_dev_packages = ["cmctl"]
+  name              = basename(path.module)
+  target_repository = "${var.target_repository}-${each.key}"
+  config            = module.config[each.key].config
+
+  build-dev = true
 }
 
 module "test-latest" {

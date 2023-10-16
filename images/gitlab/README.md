@@ -36,7 +36,7 @@ helm repo add gitlab https://charts.gitlab.io/
 helm repo update
 ```
 
-Once you did this, you can install Gatekeeper to the target cluster:
+Once you did this, you can install Gitlab Kas to the target cluster:
 
 ```shell
     helm upgrade --install gitlab gitlab/gitlab \
