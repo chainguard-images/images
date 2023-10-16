@@ -847,6 +847,12 @@ module "redis" {
   target_repository = "${var.target_repository}/redis"
 }
 
+module "redis-bitnami" {
+  source = "./images/redis-bitnami"
+  # -bitnami is added in the module
+  target_repository = "${var.target_repository}/redis"
+}
+
 module "redis-sentinel" {
   source            = "./images/redis-sentinel"
   target_repository = "${var.target_repository}/redis-sentinel"
@@ -1054,4 +1060,3 @@ module "zot" {
   source            = "./images/zot"
   target_repository = "${var.target_repository}/zot"
 }
-
