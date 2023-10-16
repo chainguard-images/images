@@ -24,14 +24,10 @@ docker pull cgr.dev/chainguard/zookeeper:latest
 
 ## Using Zookeeper
 
-Chainguard Zookeeper images come with a sample configuration file in the `zoo.cfg` file in `/usr/share/java/zookeeper/conf`.
-Zookeeper startup binaries and scripts are in `/usr/share/java/zookeeper/bin`, and `zkServer.sh` is the default entrypoint.
-
 To run Zookeeper image with the sample configuration, use:
 
 ```shell
-$ docker run cgr.dev/chainguard/zookeeper start-foreground
-/usr/bin/java
+$ docker container run -d -e ZOO_ENABLE_AUTH=no -e ALLOW_ANONYMOUS_LOGIN=yes -e ZOO_4LW_COMMANDS_WHITELIST='*' -p 2181:2181 cgr.dev/chainguard/zookeeper:latest
 ZooKeeper JMX enabled by default
 Using config: /usr/share/java/zookeeper/bin/../conf/zoo_sample.cfg
 2023-03-12 20:38:22,340 [myid:] - INFO  [main:o.a.z.s.q.QuorumPeerConfig@177] - Reading configuration from: /usr/share/java/zookeeper/bin/../conf/zoo_sample.cfg
