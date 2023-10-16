@@ -2,7 +2,10 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-kubectl port-forward -n "${PPE_NAME}" "svc/${PPE_NAME}" "${FREE_PORT}:9187" &
+metrics_service=$(kubectl -n "${PPE_NAME}" get svc | grep metrics | cut -d' ' -f1)
+
+kubectl port-forward -n "${PPE_NAME}" "svc/${metrics_service}" "${FREE_PORT}:9187" &
+
 pid=$!
 trap "kill $pid" EXIT
 
