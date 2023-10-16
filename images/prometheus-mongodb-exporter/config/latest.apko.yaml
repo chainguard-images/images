@@ -1,5 +1,9 @@
 contents:
   packages:
+    # These are only needed for bitnami compatiblity.
+    - bash
+    - busybox
+    - prometheus-mongodb-exporter-bitnami-compat
 
 accounts:
   groups:
