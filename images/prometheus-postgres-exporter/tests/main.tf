@@ -25,7 +25,14 @@ resource "helm_release" "bitnami" {
   create_namespace = true
 
   values = [jsonencode({
+    auth = {
+      postgresPassword = "${random_pet.suffix.id}"
+      username         = "${random_pet.suffix.id}"
+      password         = "${random_pet.suffix.id}"
+      database         = "${random_pet.suffix.id}"
+    }
     metrics = {
+      enabled = true
       image = {
         registry   = data.oci_string.ref.registry
         repository = data.oci_string.ref.repo
