@@ -35,4 +35,3 @@ resource "oci_tag" "latest-dev" {
   digest_ref = module.latest.dev_ref
   tag        = "latest-dev"
 }
-
