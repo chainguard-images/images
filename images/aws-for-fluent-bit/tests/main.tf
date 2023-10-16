@@ -11,13 +11,15 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-data "oci_exec_test" "version" {
+data "oci_exec_test" "startup" {
   digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --version"
+  script = "${path.module}/startup.sh"
 }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "fluent-bit" {
-  name = "fluent-bit"
+  name = "fluent-bit-${random_pet.suffix.id}"
 
   repository = "https://fluent.github.io/helm-charts"
   chart      = "fluent-bit"
