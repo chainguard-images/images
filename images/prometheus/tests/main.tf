@@ -13,7 +13,6 @@ variable "digests" {
     config-reloader   = string
     mysqld-exporter   = string
     operator          = string
-    postgres-exporter = string
     pushgateway       = string
   })
 }
