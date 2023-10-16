@@ -18,7 +18,7 @@ FROM ${IMAGE_NAME}
 RUN apk --version
 ENTRYPOINT ["apk"]
 EOF
-docker run version --version | grep "^apk-tools "
+docker run --rm version --version | grep "^apk-tools "
 
 # The image can be used as a base image with a custom entrypoint.
 cat <<EOF | docker build -t version-entrypoint -
@@ -30,4 +30,4 @@ RUN mkdir -p /usr/local/bin && \
    chmod +x /usr/local/bin/hello
 ENTRYPOINT ["hello"]
 EOF
-docker run version-entrypoint | grep "^apk-tools "
+docker run --rm version-entrypoint | grep "^apk-tools "
