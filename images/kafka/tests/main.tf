@@ -34,9 +34,12 @@ resource "helm_release" "bitnami" {
     controller = {
       containerSecurityContext = {
         runAsUser = 65532
-        # Running with a read-only filesystem fails for some
-        # reason I cannot explain.
-        readOnlyRootFilesystem = false
+      }
+      podSecurityContext = {
+        fsGroup = 65532
+      }
+      logPersistence = {
+        mountPath = "/usr/lib/kafka/logs"
       }
     }
   })]
