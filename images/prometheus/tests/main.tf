@@ -8,12 +8,12 @@ terraform {
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
-    alertmanager      = string
-    core              = string
-    config-reloader   = string
-    mysqld-exporter   = string
-    operator          = string
-    pushgateway       = string
+    alertmanager    = string
+    core            = string
+    config-reloader = string
+    mysqld-exporter = string
+    operator        = string
+    pushgateway     = string
   })
 }
 
