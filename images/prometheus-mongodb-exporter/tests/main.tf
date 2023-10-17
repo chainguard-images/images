@@ -47,15 +47,12 @@ data "oci_exec_test" "check-metrics-container" {
   digest = var.digest
   script = <<EOF
 set -e
-sleep 10
-for i in {1..20}; do
-  sleep 1
-  status=$(kubectl get pods -n prometheus-mongodb-exporter-${random_pet.suffix.id} -ojsonpath="{.items[0].status.containerStatuses[0].ready}")
-  if [ "$status" == "true" ]; then
-    echo "Metrics container ready"
-    exit 0
-  fi
-done
+sleep 30
+status=$(kubectl get pods -n prometheus-mongodb-exporter-${random_pet.suffix.id} -ojsonpath="{.items[0].status.containerStatuses[0].ready}")
+if [ "$status" == "true" ]; then
+  echo "Metrics container ready"
+  exit 0
+fi
 
 echo "Metrics container not ready after 30 seconds!"
 kubectl get pods -n prometheus-mongodb-exporter-${random_pet.suffix.id} -oyaml
