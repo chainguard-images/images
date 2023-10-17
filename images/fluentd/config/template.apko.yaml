@@ -2,9 +2,7 @@ contents:
   packages: [] # fluentd comes via var.extra_packages
 
 entrypoint:
-  type: service-bundle
-  services:
-    fluentd: /usr/bin/fluentd
+  command: /usr/bin/fluentd
 
 environment:
   FLUENTD_CONF: "fluent.conf"
