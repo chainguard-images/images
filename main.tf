@@ -823,7 +823,7 @@ module "prometheus-mongodb-exporter" {
 }
 
 module "prometheus-mongodb-exporter-bitnami" {
-  source            = "./images/prometheus-mongodb-exporter-bitnami"
+  source = "./images/prometheus-mongodb-exporter-bitnami"
   # -bitnami is added in the module
   target_repository = "${var.target_repository}/prometheus-mongodb-exporter"
 }
