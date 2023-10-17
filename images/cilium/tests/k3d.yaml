@@ -12,17 +12,17 @@ registries:
 options:
   k3s:
     extraArgs:
-      # Let consumers use their own ingress and leave the builtin LB unclaimed
-      - arg: --disable=traefik
-        nodeFilters:
-          - server:*
-      # Let consumers use their own metrics-server and leave the builtin unclaimed
-      - arg: --disable=metrics-server
-        nodeFilters:
-          - server:*
+      # Cilium requires network policy and CNI to be turned off
       - arg: --disable-network-policy
         nodeFilters:
           - server:*
       - arg: --flannel-backend=none
+        nodeFilters:
+          - server:*
+      # We don't need these for this test
+      - arg: --disable=traefik
+        nodeFilters:
+          - server:*
+      - arg: --disable=metrics-server
         nodeFilters:
           - server:*
