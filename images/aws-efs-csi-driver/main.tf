@@ -8,11 +8,13 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
+module "latest-config" { source = "./config" }
+
 module "latest" {
   source            = "../../tflib/publisher"
   name              = basename(path.module)
   target_repository = var.target_repository
-  config            = file("${path.module}/configs/latest.apko.yaml")
+  config            = module.latest-config.config
   build-dev         = true
 }
 
