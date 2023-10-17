@@ -1,14 +1,6 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
-  }
-}
-
-provider "helm" {
-  kubernetes {
-    config_context = "k3d-cilium-test"
-    config_path    = "~/.kube/config"
+    oci = { source = "chainguard-dev/oci" }
   }
 }
 
@@ -28,4 +20,3 @@ data "oci_exec_test" "cilium-install" {
   script = "${path.module}/cilium-install.sh"
   digest = var.digests.operator
 }
-
