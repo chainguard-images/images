@@ -3,6 +3,7 @@
 set -o errexit -o errtrace -o pipefail -x
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
+
 # Create a test cluster.
 export CLUSTER_NAME=cilium-test
 k3d cluster create $CLUSTER_NAME \
@@ -14,10 +15,18 @@ if [ -z "$CI" ]; then
     trap "k3d cluster delete $CLUSTER_NAME" EXIT
 fi
 
+TMPDIR=$(mktemp -d --tmpdir=$SCRIPT_DIR)
+trap "rm -rf $TMPDIR" EXIT
+
+# Attempt to copy out the registries.yaml file from the K3s cluster
+# in the active context. If it doesn't exist, that's fine.
+node=$(kubectl get nodes -o jsonpath='{.items[0].metadata.name}')
+docker cp -q $node:/etc/rancher/k3s/registries.yaml $TMPDIR || true
+
 # These settings come from
 # https://docs.cilium.io/en/latest/installation/rancher-desktop/#configure-rancher-desktop
 for node in $(kubectl get --context=k3d-$CLUSTER_NAME nodes -o jsonpath='{.items[*].metadata.name}'); do
-    echo "Configuring node $node"
+    echo "Configuring mounts for $node"
     docker exec -i $node /bin/sh <<-EOF
         mount bpffs -t bpf /sys/fs/bpf
         mount --make-shared /sys/fs/bpf
@@ -25,18 +34,20 @@ for node in $(kubectl get --context=k3d-$CLUSTER_NAME nodes -o jsonpath='{.items
         mount -t cgroup2 none /run/cilium/cgroupv2
         mount --make-shared /run/cilium/cgroupv2/
 EOF
+    # If we have a registries.yaml file, copy it to our nodes.
+    if [ -f "$TMPDIR/registries.yaml" ]; then
+        echo "Configuring pull creds for $node"
+        docker cp -q $TMPDIR/registries.yaml $node:/etc/rancher/k3s/registries.yaml
+    fi
 done
-
-TMPDIR=$(mktemp -d --tmpdir=$SCRIPT_DIR)
-trap "rm -rf $TMPDIR" EXIT
 
 # Download the cilium CLI
 pushd $TMPDIR
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
 # These use the platform passed into Docker. It's still better to let Go
 # translate that into its format than do any Bash-based translation here.
-GOOS=$(docker run cgr.dev/chainguard/go env GOOS)
-GOARCH=$(docker run cgr.dev/chainguard/go env GOARCH)
+GOOS=$(go env GOOS || docker run cgr.dev/chainguard/go env GOOS)
+GOARCH=$(go env GOARCH || docker run cgr.dev/chainguard/go env GOARCH)
 curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/download/${CILIUM_CLI_VERSION}/cilium-${GOOS}-${GOARCH}.tar.gz{,.sha256sum}
 sha256sum --check cilium-${GOOS}-${GOARCH}.tar.gz.sha256sum
 tar -xzvf cilium-${GOOS}-${GOARCH}.tar.gz
