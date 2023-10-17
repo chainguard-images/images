@@ -336,6 +336,11 @@ module "gcc-glibc" {
   target_repository = "${var.target_repository}/gcc-glibc"
 }
 
+module "gitlab" {
+  source            = "./images/gitlab"
+  target_repository = "${var.target_repository}/gitlab"
+}
+
 module "glibc-dynamic" {
   source            = "./images/glibc-dynamic"
   target_repository = "${var.target_repository}/glibc-dynamic"
