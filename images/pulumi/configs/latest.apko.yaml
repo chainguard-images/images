@@ -15,7 +15,7 @@ contents:
     - aspnet-7-targeting-pack
     # for Pulumi Python support
     - pulumi-language-python
-    # Currently pulumi has a dependency on grpcio version 1.56, which does not work with 3.11
+    # Currently pulumi has a dependency on grpcio version 1.56, which does not work with 3.12
     # See https://github.com/grpc/grpc/issues/33063.
     - python-3.11
     - python-3.11-dev
