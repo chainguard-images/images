@@ -822,6 +822,12 @@ module "prometheus-node-exporter" {
   target_repository = "${var.target_repository}/prometheus-node-exporter"
 }
 
+module "prometheus-pushgateway-bitnami" {
+  source = "./images/prometheus-pushgateway-bitnami"
+  # -bitnami is added in the module
+  target_repository = "${var.target_repository}/prometheus-pushgateway"
+}
+
 module "prometheus-redis-exporter" {
   source            = "./images/prometheus-redis-exporter"
   target_repository = "${var.target_repository}/prometheus-redis-exporter"
