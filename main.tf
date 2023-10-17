@@ -191,6 +191,11 @@ module "cluster-proportional-autoscaler" {
   target_repository = "${var.target_repository}/cluster-proportional-autoscaler"
 }
 
+module "cilium" {
+  source            = "./images/cilium"
+  target_repository = "${var.target_repository}/cilium"
+}
+
 module "conda" {
   source            = "./images/conda"
   target_repository = "${var.target_repository}/conda"
@@ -329,6 +334,11 @@ module "gatekeeper" {
 module "gcc-glibc" {
   source            = "./images/gcc-glibc"
   target_repository = "${var.target_repository}/gcc-glibc"
+}
+
+module "gitlab" {
+  source            = "./images/gitlab"
+  target_repository = "${var.target_repository}/gitlab"
 }
 
 module "glibc-dynamic" {
@@ -787,6 +797,11 @@ module "prometheus-adapter" {
   target_repository = "${var.target_repository}/prometheus-adapter"
 }
 
+module "prometheus-postgres-exporter" {
+  source            = "./images/prometheus-postgres-exporter"
+  target_repository = "${var.target_repository}/prometheus-postgres-exporter"
+}
+
 module "prometheus-cloudwatch-exporter" {
   source            = "./images/prometheus-cloudwatch-exporter"
   target_repository = "${var.target_repository}/prometheus-cloudwatch-exporter"
@@ -805,6 +820,12 @@ module "prometheus-mongodb-exporter" {
 module "prometheus-node-exporter" {
   source            = "./images/prometheus-node-exporter"
   target_repository = "${var.target_repository}/prometheus-node-exporter"
+}
+
+module "prometheus-pushgateway-bitnami" {
+  source = "./images/prometheus-pushgateway-bitnami"
+  # -bitnami is added in the module
+  target_repository = "${var.target_repository}/prometheus-pushgateway"
 }
 
 module "prometheus-redis-exporter" {

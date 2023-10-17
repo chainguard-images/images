@@ -8,13 +8,23 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "latest-config" { source = "./config" }
+variable "suffix" {
+  default     = ""
+  description = "The pushgateway component version suffix."
+}
+
+module "config" {
+  source = "./config"
+  name   = "prometheus-pushgateway"
+  suffix = var.suffix
+}
 
 module "latest" {
-  source            = "../../tflib/publisher"
+  source = "../../tflib/publisher"
+
   name              = basename(path.module)
-  target_repository = var.target_repository
-  config            = module.latest-config.config
+  target_repository = "${var.target_repository}-bitnami"
+  config            = module.config.config
   build-dev         = true
 }
 
