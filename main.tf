@@ -625,6 +625,11 @@ module "kyverno" {
   target_repository = "${var.target_repository}/kyverno"
 }
 
+module "kyverno-policy-reporter" {
+  source            = "./images/kyverno-policy-reporter"
+  target_repository = "${var.target_repository}/kyverno-policy-reporter"
+}
+
 module "loki" {
   source            = "./images/loki"
   target_repository = "${var.target_repository}/loki"
