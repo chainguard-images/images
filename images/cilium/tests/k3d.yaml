@@ -1,0 +1,28 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+image: cgr.dev/chainguard/k3s:latest
+registries:
+  use:
+    - registry.local:5000
+  config: |
+    mirrors:
+      "mirror.gcr.io":
+        endpoint:
+          - https://mirror.gcr.io
+options:
+  k3s:
+    extraArgs:
+      # Let consumers use their own ingress and leave the builtin LB unclaimed
+      - arg: --disable=traefik
+        nodeFilters:
+          - server:*
+      # Let consumers use their own metrics-server and leave the builtin unclaimed
+      - arg: --disable=metrics-server
+        nodeFilters:
+          - server:*
+      - arg: --disable-network-policy
+        nodeFilters:
+          - server:*
+      - arg: --flannel-backend=none
+        nodeFilters:
+          - server:*
