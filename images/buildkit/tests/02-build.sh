@@ -6,7 +6,6 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 TMPDIR="$(mktemp -d)"
 echo "FROM scratch" > ${TMPDIR}/Dockerfile
 docker run \
-  -it \
   --rm \
   --privileged \
   -v ${TMPDIR}:/tmp/work \

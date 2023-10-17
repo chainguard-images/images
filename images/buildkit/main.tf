@@ -13,7 +13,7 @@ module "config" {
   rootless = false
 }
 
-module "latest" {
+module "latest-root" {
   source = "../../tflib/publisher"
 
   name              = "buildkit"
@@ -23,14 +23,25 @@ module "latest" {
   main_package      = "buildkitd"
 }
 
-module "test-latest" {
+module "test-latest-root" {
   source = "./tests"
-  digest = module.latest.image_ref
+  // Test uses buildctl-daemonless.sh script, which requires a few script tools to function (i.e. awk).
+  // See https://github.com/moby/buildkit#daemonless for more details on daemonless.
+  // TODO: Should we include awk / other script dependencies in the non-dev image?
+  digest = module.latest-root.dev_ref
 }
 
-/*
+resource "oci_tag" "latest-root" {
+  depends_on = [module.test-latest]
+  digest_ref = module.latest-root.image_ref
+  tag        = "latest-root"
+}
 
-This doesn't work yet - missing package dependencies: https://github.com/wolfi-dev/os/pull/6616
+resource "oci_tag" "latest-root-dev" {
+  depends_on = [module.test-latest]
+  digest_ref = module.latest-root.dev_ref
+  tag        = "latest-root-dev"
+}
 
 module "config-rootless" {
   source   = "./config"
@@ -38,25 +49,28 @@ module "config-rootless" {
 }
 
 module "rootless" {
-  source   = "../../tflib/publisher"
+  source = "../../tflib/publisher"
 
-  name               = "buildkit-rootless"
-  target_repository  = var.target_repository
-  config             = module.config-rootless.config
-  build-dev = true
-  main_package       = "buildkitd"
+  name              = "buildkit-rootless"
+  target_repository = var.target_repository
+  config            = module.config-rootless.config
+  build-dev         = true
+  main_package      = "buildkitd"
 }
 
-*/
+module "test-latest" {
+  source = "./tests"
+  digest = module.latest-root.dev_ref
+}
 
 resource "oci_tag" "latest" {
   depends_on = [module.test-latest]
-  digest_ref = module.latest.image_ref
+  digest_ref = module.rootless.image_ref
   tag        = "latest"
 }
 
 resource "oci_tag" "latest-dev" {
   depends_on = [module.test-latest]
-  digest_ref = module.latest.dev_ref
+  digest_ref = module.rootless.dev_ref
   tag        = "latest-dev"
 }

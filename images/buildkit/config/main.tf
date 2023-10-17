@@ -10,12 +10,17 @@ variable "extra_packages" {
   default     = []
 }
 
+locals {
+  // Packages only needed for rootless builds.
+  rootless_packages = var.rootless ? ["rootlesskit"] : []
+}
+
 module "rootless" { source = "../../../tflib/accts" }
 
 output "config" {
   value = jsonencode({
     contents = {
-      packages = concat(["buildkitd", "buildctl", "runc"], var.extra_packages)
+      packages = concat(["buildkitd", "buildctl", "runc"], var.extra_packages, local.rootless_packages)
     }
     accounts = var.rootless ? module.rootless.block : null
     entrypoint = {
