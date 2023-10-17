@@ -196,7 +196,6 @@ module "cilium" {
   target_repository = "${var.target_repository}/cilium"
 }
 
-
 module "conda" {
   source            = "./images/conda"
   target_repository = "${var.target_repository}/conda"
