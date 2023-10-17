@@ -44,8 +44,9 @@ resource "helm_release" "bitnami" {
 // So instead of waiting for the Helm chart to become ready, we only check the metrics container status.
 // This won't be ready immediately, but it should be ready within 30 seconds, or else something is wrong.
 data "oci_exec_test" "check-metrics-container" {
-  digest = var.digest
-  script = <<EOF
+  depends_on = [helm_release.bitnami]
+  digest     = var.digest
+  script     = <<EOF
 set -e
 sleep 30
 status=$(kubectl get pods -n prometheus-mongodb-exporter-${random_pet.suffix.id} -ojsonpath="{.items[0].status.containerStatuses[0].ready}")
