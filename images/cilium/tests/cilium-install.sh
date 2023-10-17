@@ -35,8 +35,8 @@ trap "rm -rf $TMPDIR" EXIT
 # Download the CLI
 pushd $TMPDIR
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
-GOOS=$(go env GOOS)
-GOARCH=$(go env GOARCH)
+GOOS=$(docker run cgr.dev/chainguard/go env GOOS)
+GOARCH=$(docker run cgr.dev/chainguard/go env GOARCH)
 curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/download/${CILIUM_CLI_VERSION}/cilium-${GOOS}-${GOARCH}.tar.gz{,.sha256sum}
 sha256sum --check cilium-${GOOS}-${GOARCH}.tar.gz.sha256sum
 tar -xzvf cilium-${GOOS}-${GOARCH}.tar.gz
