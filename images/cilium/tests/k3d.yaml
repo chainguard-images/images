@@ -3,6 +3,7 @@ kind: Simple
 image: cgr.dev/chainguard/k3s:latest
 registries:
   use:
+    # For local runs, this can be removed
     - registry.local:5000
   config: |
     mirrors:
