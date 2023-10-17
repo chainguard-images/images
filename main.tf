@@ -191,6 +191,12 @@ module "cluster-proportional-autoscaler" {
   target_repository = "${var.target_repository}/cluster-proportional-autoscaler"
 }
 
+module "cilium" {
+  source            = "./images/cilium"
+  target_repository = "${var.target_repository}/cilium"
+}
+
+
 module "conda" {
   source            = "./images/conda"
   target_repository = "${var.target_repository}/conda"
