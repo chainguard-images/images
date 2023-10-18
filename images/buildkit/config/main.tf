@@ -12,7 +12,7 @@ variable "extra_packages" {
 
 locals {
   // Packages only needed for rootless builds.
-  rootless_packages = var.rootless ? ["rootlesskit"] : []
+  rootless_packages = var.rootless ? ["rootlesskit", "rootlesskit-config-nonroot"] : []
 }
 
 module "rootless" { source = "../../../tflib/accts" }
@@ -28,6 +28,7 @@ output "config" {
     }
     environment = {
       BUILDKIT_SETUP_CGROUPV2_ROOT = 1
+      XDG_RUNTIME_DIR              = "/tmp"
     }
     volumes = ["/var/lib/buildkit"]
   })

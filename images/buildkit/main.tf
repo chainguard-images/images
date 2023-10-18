@@ -29,16 +29,17 @@ module "test-latest-root" {
   // See https://github.com/moby/buildkit#daemonless for more details on daemonless.
   // TODO: Should we include awk / other script dependencies in the non-dev image?
   digest = module.latest-root.dev_ref
+  script = "build.sh"
 }
 
 resource "oci_tag" "latest-root" {
-  depends_on = [module.test-latest]
+  depends_on = [module.test-latest-root]
   digest_ref = module.latest-root.image_ref
   tag        = "latest-root"
 }
 
 resource "oci_tag" "latest-root-dev" {
-  depends_on = [module.test-latest]
+  depends_on = [module.test-latest-root]
   digest_ref = module.latest-root.dev_ref
   tag        = "latest-root-dev"
 }
@@ -58,19 +59,20 @@ module "rootless" {
   main_package      = "buildkitd"
 }
 
-module "test-latest" {
+module "test-rootless" {
   source = "./tests"
-  digest = module.latest-root.dev_ref
+  digest = module.rootless.dev_ref
+  script = "build-rootless.sh"
 }
 
 resource "oci_tag" "latest" {
-  depends_on = [module.test-latest]
+  depends_on = [module.test-rootless]
   digest_ref = module.rootless.image_ref
   tag        = "latest"
 }
 
 resource "oci_tag" "latest-dev" {
-  depends_on = [module.test-latest]
+  depends_on = [module.test-rootless]
   digest_ref = module.rootless.dev_ref
   tag        = "latest-dev"
 }
