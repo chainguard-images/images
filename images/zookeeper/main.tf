@@ -12,7 +12,7 @@ module "latest" {
 
 module "version-tags" {
   source  = "../../tflib/version-tags"
-  package = "zookeeper"
+  package = "zookeeper-3.9"
   config  = module.latest.config
 }
 
