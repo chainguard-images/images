@@ -11,10 +11,7 @@ variable "extra_packages" {
 
 data "apko_config" "this" {
   config_contents = file("${path.module}/latest.apko.yaml")
-  extra_packages = concat(
-    var.extra_packages,
-    ["prometheus-mongodb-exporter-bitnami-compat"],
-  )
+  extra_packages  = var.extra_packages
 }
 
 output "config" {
