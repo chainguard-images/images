@@ -23,7 +23,7 @@ resource "oci_tag" "latest" {
   tag        = "latest"
 }
 
-resource "oci_tag" "latest"-dev {
+resource "oci_tag" "latest-dev" {
   depends_on = [module.test-latest]
   digest_ref = module.latest.dev_ref
   tag        = "latest-dev"
