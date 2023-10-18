@@ -7,7 +7,8 @@ terraform {
 variable "digests" {
   description = "The image digest to run tests over."
   type = object({
-    kas = string
+    kas   = string
+    pages = string
   })
 }
 
@@ -40,8 +41,11 @@ resource "helm_release" "gitlab" {
           repository = data.oci_string.ref["kas"].registry_repo
         }
       }
-      webservice = {
-        enabled = false
+      gitlab-pages = {
+        image = {
+          tag        = data.oci_string.ref["pages"].pseudo_tag
+          repository = data.oci_string.ref["pages"].registry_repo
+        }
       }
       sidekiq = {
         enabled = false
@@ -62,6 +66,9 @@ resource "helm_release" "gitlab" {
       install = false
     }
     global = {
+      pages = {
+        enabled = true
+      }
       hosts = {
         domain     = "example.com"
         externalIP = "10.10.10.10"
@@ -77,8 +84,15 @@ data "oci_exec_test" "install-kas-up" {
   script     = "kubectl rollout status deploy -n ${helm_release.gitlab.namespace} gitlab-kas --timeout 360s"
 }
 
+# Wait for the gitlab-pages to come up
+data "oci_exec_test" "install-pages-up" {
+  depends_on = [helm_release.gitlab]
+  digest     = var.digests.pages
+  script     = "kubectl rollout status deploy -n ${helm_release.gitlab.namespace} gitlab-gitlab-pages --timeout 360s"
+}
+
 module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.install-kas-up]
+  depends_on = [data.oci_exec_test.install-kas-up, data.oci_exec_test.install-pages-up]
   source     = "../../../tflib/helm-cleanup"
   name       = helm_release.gitlab.id
   namespace  = helm_release.gitlab.namespace
