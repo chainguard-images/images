@@ -9,14 +9,19 @@ export CLUSTER_NAME=cilium-test
 k3d cluster create $CLUSTER_NAME \
     --kubeconfig-switch-context=false \
     --config $SCRIPT_DIR/k3d.yaml
-# Clean up the cluster for local runs even in case of failures.
-# For CI we want it around for diagnostics.
-if [ -z "$CI" ]; then
-    trap "k3d cluster delete $CLUSTER_NAME" EXIT
-fi
 
 TMPDIR=$(mktemp -d --tmpdir=$SCRIPT_DIR)
-trap "rm -rf $TMPDIR" EXIT
+
+cleanup() {
+    rm -rf $TMPDIR
+    # Clean up the cluster for local runs even in case of failures.
+    # For CI we want it around for diagnostics.
+    if [ -z "$CI" ]; then
+        k3d cluster delete $CLUSTER_NAME
+    fi
+}
+
+trap cleanup EXIT
 
 # Attempt to copy out the registries.yaml file from the K3s cluster
 # in the active context. If it doesn't exist, that's fine.
