@@ -46,6 +46,20 @@ resource "helm_release" "gitlab" {
           tag        = data.oci_string.ref["pages"].pseudo_tag
           repository = data.oci_string.ref["pages"].registry_repo
         }
+        resources = {
+          requests = {
+            memory = "250M"
+            cpu    = "50m"
+          }
+        }
+      }
+      webservice = {
+        resources = {
+          requests = {
+            cpu    = "50m"
+            memory = "250M"
+          }
+        }
       }
       sidekiq = {
         enabled = false
