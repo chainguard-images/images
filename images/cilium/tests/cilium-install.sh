@@ -44,8 +44,10 @@ done
 # Download the cilium CLI
 pushd $TMPDIR
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
-# These use the platform passed into Docker. It's still better to let Go
-# translate that into its format than do any Bash-based translation here.
+# Try to get GOOS/GOARCH if Go is installed on the host, otherwise use
+# our Go image to translate the platform passed into Docker.
+# This is a bit confusing but still better to let Go translates these
+# instead of doing some Bash-based translation here.
 GOOS=$(go env GOOS || docker run cgr.dev/chainguard/go env GOOS)
 GOARCH=$(go env GOARCH || docker run cgr.dev/chainguard/go env GOARCH)
 curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/download/${CILIUM_CLI_VERSION}/cilium-${GOOS}-${GOARCH}.tar.gz{,.sha256sum}
