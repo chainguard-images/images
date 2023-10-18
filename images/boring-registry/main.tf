@@ -17,17 +17,14 @@ module "test-latest" {
   digest = module.latest.image_ref
 }
 
-module "version-tags" {
-  source  = "../../tflib/version-tags"
-  package = "boring-registry"
-  config  = module.latest.config
+resource "oci_tag" "latest" {
+  depends_on = [module.test-latest]
+  digest_ref = module.latest.image_ref
+  tag        = "latest"
 }
 
-module "tagger" {
-  source     = "../../tflib/tagger"
+resource "oci_tag" "latest"-dev {
   depends_on = [module.test-latest]
-  tags = merge(
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-dev" => module.latest.dev_ref },
-  )
+  digest_ref = module.latest.dev_ref
+  tag        = "latest-dev"
 }
