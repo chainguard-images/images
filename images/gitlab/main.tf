@@ -9,7 +9,7 @@ variable "target_repository" {
 }
 
 locals {
-  components = toset(["kas", "pages"])
+  components = toset(["kas", "pages", "shell"])
 
   // Normally the entrypoint is named like "{component}"
   // But some entrypoint are pointing to different entrypoint commands:
@@ -17,6 +17,7 @@ locals {
     for k, v in local.components : k => "/usr/bin/${k}"
     }, {
     "pages" : "/scripts/entrypoint.sh /scripts/start-pages",
+    "shell" : "/scripts/entrypoint.sh /scripts/process-wrapper",
   })
   versions = [for v in range(11, 14) : "1.${v}"]
   component_versions = merge([
