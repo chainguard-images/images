@@ -2,7 +2,7 @@
 
 set -o errexit -o errtrace -o pipefail -x
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-
+TMPDIR=$(mktemp -d --tmpdir=$SCRIPT_DIR)
 
 # Create a test cluster.
 export CLUSTER_NAME=cilium-test
@@ -10,10 +10,8 @@ k3d cluster create $CLUSTER_NAME \
     --kubeconfig-switch-context=false \
     --config $SCRIPT_DIR/k3d.yaml
 
-TMPDIR=$(mktemp -d --tmpdir=$SCRIPT_DIR)
-
 cleanup() {
-    rm -rf $TMPDIR
+    rm -rfv $TMPDIR
     # Clean up the cluster for local runs even in case of failures.
     # For CI we want it around for diagnostics.
     if [ -z "$CI" ]; then
@@ -22,7 +20,6 @@ cleanup() {
 }
 
 trap cleanup EXIT
-
 # Attempt to copy out the registries.yaml file from the K3s cluster
 # in the active context. If it doesn't exist, that's fine.
 node=$(kubectl get nodes -o jsonpath='{.items[0].metadata.name}')
@@ -62,7 +59,8 @@ rm cilium-${GOOS}-${GOARCH}.tar.gz{,.sha256sum}
 
 # Install cilium
 $TMPDIR/cilium install --context k3d-$CLUSTER_NAME \
-    --helm-set operator.image.override=$IMAGE_NAME
+    --helm-set image.override=$AGENT_IMAGE \
+    --helm-set operator.image.override=$OPERATOR_IMAGE
 
 # Verify the installation
 #

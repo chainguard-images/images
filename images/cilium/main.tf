@@ -12,12 +12,14 @@ module "test-latest" {
   source = "./tests"
   digests = {
     operator = module.operator.image_ref
+    agent    = module.agent.image_ref
   }
 }
 
 resource "oci_tag" "latest" {
   for_each = {
     "operator" : module.operator.image_ref
+    "agent" : module.agent.image_ref
   }
   digest_ref = each.value
   tag        = "latest"
@@ -30,4 +32,3 @@ resource "oci_tag" "latest-dev" {
   digest_ref = each.value
   tag        = "latest-dev"
 }
-

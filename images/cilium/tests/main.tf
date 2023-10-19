@@ -7,6 +7,7 @@ terraform {
 variable "digests" {
   description = "The digests to run tests over."
   type = object({
+    agent    = string
     operator = string
   })
 }
@@ -18,5 +19,15 @@ data "oci_exec_test" "operator-version" {
 
 data "oci_exec_test" "cilium-install" {
   script = "${path.module}/cilium-install.sh"
-  digest = var.digests.operator
+  digest = var.digests.agent
+
+  env {
+    name  = "AGENT_IMAGE"
+    value = var.digests.agent
+  }
+
+  env {
+    name  = "OPERATOR_IMAGE"
+    value = var.digests.operator
+  }
 }
