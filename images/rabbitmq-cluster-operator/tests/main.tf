@@ -13,7 +13,7 @@ data "oci_exec_test" "deploy" {
   script = "${path.module}/test.sh"
 
   env {
-    name = "RABBITMQ_CLUSTER_OPERATOR_IMAGE"
+    name  = "RABBITMQ_CLUSTER_OPERATOR_IMAGE"
     value = var.digest
   }
 }
