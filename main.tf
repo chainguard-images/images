@@ -296,6 +296,11 @@ module "external-secrets" {
   target_repository = "${var.target_repository}/external-secrets"
 }
 
+module "falco" {
+  source            = "./images/falco"
+  target_repository = "${var.target_repository}/falco"
+}
+
 module "falcoctl" {
   source            = "./images/falcoctl"
   target_repository = "${var.target_repository}/falcoctl"
