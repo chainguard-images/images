@@ -1,7 +1,5 @@
 contents:
   packages:
-    - vault-k8s
-    - libcap
 
 accounts:
   groups:
