@@ -28,7 +28,16 @@ output "config" {
     }
     environment = {
       BUILDKIT_SETUP_CGROUPV2_ROOT = 1
-      XDG_RUNTIME_DIR              = "/tmp"
+      // The recommended daemonless mode script requires this to be set, or else it will fail.
+      // https://github.com/moby/buildkit/blob/8dfc926965e6275db51888431778416a837f7f61/examples/buildctl-daemonless/buildctl-daemonless.sh#L30
+      //
+      // Definition: (https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html#variables)
+      // > $XDG_RUNTIME_DIR defines the base directory relative to which user-specific non-essential runtime files and other file objects
+      // > (such as sockets, named pipes, ...) should be stored. The directory MUST be owned by the user, and he MUST be the only one having
+      // > read and write access to it. Its Unix access mode MUST be 0700.
+      //
+      // Since containers generally run with a single user, using /tmp seems like an appropriate choice.
+      XDG_RUNTIME_DIR = "/tmp"
     }
     volumes = ["/var/lib/buildkit"]
   })

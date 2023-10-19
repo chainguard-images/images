@@ -14,5 +14,5 @@ variable "script" {
 
 data "oci_exec_test" "build" {
   digest = var.digest
-  script = "${path.module}/${var.script}"
+  script = var.script
 }
