@@ -1,0 +1,22 @@
+contents:
+  # Cilum packages come from extra_packages
+  packages: [
+    # Tools required for init container scripts
+    "util-linux-misc", # nsenter
+    "mount",
+    "bash",
+    "busybox", # for sh
+  ]
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nobody
+      uid: 65532
+      gid: 65532
+  run-as: 0
+
+entrypoint:
+  command: /usr/bin/cilium-agent
