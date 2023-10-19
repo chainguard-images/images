@@ -36,6 +36,18 @@ output "config" {
       path : "/etc/gitlab-${var.name}",
       type : "directory",
       permissions = 511
+      }, {
+      path : "/srv/gitlab-${var.name}",
+      type : "directory",
+      permissions = 511
+      }, {
+      path : "/var/log/gitlab-${var.name}",
+      type : "directory",
+      permissions = 511
+      }, {
+      path : "/etc/ssh",
+      type : "directory",
+      permissions = 511
     }]
     entrypoint = {
       command = "${var.entrypoint_cmd}"
