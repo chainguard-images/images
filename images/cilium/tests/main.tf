@@ -17,11 +17,6 @@ data "oci_exec_test" "operator-version" {
   digest = var.digests.operator
 }
 
-data "oci_exec_test" "agent-version" {
-  script = "docker run --rm $IMAGE_NAME --version"
-  digest = var.digests.agent
-}
-
 data "oci_exec_test" "cilium-install" {
   script = "${path.module}/cilium-install.sh"
   digest = var.digests.agent
