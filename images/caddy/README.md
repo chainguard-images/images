@@ -1,10 +1,35 @@
-# Chainguard Images Template
+<!--monopod:start-->
+# caddy
+| | |
+| - | - |
+| **OCI Reference** | `cgr.dev/chainguard/caddy` |
 
-This is a template README.md for new images.
 
-1. Include a brief description of the image here, and instructions about how to use it.
-1. Run `monopod readme`, which will update the top section of this file and the root README.md file.
-1. Update your new `config/template.apko.yaml` file to specify packages you want the image to include, and any other necessary image config.
-1. Call this module from the `main.tf` in the root of this repo, in alphabetical order. (`lint.sh` will yell at you if you don't)
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/caddy/overview/)
+* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
+* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
-If you need to support version streams, you can leave `packages` empty in `latest.apko.yaml`, and instead add packages to the images using the `extra_packages` TF variable in `config/main.tf`.
+---
+<!--monopod:end-->
+
+# Caddy
+
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/caddy:latest
+```
+
+## Usage
+
+This image comes with a default configuration `Caddyfile` located in `/etc/caddy/Caddyfile`.
+
+Please refer to [upstream's excellent (and comprehensive) documentation](https://caddyserver.com/docs/) on the subject of configuring Caddy for your needs.
+
+The following example runs `caddy` with a custom configuration file:
+
+```
+docker run -it --rm -v "$(pwd)/Caddyfile:/etc/caddy/Caddyfile" cgr.dev/chainguard/caddy caddy run --config /etc/caddy/Caddyfile
+```
