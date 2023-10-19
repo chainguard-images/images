@@ -9,6 +9,7 @@ variable "digests" {
   type = object({
     kas   = string
     pages = string
+    shell = string
   })
 }
 
@@ -64,6 +65,12 @@ resource "helm_release" "gitlab" {
       sidekiq = {
         enabled = false
       }
+      gitlab-shell = {
+        image = {
+          tag        = data.oci_string.ref["shell"].pseudo_tag
+          repository = data.oci_string.ref["shell"].registry_repo
+        }
+      }
     }
     postgresql = {
       image = {
@@ -105,8 +112,15 @@ data "oci_exec_test" "install-pages-up" {
   script     = "kubectl rollout status deploy -n ${helm_release.gitlab.namespace} gitlab-gitlab-pages --timeout 360s"
 }
 
+# Wait for the gitlab-shell to come up
+data "oci_exec_test" "install-shell-up" {
+  depends_on = [helm_release.gitlab]
+  digest     = var.digests.shell
+  script     = "kubectl rollout status deploy -n ${helm_release.gitlab.namespace} gitlab-gitlab-shell --timeout 360s"
+}
+
 module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.install-kas-up, data.oci_exec_test.install-pages-up]
+  depends_on = [data.oci_exec_test.install-kas-up, data.oci_exec_test.install-pages-up, data.oci_exec_test.install-shell-up]
   source     = "../../../tflib/helm-cleanup"
   name       = helm_release.gitlab.id
   namespace  = helm_release.gitlab.namespace
