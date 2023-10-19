@@ -18,10 +18,10 @@ data "oci_string" "ref" { input = var.digest }
 resource "random_pet" "suffix" {}
 
 resource "helm_release" "bitnami" {
-  name             = "postgres-exporter-bitnami-${random_pet.suffix.id}"
+  name             = "peb-${random_pet.suffix.id}"
   repository       = "oci://registry-1.docker.io/bitnamicharts"
   chart            = "postgresql"
-  namespace        = "postgres-exporter-bitnami-${random_pet.suffix.id}"
+  namespace        = "peb-${random_pet.suffix.id}"
   create_namespace = true
 
   values = [jsonencode({
