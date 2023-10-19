@@ -16,6 +16,8 @@ accounts:
     - username: nobody
       uid: 65532
       gid: 65532
+  # cilium-agent needs to be root for version 1.14.3
+  # nonroot work is coming for 1.15
   run-as: 0
 
 entrypoint:
