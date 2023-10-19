@@ -13,7 +13,7 @@ output "config" {
     }
     accounts = module.accts.block
     entrypoint = {
-      command = "/usr/bin/external-secrets-operator"
+      command = "/usr/bin/external-secrets"
     }
   })
 }
