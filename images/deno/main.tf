@@ -24,7 +24,7 @@ module "test-latest" {
   digest = module.latest.image_ref
 }
 
-resource "oci_tag" "latesT" {
+resource "oci_tag" "latest" {
   depends_on = [module.test-latest]
   digest_ref = module.latest.image_ref
   tag        = "latest"
