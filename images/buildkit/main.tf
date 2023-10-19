@@ -23,8 +23,7 @@ module "latest-root" {
   main_package      = "buildkitd"
 }
 
-module "test-latest-root" {
-  source = "./tests"
+data "oci_exec_test" "test-latest-root" {
   // Test uses buildctl-daemonless.sh script, which requires a few script tools to function (i.e. awk).
   // See https://github.com/moby/buildkit#daemonless for more details on daemonless.
   // TODO: Should we include awk / other script dependencies in the non-dev image?
@@ -33,17 +32,20 @@ module "test-latest-root" {
 }
 
 resource "oci_tag" "latest-root" {
-  depends_on = [module.test-latest-root]
+  depends_on = [data.oci_exec_test.test-latest-root]
   digest_ref = module.latest-root.image_ref
   tag        = "latest-root"
 }
 
 resource "oci_tag" "latest-root-dev" {
-  depends_on = [module.test-latest-root]
+  depends_on = [data.oci_exec_test.test-latest-root]
   digest_ref = module.latest-root.dev_ref
   tag        = "latest-root-dev"
 }
 
+// TODO: rootless requires more packages to be installed to function properly.
+// Disabling for now.
+/*
 module "config-rootless" {
   source   = "./config"
   rootless = true
@@ -59,8 +61,7 @@ module "rootless" {
   main_package      = "buildkitd"
 }
 
-module "test-rootless" {
-  source = "./tests"
+data "oci_exec_test" "test-rootless" {
   digest = module.rootless.dev_ref
   script = "${path.module}/tests/build-rootless.sh"
 }
@@ -76,3 +77,4 @@ resource "oci_tag" "latest-dev" {
   digest_ref = module.rootless.dev_ref
   tag        = "latest-dev"
 }
+*/
