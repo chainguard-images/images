@@ -17,10 +17,10 @@ variable "digests" {
 }
 
 resource "helm_release" "crossplane" {
-  name             = "crossplane"
+  name             = "crossplane-${random_pet.suffix.id}"
   repository       = "https://charts.crossplane.io/stable"
   chart            = "crossplane"
-  namespace        = "crossplane-system"
+  namespace        = "crossplane-system" // This must be crossplane-system
   create_namespace = true
 
   values = [jsonencode({
