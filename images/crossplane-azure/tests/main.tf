@@ -16,6 +16,8 @@ variable "digests" {
   })
 }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "crossplane" {
   name             = "crossplane-${random_pet.suffix.id}"
   repository       = "https://charts.crossplane.io/stable"
