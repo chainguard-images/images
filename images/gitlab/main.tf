@@ -9,13 +9,33 @@ variable "target_repository" {
 }
 
 locals {
-  components = toset(["kas"])
+  components = toset(["kas", "pages"])
+
+  // Normally the entrypoint is named like "{component}"
+  // But some entrypoint are pointing to different entrypoint commands:
+  entrypoint = merge({
+    for k, v in local.components : k => "/usr/bin/${k}"
+    }, {
+    "pages" : "/scripts/entrypoint.sh /scripts/start-pages",
+  })
+  versions = [for v in range(11, 14) : "1.${v}"]
+  component_versions = merge([
+    for c in local.components : merge([
+      for v in local.versions : {
+        "${c}-${v}" : {
+          component = c
+          version   = v
+        }
+      }
+    ]...)
+  ]...)
 }
 
 module "config" {
-  for_each = local.components
-  source   = "./config"
-  name     = each.key
+  for_each       = local.components
+  source         = "./config"
+  name           = each.key
+  entrypoint_cmd = local.entrypoint[each.key]
 }
 
 module "latest" {
@@ -47,3 +67,4 @@ resource "oci_tag" "latest-dev" {
   digest_ref = module.latest[each.key].dev_ref
   tag        = "latest-dev"
 }
+
