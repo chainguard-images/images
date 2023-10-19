@@ -291,6 +291,11 @@ module "envoy-ratelimit" {
   target_repository = "${var.target_repository}/envoy-ratelimit"
 }
 
+module "erlang" {
+  source            = "./images/erlang"
+  target_repository = "${var.target_repository}/erlang"
+}
+
 module "etcd" {
   source            = "./images/etcd"
   target_repository = "${var.target_repository}/etcd"
