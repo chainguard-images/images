@@ -17,6 +17,7 @@ module "test-latest" {
 }
 
 resource "oci_tag" "latest" {
+  depends_on = [module.test-latest]
   for_each = {
     "operator" : module.operator.image_ref
     "agent" : module.agent.image_ref
@@ -26,6 +27,7 @@ resource "oci_tag" "latest" {
 }
 
 resource "oci_tag" "latest-dev" {
+  depends_on = [module.test-latest]
   for_each = {
     "operator" : module.operator.dev_ref
   }
