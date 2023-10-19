@@ -9,11 +9,36 @@ variable "extra_packages" {
   default     = ["default-jdk"]
 }
 
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
+variable "environment" {
+  default = {}
+}
+
+module "accts" {
+  source = "../../../tflib/accts"
+  name   = "java"
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    contents = {
+      packages = concat([
+        "glibc-locale-en",
+        "busybox",
+        "libstdc++",
+      ], var.extra_packages)
+    }
+    accounts = module.accts.block
+    work-dir = "/home/build"
+    environment = merge({
+      "LANG" : "en_US.UTF-8",
+      "JAVA_HOME" : "/usr/lib/jvm/default-jvm"
+    }, var.environment)
+    paths = [{
+      path        = "/home/build"
+      type        = "directory"
+      uid         = modules.accts.run-as
+      gid         = modules.accts.run-as
+      permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
+    }]
+  })
 }
