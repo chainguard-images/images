@@ -5,8 +5,8 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. crossplane-provider-azure-{family,authorization,managedidentity,sql,storage})."
-  default     = []
+  description = "The additional packages to install (e.g. zookeeper, zookeeper-3.9)."
+  default     = ["zookeeper", "zookeeper-bitnami-compat"]
 }
 
 data "apko_config" "this" {
