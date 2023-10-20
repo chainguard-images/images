@@ -83,6 +83,11 @@ module "aspnet-runtime" {
   target_repository = "${var.target_repository}/aspnet-runtime"
 }
 
+module "atlantis" {
+  source            = "./images/atlantis"
+  target_repository = "${var.target_repository}/atlantis"
+}
+
 module "aws-cli" {
   source            = "./images/aws-cli"
   target_repository = "${var.target_repository}/aws-cli"
