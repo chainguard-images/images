@@ -2,12 +2,9 @@ contents:
   packages:
     - openjdk-11-jre
     - openjdk-11-default-jvm
-    - wavefront-proxy
-    - wavefront-proxy-config
-    - wavefront-proxy-licenses
-    - wavefront-proxy-compat
     - bash
     - busybox
+    # wavefront packages from var.extra_packages
 
 accounts:
   groups:
