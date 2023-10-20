@@ -7,8 +7,9 @@ terraform {
 variable "digests" {
   description = "The digests to run tests over."
   type = object({
-    agent    = string
-    operator = string
+    agent        = string
+    operator     = string
+    hubble-relay = string
   })
 }
 
@@ -29,5 +30,10 @@ data "oci_exec_test" "cilium-install" {
   env {
     name  = "OPERATOR_IMAGE"
     value = var.digests.operator
+  }
+
+  env {
+    name  = "HUBBLE_RELAY_IMAGE"
+    value = var.digests.hubble-relay
   }
 }
