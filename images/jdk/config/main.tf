@@ -36,8 +36,8 @@ output "config" {
     paths = [{
       path        = "/home/build"
       type        = "directory"
-      uid         = modules.accts.run-as
-      gid         = modules.accts.run-as
+      uid         = module.accts.run-as
+      gid         = module.accts.run-as
       permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
     }]
   })
