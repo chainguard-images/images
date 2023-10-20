@@ -11,6 +11,7 @@ module "latest" {
 
   target_repository = var.target_repository
   config            = module.latest-config.config
+  build-dev         = true
 }
 
 module "version-tags" {
@@ -21,7 +22,7 @@ module "version-tags" {
 
 module "test-latest" {
   source = "./tests"
-  digest = module.latest.image_ref
+  digest = module.latest.dev_ref
 }
 
 module "tagger" {
@@ -31,5 +32,6 @@ module "tagger" {
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },
+    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-dev" => module.latest.dev_ref },
   )
 }

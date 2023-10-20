@@ -27,10 +27,12 @@ resource "helm_release" "fluent-bit" {
       repository = data.oci_string.ref.registry_repo
       tag        = data.oci_string.ref.pseudo_tag
     }
+
+    command      = ["/usr/bin/fluent-bit"]
   })]
 }
 
-module "helm_cleanup" {
-  source = "../../../tflib/helm-cleanup"
-  name   = helm_release.fluent-bit.id
-}
+# module "helm_cleanup" {
+#   source = "../../../tflib/helm-cleanup"
+#   name   = helm_release.fluent-bit.id
+# }
