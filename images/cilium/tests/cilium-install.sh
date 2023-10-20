@@ -66,12 +66,8 @@ $TMPDIR/cilium install --context k3d-$CLUSTER_NAME \
     --helm-set image.override=$AGENT_IMAGE \
     --helm-set operator.image.override=$OPERATOR_IMAGE
 
-# Verify the installation
-#
-# Note: the cilium connectivity test is highly dependent on network setup
-#       on the host (see https://github.com/cilium/cilium-cli/issues/673),
-#       so we don't run it here (yet).
 $TMPDIR/cilium status --context k3d-$CLUSTER_NAME --wait
+$TMPDIR/cilium connectivity test --context k3d-$CLUSTER_NAME
 
 # Clean up
 k3d cluster delete $CLUSTER_NAME
