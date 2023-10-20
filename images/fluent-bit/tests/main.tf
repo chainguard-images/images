@@ -28,7 +28,7 @@ resource "helm_release" "fluent-bit" {
       tag        = data.oci_string.ref.pseudo_tag
     }
 
-    command      = ["/usr/bin/fluent-bit"]
+    command = ["/usr/bin/fluent-bit"]
   })]
 }
 

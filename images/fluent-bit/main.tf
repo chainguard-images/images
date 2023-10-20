@@ -22,7 +22,7 @@ module "version-tags" {
 
 module "test-latest" {
   source = "./tests"
-  digest = module.latest.dev_ref
+  digest = module.latest.image_ref
 }
 
 module "tagger" {
