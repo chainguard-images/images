@@ -1,6 +1,5 @@
 contents:
   packages:
-    - wait-for-it
 
 entrypoint:
   command: /usr/bin/wait-for-it
