@@ -1,8 +1,7 @@
 contents:
   packages:
     - busybox
-    - stakater-reloader
-    - stakater-reloader-compat
+    # stakater comes from var.extra_packages
 
 accounts:
   groups:
