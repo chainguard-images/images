@@ -1,9 +1,5 @@
 contents:
   packages:
-    - busybox
-    - argo-cd
-    - argo-cd-compat
-    - gpg
 
 accounts:
   groups:
