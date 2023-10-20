@@ -18,9 +18,9 @@ data "oci_exec_test" "operator-version" {
 }
 
 data "oci_exec_test" "cilium-install" {
-  script = "${path.module}/cilium-install.sh"
-  digest = var.digests.agent
-
+  script          = "${path.module}/cilium-install.sh"
+  digest          = var.digests.agent
+  timeout_seconds = 900
   env {
     name  = "AGENT_IMAGE"
     value = var.digests.agent
