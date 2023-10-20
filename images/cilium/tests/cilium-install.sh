@@ -64,6 +64,8 @@ rm cilium-${GOOS}-${GOARCH}.tar.gz{,.sha256sum}
 # Install cilium
 $TMPDIR/cilium install --context k3d-$CLUSTER_NAME \
     --helm-set image.override=$AGENT_IMAGE \
+    --helm-set hubble.relay.image.override=$HUBBLE_RELAY_IMAGE \
+    --helm-set hubble.relay.enabled=true \
     --helm-set operator.image.override=$OPERATOR_IMAGE
 
 $TMPDIR/cilium status --context k3d-$CLUSTER_NAME --wait
