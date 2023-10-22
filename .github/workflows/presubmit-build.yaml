@@ -81,9 +81,13 @@ jobs:
 
       - name: Collect TF diagnostics and upload
         if: ${{ always() }}
-        uses: chainguard-dev/actions/terraform-diag@main
+        id: tf-diag
+        uses: mattmoor/actions-1/terraform-diag@diags-output
         with:
           json-file: /tmp/${{ matrix.imageName }}.tf.json
+
+      - run: |
+          echo "${{ steps.tf-diag.outputs.errors }}"
 
       - name: Collect K8s diagnostics and upload
         if: ${{ failure() }}
