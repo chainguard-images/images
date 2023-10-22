@@ -18,7 +18,7 @@ services:
     ports:
       - "9092:9092"
     volumes:
-      - "kafka_data:/bitnami"
+      - "kafka_data:/opt/bitnami"
     environment:
       # KRaft settings
       - KAFKA_CFG_NODE_ID=0
@@ -34,6 +34,26 @@ volumes:
   kafka_data:
     driver: local
 EOF
-docker-compose up
+docker-compose up -d --wait
+
+KAFKA_BROKER=localhost
+KAFKA_PORT=9092
+MAX_RETRIES=5
+
+retry=0
+
+while [ $retry -lt $MAX_RETRIES ]; do
+  if nc -z -v -w 1 $KAFKA_BROKER $KAFKA_PORT 2>/dev/null; then
+    echo "Kafka on $KAFKA_BROKER:$KAFKA_PORT is up and running."
+    exit 0
+  else
+    echo "Kafka on $KAFKA_BROKER:$KAFKA_PORT is not available. Retrying in $((2**retry)) seconds..."
+    sleep $((2**retry))
+    retry=$((retry + 1))
+  fi
+done
+
+echo "Max retries reached. Kafka is still not available."
+exit 1
 
 trap "docker-compose down" EXIT
