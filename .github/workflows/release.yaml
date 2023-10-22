@@ -142,10 +142,15 @@ jobs:
           set -x && [[ -f .github/actions/release-image/action.yml ]] || ( \
             mkdir -p .github/actions/release-image/ && echo 'runs: {using: composite, steps: []}' > .github/actions/release-image/action.yml )
 
-      - uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
+      - uses: rtCamp/action-slack-notify@v2.2.1
         if: ${{ failure() && github.event_name == 'schedule' }}
-        with:
-          payload: '{"text": "[images] release failed ${{ matrix.imageName }}: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          SLACK_ICON: http://github.com/chainguard-dev.png?size=48
+          SLACK_USERNAME: guardian
+          SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
+          SLACK_CHANNEL: chainguard-images-alerts
+          SLACK_COLOR: '#8E1600'
+          MSG_MINIMAL: 'true'
+          SLACK_TITLE: '[images] release failed ${{ matrix.imageName }}'
+          SLACK_MESSAGE: |
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
