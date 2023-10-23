@@ -28,6 +28,7 @@ resource "helm_release" "fluent-bit" {
       tag        = data.oci_string.ref.pseudo_tag
     }
 
+    # the helm chart rewrites the entrypoint to /fluent-bit/bin/fluent-bit so we explicitly set it to the path in our image
     command = ["/usr/bin/fluent-bit"]
   })]
 }
