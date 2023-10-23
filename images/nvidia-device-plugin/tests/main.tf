@@ -13,9 +13,11 @@ data "oci_exec_test" "run" {
   script = "docker run --rm $IMAGE_NAME --version"
 }
 
+resource "random_pet" "suffix" {}
+
 data "oci_exec_test" "helm" {
   digest      = data.oci_exec_test.run.tested_ref
-  script      = "./helm.sh"
+  script      = "./helm.sh ${random_pet.suffix.id}"
   working_dir = path.module
 
   # Split the digest ref into repository and digest. The helm chart expects a

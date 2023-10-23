@@ -73,3 +73,21 @@ image:
   repository: cgr.dev/chainguard/nvidia-device-plugin
   tag: latest
 ```
+
+To use with the `nvidia/gpu-operator` [helm chart](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/23.9.0/index.html) then the image requires `bash` and to run as root.  
+
+```
+helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
+helm repo update
+
+helm install --wait gpu  -n gpu-operator --create-namespace nvidia/gpu-operator 
+```
+Values:
+```yaml
+driver:
+   enabled: false
+devicePlugin:
+  repository: cgr.dev/chainguard
+  image: nvidia-device-plugin
+  tag: latest-helm
+```

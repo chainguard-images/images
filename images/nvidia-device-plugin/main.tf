@@ -10,6 +10,8 @@ variable "target_repository" {
 
 module "latest-config" { source = "./config" }
 
+module "latest-helm-config" { source = "./config-helm" }
+
 module "latest" {
   source            = "../../tflib/publisher"
   name              = basename(path.module)
@@ -18,9 +20,22 @@ module "latest" {
   build-dev         = true
 }
 
+module "latest-helm" {
+  source            = "../../tflib/publisher"
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  config            = module.latest-helm-config.config
+  build-dev         = true
+}
+
 module "test-latest" {
   source = "./tests"
   digest = module.latest.image_ref
+}
+
+module "test-latest-helm" {
+  source = "./tests"
+  digest = module.latest-helm.image_ref
 }
 
 resource "oci_tag" "latest" {
@@ -33,4 +48,10 @@ resource "oci_tag" "latest-dev" {
   depends_on = [module.test-latest]
   digest_ref = module.latest.dev_ref
   tag        = "latest-dev"
+}
+
+resource "oci_tag" "latest-helm" {
+  depends_on = [module.test-latest-helm]
+  digest_ref = module.latest-helm.image_ref
+  tag        = "latest-helm"
 }
