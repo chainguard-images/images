@@ -15,5 +15,5 @@ data "oci_exec_test" "version" {
 
 data "oci_exec_test" "fetch-url" {
   digest = var.digest
-  script = "${path.module}/02-fetch-url.sh"
+  script = "${path.module}/fetch-url.sh"
 }
