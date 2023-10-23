@@ -119,6 +119,7 @@ jobs:
 
       - name: Collect TF diagnostics and upload
         if: ${{ always() }}
+        id: tf-diag
         uses: chainguard-dev/actions/terraform-diag@main
         with:
           json-file: /tmp/${{ matrix.imageName }}.tf.json
@@ -154,3 +155,5 @@ jobs:
           SLACK_TITLE: '[images] release failed ${{ matrix.imageName }}'
           SLACK_MESSAGE: |
             https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            ${{ steps.tf-diag.outputs.errors }}
