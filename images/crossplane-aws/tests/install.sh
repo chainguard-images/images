@@ -27,9 +27,97 @@ cat <<EOF | kubectl apply -f -
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
+  name: provider-aws-cloudfront
+spec:
+  package: ${CLOUDFRONT_DIGEST}
+  packagePullSecrets:
+  - name: regcred
+EOF
+
+cat <<EOF | kubectl apply -f -
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-cloudwatchlogs
+spec:
+  package: ${CLOUDWATCHLOGS_DIGEST}
+  packagePullSecrets:
+  - name: regcred
+EOF
+
+cat <<EOF | kubectl apply -f -
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-dynamodb
+spec:
+  package: ${DYNAMODB_DIGEST}
+  packagePullSecrets:
+  - name: regcred
+EOF
+
+cat <<EOF | kubectl apply -f -
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-ec2
+spec:
+  package: ${EC2_DIGEST}
+  packagePullSecrets:
+  - name: regcred
+EOF
+
+cat <<EOF | kubectl apply -f -
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-eks
+spec:
+  package: ${EKS_DIGEST}
+  packagePullSecrets:
+  - name: regcred
+EOF
+
+cat <<EOF | kubectl apply -f -
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-firehose
+spec:
+  package: ${FIREHOSE_DIGEST}
+  packagePullSecrets:
+  - name: regcred
+EOF
+
+cat <<EOF | kubectl apply -f -
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
   name: provider-aws-iam
 spec:
   package: ${IAM_DIGEST}
+  packagePullSecrets:
+  - name: regcred
+EOF
+
+cat <<EOF | kubectl apply -f -
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-kms
+spec:
+  package: ${KMS_DIGEST}
+  packagePullSecrets:
+  - name: regcred
+EOF
+
+cat <<EOF | kubectl apply -f -
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-lambda
+spec:
+  package: ${LAMBDA_DIGEST}
   packagePullSecrets:
   - name: regcred
 EOF
@@ -56,7 +144,29 @@ spec:
   - name: regcred
 EOF
 
-for provider in iam rds s3; do
+cat <<EOF | kubectl apply -f -
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-sns
+spec:
+  package: ${SNS_DIGEST}
+  packagePullSecrets:
+  - name: regcred
+EOF
+
+cat <<EOF | kubectl apply -f -
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-sqs
+spec:
+  package: ${SQS_DIGEST}
+  packagePullSecrets:
+  - name: regcred
+EOF
+
+for provider in cloudfront cloudwatchlogs dynamodb ec2 eks firehose iam kms lambda rds s3 sns sqs ; do
   kubectl wait --for=condition=Installed "provider/provider-aws-${provider}" --timeout=3m
   kubectl wait --for=condition=Healthy   "provider/provider-aws-${provider}" --timeout=5m
 done

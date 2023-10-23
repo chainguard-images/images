@@ -11,9 +11,19 @@ variable "target_repository" {
 locals {
   components = toset([
     "family",
+    "cloudfront",
+    "cloudwatchlogs",
+    "dynamodb",
+    "ec2",
+    "eks",
+    "firehose",
     "iam",
+    "kms",
+    "lambda",
     "rds",
     "s3",
+    "sns",
+    "sqs",
   ])
 
   // Normally the repository is named like "crossplane-provider-aws-{component}"
@@ -42,8 +52,7 @@ module "latest" {
 }
 
 module "test-latest" {
-  source = "./tests"
-
+  source  = "./tests"
   digests = { for k, v in module.latest : k => v.image_ref }
 }
 
