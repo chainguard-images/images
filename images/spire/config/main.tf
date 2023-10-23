@@ -14,10 +14,20 @@ variable "extra_packages" {
 
 }
 
+# agent runs as root while others as non-root, this variable is for that
+variable "run-as" {
+  description = "The user with which this should run as"
+  default     = 65532
+}
+
+# agent and server require `run` while oidc-discovery-provider doesn't, this variable tries to handle that
+variable "command" {
+  description = "The user with which this should run as"
+  default     = ""
+}
 module "accts" {
   source = "../../../tflib/accts"
-  # agent runs as root while others as non-root, this condition is for that
-  run-as = var.name == "agent" ? 0 : 65532
+  run-as = var.run-as
 }
 
 output "config" {
@@ -27,8 +37,7 @@ output "config" {
     }
     accounts = module.accts.block
     entrypoint = {
-      ## agent and server require `run` while oidc-discovery-provider doesn't, this condition tries to handle that
-      command = var.name == "agent" || var.name == "server" ? "/usr/bin/spire-${var.name} run" : "/usr/bin/${var.name}"
+      command = var.command
     }
   })
 }

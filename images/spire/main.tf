@@ -8,14 +8,33 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
+
 locals {
-  components = toset(["server", "agent", "oidc-discovery-provider"])
+  component_data = {
+    "server" = {
+      run-as  = 65532
+      command = "/usr/bin/spire-server run"
+    },
+
+    "agent" = {
+      run-as  = 0
+      command = "/usr/bin/spire-agent run"
+    },
+
+    "oidc-discovery-provider" = {
+      run-as  = 65532
+      command = "/usr/bin/oidc-discovery-provider"
+    },
+  }
+  components = toset(keys(local.component_data))
 }
 
 module "config" {
   for_each = local.components
   source   = "./config"
   name     = each.key
+  run-as   = local.component_data[each.key].run-as
+  command  = local.component_data[each.key].command
 }
 
 module "latest" {
