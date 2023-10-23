@@ -1,0 +1,29 @@
+contents:
+  packages: [
+    # Package "temporal-ui-server" comes in via var.extra_packages
+    # To add a version stream image, see the extra_packages variable in config/main.tf to add packages conditionally.
+    # Otherwise, just add packages here.
+  ]
+
+accounts:
+  groups:
+    - groupname: ui-server
+      gid: 65532
+  users:
+    - username: ui-server
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+
+paths:
+  - path: /home/ui-server
+    type: directory
+    uid: 65532
+    gid: 65532
+    permissions: 0o755
+    recursive: true
+
+entrypoint:
+  command: /home/ui-server/start-ui-server.sh
+
+work-dir: /home/ui-server/
