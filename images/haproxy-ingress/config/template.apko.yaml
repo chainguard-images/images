@@ -1,11 +1,11 @@
 contents:
   packages:
     - busybox
-    - haproxy-ingress
     - haproxy-ingress-compat
     - dumb-init
     - haproxy
     - lua-json4
+    # haproxy-ingress provided by extra_packages
 
 accounts:
   groups:
