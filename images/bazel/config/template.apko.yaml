@@ -1,12 +1,9 @@
 contents:
   packages:
-    - openjdk-17
-    - openjdk-17-default-jvm
     - bash
     - busybox
     - gcc
     - git
-    - bazel-6
     - zip
     - file
     - openssh-client
@@ -14,6 +11,7 @@ contents:
     - jq
     - patch
     - python3
+    # bazel, openjdk are provided by extra_packages
 
 accounts:
   groups:
