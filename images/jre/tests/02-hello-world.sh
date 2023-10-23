@@ -4,6 +4,8 @@ set -o errexit -o nounset -o errtrace -o pipefail
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 TMP=$(mktemp -d)
+JAVA_SOURCE_VERSION="${JAVA_SOURCE_VERSION:-8}"
+JAVA_TARGET_VERSION="${JAVA_TARGET_VERSION:-8}"
 
 function cleanup() {
     rm -rf "${TMP}"
@@ -19,7 +21,7 @@ docker run --rm -v "${TMP}:/tmp" \
   `# Build using the latest JDK image` \
   --entrypoint "javac" "${SDK_IMAGE}" \
   `# Targeting Java 8 so that all our JREs can run the produced .class file` \
-  -source 8 -target 8 \
+  -source ${JAVA_SOURCE_VERSION} -target ${JAVA_TARGET_VERSION} \
   /tmp/HelloWorld.java -d /tmp
 
 # Now we have the .class file, run it to test our JRE.
