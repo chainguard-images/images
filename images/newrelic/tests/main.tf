@@ -133,7 +133,14 @@ resource "helm_release" "nri-bundle" {
   ]
 }
 
+data "oci_exec_test" "fail" {
+  depends_on = [helm_release.nri-bundle]
+  digest     = var.digests["infrastructure-bundle"]
+  script     = "exit 1"
+}
+
 module "helm_cleanup" {
-  source = "../../../tflib/helm-cleanup"
-  name   = helm_release.nri-bundle.id
+  depends_on = [data.oci_exec_test.fail]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.nri-bundle.id
 }
