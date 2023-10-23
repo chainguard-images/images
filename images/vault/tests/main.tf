@@ -17,9 +17,11 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "vault" {
-  name             = "vault"
-  namespace        = "vault-system"
+  name             = "vault-${random_pet.suffix.id}"
+  namespace        = "vault-system-${random_pet.suffix.id}"
   repository       = "https://helm.releases.hashicorp.com"
   chart            = "vault"
   create_namespace = true
@@ -50,6 +52,14 @@ data "oci_exec_test" "acceptance" {
   digest     = var.digests["vault"]
   script     = "${path.module}/acceptance.sh"
   depends_on = [helm_release.vault]
+  env {
+    name  = "NAME"
+    value = "vault-${random_pet.suffix.id}"
+  }
+  env {
+    name  = "NAMESPACE"
+    value = "vault-system-${random_pet.suffix.id}"
+  }
 }
 
 module "helm_cleanup" {

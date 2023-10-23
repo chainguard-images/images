@@ -10,7 +10,8 @@ k3d cluster create $CLUSTER_NAME \
     --kubeconfig-switch-context=false \
     --config $SCRIPT_DIR/k3d.yaml
 
-cleanup() {
+function cleanup() {
+    set +e
     rm -rfv $TMPDIR
     # Clean up the cluster for local runs even in case of failures.
     # For CI we want it around for diagnostics.
@@ -18,12 +19,22 @@ cleanup() {
         k3d cluster delete $CLUSTER_NAME
     fi
 }
-
 trap cleanup EXIT
+
 # Attempt to copy out the registries.yaml file from the K3s cluster
 # in the active context. If it doesn't exist, that's fine.
 node=$(kubectl get nodes -o jsonpath='{.items[0].metadata.name}')
 docker cp -q $node:/etc/rancher/k3s/registries.yaml $TMPDIR || true
+# If we have a registries.yaml file, copy it to our nodes.
+if [ -f "$TMPDIR/registries.yaml" ]; then
+    for node in $(kubectl get --context=k3d-$CLUSTER_NAME nodes -o jsonpath='{.items[*].metadata.name}'); do
+        echo "Configuring pull creds for $node"
+        docker cp -q $TMPDIR/registries.yaml $node:/etc/rancher/k3s/registries.yaml
+    done
+fi
+# Restart the cluster to pickup the pull credentials
+k3d cluster stop $CLUSTER_NAME
+k3d cluster start $CLUSTER_NAME
 
 # These settings come from
 # https://docs.cilium.io/en/latest/installation/rancher-desktop/#configure-rancher-desktop
@@ -36,13 +47,7 @@ for node in $(kubectl get --context=k3d-$CLUSTER_NAME nodes -o jsonpath='{.items
         mount -t cgroup2 none /run/cilium/cgroupv2
         mount --make-shared /run/cilium/cgroupv2/
 EOF
-    # If we have a registries.yaml file, copy it to our nodes.
-    if [ -f "$TMPDIR/registries.yaml" ]; then
-        echo "Configuring pull creds for $node"
-        docker cp -q $TMPDIR/registries.yaml $node:/etc/rancher/k3s/registries.yaml
-    fi
 done
-
 
 # Download the cilium CLI
 pushd $TMPDIR
@@ -59,14 +64,12 @@ rm cilium-${GOOS}-${GOARCH}.tar.gz{,.sha256sum}
 # Install cilium
 $TMPDIR/cilium install --context k3d-$CLUSTER_NAME \
     --helm-set image.override=$AGENT_IMAGE \
+    --helm-set hubble.relay.image.override=$HUBBLE_RELAY_IMAGE \
+    --helm-set hubble.relay.enabled=true \
     --helm-set operator.image.override=$OPERATOR_IMAGE
 
-# Verify the installation
-#
-# Note: the cilium connectivity test is highly dependent on network setup
-#       on the host (see https://github.com/cilium/cilium-cli/issues/673),
-#       so we don't run it here (yet).
 $TMPDIR/cilium status --context k3d-$CLUSTER_NAME --wait
+$TMPDIR/cilium connectivity test --context k3d-$CLUSTER_NAME
 
 # Clean up
 k3d cluster delete $CLUSTER_NAME

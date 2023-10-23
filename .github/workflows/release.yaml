@@ -117,19 +117,18 @@ jobs:
           echo ::endgroup::
           terraform apply -auto-approve "-target=module.${{ matrix.imageName }}" -json | tee /tmp/${{ matrix.imageName }}.tf.json | jq -r '.["@message"]'
 
-      - name: Collect diagnostics and upload
+      - name: Collect TF diagnostics and upload
+        if: ${{ always() }}
+        id: tf-diag
+        uses: chainguard-dev/actions/terraform-diag@main
+        with:
+          json-file: /tmp/${{ matrix.imageName }}.tf.json
+
+      - name: Collect K8s diagnostics and upload
         if: ${{ failure() }}
         uses: chainguard-dev/actions/k8s-diag@main
         with:
           cluster-type: k3d
-
-      - name: Surface terraform warnings.
-        if: always()
-        run: grep '"@level":"warn"' /tmp/${{ matrix.imageName }}.tf.json | jq || true
-
-      - name: Surface terraform errors
-        if: failure()
-        run: grep '"@level":"error"' /tmp/${{ matrix.imageName }}.tf.json | jq  || true
 
       - name: Upload terraform logs
         if: always()
@@ -144,10 +143,17 @@ jobs:
           set -x && [[ -f .github/actions/release-image/action.yml ]] || ( \
             mkdir -p .github/actions/release-image/ && echo 'runs: {using: composite, steps: []}' > .github/actions/release-image/action.yml )
 
-      - uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
+      - uses: rtCamp/action-slack-notify@v2.2.1
         if: ${{ failure() && github.event_name == 'schedule' }}
-        with:
-          payload: '{"text": "[images] release failed ${{ matrix.imageName }}: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"}'
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          SLACK_ICON: http://github.com/chainguard-dev.png?size=48
+          SLACK_USERNAME: guardian
+          SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
+          SLACK_CHANNEL: chainguard-images-alerts
+          SLACK_COLOR: '#8E1600'
+          MSG_MINIMAL: 'true'
+          SLACK_TITLE: '[images] release failed ${{ matrix.imageName }}'
+          SLACK_MESSAGE: |
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            ${{ steps.tf-diag.outputs.errors }}
