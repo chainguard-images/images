@@ -10,6 +10,7 @@ accounts:
   users:
     - username: nonroot
       uid: 65532
+  # See https://github.com/chainguard-dev/image-quality-issues/issues/47#issuecomment-1775667001 for details as to why we need to run as root
   run-as: 0
 
 paths:
