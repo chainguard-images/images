@@ -11,9 +11,14 @@ variable "extra_packages" {
   description = "Additional packages to install."
   type        = list(string)
   default     = []
+
 }
 
-module "accts" { source = "../../../tflib/accts" }
+module "accts" {
+  source = "../../../tflib/accts"
+  # agent runs as root while others as non-root, this condition is for that
+  run-as = var.name == "agent" ? 0 : 65532
+}
 
 output "config" {
   value = jsonencode({
@@ -22,7 +27,8 @@ output "config" {
     }
     accounts = module.accts.block
     entrypoint = {
-      command = "/usr/bin/spire-${var.name}"
+      ## agent and server require `run` while oidc-discovery-provider doesn't, this condition tries to handle that
+      command = var.name == "agent" || var.name == "server" ? "/usr/bin/spire-${var.name} run" : "/usr/bin/${var.name}"
     }
   })
 }
