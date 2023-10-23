@@ -28,3 +28,4 @@ paths:
 
 entrypoint:
   command: /usr/local/bin/docker-entrypoint.sh
+cmd: "haproxy -f /usr/local/etc/haproxy/haproxy.cfg"
