@@ -12,12 +12,12 @@ data "oci_string" "ref" { input = var.digest }
 
 data "oci_exec_test" "runs" {
   digest = var.digest
-  script = "${path.module}/01-runs.sh"
+  script = "${path.module}/runs.sh"
 }
 
 data "oci_exec_test" "helm" {
   digest = var.digest
-  script = "${path.module}/02-helm.sh"
+  script = "${path.module}/helm.sh"
 
   env {
     name  = "IMAGE_REGISTRY"
