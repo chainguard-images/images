@@ -76,6 +76,7 @@ resource "helm_release" "base" {
     global = {
       istioNamespace = local.namespace
     }
+    defaultRevision = ""
   })]
 }
 
