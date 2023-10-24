@@ -1,0 +1,77 @@
+contents:
+  packages:
+    - bash
+    - busybox
+    # tomcat and openjdk provided by extra_packages
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+
+paths:
+  - path: /usr/share/tomcat/conf
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
+    recursive: true
+  - path: /usr/share/tomcat/lib
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
+    recursive: true
+  - path: /usr/share/tomcat/bin
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
+    recursive: true
+  - path: /usr/share/tomcat/logs
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
+    recursive: true
+  - path: /usr/share/tomcat/temp
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
+    recursive: true
+  - path: /usr/share/tomcat/work
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
+    recursive: true
+  - path: /usr/share/tomcat/webapps
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
+    recursive: true
+  - path: /usr/local/tomcat
+    type: symlink
+    source: /usr/share/tomcat
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
+    recursive: true
+
+environment:
+  JAVA_HOME: /usr/lib/jvm/java-11-openjdk
+  PATH: /usr/local/tomcat/bin:/usr/sbin:/sbin:/usr/bin:/bin
+  CATALINA_HOME: /usr/local/tomcat
+  LD_LIBRARY_PATH: /usr/lib/tomcat-native
+
+entrypoint:
+  command: catalina.sh run
+
+work-dir: /usr/local/tomcat
