@@ -76,6 +76,8 @@ resource "helm_release" "base" {
     global = {
       istioNamespace = local.namespace
     }
+    # Disable the CRD validation webhook to avoid contention w/ tests of other versions,
+    # as this is a cluster-wide resource that we can't customize the name.
     defaultRevision = ""
   })]
 }
