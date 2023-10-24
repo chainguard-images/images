@@ -26,6 +26,6 @@ entrypoint:
   command: /usr/bin/bazel
 
 environment:
-  JAVA_HOME: /usr/lib/jvm/java-17-openjdk
+  JAVA_HOME: /usr/lib/jvm/default-jvm
 
 work-dir: /home/bazel

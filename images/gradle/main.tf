@@ -15,7 +15,6 @@ module "config" {
     "openjdk-17",
     "openjdk-17-default-jvm",
   ]
-  java_home = "/usr/lib/jvm/java-17-openjdk"
 }
 
 module "latest" {
