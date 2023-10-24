@@ -1032,6 +1032,11 @@ module "trillian" {
   target_repository = "${var.target_repository}/trillian"
 }
 
+module "trino" {
+  source            = "./images/trino"
+  target_repository = "${var.target_repository}/trino"
+}
+
 module "trust-manager" {
   source            = "./images/trust-manager"
   target_repository = "${var.target_repository}/trust-manager"
