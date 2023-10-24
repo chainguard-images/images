@@ -67,6 +67,7 @@ paths:
 
 environment:
   PATH: /usr/local/tomcat/bin:/usr/sbin:/sbin:/usr/bin:/bin
+  JAVA_HOME: /usr/lib/jvm/default-jvm
   CATALINA_HOME: /usr/local/tomcat
   LD_LIBRARY_PATH: /usr/lib/tomcat-native
 
