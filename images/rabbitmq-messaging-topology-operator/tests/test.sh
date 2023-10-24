@@ -39,6 +39,15 @@ function certs() {
 
 certs
 
+helm repo add jetstack https://charts.jetstack.io
+
+helm install cert-manager \
+    --namespace cert-manager-rmq-mto \
+    --create-namespace \
+    --set installCRDs=true \
+    --wait \
+    jetstack/cert-manager
+
 CLUSTER_LATEST=$(curl -s "https://api.github.com/repos/rabbitmq/cluster-operator/releases/latest" | jq -r '.tag_name')
 kubectl apply -f "https://github.com/rabbitmq/cluster-operator/releases/download/${CLUSTER_LATEST}/cluster-operator.yml"
 

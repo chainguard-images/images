@@ -10,16 +10,6 @@ variable "digest" {
 
 resource "random_pet" "suffix" {}
 
-resource "helm_release" "cert-manager" {
-  name       = "cert-manager-${random_pet.suffix.id}"
-  repository = "https://charts.jetstack.io"
-  chart      = "cert-manager"
-  timeout    = 600
-
-  namespace        = "cert-manager-${random_pet.suffix.id}"
-  create_namespace = true
-}
-
 data "oci_exec_test" "deploy" {
   #depends_on = [helm_release.cert-manager]
 
@@ -30,9 +20,4 @@ data "oci_exec_test" "deploy" {
     name  = "RABBITMQ_MESSAGING_TOPOLOGY_OPERATOR_IMAGE"
     value = var.digest
   }
-}
-
-module "helm_cleanup" {
-  source = "../../../tflib/helm-cleanup"
-  name   = helm_release.cert-manager.id
 }
