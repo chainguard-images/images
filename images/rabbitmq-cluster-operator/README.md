@@ -12,3 +12,12 @@
 ---
 <!--monopod:end-->
 
+Minimal Project RabbitMQ Cluster Kubernetes Operator
+
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/rabbitmq-cluster-operator:latest
+```
