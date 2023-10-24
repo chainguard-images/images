@@ -18,6 +18,7 @@ function cleanup() {
     if [ -z "$CI" ]; then
         k3d cluster delete $CLUSTER_NAME
     fi
+    kill $PORT_FORWARD_PID &>/dev/null
 }
 trap cleanup EXIT
 
@@ -72,7 +73,24 @@ $TMPDIR/cilium install --context k3d-$CLUSTER_NAME \
     --helm-set operator.image.override=$OPERATOR_IMAGE
 
 $TMPDIR/cilium status --context k3d-$CLUSTER_NAME --wait
+
+# Run the network connectivity test suite
 $TMPDIR/cilium connectivity test --context k3d-$CLUSTER_NAME
+
+# Test the hubble UI
+$TMPDIR/cilium hubble ui --context k3d-$CLUSTER_NAME --port-forward $FREE_PORT &
+PORT_FORWARD_PID=$!
+
+set +o errexit
+for i in {1..10}; do
+    curl --retry 10 localhost:$FREE_PORT && s=0 && break
+    s=$?
+    sleep 5
+done
+if [ $s -ne 0 ]; then
+    exit $s
+fi
+set -o errexit
 
 # Clean up
 k3d cluster delete $CLUSTER_NAME
