@@ -21,6 +21,7 @@ entrypoint:
 
 environment:
   LANG: en_US.UTF-8
+  JAVA_HOME: /usr/lib/jvm/default-jvm
 
 paths:
   - path: /home/build
