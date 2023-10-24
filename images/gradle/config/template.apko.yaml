@@ -2,9 +2,8 @@ contents:
   packages:
     - glibc-locale-en
     - busybox
-    - gradle-8
-    - openjdk-17
-    - openjdk-17-default-jvm
+    # gradle, openjdk-17 and openjdk-17-default-jvm are provided by extra_packages
+
 
 accounts:
   groups:
@@ -22,7 +21,6 @@ entrypoint:
 
 environment:
   LANG: en_US.UTF-8
-  JAVA_HOME: /usr/lib/jvm/java-17-openjdk
 
 paths:
   - path: /home/build
