@@ -30,10 +30,11 @@ function certs() {
   openSSL genrsa -out ca.key 2048
   openssl req -x509 -new -nodes -days 1 -key ca.key -out ca.crt -subj "/CN=testdomain.com"
   openssl req -x509 -nodes -days 1 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=testdomain.com"
-  kubectl create secret webhook-secret-cert -n rabbitmq-system --from-file=./ca.crt --from-file=./tls.crt --from-file=./tls.key
+  kubectl create namespace rabbitmq-system
+  kubectl create secret generic webhook-server-cert -n rabbitmq-system --from-file=./ca.crt --from-file=./tls.crt --from-file=./tls.key
 }
 
-openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 3650 -nodes -subj "/C=XX/ST=StateName/L=CityName/O=CompanyName/OU=CompanySectionName/CN=CommonNameOrHostname"
+certs
 
 helm repo add jetstack https://charts.jetstack.io
 
