@@ -1,13 +1,11 @@
 contents:
   packages:
     - glibc-locale-en
-    - jenkins
-    - openjdk-17-jre
-    - openjdk-17-default-jvm
     - bash
     - coreutils
     - busybox
     - tzdata
+    # jenkins and openjdk provided by extra_packages
 
 accounts:
   groups:
