@@ -20,7 +20,7 @@ resource "random_pet" "suffix" {}
 
 resource "helm_release" "trino" {
   repository       = "https://trinodb.github.io/charts/"
-  name             = "trino"
+  name             = "trino-${random_pet.suffix.id}"
   chart            = "trino"
   namespace        = "trino-${random_pet.suffix.id}"
   create_namespace = true
