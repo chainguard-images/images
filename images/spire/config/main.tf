@@ -22,8 +22,12 @@ variable "run-as" {
 
 # agent and server require `run` while oidc-discovery-provider doesn't, this variable tries to handle that
 variable "command" {
-  description = "The user with which this should run as"
-  default     = ""
+  description = "The command to be used as the entrypoint"
+}
+
+# oidc-discovery-provider begins wiht --help command after entrypoint, this is to handle that
+variable "cmd" {
+  description = "The command followed by entrypoint"
 }
 module "accts" {
   source = "../../../tflib/accts"
@@ -39,5 +43,6 @@ output "config" {
     entrypoint = {
       command = var.command
     }
+    cmd = var.cmd
   })
 }

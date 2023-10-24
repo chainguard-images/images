@@ -12,29 +12,37 @@ variable "target_repository" {
 locals {
   component_data = {
     "server" = {
-      run-as  = 65532
-      command = "/usr/bin/spire-server run"
+      run-as         = 65532
+      command        = "/usr/bin/spire-server run"
+      extra_packages = []
+      cmd            = ""
     },
 
     "agent" = {
-      run-as  = 0
-      command = "/usr/bin/spire-agent run"
+      run-as         = 0
+      command        = "/usr/bin/spire-agent run"
+      extra_packages = ["busybox", "libcap-utils"]
+      cmd            = ""
     },
 
     "oidc-discovery-provider" = {
-      run-as  = 65532
-      command = "/usr/bin/oidc-discovery-provider"
+      run-as         = 65532
+      command        = "/usr/bin/oidc-discovery-provider"
+      extra_packages = []
+      cmd            = "--help"
     },
   }
   components = toset(keys(local.component_data))
 }
 
 module "config" {
-  for_each = local.components
-  source   = "./config"
-  name     = each.key
-  run-as   = local.component_data[each.key].run-as
-  command  = local.component_data[each.key].command
+  for_each       = local.components
+  source         = "./config"
+  name           = each.key
+  run-as         = local.component_data[each.key].run-as
+  command        = local.component_data[each.key].command
+  cmd            = local.component_data[each.key].cmd
+  extra_packages = local.component_data[each.key].extra_packages
 }
 
 module "latest" {
