@@ -11,9 +11,11 @@ variable "target_repository" {
 module "test-latest" {
   source = "./tests"
   digests = {
-    agent        = module.agent.image_ref
-    hubble-relay = module.hubble-relay.image_ref
-    operator     = module.operator.image_ref
+    agent             = module.agent.image_ref
+    hubble-relay      = module.hubble-relay.image_ref
+    hubble-ui         = module.hubble-ui.image_ref
+    hubble-ui-backend = module.hubble-ui-backend.image_ref
+    operator          = module.operator.image_ref
   }
 }
 
@@ -22,6 +24,8 @@ resource "oci_tag" "latest" {
   for_each = {
     "agent" : module.agent.image_ref
     "hubble-relay" : module.hubble-relay.image_ref
+    "hubble-ui" : module.hubble-ui.image_ref
+    "hubble-ui-backend" : module.hubble-ui-backend.image_ref
     "operator" : module.operator.image_ref
   }
   digest_ref = each.value
@@ -33,6 +37,8 @@ resource "oci_tag" "latest-dev" {
   for_each = {
     "agent" : module.agent.dev_ref
     "hubble-relay" : module.hubble-relay.dev_ref
+    "hubble-ui" : module.hubble-ui.dev_ref
+    "hubble-ui-backend" : module.hubble-ui-backend.dev_ref
     "operator" : module.operator.dev_ref
   }
   digest_ref = each.value
