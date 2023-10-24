@@ -29,19 +29,24 @@ EOF
 
 manifests
 
+CAKEY="${TMPDIR}/ca.key"
+CACRT="${TMPDIR}/ca.crt"
+TLSKEY="${TMPDIR}/tls.key"
+TLSCRT="${TMPDIR}/tls.crt"
+
 function certs() {
-  openssl genrsa -out ca.key 2048
-  openssl req -x509 -new -nodes -days 1 -key ca.key -out ca.crt -subj "/CN=testdomain.com"
-  openssl req -x509 -nodes -days 1 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=testdomain.com"
+  openssl genrsa -out "${CAKEY}" 2048
+  openssl req -x509 -new -nodes -days 1 -key "${CAKEY}" -out "${CACRT}" -subj "/CN=testdomain.com"
+  openssl req -x509 -nodes -days 1 -newkey rsa:2048 -keyout "${TLSKEY}" -out "${TLSCRT}" -subj "/CN=testdomain.com"
   kubectl create namespace rabbitmq-system
-  kubectl create secret generic webhook-server-cert -n rabbitmq-system --from-file=./ca.crt --from-file=./tls.crt --from-file=./tls.key
+  kubectl create secret generic webhook-server-cert -n rabbitmq-system --from-file="${CACRT}" --from-file="${TLSCRT}" --from-file="${TLSKEY}"
 }
 
 certs
 
 helm repo add jetstack https://charts.jetstack.io
 
-helm install cert-manager \
+helm install cert-manager-rmq-mto \
     --namespace cert-manager-rmq-mto \
     --create-namespace \
     --set installCRDs=true \
@@ -57,4 +62,6 @@ kubectl rollout status --timeout=5m --namespace rabbitmq-system deployment messa
 
 kubectl delete -k "${TMPDIR}"
 
-rm -rf "${KUSTOMIZE_FILE}"
+helm uninstall cert-manager-rmq-mto
+
+rm -rf "${KUSTOMIZE_FILE}" "${CAKEY}" "${CACRT}" "${TLSKEY}" "${TLSCRT}"
