@@ -11,3 +11,27 @@
 
 ---
 <!--monopod:end-->
+
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/trino
+```
+
+## Usage
+
+There is a TrinoDB Helm Chart exists, [here](https://github.com/trinodb/charts), which makes it easy to deploy TrinoDB on Kubernetes.
+
+Here is the command that can be used to deploy TrinoDB on Kubernetes:
+
+```
+helm repo add trino https://trinodb.github.io/charts
+helm repo update
+helm install trino trino/trino \
+      --set image.repository=cgr.dev/chainguard/trino
+```
+
+That's it, now, you have TrinoDB running on Kubernetes.
+
