@@ -35,7 +35,6 @@ variable "extra_plugins" {
 }
 
 variable "packages" {
-  # https://github.com/runatlantis/atlantis/blob/main/Dockerfile#L44
   description = "List of packages as runtime dependencies for Atlantis"
   type        = list(string)
   default = [

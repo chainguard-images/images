@@ -16,11 +16,13 @@ data "oci_exec_test" "help" {
   script = "${path.module}/container-test.sh"
 }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "trino" {
   repository       = "https://trinodb.github.io/charts/"
   name             = "trino"
   chart            = "trino"
-  namespace        = "trino"
+  namespace        = "trino-${random_pet.suffix.id}"
   create_namespace = true
   timeout          = 900
 
