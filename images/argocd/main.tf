@@ -23,7 +23,7 @@ module "latest" {
   source   = "../../tflib/publisher"
 
   name              = basename(path.module)
-  target_repository = (each.key == "argo-cd" ? var.target_repository : "${var.target_repository}-repo-server")
+  target_repository = (each.key == "server" ? var.target_repository : "${var.target_repository}-repo-server")
   config            = module.config[each.key].config
   build-dev         = true
 }
