@@ -27,7 +27,7 @@ EOF
 manifests
 
 function certs() {
-  openSSL genrsa -out ca.key 2048
+  openssl genrsa -out ca.key 2048
   openssl req -x509 -new -nodes -days 1 -key ca.key -out ca.crt -subj "/CN=testdomain.com"
   openssl req -x509 -nodes -days 1 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=testdomain.com"
   kubectl create namespace rabbitmq-system
