@@ -1,8 +1,8 @@
 contents:
   packages:
     - influxd
-    - influx
     - influxd-oci-entrypoint
+    # influx provided by extra_packages
 
 accounts:
   groups:
