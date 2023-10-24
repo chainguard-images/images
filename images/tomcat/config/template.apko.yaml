@@ -66,12 +66,12 @@ paths:
     recursive: true
 
 environment:
-  JAVA_HOME: /usr/lib/jvm/java-11-openjdk
   PATH: /usr/local/tomcat/bin:/usr/sbin:/sbin:/usr/bin:/bin
   CATALINA_HOME: /usr/local/tomcat
   LD_LIBRARY_PATH: /usr/lib/tomcat-native
 
 entrypoint:
-  command: catalina.sh run
+  command: /usr/local/tomcat/bin/catalina.sh
+cmd: run
 
 work-dir: /usr/local/tomcat

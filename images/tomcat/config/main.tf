@@ -5,13 +5,18 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. elasticsearch-7)."
+  description = "The additional packages to install (e.g. tomcat-10)."
   default = [
+    "tomcat-10",
+    "tomcat-native",
     "openjdk-17",
     "openjdk-17-default-jvm",
-    "tomcat-native",
-    "tomcat-10"
   ]
+}
+
+variable "java_home" {
+  description = "The JAVA_HOME environment variable."
+  default     = "/usr/lib/jvm/java-17-openjdk"
 }
 
 data "apko_config" "this" {
@@ -20,5 +25,9 @@ data "apko_config" "this" {
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode(merge(data.apko_config.this.config, {
+    environment : {
+      "JAVA_HOME" : var.java_home
+    }
+  }))
 }

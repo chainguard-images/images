@@ -3,9 +3,11 @@
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 TMPDIR="$(mktemp -d)"
-NS="tomcat-10"
+NS="tomcat-${FREE_PORT}"
 
 function cleanup() {
+    kubectl describe deployment -n ${NS} -A
+    kubectl logs -n ${NS} -l app=tomcat
     kubectl delete configmap/sample-war-configmap -n ${NS}
     kubectl delete -f ${TMPDIR}/deployment.yaml -n ${NS}
     rm -rf "$TMPDIR"
