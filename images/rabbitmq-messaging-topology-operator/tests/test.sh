@@ -62,6 +62,6 @@ kubectl rollout status --timeout=5m --namespace rabbitmq-system deployment messa
 
 kubectl delete -k "${TMPDIR}"
 
-helm uninstall cert-manager-rmq-mto
+helm uninstall cert-manager-rmq-mto -n cert-manager-rmq-mto
 
 rm -rf "${KUSTOMIZE_FILE}" "${CAKEY}" "${CACRT}" "${TLSKEY}" "${TLSCRT}"
