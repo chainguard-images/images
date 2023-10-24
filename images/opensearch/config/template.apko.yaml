@@ -22,7 +22,7 @@ paths:
     recursive: true
 
 environment:
-  JAVA_HOME: /usr/lib/jvm/java-11-openjdk
+  JAVA_HOME: /usr/lib/jvm/default-jvm
 
 entrypoint:
   command: /usr/bin/docker-entrypoint.sh
