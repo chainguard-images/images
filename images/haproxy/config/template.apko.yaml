@@ -1,8 +1,8 @@
 contents:
   packages:
-    - haproxy
     - haproxy-oci-entrypoint
     - dataplaneapi
+    # haproxy provided by extra_packages
 
 accounts:
   groups:
