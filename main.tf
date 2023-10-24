@@ -1017,6 +1017,11 @@ module "timoni" {
   target_repository = "${var.target_repository}/timoni"
 }
 
+module "tomcat" {
+  source            = "./images/tomcat"
+  target_repository = "${var.target_repository}/tomcat"
+}
+
 module "traefik" {
   source            = "./images/traefik"
   target_repository = "${var.target_repository}/traefik"
