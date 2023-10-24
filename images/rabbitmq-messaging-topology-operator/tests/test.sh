@@ -2,11 +2,14 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
+TMPDIR="$(mktemp -d)"
+KUSTOMIZE_FILE="${TMPDIR}/kustomization.yaml"
+
 function manifests() {
   # if image tag is latest then find the latest version of the git release
   LATEST=$(curl -s "https://api.github.com/repos/rabbitmq/messaging-topology-operator/releases/latest" | jq -r '.tag_name')
 
-  cat <<EOF > kustomization.yaml
+  cat <<EOF > "${KUSTOMIZE_FILE}"
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
@@ -36,18 +39,13 @@ function certs() {
 
 certs
 
-helm repo add jetstack https://charts.jetstack.io
-
-helm install cert-manager \
-    --namespace cert-manager \
-    --create-namespace \
-    --set installCRDs=true \
-    --wait \
-    jetstack/cert-manager
-
 CLUSTER_LATEST=$(curl -s "https://api.github.com/repos/rabbitmq/cluster-operator/releases/latest" | jq -r '.tag_name')
 kubectl apply -f "https://github.com/rabbitmq/cluster-operator/releases/download/${CLUSTER_LATEST}/cluster-operator.yml"
 
-kubectl apply -k .
+kubectl apply -k "${TMPDIR}"
 
 kubectl rollout status --timeout=5m --namespace rabbitmq-system deployment messaging-topology-operator
+
+kubectl delete -k "${TMPDIR}"
+
+rm -rf "${KUSTOMIZE_FILE}"
