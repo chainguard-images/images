@@ -883,6 +883,11 @@ module "rabbitmq" {
   target_repository = "${var.target_repository}/rabbitmq"
 }
 
+module "rabbitmq-cluster-operator" {
+  source            = "./images/rabbitmq-cluster-operator"
+  target_repository = "${var.target_repository}/rabbitmq-cluster-operator"
+}
+
 module "redis" {
   source            = "./images/redis"
   target_repository = "${var.target_repository}/redis"
