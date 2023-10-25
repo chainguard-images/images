@@ -13,21 +13,22 @@ locals {
   component_data = {
     "server" = {
       run-as         = 65532
-      command        = "/usr/bin/spire-server run"
+      entrypoint-cmd = "/usr/bin/spire-server run"
+      # Leaving them empty where they are not used despite they are set to default because it errors out while being called in module 'config'
       extra_packages = []
       cmd            = ""
     },
 
     "agent" = {
       run-as         = 0
-      command        = "/usr/bin/spire-agent run"
+      entrypoint-cmd = "/usr/bin/spire-agent run"
       extra_packages = ["busybox", "libcap-utils"]
       cmd            = ""
     },
 
     "oidc-discovery-provider" = {
       run-as         = 65532
-      command        = "/usr/bin/oidc-discovery-provider"
+      entrypoint-cmd = "/usr/bin/oidc-discovery-provider"
       extra_packages = []
       cmd            = "--help"
     },
@@ -40,7 +41,7 @@ module "config" {
   source         = "./config"
   name           = each.key
   run-as         = local.component_data[each.key].run-as
-  command        = local.component_data[each.key].command
+  entrypoint-cmd = local.component_data[each.key].entrypoint-cmd
   cmd            = local.component_data[each.key].cmd
   extra_packages = local.component_data[each.key].extra_packages
 }
