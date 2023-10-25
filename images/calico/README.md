@@ -28,27 +28,20 @@ metadata:
 spec:
   images:
     - image: calico/node
-      # crane digest cgr.dev/chainguard/calico-node:latest
-      digest: $node_digest
+      digest: ... # Replace with $(crane digest cgr.dev/chainguard/calico-node:latest)
     - image: calico/cni
-      # crane digest cgr.dev/chainguard/calico-cni:latest
-      digest: $cni_digest
+      digest: ... # Replace with $(crane digest cgr.dev/chainguard/calico-cni:latest)
     - image: calico/kube-controllers
-      # crane digest cgr.dev/chainguard/calico-kube-controllers:latest
-      digest: $calico-kube-controllers
+      digest: ... # Replace with $(crane digest cgr.dev/chainguard/calico-kube-controllers:latest)
     - image: calico/pod2daemon-flexvol
-      # crane digest cgr.dev/chainguard/calico-pod2daemon-flexvol:latest
-      digest: $calico-pod2daemon-flexvol
+      digest: ... # Replace with $(crane digest cgr.dev/chainguard/calico-pod2daemon-flexvol:latest)
     - image: calico/csi
-      # crane digest cgr.dev/chainguard/calico-csi:latest
-      digest: $calico-csi
+      digest: ... # Replace with $(crane digest cgr.dev/chainguard/calico-csi:latest)
     - image: calico/typha
-      # crane digest cgr.dev/chainguard/calico-typha:latest
-      digest: $calico-typha
+      digest: ... # Replace with $(crane digest cgr.dev/chainguard/calico-typha:latest)
     - image: calico/node-driver-registrar
-      # crane digest cgr.dev/chainguard/calico-node-driver-registrar:latest
-      digest: $calico-node-driver-registrar
-    # This isn't used on Linux, it just needs to have a value.
+      digest: ... # Replace with $(crane digest cgr.dev/chainguard/calico-node-driver-registrar:latest)
+    # This isn't used on Linux, but it needs to have a value containing a valid digest.
     - image: calico/windows-upgrade
       digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
 
