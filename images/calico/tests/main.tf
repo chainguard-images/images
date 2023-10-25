@@ -30,11 +30,11 @@ data "oci_exec_test" "install" {
 
   env {
     name  = "REGISTRY"
-    value = data.oci_string.image["node"].registry
+    value = split("/", data.oci_string.image["node"].registry_repo)[0]
   }
   env {
     name  = "REPOSITORY"
-    value = split("/", data.oci_string.image["node"].repo)[0]
+    value = split("/", data.oci_string.image["node"].registry_repo)[1]
   }
 
   env {
