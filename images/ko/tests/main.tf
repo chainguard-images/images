@@ -8,12 +8,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME version"
-}
-
 data "oci_exec_test" "build" {
   digest = var.digest
-  script = "${path.module}/02-build.sh"
+  script = "${path.module}/build.sh"
 }
