@@ -73,6 +73,11 @@ module "apko" {
   target_repository = "${var.target_repository}/apko"
 }
 
+module "argo" {
+  source            = "./images/argo"
+  target_repository = "${var.target_repository}/argo"
+}
+
 module "argocd" {
   source            = "./images/argocd"
   target_repository = "${var.target_repository}/argocd"
