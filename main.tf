@@ -898,6 +898,11 @@ module "rabbitmq-cluster-operator" {
   target_repository = "${var.target_repository}/rabbitmq-cluster-operator"
 }
 
+module "rabbitmq-messaging-topology-operator" {
+  source            = "./images/rabbitmq-messaging-topology-operator"
+  target_repository = "${var.target_repository}/rabbitmq-messaging-topology-operator"
+}
+
 module "redis" {
   source            = "./images/redis"
   target_repository = "${var.target_repository}/redis"
