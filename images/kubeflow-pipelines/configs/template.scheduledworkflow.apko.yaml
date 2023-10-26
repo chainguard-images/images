@@ -1,7 +1,7 @@
 contents:
   packages:
-    - kubeflow-pipelines-apiserver
-    - wget
+    # - kubeflow-pipelines-scheduledworkflow
+    - busybox
 
 accounts:
   groups:
@@ -14,12 +14,6 @@ accounts:
   run-as: 65532
 
 paths:
-  - path: /config
-    type: directory
-    permissions: 0o777
-    uid: 65532
-    gid: 65532
-    recursive: true
   - path: /third_party
     type: directory
     permissions: 0o777
@@ -27,4 +21,4 @@ paths:
     gid: 65532
     recursive: true
 
-cmd: /usr/bin/apiserver --config=/config --sampleconfig=/config/sample_config.json -logtostderr=true
+cmd: /usr/bin/scheduledworkflow --logtostderr=true --namespace=""

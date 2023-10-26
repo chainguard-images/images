@@ -1,6 +1,7 @@
 contents:
   packages:
-    - kubeflow-pipelines-metadata-writer-compat
+   - kubeflow-pipelines-metadata-writer-compat
+   # kubeflow-pipelines-metadata-writer
 
 accounts:
   groups:

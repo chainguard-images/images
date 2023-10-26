@@ -1,6 +1,6 @@
 contents:
   packages:
-    - kubeflow-pipelines-viewer-crd-controller
+    # - kubeflow-pipelines-viewer-crd-controller
     - busybox
 
 accounts:
