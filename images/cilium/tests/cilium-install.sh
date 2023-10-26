@@ -74,6 +74,13 @@ $TMPDIR/cilium install --context k3d-$CLUSTER_NAME \
 
 $TMPDIR/cilium status --context k3d-$CLUSTER_NAME --wait
 
+QUAY_IMAGES=$($TMPDIR/cilium status --context k3d-$CLUSTER_NAME -o json | grep quay.io || true )
+if [ -n "$QUAY_IMAGES" ]; then
+    echo "error: quay.io images were pulled, but should have been overridden"
+    echo "$QUAY_IMAGES"
+    exit 1
+fi
+
 # Run the network connectivity test suite
 $TMPDIR/cilium connectivity test --context k3d-$CLUSTER_NAME
 
