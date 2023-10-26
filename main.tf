@@ -236,6 +236,11 @@ module "crane" {
   target_repository = "${var.target_repository}/crane"
 }
 
+module "crossplane" {
+  source            = "./images/crossplane"
+  target_repository = "${var.target_repository}/crossplane"
+}
+
 module "crossplane-aws" {
   source            = "./images/crossplane-aws"
   target_repository = "${var.target_repository}/crossplane-aws"
