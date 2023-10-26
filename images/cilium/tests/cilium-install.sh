@@ -68,11 +68,18 @@ $TMPDIR/cilium install --context k3d-$CLUSTER_NAME \
     --helm-set hubble.ui.enabled=true \
     --helm-set image.override=$AGENT_IMAGE \
     --helm-set hubble.relay.image.override=$HUBBLE_RELAY_IMAGE \
-    --helm-set hubble.ui.image.override=$HUBBLE_UI_IMAGE \
+    --helm-set hubble.ui.frontend.image.override=$HUBBLE_UI_IMAGE \
     --helm-set hubble.ui.backend.image.override=$HUBBLE_UI_BACKEND_IMAGE \
     --helm-set operator.image.override=$OPERATOR_IMAGE
 
 $TMPDIR/cilium status --context k3d-$CLUSTER_NAME --wait
+
+QUAY_IMAGES=$($TMPDIR/cilium status --context k3d-$CLUSTER_NAME -o json | grep quay.io || true )
+if [ -n "$QUAY_IMAGES" ]; then
+    echo "error: quay.io images were pulled, but should have been overridden"
+    echo "$QUAY_IMAGES"
+    exit 1
+fi
 
 # Run the network connectivity test suite
 $TMPDIR/cilium connectivity test --context k3d-$CLUSTER_NAME
