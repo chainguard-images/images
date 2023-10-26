@@ -68,7 +68,7 @@ $TMPDIR/cilium install --context k3d-$CLUSTER_NAME \
     --helm-set hubble.ui.enabled=true \
     --helm-set image.override=$AGENT_IMAGE \
     --helm-set hubble.relay.image.override=$HUBBLE_RELAY_IMAGE \
-    --helm-set hubble.ui.image.override=$HUBBLE_UI_IMAGE \
+    --helm-set hubble.ui.frontend.image.override=$HUBBLE_UI_IMAGE \
     --helm-set hubble.ui.backend.image.override=$HUBBLE_UI_BACKEND_IMAGE \
     --helm-set operator.image.override=$OPERATOR_IMAGE
 
