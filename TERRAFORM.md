@@ -163,27 +163,25 @@ These will build the image into a tarball in the local directory, which can be l
 When creating a new image in this repository, you can run `monopod scaffold`
 from the root of this repository to generate a basic scaffolding:
 ```shell
-monopod scaffold --package-name test-package --entrypoint /usr/bin/test-app
+monopod scaffold my-new-image  --entrypoint /usr/bin/test-app
 ```
 
 This will generate the following folder structure, providing you with a basic
 structure to get started building images:
 ```console
-generated/
-└── test-package
+images/
+└── my-new-image
     ├── README.md
-    ├── configs
-    │   ├── latest.apko.yaml
+    ├── config
+    │   ├── template.apko.yaml
     │   └── main.tf
-    ├── image.yaml
     ├── main.tf
     └── tests
         ├── EXAMPLE_TEST.sh
         └── main.tf
 ```
 
-You can then copy the whole `test-package` to the `images/` folder in this repository
-and make the necessary changes to get your image working, such as extra required packages
-and tests.
+You can then make the necessary changes to get your image working,
+such as extra required packages and tests.
 
 For a full list of `monopod scaffold` options, run `monopod scaffold --help`.
