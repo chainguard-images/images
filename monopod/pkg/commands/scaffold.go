@@ -33,17 +33,17 @@ func Scaffold() *cobra.Command {
 		Use:   "scaffold",
 		Short: "scaffold generates scaffolding for an image",
 		Long:  `scaffold generates scaffolding for an image, based on the arguments provided`,
-		Example: `  # Generate a test image with a dev variant
-  monopod scaffold --package-name test --entrypoint /usr/bin/test
+		Example: `  # Generate a new image with a dev variant
+  monopod scaffold my-new-image --entrypoint /usr/bin/test
 
-  # Generate a test image with no dev variant
-  monopod scaffold --package-name test --entrypoint /usr/bin/test --dev-variant=false
+  # Generate a new image with no dev variant
+  monopod scaffold my-new-image --entrypoint /usr/bin/test --dev-variant=false
 
-  # Generate a test image in a custom folder
-  monopod scaffold --package-name test --entrypoint /usr/bin/test --output-path /tmp/output
+  # Generate a new image in a custom folder
+  monopod scaffold my-new-image --entrypoint /usr/bin/test --output-path /tmp/output
 
-  # Generate a test image with run-as, user-gid, and group-gid
-  monopod scaffold --package-name test --entrypoint /usr/bin/test --run-as 65530 --user-gid 65534 --group-gid 65534`,
+  # Generate a new image with run-as, user-gid, and group-gid, and custom package name
+  monopod scaffold my-new-image --package-name somethingelse --entrypoint /usr/bin/test --run-as 65530 --user-gid 65534 --group-gid 65534`,
 
 		RunE: func(cmd *cobra.Command, args []string) error {
 			o.ModuleName = args[0]
@@ -72,7 +72,9 @@ func (o scaffoldOptions) runScaffold(ctx context.Context) error {
 		return err
 	}
 
-	if err := os.MkdirAll("images/"+o.ModuleName, os.ModePerm); err != nil {
+	modroot := filepath.Join(o.OutputPath, "images", o.ModuleName)
+
+	if err := os.MkdirAll(modroot, os.ModePerm); err != nil {
 		return fmt.Errorf("unable to generate target folder images/%s: %w", o.ModuleName, err)
 	}
 
@@ -84,14 +86,13 @@ func (o scaffoldOptions) runScaffold(ctx context.Context) error {
 		if info.IsDir() {
 			return nil
 		}
-		if err := os.MkdirAll(filepath.Dir(strings.Replace(path, "TEMPLATE", o.ModuleName, 1)), os.ModePerm); err != nil {
+		repl := strings.Replace(path, "TEMPLATE", o.ModuleName, 1) // Replacing TEMPLATE with the module name
+		if err := os.MkdirAll(filepath.Dir(repl), os.ModePerm); err != nil {
 			return err
 		}
 
-		if strings.HasSuffix(path, ".tpl") {
-			out := strings.TrimSuffix(path, ".tpl")
-			out = strings.Replace(out, "TEMPLATE", o.ModuleName, 1)
-			f, err := os.Create(out)
+		if strings.HasSuffix(repl, ".tpl") {
+			f, err := os.Create(strings.TrimSuffix(repl, ".tpl"))
 			if err != nil {
 				panic(err.Error())
 			}
@@ -105,9 +106,8 @@ func (o scaffoldOptions) runScaffold(ctx context.Context) error {
 		if err != nil {
 			return err
 		}
-		out := strings.Replace(path, "TEMPLATE", o.ModuleName, 1)
-		log.Println("writing file", out)
-		return os.WriteFile(out, b, 0644)
+		log.Println("writing file", repl)
+		return os.WriteFile(repl, b, 0644)
 	}); err != nil {
 		return err
 	}
@@ -136,10 +136,6 @@ func (o *scaffoldOptions) validateOptions() error {
 	return nil
 }
 
-// targetFolderName is a helper to build the output path.
-func (o scaffoldOptions) targetFolderName() string {
-	return filepath.Join(o.OutputPath, o.PackageName)
-}
 func (o scaffoldOptions) addModuleToMainTf() error {
 	// Define the module source
 	moduleSource := "./images/%s"
