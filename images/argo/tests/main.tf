@@ -67,7 +67,7 @@ resource "helm_release" "argo" {
 
 data "oci_exec_test" "check-argo" {
   digest      = var.digests["cli"] # we are testing the whole helm release digest here is a place holder
-  script      = "./check-argo-workflow"
+  script      = "./check-argo-workflow.sh"
   working_dir = path.module
   depends_on  = [helm_release.argo]
 
