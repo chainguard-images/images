@@ -9,6 +9,7 @@ variable "digest" {
 }
 
 data "oci_exec_test" "build" {
-  digest = var.digest
-  script = "${path.module}/build.sh"
+  digest      = var.digest
+  script      = "./build.sh"
+  working_dir = path.module
 }
