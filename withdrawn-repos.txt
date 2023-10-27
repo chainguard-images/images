@@ -24,3 +24,5 @@ notification-controller
 oidc-discovery-provider
 # Renamed to opentofu
 opentf
+# Renamed to flux-source-controller
+source-controller
