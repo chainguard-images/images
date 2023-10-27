@@ -2,9 +2,7 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-# git clone https://github.com/yonahd/kor.git
-
-# cd yonahd
+git clone https://github.com/yonahd/kor.git
 
 helm upgrade -i kor \
     --namespace kor \
