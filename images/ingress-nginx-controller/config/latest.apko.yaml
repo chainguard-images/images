@@ -94,6 +94,12 @@ paths:
     type: directory
     permissions: 0o755
     recursive: true
+  - path: /etc/nginx/geoip
+    uid: 101
+    gid: 101
+    type: directory
+    permissions: 0o755
+    recursive: true
   - path: /usr/local/nginx
     uid: 101
     gid: 101
