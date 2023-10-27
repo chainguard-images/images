@@ -12,3 +12,8 @@ data "oci_exec_test" "version" {
   digest = var.digest
   script = "docker run --rm $IMAGE_NAME version"
 }
+
+data "oci_exec_test" "helm-install" {
+  digest = var.digest
+  script = "${path.module}/script.sh"
+}
