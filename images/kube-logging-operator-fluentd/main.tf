@@ -23,7 +23,7 @@ module "latest" {
   name               = basename(path.module)
   target_repository  = var.target_repository
   config             = module.latest-config.config
-  # extra_dev_packages = local.fluentd_dev
+  extra_dev_packages = local.fluentd_dev
 }
 
 module "test-latest" {
@@ -37,8 +37,8 @@ resource "oci_tag" "latest" {
   tag        = "latest"
 }
 
-# resource "oci_tag" "latest-dev" {
-#   depends_on = [module.test-latest]
-#   digest_ref = module.latest.dev_ref
-#   tag        = "latest-dev"
-# }
+resource "oci_tag" "latest-dev" {
+  depends_on = [module.test-latest]
+  digest_ref = module.latest.dev_ref
+  tag        = "latest-dev"
+}
