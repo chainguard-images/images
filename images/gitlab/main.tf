@@ -18,7 +18,7 @@ locals {
     }, {
     "pages" : "/scripts/entrypoint.sh /scripts/start-pages",
     "shell" : "/scripts/entrypoint.sh /scripts/process-wrapper",
-    "exporter": "/scripts/entrypoint.sh /scripts/process-wrapper",
+    "exporter" : "/scripts/entrypoint.sh /scripts/process-wrapper",
   })
   versions = [for v in range(11, 14) : "1.${v}"]
   component_versions = merge([

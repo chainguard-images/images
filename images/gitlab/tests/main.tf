@@ -7,9 +7,9 @@ terraform {
 variable "digests" {
   description = "The image digest to run tests over."
   type = object({
-    kas   = string
-    pages = string
-    shell = string
+    kas      = string
+    pages    = string
+    shell    = string
     exporter = string
   })
 }
