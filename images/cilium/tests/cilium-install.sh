@@ -85,19 +85,12 @@ fi
 $TMPDIR/cilium connectivity test --context k3d-$CLUSTER_NAME
 
 # Test the hubble UI
-$TMPDIR/cilium hubble ui --context k3d-$CLUSTER_NAME --port-forward $FREE_PORT &
-PORT_FORWARD_PID=$!
-
-set +o errexit
-for i in {1..10}; do
-    curl --retry 10 localhost:$FREE_PORT && s=0 && break
-    s=$?
-    sleep 5
-done
-if [ $s -ne 0 ]; then
-    exit $s
-fi
-set -o errexit
+kubectl --context k3d-$CLUSTER_NAME create configmap cypress --from-file $SCRIPT_DIR/cypress
+kubectl --context k3d-$CLUSTER_NAME apply -f $SCRIPT_DIR/cypress.yaml
+kubectl --context k3d-$CLUSTER_NAME wait \
+    --for=condition=complete \
+    --timeout=5m \
+    job/cypress
 
 # Clean up
 k3d cluster delete $CLUSTER_NAME
