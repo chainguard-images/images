@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cypress
+spec:
+  backoffLimit: 5
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: cypress
+        image: cypress/included
+        volumeMounts:
+          - name: cypress-configmap
+            mountPath: /cypress
+        command:
+          - cypress
+          - run
+          - --config-file
+          - /cypress/cypress.config.js
+      volumes:
+      - name: cypress-configmap
+        configMap:
+          name: cypress
