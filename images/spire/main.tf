@@ -53,6 +53,7 @@ module "latest" {
   name              = basename(path.module)
   target_repository = "${var.target_repository}-${each.key}"
   config            = module.config[each.key].config
+  build-dev         = true
 }
 
 module "test-latest" {
@@ -65,4 +66,11 @@ resource "oci_tag" "latest" {
   depends_on = [module.test-latest]
   digest_ref = module.latest[each.key].image_ref
   tag        = "latest"
+}
+
+resource "oci_tag" "latest-dev" {
+  for_each   = local.components
+  depends_on = [module.test-latest]
+  digest_ref = module.latest[each.key].dev_ref
+  tag        = "latest-dev"
 }
