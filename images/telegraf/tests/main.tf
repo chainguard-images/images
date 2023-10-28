@@ -9,17 +9,17 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" {
-  input = var.digest
-}
+data "oci_string" "ref" { input = var.digest }
+
+resource "random_pet" "suffix" {}
 
 resource "helm_release" "telegraf" {
-  name = "telegraf"
+  name = "telegraf-${random_pet.suffix.id}"
 
   repository = "https://helm.influxdata.com"
   chart      = "telegraf"
 
-  namespace        = "telegraf"
+  namespace        = "telegraf-${random_pet.suffix.id}"
   create_namespace = true
 
   values = [
