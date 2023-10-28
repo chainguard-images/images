@@ -1,8 +1,8 @@
 <!--monopod:start-->
-# fluentd
+# kube-logging-operator-fluentd
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/fluentd` |
+| **OCI Reference** | `cgr.dev/chainguard/kube-logging-operator-fluentd` |
 
 
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/kube-logging-operator-fluentd/overview/)
