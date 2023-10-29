@@ -3,7 +3,7 @@ contents:
     - busybox
     - bind-tools
     - tini
-    - nri-kubernetes
+    # - nri-kubernetes
 
 accounts:
   # Match the GID/UID the upstream helm chart use

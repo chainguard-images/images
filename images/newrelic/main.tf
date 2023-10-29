@@ -1,3 +1,9 @@
+terraform {
+  required_providers {
+    oci = { source = "chainguard-dev/oci" }
+  }
+}
+
 locals {
   components = toset([
     "infrastructure-bundle",
@@ -8,16 +14,6 @@ locals {
     "kubernetes",
     "prometheus",
   ])
-
-  packages = merge(
-    { for k, v in local.components : k => "newrelic-${k}" },
-    {
-      "k8s-events-forwarder" : "newrelic-infrastructure-agent"
-      "kube-events" : "newrelic-nri-kube-events"
-      "kubernetes" : "nri-kubernetes"
-      "prometheus" : "nri-prometheus"
-    }
-  )
 
   repositories = merge(
     { for k, v in local.components : k => "${var.target_repository}-${k}" },
@@ -30,6 +26,12 @@ variable "target_repository" {
 
 variable "license_key" {}
 
+module "config" {
+  for_each = local.components
+  source   = "./configs"
+  name     = each.key
+}
+
 module "latest" {
   for_each = local.repositories
   source   = "../../tflib/publisher"
@@ -37,15 +39,8 @@ module "latest" {
   name = basename(path.module)
 
   target_repository = each.value
-  config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
-}
-
-module "version-tags" {
-  for_each = local.packages
-  source   = "../../tflib/version-tags"
-
-  package = each.value
-  config  = module.latest[each.key].config
+  config            = module.config[each.key].config
+  build-dev         = true
 }
 
 module "test-latest" {
@@ -55,13 +50,18 @@ module "test-latest" {
   license_key = var.license_key
 }
 
-module "tagger" {
+resource "oci_tag" "latest" {
   for_each = local.components
-  source   = "../../tflib/tagger"
 
+  digest_ref = module.latest[each.key].image_ref
+  tag        = "latest"
   depends_on = [module.test-latest]
+}
 
-  tags = merge(
-    { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : t => module.latest[each.key].image_ref },
-  )
+resource "oci_tag" "latest-dev" {
+  for_each = local.components
+
+  digest_ref = module.latest[each.key].dev_ref
+  tag        = "latest-dev"
+  depends_on = [module.test-latest]
 }
