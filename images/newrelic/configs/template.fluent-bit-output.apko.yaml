@@ -1,8 +1,8 @@
 contents:
   packages:
     - fluent-bit
-    - newrelic-fluent-bit-output
-    - newrelic-fluent-bit-output-compat
+    # - newrelic-fluent-bit-output
+    # - newrelic-fluent-bit-output-compat
     - libpq-11
 
 accounts:

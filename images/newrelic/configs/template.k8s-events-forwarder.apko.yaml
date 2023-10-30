@@ -2,7 +2,7 @@ contents:
   packages:
     - tini
     - curl
-    - newrelic-infrastructure-agent
+    # - newrelic-infrastructure-agent
 
 accounts:
   groups:
