@@ -29,7 +29,7 @@ data "oci_string" "ref" {
 resource "random_pet" "suffix" {}
 
 # Use shell test to validate Keycloak in production - as this requires
-# keystore creation and volume-mouting.
+# a keystore to be generated.
 data "oci_exec_test" "docker-test" {
   digest = var.digest
   script = "${path.module}/01-docker-production-mode.sh"
