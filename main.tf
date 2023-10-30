@@ -570,6 +570,11 @@ module "kubeflow-pipelines" {
   target_repository = "${var.target_repository}/kubeflow-pipelines"
 }
 
+module "kubernetes" {
+  source            = "./images/kubernetes"
+  target_repository = "${var.target_repository}/kubernetes"
+}
+
 module "kubernetes-csi-external-attacher" {
   source            = "./images/kubernetes-csi-external-attacher"
   target_repository = "${var.target_repository}/kubernetes-csi-external-attacher"
