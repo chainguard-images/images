@@ -11,7 +11,7 @@
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 KEYCLOAK_HOSTNAME="localhost"
-KEYCLOAK_PORT="8443"
+KEYCLOAK_PORT=$FREE_PORT
 KEYCLOAK_URL="https://$KEYCLOAK_HOSTNAME:$KEYCLOAK_PORT"
 KEYSTORE_PATH="/tmp/server.keystore"
 KEYSTORE_PASSWORD="placeholder"
@@ -37,7 +37,7 @@ start_container() {
   docker run \
   -v "$KEYSTORE_PATH:/usr/share/java/keycloak/conf/server.keystore" \
   --detach --rm \
-  --name local-keycloak -p $KEYCLOAK_PORT:$KEYCLOAK_PORT \
+  --name local-keycloak -p $KEYCLOAK_PORT:8443 \
   -e KEYCLOAK_ADMIN=admin \
   -e KEYCLOAK_ADMIN_PASSWORD=$KEYSTORE_PASSWORD \
   "${IMAGE_NAME}" \
