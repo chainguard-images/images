@@ -40,7 +40,7 @@ start_container() {
   --name local-keycloak -p $KEYCLOAK_PORT:$KEYCLOAK_PORT \
   -e KEYCLOAK_ADMIN=admin \
   -e KEYCLOAK_ADMIN_PASSWORD=$KEYSTORE_PASSWORD \
-  electricthunder/keycloak:latest \
+  "${IMAGE_NAME}" \
   start \
   --hostname=$KEYCLOAK_HOSTNAME \
   --https-key-store-password=$KEYSTORE_PASSWORD
