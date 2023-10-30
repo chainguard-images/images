@@ -90,7 +90,7 @@ TEST_container_starts_ok() {
     trap "docker stop ${container_id} && rm -rf ${KEYSTORE_PATH}" EXIT
 
     # Check if the container is running
-    sleep 20
+    sleep 60
     if ! docker ps --filter "name=local-keycloak" --format '{{.Names}}' | grep -q "^local-keycloak$"; then
         echo "FAILED: Container local-keycloak is not running."
         exit 1
