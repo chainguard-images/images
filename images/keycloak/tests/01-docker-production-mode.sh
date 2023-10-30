@@ -44,7 +44,6 @@ start_container() {
   start \
   --hostname=$KEYCLOAK_HOSTNAME \
   --https-key-store-password=$KEYSTORE_PASSWORD
-  sleep 20
 }
 
 search_logs() {
@@ -83,20 +82,30 @@ keycloak_api_get_users() {
 
 
 TEST_container_starts_ok() {
-  # Create Keystore and launch Keycloak
-  create_keystore
-  local -r container_id=$(start_container)
-  trap "docker stop ${container_id} && rm -rf ${KEYSTORE_PATH}" EXIT
+    # Create Keystore and launch Keycloak
+    create_keystore
+    local -r container_id=$(start_container)
+    trap "docker stop ${container_id} && rm -rf ${KEYSTORE_PATH}" EXIT
 
-  # Look for each log term. Will record any which are not found.
-  search_logs
+    # Check if the container is running
+    sleep 20
+    if ! docker ps --filter "name=local-keycloak" --format '{{.Names}}' | grep -q "^local-keycloak$"; then
+        echo "FAILED: Container local-keycloak is not running."
+        exit 1
+    else
+        echo "Container local-keycloak is running."
+    fi
 
-  if [[ ${#missing_terms[@]} -ne 0 ]]; then
-    echo "The following terms were not found:"
-    printf '%s\n' "${missing_terms[@]}"
-    exit 1
-  fi
+    # Look for each log term. Will record any which are not found.
+    search_logs
+
+    if [[ ${#missing_terms[@]} -ne 0 ]]; then
+        echo "The following terms were not found:"
+        printf '%s\n' "${missing_terms[@]}"
+        exit 1
+    fi
 }
+
 
 TEST_keycloak_api_accessible() {
   local response_code=$(curl -k -I -s -o /dev/null -w "%{http_code}" "$KEYCLOAK_URL/realms/master")
