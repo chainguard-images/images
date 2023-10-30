@@ -49,6 +49,8 @@ start_container() {
 search_logs() {
   local logs=$(docker logs "${container_id}" 2>&1)
 
+  echo "Docker logs are: \n ${logs}"
+
   for term in "${terms[@]}"; do
     if echo "$logs" | grep -Fq "$term"; then
       echo "Found log term: $term"
