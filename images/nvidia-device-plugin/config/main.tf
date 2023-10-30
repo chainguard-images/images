@@ -9,11 +9,25 @@ variable "extra_packages" {
   default     = ["nvidia-device-plugin"]
 }
 
-data "apko_config" "this" {
-  config_contents = file("${path.module}/latest.apko.yaml")
-  extra_packages  = var.extra_packages
+module "accts" {
+  source = "../../../tflib/accts"
+  run-as = 0
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    contents = {
+      packages = var.extra_packages
+    }
+    accounts = module.accts.block
+    entrypoint = {
+      command = "/usr/bin/nvidia-device-plugin"
+    }
+    environment = {
+      "NVIDIA_VISIBLE_DEVICES" : "all",
+      "NVIDIA_DRIVER_CAPABILITIES" : "utility",
+      "NVIDIA_DISABLE_REQUIRE" : "true",
+      "NVIDIA_MIG_MONITOR_DEVICES" : "all",
+    }
+  })
 }
