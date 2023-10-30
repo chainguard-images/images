@@ -270,5 +270,5 @@ gopkg.in/yaml.v3 v3.0.1/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
 k8s.io/apimachinery v0.27.3 h1:Ubye8oBufD04l9QnNtW05idcOe9Z3GQN8+7PqmuVcUM=
 k8s.io/apimachinery v0.27.3/go.mod h1:XNfZ6xklnMCOGGFNqXG7bUrQCoR04dh/E7FprV6pb+E=
 rsc.io/pdf v0.1.1/go.mod h1:n8OzWcQ6Sp37PL01nO98y4iUCRdTGarVfzxY20ICaU4=
-sigs.k8s.io/release-utils v0.7.5 h1:0DYUWILqT0rirJ+8Vrp+Fr8jG8Q32ejFnulkahOvEao=
-sigs.k8s.io/release-utils v0.7.5/go.mod h1:GZGWmbINwsLGKsoZKTeWUGp4F+Rbwhq4XDtJ45N+dLw=
+sigs.k8s.io/release-utils v0.7.6 h1:mQxQRAIulbyz6y7eOCzklAelcpYjBj8MMGFcxNnyqto=
+sigs.k8s.io/release-utils v0.7.6/go.mod h1:GZGWmbINwsLGKsoZKTeWUGp4F+Rbwhq4XDtJ45N+dLw=
