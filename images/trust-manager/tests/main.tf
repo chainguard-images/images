@@ -10,11 +10,16 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-data "oci_exec_test" "version" {
+data "oci_exec_test" "help" {
+  digest = var.digest
+  script = "docker run --rm $IMAGE_NAME --help"
+}
+
+data "oci_exec_test" "runs" {
   digest = var.digest
   script = <<EOF
     # We expect the command to fail, but want its output anyway.
-    ( docker run --rm $IMAGE_NAME 2>&1 || true ) | grep "failed to register Bundle controller"
+    ( docker run --rm $IMAGE_NAME 2>&1 || true ) | grep "connection refused"
   EOF
 }
 
