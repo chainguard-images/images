@@ -1,6 +1,8 @@
 contents:
   packages:
-    - newrelic-prometheus-configurator
+    - busybox
+    - tini
+    # - nri-prometheus
 
 accounts:
   groups:
@@ -13,4 +15,4 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command: /usr/bin/prometheus-configurator
+  command: /sbin/tini -- /usr/bin/nri-prometheus
