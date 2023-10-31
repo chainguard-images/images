@@ -27,10 +27,10 @@ declare -a missing_terms=()
 create_keystore() {  
   rm -rf "$KEYSTORE_PATH"
   keytool -v -keystore $KEYSTORE_PATH \
-  -alias $KEYCLOAK_HOSTNAME \
-  -genkeypair -sigalg SHA512withRSA -keyalg RSA \
-  -dname CN=$KEYCLOAK_HOSTNAME \
-  -storepass $KEYSTORE_PASSWORD
+    -alias $KEYCLOAK_HOSTNAME \
+    -genkeypair -sigalg SHA512withRSA -keyalg RSA \
+    -dname CN=$KEYCLOAK_HOSTNAME \
+    -storepass $KEYSTORE_PASSWORD
 }
 
 start_container() {  
