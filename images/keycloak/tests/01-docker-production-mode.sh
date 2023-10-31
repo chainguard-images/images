@@ -47,19 +47,42 @@ start_container() {
 }
 
 search_logs() {
-  local logs=$(docker logs "${container_id}" 2>&1)
+  local retries=6
+  local delay=15 # seconds
 
-  echo "Docker logs are: \n ${logs}"
+  for ((i=1; i<=retries; i++)); do
+    local logs=$(docker logs "${container_id}" 2>&1)
+    local all_terms_found=true
 
+    for term in "${terms[@]}"; do
+      if echo "$logs" | grep -Fq "$term"; then
+        echo "Found log term: $term"
+      else
+        echo "Log term NOT found: $term (attempt $i of $retries)"
+        all_terms_found=false
+      fi
+    done
+
+    if $all_terms_found; then
+      return 0
+    elif [[ $i -lt $retries ]]; then
+      echo "Some log terms were missing. Retrying in $delay seconds..."
+      sleep $delay
+    fi
+  done
+
+  # After all retries, record the missing terms
   for term in "${terms[@]}"; do
-    if echo "$logs" | grep -Fq "$term"; then
-      echo "Found log term: $term"
-    else
-      echo "Log term NOT found: $term"
+    if ! echo "$logs" | grep -Fq "$term"; then
       missing_terms+=("$term")
     fi
   done
+
+  echo "FAILED: After $retries attempts, the following terms were not found:"
+  printf '%s\n' "${missing_terms[@]}"
+  exit 1
 }
+
 
 keycloak_api_get_users() {
     # Get Keycloak access token
@@ -90,7 +113,7 @@ TEST_container_starts_ok() {
     trap "docker stop ${container_id} && rm -rf ${KEYSTORE_PATH}" EXIT
 
     # Check if the container is running
-    sleep 140
+    sleep 15
     if ! docker ps --filter "name=local-keycloak" --format '{{.Names}}' | grep -q "^local-keycloak$"; then
         echo "FAILED: Container local-keycloak is not running."
         exit 1
@@ -108,17 +131,30 @@ TEST_container_starts_ok() {
     fi
 }
 
-
 TEST_keycloak_api_accessible() {
-  local response_code=$(curl -k -I -s -o /dev/null -w "%{http_code}" "$KEYCLOAK_URL/realms/master")
+  local retries=3
+  local delay=5 # seconds
+  local attempt=0
 
-  if [[ "$response_code" == "200" ]]; then
-    echo "API endpoint is accessible and running."
-  else
-    echo "FAILED: API is not responding. Status code: $response_code"
-    exit 1
-  fi
+  while [[ $attempt -le $retries ]]; do
+    local response_code=$(curl -k -I -s -o /dev/null -w "%{http_code}" "$KEYCLOAK_URL/realms/master")
+    if [[ "$response_code" == "200" ]]; then
+      echo "API endpoint is accessible and running."
+      return 0
+    else
+      if [[ $attempt -lt $retries ]]; then
+        echo "API is not responding. Status code: $response_code. Attempt $((attempt+1)) of $((retries+1))."
+        echo "Retrying in $delay seconds..."
+        sleep $delay
+      else
+        echo "FAILED: After $((retries+1)) attempts, API is still not responding."
+        exit 1
+      fi
+    fi
+    attempt=$((attempt+1))
+  done
 }
+
 
 TEST_keycloak_api_get_users() {
     # Validate users can be retrieved from the Keycloak API.

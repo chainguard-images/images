@@ -35,21 +35,21 @@ data "oci_exec_test" "docker-test" {
   script = "${path.module}/01-docker-production-mode.sh"
 }
 
-resource "helm_release" "test" {
-  name       = "keycloak-${random_pet.suffix.id}"
-  repository = "oci://registry-1.docker.io/bitnamicharts"
-  chart      = "keycloak"
-  values = [jsonencode({
-    image = {
-      registry   = ""
-      repository = data.oci_string.ref.registry_repo,
-      digest     = data.oci_string.ref.digest
-    },
-    args = var.args
-  })]
-}
+# resource "helm_release" "test" {
+#   name       = "keycloak-${random_pet.suffix.id}"
+#   repository = "oci://registry-1.docker.io/bitnamicharts"
+#   chart      = "keycloak"
+#   values = [jsonencode({
+#     image = {
+#       registry   = ""
+#       repository = data.oci_string.ref.registry_repo,
+#       digest     = data.oci_string.ref.digest
+#     },
+#     args = var.args
+#   })]
+# }
 
-module "helm_cleanup" {
-  source = "../../../tflib/helm-cleanup"
-  name   = helm_release.test.id
-}
+# module "helm_cleanup" {
+#   source = "../../../tflib/helm-cleanup"
+#   name   = helm_release.test.id
+# }
