@@ -137,7 +137,7 @@ TEST_keycloak_api_accessible() {
   local attempt=0
 
   while [[ $attempt -le $retries ]]; do
-    local response_code=$(curl -k -I -s -o /dev/null -w "%{http_code}" "$KEYCLOAK_URL/realms/master")
+    local response_code=$(curl -kIso /dev/null -w "%{http_code}" "$KEYCLOAK_URL/realms/master")
     if [[ "$response_code" == "200" ]]; then
       echo "API endpoint is accessible and running."
       return 0
