@@ -35,15 +35,15 @@ create_keystore() {
 
 start_container() {  
   docker run \
-  -v "$KEYSTORE_PATH:/usr/share/java/keycloak/conf/server.keystore" \
-  --detach --rm \
-  --name local-keycloak -p $KEYCLOAK_PORT:8443 \
-  -e KEYCLOAK_ADMIN=admin \
-  -e KEYCLOAK_ADMIN_PASSWORD=$KEYSTORE_PASSWORD \
-  "${IMAGE_NAME}" \
-  start \
-  --hostname=$KEYCLOAK_HOSTNAME \
-  --https-key-store-password=$KEYSTORE_PASSWORD
+    -v "$KEYSTORE_PATH:/usr/share/java/keycloak/conf/server.keystore" \
+    --detach --rm \
+    --name local-keycloak -p $KEYCLOAK_PORT:8443 \
+    -e KEYCLOAK_ADMIN=admin \
+    -e KEYCLOAK_ADMIN_PASSWORD=$KEYSTORE_PASSWORD \
+    "${IMAGE_NAME}" \
+    start \
+    --hostname=$KEYCLOAK_HOSTNAME \
+    --https-key-store-password=$KEYSTORE_PASSWORD
 }
 
 search_logs() {
