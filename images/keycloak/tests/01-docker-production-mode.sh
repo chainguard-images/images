@@ -159,7 +159,7 @@ TEST_keycloak_api_accessible() {
 TEST_keycloak_api_get_users() {
     # Validate users can be retrieved from the Keycloak API.
     local users_json=$(keycloak_api_get_users)
-    local exttracted_username=$(echo "$users_json" | jq -r '.[] | select(.username=="admin") | .username')
+    local extracted_username=$(echo "$users_json" | jq -r '.[] | select(.username=="admin") | .username')
     
     # There'll only be one user after fresh install / launch - 'admin'.
     if [[ "$exttracted_username" == "admin" ]]; then
