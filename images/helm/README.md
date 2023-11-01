@@ -22,7 +22,7 @@ Minimalist Wolfi-based helm images for deploying helm applications to a kubernet
 Our `latest` tags use the most recent build of the [Wolfi helm](https://github.com/wolfi-dev/os/blob/main/helm.yaml) package. The following tagged variants are available without authentication:
 
 - `latest`: This is a distroless image for running helm to install packages to a kubernetes cluster. It does not include `apk-tools` or `bash`, so no shell will be available.
-- `latest-dev`: This is a development / builder image that includes Composer, apk-tools, and busybox. This variant allows you to customize your final image with additional Wolfi packages.
+- `latest-dev`: This is a development / builder image that includes `bash`, `apk-tools`, and `busybox`. This variant allows you to customize your final image with additional Wolfi packages.
 
 ### Helm Version
 This will automatically pull the image to your local system and execute the command `helm version`:
