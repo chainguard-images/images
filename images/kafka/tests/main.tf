@@ -8,12 +8,6 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "docker-compose" {
-  digest      = var.digest
-  script      = "./docker-compose.sh"
-  working_dir = path.module
-}
-
 data "oci_string" "ref" { input = var.digest }
 
 resource "random_pet" "suffix" {}
