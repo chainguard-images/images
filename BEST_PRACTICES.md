@@ -6,6 +6,24 @@ a consistent and smooth experience. New images must meet these standards or docu
 Many of these guidelines are marked as requirements in the new image PR checklist, and may be enforced by tests that block merging a PR.
 Code reviewers should also check for this behavior.
 
+## Sending a Pull Request
+
+We have a number of automated checks that must pass before a pull request is merged.
+
+Commits must be signed with either [Gitsign](https://github.com/sigstore/gitsign) or with regular [gpg signing](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits). For new images, you'll also need to run the included `monopod` tool to "fix" the image README file. This will lint the file and add a default header with relevant links.
+
+To install monopod:
+
+```
+go install ./monopod
+```
+
+- Running monopod for README checks - this must be executed from the root of the project:
+
+```
+monopod readme
+```
+
 ## Version Availability
 
 Our policy is to provide the latest available version of the software, tagged `:latest`, usually with a developer variant tagged `:latest-dev`.
