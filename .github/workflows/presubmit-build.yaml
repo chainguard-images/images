@@ -68,7 +68,6 @@ jobs:
 
       - name: Terraform apply
         env:
-          APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:0e59c4b632ffc02ef2bd3472124d2abc7834c896e79c1d67dafea51dab09e31c
           TF_VAR_target_repository: registry.local:5000/testing
         run: |
           set -x -o pipefail
