@@ -43,6 +43,15 @@ resource "helm_release" "gitlab" {
           repository = data.oci_string.ref["kas"].registry_repo
         }
       }
+      gitlab-exporter = {
+        image = {
+          tag        = data.oci_string.ref["exporter"].pseudo_tag
+          repository = data.oci_string.ref["exporter"].registry_repo
+        }
+        extraEnv = {
+          CONFIG_FILENAME = "gitlab-exporter.yml"
+        }
+      }
       gitlab-pages = {
         image = {
           tag        = data.oci_string.ref["pages"].pseudo_tag
