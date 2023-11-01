@@ -22,7 +22,7 @@ jobs:
           args: lint yam images/
 
       - id: files
-        uses: tj-actions/changed-files@408093d9ff9c134c33b974e0722ce06b9d6e8263 # v39.2.2
+        uses: tj-actions/changed-files@40526807ee1e208a1a8c1bbe6bd2d1b044ef6368 # v40.0.2
         with:
           separator: ','
       - id: generate-matrix-0
