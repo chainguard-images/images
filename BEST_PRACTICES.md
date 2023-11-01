@@ -90,7 +90,7 @@ accounts:
  users:
    - username: nonroot
      uid: 65532
-  run-as: 65532
+ run-as: 65532
 ```
 
 or
