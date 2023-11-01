@@ -18,10 +18,12 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# Wait just a hot second for the server to boot before we can kubectl
-sleep 30
+tries=0
+while [ $tries -le 20 ]; do
+	KUBECONFIG=$TMPDIR/k3s.yaml kubectl wait --for=condition=complete job --all -n kube-system --timeout=120s >/dev/null 2>&1 && exit 0
+	sleep 5
+	tries=$((tries + 1))
+done
 
-# Wait for the traefik jobs, to complete, this flexes pod creation as well as
-# the svc lb creation, and more importantly, can fit into a kubectl wait
-# oneliner
-KUBECONFIG=$TMPDIR/k3s.yaml kubectl wait --for=condition=complete job --all -n kube-system --timeout=120s
+echo 'Failed to boot k3s'
+exit 1
