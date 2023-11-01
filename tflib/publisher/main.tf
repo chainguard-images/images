@@ -75,7 +75,7 @@ locals {
 
 module "this" {
   source  = "chainguard-dev/apko/publisher"
-  version = "0.0.8"
+  version = "0.0.10"
 
   target_repository = var.target_repository
   config            = yamlencode(local.updated_config)
@@ -85,7 +85,7 @@ module "this" {
 module "this-dev" {
   count   = local.build-dev ? 1 : 0
   source  = "chainguard-dev/apko/publisher"
-  version = "0.0.8"
+  version = "0.0.10"
 
   target_repository = var.target_repository
 
