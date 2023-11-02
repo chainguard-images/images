@@ -7,9 +7,10 @@ terraform {
 variable "digests" {
   description = "The image digest to run tests over."
   type = object({
-    kas   = string
-    pages = string
-    shell = string
+    kas      = string
+    pages    = string
+    shell    = string
+    exporter = string
   })
 }
 
@@ -40,6 +41,15 @@ resource "helm_release" "gitlab" {
         image = {
           tag        = data.oci_string.ref["kas"].pseudo_tag
           repository = data.oci_string.ref["kas"].registry_repo
+        }
+      }
+      gitlab-exporter = {
+        image = {
+          tag        = data.oci_string.ref["exporter"].pseudo_tag
+          repository = data.oci_string.ref["exporter"].registry_repo
+        }
+        extraEnv = {
+          CONFIG_FILENAME = "gitlab-exporter.yml"
         }
       }
       gitlab-pages = {
@@ -119,8 +129,15 @@ data "oci_exec_test" "install-shell-up" {
   script     = "kubectl rollout status deploy -n ${helm_release.gitlab.namespace} gitlab-gitlab-shell --timeout 360s"
 }
 
+# Wait for the gitlab-exporter to come up
+data "oci_exec_test" "install-exporter-up" {
+  depends_on = [helm_release.gitlab]
+  digest     = var.digests.exporter
+  script     = "kubectl rollout status deploy -n ${helm_release.gitlab.namespace} gitlab-gitlab-exporter --timeout 360s"
+}
+
 module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.install-kas-up, data.oci_exec_test.install-pages-up, data.oci_exec_test.install-shell-up]
+  depends_on = [data.oci_exec_test.install-kas-up, data.oci_exec_test.install-pages-up, data.oci_exec_test.install-shell-up, data.oci_exec_test.install-exporter-up]
   source     = "../../../tflib/helm-cleanup"
   name       = helm_release.gitlab.id
   namespace  = helm_release.gitlab.namespace
