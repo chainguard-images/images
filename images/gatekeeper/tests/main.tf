@@ -9,6 +9,11 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "chart-version" {
+  description = "The version of the Helm chart to install."
+  default     = "latest"
+}
+
 variable "skip_crds" {
   description = "Used to deconflict between multiple installations within the same cluster."
   default     = false
@@ -28,6 +33,8 @@ resource "helm_release" "gatekeeper" {
 
   repository = "https://open-policy-agent.github.io/gatekeeper/charts"
   chart      = "gatekeeper"
+
+  version = var.chart-version == "latest" ? null : var.chart-version
 
   values = [jsonencode({
     preInstall = var.skip_crds ? null : {
