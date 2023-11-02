@@ -2,6 +2,8 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail
 
+trap "kubectl get providers && kubectl describe providers" EXIT
+
 # If the image is on cgr.dev and we have a cred helper for that available, use
 # it to generate creds we can pass to the Crossplane control plane.
 # This is necessary when pushing to a private repo, since the Crossplane
