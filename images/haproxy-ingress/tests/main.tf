@@ -11,12 +11,6 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-data "oci_exec_test" "run" {
-  digest      = var.digest
-  script      = "./run.sh"
-  working_dir = path.module
-}
-
 resource "helm_release" "haproxy-ingress" {
   name = "haproxy-ingress"
 
