@@ -14,40 +14,37 @@ apko-build-alpine:
 	--repository-append https://dl-cdn.alpinelinux.org/alpine/edge/main \
 	--package-append    ca-certificates-bundle
 
-.PHONY: init
-init:
-	terraform init -upgrade
-
 TF_AUTO_APPROVE ?= 1
 TF_VARS :=
 
-ifdef TF_EXTRA_REPOSITORIES
-TF_VARS += -var=extra_repositories="$(TF_EXTRA_REPOSITORIES)"
+ifdef TF_VAR_extra_repositories
+TF_VARS += -var=extra_repositories='$(TF_VAR_extra_repositories)'
 endif
 
-ifdef TF_EXTRA_KEYRING
-TF_VARS += -var=extra_keyring="$(TF_EXTRA_KEYRING)"
+ifdef TF_VAR_extra_keyring
+TF_VARS += -var=extra_keyring='$(TF_VAR_extra_keyring)'
 endif
 
-ifdef TF_ARCHS
-TF_VARS += -var=archs="$(TF_ARCHS)"
+ifdef TF_VAR_archs
+TF_VARS += -var=archs='$(TF_VAR_archs)'
 endif
 
-ifneq ($(TF_AUTO_APPROVE),0)
+ifeq ($(TF_AUTO_APPROVE),1)
 TF_VARS += --auto-approve
 endif
 
-ifdef TF_TARGET_REPOSITORY
-TF_VARS += -var=target_repository=$(TF_TARGET_REPOSITORY)
-else
 ifndef TF_VAR_target_repository
-$(error One of [TF_TARGET_REPOSITORY, TF_VAR_target_repository] must be defined)
-endif
+$(error TF_VAR_target_repository is not set)
+else
+TF_VARS += -var=target_repository=$(TF_VAR_target_repository)
 endif
 
 .PHONY: all
-all: # makes all images instead of targeting specific modules
+all: init
 	terraform apply $(TF_VARS)
 
 image/%:
 	terraform apply $(TF_VARS) -target=module.$*
+
+init:
+	terraform init -upgrade
