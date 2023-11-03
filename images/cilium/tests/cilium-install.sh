@@ -82,7 +82,10 @@ if [ -n "$QUAY_IMAGES" ]; then
 fi
 
 # Run the network connectivity test suite
-$TMPDIR/cilium connectivity test --context k3d-$CLUSTER_NAME
+$TMPDIR/cilium connectivity test --context k3d-$CLUSTER_NAME \
+    --external-cidr 8.0.0.0/8 \
+    --external-ip 8.8.8.8 \
+    --external-other-ip 8.8.4.4
 
 # Test the hubble UI
 kubectl --context k3d-$CLUSTER_NAME create configmap cypress --from-file $SCRIPT_DIR/cypress
