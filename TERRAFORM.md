@@ -10,30 +10,12 @@ layers to this structure:
 ## Goals (`tl;dr`)
 
 One of the goals of this work has been to structure things so that folks can
-pretty quickly and easily iterate on one of the above scopes by entering the
-appropriate directory and running the following to execute things locally:
+pretty quickly and easily iterate on an image with one command:
 
 ```shell
 make init
-TF_VAR_target_repository=example.org/target-repo make all
+make image/foo
 ```
-
-This is half true, since we need to define some variables, which may vary from
-image to image, but thus far we've managed to keep things **extremely** regular
-(more on this below).
-
-
-## A quick note on state (or lack thereof)
-
-One of the most fundamental aspects of Terraform (and one of its most
-fundamental stumbling blocks) is state.  The way we use "state" in our terraform
-is a lot like a build system cache: if it is present then we can do things
-incrementally, but we should always be able to do a "clean" build.
-
-We don't plan to rely on terraform state at this time, and plan to see how long
-we can get away with really only doing "clean" builds in our CI/CD, but this
-will be a bit exploratory.
-
 
 ## Invoking modules
 
@@ -43,40 +25,43 @@ Let's walk through each of the above layers.
 
 We define a "mega module" in the root of the repository, which can be used to
 build ALL of our images in one go.  This module exposes a single variable:
-`target_repository`, which can be defined using `TF_VAR_target_repository=...`.
+`target_repository`, which can be defined using the `TF_VAR_target_repository`
+environment variable.
 
-For example, I can build everything with:
+You can build everything with:
+
 ```shell
-# Upgrade is useful in case there's prior state, or
-# run "git clean -fxd" first.
-make init
-
-# This should have the form:
-#   ghcr.io/mattmoor
-# Individual image names will be appended to the above (e.g ko, crane, ...)
+# This is where your images will be pushed to. This should have the form:
+#   - ghcr.io/mattmoor
+#   - ttl.sh/jason
+#   - gcr.io/my-project
+# Individual image names will be appended to the above (e.g ttl.sh/jason/go, etc)
 # Bear in mind the visibility of the repository you are publishing to!
-TF_VAR_target_repository=... make all
+export TF_VAR_target_repository=...
+
+make init
+make all
 ```
+
+This will take a lot of time, because there are a lot of images. During normal
+development, only build one or two images at a time.
 
 ### Building a single Image module
 
 Every image defines a module in `images/{foo}` that can be used to build, sign,
-attest, test, and tag all of its variants.  Generally these modules expose a
-single input variable: `target_repository`, but because we define important
-`provider` settings at our top-level we invoke this slightly differently.
-Instead of invoking these modules directly, we invoke them as the `-target` of
-a "mega module" apply. The Makefile in this project defines a handy target
-`images/%` that abstracts the Terraform invocation to build an image:
+attest, test, and tag all of its variants. The Makefile in this project defines
+a handy target `image/%` that abstracts the Terraform invocation to build an
+image:
 
 ```shell
-TF_VAR_target_repository=... make image/ko
+make image/ko
 ```
 
 This target can be supplied multiple times to build multiple image directories,
 for example ko, crane and consul:
 
 ```shell
-TF_VAR_target_repository=... make image/ko image/crane image/consul
+make image/ko image/crane image/consul
 ```
 
 ### Building for certain architectures
@@ -86,7 +71,12 @@ and Alpine-based images are built for all architectures supported by Alpine.
 
 During testing it can be useful to only build for certain architectures, such as the host architecture.
 
-To achieve this, set the `archs` variable, for example `TF_ARCHS='["x86_64"]'` or `TF_VAR_archs='["x86_64"]'`.
+To achieve this, set the `archs` variable. For example:
+
+```shell
+export TF_VAR_archs='["x86_64"]'
+make image/ko
+```
 
 See [Assigning Values to Root Module Variables](https://developer.hashicorp.com/terraform/language/values/variables#assigning-values-to-root-module-variables).
 
@@ -97,14 +87,10 @@ The `[]`s are important here; omitting them results in an error saying `Variable
 During testing it can be useful to build images from packages you've built and signed locally.
 
 To achieve this, set the `extra_repositories` and `extra_keyring` variables. For example,
-```console
+```shell
 export TF_VAR_extra_repositories='["/path/to/packages"]'
 export TF_VAR_extra_keyring='["/path/to/local-signing.rsa.pub"]'
-```
-
-If setting for a single invocation in the `make` command is desired, the same result can be achieved using
-```console
-make TF_EXTRA_REPOSITORIES='["/path/to/packages"]' TF_EXTRA_KEYRING='["/path/to/local-signing.rsa.pub"]' image/ko
+make image/ko
 ```
 
 See [Assigning Values to Root Module Variables](https://developer.hashicorp.com/terraform/language/values/variables#assigning-values-to-root-module-variables).
@@ -115,10 +101,6 @@ The `[]`s are required here; omitting them results in an error saying `Variables
 
 The following `make` options are valid for `make image`:
 
-* `TF_EXTRA_REPOSITORIES` for specifying extra repositories for building an image.
-* `TF_EXTRA_KEYRING` for specifying extra keyrings to verify package signatures while building an image.
-* `TF_ARCHS` for specifying architectures for which images should be built.
-* `TF_TARGET_REPOSITORY` for specifying the target repository where an image should be pushed.
 * `TF_AUTO_APPROVE` to allow the user to control whether `--auto-approve` will be used in Terraform or not. If
     `--auto-approve` is not desired when running `make image/image-name`, make sure to either export `TF_AUTO_APPROVE=0`
     or pass it to `make`, for example
@@ -144,7 +126,7 @@ terraform init -upgrade
 
 # This should have the form:
 #   ghcr.io/mattmoor/ko@sha256:deadbeef
-# Yes, it currently requires a digest.
+# Note that the image reference must be specified by digest.
 TF_VAR_digest=... terraform apply
 ```
 
@@ -155,6 +137,8 @@ These tests may install a Helm chart and/or issue `kubectl` commands against the
 The tests use the config file at `$HOME/.kube/config` to connect to the cluster.
 
 ### Building with `apko` directly
+
+<!-- TODO(jason): Build some other way to emit the resolved apko YAML -->
 
 Images in this repo are designed to be built with Terraform as described above, but they can also be built directly with `apko`:
 
