@@ -92,21 +92,10 @@ jobs:
         with:
           k3s-image: cgr.dev/chainguard/k3s:latest@sha256:5bf7e7eebcff66a03f360511155b90732dd2b9ebcf4079bbf0c3d9501d717ddc
 
-      # Disable creating new version tags.
-      - run: |
-          # temporarily generate tags for these modules
-          if [[ "${{ matrix.imageName }}" != "busybox" ]] && \
-             [[ "${{ matrix.imageName }}" != "jre" ]] && \
-             [[ "${{ matrix.imageName }}" != "node" ]] && \
-             [[ "${{ matrix.imageName }}" != "minio" ]] && \
-             [[ "${{ matrix.imageName }}" != "rqlite" ]] && \
-             [[ "${{ matrix.imageName }}" != "dex" ]]; then
-            echo "TF_APKO_DISABLE_VERSION_TAGS=true" >> $GITHUB_ENV
-          fi
-
       - name: Terraform apply
         env:
           TF_VAR_target_repository: cgr.dev/chainguard
+          TF_APKO_DISABLE_VERSION_TAGS: true  # Disable creating new version tags.
         run: |
           set -x -o pipefail
           env | grep '^TF_VAR_'
