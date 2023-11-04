@@ -83,28 +83,48 @@ search_logs() {
   exit 1
 }
 
-
 keycloak_api_get_users() {
-    # Get Keycloak access token
-    local response=$(curl -k -s -w "\nHTTP_STATUS_CODE:%{http_code}\n" -X POST $KEYCLOAK_URL/realms/master/protocol/openid-connect/token \
-        --user admin-cli:Psip5UvTO1EXUEwzb15nxLWnwdU1Nlcg \
-        -H 'content-type: application/x-www-form-urlencoded' \
-        -d "username=admin&password=$KEYSTORE_PASSWORD&grant_type=password")
+    local max_attempts=10
+    local attempt=10
+    local success=false
 
-    local response_code=$(echo "$response" | grep "HTTP_STATUS_CODE:" | cut -d':' -f2)
-    local content=$(echo "$response" | sed '/HTTP_STATUS_CODE/d')
+    while (( attempt <= max_attempts )); do
+        echo "Attempt $attempt of $max_attempts"
 
-    if [[ "$response_code" != "200" ]]; then
-        echo "FAILED: HTTP response code is $response_code"
-        exit 1
+        # Get Keycloak access token
+        local response=$(curl -k -s -w "\nHTTP_STATUS_CODE:%{http_code}\n" -X POST $KEYCLOAK_URL/realms/master/protocol/openid-connect/token \
+            --user admin-cli:Psip5UvTO1EXUEwzb15nxLWnwdU1Nlcg \
+            -H 'content-type: application/x-www-form-urlencoded' \
+            -d "username=admin&password=$KEYSTORE_PASSWORD&grant_type=password")
+
+        local response_code=$(echo "$response" | grep "HTTP_STATUS_CODE:" | cut -d':' -f2)
+        local content=$(echo "$response" | sed '/HTTP_STATUS_CODE/d')
+
+        if [[ "$response_code" == "200" ]]; then
+            local access_token=$(echo "$content" | jq --raw-output '.access_token')
+
+            # Get list of users that exist in Keycloak
+            curl -k -X GET $KEYCLOAK_URL/admin/realms/master/users -H "Authorization: Bearer $access_token" | jq
+            success=true
+            break
+        else
+            echo "FAILED: HTTP response code is $response_code"
+            ((attempt++))
+            if (( attempt <= max_attempts )); then
+                echo "Retrying in 10 seconds..."
+                sleep 10
+            else
+                echo "Max attempts reached, exiting."
+                exit 1
+            fi
+        fi
+    done
+
+    if ! $success; then
+        echo "Failed to get users after $max_attempts attempts."
+        return 1
     fi
-
-    local access_token=$(echo "$content" | jq --raw-output '.access_token')
-
-    # Get list of users that exist in Keycloak
-    curl -k -X GET $KEYCLOAK_URL/admin/realms/master/users -H "Authorization: Bearer $access_token" | jq
 }
-
 
 TEST_container_starts_ok() {
     # Create Keystore and launch Keycloak
@@ -132,8 +152,8 @@ TEST_container_starts_ok() {
 }
 
 TEST_keycloak_api_accessible() {
-  local retries=3
-  local delay=5 # seconds
+  local retries=10
+  local delay=10
   local attempt=0
 
   while [[ $attempt -le $retries ]]; do
