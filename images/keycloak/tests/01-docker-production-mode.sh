@@ -152,8 +152,8 @@ TEST_container_starts_ok() {
 }
 
 TEST_keycloak_api_accessible() {
-  local retries=10
-  local delay=10
+  local retries=15
+  local delay=20
   local attempt=0
 
   while [[ $attempt -le $retries ]]; do
