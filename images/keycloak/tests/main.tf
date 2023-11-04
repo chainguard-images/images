@@ -42,6 +42,11 @@ resource "helm_release" "test" {
   })]
 }
 
+data "oci_exec_test" "keycloak-production-test" {
+  digest = var.digest
+  script = "${path.module}/01-keycloak-production-mode.sh"
+}
+
 module "helm_cleanup" {
   source = "../../../tflib/helm-cleanup"
   name   = helm_release.test.id
