@@ -44,7 +44,7 @@ resource "helm_release" "test" {
 
 data "oci_exec_test" "keycloak-production-test" {
   digest = var.digest
-  script = "${path.module}/01-keycloak-production-mode.sh"
+  script = "${path.module}/keycloak-production-mode.sh"
 }
 
 module "helm_cleanup" {

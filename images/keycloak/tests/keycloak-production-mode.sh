@@ -11,7 +11,8 @@ KEYCLOAK_HOSTNAME="localhost"
 KEYCLOAK_PORT=$FREE_PORT
 KEYCLOAK_URL="https://$KEYCLOAK_HOSTNAME:$KEYCLOAK_PORT"
 KEYSTORE_PATH="/tmp/server.keystore"
-KEYSTORE_PASSWORD="placeholder"
+KEYSTORE_PASSWORD="AbCdEfG0!12345678NotReal"
+BCFIPS_JAR_VERSION="1.0.2.4"
 
 # Define log entries we are looking for in the keycloak logs here.
 declare -a terms=(
@@ -23,7 +24,15 @@ declare -a missing_terms=()
 
 create_keystore() {  
   rm -rf "$KEYSTORE_PATH"
+
+  curl https://downloads.bouncycastle.org/fips-java/bc-fips-$BCFIPS_JAR_VERSION.jar -o bc-fips.jar
+
   keytool -v -keystore $KEYSTORE_PATH \
+    -J--add-exports=java.base/sun.security.provider=ALL-UNNAMED \
+    -storetype bcfks \
+    -providername BCFIPS \
+    -providerclass org.bouncycastle.jcajce.provider.BouncyCastleFipsProvider \
+    -providerpath bc-fips.jar \
     -alias $KEYCLOAK_HOSTNAME \
     -genkeypair -sigalg SHA512withRSA -keyalg RSA \
     -dname CN=$KEYCLOAK_HOSTNAME \
@@ -32,13 +41,15 @@ create_keystore() {
 
 start_container() {  
   docker run \
-    -v "$KEYSTORE_PATH:/usr/share/java/keycloak/conf/server.keystore" \
+    -v "/Users/mark/Documents/keycloak/server.keystore:/usr/share/java/keycloak/conf/server.keystore" \
     --detach --rm \
     --name local-keycloak -p $KEYCLOAK_PORT:8443 \
     -e KEYCLOAK_ADMIN=admin \
     -e KEYCLOAK_ADMIN_PASSWORD=$KEYSTORE_PASSWORD \
-    "${IMAGE_NAME}" \
+    electricthunder/keycloak-fips:latest \
     start \
+    --features=fips \
+    --fips-mode=strict \
     --hostname=$KEYCLOAK_HOSTNAME \
     --https-key-store-password=$KEYSTORE_PASSWORD
   sleep 15
