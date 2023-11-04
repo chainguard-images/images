@@ -158,7 +158,7 @@ TEST_keycloak_api_accessible() {
 
   while [[ $attempt -le $retries ]]; do
     docker ps
-    local response_code=$(curl -kIso /dev/null -w "%{http_code}" "$KEYCLOAK_URL/realms/master")
+    local response_code=$(curl -kIso /dev/null -w "%{http_code}" "https://0.0.0.0:$KEYCLOAK_PORT/realms/master")
     if [[ "$response_code" == "200" ]]; then
       echo "API endpoint is accessible and running."
       return 0
