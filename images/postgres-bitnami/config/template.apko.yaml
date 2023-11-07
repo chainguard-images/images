@@ -1,0 +1,37 @@
+contents:
+  packages:
+    - glibc-locale-en
+    - busybox
+    - su-exec
+    # Postgres comes via var.extra_packages
+
+accounts:
+  groups:
+    - groupname: postgres
+      gid: 1001
+  users:
+    - username: postgres
+      uid: 1001
+  run-as: 0
+
+entrypoint:
+  command: /opt/bitnami/scripts/postgresql/entrypoint.sh /opt/bitnami/scripts/postgresql/run.sh
+
+environment:
+  BITNAMI_APP_NAME: postgresql
+  PGDATA: /opt/bitnami/postgresql/data
+  POSTGRESQL_SHARED_PRELOAD_LIBRARIES: pg_stat_statements
+  # Postgres defers to locale and docker-library/postgres sets UTF-8 as default.
+  LANG: en_US.UTF-8
+
+paths:
+  - path: /opt/bitnami/postgresql/data
+    type: directory
+    uid: 1001
+    gid: 1001
+    permissions: 0o777
+  - path: /opt/bitnami
+    type: directory
+    permissions: 0o755
+    uid: 1001
+    gid: 1001

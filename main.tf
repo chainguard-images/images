@@ -812,6 +812,11 @@ module "postgres" {
   target_repository = "${var.target_repository}/postgres"
 }
 
+module "postgres-bitnami" {
+  source            = "./images/postgres-bitnami"
+  target_repository = "${var.target_repository}/postgres-bitnami"
+}
+
 module "powershell" {
   source            = "./images/powershell"
   target_repository = "${var.target_repository}/powershell"
