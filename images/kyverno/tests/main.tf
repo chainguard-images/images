@@ -28,9 +28,11 @@ data "oci_exec_test" "help" {
   script   = "docker run --rm $IMAGE_NAME --help"
 }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "kyverno" {
-  name             = "kyverno"
-  namespace        = "kyverno"
+  name             = "kyverno-${random_pet.suffix.id}"
+  namespace        = "kyverno-${random_pet.suffix.id}"
   repository       = "https://kyverno.github.io/kyverno"
   chart            = "kyverno"
   create_namespace = true
