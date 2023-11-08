@@ -23,7 +23,6 @@ locals {
     "tsa-createcertchain",
     "tuf-createsecret",
     "tuf-server",
-    "tsa-server",
   ])
 }
 

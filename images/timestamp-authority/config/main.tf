@@ -12,7 +12,7 @@ module "accts" { source = "../../../tflib/accts" }
 locals {
   binaries = {
     "server" = "timestamp-server"
-    "cli" = "timestamp-cli"
+    "cli"    = "timestamp-cli"
   }
 }
 

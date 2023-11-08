@@ -195,7 +195,7 @@ resource "helm_release" "scaffold" {
     value = "tsa-${random_pet.suffix.id}"
   }
 
-    set {
+  set {
     name  = "tsa.namespace.name"
     value = "tsa-${random_pet.suffix.id}"
   }
