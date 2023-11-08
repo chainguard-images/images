@@ -1,8 +1,8 @@
-resource "kubernetes_job_v1" "keyless_sign_verify" {
+resource "kubernetes_job_v1" "tsa_sign_verify" {
   depends_on = [helm_release.scaffold]
 
   metadata {
-    name      = "keyless-sign-verify"
+    name      = "tsa-sign-verify"
     namespace = "tuf-${random_pet.suffix.id}" // To mount the tuf root secret
   }
 
@@ -51,17 +51,32 @@ resource "kubernetes_job_v1" "keyless_sign_verify" {
         }
 
         init_container {
+          name        = "tsa-certchain"
+          image       = data.oci_string.images["curl"].id
+          working_dir = "/workspace"
+          args = [
+            "-Lo", "/workspace/tsa-cert-chain.pem",
+            "http://tsa-server.tsa-system.svc/api/v1/timestamp/certchain",
+          ]
+          volume_mount {
+            name       = "workspace"
+            mount_path = "/workspace"
+          }
+        }
+
+        init_container {
           name        = "sign"
           image       = data.oci_string.images["cosign-cli"].id
           working_dir = "/workspace"
           args = [
             "sign-blob", "/etc/os-release",
             "--fulcio-url", "http://fulcio-server.fulcio-${random_pet.suffix.id}.svc",
-            "--rekor-url", "http://rekor-server.rekor-${random_pet.suffix.id}.svc",
+            "--timestamp-server-url", "http://tsa-server.tsa-system.svc/api/v1/timestamp",
             "--output-certificate", "cert.pem",
             "--output-signature", "sig",
             "--yes",
             "--identity-token", "/var/sigstore/token/oidc-token",
+            "--tlog-upload=false",
           ]
           volume_mount {
             name       = "workspace"
@@ -83,11 +98,12 @@ resource "kubernetes_job_v1" "keyless_sign_verify" {
           working_dir = "/workspace"
           args = [
             "verify-blob", "/etc/os-release",
-            "--rekor-url", "http://rekor-server.rekor-${random_pet.suffix.id}.svc",
-            # "--certificate", "cert.pem",
-            # "--signature", "sig",
+            "--insecure-ignore-tlog=true",
+            "--certificate", "cert.pem",
+            "--signature", "sig",
             "--certificate-oidc-issuer", "https://kubernetes.default.svc",
             "--certificate-identity", "https://kubernetes.io/namespaces/tuf-${random_pet.suffix.id}/serviceaccounts/default",
+            "--timestamp-certificate-chain=/workspace/tsa-cert-chain.pem",
           ]
           volume_mount {
             name       = "workspace"
