@@ -11,6 +11,9 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
+/*
+TODO: Re-enable when AWS webhook cleans up after itself more reliably.
+
 resource "random_pet" "suffix" {}
 
 resource "helm_release" "aws-load-balancer-controller" {
@@ -42,3 +45,4 @@ module "helm_cleanup" {
   name      = helm_release.aws-load-balancer-controller.id
   namespace = helm_release.aws-load-balancer-controller.namespace
 }
+*/
