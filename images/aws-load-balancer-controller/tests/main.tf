@@ -11,7 +11,7 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-resource "random_pet" "suffix" {}
+// resource "random_pet" "suffix" {}
 
 /*
 TODO: Re-enable when AWS webhook cleans up after itself more reliably.
