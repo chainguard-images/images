@@ -26,12 +26,6 @@ module "latest" {
   config            = module.config.config
 }
 
-module "version-tags" {
-  source  = "../../tflib/version-tags"
-  package = "gradle-8"
-  config  = module.latest.config
-}
-
 module "test-latest" {
   source = "./tests"
   digest = module.latest.image_ref

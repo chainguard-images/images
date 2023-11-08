@@ -18,12 +18,6 @@ module "latest" {
   build-dev         = true
 }
 
-module "version-tags" {
-  source  = "../../tflib/version-tags"
-  package = "http-echo"
-  config  = module.latest.config
-}
-
 module "test-latest" {
   source = "./tests"
   digest = module.latest.image_ref
