@@ -77,6 +77,7 @@ resource "kubernetes_job_v1" "tsa_sign_verify" {
             "--yes",
             "--identity-token", "/var/sigstore/token/oidc-token",
             "--tlog-upload=false",
+            "--rfc3161-timestamp=/workspace/timestamp.tsp",
           ]
           volume_mount {
             name       = "workspace"
@@ -101,9 +102,10 @@ resource "kubernetes_job_v1" "tsa_sign_verify" {
             "--insecure-ignore-tlog=true",
             "--certificate", "cert.pem",
             "--signature", "sig",
-            "--certificate-oidc-issuer", "https://kubernetes.default.svc",
+            "--certificate-oidc-issuer", "https://kubernetes.default.svc.cluster.local",
             "--certificate-identity", "https://kubernetes.io/namespaces/tuf-${random_pet.suffix.id}/serviceaccounts/default",
             "--timestamp-certificate-chain=/workspace/tsa-cert-chain.pem",
+            "--rfc3161-timestamp=/workspace/timestamp.tsp",
           ]
           volume_mount {
             name       = "workspace"

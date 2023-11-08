@@ -84,8 +84,8 @@ resource "kubernetes_job_v1" "keyless_sign_verify" {
           args = [
             "verify-blob", "/etc/os-release",
             "--rekor-url", "http://rekor-server.rekor-${random_pet.suffix.id}.svc",
-            # "--certificate", "cert.pem",
-            # "--signature", "sig",
+            "--certificate", "cert.pem",
+            "--signature", "sig",
             "--certificate-oidc-issuer", "https://kubernetes.default.svc",
             "--certificate-identity", "https://kubernetes.io/namespaces/tuf-${random_pet.suffix.id}/serviceaccounts/default",
           ]
