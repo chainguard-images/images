@@ -11,13 +11,15 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "influxdb" {
-  name = "influxdb"
+  name = "influxdb-${random_pet.suffix.id}"
 
   repository = "https://helm.influxdata.com"
   chart      = "influxdb2"
 
-  namespace        = "influxdb"
+  namespace        = "influxdb-${random_pet.suffix.id}"
   create_namespace = true
 
 

@@ -10,7 +10,8 @@ accounts:
   users:
     - username: nonroot
       uid: 65532
-  run-as: 65532
+  # See https://github.com/chainguard-images/images/pull/1714#issue-1955015046 for details why we need to run as root
+  run-as: 0
 
 paths:
   - path: /var/lib/fluent-bit
@@ -22,4 +23,4 @@ paths:
 entrypoint:
   command: /usr/bin/fluent-bit
 
-cmd: -c /fluent-bit/etc/fluent-bit.conf
+cmd: --config=/fluent-bit/etc/fluent-bit.conf

@@ -7,7 +7,10 @@ terraform {
 variable "digests" {
   description = "The image digest to run tests over."
   type = object({
-    kas = string
+    kas      = string
+    pages    = string
+    shell    = string
+    exporter = string
   })
 }
 
@@ -40,11 +43,43 @@ resource "helm_release" "gitlab" {
           repository = data.oci_string.ref["kas"].registry_repo
         }
       }
+      gitlab-exporter = {
+        image = {
+          tag        = data.oci_string.ref["exporter"].pseudo_tag
+          repository = data.oci_string.ref["exporter"].registry_repo
+        }
+        extraEnv = {
+          CONFIG_FILENAME = "gitlab-exporter.yml"
+        }
+      }
+      gitlab-pages = {
+        image = {
+          tag        = data.oci_string.ref["pages"].pseudo_tag
+          repository = data.oci_string.ref["pages"].registry_repo
+        }
+        resources = {
+          requests = {
+            memory = "250M"
+            cpu    = "50m"
+          }
+        }
+      }
       webservice = {
-        enabled = false
+        resources = {
+          requests = {
+            cpu    = "50m"
+            memory = "250M"
+          }
+        }
       }
       sidekiq = {
         enabled = false
+      }
+      gitlab-shell = {
+        image = {
+          tag        = data.oci_string.ref["shell"].pseudo_tag
+          repository = data.oci_string.ref["shell"].registry_repo
+        }
       }
     }
     postgresql = {
@@ -62,6 +97,9 @@ resource "helm_release" "gitlab" {
       install = false
     }
     global = {
+      pages = {
+        enabled = true
+      }
       hosts = {
         domain     = "example.com"
         externalIP = "10.10.10.10"
@@ -77,8 +115,29 @@ data "oci_exec_test" "install-kas-up" {
   script     = "kubectl rollout status deploy -n ${helm_release.gitlab.namespace} gitlab-kas --timeout 360s"
 }
 
+# Wait for the gitlab-pages to come up
+data "oci_exec_test" "install-pages-up" {
+  depends_on = [helm_release.gitlab]
+  digest     = var.digests.pages
+  script     = "kubectl rollout status deploy -n ${helm_release.gitlab.namespace} gitlab-gitlab-pages --timeout 360s"
+}
+
+# Wait for the gitlab-shell to come up
+data "oci_exec_test" "install-shell-up" {
+  depends_on = [helm_release.gitlab]
+  digest     = var.digests.shell
+  script     = "kubectl rollout status deploy -n ${helm_release.gitlab.namespace} gitlab-gitlab-shell --timeout 360s"
+}
+
+# Wait for the gitlab-exporter to come up
+data "oci_exec_test" "install-exporter-up" {
+  depends_on = [helm_release.gitlab]
+  digest     = var.digests.exporter
+  script     = "kubectl rollout status deploy -n ${helm_release.gitlab.namespace} gitlab-gitlab-exporter --timeout 360s"
+}
+
 module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.install-kas-up]
+  depends_on = [data.oci_exec_test.install-kas-up, data.oci_exec_test.install-pages-up, data.oci_exec_test.install-shell-up, data.oci_exec_test.install-exporter-up]
   source     = "../../../tflib/helm-cleanup"
   name       = helm_release.gitlab.id
   namespace  = helm_release.gitlab.namespace

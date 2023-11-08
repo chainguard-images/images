@@ -1,0 +1,30 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+image: cgr.dev/chainguard/k3s:latest
+servers: 2
+registries:
+  use:
+    # For local runs, this can be removed
+    - registry.local:5000
+  config: |
+    mirrors:
+      "mirror.gcr.io":
+        endpoint:
+          - https://mirror.gcr.io
+options:
+  k3s:
+    extraArgs:
+      # Cilium requires network policy and CNI to be turned off
+      - arg: --disable-network-policy
+        nodeFilters:
+          - server:*
+      - arg: --flannel-backend=none
+        nodeFilters:
+          - server:*
+      # We don't need these for this test
+      - arg: --disable=traefik
+        nodeFilters:
+          - server:*
+      - arg: --disable=metrics-server
+        nodeFilters:
+          - server:*

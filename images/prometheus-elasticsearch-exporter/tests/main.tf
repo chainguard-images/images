@@ -17,12 +17,15 @@ data "oci_string" "ref" {
   input = var.digest
 }
 
-resource "random_pet" "suffix" {}
+resource "random_id" "hex" { byte_length = 4 }
 
 resource "helm_release" "test" {
-  name       = "prometheus-elasticsearch-exporter-${random_pet.suffix.id}"
+  name       = "prometheus-elasticsearch-exporter-${random_id.hex.hex}"
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "prometheus-elasticsearch-exporter"
+
+  namespace        = "prom-elasticsearch-${random_id.hex.hex}"
+  create_namespace = true
 
   values = [jsonencode({
     image = {
@@ -33,6 +36,7 @@ resource "helm_release" "test" {
 }
 
 module "helm_cleanup" {
-  source = "../../../tflib/helm-cleanup"
-  name   = helm_release.test.id
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.test.id
+  namespace = helm_release.test.namespace
 }

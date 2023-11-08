@@ -10,11 +10,6 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-data "oci_exec_test" "runs" {
-  digest = var.digest
-  script = "${path.module}/01-runs.sh"
-}
-
 data "oci_exec_test" "helm" {
   digest = var.digest
   script = "${path.module}/02-helm.sh"

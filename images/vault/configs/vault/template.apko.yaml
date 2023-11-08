@@ -1,0 +1,16 @@
+contents:
+  packages:
+
+accounts:
+  groups:
+    - groupname: vault
+      gid: 65532
+  users:
+    - username: vault
+      uid: 65532
+  run-as: 0 # Entrypoint script will change user
+
+entrypoint:
+  command: /usr/bin/docker-entrypoint.sh
+
+cmd: server -dev

@@ -9,15 +9,22 @@ variable "target_repository" {
 }
 
 locals {
-  components = toset(["argocd", "repo-server"])
+  components = toset(["server", "repo-server"])
+}
+
+module "config" {
+  for_each = local.components
+  source   = "./configs"
+  name     = each.key
 }
 
 module "latest" {
-  for_each          = local.components
-  source            = "../../tflib/publisher"
+  for_each = local.components
+  source   = "../../tflib/publisher"
+
   name              = basename(path.module)
-  target_repository = (each.key == "argocd" ? var.target_repository : "${var.target_repository}-repo-server")
-  config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
+  target_repository = (each.key == "server" ? var.target_repository : "${var.target_repository}-repo-server")
+  config            = module.config[each.key].config
   build-dev         = true
 }
 
@@ -27,15 +34,17 @@ module "test-latest" {
 }
 
 resource "oci_tag" "latest" {
-  for_each = module.latest
+  for_each = local.components
 
-  digest_ref = each.value.image_ref
+  digest_ref = module.latest[each.key].image_ref
   tag        = "latest"
+  depends_on = [module.test-latest]
 }
 
 resource "oci_tag" "latest-dev" {
-  for_each = module.latest
+  for_each = local.components
 
-  digest_ref = each.value.dev_ref
+  digest_ref = module.latest[each.key].dev_ref
   tag        = "latest-dev"
+  depends_on = [module.test-latest]
 }

@@ -188,5 +188,4 @@ for i in {1..10}; do
   sleep 5
 done
 
-kill -9 $fwd_pid
 [[ "$digged" == "$ip" ]] || exit 1

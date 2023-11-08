@@ -1,0 +1,26 @@
+contents:
+  packages:
+
+accounts:
+  groups:
+    - groupname: argocd
+      gid: 999
+  users:
+    - username: argocd
+      uid: 999
+      gid: 999
+  run-as: 999
+
+work-dir: /home/argocd
+
+paths:
+  - path: /home/argocd
+    type: directory
+    permissions: 0o777
+    gid: 999
+  - path: /tmp
+    type: directory
+    permissions: 0o777
+    uid: 999
+    gid: 999
+    recursive: true

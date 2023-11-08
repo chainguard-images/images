@@ -29,4 +29,3 @@ sentinel:
     tag: latest
 EOF
 ```
-

@@ -73,6 +73,11 @@ module "apko" {
   target_repository = "${var.target_repository}/apko"
 }
 
+module "argo" {
+  source            = "./images/argo"
+  target_repository = "${var.target_repository}/argo"
+}
+
 module "argocd" {
   source            = "./images/argocd"
   target_repository = "${var.target_repository}/argocd"
@@ -81,6 +86,11 @@ module "argocd" {
 module "aspnet-runtime" {
   source            = "./images/aspnet-runtime"
   target_repository = "${var.target_repository}/aspnet-runtime"
+}
+
+module "atlantis" {
+  source            = "./images/atlantis"
+  target_repository = "${var.target_repository}/atlantis"
 }
 
 module "aws-cli" {
@@ -139,6 +149,11 @@ module "busybox" {
   providers = {
     apko.alpine = apko.alpine
   }
+}
+
+module "caddy" {
+  source            = "./images/caddy"
+  target_repository = "${var.target_repository}/caddy"
 }
 
 module "cadvisor" {
@@ -224,6 +239,11 @@ module "cosign" {
 module "crane" {
   source            = "./images/crane"
   target_repository = "${var.target_repository}/crane"
+}
+
+module "crossplane" {
+  source            = "./images/crossplane"
+  target_repository = "${var.target_repository}/crossplane"
 }
 
 module "crossplane-aws" {
@@ -610,6 +630,11 @@ module "kube-fluentd-operator" {
   target_repository = "${var.target_repository}/kube-fluentd-operator"
 }
 
+module "kube-logging-operator-fluentd" {
+  source            = "./images/kube-logging-operator-fluentd"
+  target_repository = "${var.target_repository}/kube-logging-operator-fluentd"
+}
+
 module "kube-logging-operator" {
   source            = "./images/kube-logging-operator"
   target_repository = "${var.target_repository}/kube-logging-operator"
@@ -623,6 +648,11 @@ module "kubewatch" {
 module "kyverno" {
   source            = "./images/kyverno"
   target_repository = "${var.target_repository}/kyverno"
+}
+
+module "kyverno-policy-reporter" {
+  source            = "./images/kyverno-policy-reporter"
+  target_repository = "${var.target_repository}/kyverno-policy-reporter"
 }
 
 module "loki" {
@@ -868,6 +898,16 @@ module "rabbitmq" {
   target_repository = "${var.target_repository}/rabbitmq"
 }
 
+module "rabbitmq-cluster-operator" {
+  source            = "./images/rabbitmq-cluster-operator"
+  target_repository = "${var.target_repository}/rabbitmq-cluster-operator"
+}
+
+module "rabbitmq-messaging-topology-operator" {
+  source            = "./images/rabbitmq-messaging-topology-operator"
+  target_repository = "${var.target_repository}/rabbitmq-messaging-topology-operator"
+}
+
 module "redis" {
   source            = "./images/redis"
   target_repository = "${var.target_repository}/redis"
@@ -1002,6 +1042,11 @@ module "timoni" {
   target_repository = "${var.target_repository}/timoni"
 }
 
+module "tomcat" {
+  source            = "./images/tomcat"
+  target_repository = "${var.target_repository}/tomcat"
+}
+
 module "traefik" {
   source            = "./images/traefik"
   target_repository = "${var.target_repository}/traefik"
@@ -1010,6 +1055,11 @@ module "traefik" {
 module "trillian" {
   source            = "./images/trillian"
   target_repository = "${var.target_repository}/trillian"
+}
+
+module "trino" {
+  source            = "./images/trino"
+  target_repository = "${var.target_repository}/trino"
 }
 
 module "trust-manager" {

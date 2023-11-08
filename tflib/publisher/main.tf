@@ -2,11 +2,11 @@ terraform {
   required_providers {
     cosign = {
       source  = "chainguard-dev/cosign"
-      version = "0.0.14"
+      version = "0.0.17"
     }
     apko = {
       source  = "chainguard-dev/apko"
-      version = "0.10.7"
+      version = "0.11.0"
     }
     oci = {
       source  = "chainguard-dev/oci"
@@ -75,7 +75,7 @@ locals {
 
 module "this" {
   source  = "chainguard-dev/apko/publisher"
-  version = "0.0.8"
+  version = "0.0.10"
 
   target_repository = var.target_repository
   config            = yamlencode(local.updated_config)
@@ -85,7 +85,7 @@ module "this" {
 module "this-dev" {
   count   = local.build-dev ? 1 : 0
   source  = "chainguard-dev/apko/publisher"
-  version = "0.0.8"
+  version = "0.0.10"
 
   target_repository = var.target_repository
 

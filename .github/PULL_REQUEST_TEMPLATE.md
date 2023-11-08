@@ -1,15 +1,12 @@
-## Chainguard Images Pull Request Template
+## New Image Pull Request Template
 
 <!--
-*** PULL REQUEST CHECKLIST: PLEASE START HERE ***
+*** NEW IMAGE PULL REQUEST CHECKLIST: PLEASE START HERE WHEN CREATING NEW IMAGES***
 
-The image pull request checklist includes 10 sections:
-
-* Every section begins with a heading level 3 (e.g., ### Section One).
 * You are required to check at least one box per section -- no exceptions!
+
+See BEST_PRACTICES.md for more information.
 -->
-
-
 
 ### Image Size
 <!--
@@ -27,6 +24,15 @@ Notes:
 
 - [ ] The Grype vulnerability scan returned 0 CVE(s).
 - [ ] The Grype vulnerability scan returned > 0 CVE(s) (please explain in the notes).
+
+Notes:
+
+### Image Tagging
+<!-- The image should be tagged with :latest and maybe :latest-dev -->
+
+- [ ] The image is _not_ tagged with version tags.
+- [ ] The image is tagged with :latest
+- [ ] The image is not tagged with :latest (please explain in the notes).
 
 Notes:
 

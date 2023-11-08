@@ -7,7 +7,11 @@ terraform {
 variable "digests" {
   description = "The digests to run tests over."
   type = object({
-    operator = string
+    agent             = string
+    hubble-relay      = string
+    hubble-ui         = string
+    hubble-ui-backend = string
+    operator          = string
   })
 }
 
@@ -16,36 +20,24 @@ data "oci_exec_test" "operator-version" {
   digest = var.digests.operator
 }
 
-# TODO:
-# To run this test, we need to create a cluster that looks like this
-#
-# k3d cluster create -i cgr.dev/chainguard/k3s:latest \
-#     --k3s-arg '--disable=traefik@server:*' \
-#     --k3s-arg '--disable=metrics-server@server:*' \
-#     --k3s-arg '--disable-network-policy@server:*' \
-#     --k3s-arg '--flannel-backend=none@server:*' \
-#
-# for node in k3d-k3s-default-server-0; do
-#   docker exec -i $node /bin/sh <<-EOF
-#       mount bpffs -t bpf /sys/fs/bpf
-#       mount --make-shared /sys/fs/bpf
-#       mkdir -p /run/cilium/cgroupv2
-#       mount -t cgroup2 none /run/cilium/cgroupv2
-#       mount --make-shared /run/cilium/cgroupv2/
-#
-#
-# resource "helm_release" "cilium" {
-#   repository       = "https://helm.cilium.io"
-#   chart            = "cilium"
-#   name             = "cilium"
-#   namespace        = "kube-system"
-
-#   values = [jsonencode({
-#     operator = {
-#       image = {
-#         override = var.digests.operator
-#       }
-#       replicas = 1
-#     }
-#   })]
-# }
+data "oci_exec_test" "cilium-install" {
+  script          = "${path.module}/cilium-install.sh"
+  digest          = var.digests.agent
+  timeout_seconds = 1200
+  env = [{
+    name  = "AGENT_IMAGE"
+    value = var.digests.agent
+    }, {
+    name  = "HUBBLE_RELAY_IMAGE"
+    value = var.digests.hubble-relay
+    }, {
+    name  = "HUBBLE_UI_IMAGE"
+    value = var.digests.hubble-ui
+    }, {
+    name  = "HUBBLE_UI_BACKEND_IMAGE"
+    value = var.digests.hubble-ui-backend
+    }, {
+    name  = "OPERATOR_IMAGE"
+    value = var.digests.operator
+  }]
+}

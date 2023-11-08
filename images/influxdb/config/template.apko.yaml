@@ -1,0 +1,34 @@
+contents:
+  packages:
+    - influxd
+    - influxd-oci-entrypoint
+    # influx provided by extra_packages
+
+accounts:
+  groups:
+    - groupname: influxdb
+      gid: 1000
+  users:
+    - username: influxdb
+      uid: 1000
+  run-as: 1000
+
+entrypoint:
+  command: /usr/bin/entrypoint.sh
+
+environment:
+  INFLUXD_INIT_PORT: 9999
+  INFLUXD_INIT_PING_ATTEMPTS: 600
+  DOCKER_INFLUXDB_INIT_CLI_CONFIG_NAME: default
+
+paths:
+  - path: /var/lib/influxdb2
+    type: directory
+    uid: 1000
+    gid: 1000
+    permissions: 0o755
+  - path: /etc/influxdb2
+    type: directory
+    uid: 1000
+    gid: 1000
+    permissions: 0o755
