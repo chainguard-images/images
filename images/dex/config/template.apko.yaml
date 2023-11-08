@@ -1,6 +1,6 @@
 contents:
   packages:
-    - dex
+    # Package "dex" comes in via var.extra_packages
     - gomplate
 
 accounts:
