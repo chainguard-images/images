@@ -11,10 +11,15 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "atlantis" {
-  name       = "runatlantis"
-  repository = "https://runatlantis.github.io/helm-charts"
-  chart      = "atlantis"
+  name             = "runatlantis-${random_pet.suffix.id}"
+  namespace        = "runatlantis-system-${random_pet.suffix.id}"
+  repository       = "https://runatlantis.github.io/helm-charts"
+  chart            = "atlantis"
+  create_namespace = true
+  timeout          = 600
 
   values = [jsonencode({
     image = {
