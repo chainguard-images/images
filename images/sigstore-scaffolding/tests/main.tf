@@ -109,7 +109,7 @@ variable "cosign-cli" {
 }
 
 locals {
-  all-images = merge(var.scaffolding-images, var.support-images, var.rekor-images, var.trillian-images, { "ctlog-server" : var.ctlog-server }, { "fulcio-server" : var.fulcio-server }, { "cosign-cli" : var.cosign-cli }, { "tsa-server" : var.tsa-server })
+  all-images = merge(var.scaffolding-images, var.support-images, var.rekor-images, var.trillian-images, { "ctlog-server" : var.ctlog-server }, { "fulcio-server" : var.fulcio-server }, { "cosign-cli" : var.cosign-cli })
 }
 
 data "oci_ref" "images" {
