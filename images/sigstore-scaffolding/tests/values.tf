@@ -185,5 +185,9 @@ locals {
     server:
       args:
         signer: memory
+      image:
+        registry: ${data.oci_string.images["tsa-server"].registry}
+        repository: ${data.oci_string.images["tsa-server"].repo}
+        version: ${data.oci_string.images["tsa-server"].digest}
   EOF
 }
