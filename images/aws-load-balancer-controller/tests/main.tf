@@ -9,6 +9,11 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "chart_version" {
+  description = "The version of the chart to test."
+  default     = "latest"
+}
+
 data "oci_string" "ref" { input = var.digest }
 
 /*
@@ -21,6 +26,7 @@ resource "helm_release" "aws-load-balancer-controller" {
 
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
+  version    = var.chart_version
 
   namespace        = "aws-lbc-${random_pet.suffix.id}"
   create_namespace = true
