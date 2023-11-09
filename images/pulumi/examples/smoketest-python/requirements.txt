@@ -1,2 +1,2 @@
-pulumi
+pulumi==3.91.1
 pulumi-kubernetes
