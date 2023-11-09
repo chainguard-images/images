@@ -1037,6 +1037,11 @@ module "tigera-operator" {
   target_repository = "${var.target_repository}/tigera-operator"
 }
 
+module "timestamp-authority" {
+  source            = "./images/timestamp-authority"
+  target_repository = "${var.target_repository}/timestamp-authority"
+}
+
 module "timoni" {
   source            = "./images/timoni"
   target_repository = "${var.target_repository}/timoni"

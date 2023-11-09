@@ -84,6 +84,12 @@ variable "trillian-images" {
   }
 }
 
+variable "tsa-server" {
+  description = "The TSA image to use in testing"
+  type        = string
+  default     = "cgr.dev/chainguard/timestamp-authority-server"
+}
+
 variable "ctlog-server" {
   description = "The image digests to run tests over."
   type        = string
@@ -181,6 +187,17 @@ resource "helm_release" "scaffold" {
   set {
     name  = "fulcio.ctlog.namespace.name"
     value = "ctlog-${random_pet.suffix.id}"
+  }
+
+  // Override the TSA namespace
+  set {
+    name  = "tsa.forceNamespace"
+    value = "tsa-${random_pet.suffix.id}"
+  }
+
+  set {
+    name  = "tsa.namespace.name"
+    value = "tsa-${random_pet.suffix.id}"
   }
 
   // Override the trillian namespace

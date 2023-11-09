@@ -181,11 +181,8 @@ locals {
   tsa:
     enabled: true
     namespace:
-      name: tsa-system
       create: true
-    forceNamespace: tsa-system
     server:
-      fullnameOverride: tsa-server
       args:
         signer: memory
   EOF
