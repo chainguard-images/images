@@ -8,15 +8,9 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-variable "suffix" {
-  default     = ""
-  description = "The pushgateway component version suffix."
-}
-
 module "config" {
-  source = "./config"
-  name   = "prometheus-pushgateway"
-  suffix = var.suffix
+  source         = "./config"
+  extra_packages = ["prometheus-pushgateway"]
 }
 
 module "latest" {
