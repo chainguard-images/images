@@ -21,11 +21,17 @@ ifeq ($(TF_AUTO_APPROVE),1)
 TF_VARS += --auto-approve
 endif
 
+.PHONY: check-env-tf
+check-env-tf:
+ifndef TF_VAR_target_repository
+	$(error TF_VAR_target_repository is not set)
+endif
+
 .PHONY: all
-all: init
+all: check-env-tf init
 	terraform apply $(TF_VARS)
 
-image/%:
+image/%: check-env-tf init
 	terraform apply $(TF_VARS) -target=module.$*
 
 init:
