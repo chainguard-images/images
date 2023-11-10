@@ -19,9 +19,11 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "spire" {
-  name             = "spire"
-  namespace        = "spire-system"
+  name             = "spire-${random_pet.suffix.id}"
+  namespace        = "spire-system-${random_pet.suffix.id}"
   create_namespace = true
 
   repository = "https://spiffe.github.io/helm-charts"
