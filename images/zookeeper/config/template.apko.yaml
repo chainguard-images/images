@@ -1,6 +1,8 @@
 contents:
   packages:
     - busybox
+    # Helm charts for zookeeper use nc -q in probes, which busybox does not have.
+    - netcat-openbsd
     - glibc-locale-en
     - bash
     # zookeeper comes via var.extra_packages

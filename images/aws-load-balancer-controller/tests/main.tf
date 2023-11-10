@@ -9,7 +9,15 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "chart_version" {
+  description = "The version of the chart to test."
+  default     = "latest"
+}
+
 data "oci_string" "ref" { input = var.digest }
+
+/*
+TODO: Re-enable when AWS webhook cleans up after itself more reliably.
 
 resource "random_pet" "suffix" {}
 
@@ -18,6 +26,7 @@ resource "helm_release" "aws-load-balancer-controller" {
 
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
+  version    = var.chart_version
 
   namespace        = "aws-lbc-${random_pet.suffix.id}"
   create_namespace = true
@@ -42,3 +51,4 @@ module "helm_cleanup" {
   name      = helm_release.aws-load-balancer-controller.id
   namespace = helm_release.aws-load-balancer-controller.namespace
 }
+*/

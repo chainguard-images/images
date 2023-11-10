@@ -9,7 +9,7 @@ variable "extra_packages" {
   // TODO: Add any other packages here you want to conditionally include,
   // or update this default to [] if this isn't a version stream image.
   default = [
-    "{{ .PackageName }}",
+    "dex",
     // Other packages your image needs
   ]
 }
