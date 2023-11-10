@@ -9,11 +9,26 @@ variable "extra_packages" {
   default     = ["postgresql-15", "postgresql-15-client", "postgresql-15-oci-entrypoint", "postgresql-15-contrib", "libpq-15"]
 }
 
+variable "uid" {
+  description = "The user ID of the postgres user."
+  default     = 70
+}
+
+variable "gid" {
+  description = "The group ID of the postgres group."
+  default     = 70
+}
+
+variable "run-as" {
+  description = "The user ID to run the postgres process as."
+  default     = 0
+}
+
 module "accts" {
   source = "../../../tflib/accts"
-  run-as = 0
-  uid    = 70
-  gid    = 70
+  run-as = var.run-as
+  uid    = var.uid
+  gid    = var.gid
   name   = "postgres"
 }
 
