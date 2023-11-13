@@ -14,6 +14,7 @@ variable "digests" {
     scheduledworkflow     = string
     viewer-crd-controller = string
     cache-deployer        = string
+    frontend              = string
   })
 }
 
@@ -84,5 +85,14 @@ data "oci_exec_test" "smoke" {
   env {
     name  = "IMAGE_REPOSITORY_VIEWERCRDCONTROLLER_TAG"
     value = data.oci_string.ref["viewer-crd-controller"].pseudo_tag
+  }
+
+  env {
+    name  = "IMAGE_REPOSITORY_FRONTEND"
+    value = data.oci_string.ref["frontend"].registry_repo
+  }
+  env {
+    name  = "IMAGE_REPOSITORY_FRONTEND_TAG"
+    value = data.oci_string.ref["frontend"].pseudo_tag
   }
 }

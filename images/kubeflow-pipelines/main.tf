@@ -6,7 +6,8 @@ locals {
     "persistenceagent",
     "scheduledworkflow",
     "viewer-crd-controller",
-    "cache-deployer"
+    "cache-deployer",
+    "frontend",
   ])
 
   packages = merge(
@@ -19,6 +20,7 @@ locals {
       "scheduledworkflow"     = "kubeflow-pipelines-scheduledworkflow"
       "viewer-crd-controller" = "kubeflow-pipelines-viewer-crd-controller"
       "cache-deployer"        = "kubeflow-pipelines-cache-deployer"
+      "frontend"              = "kubeflow-pipelines-frontend"
     },
   )
 
@@ -32,6 +34,7 @@ locals {
       "scheduledworkflow"     = "${var.target_repository}-scheduledworkflow"
       "viewer-crd-controller" = "${var.target_repository}-viewer-crd-controller"
       "cache-deployer"        = "${var.target_repository}-cache-deployer"
+      "frontend"              = "${var.target_repository}-frontend"
     },
   )
 }
@@ -40,13 +43,21 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
+module "config" {
+  for_each       = local.components
+  source         = "./configs"
+  name           = each.key
+  extra_packages = [local.packages[each.key]]
+}
+
 module "latest" {
   for_each          = local.repositories
   source            = "../../tflib/publisher"
   name              = basename(path.module)
   target_repository = each.value
-  config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
+  config            = module.config[each.key].config
   build-dev         = true
+  main_package      = local.packages[each.key]
 }
 
 module "version-tags" {

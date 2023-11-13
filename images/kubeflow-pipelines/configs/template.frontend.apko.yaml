@@ -1,0 +1,18 @@
+contents:
+  packages:
+   # - kubeflow-pipelines-frontend
+  
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+
+environment:
+  API_SERVER_ADDRESS: http://localhost:3001
+
+cmd: node ./server/dist/server.js ./client 3000
