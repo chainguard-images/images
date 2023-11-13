@@ -24,12 +24,14 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "kyverno" {
-  name       = "kyverno"
+  name       = "kyverno-${random_pet.suffix.id}"
   repository = "https://kyverno.github.io/kyverno"
   chart      = "kyverno"
 
-  namespace        = "kyverno"
+  namespace        = "kyverno-${random_pet.suffix.id}"
   create_namespace = true
 
   values = [jsonencode({
