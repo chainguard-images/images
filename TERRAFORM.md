@@ -183,3 +183,14 @@ You can then make the necessary changes to get your image working,
 such as extra required packages and tests.
 
 For a full list of `monopod scaffold` options, run `monopod scaffold --help`.
+
+## Using apks downloaded from GitHub Artifacts
+
+The public repo uses GitHub Actions to build packages. It then uploads the packages to GitHub Artifacts. We can download the packages from GitHub Artifacts and uses them to build images before actually creating the PR to ensure that the packages are going to work with the image.
+
+1. Download the package from GitHub Artifacts.
+2. Copy the package to the `packages/<arch>/` directory.
+3. Sign the package with `melange sign --signing-key melange.rsa <apk>` but do not forget to create a key/pair for signing with `melange keygen`.
+4. Update the locally exist `APKINDEX.tar.gz` at the same folder with apks using `melange index -m -s APKINDEX.tar.gz *.apk`.
+5. Sign the index itself `melanges sign-index --signing-key melange.rsa APKINDEX.tar.gz`.
+6. Run the command to build the image as usual. The image will be built using the local packages instead of downloading from the internet.
