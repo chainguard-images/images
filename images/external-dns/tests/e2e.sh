@@ -163,7 +163,7 @@ kubectl apply -f- <<EOF
 kind: Service
 apiVersion: v1
 metadata:
-  name: external-dns-test
+  name: external-dns-test-${FREE_PORT}
   annotations:
     external-dns.alpha.kubernetes.io/hostname: ${domain}
 spec:
