@@ -29,6 +29,12 @@ spec:
             properties:
               who:
                 type: string
+          status:
+            type: object
+            properties:
+              pods:
+                type: integer
+
     subresources:
      status: {}
 EOF
@@ -159,7 +165,6 @@ spec:
 EOF
 
 kubectl -n hello apply -f hello.yaml
-sleep 30
-kubectl get pods chainguard --output=jsonpath='{.status.phase}' -n hello | grep "Succeeded"
-sleep 5
+kubectl wait --for=jsonpath='{.status.pods}=1' helloworlds --namespace hello chainguard --timeout=30s
+kubectl wait --for=jsonpath='{.status.phase}=Succeeded' pod --namespace hello chainguard --timeout=30s
 kubectl logs pod/chainguard -n hello |  grep "chainguard"
