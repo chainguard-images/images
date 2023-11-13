@@ -22,12 +22,6 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
-data "oci_exec_test" "help" {
-  for_each = var.digests
-  digest   = each.value
-  script   = "docker run --rm $IMAGE_NAME --help"
-}
-
 resource "random_pet" "suffix" {}
 
 resource "helm_release" "kyverno" {
