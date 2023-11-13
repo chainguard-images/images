@@ -4,6 +4,7 @@ contents:
     - build-base
     - go
     - ko
+    - git
 
 accounts:
   groups:
