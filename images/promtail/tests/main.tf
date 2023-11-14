@@ -27,9 +27,8 @@ resource "helm_release" "promtail" {
 }
 
 module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.promtail.id
-  namespace = helm_release.promtail.namespace
+  source = "../../../tflib/helm-cleanup"
+  name   = helm_release.promtail.id
 }
 
 data "oci_exec_test" "version" {

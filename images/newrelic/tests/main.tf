@@ -134,7 +134,6 @@ resource "helm_release" "nri-bundle" {
 }
 
 module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.nri-bundle.id
-  namespace = helm_release.nri-bundle.namespace
+  source = "../../../tflib/helm-cleanup"
+  name   = helm_release.nri-bundle.id
 }

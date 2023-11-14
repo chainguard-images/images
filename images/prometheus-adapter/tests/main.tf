@@ -26,7 +26,6 @@ resource "helm_release" "test" {
 }
 
 module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.test.id
-  namespace = helm_release.test.namespace
+  source = "../../../tflib/helm-cleanup"
+  name   = helm_release.test.id
 }

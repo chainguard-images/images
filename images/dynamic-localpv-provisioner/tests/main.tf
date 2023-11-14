@@ -28,7 +28,6 @@ resource "helm_release" "dynamic-localpv-provisioner" {
 }
 
 module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.dynamic-localpv-provisioner.id
-  namespace = helm_release.dynamic-localpv-provisioner.namespace
+  source = "../../../tflib/helm-cleanup"
+  name   = helm_release.dynamic-localpv-provisioner.id
 }
