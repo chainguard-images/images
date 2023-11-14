@@ -14,14 +14,6 @@ locals {
       main_package   = "newrelic-infrastructure-bundle${var.suffix}"
       extra_packages = ["newrelic-infrastructure-agent"]
     },
-    "k8s-events-forwarder" = {
-      main_package   = "newrelic-infrastructure-agent${var.suffix}"
-      extra_packages = []
-    },
-    "kube-events" = {
-      main_package   = "newrelic-nri-kube-events${var.suffix}"
-      extra_packages = []
-    },
     "kubernetes" = {
       main_package   = "nri-kubernetes${var.suffix}"
       extra_packages = []

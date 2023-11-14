@@ -727,6 +727,12 @@ module "newrelic" {
   license_key       = var.newrelic_license_key
 }
 
+module "newrelic-k8s-events-forwarder" {
+  source            = "./images/newrelic-k8s-events-forwarder"
+  target_repository = "${var.target_repository}/newrelic-k8s-events-forwarder"
+  license_key       = var.newrelic_license_key
+}
+
 module "nfs-subdir-external-provisioner" {
   source            = "./images/nfs-subdir-external-provisioner"
   target_repository = "${var.target_repository}/nfs-subdir-external-provisioner"

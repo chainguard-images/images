@@ -12,9 +12,7 @@ variable "digests" {
   type = object({
     infrastructure-bundle   = string
     fluent-bit-output       = string
-    k8s-events-forwarder    = string
     prometheus-configurator = string
-    kube-events             = string
     prometheus              = string
     kubernetes              = string
   })
@@ -54,11 +52,6 @@ resource "helm_release" "nri-bundle" {
           }]
         }
         images = {
-          forwarder = {
-            registry   = data.oci_string.ref["k8s-events-forwarder"].registry
-            repository = data.oci_string.ref["k8s-events-forwarder"].repo
-            tag        = data.oci_string.ref["k8s-events-forwarder"].pseudo_tag
-          }
           agent = {
             registry   = data.oci_string.ref["infrastructure-bundle"].registry
             repository = data.oci_string.ref["infrastructure-bundle"].repo
@@ -80,23 +73,6 @@ resource "helm_release" "nri-bundle" {
           tag        = data.oci_string.ref["prometheus"].pseudo_tag
         }
       }
-
-      nri-kube-events = {
-        enabled = true
-        images = {
-          agent = {
-            registry   = data.oci_string.ref["k8s-events-forwarder"].registry
-            repository = data.oci_string.ref["k8s-events-forwarder"].repo
-            tag        = data.oci_string.ref["k8s-events-forwarder"].pseudo_tag
-          }
-          integration = {
-            registry   = data.oci_string.ref["kube-events"].registry
-            repository = data.oci_string.ref["kube-events"].repo
-            tag        = data.oci_string.ref["kube-events"].pseudo_tag
-          }
-        }
-      }
-
 
       newrelic-logging = {
         enabled = true

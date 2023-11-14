@@ -8,9 +8,7 @@ locals {
   components = toset([
     "infrastructure-bundle",
     "fluent-bit-output",
-    "k8s-events-forwarder",
     "prometheus-configurator",
-    "kube-events",
     "kubernetes",
     "prometheus",
   ])
