@@ -61,6 +61,6 @@ hugo server --bind 0.0.0.0 --port 8080
 
 Now open your browser to [localhost:8080](http://localhost:8080)!
 
-FIf you're interested in enterprise support, SLAs, and access to older tags, [get in touch](https://www.chainguard.dev/chainguard-images).
+If you're interested in enterprise support, SLAs, and access to older tags, [get in touch](https://www.chainguard.dev/chainguard-images).
 
 
