@@ -232,7 +232,7 @@ For both cases, one time operations are required to ensure localhost DNS is prop
 
 ```bash
 # Ensure the registry is accessible locally
-❯ echo "127.0.0.1 k3d-k3d.localhost" | sudo tee -a /etc/hosts
+echo "127.0.0.1 k3d-k3d.localhost" | sudo tee -a /etc/hosts
 
 # Some tests (like the toolchains) test that images can be sufficiently built. We need to ensure the insecure local registry is accepted by the docker daemon
 # Ref: https://docs.docker.com/registry/insecure/#deploy-a-plain-http-registry
