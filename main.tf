@@ -1025,6 +1025,11 @@ module "telegraf" {
   target_repository = "${var.target_repository}/telegraf"
 }
 
+module "temporal-ui-server" {
+  source            = "./images/temporal-ui-server"
+  target_repository = "${var.target_repository}/temporal-ui-server"
+}
+
 module "terraform" {
   source            = "./images/terraform"
   target_repository = "${var.target_repository}/terraform"
