@@ -4,7 +4,6 @@ variable "name" {
 
 }
 variable "namespace" {
-  default     = "default"
   type        = string
   description = "Namespace of the helm release to cleanup"
 }
@@ -12,9 +11,12 @@ variable "namespace" {
 resource "null_resource" "cleanup" {
   provisioner "local-exec" {
     command = <<EOF
-    set -ex
-    helm list -n ${var.namespace}
-    helm uninstall -n ${var.namespace} ${var.name} --wait
-    EOF
+set -e
+if [[ "${var.namespace}" == "" ]]; then
+  helm uninstall ${var.name} --wait --cascade=foreground
+else
+  helm uninstall -n ${var.namespace} ${var.name} --wait --cascade=foreground
+fi
+EOF
   }
 }

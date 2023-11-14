@@ -989,6 +989,11 @@ module "spire" {
   target_repository = "${var.target_repository}/spire"
 }
 
+module "spire-again-for-testing" {
+  source            = "./images/spire"
+  target_repository = "${var.target_repository}/spire"
+}
+
 module "stakater-reloader" {
   source            = "./images/stakater-reloader"
   target_repository = "${var.target_repository}/stakater-reloader"

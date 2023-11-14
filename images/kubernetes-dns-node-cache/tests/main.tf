@@ -36,6 +36,7 @@ resource "helm_release" "node-local-dns" {
 }
 
 module "helm_cleanup" {
-  source = "../../../tflib/helm-cleanup"
-  name   = helm_release.node-local-dns.id
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.node-local-dns.id
+  namespace = helm_release.node-local-dns.namespace
 }

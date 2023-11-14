@@ -265,6 +265,7 @@ module "helm_cleanup" {
     kubernetes_job_v1.keyless_sign_verify,
     # data.oci_exec_test.break,
   ]
-  source = "../../../tflib/helm-cleanup"
-  name   = helm_release.scaffold.id
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.scaffold.id
+  namespace = helm_release.scaffold.namespace
 }

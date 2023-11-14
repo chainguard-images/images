@@ -35,4 +35,5 @@ module "helm-cleanup" {
   depends_on = [data.oci_exec_test.test]
   source     = "../../../tflib/helm-cleanup"
   name       = helm_release.vault.id
+  namespace  = helm_release.vault.namespace
 }

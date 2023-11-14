@@ -41,6 +41,7 @@ resource "helm_release" "loki" {
 }
 
 module "helm_cleanup" {
-  source = "../../../tflib/helm-cleanup"
-  name   = helm_release.loki.id
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.loki.id
+  namespace = helm_release.loki.namespace
 }

@@ -33,6 +33,7 @@ resource "helm_release" "fluent-bit" {
 }
 
 module "helm_cleanup" {
-  source = "../../../tflib/helm-cleanup"
-  name   = helm_release.fluent-bit.id
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.fluent-bit.id
+  namespace = helm_release.fluent-bit.namespace
 }
