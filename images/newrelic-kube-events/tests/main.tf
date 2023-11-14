@@ -9,10 +9,12 @@ variable "license_key" {}
 
 variable "digests" {
   description = "The image digests to run tests over."
-  type        = string
+  type = string
 }
 
-data "oci_string" "ref" { input = var.digests }
+data "oci_string" "ref" {
+  input    = var.digests
+}
 
 resource "helm_release" "nri-bundle" {
   name       = "nri-bundle"
@@ -43,18 +45,7 @@ resource "helm_release" "nri-bundle" {
           }]
         }
         images = {
-          forwarder = {
-            registry   = data.oci_string.ref.registry
-            repository = data.oci_string.ref.repo
-            tag        = data.oci_string.ref.pseudo_tag
-          }
-        }
-      }
-
-      nri-kube-events = {
-        enabled = true
-        images = {
-          agent = {
+          integration = {
             registry   = data.oci_string.ref.registry
             repository = data.oci_string.ref.repo
             tag        = data.oci_string.ref.pseudo_tag
