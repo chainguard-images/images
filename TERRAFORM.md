@@ -213,10 +213,10 @@ The following tools are required:
 
 ```bash
 # Create a local registry managed by k3d
-❯ k3d registry create k3d.localhost --port 5005
+k3d registry create k3d.localhost --port 5005
 
 # Create the k3d cluster
-❯ k3d cluster create \
+k3d cluster create \
     --k3s-arg "--disable=traefik@server:0" \
     --k3s-arg "--disable=metrics-server@server:0" \
     --registry-use k3d-k3d.localhost:5005
