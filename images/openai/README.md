@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/openai:latest
 ```
 
+<!--body:start-->
 This image requires the `OPENAI_API_KEY` environment variable to be set to work correctly.
 You can obtain this directly from openai.com, and set it with the `-e` flag to `docker run`, or the `--env-file` flag to specify it as a file.
 
@@ -38,3 +39,4 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
 ```
+<!--body:end-->

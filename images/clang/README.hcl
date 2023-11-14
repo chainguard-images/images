@@ -1,0 +1,7 @@
+name             = "clang"
+image            = "cgr.dev/chainguard/clang"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/clang.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

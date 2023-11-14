@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/minio:latest
 ```
 
+<!--body:start-->
 ## Using Minio
 
 The Chainguard Minio image contains the `minio` server binary.
@@ -70,3 +71,4 @@ Console: http://172.17.0.5:46387 http://127.0.0.1:46387
 Documentation: https://min.io/docs/minio/linux/index.html
 Warning: The standard parity is set to 0. This can lead to data loss.
 ```
+<!--body:end-->

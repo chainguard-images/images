@@ -1,0 +1,7 @@
+name             = "node-problem-detector"
+image            = "cgr.dev/chainguard/node-problem-detector"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/node-problem-detector.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

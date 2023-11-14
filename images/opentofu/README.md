@@ -23,6 +23,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/opentofu
 ```
 
+<!--body:start-->
 The image sets `opentofu` as the entrypoint. To run it:
 
 ```
@@ -47,3 +48,4 @@ All other commands:
   graph         Generate a Graphviz graph of the steps in an operation
   ...
 ```
+<!--body:end-->

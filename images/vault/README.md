@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/vault:latest
 ```
 
+<!--body:start-->
 ## Using Vault
 
 The Chainguard Vault image contains the [Vault](https://www.vaultproject.io/) server binary and supporting config. The image is intended to be a drop-in
@@ -150,3 +151,4 @@ If using the file data storage plugin, please configure it to write to `/var/lib
 
 By default logs will be streamed to stdout and stderr, but can be configured to write to
 `/var/log/vault`.
+<!--body:end-->

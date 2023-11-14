@@ -24,6 +24,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/zot:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 Create a zot config file:
@@ -69,3 +70,4 @@ docker run --rm \
   localhost:5000/demo:latest \
   -c 'echo hello world'
 ```
+<!--body:end-->

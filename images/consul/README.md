@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/consul:latest
 ```
 
+<!--body:start-->
 ## Using Consul
 
 The Chainguard Consul image contains the `consul` binary and a `docker-entrypoint.sh` script.
@@ -49,3 +50,4 @@ $ docker run cgr.dev/chainguard/consul
 
 ==> Log data will now stream in as it occurs:
 ```
+<!--body:end-->

@@ -1,0 +1,7 @@
+name             = "falcoctl"
+image            = "cgr.dev/chainguard/falcoctl"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/falcoctl.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

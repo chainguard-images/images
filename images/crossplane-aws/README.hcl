@@ -1,0 +1,7 @@
+name             = "crossplane-aws"
+image            = "cgr.dev/chainguard/crossplane-aws"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/crossplane-aws.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

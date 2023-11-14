@@ -12,6 +12,7 @@
 ---
 <!--monopod:end-->
 
+<!--body:start-->
 Minimalist Wolfi-based Cosign images for signing and verifying images using Sigstore.
 
 - [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/cosign)
@@ -124,3 +125,4 @@ To obtain detailed information about the environment, you can run the `cosign en
 ```shell
 docker run --rm cgr.dev/chainguard/cosign env --show-descriptions=false
 ```
+<!--body:end-->

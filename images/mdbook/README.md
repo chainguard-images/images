@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/mdbook:latest
 ```
 
+<!--body:start-->
 # Usage
 
 Example: build an mdbook project in the `/work` directory
@@ -33,3 +34,4 @@ docker run --rm \
     cgr.dev/chainguard/mdbook:latest
     init --force --title chainguard-images --ignore git
 ```
+<!--body:end-->

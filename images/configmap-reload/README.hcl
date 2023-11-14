@@ -1,0 +1,7 @@
+name             = "configmap-reload"
+image            = "cgr.dev/chainguard/configmap-reload"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/configmap-reload.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

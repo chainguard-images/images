@@ -1,0 +1,7 @@
+name             = "zig"
+image            = "cgr.dev/chainguard/zig"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/zig.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

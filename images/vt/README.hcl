@@ -1,0 +1,7 @@
+name             = "vt"
+image            = "cgr.dev/chainguard/vt"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/vt.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

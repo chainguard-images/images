@@ -1,0 +1,7 @@
+name             = "zot"
+image            = "cgr.dev/chainguard/zot"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/zot.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

@@ -12,6 +12,7 @@
 ---
 <!--monopod:end-->
 
+<!--body:start-->
 [Tekton](https://tekton.dev) provides a cloud-native Pipeline resource, mainly intended for CI/CD use cases.
 
 [Tekton Chains](https://tekton.dev/docs/chains/) provides additional supply chain security features.
@@ -50,3 +51,4 @@ For Tekton CLI:
 ```
 docker run cgr.dev/chainguard/tekton-cli version
 ```
+<!--body:end-->

@@ -26,6 +26,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/jenkins:latest
 ```
 
+<!--body:start-->
 ## Use It
 
 This is an experimental image and subject to change.  We welcome all feedback.
@@ -51,3 +52,4 @@ docker run --rm \
 cp -r /var/jenkins_home /backup-dir/
 exit
 ```
+<!--body:end-->

@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/fluent-bit
 ```
 
+<!--body:start-->
 ## Using fluent-bit
 
 Run a Fluent Bit instance that will receive messages over TCP port 24224 through the Forward protocol, and send the messages to the STDOUT interface in JSON format every second:
@@ -55,3 +56,4 @@ Fluent Bit v2.0.8
 [2023/01/20 01:37:06] [ info] [output:stdout:stdout.0] worker #0 started
 {"date":1674178633.0,"container_id":"c77d18c7700cc8e552b1f137ec9e6cd922637c733463e38fc97de7d51a95e4e9","container_name":"/nice_morse","source":"stdout","log":"Testing a log message\r"}
 ```
+<!--body:end-->

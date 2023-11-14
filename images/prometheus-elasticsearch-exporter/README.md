@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/prometheus-elasticsearch-exporter:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 The easiest way to install the Prometheus Elasticsearch Exporter is to use the Helm chart.
@@ -34,3 +35,4 @@ $ helm install prom-elasticsearch-exporter prometheus-community/prometheus-elast
 ```
 
 For more detail, please refer to the [Elasticsearch Exporter documentation](https://github.com/prometheus-community/elasticsearch_exporter).
+<!--body:end-->

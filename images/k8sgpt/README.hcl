@@ -1,0 +1,7 @@
+name             = "k8sgpt"
+image            = "cgr.dev/chainguard/k8sgpt"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/k8sgpt.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

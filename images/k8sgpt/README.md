@@ -20,3 +20,6 @@ The image is available on `cgr.dev`:
 ```
 docker pull cgr.dev/chainguard/k8sgpt:latest
 ```
+
+<!--body:start-->
+<!--body:end-->

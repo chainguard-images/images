@@ -1,0 +1,7 @@
+name             = "cedar"
+image            = "cgr.dev/chainguard/cedar"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/cedar.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

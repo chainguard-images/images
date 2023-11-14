@@ -27,6 +27,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/falcoctl:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 `falcoctl` is the entrypoint for the container image. Run with `help` to view
@@ -39,3 +40,4 @@ docker run cgr.dev/chainguard/falcoctl:latest help
 For more information, refer to the falco documentation:
 - [Install and operate falco](https://falco.org/docs/install-operate/running/)
 - [Falco GitHub](https://github.com/falcosecurity/falco)
+<!--body:end-->

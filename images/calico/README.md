@@ -12,6 +12,7 @@
 ---
 <!--monopod:end-->
 
+<!--body:start-->
 ## Installation
 
 There are several ways to install Calico. This document follows the upstream recommended way with the `tigera-operator` ([ref](https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart#install-calico)).
@@ -66,3 +67,4 @@ spec:
 ```
 
 The above combination of `ImageSet` and `Installation` can be used as a drop in replacement for the [upstream documentation](https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart#install-calico) step 2 (`custom-resources.yaml`) to correctly rename the Calico images to their `cgr.dev` variants.
+<!--body:end-->

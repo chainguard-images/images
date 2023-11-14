@@ -1,0 +1,7 @@
+name             = "thanos-operator"
+image            = "cgr.dev/chainguard/thanos-operator"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/thanos-operator.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

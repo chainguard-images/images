@@ -1,0 +1,7 @@
+name             = "minio"
+image            = "cgr.dev/chainguard/minio"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/minio.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

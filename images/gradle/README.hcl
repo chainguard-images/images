@@ -1,0 +1,7 @@
+name             = "gradle"
+image            = "cgr.dev/chainguard/gradle"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/gradle.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

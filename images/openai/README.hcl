@@ -1,0 +1,7 @@
+name             = "openai"
+image            = "cgr.dev/chainguard/openai"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/openai.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

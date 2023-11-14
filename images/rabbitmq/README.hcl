@@ -1,0 +1,7 @@
+name             = "rabbitmq"
+image            = "cgr.dev/chainguard/rabbitmq"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/rabbitmq.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

@@ -1,0 +1,7 @@
+name             = "ntpd-rs"
+image            = "cgr.dev/chainguard/ntpd-rs"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/ntpd-rs.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

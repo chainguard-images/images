@@ -1,0 +1,7 @@
+name             = "sigstore-scaffolding"
+image            = "cgr.dev/chainguard/sigstore-scaffolding"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/sigstore-scaffolding.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

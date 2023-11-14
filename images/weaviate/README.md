@@ -24,6 +24,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/weaviate:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 This image should be a drop-in replacement for the upstream `weaviate` image.
@@ -87,3 +88,4 @@ Connector config & MQTT config:
 Help Options:
   -h, --help               Show this help message
 ```
+<!--body:end-->

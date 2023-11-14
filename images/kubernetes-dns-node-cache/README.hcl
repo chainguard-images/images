@@ -1,0 +1,7 @@
+name             = "kubernetes-dns-node-cache"
+image            = "cgr.dev/chainguard/kubernetes-dns-node-cache"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/kubernetes-dns-node-cache.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

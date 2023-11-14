@@ -1,0 +1,7 @@
+name             = "python"
+image            = "cgr.dev/chainguard/python"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/python.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

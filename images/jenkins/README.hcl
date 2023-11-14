@@ -1,0 +1,7 @@
+name             = "jenkins"
+image            = "cgr.dev/chainguard/jenkins"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/jenkins.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

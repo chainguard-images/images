@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/prometheus-mongodb-exporter:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 The easiest way to install the Prometheus MongoDB Exporter is to use the Helm chart.
@@ -34,3 +35,4 @@ $ helm install prom-mongodb-exporter prometheus-community/prometheus-mongodb-exp
 ```
 
 For more detail, please refer to the [MongoDB Exporter documentation](https://github.com/percona/mongodb_exporter).
+<!--body:end-->

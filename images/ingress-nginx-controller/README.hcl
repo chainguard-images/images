@@ -1,0 +1,7 @@
+name             = "ingress-nginx-controller"
+image            = "cgr.dev/chainguard/ingress-nginx-controller"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/ingress-nginx-controller.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

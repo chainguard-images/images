@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/karpenter:latest
 ```
 
+<!--body:start-->
 ## Using Karpenter
 
 The Chainguard Karpenter image contains the `karpenter` controller and is a drop-in replacement for the upstream image.
@@ -50,3 +51,4 @@ Finally, edit the `helm upgrade` command to include the following lines:
 --set controller.image.repository=cgr.dev/chainguard/karpenter \
 --set controller.image.digest=$DIGEST \
 ```
+<!--body:end-->

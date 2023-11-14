@@ -1,0 +1,7 @@
+name             = "nginx"
+image            = "cgr.dev/chainguard/nginx"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/nginx.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

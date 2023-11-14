@@ -20,6 +20,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/flux
 ```
 
+<!--body:start-->
 ## Using `flux`
 
 The `flux` cli contains various functionality to interact with the flux gitops toolkit components in a running cluster.
@@ -30,3 +31,4 @@ The `flux` cli contains various functionality to interact with the flux gitops t
 # Install the flux gitops toolkit using chainguard images
 docker run cgr.dev/chainguard/flux export --registry cgr.dev/chainguard | kubectl apply -f -
 ```
+<!--body:end-->

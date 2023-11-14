@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/node-problem-detector
 ```
 
+<!--body:start-->
 ## Usage
 
 Install via `helm` using the upstream source shown below:
@@ -34,3 +35,4 @@ helm upgrade --install npd deliveryhero/node-problem-detector \
   --set image.repository=cgr.dev/chainguard/node-problem-detector \
   --set image.tag=latest
 ```
+<!--body:end-->

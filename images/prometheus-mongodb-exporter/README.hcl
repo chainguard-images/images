@@ -1,0 +1,7 @@
+name             = "prometheus-mongodb-exporter"
+image            = "cgr.dev/chainguard/prometheus-mongodb-exporter"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/prometheus-mongodb-exporter.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

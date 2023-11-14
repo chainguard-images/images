@@ -12,6 +12,7 @@
 ---
 <!--monopod:end-->
 
+<!--body:start-->
 Minimalist Wolfi-based PHP images for building and running PHP applications. Includes both `dev` and `fpm` variants.
 
 - [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/php)
@@ -132,3 +133,4 @@ For instance, to check for `curl` settings, you can run:
 ```shell
 docker run --rm cgr.dev/chainguard/php:latest --info | grep curl
 ```
+<!--body:end-->

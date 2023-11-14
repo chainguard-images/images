@@ -24,6 +24,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/kubernetes-ingress-defaultbackend:latest
 ```
 
+<!--body:start-->
 You can run it with the standard deployment using nginx-ingress with something like:
 
 ```
@@ -32,3 +33,4 @@ helm install <RELEASE_NAME> ingress-nginx/ingress-nginx \
   --set defaultBackend.image.image=kubernetes-ingress-defaultbackend \
   --set defaultBackend.image.tag=latest
 ```
+<!--body:end-->

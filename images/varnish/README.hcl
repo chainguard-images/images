@@ -1,0 +1,7 @@
+name             = "varnish"
+image            = "cgr.dev/chainguard/varnish"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/varnish.svg"
+endoflife        = ""
+console_summary  = "test"
+academy_overview = "test"
+readme_file      = "README.md"

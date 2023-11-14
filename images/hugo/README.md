@@ -12,6 +12,7 @@
 ---
 <!--monopod:end-->
 
+<!--body:start-->
 This is a minimal [Hugo](https://gohugo.io/) image. The image only contains
 `hugo` and supporting libraries.  The hugo process start in `/hugo` by default
 so this directory may be initialized with the Hugo site to serve.
@@ -35,3 +36,4 @@ hugo server --bind 0.0.0.0 --port 8080
 ```
 
 Now open your browser to [localhost:8080](http://localhost:8080)!
+<!--body:end-->

@@ -1,0 +1,7 @@
+name             = "spark-operator"
+image            = "cgr.dev/chainguard/spark-operator"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/spark-operator.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

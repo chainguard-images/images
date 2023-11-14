@@ -1,0 +1,7 @@
+name             = "cluster-proportional-autoscaler"
+image            = "cgr.dev/chainguard/cluster-proportional-autoscaler"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/cluster-proportional-autoscaler.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

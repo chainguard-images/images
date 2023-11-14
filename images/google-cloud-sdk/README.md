@@ -22,9 +22,11 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/google-cloud-sdk:latest
 ```
 
+
+<!--body:start-->
 ## Using Google Cloud SDK
 
-The Chainguard Google Cloud SDK image contains the `google-cloud-sdk` tools, including `gcloud`, `gsutil`, `bq`, and more. 
+The Chainguard Google Cloud SDK image contains the `google-cloud-sdk` tools, including `gcloud`, `gsutil`, `bq`, and more.
 
 The default command is `gcloud`.
 
@@ -124,3 +126,4 @@ add-iam-policy-binding     Add a binding to a BigQuery resource's policy in IAM.
                            --role='roles/bigquery.dataViewer' \
                            --project_id=proj -t ds.table1
 ```
+<!--body:end-->

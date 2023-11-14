@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/postgres:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 The only mandatory environment variable needed by the PosgreSQL image is `POSTGRES_PASSWORD`
@@ -81,3 +82,4 @@ You should see the newly created `accounts` table
  public | accounts | table | postgres
 (1 row)
 ```
+<!--body:end-->

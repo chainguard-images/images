@@ -25,6 +25,8 @@ The image is available on `cgr.dev`:
 ```
 docker pull cgr.dev/chainguard/jre:latest
 ```
+
+<!--body:start-->
 ## Use it
 
 Create a simple Java class
@@ -67,3 +69,4 @@ Run the image
 ```sh
 docker run my-simple-java-app
 ```
+<!--body:end-->

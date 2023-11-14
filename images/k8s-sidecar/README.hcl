@@ -1,0 +1,7 @@
+name             = "k8s-sidecar"
+image            = "cgr.dev/chainguard/k8s-sidecar"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/k8s-sidecar.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

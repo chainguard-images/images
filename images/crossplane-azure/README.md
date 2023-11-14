@@ -12,6 +12,7 @@
 ---
 <!--monopod:end-->
 
+<!--body:start-->
 These images provide Crossplane providers for Azure.
 
 | Upstream Image | Chainguard Image |
@@ -32,3 +33,4 @@ metadata:
 spec:
   package: cgr.dev/chainguard/crossplane-azure-sql:latest
 ```
+<!--body:end-->

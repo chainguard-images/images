@@ -21,3 +21,6 @@ The image is available on `cgr.dev`:
 ```
 docker pull cgr.dev/chainguard/kubernetes-csi-external-snapshot-validation-webhook
 ```
+
+<!--body:start-->
+<!--body:end-->

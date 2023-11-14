@@ -1,0 +1,7 @@
+name             = "meilisearch"
+image            = "cgr.dev/chainguard/meilisearch"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/meilisearch.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/memcached-exporter
 ```
 
+<!--body:start-->
 ## Using Memcached
 
 By default the memcached-exporter serves on port 0.0.0.0:9150 at /metrics:
@@ -41,3 +42,4 @@ ts=2023-04-26T17:47:53.478Z caller=tls_config.go:235 level=info msg="TLS is disa
 ## Users and Directories
 
 By default this image runs as a non-root user named `nonroot` with a uid of 65532.
+<!--body:end-->

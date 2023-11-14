@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/kafka:latest
 ```
 
+<!--body:start-->
 ## Using KAFKA
 
 Chainguard Kafka images include the `kafka-server-*` scripts which can be used to start up or configure Kafka or it's dependencies.
@@ -66,3 +67,4 @@ $ /usr/lib/kafka/bin/kafka-server-start.sh /usr/lib/kafka/config/server.properti
 [2023-03-18 00:10:17,536] INFO Client environment:java.home=/usr/lib/jvm/openjdk-jre (org.apache.zookeeper.ZooKeeper)
 ...
 ```
+<!--body:end-->

@@ -1,27 +1,34 @@
 <!--monopod:start-->
 # aws-cli
+
+<!--logo:start-->
+<img src="https://storage.googleapis.com/chainguard-academy/logos/aws-cli/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/aws-cli` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/aws-cli/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal [aws-cli](https://github.com/aws/aws-cli) container image.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/aws-cli
+docker pull cgr.dev/chainguard/aws-cli:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 Before using aws-cli, you need to tell it about your [AWS credentials](https://github.com/aws/aws-cli/tree/v2#getting-started).
@@ -44,3 +51,5 @@ For example, the following command displays help for the general AWS CLI options
 ```shell
 aws help
 ```
+<!--body:end-->
+

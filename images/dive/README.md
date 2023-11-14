@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/dive:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 ```
@@ -52,3 +53,4 @@ Flags:
 
 Use "dive [command] --help" for more information about a command.
 ```
+<!--body:end-->

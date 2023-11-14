@@ -1,0 +1,7 @@
+name             = "kube-bench"
+image            = "cgr.dev/chainguard/kube-bench"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/kube-bench.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

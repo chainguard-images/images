@@ -1,0 +1,7 @@
+name             = "argocd"
+image            = "cgr.dev/chainguard/argocd"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/argocd.svg"
+endoflife        = ""
+console_summary  = "[argocd](https://argo-cd.readthedocs.io/en/stable/) Declarative continuous deployment for Kubernetes."
+academy_overview = "[argocd](https://argo-cd.readthedocs.io/en/stable/) Declarative continuous deployment for Kubernetes."
+readme_file      = "README.md"

@@ -24,6 +24,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/kubernetes-csi-external-provisioner:latest
 ```
 
+<!--body:start-->
 You can run it with the standard deployment with something like:
 
 ```
@@ -31,3 +32,4 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-provi
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-provisioner/v3.5.0/deploy/kubernetes/deployment.yaml
 kubectl set image deployment/csi-provisioner csi-provisioner="cgr.dev/chainguard/kubernetes-csi-external-provisioner:latest"
 ```
+<!--body:end-->

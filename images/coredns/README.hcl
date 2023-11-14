@@ -1,0 +1,7 @@
+name             = "coredns"
+image            = "cgr.dev/chainguard/coredns"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/coredns.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

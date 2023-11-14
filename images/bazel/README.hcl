@@ -1,0 +1,7 @@
+name             = "bazel"
+image            = "cgr.dev/chainguard/bazel"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/bazel.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

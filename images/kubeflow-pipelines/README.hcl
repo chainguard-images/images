@@ -1,0 +1,7 @@
+name             = "kubeflow-pipelines"
+image            = "cgr.dev/chainguard/kubeflow-pipelines"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/kubeflow-pipelines.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

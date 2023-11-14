@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/nats:latest
 ```
 
+<!--body:start-->
 ## Using NATS
 
 The default Chainguard NATS images includes only the `nats-server` binary.
@@ -47,3 +48,4 @@ $ docker run cgr.dev/chainguard/nats
 [1] 2023/03/13 19:37:46.087610 [WRN] Cluster name was dynamically generated, consider setting one
 [1] 2023/03/13 19:37:46.087671 [INF] Listening for route connections on 0.0.0.0:6222
 ```
+<!--body:end-->

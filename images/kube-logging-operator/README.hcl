@@ -1,0 +1,7 @@
+name             = "kube-logging-operator"
+image            = "cgr.dev/chainguard/kube-logging-operator"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/kube-logging-operator.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

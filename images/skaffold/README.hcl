@@ -1,0 +1,7 @@
+name             = "skaffold"
+image            = "cgr.dev/chainguard/skaffold"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/skaffold.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

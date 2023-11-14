@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/nodetaint
 ```
 
+<!--body:start-->
 ## Usage
 
 To install on you Kubernetes, you can use the `Helm`:
@@ -36,3 +37,4 @@ helm install nodetaint ./chart \
   --set image.repository=${IMAGE_REPOSITORY} \
   --set image.tag=${IMAGE_TAG}
 ```
+<!--body:end-->

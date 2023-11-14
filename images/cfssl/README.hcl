@@ -1,0 +1,7 @@
+name             = "cfssl"
+image            = "cgr.dev/chainguard/cfssl"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/cfssl.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

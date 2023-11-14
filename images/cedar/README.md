@@ -23,6 +23,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/cedar:latest
 ```
 
+<!--body:start-->
 ## Use It!
 
 The image can be run directly and sets the cedar image as the entrypoint:
@@ -46,3 +47,4 @@ Options:
   -h, --help     Print help
   -V, --version  Print version
 ```
+<!--body:end-->

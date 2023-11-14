@@ -1,0 +1,7 @@
+name             = "ip-masq-agent"
+image            = "cgr.dev/chainguard/ip-masq-agent"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/ip-masq-agent.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

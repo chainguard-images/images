@@ -1,0 +1,7 @@
+name             = "kubernetes-csi-external-resizer"
+image            = "cgr.dev/chainguard/kubernetes-csi-external-resizer"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/kubernetes-csi-external-resizer.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

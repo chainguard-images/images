@@ -21,3 +21,6 @@ The image is available on `cgr.dev`:
 ```
 docker pull cgr.dev/chainguard/trust-manager:latest
 ```
+
+<!--body:start-->
+<!--body:end-->

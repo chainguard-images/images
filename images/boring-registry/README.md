@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/boring-registry:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 To run `boring-registry`:
@@ -113,3 +114,4 @@ helm upgrade --install boring-registry oci://ghcr.io/tiermobility/charts/boring-
     --set global.image.tag="latest" \
     --wait
 ```
+<!--body:end-->

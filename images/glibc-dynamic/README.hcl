@@ -1,0 +1,7 @@
+name             = "glibc-dynamic"
+image            = "cgr.dev/chainguard/glibc-dynamic"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/glibc-dynamic.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

@@ -1,0 +1,7 @@
+name             = "jre"
+image            = "cgr.dev/chainguard/jre"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/jre.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

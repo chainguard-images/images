@@ -1,0 +1,7 @@
+name             = "aws-for-fluent-bit"
+image            = "cgr.dev/chainguard/aws-for-fluent-bit"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/aws-for-fluent-bit.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

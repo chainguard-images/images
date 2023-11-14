@@ -24,6 +24,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/meilisearch:latest
 ```
 
+<!--body:start-->
 ## Usage Example
 
 Run a meilisearch container with the following command:
@@ -40,3 +41,4 @@ docker run \
 ```
 
 Then you can follow the [meilisearch quick start guide](https://www.meilisearch.com/docs/learn/getting_started/quick_start#add-documents) and start adding documents.
+<!--body:end-->

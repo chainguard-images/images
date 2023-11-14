@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/thanos-operator:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 ```shell
@@ -31,3 +32,4 @@ helm install thanos-operator banzaicloud-stable/thanos-operator \
     --set image.repository=cgr.dev/chainguard/thanos-operator \
     --set image.tag=latest
 ```
+<!--body:end-->

@@ -21,3 +21,6 @@ The image is available on `cgr.dev`:
 ```
 docker pull cgr.dev/chainguard/helm:latest
 ```
+
+<!--body:start-->
+<!--body:end-->

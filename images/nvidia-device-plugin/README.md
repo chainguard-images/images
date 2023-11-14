@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/nvidia-device-plugin
 ```
 
+<!--body:start-->
 ## Usage
 
 Ensure your environment satisfies the [prerequisites](https://github.com/NVIDIA/k8s-device-plugin#prerequisites).
@@ -73,3 +74,4 @@ image:
   repository: cgr.dev/chainguard/nvidia-device-plugin
   tag: latest
 ```
+<!--body:end-->

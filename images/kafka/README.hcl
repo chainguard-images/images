@@ -1,0 +1,7 @@
+name             = "kafka"
+image            = "cgr.dev/chainguard/kafka"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/kafka.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

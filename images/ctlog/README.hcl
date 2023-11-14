@@ -1,0 +1,7 @@
+name             = "ctlog"
+image            = "cgr.dev/chainguard/ctlog"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/ctlog.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

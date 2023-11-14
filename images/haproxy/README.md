@@ -28,6 +28,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/haproxy:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 Similar to the `docker-library/haproxy` image, this image does not come with any default configuration.
@@ -45,3 +46,4 @@ In order for the container to work, you need to mount your custom `haproxy.cfg` 
 ```
 docker run -it --rm -v "$(pwd):/etc/haproxy" cgr.dev/chainguard/haproxy haproxy -f /etc/haproxy/haproxy.cfg
 ```
+<!--body:end-->

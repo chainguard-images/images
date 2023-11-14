@@ -1,0 +1,7 @@
+name             = "stakater-reloader"
+image            = "cgr.dev/chainguard/stakater-reloader"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/stakater-reloader.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

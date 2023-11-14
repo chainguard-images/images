@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/zig:latest
 ```
 
+<!--body:start-->
 This image should be used to build and test zig applications.
 You should *not* use it as a runtime image.
 
@@ -170,7 +171,7 @@ CMD ["run", "/app/main.wasm"]
 ```
 
 ```shell
-$ cat << EOF > Dockerfile.wasmer 
+$ cat << EOF > Dockerfile.wasmer
 FROM cgr.dev/chainguard/zig:latest as builder
 WORKDIR /app
 RUN zig init-exe
@@ -186,3 +187,4 @@ $ docker run mysecondwasmapp
 All your codebase are belong to us.
 Run `zig build test` to run the tests.
 ```
+<!--body:end-->

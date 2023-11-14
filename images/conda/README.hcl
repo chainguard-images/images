@@ -1,0 +1,7 @@
+name             = "conda"
+image            = "cgr.dev/chainguard/conda"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/conda.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

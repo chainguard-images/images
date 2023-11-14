@@ -1,0 +1,7 @@
+name             = "netcat"
+image            = "cgr.dev/chainguard/netcat"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/netcat.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

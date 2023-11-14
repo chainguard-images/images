@@ -1,0 +1,7 @@
+name             = "busybox"
+image            = "cgr.dev/chainguard/busybox"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/busybox.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/k3s:latest
 ```
 
+<!--body:start-->
 This image is a drop in replacement for the upstream `rancher/k3s` image, which means it works everywhere you would expect.
 
 The quickest way to test it is locally with `docker`:
@@ -37,3 +38,4 @@ You can also use it as a drop in replacement in `k3d`:
 ```bash
 k3d cluster create -i cgr.dev/chainguard/k3s:latest
 ```
+<!--body:end-->

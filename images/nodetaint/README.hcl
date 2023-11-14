@@ -1,0 +1,7 @@
+name             = "nodetaint"
+image            = "cgr.dev/chainguard/nodetaint"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/nodetaint.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

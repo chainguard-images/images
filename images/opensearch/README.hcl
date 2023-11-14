@@ -1,0 +1,7 @@
+name             = "opensearch"
+image            = "cgr.dev/chainguard/opensearch"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/opensearch.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

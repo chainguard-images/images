@@ -1,0 +1,7 @@
+name             = "gcc-glibc"
+image            = "cgr.dev/chainguard/gcc-glibc"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/gcc-glibc.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

@@ -1,0 +1,7 @@
+name             = "metrics-server"
+image            = "cgr.dev/chainguard/metrics-server"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/metrics-server.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

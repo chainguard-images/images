@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/bank-vaults:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 This image is a drop-in replacement for the upstream image.
@@ -34,3 +35,4 @@ $ helm install bank-vaults bank-vaults/bank-vaults \
     --set bankVaults.image.tag=latest
     <other configuration parameters here>
 ```
+<!--body:end-->

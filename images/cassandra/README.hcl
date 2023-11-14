@@ -1,0 +1,7 @@
+name             = "cassandra"
+image            = "cgr.dev/chainguard/cassandra"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/cassandra.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

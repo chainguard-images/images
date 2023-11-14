@@ -1,0 +1,7 @@
+name             = "vertical-pod-autoscaler"
+image            = "cgr.dev/chainguard/vertical-pod-autoscaler"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/vertical-pod-autoscaler.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

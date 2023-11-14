@@ -1,0 +1,7 @@
+name             = "nvidia-device-plugin"
+image            = "cgr.dev/chainguard/nvidia-device-plugin"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/nvidia-device-plugin.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

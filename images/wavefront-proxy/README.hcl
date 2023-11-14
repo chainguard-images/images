@@ -1,0 +1,7 @@
+name             = "wavefront-proxy"
+image            = "cgr.dev/chainguard/wavefront-proxy"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/wavefront-proxy.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

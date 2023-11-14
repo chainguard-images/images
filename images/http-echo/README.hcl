@@ -1,0 +1,7 @@
+name             = "http-echo"
+image            = "cgr.dev/chainguard/http-echo"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/http-echo.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

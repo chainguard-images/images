@@ -21,3 +21,6 @@ The image is available on `cgr.dev`:
 ```
 docker pull cgr.dev/chainguard/wasmer:latest
 ```
+
+<!--body:start-->
+<!--body:end-->

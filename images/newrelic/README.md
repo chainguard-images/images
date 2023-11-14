@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/newrelic-infrastructure-bundle
 ```
 
+<!--body:start-->
 ## Usage
 
 These images are a drop-in replacement for the `newrelic` project. The images are tested against the upstream recommended [`nri-bundle`](https://github.com/newrelic/helm-charts/tree/master/charts/nri-bundle). chart.
@@ -84,3 +85,4 @@ newrelic-prometheus-agent:
       repository: chainguard/prometheus
       tag: latest
 ```
+<!--body:end-->

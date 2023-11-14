@@ -24,6 +24,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/deno:latest
 ```
 
+<!--body:start-->
 ## Usage Example
 
 Navigate to the [`example/`](https://github.com/chainguard-images/images/tree/main/images/deno/example) directory:
@@ -59,3 +60,4 @@ Your user-agent is:
 
 curl/7.84.0%
 ```
+<!--body:end-->

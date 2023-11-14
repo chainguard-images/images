@@ -1,0 +1,7 @@
+name             = "kube-fluentd-operator"
+image            = "cgr.dev/chainguard/kube-fluentd-operator"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/kube-fluentd-operator.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

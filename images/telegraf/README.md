@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/telegraf:latest
 ```
 
+<!--body:start-->
 ## Using Telegraf
 
 The Chainguard Telegraf image contains the `telegraf` binary.
@@ -37,3 +38,4 @@ This location can be overridden with the `---config` or `--config-directory` fla
 2023-03-28T14:07:48Z I! Loading config file: /etc/telegraf/telegraf.conf
 2023-03-28T14:07:48Z E! [telegraf] Error running agent: no outputs found, did you provide a valid config file?
 ```
+<!--body:end-->

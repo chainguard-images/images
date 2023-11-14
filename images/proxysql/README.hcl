@@ -1,0 +1,7 @@
+name             = "proxysql"
+image            = "cgr.dev/chainguard/proxysql"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/proxysql.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

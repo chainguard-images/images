@@ -1,0 +1,7 @@
+name             = "etcd"
+image            = "cgr.dev/chainguard/etcd"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/etcd.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

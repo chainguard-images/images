@@ -1,0 +1,7 @@
+name             = "wazero"
+image            = "cgr.dev/chainguard/wazero"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/wazero.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

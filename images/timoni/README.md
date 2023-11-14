@@ -23,6 +23,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/timoni:latest
 ```
 
+<!--body:start-->
 The image contains the `timoni`  binary and a few assorted runtime dependencies.
 
 ```
@@ -70,3 +71,4 @@ Flags:
   -v, --version                        version for timoni
 
 ```
+<!--body:end-->

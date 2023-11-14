@@ -1,0 +1,7 @@
+name             = "crane"
+image            = "cgr.dev/chainguard/crane"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/crane.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

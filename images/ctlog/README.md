@@ -12,7 +12,9 @@
 ---
 <!--monopod:end-->
 
+<!--body:start-->
 ## Certificate Transparency Logging
 
 The ctlog is deployed as part of the sigstore stack.  For more information
 on this see [`sigstore-scaffolding`](../sigstore-scaffolding/).
+<!--body:end-->

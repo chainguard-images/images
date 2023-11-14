@@ -12,4 +12,6 @@
 ---
 <!--monopod:end-->
 
+<!--body:start-->
 Minimalist Kubeflow Katib Images
+<!--body:end-->

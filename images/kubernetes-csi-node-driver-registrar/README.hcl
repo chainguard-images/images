@@ -1,0 +1,7 @@
+name             = "kubernetes-csi-node-driver-registrar"
+image            = "cgr.dev/chainguard/kubernetes-csi-node-driver-registrar"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/kubernetes-csi-node-driver-registrar.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

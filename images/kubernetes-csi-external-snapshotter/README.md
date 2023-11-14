@@ -21,3 +21,6 @@ The image is available on `cgr.dev`:
 ```
 docker pull cgr.dev/chainguard/kubernetes-csi-external-snapshotter
 ```
+
+<!--body:start-->
+<!--body:end-->

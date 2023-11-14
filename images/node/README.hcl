@@ -1,0 +1,7 @@
+name             = "node"
+image            = "cgr.dev/chainguard/node"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/node.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

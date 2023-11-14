@@ -1,0 +1,7 @@
+name             = "bank-vaults"
+image            = "cgr.dev/chainguard/bank-vaults"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/bank-vaults.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

@@ -1,0 +1,7 @@
+name             = "haproxy-ingress"
+image            = "cgr.dev/chainguard/haproxy-ingress"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/haproxy-ingress.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

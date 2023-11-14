@@ -1,0 +1,7 @@
+name             = "jdk"
+image            = "cgr.dev/chainguard/jdk"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/jdk.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

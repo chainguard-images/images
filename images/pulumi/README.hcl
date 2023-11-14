@@ -1,0 +1,7 @@
+name             = "pulumi"
+image            = "cgr.dev/chainguard/pulumi"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/pulumi.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

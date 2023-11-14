@@ -1,0 +1,7 @@
+name             = "trust-manager"
+image            = "cgr.dev/chainguard/trust-manager"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/trust-manager.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

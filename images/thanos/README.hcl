@@ -1,0 +1,7 @@
+name             = "thanos"
+image            = "cgr.dev/chainguard/thanos"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/thanos.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

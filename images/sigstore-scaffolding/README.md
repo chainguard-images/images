@@ -12,6 +12,7 @@
 ---
 <!--monopod:end-->
 
+<!--body:start-->
 ## Minimal Wolfi-based [Sigstore](https://sigstore.dev) images.
 
 The images in this directory are just the "glue" for bootstrapping the stack,
@@ -35,3 +36,4 @@ The stack also pulls in several support images:
 
 To see an example of how we substitute images into the `scaffold` Helm chart's
 `values.yaml` see our [`values.tf`](./tests/values.tf) example.
+<!--body:end-->

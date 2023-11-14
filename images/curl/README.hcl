@@ -1,0 +1,7 @@
+name             = "curl"
+image            = "cgr.dev/chainguard/curl"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/curl.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

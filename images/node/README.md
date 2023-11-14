@@ -26,6 +26,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/node:latest
 ```
 
+<!--body:start-->
 ## Usage Example
 
 Navigate to the [`example/`](https://github.com/chainguard-images/images/tree/main/images/node/example) directory:
@@ -63,3 +64,4 @@ curl --request POST \
   --header 'content-type: application/json' \
   --data '{"msg": "testing" }'
 ```
+<!--body:end-->

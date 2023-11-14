@@ -1,0 +1,7 @@
+name             = "spire"
+image            = "cgr.dev/chainguard/spire"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/spire.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

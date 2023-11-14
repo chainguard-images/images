@@ -1,0 +1,7 @@
+name             = "prometheus-redis-exporter"
+image            = "cgr.dev/chainguard/prometheus-redis-exporter"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/prometheus-redis-exporter.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

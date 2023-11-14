@@ -1,0 +1,7 @@
+name             = "fluentd"
+image            = "cgr.dev/chainguard/fluentd"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/fluentd.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

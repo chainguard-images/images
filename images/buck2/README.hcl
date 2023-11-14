@@ -1,0 +1,7 @@
+name             = "buck2"
+image            = "cgr.dev/chainguard/buck2"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/buck2.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

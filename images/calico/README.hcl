@@ -1,0 +1,7 @@
+name             = "calico"
+image            = "cgr.dev/chainguard/calico"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/calico.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

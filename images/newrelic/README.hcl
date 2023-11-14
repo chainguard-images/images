@@ -1,0 +1,7 @@
+name             = "newrelic"
+image            = "cgr.dev/chainguard/newrelic"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/newrelic.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

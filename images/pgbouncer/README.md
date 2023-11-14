@@ -23,6 +23,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/pgbouncer:latest
 ```
 
+<!--body:start-->
 ## Use It!
 
 The image can be run directly and sets the `pgbouncer` tool as the entrypoint:
@@ -50,3 +51,4 @@ PgBouncer home page: <https://www.pgbouncer.org/>
 Note that `pgbouncer` typically needs a configuration file to run.
 One is not provided here in the image by default.
 You can find documentation on how to configure one in the [upstream documentation](https://www.pgbouncer.org/config.html#authentication-settings)..
+<!--body:end-->

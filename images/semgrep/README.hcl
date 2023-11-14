@@ -1,0 +1,7 @@
+name             = "semgrep"
+image            = "cgr.dev/chainguard/semgrep"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/semgrep.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

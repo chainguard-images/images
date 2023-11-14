@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/memcached
 ```
 
+<!--body:start-->
 ## Using Memcached
 
 The default memcached port is 11211.
@@ -38,10 +39,10 @@ $ telnet localhost 11211
 Trying ::1...
 Connected to localhost.
 Escape character is '^]'.
-set foo 0 100 3  
+set foo 0 100 3
 bar
 STORED
-get foo 
+get foo
 VALUE foo 0 3
 bar
 END
@@ -52,3 +53,4 @@ Connection closed by foreign host.
 ## Users and Directories
 
 By default this image runs as a non-root user named `memcached` with a uid of 65532.
+<!--body:end-->

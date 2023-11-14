@@ -1,0 +1,7 @@
+name             = "secrets-store-csi-driver"
+image            = "cgr.dev/chainguard/secrets-store-csi-driver"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/secrets-store-csi-driver.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

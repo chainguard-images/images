@@ -1,0 +1,7 @@
+name             = "redis-sentinel"
+image            = "cgr.dev/chainguard/redis-sentinel"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/redis-sentinel.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

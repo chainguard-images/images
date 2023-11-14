@@ -1,0 +1,7 @@
+name             = "deno"
+image            = "cgr.dev/chainguard/deno"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/deno.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

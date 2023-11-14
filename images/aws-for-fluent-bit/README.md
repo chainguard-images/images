@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/aws-for-fluent-bit
 ```
 
+<!--body:start-->
 ## Usage
 
 See the [official usage documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/firelens-using-fluentbit.html) on AWS.
@@ -31,3 +32,4 @@ Run:
 ```sh
 docker run --rm cgr.dev/chainguard/aws-for-fluent-bit
 ```
+<!--body:end-->

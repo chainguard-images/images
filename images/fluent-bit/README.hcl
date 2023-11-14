@@ -1,0 +1,7 @@
+name             = "fluent-bit"
+image            = "cgr.dev/chainguard/fluent-bit"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/fluent-bit.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

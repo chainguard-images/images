@@ -1,0 +1,7 @@
+name             = "wasmtime"
+image            = "cgr.dev/chainguard/wasmtime"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/wasmtime.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

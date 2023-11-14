@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/spark-operator:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 The easiest way to install the Kubernetes Operator for Apache Spark is to use the Helm chart.
@@ -33,3 +34,4 @@ $ helm install my-release spark-operator/spark-operator --namespace spark-operat
 ```
 
 For more detail, please refer to the [Spark Operator installation documentation](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator?tab=readme-ov-file#installation).
+<!--body:end-->

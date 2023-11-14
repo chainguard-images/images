@@ -1,0 +1,7 @@
+name             = "opentofu"
+image            = "cgr.dev/chainguard/opentofu"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/opentofu.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

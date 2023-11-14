@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/gcc-glibc:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 To build the C application in [examples/hello/main.c](https://github.com/chainguard-images/images/blob/main/images/gcc-glibc/examples/hello/main.c):
@@ -68,3 +69,4 @@ FROM cgr.dev/chainguard/static
 COPY --from=build /work/hello /hello
 CMD ["/hello"]
 ```
+<!--body:end-->

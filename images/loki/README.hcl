@@ -1,0 +1,7 @@
+name             = "loki"
+image            = "cgr.dev/chainguard/loki"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/loki.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

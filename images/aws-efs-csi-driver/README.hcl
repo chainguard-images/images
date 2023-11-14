@@ -1,0 +1,7 @@
+name             = "aws-efs-csi-driver"
+image            = "cgr.dev/chainguard/aws-efs-csi-driver"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/aws-efs-csi-driver.svg"
+endoflife        = ""
+console_summary  = "Minimal images for aws-efs-csi-driver."
+academy_overview = "Minimal images for aws-efs-csi-driver."
+readme_file      = "README.md"

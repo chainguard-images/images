@@ -1,0 +1,7 @@
+name             = "terraform"
+image            = "cgr.dev/chainguard/terraform"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/terraform.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

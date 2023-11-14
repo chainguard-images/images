@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/rabbitmq
 ```
 
+<!--body:start-->
 ## Using RabbitMQ
 
 The default RabbitMQ port is 5672.
@@ -75,3 +76,4 @@ RABBITMQ_CONF_ENV_FILE=/etc/rabbitmq/rabbitmq-env.conf
 By default this image runs as a non-root user named `rabbitmq` with a uid of 65532.
 
 Logs go to `/var/log/rabbitmq/` by default.
+<!--body:end-->

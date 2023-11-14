@@ -1,0 +1,7 @@
+name             = "ffmpeg"
+image            = "cgr.dev/chainguard/ffmpeg"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/ffmpeg.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

@@ -1,0 +1,7 @@
+name             = "kubernetes-csi-external-snapshotter"
+image            = "cgr.dev/chainguard/kubernetes-csi-external-snapshotter"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/kubernetes-csi-external-snapshotter.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

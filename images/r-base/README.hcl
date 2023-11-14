@@ -1,0 +1,7 @@
+name             = "r-base"
+image            = "cgr.dev/chainguard/r-base"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/r-base.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

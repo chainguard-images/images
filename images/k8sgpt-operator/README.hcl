@@ -1,0 +1,7 @@
+name             = "k8sgpt-operator"
+image            = "cgr.dev/chainguard/k8sgpt-operator"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/k8sgpt-operator.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

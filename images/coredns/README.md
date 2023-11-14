@@ -20,6 +20,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/coredns:latest
 ```
 
+<!--body:start-->
 ## Using CoreDNS
 
 The Chainguard CoreDNS image is a drop-in replacement for the upstream image.
@@ -34,3 +35,4 @@ helm install coredns coredns/coredns \
 	--set image.tag="latest" \
 	--set isClusterService=false
 ```
+<!--body:end-->

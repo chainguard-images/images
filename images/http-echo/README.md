@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/http-echo:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 ```
@@ -29,3 +30,4 @@ CONTAINER=$(docker run -d --rm cgr.dev/chainguard/http-echo:latest -listen=:8080
 curl localhost:8080
 docker kill $CONTAINER
 ```
+<!--body:end-->

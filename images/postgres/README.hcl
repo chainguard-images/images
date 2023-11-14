@@ -1,0 +1,7 @@
+name             = "postgres"
+image            = "cgr.dev/chainguard/postgres"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/postgres.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

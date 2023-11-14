@@ -20,6 +20,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/dask-gateway-server:latest
 ```
 
+<!--body:start-->
 <!-- ## Use It!
 
 With helm:
@@ -31,3 +32,4 @@ helm install --create-namespace kfo ./kube-fluentd-operator/charts/log-router \
   --set image.tag=latest \
   --set image.repository=cgr.dev/chainguard/kube-fluentd-operator
 ``` -->
+<!--body:end-->

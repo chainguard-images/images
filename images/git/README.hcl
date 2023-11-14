@@ -1,0 +1,7 @@
+name             = "git"
+image            = "cgr.dev/chainguard/git"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/git.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

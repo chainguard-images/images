@@ -1,0 +1,7 @@
+name             = "slim-toolkit-debug"
+image            = "cgr.dev/chainguard/slim-toolkit-debug"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/slim-toolkit-debug.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

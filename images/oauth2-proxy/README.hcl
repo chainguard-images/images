@@ -1,0 +1,7 @@
+name             = "oauth2-proxy"
+image            = "cgr.dev/chainguard/oauth2-proxy"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/oauth2-proxy.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

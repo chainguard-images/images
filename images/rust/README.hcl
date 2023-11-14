@@ -1,0 +1,7 @@
+name             = "rust"
+image            = "cgr.dev/chainguard/rust"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/rust.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

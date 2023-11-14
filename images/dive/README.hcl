@@ -1,0 +1,7 @@
+name             = "dive"
+image            = "cgr.dev/chainguard/dive"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/dive.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

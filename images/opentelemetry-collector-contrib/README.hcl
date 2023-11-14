@@ -1,0 +1,7 @@
+name             = "opentelemetry-collector-contrib"
+image            = "cgr.dev/chainguard/opentelemetry-collector-contrib"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/opentelemetry-collector-contrib.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

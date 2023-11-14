@@ -1,0 +1,7 @@
+name             = "consul"
+image            = "cgr.dev/chainguard/consul"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/consul.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

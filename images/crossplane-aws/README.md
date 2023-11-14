@@ -12,6 +12,7 @@
 ---
 <!--monopod:end-->
 
+<!--body:start-->
 These images provide Crossplane providers for AWS.
 
 | Upstream Image | Chainguard Image |
@@ -31,3 +32,4 @@ metadata:
 spec:
   package: cgr.dev/chainguard/crossplane-aws-s3:latest
 ```
+<!--body:end-->

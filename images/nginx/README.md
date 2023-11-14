@@ -12,12 +12,23 @@
 ---
 <!--monopod:end-->
 
+
+
+## Get It!
+
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/nginx:latest
+```
+
+<!--body:start-->
 A minimal nginx base image rebuilt every night from source.
 
 ## Breaking Changes
 
 On May 3 2023 the Chainguard nginx image was rebuilt with several improvements, including
-breaking changes. You may need to take action to update your application. 
+breaking changes. You may need to take action to update your application.
 
 Specifically, the config file was changed to bring the default configuration closer to that of
 official nginx image. If you override the config with a custom configuration, you should not be affected.
@@ -28,22 +39,13 @@ The changes included:
  - Setting nginx to automatically determine the number of worker processes
  - Moving the HTML directory to `/usr/share/nginx/html`
 
-If you are unable to update currently, you can use the last build of the previous image e.g: 
+If you are unable to update currently, you can use the last build of the previous image e.g:
 
 ```
 docker pull cgr.dev/chainguard/nginx@sha256:bcc6b0d052298112e4644b258de0fa4dc1509e3df8f7c0fba09e8c92987825e7
 ```
 
-This digest corresponds to nginx version 1.24.0. This image is not updated and you should migrate to the
-new configuration as soon as possible.
-
-## Get It!
-
-The image is available on `cgr.dev`:
-
-```
-docker pull cgr.dev/chainguard/nginx:latest
-```
+This digest corresponds to nginx version 1.24.0. This image is not updated and you should migrate to the new configuration as soon as possible.
 
 ## Usage
 
@@ -133,4 +135,5 @@ shouldn't make a difference, but note the "User Directive Warning" above.
 ### Environment Variable Substitution
 
 The Docker official image has support for setting environment variables that get substitued into the
-config file. Currently we do not have support for this, but are [looking into options](https://github.com/chainguard-images/images/issues/435). 
+config file. Currently we do not have support for this, but are [looking into options](https://github.com/chainguard-images/images/issues/435).
+<!--body:end-->

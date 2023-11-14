@@ -1,0 +1,7 @@
+name             = "helm"
+image            = "cgr.dev/chainguard/helm"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/helm.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

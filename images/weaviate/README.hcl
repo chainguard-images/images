@@ -1,0 +1,7 @@
+name             = "weaviate"
+image            = "cgr.dev/chainguard/weaviate"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/weaviate.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

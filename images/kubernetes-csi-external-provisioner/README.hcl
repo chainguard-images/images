@@ -1,0 +1,7 @@
+name             = "kubernetes-csi-external-provisioner"
+image            = "cgr.dev/chainguard/kubernetes-csi-external-provisioner"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/kubernetes-csi-external-provisioner.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

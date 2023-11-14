@@ -20,6 +20,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/kubernetes-csi-livenessprobe
 ```
 
+<!--body:start-->
 ## Run it
 
 Generally speaking, the `kubernetes-csi-livenessprobe` is a low level Kubernetes component not meant to be managed directly. However, all the steps outlined in the [upstream repo](https://github.com/kubernetes-csi/livenessprobe) apply just as well to the Chainguard Image version.
@@ -71,3 +72,4 @@ fi
 
 exit 0
 ```
+<!--body:end-->

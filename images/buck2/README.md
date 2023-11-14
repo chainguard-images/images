@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/buck2:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 The default entrypoint is set to the `buck` binary, and a default C/C++ toolchain is installed in the image.
@@ -113,3 +114,4 @@ SUBCOMMANDS:
     uquery
             Perform queries on the unconfigured target graph
 ```
+<!--body:end-->

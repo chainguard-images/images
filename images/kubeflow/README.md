@@ -12,6 +12,7 @@
 ---
 <!--monopod:end-->
 
+<!--body:start-->
 Minimalist Kubeflow Images
 
 ## Usage
@@ -56,4 +57,5 @@ Finally, apply the kustomize files:
 
 ```shell
 $ kubectl apply -k .
-````
+```
+<!--body:end-->

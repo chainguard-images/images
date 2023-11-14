@@ -1,0 +1,7 @@
+name             = "kubeflow-katib"
+image            = "cgr.dev/chainguard/kubeflow-katib"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/kubeflow-katib.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

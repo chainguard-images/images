@@ -22,6 +22,8 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/bazel
 ```
 
+<!--body:start-->
+
 ## Using Bazel
 
 We can use the Bazel examples to try this image.
@@ -61,3 +63,4 @@ and see the message from the example application
 ```sh
 Hi
 ```
+<!--body:end-->

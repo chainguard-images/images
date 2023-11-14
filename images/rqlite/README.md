@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/rqlite:latest
 ```
 
+<!--body:start-->
 ## Using Vault
 
 The Chainguard Vault image contains the `rqlite` and `rqlited` server binaries.
@@ -49,3 +50,4 @@ To run the `rqlite` program:
 [rqlited] 2023/03/26 21:53:22 no preexisting node state detected in /rqlite/file/data, node may be bootstrapping
 [cluster] 2023/03/26 21:53:22 service listening on d3d5c2306506:4002
 ```
+<!--body:end-->

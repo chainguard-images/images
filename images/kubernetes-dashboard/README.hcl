@@ -1,0 +1,7 @@
+name             = "kubernetes-dashboard"
+image            = "cgr.dev/chainguard/kubernetes-dashboard"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/kubernetes-dashboard.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

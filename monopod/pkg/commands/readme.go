@@ -10,7 +10,6 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/hashicorp/hcl/v2/hclsimple"
 	"github.com/spf13/cobra"
 
 	"github.com/chainguard-images/images/monopod/pkg/commands/options"
@@ -19,12 +18,14 @@ import (
 )
 
 type completeReadme struct {
-	Body      string `tfsdk:"body" hcl:"body"`
-	Overview  string `tfsdk:"overview" hcl:"overview"`
-	Image     string `tfsdk:"image" hcl:"image"`
-	Name      string `tfsdk:"name" hcl:"name"`
-	Logo      string `tfsdk:"logo" hcl:"logo"`
-	EndOfLife string `tfsdk:"endoflife" hcl:"endoflife"`
+	ReadmeFile      string `tfsdk:"readme_file" hcl:"readme_file"`
+	AcademyOverview string `tfsdk:"academy_overview" hcl:"academy_overview"`
+	ConsoleSummary  string `tfsdk:"console_summary" hcl:"console_summary"`
+	Image           string `tfsdk:"image" hcl:"image"`
+	Name            string `tfsdk:"name" hcl:"name"`
+	Logo            string `tfsdk:"logo" hcl:"logo"`
+	EndOfLife       string `tfsdk:"endoflife" hcl:"endoflife"`
+	Body            string `tfsdk:"body"` // anything read from ReadmeFile between <!--body:*--> markers
 }
 
 type templateData struct {
@@ -145,29 +146,16 @@ func (i *readmeImpl) fixAllReadmes() error {
 		return allImages[i].ImageName < allImages[j].ImageName
 	})
 	for _, i := range allImages {
-		img := i.ImageName
-		filename := path.Join(constants.ImagesDirName, img, "README.hcl")
-
-		var readme completeReadme
-		err := hclsimple.DecodeFile(filename, nil, &readme)
-		if err != nil {
-			// does not yet exist, create it!
-			fmt.Printf("Error opening %s: %#v\n", filename, err)
-
+		impl := &renderReadmeImpl{
+			Image:      i.ImageName,
+			hclFile:    path.Join(constants.ImagesDirName, i.ImageName, "README.hcl"),
+			mdFile:     path.Join(constants.ImagesDirName, i.ImageName, "README.md"),
+			Readme:     &completeReadme{},
+			renderedMD: new(bytes.Buffer),
 		}
-
-		doc := new(bytes.Buffer)
-		err = templates.ExecuteTemplate(doc, "README.md.tpl", templateData{
-			Readme: &readme,
-		})
-		if err != nil {
+		if err := impl.Do(); err != nil {
 			return err
 		}
-		err = os.WriteFile(filename, doc.Bytes(), 0o644)
-		if err != nil {
-			return err
-		}
-
 	}
 	return nil
 }

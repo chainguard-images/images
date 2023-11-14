@@ -1,0 +1,7 @@
+name             = "prometheus-adapter"
+image            = "cgr.dev/chainguard/prometheus-adapter"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/prometheus-adapter.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

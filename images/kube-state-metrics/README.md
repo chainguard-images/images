@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/kube-state-metrics:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 To test:
@@ -55,3 +56,4 @@ Once the kube-state-metrics has been deployed, verify the pods are running:
 ```shell
 kubectl get pods -l app.kubernetes.io/name=kube-state-metrics
 ```
+<!--body:end-->

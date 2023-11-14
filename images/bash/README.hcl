@@ -1,0 +1,7 @@
+name             = "bash"
+image            = "cgr.dev/chainguard/bash"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/bash.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

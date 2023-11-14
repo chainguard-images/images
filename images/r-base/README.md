@@ -23,6 +23,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/r-base:latest
 ```
 
+<!--body:start-->
 ## Use It!
 
 The image can be run directly and sets the R wrapper as the entrypoint:
@@ -75,3 +76,4 @@ See also  ?Rscript  from within R.
 
 Note that the standard version of this image requires a shell because R is typically
 invoked through built-in shell wrappers.
+<!--body:end-->

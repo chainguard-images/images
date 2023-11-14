@@ -1,0 +1,7 @@
+name             = "node-lts"
+image            = "cgr.dev/chainguard/node-lts"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/node-lts.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

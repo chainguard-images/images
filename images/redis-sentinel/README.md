@@ -22,6 +22,8 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/redis-sentinel
 ```
 
+<!--body:start-->
 ## Usage
 
 See the [official usage documentation](https://redis.io/docs/management/sentinel/) on Redis.
+<!--body:end-->

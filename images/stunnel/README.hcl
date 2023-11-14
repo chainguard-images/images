@@ -1,0 +1,7 @@
+name             = "stunnel"
+image            = "cgr.dev/chainguard/stunnel"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/stunnel.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

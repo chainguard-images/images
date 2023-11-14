@@ -22,6 +22,8 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/vt:latest
 ```
 
+<!--body:start-->
 This image contains the `vt-cli` tool.
 Note that you will need an api key for most operations.
 This can be configured with `vt init`, with the `--apikey` flag, or with the `VTCLI_APIKEY` environment variable.
+<!--body:end-->

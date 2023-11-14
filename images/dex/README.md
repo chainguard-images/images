@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/dex
 ```
 
+<!--body:start-->
 ## Using dex
 
 `dex` has several operating modes, the most common being kubernetes, installed via `helm` using the upstream source shown below:
@@ -81,3 +82,4 @@ image:
   repository: cgr.dev/chainguard/dex
   tag: latest
 ```
+<!--body:end-->

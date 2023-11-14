@@ -12,4 +12,6 @@
 ---
 <!--monopod:end-->
 
+<!--body:start-->
 Minimalist Kubeflow Pipelines Images
+<!--body:end-->

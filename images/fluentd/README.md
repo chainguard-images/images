@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/fluentd
 ```
 
+<!--body:start-->
 ## Using fluentd
 
 Run a Fluentd instance that will receive messages over TCP port 24224 through the Forward protocol, and send the messages to the STDOUT interface in JSON format
@@ -64,3 +65,4 @@ The `-dev` variant contains a shell and tools like `apk` to allow users to easil
 ```sh
 docker run --rm --entrypoint 'sh' cgr.dev/chainguard/fluentd
 ```
+<!--body:end-->

@@ -1,0 +1,7 @@
+name             = "smarter-device-manager"
+image            = "cgr.dev/chainguard/smarter-device-manager"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/smarter-device-manager.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

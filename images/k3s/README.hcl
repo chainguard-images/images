@@ -1,0 +1,7 @@
+name             = "k3s"
+image            = "cgr.dev/chainguard/k3s"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/k3s.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

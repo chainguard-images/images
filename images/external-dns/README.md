@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/external-dns:latest
 ```
 
+<!--body:start-->
 ## Using External DNS
 
 The Chainguard External DNS image is a drop-in replacement for the upstream image.
@@ -47,3 +48,4 @@ Flags:
                                  a Kubernetes configuration file (default:
                                  auto-detect)
 ```
+<!--body:end-->

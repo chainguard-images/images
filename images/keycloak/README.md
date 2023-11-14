@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/keycloak:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 ### Docker
@@ -93,3 +94,4 @@ ENV KC_DB_PASSWORD=<DBPASSWORD>
 ENV KC_HOSTNAME=localhost
 ENTRYPOINT ["/usr/share/java/keycloak/bin/kc.sh"]
 ```
+<!--body:end-->

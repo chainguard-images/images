@@ -1,0 +1,7 @@
+name             = "timoni"
+image            = "cgr.dev/chainguard/timoni"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/timoni.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

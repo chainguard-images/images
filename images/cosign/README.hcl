@@ -1,0 +1,7 @@
+name             = "cosign"
+image            = "cgr.dev/chainguard/cosign"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/cosign.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

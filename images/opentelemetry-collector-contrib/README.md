@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/opentelemetry-collector-contrib:latest
 ```
 
+<!--body:start-->
 ## Using this image
 
 Chainguard cgr.dev/chainguard/opentelemetry-collector-contrib is a drop in replacement for the upstream image, tested using the the community [helm chart](https://opentelemetry.io/docs/kubernetes/helm/collector/).
@@ -59,3 +60,4 @@ extraVolumes:
 helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
 helm install open-telemetry opentelemetry/opentelemetry-collector --namespace open-telemetry-custom-config -f values.yaml
 ```
+<!--body:end-->

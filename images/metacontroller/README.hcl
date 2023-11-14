@@ -1,0 +1,7 @@
+name             = "metacontroller"
+image            = "cgr.dev/chainguard/metacontroller"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/metacontroller.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

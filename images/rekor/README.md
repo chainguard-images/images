@@ -12,7 +12,9 @@
 ---
 <!--monopod:end-->
 
+<!--body:start-->
 ## Sigstore Rekor
 
 Rekor is one of the core components of the sigstore stack.  For more information
 on this see [`sigstore-scaffolding`](../sigstore-scaffolding/).
+<!--body:end-->

@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/crane:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 Inspect the crane image manifest using the crane image:
@@ -29,3 +30,4 @@ Inspect the crane image manifest using the crane image:
 ```
 docker run --rm cgr.dev/chainguard/crane:latest manifest cgr.dev/chainguard/crane:latest --platform=linux/amd64
 ```
+<!--body:end-->

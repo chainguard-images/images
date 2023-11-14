@@ -1,0 +1,7 @@
+name             = "static"
+image            = "cgr.dev/chainguard/static"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/static.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

@@ -1,0 +1,7 @@
+name             = "vela-cli"
+image            = "cgr.dev/chainguard/vela-cli"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/vela-cli.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

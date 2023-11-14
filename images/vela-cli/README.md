@@ -21,3 +21,6 @@ The image is available on `cgr.dev`:
 ```
 docker pull cgr.dev/chainguard/vela-cli:latest
 ```
+
+<!--body:start-->
+<!--body:end-->

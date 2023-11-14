@@ -25,6 +25,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/conda:latest
 ```
 
+<!--body:start-->
 ## Use It!
 
 The image can be run directly and sets the conda binary as the entrypoint:
@@ -66,3 +67,4 @@ conda commands available from other packages (legacy):
 ```
 
 The `conda` binary and tools are in the `/opt/conda/bin` directory.
+<!--body:end-->

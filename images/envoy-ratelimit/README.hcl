@@ -1,0 +1,7 @@
+name             = "envoy-ratelimit"
+image            = "cgr.dev/chainguard/envoy-ratelimit"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/envoy-ratelimit.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

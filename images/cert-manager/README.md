@@ -25,6 +25,7 @@ docker pull cgr.dev/chainguard/cert-manager-cainjector
 docker pull cgr.dev/chainguard/cert-manager-webhook
 ```
 
+<!--body:start-->
 ## Using Cert Manager
 
 These set of images are a drop in replacement for the standard `cert-manager` installation ([here](https://cert-manager.io/docs/installation/)), and replacing them with the Chainguard images.
@@ -49,3 +50,4 @@ webhook:
         repository: cgr.dev/chainguard/cert-manager-webhook
         tag: latest
 ```
+<!--body:end-->

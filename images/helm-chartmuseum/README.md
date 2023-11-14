@@ -24,6 +24,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/chartmuseum:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 Create a helm chart, and package it into a `charts/` directory:
@@ -47,3 +48,4 @@ helm repo add chartmuseum http://localhost:8080
 helm search repo chartmuseum/
 helm upgrade --install chartmuseum-demo chartmuseum/hello
 ```
+<!--body:end-->

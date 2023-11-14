@@ -1,0 +1,7 @@
+name             = "graalvm-native"
+image            = "cgr.dev/chainguard/graalvm-native"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/graalvm-native.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

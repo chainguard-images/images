@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/paranoia:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 Paranoia can be used to list out the certificates in a container image:
@@ -29,3 +30,4 @@ Paranoia can be used to list out the certificates in a container image:
 ```
 docker run --rm cgr.dev/chainguard/paranoia:latest export alpine:latest
 ```
+<!--body:end-->

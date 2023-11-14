@@ -1,0 +1,7 @@
+name             = "external-dns"
+image            = "cgr.dev/chainguard/external-dns"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/external-dns.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

@@ -1,0 +1,7 @@
+name             = "kube-downscaler"
+image            = "cgr.dev/chainguard/kube-downscaler"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/kube-downscaler.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

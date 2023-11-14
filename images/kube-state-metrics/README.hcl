@@ -1,0 +1,7 @@
+name             = "kube-state-metrics"
+image            = "cgr.dev/chainguard/kube-state-metrics"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/kube-state-metrics.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

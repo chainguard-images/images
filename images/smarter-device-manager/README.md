@@ -27,6 +27,7 @@ bash
 docker pull cgr.dev/chainguard/smarter-device-manager:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 ### Manifests
@@ -49,3 +50,4 @@ helm repo update
 helm install smart-device-manager gabe565/smarter-device-manager \
  --set image.repository=ttl.sh/mark/smarter-device-manager --set image.tag=latest
 ```
+<!--body:end-->

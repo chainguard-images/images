@@ -2,7 +2,7 @@
 # {{ .Readme.Name }}
 
 <!--logo:start-->
-<img src="https://storage.googleapis.com/chainguard-academy/logos/{{ .Readme.Name }}.svg" width="36px" height="36px" />
+<img src="https://storage.googleapis.com/chainguard-academy/logos/{{ .Readme.Name }}/logo.svg" width="36px" height="36px" />
 <!--logo:end-->
 
 | | |
@@ -16,7 +16,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-{{ .Readme.Overview }}
+{{ .Readme.AcademyOverview }}
 <!--overview:end-->
 
 <!--getting:start-->
@@ -29,7 +29,6 @@ docker pull cgr.dev/chainguard/{{ .Readme.Name }}:latest
 <!--getting:end-->
 
 <!--body:start-->
-## Usage
-{{ .Readme.Body }}
+{{- .Readme.Body -}}
 <!--body:end-->
 

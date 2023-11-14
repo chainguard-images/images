@@ -1,0 +1,7 @@
+name             = "dotnet"
+image            = "cgr.dev/chainguard/dotnet"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/dotnet.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

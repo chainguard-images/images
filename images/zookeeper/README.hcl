@@ -1,0 +1,7 @@
+name             = "zookeeper"
+image            = "cgr.dev/chainguard/zookeeper"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/zookeeper.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

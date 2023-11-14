@@ -1,0 +1,7 @@
+name             = "tigera-operator"
+image            = "cgr.dev/chainguard/tigera-operator"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/tigera-operator.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

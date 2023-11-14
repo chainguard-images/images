@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/ffmpeg:latest
 ```
 
+<!--body:start-->
 # Usage
 
 Example: convert a .mov file to .mp4
@@ -34,3 +35,4 @@ docker run --rm \
     -i tests/sample.mov \
     tests/sample.mp4
 ```
+<!--body:end-->

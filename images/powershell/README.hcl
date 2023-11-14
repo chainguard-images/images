@@ -1,0 +1,7 @@
+name             = "powershell"
+image            = "cgr.dev/chainguard/powershell"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/powershell.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

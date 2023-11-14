@@ -28,6 +28,7 @@ Status: Downloaded newer image for cgr.dev/chainguard/semgrep:latest
 cgr.dev/chainguard/semgrep:latest
 ```
 
+<!--body:start-->
 ## Use It!
 
 The image can be run directly and sets the semgrep binary as the entrypoint:
@@ -57,3 +58,4 @@ Commands:
   shouldafound         Report a false negative in this project.
 
 ```
+<!--body:end-->

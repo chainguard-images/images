@@ -1,0 +1,7 @@
+name             = "helm-chartmuseum"
+image            = "cgr.dev/chainguard/helm-chartmuseum"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/helm-chartmuseum.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

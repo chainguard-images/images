@@ -1,0 +1,7 @@
+name             = "guacamole-server"
+image            = "cgr.dev/chainguard/guacamole-server"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/guacamole-server.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

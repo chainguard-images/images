@@ -1,0 +1,7 @@
+name             = "kubernetes-csi-external-attacher"
+image            = "cgr.dev/chainguard/kubernetes-csi-external-attacher"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/kubernetes-csi-external-attacher.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

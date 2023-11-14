@@ -23,6 +23,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/kube-fluentd-operator:latest
 ```
 
+<!--body:start-->
 This image is a drop-in replacement for the Kubernetes Fluentd Operator available upstream at `vmware/kube-fluentd-operator`.
 
 ## Use It!
@@ -36,3 +37,4 @@ helm install --create-namespace kfo ./kube-fluentd-operator/charts/log-router \
   --set image.tag=latest \
   --set image.repository=cgr.dev/chainguard/kube-fluentd-operator
 ```
+<!--body:end-->

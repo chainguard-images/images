@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/kubernetes-dns-node-cache:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 ```shell
@@ -31,3 +32,4 @@ helm install node-local-dns deliveryhero/node-local-dns \
     --set image.repository=cgr.dev/chainguard/kubernetes-dns-node-cache \
     --set image.tag=latest
 ```
+<!--body:end-->

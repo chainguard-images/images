@@ -1,0 +1,7 @@
+name             = "dask-gateway"
+image            = "cgr.dev/chainguard/dask-gateway"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/dask-gateway.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

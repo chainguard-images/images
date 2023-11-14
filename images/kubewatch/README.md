@@ -22,6 +22,7 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/kubewatch
 ```
 
+<!--body:start-->
 ## Using kubewatch
 
 This image is a drop-in replacement for the upstream image.
@@ -35,3 +36,4 @@ $ helm install kubewatch robusta/kubewatch \
     --set image.tag=latest
     <other configuration parameters here>
 ```
+<!--body:end-->

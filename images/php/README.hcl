@@ -1,0 +1,7 @@
+name             = "php"
+image            = "cgr.dev/chainguard/php"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/php.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

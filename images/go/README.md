@@ -22,12 +22,12 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/go:latest
 ```
 
+<!--body:start-->
 ## Usage
 
 **NOTE**: As of 12/30/2022, the default go image uses Wolfi, which is glibc based.
 
-If you were using this image before and are now running into trouble, the musl/Alpine based image is
-still available at `cgr.dev/chainguard/go:latest-musl`.
+If you were using this image before and are now running into trouble, the musl/Alpine based image is still available at `cgr.dev/chainguard/go:latest-musl`.
 
 ## Host architecture example
 
@@ -112,3 +112,4 @@ docker images go-hello-world
 REPOSITORY       TAG       IMAGE ID       CREATED       SIZE
 go-hello-world   latest    859fedabd532   5 hours ago   3.21MB
 ```
+<!--body:end-->

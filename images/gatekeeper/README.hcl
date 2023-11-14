@@ -1,0 +1,7 @@
+name             = "gatekeeper"
+image            = "cgr.dev/chainguard/gatekeeper"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/gatekeeper.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

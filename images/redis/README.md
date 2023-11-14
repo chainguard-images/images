@@ -12,6 +12,7 @@
 ---
 <!--monopod:end-->
 
+<!--body:start-->
 Minimalist Wolfi-based [Redis](https://github.com/redis/redis) image.
 
 Redis is an in-memory database that persists on disk.
@@ -83,3 +84,4 @@ $ docker run -d -v $(pwd):/data -p 6379:6379 redis
 $ redis-cli get foo
 "bar"
 ```
+<!--body:end-->

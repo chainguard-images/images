@@ -1,0 +1,7 @@
+name             = "kubernetes-ingress-defaultbackend"
+image            = "cgr.dev/chainguard/kubernetes-ingress-defaultbackend"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/kubernetes-ingress-defaultbackend.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

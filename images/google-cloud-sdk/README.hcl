@@ -1,0 +1,7 @@
+name             = "google-cloud-sdk"
+image            = "cgr.dev/chainguard/google-cloud-sdk"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/google-cloud-sdk.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"

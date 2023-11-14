@@ -1,0 +1,7 @@
+name             = "aspnet-runtime"
+image            = "cgr.dev/chainguard/aspnet-runtime"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/aspnet-runtime.svg"
+endoflife        = ""
+console_summary  = "Container image with the latest ASP.NET runtime."
+academy_overview = "Container image with the latest ASP.NET runtime."
+readme_file      = "README.md"

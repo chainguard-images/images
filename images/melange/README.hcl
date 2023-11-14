@@ -1,0 +1,7 @@
+name             = "melange"
+image            = "cgr.dev/chainguard/melange"
+logo             = "https://storage.googleapis.com/chainguard-academy/logos/melange.svg"
+endoflife        = ""
+console_summary  = ""
+academy_overview = ""
+readme_file      = "README.md"
