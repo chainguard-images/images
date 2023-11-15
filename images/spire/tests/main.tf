@@ -40,24 +40,26 @@ EOV
 
 cat > /tmp/values-$${rand}.yaml <<EOV
 spire-server:
+  enabled: true
   image:
     registry: ${data.oci_string.ref["server"].registry}
     repository: ${data.oci_string.ref["server"].repo}
     tag: ${data.oci_string.ref["server"].pseudo_tag}
-  spire-agent:
-    image:
-      registry: ${data.oci_string.ref["agent"].registry}
-      repository: ${data.oci_string.ref["agent"].repo}
-      tag: ${data.oci_string.ref["agent"].pseudo_tag}
-  spiffe-oidc-discovery-provider:
-    enabled: true
-    config:
-      acme:
-        tosAccepted: true
-    image:
-      registry: ${data.oci_string.ref["oidc-discovery-provider"].registry}
-      repository: ${data.oci_string.ref["oidc-discovery-provider"].repo}
-      tag: ${data.oci_string.ref["oidc-discovery-provider"].pseudo_tag}
+spire-agent:
+  enabled: true
+  image:
+    registry: ${data.oci_string.ref["agent"].registry}
+    repository: ${data.oci_string.ref["agent"].repo}
+    tag: ${data.oci_string.ref["agent"].pseudo_tag}
+spiffe-oidc-discovery-provider:
+  enabled: true
+  image:
+    registry: ${data.oci_string.ref["oidc-discovery-provider"].registry}
+    repository: ${data.oci_string.ref["oidc-discovery-provider"].repo}
+    tag: ${data.oci_string.ref["oidc-discovery-provider"].pseudo_tag}
+  config:
+    acme:
+      tosAccepted: true
 EOV
 
 # Run with `flock` to ensure that only one test runs at a time.
