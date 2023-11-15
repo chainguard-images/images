@@ -196,6 +196,14 @@ module "cert-manager" {
   target_repository = "${var.target_repository}/cert-manager"
 }
 
+// This isn't intended to be run in production, but it's useful for testing
+// that the cert-manager test module can be run by multiple modules. To test this, run:
+// terraform apply -target=module.cert-manager -target=module.cert-manager-again-for-testing -auto-approve
+module "cert-manager-again-for-testing" {
+  source            = "./images/cert-manager"
+  target_repository = "${var.target_repository}/cert-manager"
+}
+
 module "cluster-autoscaler" {
   source            = "./images/cluster-autoscaler"
   target_repository = "${var.target_repository}/cluster-autoscaler"
