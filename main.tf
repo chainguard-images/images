@@ -703,6 +703,11 @@ module "memcached-exporter" {
   target_repository = "${var.target_repository}/memcached-exporter"
 }
 
+module "memcached-exporter-bitnami" {
+  source            = "./images/memcached-exporter-bitnami"
+  target_repository = "${var.target_repository}/memcached-exporter-bitnami"
+}
+
 module "metrics-server" {
   source            = "./images/metrics-server"
   target_repository = "${var.target_repository}/metrics-server"
