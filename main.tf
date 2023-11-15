@@ -989,6 +989,14 @@ module "spire" {
   target_repository = "${var.target_repository}/spire"
 }
 
+// This isn't intended to be run in production, but it's useful for testing
+// that the spire test module can be run by multiple modules. To test this, run:
+// terraform apply -target=module.spire -target=module.spire-again-for-testing -auto-approve
+module "spire-again-for-testing" {
+  source            = "./images/spire"
+  target_repository = "${var.target_repository}/spire"
+}
+
 module "stakater-reloader" {
   source            = "./images/stakater-reloader"
   target_repository = "${var.target_repository}/stakater-reloader"
@@ -1015,6 +1023,11 @@ module "tekton" {
 module "telegraf" {
   source            = "./images/telegraf"
   target_repository = "${var.target_repository}/telegraf"
+}
+
+module "temporal-ui-server" {
+  source            = "./images/temporal-ui-server"
+  target_repository = "${var.target_repository}/temporal-ui-server"
 }
 
 module "terraform" {
