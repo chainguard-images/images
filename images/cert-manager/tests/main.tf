@@ -25,47 +25,41 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
-resource "random_pet" "suffix" {}
+resource "random_id" "hex" { byte_length = 4 }
 
-resource "helm_release" "cert-manager" {
-  name       = "cert-manager-${random_pet.suffix.id}"
-  repository = "https://charts.jetstack.io"
-  chart      = "cert-manager"
-  timeout    = 600
+data "oci_exec_test" "helm" {
+  digest      = var.digests["controller"] // Not used, but required by the resource.
+  script      = <<EOF
+set -e
 
-  namespace        = "cert-manager-${random_pet.suffix.id}"
-  create_namespace = true
-  skip_crds        = var.skip_crds
+rand=${random_id.hex.hex}
 
-  values = [jsonencode({
-    installCRDs = "${!var.skip_crds}"
-    image = {
-      repository = data.oci_string.ref["controller"].registry_repo
-      tag        = data.oci_string.ref["controller"].pseudo_tag
-    }
-    acmesolver = {
-      image = {
-        repository = data.oci_string.ref["acmesolver"].registry_repo
-        tag        = data.oci_string.ref["acmesolver"].pseudo_tag
-      }
-    }
-    cainjector = {
-      image = {
-        repository = data.oci_string.ref["cainjector"].registry_repo
-        tag        = data.oci_string.ref["cainjector"].pseudo_tag
-      }
-    }
-    webhook = {
-      image = {
-        repository = data.oci_string.ref["webhook"].registry_repo
-        tag        = data.oci_string.ref["webhook"].pseudo_tag
-      }
-    }
-  })]
-}
+if ! command -v flock; then
+  echo "flock not installed; use \`brew install flock\`"
+  exit 1
+fi
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.cert-manager.id
-  namespace = helm_release.cert-manager.namespace
+cat > /tmp/values-$${rand}.yaml <<EOV
+installCRDs: true
+image:
+  repository: ${data.oci_string.ref["controller"].registry_repo}
+  tag: ${data.oci_string.ref["controller"].pseudo_tag}
+acmesolver:
+  image:
+    repository: ${data.oci_string.ref["acmesolver"].registry_repo}
+    tag: ${data.oci_string.ref["acmesolver"].pseudo_tag}
+cainjector:
+  image:
+    repository: ${data.oci_string.ref["cainjector"].registry_repo}
+    tag: ${data.oci_string.ref["cainjector"].pseudo_tag}
+webhook:
+  image:
+    repository: ${data.oci_string.ref["webhook"].registry_repo}
+    tag: ${data.oci_string.ref["webhook"].pseudo_tag}
+EOV
+
+# Run with `flock` to ensure that only one test runs at a time.
+flock -e -w 600 /tmp/cert-manager ./helm.sh $${rand}
+EOF
+  working_dir = path.module
 }
