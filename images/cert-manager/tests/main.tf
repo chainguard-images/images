@@ -59,7 +59,7 @@ webhook:
 EOV
 
 # Run with `flock` to ensure that only one test runs at a time.
-flock -e -w 600 /tmp/cert-manager ./helm.sh $${rand}
+flock -e -w 1200 /tmp/cert-manager ./helm.sh $${rand}
 EOF
   working_dir = path.module
 }
