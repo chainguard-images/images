@@ -1063,6 +1063,14 @@ module "tigera-operator" {
   target_repository = "${var.target_repository}/tigera-operator"
 }
 
+// This isn't intended to be run in production, but it's useful for testing
+// that the tigera-operator test module can be run by multiple modules. To test this, run:
+// terraform apply -target=module.tigera-operator -target=module.tigera-operator-again-for-testing -auto-approve
+module "tigera-operator-again-for-testing" {
+  source            = "./images/tigera-operator"
+  target_repository = "${var.target_repository}/tigera-operator"
+}
+
 module "timestamp-authority" {
   source            = "./images/timestamp-authority"
   target_repository = "${var.target_repository}/timestamp-authority"
