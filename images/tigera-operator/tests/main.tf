@@ -33,7 +33,7 @@ tigeraOperator:
 EOV
 
 # Run with `flock` to ensure that only one test runs at a time.
-flock -e -w 600 /tmp/spire ./helm.sh $${rand}
+flock -e -w 1200 /tmp/spire ./helm.sh $${rand}
 EOF
   working_dir = path.module
 }
