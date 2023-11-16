@@ -9,3 +9,4 @@ helm upgrade -i kor \
     --create-namespace \
     --set cronJob.enabled=true \
     ./kor/charts/kor
+    
