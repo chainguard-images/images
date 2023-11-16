@@ -8,7 +8,7 @@ ns=tigera-operator-${rand}
 
 function cleanup() {
     # Uninstall everything, and make double triple sure it's fully uninstalled.
-    helm uninstall ${name} -n ${ns} --wait --cascade=foreground
+    helm uninstall ${name} -n ${ns} --wait --cascade=foreground --timeout=10m
 
     kubectl delete pods -n ${ns} --all --wait=true
     kubectl delete ns ${ns} --wait=true
