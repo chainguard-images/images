@@ -15,6 +15,8 @@ module "latest" {
 
   target_repository = var.target_repository
   config            = file("${path.module}/config/template.apko.yaml")
+  build-dev         = true
+  main_package      = "kor"
 }
 
 module "test-latest" {

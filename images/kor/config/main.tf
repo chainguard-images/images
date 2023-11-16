@@ -5,6 +5,8 @@ terraform {
 }
 
 variable "extra_packages" {
+  description = "The additional packages to install."
+  default     = ["kor"]
 }
 
 data "apko_config" "this" {
