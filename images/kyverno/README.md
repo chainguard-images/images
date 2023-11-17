@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/kyverno:latest
 
 <!--body:start-->
 <!--body:end-->
-

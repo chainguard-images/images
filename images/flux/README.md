@@ -42,4 +42,3 @@ docker pull cgr.dev/chainguard/flux:latest
 docker run cgr.dev/chainguard/flux export --registry cgr.dev/chainguard | kubectl apply -f -
 ```
 <!--body:end-->
-

@@ -96,4 +96,3 @@ newrelic-prometheus-agent:
       tag: latest
 ```
 <!--body:end-->
-

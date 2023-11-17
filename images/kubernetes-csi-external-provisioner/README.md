@@ -44,4 +44,3 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-provi
 kubectl set image deployment/csi-provisioner csi-provisioner="cgr.dev/chainguard/kubernetes-csi-external-provisioner:latest"
 ```
 <!--body:end-->
-

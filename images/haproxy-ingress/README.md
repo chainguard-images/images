@@ -49,4 +49,3 @@ helm install ingress haproxy-ingress/haproxy-ingress \
 kubectl wait --for=condition=ready pod --selector "app.kubernetes.io/name=haproxy-ingress" --timeout=120s
 ```
 <!--body:end-->
-

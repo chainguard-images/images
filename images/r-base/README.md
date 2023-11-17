@@ -86,4 +86,3 @@ See also  ?Rscript  from within R.
 Note that the standard version of this image requires a shell because R is typically
 invoked through built-in shell wrappers.
 <!--body:end-->
-

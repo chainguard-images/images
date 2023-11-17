@@ -48,4 +48,3 @@ helm install nodetaint ./chart \
   --set image.tag=${IMAGE_TAG}
 ```
 <!--body:end-->
-

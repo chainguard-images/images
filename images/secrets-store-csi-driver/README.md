@@ -39,4 +39,3 @@ The Chainguard Secrets Store CSI DRiver image contains the `secrets-store-csi-dr
 
 The driver typically requires a plugin to be installed and configured separately to run.
 <!--body:end-->
-

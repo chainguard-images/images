@@ -105,4 +105,3 @@ $ redis-cli get foo
 "bar"
 ```
 <!--body:end-->
-

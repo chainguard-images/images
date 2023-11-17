@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/wazero:latest
 
 <!--body:start-->
 <!--body:end-->
-

@@ -93,4 +93,3 @@ Resolving deltas: 100% (70/70), done.
 
 You can now check the contents of your `workspace` directory, where you should find the cloned repo.
 <!--body:end-->
-

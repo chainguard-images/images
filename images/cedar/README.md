@@ -57,4 +57,3 @@ Options:
   -V, --version  Print version
 ```
 <!--body:end-->
-

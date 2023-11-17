@@ -54,4 +54,3 @@ spec:
   package: cgr.dev/chainguard/crossplane-azure-sql:latest
 ```
 <!--body:end-->
-

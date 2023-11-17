@@ -52,4 +52,3 @@ EOF
 kubectl apply -k .
 ```
 <!--body:end-->
-

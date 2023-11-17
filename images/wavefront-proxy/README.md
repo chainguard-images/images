@@ -55,4 +55,3 @@ $ docker run -d \
 Note that the `wavefront-proxy` does need the `WAVEFRONT_URL` and `WAVEFRONT_TOKEN`  to work correctly.
 See the [configuration](https://docs.wavefront.com/proxies_kube_container.html) docs for more examples.
 <!--body:end-->
-

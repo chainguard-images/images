@@ -48,4 +48,3 @@ $ helm install my-metacontroller-helm oci://ghcr.io/metacontroller/metacontrolle
 
 See the [configuration](https://metacontroller.github.io/metacontroller/guide/helm-install.html#configuration) docs for more examples.
 <!--body:end-->
-

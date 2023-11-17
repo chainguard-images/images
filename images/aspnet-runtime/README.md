@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/aspnet-runtime:latest
 
 <!--body:start-->
 <!--body:end-->
-

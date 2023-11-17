@@ -58,4 +58,3 @@ webhook:
         tag: latest
 ```
 <!--body:end-->
-

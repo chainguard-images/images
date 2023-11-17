@@ -40,4 +40,3 @@ You must bring your own artifacts to use this image, e.g. with a Docker multi-st
 
 This image is deprecated.  Use the `glibc-dynamic` image instead which is designed to cover the same use cases.
 <!--body:end-->
-

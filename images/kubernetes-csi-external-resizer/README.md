@@ -40,4 +40,3 @@ The Chainguard external-resizer image contains the `csi-resizer` controller and 
 To try it out, follow the [official installation
 instructions](https://github.com/kubernetes-csi/external-resizer/blob/master/README.md#usage).
 <!--body:end-->
-

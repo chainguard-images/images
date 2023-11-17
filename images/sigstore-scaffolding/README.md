@@ -57,4 +57,3 @@ The stack also pulls in several support images:
 To see an example of how we substitute images into the `scaffold` Helm chart's
 `values.yaml` see our [`values.tf`](./tests/values.tf) example.
 <!--body:end-->
-

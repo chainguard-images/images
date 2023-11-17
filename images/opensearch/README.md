@@ -60,4 +60,3 @@ $ docker run -it cgr.dev/chainguard/opensearch
 [2023-03-24T00:44:00,415][INFO ][o.o.p.PluginsService     ] [6e57776e2bfa] loaded module [aggs-matrix-stats]
 ```
 <!--body:end-->
-

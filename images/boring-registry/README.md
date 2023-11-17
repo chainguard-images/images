@@ -125,4 +125,3 @@ helm upgrade --install boring-registry oci://ghcr.io/tiermobility/charts/boring-
     --wait
 ```
 <!--body:end-->
-

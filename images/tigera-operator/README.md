@@ -53,4 +53,3 @@ helm install calico projectcalico/tigera-operator \
 kubectl wait --namespace tigera-operator --for=condition=ready pod --selector name=tigera-operator --timeout=120s
 ```
 <!--body:end-->
-

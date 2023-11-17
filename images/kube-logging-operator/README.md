@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/kube-logging-operator:latest
 
 <!--body:start-->
 <!--body:end-->
-

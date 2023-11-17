@@ -51,4 +51,3 @@ level=info ts=2023-09-02T00:50:53.030075792Z caller=table_manager.go:262 msg="qu
 This image is a drop-in replacement for official image at grafana/loki.
 See documentation [there](https://github.com/grafana/loki/blob/main/cmd/loki/Dockerfile#L9) for how to configure it.
 <!--body:end-->
-

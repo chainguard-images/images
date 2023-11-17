@@ -41,4 +41,3 @@ curl localhost:8080
 docker kill $CONTAINER
 ```
 <!--body:end-->
-

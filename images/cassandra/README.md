@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/cassandra:latest
 
 <!--body:start-->
 <!--body:end-->
-

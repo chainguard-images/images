@@ -48,4 +48,3 @@ $ docker run cgr.dev/chainguard/k8s-sidecar
 {"time": "2023-03-31T11:50:30.950751+00:00", "msg": "Should have added {LABEL} as environment variable! Exit", "level": "CRITICAL"}
 ```
 <!--body:end-->
-

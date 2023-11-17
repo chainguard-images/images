@@ -1,0 +1,16 @@
+package commands
+
+import (
+	"fmt"
+	"testing"
+
+	"github.com/stretchr/testify/require"
+)
+
+func TestReadmeRenderValidate(t *testing.T) {
+	t.Run("test", func(t *testing.T) {
+		r := NewReadmeRenderer("argocd")
+		fmt.Printf("%#v", r)
+		require.NoError(t, r.validate())
+	})
+}

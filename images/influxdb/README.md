@@ -90,4 +90,3 @@ To retrieve the password for the 'admin' user:
 Note: with enabled persistence, admin password is only set once during the initial deployment. The password is not changed when InfluxDB 2 is re-deployed with different password.
 ```
 <!--body:end-->
-

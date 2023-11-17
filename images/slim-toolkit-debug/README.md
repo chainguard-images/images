@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/slim-toolkit-debug:latest
 
 <!--body:start-->
 <!--body:end-->
-

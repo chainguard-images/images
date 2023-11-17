@@ -85,4 +85,3 @@ helm upgrade --install fluent-bit \
     fluent/fluent-bit
 ```
 <!--body:end-->
-

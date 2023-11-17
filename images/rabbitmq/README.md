@@ -87,4 +87,3 @@ By default this image runs as a non-root user named `rabbitmq` with a uid of 655
 
 Logs go to `/var/log/rabbitmq/` by default.
 <!--body:end-->
-

@@ -60,4 +60,3 @@ time="2023-09-30T16:31:40Z" level=debug msg="poller: request stage from remote s
 
 The server should then be available at `localhost:3000`.
 <!--body:end-->
-

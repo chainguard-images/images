@@ -70,4 +70,3 @@ To push, you will need to mount in your Docker config to provide auth by adding:
 
 If you're using Docker credential helpers, those will need to be made available in the container as well so that `ko` can invoke them.
 <!--body:end-->
-

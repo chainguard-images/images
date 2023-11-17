@@ -77,4 +77,3 @@ curl --request POST \
   --data '{"msg": "testing" }'
 ```
 <!--body:end-->
-

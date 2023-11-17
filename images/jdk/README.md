@@ -76,4 +76,3 @@ Run the image
 docker run my-simple-java-app
 ```
 <!--body:end-->
-

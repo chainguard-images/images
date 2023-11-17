@@ -50,4 +50,3 @@ $ helm install prom-node-exporter prometheus-community/prometheus-node-exporter 
 
 For more detail, please refer to the [Node Exporter documentation](https://github.com/prometheus/node_exporter).
 <!--body:end-->
-

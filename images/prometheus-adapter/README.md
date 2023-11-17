@@ -46,4 +46,3 @@ $ helm install adapter prometheus-community/prometheus-adapter \
 
 For more detail, please refer to the [Adapter documentation](https://github.com/kubernetes-sigs/prometheus-adapter).
 <!--body:end-->
-

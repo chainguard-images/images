@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/kubeflow-katib:latest
 
 <!--body:start-->
 <!--body:end-->
-

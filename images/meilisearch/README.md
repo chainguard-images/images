@@ -53,4 +53,3 @@ docker run \
 
 Then you can follow the [meilisearch quick start guide](https://www.meilisearch.com/docs/learn/getting_started/quick_start#add-documents) and start adding documents.
 <!--body:end-->
-

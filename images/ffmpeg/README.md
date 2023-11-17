@@ -46,4 +46,3 @@ docker run --rm \
     tests/sample.mp4
 ```
 <!--body:end-->
-

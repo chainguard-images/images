@@ -48,4 +48,3 @@ $ helm install my-release cluster-proportional-autoscaler/cluster-proportional-a
 
 See the [configuration](https://github.com/kubernetes-sigs/cluster-proportional-autoscaler/tree/master/charts/cluster-proportional-autoscaler) docs for more examples.
 <!--body:end-->
-

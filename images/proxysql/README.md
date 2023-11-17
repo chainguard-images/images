@@ -109,4 +109,3 @@ Standard MySQL Monitor (StdMyMon) rev. 2.0.1226 -- MySQL_Monitor.cpp -- Thu Jun 
 2023-06-28 13:27:29 [INFO] Latest ProxySQL version available: 2.5.3-89-g86ce115
 ```
 <!--body:end-->
-

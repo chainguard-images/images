@@ -61,4 +61,3 @@ To run the `rqlite` program:
 [cluster] 2023/03/26 21:53:22 service listening on d3d5c2306506:4002
 ```
 <!--body:end-->
-

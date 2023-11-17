@@ -40,7 +40,7 @@ type renderReadmeImpl struct {
 	renderedMD *bytes.Buffer
 }
 
-func NewReadmeRenderer(image string) readmeRenderer {
+func NewReadmeRenderer(image string) *renderReadmeImpl {
 	return &renderReadmeImpl{
 		Image:      image,
 		hclFile:    path.Join(constants.ImagesDirName, image, "README.hcl"),
@@ -152,15 +152,10 @@ func (r *renderReadmeImpl) validate() error {
 		return fmt.Errorf("Missing image field")
 	case r.Readme.ShortDesc == "":
 		return fmt.Errorf("Missing short description field")
-	case r.Readme.ConsoleSummary == "" && r.Readme.ShortDesc == "":
-		return fmt.Errorf("Missing console summary field")
 	case r.Readme.ReadmeFile == "":
 		return fmt.Errorf("Missing readme file location")
 	case r.Readme.ReadmeFile == "":
 		return fmt.Errorf("Missing upstream project URL")
-	// use short description if console summary is not set
-	case r.Readme.ConsoleSummary == "" && r.Readme.ShortDesc != "":
-		log.Println("Using short description for console summary field")
 	}
 	return nil
 }

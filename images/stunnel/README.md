@@ -101,4 +101,3 @@ OCSP                   = OCSP responder URL
 ...
 ```
 <!--body:end-->
-

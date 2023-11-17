@@ -45,4 +45,3 @@ docker run --rm \
     init --force --title chainguard-images --ignore git
 ```
 <!--body:end-->
-

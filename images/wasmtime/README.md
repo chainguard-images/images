@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/wasmtime:latest
 
 <!--body:start-->
 <!--body:end-->
-

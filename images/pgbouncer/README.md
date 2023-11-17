@@ -61,4 +61,3 @@ Note that `pgbouncer` typically needs a configuration file to run.
 One is not provided here in the image by default.
 You can find documentation on how to configure one in the [upstream documentation](https://www.pgbouncer.org/config.html#authentication-settings)..
 <!--body:end-->
-

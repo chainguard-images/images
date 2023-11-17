@@ -41,4 +41,3 @@ Paranoia can be used to list out the certificates in a container image:
 docker run --rm cgr.dev/chainguard/paranoia:latest export alpine:latest
 ```
 <!--body:end-->
-

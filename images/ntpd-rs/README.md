@@ -51,4 +51,3 @@ $ docker run --cap-add SYS_TIME cgr.dev/chainguard/ntpd-rs -p pool.ntp.org
 2023-04-02T18:50:31.094923Z  INFO ntp_proto::algorithm::standard: filter and combine did not produce a result
 ```
 <!--body:end-->
-

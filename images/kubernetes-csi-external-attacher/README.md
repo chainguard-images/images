@@ -40,4 +40,3 @@ The Chainguard external-attacher image contains the `csi-attacher` controller an
 To try it out, follow the [official installation
 instructions](https://github.com/kubernetes-csi/external-attacher/blob/master/README.md#usage).
 <!--body:end-->
-

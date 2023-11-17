@@ -61,4 +61,3 @@ $ docker run cgr.dev/chainguard/consul
 ==> Log data will now stream in as it occurs:
 ```
 <!--body:end-->
-

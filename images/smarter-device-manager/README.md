@@ -62,4 +62,3 @@ helm install smart-device-manager gabe565/smarter-device-manager \
  --set image.repository=ttl.sh/mark/smarter-device-manager --set image.tag=latest
 ```
 <!--body:end-->
-

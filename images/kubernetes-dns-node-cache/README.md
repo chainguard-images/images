@@ -43,4 +43,3 @@ helm install node-local-dns deliveryhero/node-local-dns \
     --set image.tag=latest
 ```
 <!--body:end-->
-

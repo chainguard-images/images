@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/k8sgpt:latest
 
 <!--body:start-->
 <!--body:end-->
-

@@ -35,4 +35,3 @@ docker pull cgr.dev/chainguard/stakater-reloader:latest
 <!--body:start-->
 This image is a drop-in replacement for the stakater-reloader image available upstream at `ghcr.io/stakater/reloader`.
 <!--body:end-->
-

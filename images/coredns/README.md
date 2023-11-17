@@ -48,4 +48,3 @@ helm install coredns coredns/coredns \
 	--set isClusterService=false
 ```
 <!--body:end-->
-

@@ -53,4 +53,3 @@ ts=2023-04-26T17:47:53.478Z caller=tls_config.go:235 level=info msg="TLS is disa
 
 By default this image runs as a non-root user named `nonroot` with a uid of 65532.
 <!--body:end-->
-

@@ -48,4 +48,3 @@ level=warn ts=2023-09-02T14:01:20.497754387Z caller=promtail.go:265 msg="enable 
 This image is a drop-in replacement for official image at grafana/promtail.
 See documentation [there](https://github.com/grafana/loki/blob/main/cmd/promtail/Dockerfile#L9) for how to configure it.
 <!--body:end-->
-

@@ -93,4 +93,3 @@ You should see the newly created `accounts` table
 (1 row)
 ```
 <!--body:end-->
-

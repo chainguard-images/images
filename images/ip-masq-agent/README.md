@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/ip-masq-agent:latest
 
 <!--body:start-->
 <!--body:end-->
-

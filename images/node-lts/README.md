@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/node-lts:latest
 
 <!--body:start-->
 <!--body:end-->
-

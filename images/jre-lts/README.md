@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/jre-lts:latest
 
 <!--body:start-->
 <!--body:end-->
-

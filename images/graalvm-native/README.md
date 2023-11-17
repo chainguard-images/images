@@ -44,4 +44,3 @@ This image is meant to be used as a base image only, and is otherwise useless.  
 
 The image has a single user `nonroot` with uid `65532`, belonging to gid `65532`.
 <!--body:end-->
-

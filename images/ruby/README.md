@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/ruby:latest
 
 <!--body:start-->
 <!--body:end-->
-

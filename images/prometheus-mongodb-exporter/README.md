@@ -46,4 +46,3 @@ $ helm install prom-mongodb-exporter prometheus-community/prometheus-mongodb-exp
 
 For more detail, please refer to the [MongoDB Exporter documentation](https://github.com/percona/mongodb_exporter).
 <!--body:end-->
-

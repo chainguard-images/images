@@ -105,4 +105,3 @@ devicePlugin:
   tag: latest-dev
 ```
 <!--body:end-->
-

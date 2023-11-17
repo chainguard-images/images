@@ -38,4 +38,3 @@ docker pull cgr.dev/chainguard/trillian:latest
 Trillian is also deployed as part of the sigstore stack.  For more information
 on this see [`sigstore-scaffolding`](../sigstore-scaffolding/).
 <!--body:end-->
-

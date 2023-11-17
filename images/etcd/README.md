@@ -73,4 +73,3 @@ The default data directory for this image is `/var/lib/etcd`, and that directory
 If you change the user, UID, or data directory, you'll need to ensure the user running the etcd process has permissions to that
 directory.
 <!--body:end-->
-

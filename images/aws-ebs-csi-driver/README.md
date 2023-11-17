@@ -73,4 +73,3 @@ Once the driver has been deployed, verify the pods are running:
 kubectl get pods -n kube-system -l app.kubernetes.io/name=aws-ebs-csi-driver
 ```
 <!--body:end-->
-

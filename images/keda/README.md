@@ -35,4 +35,3 @@ docker pull cgr.dev/chainguard/keda:latest
 <!--body:start-->
 This image is a drop-in replacement for the KEDA manager available upstream at `ghcr.io/kedacore/keda`.
 <!--body:end-->
-

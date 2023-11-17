@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/dotnet:latest
 
 <!--body:start-->
 <!--body:end-->
-

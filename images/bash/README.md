@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/bash:latest
 
 <!--body:start-->
 <!--body:end-->
-

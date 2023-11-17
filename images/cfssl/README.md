@@ -37,4 +37,3 @@ docker pull cgr.dev/chainguard/cfssl:latest
 
 To read more about `cfssl` see the [launch blog post](https://blog.cloudflare.com/introducing-cfssl/).
 <!--body:end-->
-

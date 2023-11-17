@@ -57,4 +57,3 @@ helm search repo chartmuseum/
 helm upgrade --install chartmuseum-demo chartmuseum/hello
 ```
 <!--body:end-->
-

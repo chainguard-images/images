@@ -45,4 +45,3 @@ $ helm install my-release spark-operator/spark-operator --namespace spark-operat
 
 For more detail, please refer to the [Spark Operator installation documentation](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator?tab=readme-ov-file#installation).
 <!--body:end-->
-

@@ -46,4 +46,3 @@ $ helm install prom-redis-exporter prometheus-community/prometheus-redis-exporte
 
 For more detail, please refer to the [Redis Exporter documentation](https://github.com/oliver006/redis_exporter).
 <!--body:end-->
-

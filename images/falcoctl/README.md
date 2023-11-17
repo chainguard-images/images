@@ -51,4 +51,3 @@ For more information, refer to the falco documentation:
 - [Install and operate falco](https://falco.org/docs/install-operate/running/)
 - [Falco GitHub](https://github.com/falcosecurity/falco)
 <!--body:end-->
-

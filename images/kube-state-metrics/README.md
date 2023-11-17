@@ -67,4 +67,3 @@ Once the kube-state-metrics has been deployed, verify the pods are running:
 kubectl get pods -l app.kubernetes.io/name=kube-state-metrics
 ```
 <!--body:end-->
-

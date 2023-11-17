@@ -74,4 +74,3 @@ and see the message from the example application
 Hi
 ```
 <!--body:end-->
-

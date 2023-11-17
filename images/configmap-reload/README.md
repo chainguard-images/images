@@ -47,4 +47,3 @@ $ helm install my-release prometheus-community/alertmanager \
     <other configuration parameters here>
 ```
 <!--body:end-->
-

@@ -84,4 +84,3 @@ Use "skaffold <command> --help" for more information about a given command.
 Use "skaffold options" for a list of global command-line options (applies to all commands).
 ```
 <!--body:end-->
-

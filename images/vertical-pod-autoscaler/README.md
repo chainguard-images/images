@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/vertical-pod-autoscaler:latest
 
 <!--body:start-->
 <!--body:end-->
-

@@ -41,4 +41,3 @@ docker pull cgr.dev/chainguard/{{ .Readme.Name }}:latest
 <!--body:start-->
 {{- .Readme.Body -}}
 <!--body:end-->
-

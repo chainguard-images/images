@@ -60,4 +60,3 @@ Protocols: dict file ftp ftps gopher gophers http https imap imaps mqtt pop3 pop
 Features: alt-svc AsynchDNS brotli HSTS HTTP2 HTTPS-proxy IPv6 Largefile libz NTLM NTLM_WB SSL threadsafe TLS-SRP UnixSockets
 ```
 <!--body:end-->
-

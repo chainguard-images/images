@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/terraform:latest
 
 <!--body:start-->
 <!--body:end-->
-

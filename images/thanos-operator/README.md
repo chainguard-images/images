@@ -43,4 +43,3 @@ helm install thanos-operator banzaicloud-stable/thanos-operator \
     --set image.tag=latest
 ```
 <!--body:end-->
-

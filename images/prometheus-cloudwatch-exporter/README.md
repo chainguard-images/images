@@ -46,4 +46,3 @@ $ helm install prom-cloudwatch-exporter prometheus-community/prometheus-cloudwat
 
 For more detail, please refer to the [CloudWatch Exporter documentation](https://github.com/prometheus/cloudwatch_exporter).
 <!--body:end-->
-

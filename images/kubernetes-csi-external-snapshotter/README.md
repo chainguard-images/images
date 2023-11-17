@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/kubernetes-csi-external-snapshotter:latest
 
 <!--body:start-->
 <!--body:end-->
-

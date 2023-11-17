@@ -3,12 +3,10 @@ package commands
 import (
 	"bytes"
 	"fmt"
-	"os"
 	"path"
 	"path/filepath"
 	"runtime"
 	"sort"
-	"strings"
 	"text/template"
 
 	"github.com/spf13/cobra"
@@ -109,35 +107,43 @@ func (i *readmeImpl) check() error {
 	})
 	for _, i := range allImages {
 		img := i.ImageName
-		// Generate the section to prepend to beginning of file
-		readmeInsert := fmt.Sprintf("# %s\n| | |\n| - | - |\n", img)
-		readmeInsert += fmt.Sprintf("| **OCI Reference** | `cgr.dev/chainguard/%s` |\n", img)
 
-		readmeInsert += "\n\n"
-		readmeInsert += fmt.Sprintf("* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/%s/overview/)\n", img)
-		readmeInsert += "* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.\n"
-		readmeInsert += "* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*\n\n"
-		readmeInsert += "---"
+		// readme := renderReadmeImpl{Image: img}
+		r := NewReadmeRenderer(img)
 
-		filename := path.Join(constants.ImagesDirName, img, "README.md")
-		existingContent, err := os.ReadFile(filename)
-		if err != nil {
-			fmt.Printf("Error opening %s: %s", filename, err.Error())
+		if err := r.decodeHcl(); err != nil {
+			fmt.Printf("Error decoding %s: %s", r.hclFile, err)
 			numIssues++
-		} else {
-			existingContentStr := string(existingContent)
-			tmp1 := strings.Split(existingContentStr, constants.ImageReadmeGenStartComment)
-			if len(tmp1) < 2 {
-				fmt.Printf("%s exists but has not yet been modified by monopod.\n", filename)
-				numIssues++
-			} else {
-				padded := fmt.Sprintf("%s\n%s\n%s\n", constants.ImageReadmeGenStartComment, readmeInsert, constants.ImageReadmeGenEndComment)
-				if !strings.HasPrefix(existingContentStr, padded) {
-					fmt.Printf("%s is out-of-date.\n", filename)
-					numIssues++
-				}
-			}
+			continue
 		}
+		if err := r.validate(); err != nil {
+			fmt.Printf("Error validating %s: %s", r.hclFile, err)
+			numIssues++
+			continue
+		}
+		if err := r.read(); err != nil {
+			fmt.Printf("Error reading %s: %s", r.mdFile, err)
+			numIssues++
+			continue
+		}
+		if err := r.scanForBody(); err != nil {
+			fmt.Printf("Error finding <!--body...--> content: %s: %s", r.mdFile, err)
+			numIssues++
+			continue
+		}
+		if err := r.render(); err != nil {
+			fmt.Printf("Error rendering %s for comparison: %s", r.mdFile, err)
+			numIssues++
+			continue
+		}
+
+		//finally compare if the on disk versus rendered versions match
+		if r.rawMD != r.renderedMD.String() {
+			fmt.Printf("%s exists but does not match the monopod generated version.\n", r.mdFile)
+			numIssues++
+			continue
+		}
+
 	}
 
 	if numIssues > 0 {

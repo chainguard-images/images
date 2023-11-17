@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/aws-efs-csi-driver:latest
 
 <!--body:start-->
 <!--body:end-->
-

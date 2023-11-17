@@ -46,4 +46,3 @@ $ helm install prom-statsd-exporter prometheus-community/prometheus-statsd-expor
 
 For more detail, please refer to the [StatsD Exporter documentation](https://github.com/prometheus/statsd_exporter).
 <!--body:end-->
-

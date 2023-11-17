@@ -49,4 +49,3 @@ You can also use it as a drop in replacement in `k3d`:
 k3d cluster create -i cgr.dev/chainguard/k3s:latest
 ```
 <!--body:end-->
-

@@ -46,4 +46,3 @@ $ helm install prom-elasticsearch-exporter prometheus-community/prometheus-elast
 
 For more detail, please refer to the [Elasticsearch Exporter documentation](https://github.com/prometheus-community/elasticsearch_exporter).
 <!--body:end-->
-

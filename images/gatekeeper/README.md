@@ -59,4 +59,3 @@ Once you did this, you can install Gatekeeper to the target cluster:
         gatekeeper/gatekeeper
 ```
 <!--body:end-->
-

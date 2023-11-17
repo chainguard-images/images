@@ -44,4 +44,3 @@ This is the data plane part of Istio, consisting of:
 ## pilot
 Istio Pilot provides mesh-wide traffic management, security and policy capabilities in the Istio Service Mesh.
 <!--body:end-->
-

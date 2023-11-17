@@ -129,4 +129,3 @@ $ docker run myredis
 
 The [edu.chainguard.dev](https://edu.chainguard.dev) site contains extensive documentation on [getting started with Wolfi](https://edu.chainguard.dev/open-source/wolfi/overview/).
 <!--body:end-->
-

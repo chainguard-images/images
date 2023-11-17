@@ -62,4 +62,3 @@ Finally, edit the `helm upgrade` command to include the following lines:
 --set controller.image.digest=$DIGEST \
 ```
 <!--body:end-->
-

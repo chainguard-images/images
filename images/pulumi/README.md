@@ -153,4 +153,3 @@ $ kubectl get pods
 No resources found in default namespace.
 ```
 <!--body:end-->
-

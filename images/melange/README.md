@@ -59,4 +59,3 @@ Note that melange uses bubblewrap internally, which requires various Linux capab
 use of `--privileged`. Because of this requirement, we recommend this image is used only for local
 development and testing.
 <!--body:end-->
-

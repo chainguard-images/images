@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/wasmer:latest
 
 <!--body:start-->
 <!--body:end-->
-

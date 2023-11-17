@@ -37,4 +37,3 @@ docker pull cgr.dev/chainguard/kubernetes-csi-node-driver-registrar:latest
 
 Generally speaking, the `kubernetes-csi-node-driver-registrar` is a low level Kubernetes component used to register drivers, and not meant to be managed directly. However, all the steps outlined in the [upstream repo](https://github.com/kubernetes-csi/node-driver-registrar) apply just as well to the Chainguard Image version.
 <!--body:end-->
-

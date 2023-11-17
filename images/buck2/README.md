@@ -125,4 +125,3 @@ SUBCOMMANDS:
             Perform queries on the unconfigured target graph
 ```
 <!--body:end-->
-

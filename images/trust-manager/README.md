@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/trust-manager:latest
 
 <!--body:start-->
 <!--body:end-->
-

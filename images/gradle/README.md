@@ -65,4 +65,3 @@ JVM:          11.0.18-internal (wolfi 11.0.18-internal+0-wolfi-r1)
 OS:           Linux 5.15.49-linuxkit aarch64
 ```
 <!--body:end-->
-

@@ -136,4 +136,3 @@ add-iam-policy-binding     Add a binding to a BigQuery resource's policy in IAM.
                            --project_id=proj -t ds.table1
 ```
 <!--body:end-->
-

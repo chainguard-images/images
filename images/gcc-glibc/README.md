@@ -80,4 +80,3 @@ COPY --from=build /work/hello /hello
 CMD ["/hello"]
 ```
 <!--body:end-->
-

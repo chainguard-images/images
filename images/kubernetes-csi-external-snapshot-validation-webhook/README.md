@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/kubernetes-csi-external-snapshot-validation-webho
 
 <!--body:start-->
 <!--body:end-->
-

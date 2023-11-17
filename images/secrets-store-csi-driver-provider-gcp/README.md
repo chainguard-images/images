@@ -41,4 +41,3 @@ The Chainguard Secrets Store CSI Driver GCP Plugin image contains the `secrets-s
 $ docker run cgr.dev/chainguard/secrets-store-csi-driver-provider-gcp
 ```
 <!--body:end-->
-

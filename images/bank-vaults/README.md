@@ -46,4 +46,3 @@ $ helm install bank-vaults bank-vaults/bank-vaults \
     <other configuration parameters here>
 ```
 <!--body:end-->
-

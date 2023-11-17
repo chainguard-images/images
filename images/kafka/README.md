@@ -78,4 +78,3 @@ $ /usr/lib/kafka/bin/kafka-server-start.sh /usr/lib/kafka/config/server.properti
 ...
 ```
 <!--body:end-->
-

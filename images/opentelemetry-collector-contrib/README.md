@@ -71,4 +71,3 @@ helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm
 helm install open-telemetry opentelemetry/opentelemetry-collector --namespace open-telemetry-custom-config -f values.yaml
 ```
 <!--body:end-->
-

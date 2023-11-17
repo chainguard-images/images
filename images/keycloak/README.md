@@ -105,4 +105,3 @@ ENV KC_HOSTNAME=localhost
 ENTRYPOINT ["/usr/share/java/keycloak/bin/kc.sh"]
 ```
 <!--body:end-->
-

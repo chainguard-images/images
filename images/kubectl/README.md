@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/kubectl:latest
 
 <!--body:start-->
 <!--body:end-->
-

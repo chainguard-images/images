@@ -47,4 +47,3 @@ helm install --create-namespace kfo ./kube-fluentd-operator/charts/log-router \
   --set image.repository=cgr.dev/chainguard/kube-fluentd-operator
 ```
 <!--body:end-->
-

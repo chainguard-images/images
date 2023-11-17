@@ -42,4 +42,3 @@ See for the [examples](https://github.com/envoyproxy/ratelimit#examples).
 
 This image includes `ratelimit`.
 <!--body:end-->
-

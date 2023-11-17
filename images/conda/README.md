@@ -78,4 +78,3 @@ conda commands available from other packages (legacy):
 
 The `conda` binary and tools are in the `/opt/conda/bin` directory.
 <!--body:end-->
-

@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/oauth2-proxy:latest
 
 <!--body:start-->
 <!--body:end-->
-

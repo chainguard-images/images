@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/guacamole-server:latest
 
 <!--body:start-->
 <!--body:end-->
-

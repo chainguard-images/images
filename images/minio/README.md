@@ -82,4 +82,3 @@ Documentation: https://min.io/docs/minio/linux/index.html
 Warning: The standard parity is set to 0. This can lead to data loss.
 ```
 <!--body:end-->
-

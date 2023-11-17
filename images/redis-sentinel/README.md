@@ -37,4 +37,3 @@ docker pull cgr.dev/chainguard/redis-sentinel:latest
 
 See the [official usage documentation](https://redis.io/docs/management/sentinel/) on Redis.
 <!--body:end-->
-

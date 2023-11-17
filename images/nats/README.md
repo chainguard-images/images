@@ -59,4 +59,3 @@ $ docker run cgr.dev/chainguard/nats
 [1] 2023/03/13 19:37:46.087671 [INF] Listening for route connections on 0.0.0.0:6222
 ```
 <!--body:end-->
-

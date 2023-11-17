@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/vela-cli:latest
 
 <!--body:start-->
 <!--body:end-->
-

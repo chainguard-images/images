@@ -46,4 +46,3 @@ helm upgrade --install npd deliveryhero/node-problem-detector \
   --set image.tag=latest
 ```
 <!--body:end-->
-

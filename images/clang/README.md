@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/clang:latest
 
 <!--body:start-->
 <!--body:end-->
-

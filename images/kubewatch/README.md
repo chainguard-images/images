@@ -47,4 +47,3 @@ $ helm install kubewatch robusta/kubewatch \
     <other configuration parameters here>
 ```
 <!--body:end-->
-

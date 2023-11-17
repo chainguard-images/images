@@ -47,4 +47,3 @@ helm install <RELEASE_NAME> ingress-nginx/ingress-nginx \
   --set defaultBackend.image.tag=latest
 ```
 <!--body:end-->
-

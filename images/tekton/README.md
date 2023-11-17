@@ -72,4 +72,3 @@ For Tekton CLI:
 docker run cgr.dev/chainguard/tekton-cli version
 ```
 <!--body:end-->
-

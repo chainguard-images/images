@@ -53,4 +53,3 @@ spec:
   package: cgr.dev/chainguard/crossplane-aws-s3:latest
 ```
 <!--body:end-->
-

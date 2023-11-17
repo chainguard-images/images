@@ -43,4 +43,3 @@ Run:
 docker run --rm cgr.dev/chainguard/aws-for-fluent-bit
 ```
 <!--body:end-->
-

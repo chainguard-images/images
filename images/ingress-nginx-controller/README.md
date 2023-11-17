@@ -43,4 +43,3 @@ helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm install foo ingress-nginx/ingress-nginx --set image.repository=cgr.dev/chainguard/ingress-nginx-controller
 ```
 <!--body:end-->
-

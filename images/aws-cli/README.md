@@ -56,4 +56,3 @@ For example, the following command displays help for the general AWS CLI options
 aws help
 ```
 <!--body:end-->
-

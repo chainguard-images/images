@@ -79,4 +79,3 @@ docker run --rm \
   -c 'echo hello world'
 ```
 <!--body:end-->
-

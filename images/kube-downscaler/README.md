@@ -34,4 +34,3 @@ docker pull cgr.dev/chainguard/kube-downscaler:latest
 
 <!--body:start-->
 <!--body:end-->
-

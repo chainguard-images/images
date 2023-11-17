@@ -78,4 +78,3 @@ Finally, apply the kustomize files:
 $ kubectl apply -k .
 ```
 <!--body:end-->
-

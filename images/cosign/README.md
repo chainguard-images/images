@@ -143,4 +143,3 @@ To obtain detailed information about the environment, you can run the `cosign en
 docker run --rm cgr.dev/chainguard/cosign env --show-descriptions=false
 ```
 <!--body:end-->
-

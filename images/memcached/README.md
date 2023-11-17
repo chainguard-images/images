@@ -64,4 +64,3 @@ Connection closed by foreign host.
 
 By default this image runs as a non-root user named `memcached` with a uid of 65532.
 <!--body:end-->
-
