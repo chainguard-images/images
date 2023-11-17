@@ -66,5 +66,23 @@ Fluent Bit v2.0.8
 [2023/01/20 01:37:06] [ info] [output:stdout:stdout.0] worker #0 started
 {"date":1674178633.0,"container_id":"c77d18c7700cc8e552b1f137ec9e6cd922637c733463e38fc97de7d51a95e4e9","container_name":"/nice_morse","source":"stdout","log":"Testing a log message\r"}
 ```
+## Using the fluent-bit Helm Chart
+
+You can deploy fluent-bit as a Helm chart by running the following:
+
+```shell
+helm repo add fluent https://fluent.github.io/helm-charts
+helm repo update
+```
+
+Next, we can install it with the following command:
+
+```shell
+helm upgrade --install fluent-bit \
+    --set image.repository=cgr.dev/chainguard/fluent-bit \
+    --set image.tag=latest \
+    --set command="/usr/bin/fluent-bit" \
+    fluent/fluent-bit
+```
 <!--body:end-->
 

@@ -37,6 +37,7 @@ This is a minimal [Hugo](https://gohugo.io/) image. The image only contains
 `hugo` and supporting libraries.  The hugo process start in `/hugo` by default
 so this directory may be initialized with the Hugo site to serve.
 
+## Application Setup for End Users
 
 Here is an example using the Hugo image to run the
 ["quickstart"](https://gohugo.io/getting-started/quick-start/#commands) locally:
@@ -56,5 +57,7 @@ hugo server --bind 0.0.0.0 --port 8080
 ```
 
 Now open your browser to [localhost:8080](http://localhost:8080)!
+
+If you're interested in enterprise support, SLAs, and access to older tags, [get in touch](https://www.chainguard.dev/chainguard-images).
 <!--body:end-->
 
