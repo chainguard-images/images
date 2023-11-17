@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install."
-  default     = ["kor"]
+  default     = ["kor", "busybox"]
 }
 
 data "apko_config" "this" {
