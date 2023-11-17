@@ -1,19 +1,38 @@
 <!--monopod:start-->
 # rust
+
+<!--url:start-->
+<a href="https://www.rust-lang.org/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/rust/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/rust` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/rust/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-<!--body:start-->
+<!--overview:start-->
 Minimal Wolfi-based Rust image for building Rust applications. **EXPERIMENTAL**.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/rust:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 
 - [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/rust)
 - [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/rust/provenance_info/)
@@ -110,3 +129,4 @@ dlorenc@DANIELs-MacBook-Air rust-web-app % docker run foo /usr/local/bin/shop
 
 If you're interested in enterprise support, SLAs, and access to older tags, [get in touch](https://www.chainguard.dev/chainguard-images).
 <!--body:end-->
+

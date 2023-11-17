@@ -1,16 +1,36 @@
 <!--monopod:start-->
 # static
+
+<!--url:start-->
+<a href="https://github.com/wolfi-dev/os">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/static/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/static` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/static/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
+
+<!--overview:start-->
+Base images with just enough files to run static binaries!
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/static:latest
+```
+<!--getting:end-->
 
 <!--body:start-->
 Base images with just enough files to run static binaries!
@@ -109,3 +129,4 @@ the `defaultBaseImage` to `cgr.dev/chainguard/static`.
 
 The image has a single user `nonroot` with uid `65532`, belonging to gid `65532`.
 <!--body:end-->
+

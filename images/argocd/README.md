@@ -1,9 +1,13 @@
 <!--monopod:start-->
 # argocd
 
+<!--url:start-->
+<a href="https://argoproj.github.io/cd/">
 <!--logo:start-->
-<img src="https://storage.googleapis.com/chainguard-academy/logos/argocd/logo.svg" width="36px" height="36px" />
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/argocd/logo.svg" width="36px" height="36px" />
 <!--logo:end-->
+</a>
+<!--url:end-->
 
 | | |
 | - | - |

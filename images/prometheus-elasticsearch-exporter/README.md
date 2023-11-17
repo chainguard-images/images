@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # prometheus-elasticsearch-exporter
+
+<!--url:start-->
+<a href="https://github.com/prometheus-community/elasticsearch_exporter">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/prometheus-elasticsearch-exporter/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/prometheus-elasticsearch-exporter` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/prometheus-elasticsearch-exporter/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimalist Wolfi-based Prometheus Elasticsearch Exporter image for exporting various metrics about Elasticsearch.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/prometheus-elasticsearch-exporter:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Usage
@@ -36,3 +46,4 @@ $ helm install prom-elasticsearch-exporter prometheus-community/prometheus-elast
 
 For more detail, please refer to the [Elasticsearch Exporter documentation](https://github.com/prometheus-community/elasticsearch_exporter).
 <!--body:end-->
+

@@ -1,30 +1,40 @@
 <!--monopod:start-->
 # graalvm-native
+
+<!--url:start-->
+<a href="https://github.com/oracle/graal">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/graalvm-native/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/graalvm-native` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/graalvm-native/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
+Base image with just enough files to run native [GraalVM](https://www.graalvm.org/) native-image binaries.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/graalvm-native:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Using
 
-Base image with just enough files to run native GraalVM native-image binaries.
 
 This image includes `glibc` and `libz`, and is designed to contain exactly what's needed to run GraalVM native-image binaries.
 
@@ -34,3 +44,4 @@ This image is meant to be used as a base image only, and is otherwise useless.  
 
 The image has a single user `nonroot` with uid `65532`, belonging to gid `65532`.
 <!--body:end-->
+

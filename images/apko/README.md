@@ -1,9 +1,13 @@
 <!--monopod:start-->
 # apko
 
+<!--url:start-->
+<a href="https://github.com/chainguard-dev/apko">
 <!--logo:start-->
-<img src="https://storage.googleapis.com/chainguard-academy/logos/apko/logo.svg" width="36px" height="36px" />
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/apko/logo.svg" width="36px" height="36px" />
 <!--logo:end-->
+</a>
+<!--url:end-->
 
 | | |
 | - | - |
@@ -29,6 +33,5 @@ docker pull cgr.dev/chainguard/apko:latest
 <!--getting:end-->
 
 <!--body:start-->
-
 <!--body:end-->
 

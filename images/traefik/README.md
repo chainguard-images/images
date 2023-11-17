@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # traefik
+
+<!--url:start-->
+<a href="https://github.com/traefik/traefik">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/traefik/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/traefik` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/traefik/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 [Traefik](https://github.com/traefik/traefik) is a cloud native application proxy.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/traefik
+docker pull cgr.dev/chainguard/traefik:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Using Traefik
@@ -49,3 +59,4 @@ time="2023-01-29T12:37:55Z" level=info msg="Configuration loaded from file: /etc
 
 By default this image runs as a non-root user named `traefik` with a uid of 65532.
 <!--body:end-->
+

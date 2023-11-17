@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # external-secrets
+
+<!--url:start-->
+<a href="https://github.com/external-secrets/external-secrets">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/external-secrets/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/external-secrets` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/external-secrets/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Minimal External Secrets image
+<!--overview:start-->
+Minimal Kubernetes [External Secrets Operator](https://external-secrets.io/) image
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/external-secrets:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Usage
@@ -42,3 +52,4 @@ $ helm install external-secrets \
 
 See the [configuration](https://github.com/external-secrets/external-secrets/tree/main/deploy/charts/external-secrets) docs for more examples.
 <!--body:end-->
+

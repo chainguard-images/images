@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # tigera-operator
+
+<!--url:start-->
+<a href="https://github.com/tigera/operator">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/tigera-operator/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/tigera-operator` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/tigera-operator/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal Project Calico Tigera Operator Image
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/tigera-operator:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Usage
@@ -43,3 +53,4 @@ helm install calico projectcalico/tigera-operator \
 kubectl wait --namespace tigera-operator --for=condition=ready pod --selector name=tigera-operator --timeout=120s
 ```
 <!--body:end-->
+

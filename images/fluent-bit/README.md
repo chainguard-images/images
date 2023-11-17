@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # fluent-bit
+
+<!--url:start-->
+<a href="https://github.com/fluent/fluent-bit">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/fluent-bit/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/fluent-bit` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/fluent-bit/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Fluent Bit is a lightweight and high performance log processor. In this repository you will find the container images ready for production usage.
+<!--overview:start-->
+[Fluent Bit](https://fluentbit.io) is a lightweight and high performance log processor.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/fluent-bit
+docker pull cgr.dev/chainguard/fluent-bit:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Using fluent-bit
@@ -57,3 +67,4 @@ Fluent Bit v2.0.8
 {"date":1674178633.0,"container_id":"c77d18c7700cc8e552b1f137ec9e6cd922637c733463e38fc97de7d51a95e4e9","container_name":"/nice_morse","source":"stdout","log":"Testing a log message\r"}
 ```
 <!--body:end-->
+

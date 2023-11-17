@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # nats
+
+<!--url:start-->
+<a href="https://nats.io/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/nats/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/nats` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/nats/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with NATS. **EXPERIMENTAL**
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/nats:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Using NATS
@@ -49,3 +59,4 @@ $ docker run cgr.dev/chainguard/nats
 [1] 2023/03/13 19:37:46.087671 [INF] Listening for route connections on 0.0.0.0:6222
 ```
 <!--body:end-->
+

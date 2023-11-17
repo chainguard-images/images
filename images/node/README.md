@@ -1,30 +1,42 @@
 <!--monopod:start-->
 # node
+
+<!--url:start-->
+<a href="https://nodejs.org/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/node/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/node` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/node/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal container image for running NodeJS apps
+<!--overview:end-->
 
-The image specifies a default non-root `node` user (UID 65532), and a working directory at `/app`, owned by that `node` user, and accessible to all users.
-
-It specifies `NODE_PORT=3000` by default.
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/node:latest
 ```
+<!--getting:end-->
+
+<!--compatibility:start-->
+## Compatibility NotesThe image specifies a default non-root `node` user (UID 65532), and a working directory at `/app`, owned by that `node` user, and accessible to all users.
+
+It specifies `NODE_PORT=3000` by default.
+<!--compatibility:end-->
 
 <!--body:start-->
 ## Usage Example
@@ -65,3 +77,4 @@ curl --request POST \
   --data '{"msg": "testing" }'
 ```
 <!--body:end-->
+

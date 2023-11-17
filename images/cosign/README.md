@@ -1,23 +1,40 @@
 <!--monopod:start-->
 # cosign
+
+<!--url:start-->
+<a href="https://github.com/sigstore/cosign">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/cosign/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/cosign` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/cosign/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-<!--body:start-->
+<!--overview:start-->
 Minimalist Wolfi-based Cosign images for signing and verifying images using Sigstore.
+<!--overview:end-->
 
-- [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/cosign)
-- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/cosign/provenance_info/)
-<!-- TODO: add Getting Started Guide - [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/cosign/getting-started-cosign/) -->
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/cosign:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+
+
 
 ## Image Variants
 
@@ -126,3 +143,4 @@ To obtain detailed information about the environment, you can run the `cosign en
 docker run --rm cgr.dev/chainguard/cosign env --show-descriptions=false
 ```
 <!--body:end-->
+

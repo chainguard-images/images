@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # gradle
+
+<!--url:start-->
+<a href="https://github.com/gradle/gradle">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/gradle/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/gradle` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/gradle/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Minimal image with gradle build system. **EXPERIMENTAL**
+<!--overview:start-->
+Minimal image with [Gradle](https://gradle.org/) build system. **EXPERIMENTAL**
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/gradle:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Using gradle
@@ -55,3 +65,4 @@ JVM:          11.0.18-internal (wolfi 11.0.18-internal+0-wolfi-r1)
 OS:           Linux 5.15.49-linuxkit aarch64
 ```
 <!--body:end-->
+

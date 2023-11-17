@@ -1,29 +1,36 @@
 <!--monopod:start-->
 # cert-manager
+
+<!--url:start-->
+<a href="https://github.com/cert-manager/cert-manager">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/cert-manager/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/cert-manager` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/cert-manager/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 [Cert Manager](https://cert-manager.io/) Automatically provision and manage TLS certificates in Kubernetes
+<!--overview:end-->
 
-## Get It
-
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/cert-manager-controller
-docker pull cgr.dev/chainguard/cert-manager-acmesolver
-docker pull cgr.dev/chainguard/cert-manager-cainjector
-docker pull cgr.dev/chainguard/cert-manager-webhook
+docker pull cgr.dev/chainguard/cert-manager:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Using Cert Manager
@@ -51,3 +58,4 @@ webhook:
         tag: latest
 ```
 <!--body:end-->
+

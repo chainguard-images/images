@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # envoy-ratelimit
+
+<!--url:start-->
+<a href="https://github.com/envoyproxy/ratelimit">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/envoy-ratelimit/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/envoy-ratelimit` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/envoy-ratelimit/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-[etcd](https://github.com/etcd-io/etcd) Distributed reliable key-value store for the most critical data of a distributed system
+<!--overview:start-->
+ Go/gRPC service designed to enable generic rate limit scenarios from different types of applications.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/envoy-ratelimit:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Usage
@@ -32,3 +42,4 @@ See for the [examples](https://github.com/envoyproxy/ratelimit#examples).
 
 This image includes `ratelimit`.
 <!--body:end-->
+

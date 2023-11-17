@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # prometheus-cloudwatch-exporter
+
+<!--url:start-->
+<a href="https://github.com/prometheus/cloudwatch_exporter">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/prometheus-cloudwatch-exporter/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/prometheus-cloudwatch-exporter` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/prometheus-cloudwatch-exporter/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimalist Wolfi-based Prometheus CloudWatch Exporter image for exporting metrics to Amazon AWS CloudWatch.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/prometheus-cloudwatch-exporter:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Usage
@@ -36,3 +46,4 @@ $ helm install prom-cloudwatch-exporter prometheus-community/prometheus-cloudwat
 
 For more detail, please refer to the [CloudWatch Exporter documentation](https://github.com/prometheus/cloudwatch_exporter).
 <!--body:end-->
+

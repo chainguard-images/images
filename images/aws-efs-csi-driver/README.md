@@ -1,9 +1,13 @@
 <!--monopod:start-->
 # aws-efs-csi-driver
 
+<!--url:start-->
+<a href="https://github.com/kubernetes-sigs/aws-efs-csi-driver">
 <!--logo:start-->
-<img src="https://storage.googleapis.com/chainguard-academy/logos/aws-efs-csi-driver/logo.svg" width="36px" height="36px" />
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/aws-efs-csi-driver/logo.svg" width="36px" height="36px" />
 <!--logo:end-->
+</a>
+<!--url:end-->
 
 | | |
 | - | - |
@@ -16,7 +20,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal images for aws-efs-csi-driver.
+Minimal images for [aws-efs-csi-driver](https://aws.amazon.com/efs/).
 <!--overview:end-->
 
 <!--getting:start-->

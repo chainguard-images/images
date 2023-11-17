@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # cluster-autoscaler
+
+<!--url:start-->
+<a href="https://github.com/kubernetes/autoscaler">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/cluster-autoscaler/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/cluster-autoscaler` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/cluster-autoscaler/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal Kubernetes Cluster Autoscaler Image
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/cluster-autoscaler:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Usage
@@ -39,3 +49,4 @@ $ helm install my-release autoscaler/cluster-autoscaler \
 Note that the `cluster-autoscaler` does need cloud provider configuration to work correctly, so it won't run locally.
 See the [configuration](https://github.com/kubernetes/autoscaler/tree/master/charts/cluster-autoscaler) docs for more examples.
 <!--body:end-->
+

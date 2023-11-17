@@ -17,6 +17,20 @@ import (
 
 var readmeSections = []string{"monopod", "logo", "overview", "getting", "body"}
 
+// should these be broken up?
+// need to test render, scanForBody and validate
+type readmeRenderer interface {
+	Do() error
+	decodeHcl() error
+	read() error
+	render() error
+	scanForBody() error
+	stat() bool
+	validate() error
+	write() error
+}
+
+// implements readmeRenderer
 type renderReadmeImpl struct {
 	Image      string
 	Readme     *completeReadme
@@ -24,6 +38,16 @@ type renderReadmeImpl struct {
 	mdFile     string
 	rawMD      string
 	renderedMD *bytes.Buffer
+}
+
+func NewReadmeRenderer(image string) readmeRenderer {
+	return &renderReadmeImpl{
+		Image:      image,
+		hclFile:    path.Join(constants.ImagesDirName, image, "README.hcl"),
+		mdFile:     path.Join(constants.ImagesDirName, image, "README.md"),
+		Readme:     &completeReadme{},
+		renderedMD: new(bytes.Buffer),
+	}
 }
 
 func Render() *cobra.Command {
@@ -35,13 +59,7 @@ func Render() *cobra.Command {
 monopod readme render --image postgresql
 `,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			impl := &renderReadmeImpl{
-				Image:      ro.Image,
-				hclFile:    path.Join(constants.ImagesDirName, ro.Image, "README.hcl"),
-				mdFile:     path.Join(constants.ImagesDirName, ro.Image, "README.md"),
-				Readme:     &completeReadme{},
-				renderedMD: new(bytes.Buffer),
-			}
+			impl := NewReadmeRenderer(ro.Image)
 			return impl.Do()
 		},
 	}
@@ -57,18 +75,21 @@ func (r *renderReadmeImpl) Do() error {
 		err = fmt.Errorf("missing --image argument")
 		return err
 	}
-	if err = r.loadReadmeHcl(); err != nil {
+	if err = r.decodeHcl(); err != nil {
 		return err
 	}
-	if err = r.checkFields(); err != nil {
+	if err = r.validate(); err != nil {
 		return err
+	}
+	if r.Readme.ReadmeFile != "README.md" {
+		r.mdFile = path.Join(constants.ImagesDirName, r.Image, r.Readme.ReadmeFile)
 	}
 
-	switch r.checkExists() {
+	switch r.stat() {
 	case false:
 		log.Printf("Missing %s, rendering a new copy", r.mdFile)
 	case true:
-		if err := r.readReadme(); err != nil {
+		if err := r.read(); err != nil {
 			return err
 		}
 		if err := r.scanForBody(); err != nil {
@@ -76,17 +97,17 @@ func (r *renderReadmeImpl) Do() error {
 		}
 	}
 
-	if err := r.renderReadme(); err != nil {
+	if err := r.render(); err != nil {
 		return err
 	}
-	if err := r.writeReadme(); err != nil {
+	if err := r.write(); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (r *renderReadmeImpl) renderReadme() error {
+func (r *renderReadmeImpl) render() error {
 	return templates.ExecuteTemplate(
 		r.renderedMD,
 		"README.md.tpl",
@@ -96,7 +117,7 @@ func (r *renderReadmeImpl) renderReadme() error {
 	)
 }
 
-func (r *renderReadmeImpl) checkExists() bool {
+func (r *renderReadmeImpl) stat() bool {
 	f, err := os.Stat(r.mdFile)
 	if err != nil {
 		return false
@@ -109,7 +130,7 @@ func (r *renderReadmeImpl) checkExists() bool {
 	return false
 }
 
-func (r *renderReadmeImpl) readReadme() error {
+func (r *renderReadmeImpl) read() error {
 	b, err := os.ReadFile(r.mdFile)
 	if err != nil {
 		return err
@@ -119,27 +140,32 @@ func (r *renderReadmeImpl) readReadme() error {
 	return nil
 }
 
-func (r *renderReadmeImpl) writeReadme() error {
+func (r *renderReadmeImpl) write() error {
 	return os.WriteFile(r.mdFile, r.renderedMD.Bytes(), 0o644)
 }
 
-func (r *renderReadmeImpl) checkFields() error {
+func (r *renderReadmeImpl) validate() error {
 	switch {
 	case r.Readme.Name == "":
 		return fmt.Errorf("Missing name field")
 	case r.Readme.Image == "":
 		return fmt.Errorf("Missing image field")
-	case r.Readme.ConsoleSummary == "":
+	case r.Readme.ShortDesc == "":
+		return fmt.Errorf("Missing short description field")
+	case r.Readme.ConsoleSummary == "" && r.Readme.ShortDesc == "":
 		return fmt.Errorf("Missing console summary field")
-	case r.Readme.AcademyOverview == "":
-		return fmt.Errorf("Missing academy overview field")
 	case r.Readme.ReadmeFile == "":
 		return fmt.Errorf("Missing readme file location")
+	case r.Readme.ReadmeFile == "":
+		return fmt.Errorf("Missing upstream project URL")
+	// use short description if console summary is not set
+	case r.Readme.ConsoleSummary == "" && r.Readme.ShortDesc != "":
+		log.Println("Using short description for console summary field")
 	}
 	return nil
 }
 
-func (r *renderReadmeImpl) loadReadmeHcl() error {
+func (r *renderReadmeImpl) decodeHcl() error {
 	return hclsimple.DecodeFile(r.hclFile, nil, r.Readme)
 }
 

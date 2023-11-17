@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # melange
+
+<!--url:start-->
+<a href="https://github.com/chainguard-dev/melange">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/melange/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/melange` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/melange/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Container image for running [melange](https://github.com/chainguard-dev/melange) workflows to build APK packages.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/melange:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 To build the melange workflow in [examples](examples/gnu-hello.yaml):
@@ -49,3 +59,4 @@ Note that melange uses bubblewrap internally, which requires various Linux capab
 use of `--privileged`. Because of this requirement, we recommend this image is used only for local
 development and testing.
 <!--body:end-->
+

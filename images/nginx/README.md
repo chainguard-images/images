@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # nginx
+
+<!--url:start-->
+<a href="https://nginx.org">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/nginx/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/nginx` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/nginx/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
+Minimal Wolfi-based nginx HTTP, reverse proxy, mail proxy, and a generic TCP/UDP proxy server
+<!--overview:end-->
 
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/nginx:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 A minimal nginx base image rebuilt every night from source.
@@ -137,3 +147,4 @@ shouldn't make a difference, but note the "User Directive Warning" above.
 The Docker official image has support for setting environment variables that get substitued into the
 config file. Currently we do not have support for this, but are [looking into options](https://github.com/chainguard-images/images/issues/435).
 <!--body:end-->
+

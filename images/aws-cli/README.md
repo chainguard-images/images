@@ -1,9 +1,13 @@
 <!--monopod:start-->
 # aws-cli
 
+<!--url:start-->
+<a href="https://github.com/aws/aws-cli">
 <!--logo:start-->
-<img src="https://storage.googleapis.com/chainguard-academy/logos/aws-cli/logo.svg" width="36px" height="36px" />
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/aws-cli/logo.svg" width="36px" height="36px" />
 <!--logo:end-->
+</a>
+<!--url:end-->
 
 | | |
 | - | - |

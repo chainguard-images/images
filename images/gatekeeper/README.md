@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # gatekeeper
+
+<!--url:start-->
+<a href="https://github.com/open-policy-agent/gatekeeper">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/gatekeeper/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/gatekeeper` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/gatekeeper/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Minimalist Wolfi-based Gatekeeper which is a policy controller for Kubernetes
+<!--overview:start-->
+Minimalist Wolfi-based [Gatekeeper](https://open-policy-agent.github.io/gatekeeper) which is a policy controller for Kubernetes
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/gatekeeper:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Usage
@@ -49,3 +59,4 @@ Once you did this, you can install Gatekeeper to the target cluster:
         gatekeeper/gatekeeper
 ```
 <!--body:end-->
+

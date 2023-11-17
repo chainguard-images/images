@@ -1,29 +1,39 @@
 <!--monopod:start-->
 # stunnel
+
+<!--url:start-->
+<a href="https://www.stunnel.org/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/stunnel/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/stunnel` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/stunnel/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-## Get It!
+<!--overview:start-->
+This image contains the CLI for the [stunnel](https://www.stunnel.org/) networking tool
+<!--overview:end-->
 
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/stunnel:latest
 ```
-
+<!--getting:end-->
 
 <!--body:start-->
 
-This image contains the CLI for the [stunnel](https://www.stunnel.org/) networking tool
 This tool can be used to encrypt network connections between a client and server, without changing those programs.
 
 `stunnel` requires a configuration file to run.
@@ -91,3 +101,4 @@ OCSP                   = OCSP responder URL
 ...
 ```
 <!--body:end-->
+

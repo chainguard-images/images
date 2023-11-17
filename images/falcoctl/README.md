@@ -1,33 +1,43 @@
 <!--monopod:start-->
 # falcoctl
+
+<!--url:start-->
+<a href="https://github.com/falcosecurity/falcoctl">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/falcoctl/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/falcoctl` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/falcoctl/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimalist Wolfi-based image for `falcoctl`.
+<!--overview:end-->
 
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/falcoctl:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 `falcoctl` is a command-line tool for managing the runtime security tool Falco,
 assisting with configuration, rule management, and integration in Kubernetes
 environments. falcoctl runs as part of falco by default, but can also be ran
 as an external service.
 
-## Get It!
-
-The image is available on `cgr.dev`:
-
-```bash
-docker pull cgr.dev/chainguard/falcoctl:latest
-```
-
-<!--body:start-->
 ## Usage
 
 `falcoctl` is the entrypoint for the container image. Run with `help` to view
@@ -41,3 +51,4 @@ For more information, refer to the falco documentation:
 - [Install and operate falco](https://falco.org/docs/install-operate/running/)
 - [Falco GitHub](https://github.com/falcosecurity/falco)
 <!--body:end-->
+

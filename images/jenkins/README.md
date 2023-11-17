@@ -1,30 +1,36 @@
 <!--monopod:start-->
 # jenkins
+
+<!--url:start-->
+<a href="https://github.com/jenkinsci/jenkins">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/jenkins/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/jenkins` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jenkins/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal [Jenkins](https://jenkins.io) container image. **Currently experimental.**
+<!--overview:end-->
 
-- [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jenkins)
-- [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jenkins/overview/#use-it)
-- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jenkins/provenance_info/)
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/jenkins:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Use It
@@ -53,3 +59,4 @@ cp -r /var/jenkins_home /backup-dir/
 exit
 ```
 <!--body:end-->
+

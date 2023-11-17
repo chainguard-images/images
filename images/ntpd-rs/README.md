@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # ntpd-rs
+
+<!--url:start-->
+<a href="https://tweedegolf.nl/en/pendulum">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/ntpd-rs/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/ntpd-rs` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/ntpd-rs/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Minimal image with ntpd-rs. **EXPERIMENTAL**
+<!--overview:start-->
+Minimal image with [ntpd-rs](https://github.com/pendulum-project/ntpd-rs). **EXPERIMENTAL**
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/ntpd-rs:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Using ntpd-rs
@@ -41,3 +51,4 @@ $ docker run --cap-add SYS_TIME cgr.dev/chainguard/ntpd-rs -p pool.ntp.org
 2023-04-02T18:50:31.094923Z  INFO ntp_proto::algorithm::standard: filter and combine did not produce a result
 ```
 <!--body:end-->
+

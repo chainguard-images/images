@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # external-dns
+
+<!--url:start-->
+<a href="https://github.com/kubernetes-sigs/external-dns">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/external-dns/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/external-dns` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/external-dns/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Minimal image with Kubernetes External DNS. **EXPERIMENTAL**
+<!--overview:start-->
+Minimal image to configure external DNS servers (AWS Route53, Google CloudDNS and others) for Kubernetes Ingresses and Services
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/external-dns:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Using External DNS
@@ -49,3 +59,4 @@ Flags:
                                  auto-detect)
 ```
 <!--body:end-->
+

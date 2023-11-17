@@ -1,29 +1,39 @@
 <!--monopod:start-->
 # flux
+
+<!--url:start-->
+<a href="https://github.com/fluxcd/flux2">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/flux/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/flux` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/flux/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-## Get It
+<!--overview:start-->
+`flux` cli to interact with the [Flux](https://fluxcd.io/) gitops toolkit components in a running cluster.
+<!--overview:end-->
 
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/flux
+docker pull cgr.dev/chainguard/flux:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Using `flux`
-
-The `flux` cli contains various functionality to interact with the flux gitops toolkit components in a running cluster.
 
 > NOTE: Many `flux` commands assume a properly connected `kubectl` context, which isn't usually the case when running through docker.
 
@@ -32,3 +42,4 @@ The `flux` cli contains various functionality to interact with the flux gitops t
 docker run cgr.dev/chainguard/flux export --registry cgr.dev/chainguard | kubectl apply -f -
 ```
 <!--body:end-->
+

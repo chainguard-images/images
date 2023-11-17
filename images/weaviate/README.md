@@ -1,28 +1,36 @@
 <!--monopod:start-->
 # weaviate
+
+<!--url:start-->
+<a href="https://weaviate.io">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/weaviate/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/weaviate` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/weaviate/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Minimal container image for running the weaviate database.
+<!--overview:start-->
+Minimal container image for running the weaviate vector database.
+<!--overview:end-->
 
-The image specifies a default non-root `weaviate` user (UID 65532).
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/weaviate:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Usage
@@ -89,3 +97,4 @@ Help Options:
   -h, --help               Show this help message
 ```
 <!--body:end-->
+

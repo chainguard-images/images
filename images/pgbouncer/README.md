@@ -1,27 +1,36 @@
 <!--monopod:start-->
 # pgbouncer
+
+<!--url:start-->
+<a href="https://www.pgbouncer.org/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/pgbouncer/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/pgbouncer` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/pgbouncer/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-This image contains the CLI for the [pgbouncer](https://www.pgbouncer.org/) connection pooler for PostgreSQL.
-This image contains the `pgbouncer` binary and can be used directly.
+<!--overview:start-->
+This image contains the CLI for the [pgbouncer](https://www.pgbouncer.org/) connection pooler for PostgreSQL. This image contains the `pgbouncer` binary and can be used directly.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/pgbouncer:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Use It!
@@ -52,3 +61,4 @@ Note that `pgbouncer` typically needs a configuration file to run.
 One is not provided here in the image by default.
 You can find documentation on how to configure one in the [upstream documentation](https://www.pgbouncer.org/config.html#authentication-settings)..
 <!--body:end-->
+

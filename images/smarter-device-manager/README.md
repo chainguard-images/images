@@ -1,33 +1,44 @@
 <!--monopod:start-->
 # smarter-device-manager
+
+<!--url:start-->
+<a href="https://gitlab.com/arm-research/smarter/smarter-device-manager">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/smarter-device-manager/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/smarter-device-manager` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/smarter-device-manager/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
+
+<!--overview:start-->
+Minimalist Wolfi-based image for smarter device manager.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/smarter-device-manager:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 
 Smarter-device-manager is a Kubernetes tool designed for IoT applications,
 enabling containers to securely access host devices like sensors, actuators,
 and various hardware interfaces.
 
-This repository produces a Minimalist Wolfi-based image for smarter device manager.
 
-## Get It!
-
-The image is available on `cgr.dev`:
-
-bash
-```
-docker pull cgr.dev/chainguard/smarter-device-manager:latest
-```
-
-<!--body:start-->
 ## Usage
 
 ### Manifests
@@ -51,3 +62,4 @@ helm install smart-device-manager gabe565/smarter-device-manager \
  --set image.repository=ttl.sh/mark/smarter-device-manager --set image.tag=latest
 ```
 <!--body:end-->
+

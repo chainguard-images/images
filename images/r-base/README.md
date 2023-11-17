@@ -1,27 +1,36 @@
 <!--monopod:start-->
 # r-base
+
+<!--url:start-->
+<a href="https://www.r-project.org/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/r-base/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/r-base` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/r-base/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-This image contains the R programming language and environment.
-It can be used for statistical analysis, machine learning and data visualization.
+<!--overview:start-->
+This image contains the R programming language and environment.It can be used for statistical analysis, machine learning and data visualization.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/r-base:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Use It!
@@ -77,3 +86,4 @@ See also  ?Rscript  from within R.
 Note that the standard version of this image requires a shell because R is typically
 invoked through built-in shell wrappers.
 <!--body:end-->
+

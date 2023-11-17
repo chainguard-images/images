@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # nodetaint
+
+<!--url:start-->
+<a href="https://github.com/wish/nodetaint">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/nodetaint/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/nodetaint` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/nodetaint/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal [nodetaint](https://github.com/wish/nodetaint) container image.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/nodetaint
+docker pull cgr.dev/chainguard/nodetaint:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Usage
@@ -38,3 +48,4 @@ helm install nodetaint ./chart \
   --set image.tag=${IMAGE_TAG}
 ```
 <!--body:end-->
+

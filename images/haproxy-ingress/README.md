@@ -1,16 +1,36 @@
 <!--monopod:start-->
 # haproxy-ingress
+
+<!--url:start-->
+<a href="https://haproxy-ingress.github.io/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/haproxy-ingress/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/haproxy-ingress` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/haproxy-ingress/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
+
+<!--overview:start-->
+Kubernetes ingress controller implementation for HAProxy
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/haproxy-ingress:latest
+```
+<!--getting:end-->
 
 <!--body:start-->
 # Usage
@@ -29,3 +49,4 @@ helm install ingress haproxy-ingress/haproxy-ingress \
 kubectl wait --for=condition=ready pod --selector "app.kubernetes.io/name=haproxy-ingress" --timeout=120s
 ```
 <!--body:end-->
+

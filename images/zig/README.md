@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # zig
+
+<!--url:start-->
+<a href="https://ziglang.org/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/zig/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/zig` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/zig/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with zig binary.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/zig:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 This image should be used to build and test zig applications.
@@ -188,3 +198,4 @@ All your codebase are belong to us.
 Run `zig build test` to run the tests.
 ```
 <!--body:end-->
+

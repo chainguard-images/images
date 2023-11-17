@@ -1,9 +1,13 @@
 <!--monopod:start-->
 # {{ .Readme.Name }}
 
+<!--url:start-->
+<a href="{{ .Readme.URL }}">
 <!--logo:start-->
-<img src="https://storage.googleapis.com/chainguard-academy/logos/{{ .Readme.Name }}/logo.svg" width="36px" height="36px" />
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/{{ .Readme.Name }}/logo.svg" width="36px" height="36px" />
 <!--logo:end-->
+</a>
+<!--url:end-->
 
 | | |
 | - | - |
@@ -16,7 +20,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-{{ .Readme.AcademyOverview }}
+{{ .Readme.ShortDesc }}
 <!--overview:end-->
 
 <!--getting:start-->
@@ -27,7 +31,13 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/{{ .Readme.Name }}:latest
 ```
 <!--getting:end-->
+{{ if .Readme.CompatNotes }}
+<!--compatibility:start-->
+## Compatibility Notes
 
+{{- .Readme.CompatNotes -}}
+<!--compatibility:end-->
+{{ end }}
 <!--body:start-->
 {{- .Readme.Body -}}
 <!--body:end-->

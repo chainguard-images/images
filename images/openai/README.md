@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # openai
+
+<!--url:start-->
+<a href="https://github.com/openai/openai-python">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/openai/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/openai` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/openai/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with the OpenAI CLI.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/openai:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 This image requires the `OPENAI_API_KEY` environment variable to be set to work correctly.
@@ -40,3 +50,4 @@ options:
   -h, --help            show this help message and exit
 ```
 <!--body:end-->
+

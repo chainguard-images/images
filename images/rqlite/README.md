@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # rqlite
+
+<!--url:start-->
+<a href="https://rqlite.io/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/rqlite/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/rqlite` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/rqlite/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with rqlite. **EXPERIMENTAL**
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/rqlite:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Using Vault
@@ -51,3 +61,4 @@ To run the `rqlite` program:
 [cluster] 2023/03/26 21:53:22 service listening on d3d5c2306506:4002
 ```
 <!--body:end-->
+

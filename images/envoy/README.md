@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # envoy
+
+<!--url:start-->
+<a href="https://github.com/envoyproxy/envoy">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/envoy/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/envoy` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/envoy/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-[Envoy](https://github.com/envoyproxy/envoy) Cloud-native high-performance edge/middle/service proxy
+<!--overview:start-->
+[Envoy](https://www.envoyproxy.io/) Cloud-native high-performance edge/middle/service proxy
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/envoy
+docker pull cgr.dev/chainguard/envoy:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Using Envoy
@@ -37,3 +47,4 @@ Or to use a customised envoy configuratiom see https://www.envoyproxy.io/docs/en
 docker run --platform=linux/amd64 -p10000:10000 -p 9901:9901 --rm -v $PWD/config:/etc/envoy cgr.dev/chainguard/envoy envoy --config-path /etc/envoy/envoy.yaml
 ```
 <!--body:end-->
+

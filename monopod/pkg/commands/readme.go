@@ -6,6 +6,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"runtime"
 	"sort"
 	"strings"
 	"text/template"
@@ -18,27 +19,40 @@ import (
 )
 
 type completeReadme struct {
-	ReadmeFile      string `tfsdk:"readme_file" hcl:"readme_file"`
-	AcademyOverview string `tfsdk:"academy_overview" hcl:"academy_overview"`
-	ConsoleSummary  string `tfsdk:"console_summary" hcl:"console_summary"`
-	Image           string `tfsdk:"image" hcl:"image"`
-	Name            string `tfsdk:"name" hcl:"name"`
-	Logo            string `tfsdk:"logo" hcl:"logo"`
-	EndOfLife       string `tfsdk:"endoflife" hcl:"endoflife"`
-	Body            string `tfsdk:"body"` // anything read from ReadmeFile between <!--body:*--> markers
+	ReadmeFile     string `tfsdk:"readme_file" hcl:"readme_file"`
+	ShortDesc      string `tfsdk:"short_description" hcl:"short_description"`
+	ConsoleSummary string `tfsdk:"console_summary" hcl:"console_summary"`
+	Image          string `tfsdk:"image" hcl:"image"`
+	Name           string `tfsdk:"name" hcl:"name"`
+	Logo           string `tfsdk:"logo" hcl:"logo"`
+	EndOfLife      string `tfsdk:"endoflife" hcl:"endoflife"`
+	CompatNotes    string `tfsdk:"compatibility_notes" hcl:"compatibility_notes"`
+	URL            string `tfsdk:"upstream_url" hcl:"upstream_url"`
+	Body           string `tfsdk:"body"` // anything read from ReadmeFile between <!--body:*--> markers
 }
 
 type templateData struct {
 	Readme *completeReadme
 }
 
-var (
+var templates *template.Template
+
+func init() {
+	// Get current filename and path
+	_, filename, _, ok := runtime.Caller(0)
+	if !ok {
+		panic("Failed to get current file path")
+	}
+
+	// Use templates directory relative to the current file
+	templatesDir := filepath.Join(filepath.Dir(filename), "templates/*.tpl")
+
 	templates = template.Must(
 		template.New("").
 			Funcs(template.FuncMap{}).
-			ParseGlob(filepath.Join(os.Getenv("PWD"), "monopod/pkg/commands/templates/*.tpl")),
+			ParseGlob(templatesDir),
 	)
-)
+}
 
 func Readme() *cobra.Command {
 	ro := &options.ReadmeOptions{}

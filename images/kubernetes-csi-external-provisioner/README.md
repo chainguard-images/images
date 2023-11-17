@@ -1,28 +1,39 @@
 <!--monopod:start-->
 # kubernetes-csi-external-provisioner
+
+<!--url:start-->
+<a href="https://github.com/kubernetes-csi/external-provisioner">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/kubernetes-csi-external-provisioner/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/kubernetes-csi-external-provisioner` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/kubernetes-csi-external-provisioner/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Minimal image that acts as a drop-in replacement for the `kubernetes-csi/external-provisioner` image.  See https://github.com/kubernetes-csi/external-provisioner.
+<!--overview:start-->
+Minimal image that acts as a drop-in replacement for the `kubernetes-csi/external-provisioner` image.
+<!--overview:end-->
 
-The image runs as `root` so that it can mount a `CSI_ENDPOINT` socket.
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/kubernetes-csi-external-provisioner:latest
 ```
+<!--getting:end-->
+
+<!--compatibility:start-->
+## Compatibility NotesThe image runs as `root` so that it can mount a `CSI_ENDPOINT` socket.<!--compatibility:end-->
 
 <!--body:start-->
 You can run it with the standard deployment with something like:
@@ -33,3 +44,4 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-provi
 kubectl set image deployment/csi-provisioner csi-provisioner="cgr.dev/chainguard/kubernetes-csi-external-provisioner:latest"
 ```
 <!--body:end-->
+

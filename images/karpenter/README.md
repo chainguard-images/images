@@ -1,26 +1,36 @@
 <!--monopod:start-->
 # karpenter
+
+<!--url:start-->
+<a href="https://karpenter.sh/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/karpenter/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/karpenter` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/karpenter/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with Karpenter. **EXPERIMENTAL**
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/karpenter:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Using Karpenter
@@ -52,3 +62,4 @@ Finally, edit the `helm upgrade` command to include the following lines:
 --set controller.image.digest=$DIGEST \
 ```
 <!--body:end-->
+

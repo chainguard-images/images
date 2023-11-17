@@ -1,30 +1,36 @@
 <!--monopod:start-->
 # maven
+
+<!--url:start-->
+<a href="https://maven.apache.org/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/maven/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/maven` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/maven/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with Maven build system.
+<!--overview:end-->
 
-- [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/maven)
-- [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/maven/overview/#use-maven)
-- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/maven/provenance_info/)
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/maven:latest
 ```
+<!--getting:end-->
 
 <!--body:start-->
 ## Using Maven
@@ -155,3 +161,4 @@ docker images | grep my-chainguard-springboot-app
 
 You can also check for vulnerabilities using your favorite scanner.
 <!--body:end-->
+
