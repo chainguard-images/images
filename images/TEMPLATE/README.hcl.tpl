@@ -1,7 +1,9 @@
-name      = "{{ .PackageName }}"
-image     = "cgr.dev/chainguard/{{ .PackageName }}"
-overview  = ""
-logo      = "https://storage.googleapis.com/chainguard-academy/logos/{{ .PackageName }}.svg"
-endoflife = ""
-body      = <<EOBODY
-EOBODY
+name                = "{{ .PackageName }}"
+image               = "cgr.dev/chainguard/{{ .PackageName }}"
+logo                = "https://storage.googleapis.com/chainguard-academy/logos/{{ .PackageName }}/logo.svg"
+endoflife           = ""
+console_summary     = ""
+short_description   = ""
+compatibility_notes = ""
+readme_file         = "README.md"
+upstream_url        = ""

@@ -15,22 +15,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var readmeSections = []string{"monopod", "logo", "overview", "getting", "body"}
-
-// should these be broken up?
-// need to test render, scanForBody and validate
-type readmeRenderer interface {
-	Do() error
-	decodeHcl() error
-	read() error
-	render() error
-	scanForBody() error
-	stat() bool
-	validate() error
-	write() error
-}
-
-// implements readmeRenderer
 type renderReadmeImpl struct {
 	Image      string
 	Readme     *completeReadme
@@ -87,7 +71,7 @@ func (r *renderReadmeImpl) Do() error {
 
 	switch r.stat() {
 	case false:
-		log.Printf("Missing %s, rendering a new copy", r.mdFile)
+		log.Printf("Empty %s. Add some details to the <!--body:start--><!--body:end--> section!", r.mdFile)
 	case true:
 		if err := r.read(); err != nil {
 			return err
@@ -147,15 +131,15 @@ func (r *renderReadmeImpl) write() error {
 func (r *renderReadmeImpl) validate() error {
 	switch {
 	case r.Readme.Name == "":
-		return fmt.Errorf("Missing name field")
+		return fmt.Errorf("missing name field in %s", r.hclFile)
 	case r.Readme.Image == "":
-		return fmt.Errorf("Missing image field")
+		return fmt.Errorf("missing image field in %s", r.hclFile)
 	case r.Readme.ShortDesc == "":
-		return fmt.Errorf("Missing short description field")
+		return fmt.Errorf("missing short description field in %s", r.hclFile)
 	case r.Readme.ReadmeFile == "":
-		return fmt.Errorf("Missing readme file location")
+		return fmt.Errorf("missing readme file location in %s", r.hclFile)
 	case r.Readme.ReadmeFile == "":
-		return fmt.Errorf("Missing upstream project URL")
+		return fmt.Errorf("missing upstream project URL in %s", r.hclFile)
 	}
 	return nil
 }
