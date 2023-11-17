@@ -770,6 +770,11 @@ module "node-problem-detector" {
   target_repository = "${var.target_repository}/node-problem-detector"
 }
 
+module "ntia-conformance-checker" {
+  source            = "./images/ntia-conformance-checker"
+  target_repository = "${var.target_repository}/ntia-conformance-checker"
+}
+
 module "ntpd-rs" {
   source            = "./images/ntpd-rs"
   target_repository = "${var.target_repository}/ntpd-rs"
