@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # thanos
+
+<!--url:start-->
+<a href="https://thanos.io/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/thanos/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/thanos` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/thanos/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Minimal Thanos Image
+<!--overview:start-->
+Minimal Thanos Image, a highly available Prometheus setup with long term storage
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/thanos:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 THe default entrypoint for this image is the `thanos` binary.
@@ -65,3 +76,4 @@ Commands:
     Query node exposing PromQL enabled Query API with data retrieved from
     multiple store nodes.
 ```
+<!--body:end-->

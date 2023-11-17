@@ -1,25 +1,38 @@
 <!--monopod:start-->
 # kubernetes-csi-livenessprobe
+
+<!--url:start-->
+<a href="https://github.com/kubernetes-csi/livenessprobe">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/kubernetes-csi-livenessprobe/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/kubernetes-csi-livenessprobe` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/kubernetes-csi-livenessprobe/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-## Get It
+<!--overview:start-->
+ A sidecar container that can be included in a CSI plugin pod to enable integration with Kubernetes Liveness Probe.
+<!--overview:end-->
 
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/kubernetes-csi-livenessprobe
+docker pull cgr.dev/chainguard/kubernetes-csi-livenessprobe:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Run it
 
 Generally speaking, the `kubernetes-csi-livenessprobe` is a low level Kubernetes component not meant to be managed directly. However, all the steps outlined in the [upstream repo](https://github.com/kubernetes-csi/livenessprobe) apply just as well to the Chainguard Image version.
@@ -71,3 +84,4 @@ fi
 
 exit 0
 ```
+<!--body:end-->

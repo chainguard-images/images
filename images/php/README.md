@@ -1,18 +1,38 @@
 <!--monopod:start-->
 # php
+
+<!--url:start-->
+<a href="https://www.php.net/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/php/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/php` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/php/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimalist Wolfi-based PHP images for building and running PHP applications. Includes both `dev` and `fpm` variants.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/php:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 
 - [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/php)
 - [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/php/getting-started-php/)
@@ -132,3 +152,4 @@ For instance, to check for `curl` settings, you can run:
 ```shell
 docker run --rm cgr.dev/chainguard/php:latest --info | grep curl
 ```
+<!--body:end-->

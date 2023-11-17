@@ -1,28 +1,38 @@
 <!--monopod:start-->
 # opentofu
+
+<!--url:start-->
+<a href="https://github.com/opentofufoundation/opentofu">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/opentofu/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/opentofu` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/opentofu/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 [opentofu](https://github.com/opentofufoundation/opentofu) lets you declaratively manage your cloud infrastructure.
+<!--overview:end-->
 
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/opentofu
+docker pull cgr.dev/chainguard/opentofu:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 The image sets `opentofu` as the entrypoint. To run it:
 
 ```
@@ -47,3 +57,4 @@ All other commands:
   graph         Generate a Graphviz graph of the steps in an operation
   ...
 ```
+<!--body:end-->

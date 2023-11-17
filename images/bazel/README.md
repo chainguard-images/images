@@ -1,26 +1,38 @@
 <!--monopod:start-->
 # bazel
+
+<!--url:start-->
+<a href="https://github.com/bazelbuild/bazel">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/bazel/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/bazel` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/bazel/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-[Bazel](https://github.com/bazelbuild/bazel) - A fast, scalable, multi-language and extensible build system.
+<!--overview:start-->
+[Bazel](https://bazel.build) - A fast, scalable, multi-language and extensible build system.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/bazel
+docker pull cgr.dev/chainguard/bazel:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
 
 ## Using Bazel
 
@@ -61,3 +73,4 @@ and see the message from the example application
 ```sh
 Hi
 ```
+<!--body:end-->

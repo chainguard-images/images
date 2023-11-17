@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # newrelic
+
+<!--url:start-->
+<a href="https://github.com/newrelic/infrastructure-bundle">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/newrelic/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/newrelic` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/newrelic/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal [newrelic-infrastructure-bundle](https://github.com/newrelic/infrastructure-bundle) container image.
+<!--overview:end-->
 
-## Get It
-
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/newrelic-infrastructure-bundle
+docker pull cgr.dev/chainguard/newrelic:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 These images are a drop-in replacement for the `newrelic` project. The images are tested against the upstream recommended [`nri-bundle`](https://github.com/newrelic/helm-charts/tree/master/charts/nri-bundle). chart.
@@ -84,3 +95,4 @@ newrelic-prometheus-agent:
       repository: chainguard/prometheus
       tag: latest
 ```
+<!--body:end-->

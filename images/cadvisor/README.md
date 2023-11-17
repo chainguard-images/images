@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # cadvisor
+
+<!--url:start-->
+<a href="https://github.com/google/cadvisor">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/cadvisor/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/cadvisor` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/cadvisor/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 [cAdvisor (Container Advisor)](https://github.com/google/cadvisor) provides container users an understanding of the resource usage and performance characteristics of their running containers.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/cadvisor
+docker pull cgr.dev/chainguard/cadvisor:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 See the [RUNNING.md](https://github.com/google/cadvisor/blob/master/docs/running.md) for the instructions. For the [Kubernetes deployment](https://github.com/google/cadvisor/tree/master/deploy/kubernetes), you can use the Kustomize:
@@ -40,3 +51,4 @@ namespace: cadvisor
 EOF
 kubectl apply -k .
 ```
+<!--body:end-->

@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # memcached-exporter
+
+<!--url:start-->
+<a href="https://github.com/prometheus/memcached_exporter">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/memcached-exporter/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/memcached-exporter` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/memcached-exporter/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 A memcached exporter for Prometheus.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/memcached-exporter
+docker pull cgr.dev/chainguard/memcached-exporter:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using Memcached
 
 By default the memcached-exporter serves on port 0.0.0.0:9150 at /metrics:
@@ -41,3 +52,4 @@ ts=2023-04-26T17:47:53.478Z caller=tls_config.go:235 level=info msg="TLS is disa
 ## Users and Directories
 
 By default this image runs as a non-root user named `nonroot` with a uid of 65532.
+<!--body:end-->

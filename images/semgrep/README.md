@@ -1,33 +1,38 @@
 <!--monopod:start-->
 # semgrep
+
+<!--url:start-->
+<a href="https://semgrep.dev/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/semgrep/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/semgrep` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/semgrep/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-This image contains the CLI for the [Semgrep](https://semgrep.dev) static analysis tool.
-Semgrep is a lightweight static analysis tool for many languages. Find bug variants with patterns that look like source code.
+<!--overview:start-->
+CLI for the [Semgrep](https://semgrep.dev) static analysis tool. Semgrep is a lightweight static analysis tool for many languages. It finds bug variants with patterns that look like source code.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
-```shell
-$ docker pull cgr.dev/chainguard/semgrep:latest
-Using default tag: latest
-latest: Pulling from chainguard/semgrep
-[...]
-Status: Downloaded newer image for cgr.dev/chainguard/semgrep:latest
-cgr.dev/chainguard/semgrep:latest
 ```
+docker pull cgr.dev/chainguard/semgrep:latest
+```
+<!--getting:end-->
 
+<!--body:start-->
 ## Use It!
 
 The image can be run directly and sets the semgrep binary as the entrypoint:
@@ -57,3 +62,4 @@ Commands:
   shouldafound         Report a false negative in this project.
 
 ```
+<!--body:end-->

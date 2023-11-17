@@ -1,29 +1,38 @@
 <!--monopod:start-->
 # helm-chartmuseum
+
+<!--url:start-->
+<a href="https://github.com/helm/chartmuseum">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/helm-chartmuseum/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/helm-chartmuseum` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/helm-chartmuseum/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Minimal image with
-[chartmuseum](https://github.com/helm/chartmuseum)
-binary. **EXPERIMENTAL**
+<!--overview:start-->
+Minimal image with [chartmuseum](https://github.com/helm/chartmuseum) binary. **EXPERIMENTAL**
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/chartmuseum:latest
+docker pull cgr.dev/chainguard/helm-chartmuseum:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 Create a helm chart, and package it into a `charts/` directory:
@@ -47,3 +56,4 @@ helm repo add chartmuseum http://localhost:8080
 helm search repo chartmuseum/
 helm upgrade --install chartmuseum-demo chartmuseum/hello
 ```
+<!--body:end-->

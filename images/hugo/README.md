@@ -1,17 +1,38 @@
 <!--monopod:start-->
 # hugo
+
+<!--url:start-->
+<a href="https://github.com/gohugoio/hugo/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/hugo/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/hugo` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/hugo/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
+Minimal [Hugo](https://gohugo.io/) image
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/hugo:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 This is a minimal [Hugo](https://gohugo.io/) image. The image only contains
 `hugo` and supporting libraries.  The hugo process starts in `/hugo` by default
 so this directory may be initialized with the Hugo site to serve.
@@ -62,5 +83,4 @@ hugo server --bind 0.0.0.0 --port 8080
 Now open your browser to [localhost:8080](http://localhost:8080)!
 
 If you're interested in enterprise support, SLAs, and access to older tags, [get in touch](https://www.chainguard.dev/chainguard-images).
-
-
+<!--body:end-->

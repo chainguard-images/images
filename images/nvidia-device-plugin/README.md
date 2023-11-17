@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # nvidia-device-plugin
+
+<!--url:start-->
+<a href="https://github.com/NVIDIA/k8s-device-plugin">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/nvidia-device-plugin/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/nvidia-device-plugin` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/nvidia-device-plugin/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal [nvidia-device-plugin](https://github.com/NVIDIA/k8s-device-plugin) container image.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/nvidia-device-plugin
+docker pull cgr.dev/chainguard/nvidia-device-plugin:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 Ensure your environment satisfies the [prerequisites](https://github.com/NVIDIA/k8s-device-plugin#prerequisites).
@@ -82,7 +93,7 @@ For this you should use the `latest-dev` variant.
 helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
 helm repo update
 
-helm install --wait gpu  -n gpu-operator --create-namespace nvidia/gpu-operator 
+helm install --wait gpu  -n gpu-operator --create-namespace nvidia/gpu-operator
 ```
 Values:
 ```yaml
@@ -93,3 +104,4 @@ devicePlugin:
   image: nvidia-device-plugin
   tag: latest-dev
 ```
+<!--body:end-->

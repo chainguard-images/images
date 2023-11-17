@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # cluster-proportional-autoscaler
+
+<!--url:start-->
+<a href="https://github.com/kubernetes-sigs/cluster-proportional-autoscaler">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/cluster-proportional-autoscaler/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/cluster-proportional-autoscaler` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/cluster-proportional-autoscaler/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal Kubernetes Cluster Proportional Autoscaler Container
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/cluster-proportional-autoscaler:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 This image is a drop-in replacement for the upstream image.
@@ -36,3 +47,4 @@ $ helm install my-release cluster-proportional-autoscaler/cluster-proportional-a
 ```
 
 See the [configuration](https://github.com/kubernetes-sigs/cluster-proportional-autoscaler/tree/master/charts/cluster-proportional-autoscaler) docs for more examples.
+<!--body:end-->

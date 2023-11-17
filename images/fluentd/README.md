@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # fluentd
+
+<!--url:start-->
+<a href="https://github.com/fluent/fluentd">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/fluentd/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/fluentd` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/fluentd/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Fluentd: Unified Logging Layer (project under CNCF)
+<!--overview:start-->
+[Fluentd](https://www.fluentd.org/): Unified Logging Layer (project under CNCF)
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/fluentd
+docker pull cgr.dev/chainguard/fluentd:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using fluentd
 
 Run a Fluentd instance that will receive messages over TCP port 24224 through the Forward protocol, and send the messages to the STDOUT interface in JSON format
@@ -64,3 +75,4 @@ The `-dev` variant contains a shell and tools like `apk` to allow users to easil
 ```sh
 docker run --rm --entrypoint 'sh' cgr.dev/chainguard/fluentd
 ```
+<!--body:end-->

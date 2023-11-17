@@ -1,21 +1,36 @@
 <!--monopod:start-->
 # aspnet-runtime
+
+<!--url:start-->
+<a href="https://github.com/dotnet/core">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/aspnet-runtime/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/aspnet-runtime` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/aspnet-runtime/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Container image with the latest ASP.NET runtime.
+<!--overview:end-->
 
-## Get it!
-
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
-    docker pull cgr.dev/chainguard/aspnet-runtime:latest
+```
+docker pull cgr.dev/chainguard/aspnet-runtime:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

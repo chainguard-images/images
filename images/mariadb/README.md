@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # mariadb
+
+<!--url:start-->
+<a href="https://mariadb.org">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/mariadb/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/mariadb` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/mariadb/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 [MariaDB](https://mariadb.org) is one of the most popular open source relational databases.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/mariadb
+docker pull cgr.dev/chainguard/mariadb:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using MariaDb
 
 The default MariaDB port is 3306.
@@ -70,7 +81,7 @@ By default, this image runs as a non-root user named `mysql` with a uid of 65532
 You can use environment variables to create a new database and user upon initialization, and also to set up the root account password.
 
 - `MARIADB_ROOT_PASSWORD`: Sets the password for MariaDB's root superuser account. If this variable is not set, you'll need to use either `MARIADB_RANDOM_ROOT_PASSWORD` or `MARIADB_ALLOW_EMPTY_ROOT_PASSWORD` in order to initialize the database successfully.
-- `MARIADB_RANDOM_ROOT_PASSWORD`: A non-zero value sets up a random password for the root superuser account. 
+- `MARIADB_RANDOM_ROOT_PASSWORD`: A non-zero value sets up a random password for the root superuser account.
 - `MARIADB_ALLOW_EMPTY_ROOT_PASSWORD`: A non-zero value allows for an empty root password.
 - `MARIADB_DATABASE`: Creates a new database upon initialization.
 - `MARIADB_USER`: Together with `MARIADB_PASSOWORD`, this environment variable can be used to create a new database user and grant them full access to the database defined by `MARIADB_DATABASE`.
@@ -102,3 +113,4 @@ networks:
   wolfi:
     driver: bridge
 ```
+<!--body:end-->

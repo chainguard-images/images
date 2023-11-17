@@ -1,18 +1,39 @@
 <!--monopod:start-->
 # sigstore-scaffolding
+
+<!--url:start-->
+<a href="https://sigstore.dev">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/sigstore-scaffolding/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/sigstore-scaffolding` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/sigstore-scaffolding/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-## Minimal Wolfi-based [Sigstore](https://sigstore.dev) images.
+<!--overview:start-->
+Minimal Wolfi-based [Sigstore](https://sigstore.dev) images.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/sigstore-scaffolding:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+
 
 The images in this directory are just the "glue" for bootstrapping the stack,
 but Chainguard offers minimal images for each of the elements needed by the
@@ -35,3 +56,4 @@ The stack also pulls in several support images:
 
 To see an example of how we substitute images into the `scaffold` Helm chart's
 `values.yaml` see our [`values.tf`](./tests/values.tf) example.
+<!--body:end-->

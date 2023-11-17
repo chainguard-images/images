@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # etcd
+
+<!--url:start-->
+<a href="https://github.com/etcd-io/etcd">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/etcd/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/etcd` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/etcd/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-[etcd](https://github.com/etcd-io/etcd) Distributed reliable key-value store for the most critical data of a distributed system
+<!--overview:start-->
+[etcd](https://etcd.io/) Distributed reliable key-value store for the most critical data of a distributed system
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/etcd
+docker pull cgr.dev/chainguard/etcd:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using etcd
 
 The default listening ports in etcd are 2379 and 2380.
@@ -61,3 +72,4 @@ The default data directory for this image is `/var/lib/etcd`, and that directory
 
 If you change the user, UID, or data directory, you'll need to ensure the user running the etcd process has permissions to that
 directory.
+<!--body:end-->

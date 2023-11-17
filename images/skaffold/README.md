@@ -1,28 +1,41 @@
 <!--monopod:start-->
 # skaffold
+
+<!--url:start-->
+<a href="https://skaffold.dev/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/skaffold/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/skaffold` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/skaffold/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal container image for running skaffold apps
+<!--overview:end-->
 
-The image specifies a default non-root `skaffold` user (UID 65532), and a working directory at `/app`, owned by that `skaffold` user, and accessible to all users.
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/skaffold:latest
 ```
+<!--getting:end-->
+
+<!--compatibility:start-->
+## Compatibility NotesThe image specifies a default non-root `skaffold` user (UID 65532), and a working directory at `/app`, owned by that `skaffold` user, and accessible to all users.<!--compatibility:end-->
+
+<!--body:start-->
 
 This image includes `skaffold`, `helm`, `kubectl`, `kpt`, `kustomize`, and the `google-cloud-sdk.`
 
@@ -70,3 +83,4 @@ Usage:
 Use "skaffold <command> --help" for more information about a given command.
 Use "skaffold options" for a list of global command-line options (applies to all commands).
 ```
+<!--body:end-->

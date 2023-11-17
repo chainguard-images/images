@@ -1,30 +1,38 @@
 <!--monopod:start-->
 # jre
+
+<!--url:start-->
+<a href="https://github.com/openjdk/jdk">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/jre/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/jre` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jre/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Minimalist Wolfi-based Java JRE image using OpenJDK.  Used for running Java applications.
+<!--overview:start-->
+Minimalist Wolfi-based Java JRE image using [OpenJDK](https://openjdk.org/projects/jdk/). Used for running Java applications.
+<!--overview:end-->
 
-- [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jre)
-- [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jre/overview/#use-it)
-- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jre/provenance_info/)
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/jre:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
 ## Use it
 
 Create a simple Java class
@@ -67,3 +75,4 @@ Run the image
 ```sh
 docker run my-simple-java-app
 ```
+<!--body:end-->

@@ -1,28 +1,38 @@
 <!--monopod:start-->
 # argocd
+
+<!--url:start-->
+<a href="https://argoproj.github.io/cd/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/argocd/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/argocd` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/argocd/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 [argocd](https://argo-cd.readthedocs.io/en/stable/) Declarative continuous deployment for Kubernetes.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
-The images available on `cgr.dev`:
+The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/argocd
-docker pull cgr.dev/chainguard/argocd-repo-server
+docker pull cgr.dev/chainguard/argocd:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using argocd
 
 ArgoCD provides two upstream methods for installing, helm, and raw manifests.
@@ -72,3 +82,4 @@ dex:
 ArgoCD is comprised of multiple [components](https://argo-cd.readthedocs.io/en/stable/operator-manual/architecture/#components) that all share the same image.
 
 Keeping in line with the philosophy of minimal components in Chainguard images, we chose to split this up to keep the number of packages in the components to a minimum. This means the overall number of images increases, but the size and complexity of each image is reduced to (almost) the bare minimum needed to function.
+<!--body:end-->

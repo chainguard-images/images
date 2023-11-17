@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # spark-operator
+
+<!--url:start-->
+<a href="https://github.com/GoogleCloudPlatform/spark-on-k8s-operator">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/spark-operator/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/spark-operator` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/spark-operator/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimalist Wolfi-based Spark Operator image for managing the lifecycle of Apache Spark applications on Kubernetes.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/spark-operator:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 The easiest way to install the Kubernetes Operator for Apache Spark is to use the Helm chart.
@@ -33,3 +44,4 @@ $ helm install my-release spark-operator/spark-operator --namespace spark-operat
 ```
 
 For more detail, please refer to the [Spark Operator installation documentation](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator?tab=readme-ov-file#installation).
+<!--body:end-->

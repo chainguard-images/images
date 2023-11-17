@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # minio
+
+<!--url:start-->
+<a href="https://github.com/minio/minio">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/minio/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/minio` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/minio/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with Minio. **EXPERIMENTAL**
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/minio:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using Minio
 
 The Chainguard Minio image contains the `minio` server binary.
@@ -70,3 +81,4 @@ Console: http://172.17.0.5:46387 http://127.0.0.1:46387
 Documentation: https://min.io/docs/minio/linux/index.html
 Warning: The standard parity is set to 0. This can lead to data loss.
 ```
+<!--body:end-->

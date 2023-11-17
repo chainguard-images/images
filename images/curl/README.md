@@ -1,29 +1,38 @@
 <!--monopod:start-->
 # curl
+
+<!--url:start-->
+<a href="https://github.com/curl/curl">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/curl/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/curl` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/curl/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-This is a minimal curl image base.
+<!--overview:start-->
+Minimal [curl](https://curl.se/) image base containing curl and ca-certificates.
+<!--overview:end-->
 
-It contains curl and ca-certificates.
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/curl:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 The curl image allows you to run ordinary curl commands in CI/CD pipelines and also locally via Docker.
@@ -50,3 +59,4 @@ Release-Date: 2022-12-21
 Protocols: dict file ftp ftps gopher gophers http https imap imaps mqtt pop3 pop3s rtsp smb smbs smtp smtps telnet tftp
 Features: alt-svc AsynchDNS brotli HSTS HTTP2 HTTPS-proxy IPv6 Largefile libz NTLM NTLM_WB SSL threadsafe TLS-SRP UnixSockets
 ```
+<!--body:end-->

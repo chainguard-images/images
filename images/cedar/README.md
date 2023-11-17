@@ -1,28 +1,38 @@
 <!--monopod:start-->
 # cedar
+
+<!--url:start-->
+<a href="https://github.com/cedar-policy/cedar">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/cedar/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/cedar` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/cedar/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-This image contains the CLI for the [Cedar Policy](https://www.cedarpolicy.com/en) Language.
-The binary can be used to run, test, format, or evaluate Cedar policies
+<!--overview:start-->
+This image contains the CLI for the [Cedar Policy](https://www.cedarpolicy.com/en) Language. The binary can be used to run, test, format, or evaluate Cedar policies.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/cedar:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Use It!
 
 The image can be run directly and sets the cedar image as the entrypoint:
@@ -46,3 +56,4 @@ Options:
   -h, --help     Print help
   -V, --version  Print version
 ```
+<!--body:end-->

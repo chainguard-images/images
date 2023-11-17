@@ -1,28 +1,38 @@
 <!--monopod:start-->
 # loki
+
+<!--url:start-->
+<a href="https://grafana.com/oss/loki/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/loki/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/loki` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/loki/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-This image contains the `loki` application for log aggregation.
-`loki` can be used to stream, aggregate, and query logs from apps and infrastructure.
+<!--overview:start-->
+This image contains the `loki` application for log aggregation. `loki` can be used to stream, aggregate, and query logs from apps and infrastructure.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/loki:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Use It!
 
 The image can be run directly and sets the loki binary as the entrypoint with a default configuration:
@@ -40,3 +50,4 @@ level=info ts=2023-09-02T00:50:53.030075792Z caller=table_manager.go:262 msg="qu
 
 This image is a drop-in replacement for official image at grafana/loki.
 See documentation [there](https://github.com/grafana/loki/blob/main/cmd/loki/Dockerfile#L9) for how to configure it.
+<!--body:end-->

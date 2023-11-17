@@ -1,34 +1,45 @@
 <!--monopod:start-->
 # git
+
+<!--url:start-->
+<a href="https://git-scm.com/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/git/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/git` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/git/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-This is a minimal Git image based. The image contains `git`, `git-lfs`, and supporting libraries such as `openssh` (for `ssh`-based auth), and `ca-certs` (for `https`-based cloning). Both Wolfi (glibc) and Alpine (musl) versions are available.
+<!--overview:start-->
+A minimal Git image.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/git:latest
 ```
+<!--getting:end-->
 
-Or for the glibc version:
+<!--body:start-->
+## Usage
+
+Note that this image also has a glibc version:
 
 ```
 docker pull cgr.dev/chainguard/git:latest-glibc
 ```
-
-## Usage
 
 The Git image allows you to run ordinary Git commands in CI/CD pipelines and also locally via Docker.
 
@@ -81,3 +92,4 @@ Resolving deltas: 100% (70/70), done.
 ```
 
 You can now check the contents of your `workspace` directory, where you should find the cloned repo.
+<!--body:end-->

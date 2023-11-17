@@ -1,17 +1,38 @@
 <!--monopod:start-->
 # crossplane-aws
+
+<!--url:start-->
+<a href="https://github.com/crossplane-contrib/provider-aws">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/crossplane-aws/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/crossplane-aws` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/crossplane-aws/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
+Crossplane lets you build a control plane with Kubernetes-style declarative and API-driven configuration and management for anything.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/crossplane-aws:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 These images provide Crossplane providers for AWS.
 
 | Upstream Image | Chainguard Image |
@@ -31,3 +52,4 @@ metadata:
 spec:
   package: cgr.dev/chainguard/crossplane-aws-s3:latest
 ```
+<!--body:end-->

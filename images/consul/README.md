@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # consul
+
+<!--url:start-->
+<a href="https://github.com/hashicorp/consul">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/consul/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/consul` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/consul/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Minimal image with Consul. **EXPERIMENTAL**
+<!--overview:start-->
+Minimal image with [Consul](https://www.consul.io/). **EXPERIMENTAL**
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/consul:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using Consul
 
 The Chainguard Consul image contains the `consul` binary and a `docker-entrypoint.sh` script.
@@ -49,3 +60,4 @@ $ docker run cgr.dev/chainguard/consul
 
 ==> Log data will now stream in as it occurs:
 ```
+<!--body:end-->

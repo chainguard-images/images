@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # dive
+
+<!--url:start-->
+<a href="https://github.com/wagoodman/dive">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/dive/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/dive` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/dive/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal [dive](https://github.com/wagoodman/dive) container image.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/dive:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 ```
@@ -52,3 +63,4 @@ Flags:
 
 Use "dive [command] --help" for more information about a command.
 ```
+<!--body:end-->

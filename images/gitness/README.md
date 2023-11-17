@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # gitness
+
+<!--url:start-->
+<a href="https://github.com/harness/gitness">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/gitness/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/gitness` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/gitness/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with the `gitness` [server application](https://github.com/harness/gitness).
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/gitness:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 To run `gitness`:
@@ -48,3 +59,4 @@ time="2023-09-30T16:31:40Z" level=debug msg="poller: request stage from remote s
 ```
 
 The server should then be available at `localhost:3000`.
+<!--body:end-->

@@ -1,33 +1,38 @@
 <!--monopod:start-->
 # haproxy
+
+<!--url:start-->
+<a href="https://www.haproxy.org/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/haproxy/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/haproxy` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/haproxy/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
+A minimal [haproxy](https://www.haproxy.org/) base image rebuilt every night from source.
+<!--overview:end-->
 
-
-
-
-
-
-A minimal haproxy base image rebuilt every night from source.
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/haproxy:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 Similar to the `docker-library/haproxy` image, this image does not come with any default configuration.
@@ -61,3 +66,4 @@ haproxy:
       add:
         - NET_BIND_SERVICE
 ```
+<!--body:end-->

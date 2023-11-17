@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # fluent-bit
+
+<!--url:start-->
+<a href="https://github.com/fluent/fluent-bit">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/fluent-bit/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/fluent-bit` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/fluent-bit/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Fluent Bit is a lightweight and high performance log processor. In this repository you will find the container images ready for production usage.
+<!--overview:start-->
+[Fluent Bit](https://fluentbit.io) is a lightweight and high performance log processor.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/fluent-bit
+docker pull cgr.dev/chainguard/fluent-bit:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using fluent-bit
 
 Run a Fluent Bit instance that will receive messages over TCP port 24224 through the Forward protocol, and send the messages to the STDOUT interface in JSON format every second:
@@ -73,3 +84,5 @@ helm upgrade --install fluent-bit \
     --set command="/usr/bin/fluent-bit" \
     fluent/fluent-bit
 ```
+<!--body:end-->
+

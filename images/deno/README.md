@@ -1,28 +1,40 @@
 <!--monopod:start-->
 # deno
+
+<!--url:start-->
+<a href="https://github.com/denoland/deno">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/deno/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/deno` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/deno/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Minimal container image for running deno apps
+<!--overview:start-->
+Minimal container image for running [Deno](https://deno.com/) apps
+<!--overview:end-->
 
-The image specifies a default non-root `deno` user (UID 65532), and a working directory at `/app`, owned by that `deno` user, and accessible to all users.
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/deno:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
+
+The image specifies a default non-root `deno` user (UID 65532), and a working directory at `/app`, owned by that `deno` user, and accessible to all users.
 
 ## Usage Example
 
@@ -59,3 +71,4 @@ Your user-agent is:
 
 curl/7.84.0%
 ```
+<!--body:end-->

@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # buck2
+
+<!--url:start-->
+<a href="https://github.com/facebook/buck2">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/buck2/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/buck2` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/buck2/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Minimal image with buck2 binary and toolchain.
+<!--overview:start-->
+Minimal image with [buck2](https://buck2.build) build system binaries and toolchain.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/buck2:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 The default entrypoint is set to the `buck` binary, and a default C/C++ toolchain is installed in the image.
@@ -113,3 +124,4 @@ SUBCOMMANDS:
     uquery
             Perform queries on the unconfigured target graph
 ```
+<!--body:end-->

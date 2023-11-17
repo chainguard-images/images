@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # vault
+
+<!--url:start-->
+<a href="https://www.hashicorp.com/products/vault">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/vault/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/vault` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/vault/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Vault Server Image.
+<!--overview:start-->
+Vault Server Image
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/vault:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using Vault
 
 The Chainguard Vault image contains the [Vault](https://www.vaultproject.io/) server binary and supporting config. The image is intended to be a drop-in
@@ -150,3 +161,4 @@ If using the file data storage plugin, please configure it to write to `/var/lib
 
 By default logs will be streamed to stdout and stderr, but can be configured to write to
 `/var/log/vault`.
+<!--body:end-->

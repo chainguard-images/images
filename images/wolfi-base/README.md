@@ -1,19 +1,39 @@
 <!--monopod:start-->
 # wolfi-base
+
+<!--url:start-->
+<a href="https://wolfi.dev">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/wolfi-base/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/wolfi-base` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/wolfi-base/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-This is the base image for the [Wolfi Linux Distribution](wolfi.dev). It includes a shell and package manager,
-allowing further packages to be installed such as in a Dockerfile. 
+<!--overview:start-->
+Base image for the [Wolfi Linux Distribution](https://wolfi.dev).
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/wolfi-base:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+This is the base image for the [Wolfi Linux Distribution](wolfi.dev). It includes a shell and package manager, allowing further packages to be installed such as in a Dockerfile.
 
 This image is a great place to start when exploring Wolfi.
 
@@ -108,3 +128,4 @@ $ docker run myredis
 ## Further Reading
 
 The [edu.chainguard.dev](https://edu.chainguard.dev) site contains extensive documentation on [getting started with Wolfi](https://edu.chainguard.dev/open-source/wolfi/overview/).
+<!--body:end-->
