@@ -110,8 +110,15 @@ data "oci_exec_test" "check-reproducibility" {
   timeout_seconds = 600
 }
 
+data "oci_exec_test" "check-sbom" {
+  digest = module.this.image_ref
+  script = "${path.module}/check-sbom.sh"
+}
+
 data "oci_structure_test" "structure" {
-  digest = data.oci_exec_test.check-reproducibility.tested_ref
+  depends_on = [data.oci_exec_test.check-reproducibility, data.oci_exec_test.check-sbom]
+
+  digest = module.this.image_ref
 
   conditions {
     env {
