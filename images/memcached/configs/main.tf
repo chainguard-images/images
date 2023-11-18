@@ -30,6 +30,6 @@ output "config" {
     entrypoint = {
       command = var.entrypoint
     }
-    environment = merge(var.environment, {})
+    environment = var.environment
   })
 }
