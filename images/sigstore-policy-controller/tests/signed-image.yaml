@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  generateName: signed-
+spec:
+  restartPolicy: Never
+  containers:
+  - name: sample
+    image: cgr.dev/chainguard/busybox:latest-glibc
+    command: [/bin/sh, -c, "exit 0"]
