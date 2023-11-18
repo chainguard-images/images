@@ -977,6 +977,11 @@ module "semgrep" {
   target_repository = "${var.target_repository}/semgrep"
 }
 
+module "sigstore-policy-controller" {
+  source            = "./images/sigstore-policy-controller"
+  target_repository = "${var.target_repository}/sigstore-policy-controller"
+}
+
 module "sigstore-scaffolding" {
   source            = "./images/sigstore-scaffolding"
   target_repository = "${var.target_repository}/sigstore-scaffolding"
