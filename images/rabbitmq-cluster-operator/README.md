@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # rabbitmq-cluster-operator
+
+<!--url:start-->
+<a href="https://github.com/rabbitmq/cluster-operator">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/rabbitmq-cluster-operator/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/rabbitmq-cluster-operator` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/rabbitmq-cluster-operator/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Minimal Project RabbitMQ Cluster Kubernetes Operator
+<!--overview:start-->
+RabbitMQ Cluster Kubernetes Operator
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/rabbitmq-cluster-operator:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 This image is a drop-in replacement for the upstream image.
@@ -49,3 +60,4 @@ EOF
 
 kubectl apply -f .
 ```
+<!--body:end-->

@@ -1,23 +1,39 @@
 <!--monopod:start-->
 # argo
+
+<!--url:start-->
+<a href="https://argoproj.github.io/argo-workflows/">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/argo/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/argo` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/argo/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-[argo](https://argoproj.github.io/argo-workflows/) Workflow Engine for Kubernetes
+<!--overview:start-->
+Images for working with [Argo workflows](https://argoproj.github.io/argo-workflows/)
+<!--overview:end-->
 
-
+<!--getting:start-->
 ## Get It!
+The image is available on `cgr.dev`:
 
-The images available on `cgr.dev`:
+```
+docker pull cgr.dev/chainguard/argo:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+## Versions
 
 ```
 docker pull cgr.dev/chainguard/argo-exec
@@ -76,6 +92,4 @@ helm install argo-workflows argo/argo-workflows \
 
 
 > NOTE: Setting the tag to "latest" is not recommended, and only shown for illustrative purposes.
-
-
- 
+<!--body:end-->

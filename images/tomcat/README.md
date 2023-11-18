@@ -1,26 +1,38 @@
 <!--monopod:start-->
 # tomcat
+
+<!--url:start-->
+<a href="https://github.com/apache/tomcat">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/tomcat/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/tomcat` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/tomcat/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
+[Tomcat](https://tomcat.apache.org/) is a free and open-source implementation of the Jakarta Servlet, Jakarta Expression Language, and WebSocket technologies.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/tomcat:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 To run the `tomcat` program:
@@ -58,3 +70,4 @@ To run the `tomcat` program:
 02-Oct-2023 19:08:45.496 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/10.1.13]
 02-Oct-2023 19:08:45.501 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
 02-Oct-2023 19:08:45.508 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [35] milliseconds
+<!--body:end-->

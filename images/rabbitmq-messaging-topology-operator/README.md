@@ -1,27 +1,38 @@
 <!--monopod:start-->
 # rabbitmq-messaging-topology-operator
+
+<!--url:start-->
+<a href="https://github.com/rabbitmq/messaging-topology-operator">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/rabbitmq-messaging-topology-operator/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/rabbitmq-messaging-topology-operator` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/rabbitmq-messaging-topology-operator/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Minimal Project RabbitMQ Messaging Topology Kubernetes Operator
+<!--overview:start-->
+RabbitMQ messaging topology operator
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/rabbitmq-messaging-topology-operator:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 This image is a drop-in replacement for the upstream image.
@@ -49,3 +60,4 @@ EOF
 
 kubectl apply -f .
 ```
+<!--body:end-->

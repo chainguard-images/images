@@ -1,19 +1,38 @@
 <!--monopod:start-->
 # grype
+
+<!--url:start-->
+<a href="https://github.com/anchore/grype">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/grype/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/grype` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/grype/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Minimalist Wolfi-based grype images for signing and verifying images using Sigstore.
+<!--overview:start-->
+A vulnerability scanner for container images and filesystems
+<!--overview:end-->
 
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/grype:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 - [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/grype)
 - [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/grype/provenance_info/)
 <!-- TODO: add Getting Started Guide - [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/grype/getting-started-grype/) -->
@@ -55,3 +74,4 @@ You can also pipe in Syft JSON directly:
 Usage:
   grype [command]
 ```
+<!--body:end-->

@@ -1,30 +1,41 @@
 <!--monopod:start-->
 # nfs-subdir-external-provisioner
+
+<!--url:start-->
+<a href="https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/nfs-subdir-external-provisioner/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/nfs-subdir-external-provisioner` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/nfs-subdir-external-provisioner/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Minimal images for nfs-subdir-external-provisioner.
+<!--overview:start-->
+Dynamic sub-dir volume provisioner on a remote NFS server.
+<!--overview:end-->
 
-## Get It
-
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/nfs-subdir-external-provisioner:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Testing
 
-The NFS subdir external provisioner is an automatic provisioner for Kubernetes that uses your already configured NFS server, automatically creating Persistent Volumes. 
+The NFS subdir external provisioner is an automatic provisioner for Kubernetes that uses your already configured NFS server, automatically creating Persistent Volumes.
 
 To get more information about the nfs-subdir-external-provisioner, visit the [GitHub repository](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner).
 
@@ -39,3 +50,4 @@ $ helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/n
     --set nfs.server=x.x.x.x \
     --set nfs.path=/exported/path
 ```
+<!--body:end-->

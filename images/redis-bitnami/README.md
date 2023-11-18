@@ -1,18 +1,39 @@
 <!--monopod:start-->
 # redis-bitnami
+
+<!--url:start-->
+<a href="https://github.com/redis/redis">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/redis-bitnami/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/redis-bitnami` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/redis-bitnami/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
-Minimalist Wolfi-based [Redis-Bitnami]() image. This is intended to be a drop in replacement for deployments that require Bitnami compatibility. The most common case is the Bitnami Helm chart, which can be deployed as follows:
+<!--overview:start-->
+Minimalist Wolfi-based [Redis-Bitnami](https://github.com/redis/redis) image.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/redis-bitnami:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+This image is intended to be a drop in replacement for deployments that require Bitnami compatibility. The most common case is the Bitnami Helm chart, which can be deployed as follows:
 
 ```bash
 cat <<EOF > values.yaml
@@ -29,3 +50,4 @@ sentinel:
     tag: latest
 EOF
 ```
+<!--body:end-->

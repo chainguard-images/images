@@ -1,17 +1,38 @@
 <!--monopod:start-->
 # cilium
+
+<!--url:start-->
+<a href="https://github.com/cilium/cilium">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/cilium/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
+
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/cilium` |
 
-
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/cilium/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
+[Cilium](https://cilium.io/) is an open source, cloud native solution for providing, securing, and observing network connectivity between workloads using eBPF
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/cilium:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 # Cilium images:
 
 Cilium is open source software for transparently securing the network connectivity between application services deployed using Linux container management platforms like Docker and Kubernetes. At the foundation of Cilium is a new Linux kernel technology called eBPF, which enables the dynamic insertion of powerful security visibility and control logic within Linux itself. Because eBPF runs inside the Linux kernel, Cilium security policies can be applied and updated without any changes to the application code or container configuration.
@@ -20,7 +41,7 @@ Hubble is a fully distributed networking and security observability platform bui
 
 Several cilium images here:
 
-## cilium-agent 
+## cilium-agent
 
 Cilium agents, the core data-plane component of Cilium, resides on every node within the cluster and implements the Kubernetes Container Networking Interface (CNI). It gathers configuration instructions through APIs or Kubernetes, defining the essential parameters for networking, network policies, load balancing, visibility, and monitoring.
 
@@ -43,3 +64,4 @@ The Hubble UI Backend component processes the data provided by the lower-level H
 ## cilium-hubble-ui
 
 The Hubble UI, a ReactJS app served by nginx, visually depicts the network connectivity, policies, and dependencies of the cluster in a user-friendly manner.
+<!--body:end-->
