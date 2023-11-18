@@ -11,6 +11,16 @@ variable "extra_packages" {
   default     = [""]
 }
 
+variable "entrypoint" {
+  description = "The entrypoint to use."
+  default     = "/usr/bin/memcached"
+}
+
+variable "environment" {
+  description = "Environment variables to add to the image"
+  default     = {}
+}
+
 output "config" {
   value = jsonencode({
     contents = {
@@ -18,7 +28,8 @@ output "config" {
     }
     accounts = module.accts.block
     entrypoint = {
-      command = "/usr/bin/memcached"
+      command = var.entrypoint
     }
+    environment = var.environment
   })
 }
