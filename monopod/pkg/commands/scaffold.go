@@ -72,47 +72,57 @@ func (o scaffoldOptions) runScaffold(ctx context.Context) error {
 		return err
 	}
 
+	if err := o.mkImageDir(); err != nil {
+		return err
+	}
+
+	if err := filepath.Walk("images/TEMPLATE", o.walk); err != nil {
+		return err
+	}
+
+	return o.addModuleToMainTf()
+}
+
+func (o *scaffoldOptions) walk(path string, info os.FileInfo, err error) error {
+	if err != nil {
+		return err
+	}
+
+	if info.IsDir() {
+		return nil
+	}
+	repl := strings.Replace(path, "TEMPLATE", o.ModuleName, 1) // Replacing TEMPLATE with the module name
+	if err := os.MkdirAll(filepath.Dir(repl), os.ModePerm); err != nil {
+		return err
+	}
+
+	if strings.HasSuffix(repl, ".tpl") {
+		f, err := os.Create(strings.TrimSuffix(repl, ".tpl"))
+		if err != nil {
+			panic(err.Error())
+		}
+		defer f.Close()
+		log.Println("writing file", f.Name())
+		return template.Must(template.ParseFiles(path)).Execute(f, o)
+	}
+
+	// Just copy the file without templating.
+	b, err := os.ReadFile(path)
+	if err != nil {
+		return err
+	}
+	log.Println("writing file", repl)
+	return os.WriteFile(repl, b, 0644)
+}
+
+// mkImageDir creates the target images/o.moduleName directory
+func (o *scaffoldOptions) mkImageDir() error {
 	modroot := filepath.Join(o.OutputPath, "images", o.ModuleName)
 
 	if err := os.MkdirAll(modroot, os.ModePerm); err != nil {
 		return fmt.Errorf("unable to generate target folder images/%s: %w", o.ModuleName, err)
 	}
-
-	if err := filepath.Walk("images/TEMPLATE", func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-
-		if info.IsDir() {
-			return nil
-		}
-		repl := strings.Replace(path, "TEMPLATE", o.ModuleName, 1) // Replacing TEMPLATE with the module name
-		if err := os.MkdirAll(filepath.Dir(repl), os.ModePerm); err != nil {
-			return err
-		}
-
-		if strings.HasSuffix(repl, ".tpl") {
-			f, err := os.Create(strings.TrimSuffix(repl, ".tpl"))
-			if err != nil {
-				panic(err.Error())
-			}
-			defer f.Close()
-			log.Println("writing file", f.Name())
-			return template.Must(template.ParseFiles(path)).Execute(f, o)
-		}
-
-		// Just copy the file without templating.
-		b, err := os.ReadFile(path)
-		if err != nil {
-			return err
-		}
-		log.Println("writing file", repl)
-		return os.WriteFile(repl, b, 0644)
-	}); err != nil {
-		return err
-	}
-
-	return o.addModuleToMainTf()
+	return nil
 }
 
 // validateOptions validates that the set of options specified is valid and
@@ -137,18 +147,38 @@ func (o *scaffoldOptions) validateOptions() error {
 }
 
 func (o scaffoldOptions) addModuleToMainTf() error {
-	// Define the module source
-	moduleSource := "./images/%s"
-
-	// Define the target repository
-	targetRepository := "${var.target_repository}"
-
 	file, err := os.OpenFile("main.tf", os.O_RDWR, os.ModePerm)
 	if err != nil {
 		fmt.Printf("Error opening file: %v\n", err)
 		os.Exit(1)
 	}
 	defer file.Close()
+
+	updatedContent, err := o.parseAndUpdateContent(file)
+	if err != nil {
+		return err
+	}
+
+	// Truncate the file to remove any remaining content
+	file.Truncate(0)
+	file.Seek(0, 0)
+
+	// Write the updated content back to the file
+	writer := bufio.NewWriter(file)
+	for _, line := range updatedContent {
+		fmt.Fprintln(writer, line)
+	}
+	writer.Flush()
+
+	return nil
+}
+
+func (o *scaffoldOptions) parseAndUpdateContent(file *os.File) ([]string, error) {
+	// Define the module source
+	moduleSource := "./images/%s"
+
+	// Define the target repository
+	targetRepository := "${var.target_repository}"
 
 	// Create a slice to hold the lines of the updated content
 	var updatedContent []string
@@ -162,9 +192,17 @@ func (o scaffoldOptions) addModuleToMainTf() error {
 
 		// Check if this is where the module block should be inserted
 		if !moduleInserted && strings.HasPrefix(line, "module ") {
-			l := strings.TrimPrefix(strings.ReplaceAll(strings.TrimSuffix(line, " {"), "\"", ""), "module ")
+			l := strings.TrimPrefix(
+				strings.ReplaceAll(
+					strings.TrimSuffix(
+						line, " {",
+					),
+					"\"", "",
+				),
+				"module ",
+			)
 			if strings.Compare(o.PackageName, l) == 0 {
-				return fmt.Errorf("module %s block already exists in main.tf", o.PackageName)
+				return nil, fmt.Errorf("module %s block already exists in main.tf", o.PackageName)
 			}
 			if strings.Compare(o.PackageName, l) < 0 {
 				// Insert the new module block here
@@ -181,27 +219,5 @@ func (o scaffoldOptions) addModuleToMainTf() error {
 		// Append the current line to the updated content
 		updatedContent = append(updatedContent, line)
 	}
-
-	// If the module block wasn't inserted, append it to the end
-	if !moduleInserted {
-		updatedContent = append(updatedContent,
-			fmt.Sprintf("module \"%s\" {", o.PackageName),
-			fmt.Sprintf("  source            = \"%s\"", fmt.Sprintf(moduleSource, o.PackageName)),
-			fmt.Sprintf("  target_repository = \"%s/%s\"", targetRepository, o.PackageName), "}",
-			fmt.Sprintf(""), // this line will be added as a blank line after the new module added
-		)
-	}
-
-	// Truncate the file to remove any remaining content
-	file.Truncate(0)
-	file.Seek(0, 0)
-
-	// Write the updated content back to the file
-	writer := bufio.NewWriter(file)
-	for _, line := range updatedContent {
-		fmt.Fprintln(writer, line)
-	}
-	writer.Flush()
-
-	return nil
+	return updatedContent, nil
 }

@@ -1,9 +1,7 @@
 package commands
 
 import (
-	"bytes"
 	"fmt"
-	"path"
 	"path/filepath"
 	"runtime"
 	"sort"
@@ -12,7 +10,6 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/chainguard-images/images/monopod/pkg/commands/options"
-	"github.com/chainguard-images/images/monopod/pkg/constants"
 	"github.com/chainguard-images/images/monopod/pkg/images"
 )
 
@@ -43,6 +40,7 @@ func init() {
 	}
 
 	// Use templates directory relative to the current file
+	// This approach works with go run, or as a standalone binary
 	templatesDir := filepath.Join(filepath.Dir(filename), "templates/*.tpl")
 
 	templates = template.Must(
@@ -106,10 +104,7 @@ func (i *readmeImpl) check() error {
 		return allImages[i].ImageName < allImages[j].ImageName
 	})
 	for _, i := range allImages {
-		img := i.ImageName
-
-		// readme := renderReadmeImpl{Image: img}
-		r := NewReadmeRenderer(img)
+		r := NewReadmeRenderer(i.ImageName)
 
 		if err := r.decodeHcl(); err != nil {
 			fmt.Printf("Error decoding %s: %s\n", r.hclFile, err)
@@ -166,14 +161,9 @@ func (i *readmeImpl) fixAllReadmes() error {
 		return allImages[i].ImageName < allImages[j].ImageName
 	})
 	for _, i := range allImages {
-		impl := &renderReadmeImpl{
-			Image:      i.ImageName,
-			hclFile:    path.Join(constants.ImagesDirName, i.ImageName, "README.hcl"),
-			mdFile:     path.Join(constants.ImagesDirName, i.ImageName, "README.md"),
-			Readme:     &completeReadme{},
-			renderedMD: new(bytes.Buffer),
-		}
-		if err := impl.Do(); err != nil {
+		r := NewReadmeRenderer(i.ImageName)
+
+		if err := r.Do(); err != nil {
 			return err
 		}
 	}
