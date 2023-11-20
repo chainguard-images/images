@@ -906,6 +906,11 @@ module "python" {
   target_repository = "${var.target_repository}/python"
 }
 
+module "qdrant" {
+  source            = "./images/qdrant"
+  target_repository = "${var.target_repository}/qdrant"
+}
+
 module "r-base" {
   source            = "./images/r-base"
   target_repository = "${var.target_repository}/r-base"
