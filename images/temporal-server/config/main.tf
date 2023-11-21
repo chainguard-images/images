@@ -8,19 +8,17 @@ variable "extra_packages" {
   description = "The additional packages to install"
   default = [
     "temporal-server",
+    "temporal-server-oci-entrypoint",
+    "dockerize",
+    "tctl",
   ]
 }
 
-module "accts" { source = "../../../tflib/accts" }
+data "apko_config" "this" {
+  config_contents = file("${path.module}/template.apko.yaml")
+  extra_packages  = var.extra_packages
+}
 
 output "config" {
-  value = jsonencode({
-    contents = {
-      packages = concat(var.extra_packages)
-    }
-    accounts = module.accts.block
-    entrypoint = {
-      command = "/usr/bin/temporal-server"
-    }
-  })
+  value = jsonencode(data.apko_config.this.config)
 }
