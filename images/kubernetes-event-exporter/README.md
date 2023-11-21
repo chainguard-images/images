@@ -12,13 +12,42 @@
 ---
 <!--monopod:end-->
 
-Kubernetes Event Exporter tool allows exporting the often missed Kubernetes events to various outputs so that they can be used for observability or alerting purposes. You won't believe what you are missing.
+# Kubernetes-Event-Exporter
 
-## Get It!
+Minimalist [wolfi](https://github.com/wolfi-dev)-based image of [Kubernetes Event Exporter]
+(https://github.com/resmoio/kubernetes-event-exporter) for exporting Kubernetes 
+events to various outputs to be used for observability or alerting purposes.
+
+
+## Get it!
 
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/kubernetes-event-exporter
+docker pull cgr.dev/chainguard/kubernetes-event-exporter:latest
+```
+
+## Usage
+
+Project documentation suggests usage of Bitnami chart which is comprehensive.
+
+This chart bootstraps a Kubernetes Event Exporter deployment on a Kubernetes cluster using 
+the Helm package manager.
+
+To install the chart with the release name my-release:
+
+```
+helm install my-release oci://registry-1.docker.io/bitnamicharts/kubernetes-event-exporter
+
+helm upgrade my-release oci://registry-1.docker.io/bitnamicharts/kubernetes-event-exporter \
+  --set image.repository=cgr.dev/chainguard/kubernetes-event-exporter \
+  --set image.tag=latest
+
+```
+
+To uninstall/delete this deployment:
+
+```
+helm delete my-release
 ```
 
