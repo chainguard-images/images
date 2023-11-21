@@ -633,6 +633,11 @@ module "kubernetes-dns-node-cache" {
   target_repository = "${var.target_repository}/kubernetes-dns-node-cache"
 }
 
+module "kubernetes-event-exporter" {
+  source            = "./images/kubernetes-event-exporter"
+  target_repository = "${var.target_repository}/kubernetes-event-exporter"
+}
+
 module "kubernetes-ingress-defaultbackend" {
   source            = "./images/kubernetes-ingress-defaultbackend"
   target_repository = "${var.target_repository}/kubernetes-ingress-defaultbackend"
