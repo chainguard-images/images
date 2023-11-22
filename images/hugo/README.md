@@ -85,5 +85,3 @@ Now open your browser to [localhost:8080](http://localhost:8080) to visit the sa
 When finished, you can press `CTRL + C` to stop the Hugo server from running, and then `CTRL + D` to exit the container shell.
 
 If you're interested in enterprise support, SLAs, and access to older tags, [get in touch](https://www.chainguard.dev/chainguard-images).
-
-
