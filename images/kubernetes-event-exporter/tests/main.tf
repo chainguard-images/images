@@ -8,17 +8,12 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --version"
-}
-
 data "oci_string" "ref" { input = var.digest }
 
-resource "helm_release" "memcached" {
-  name       = "memcached"
+resource "helm_release" "kubernetes-event-exporter" {
+  name       = "kubernetes-event-exporter"
   repository = "oci://registry-1.docker.io/bitnamicharts"
-  chart      = "memcached"
+  chart      = "kubernetes-event-exporter"
 
   values = [jsonencode({
     image = {
@@ -31,6 +26,6 @@ resource "helm_release" "memcached" {
 
 module "helm_cleanup" {
   source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.memcached.id
-  namespace = helm_release.memcached.namespace
+  name      = helm_release.kubernetes-event-exporter.id
+  namespace = helm_release.kubernetes-event-exporter.namespace
 }

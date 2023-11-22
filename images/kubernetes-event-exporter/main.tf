@@ -9,7 +9,7 @@ variable "target_repository" {
 }
 
 locals {
-  main_package = "memcached"
+  main_package = "kubernetes-event-exporter"
 }
 
 module "config" {

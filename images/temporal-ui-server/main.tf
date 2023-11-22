@@ -8,24 +8,16 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-locals {
-  main_package = "memcached"
-}
-
-module "config" {
-  source         = "./configs"
-  extra_packages = ["${local.main_package}"]
-}
+module "latest-config" { source = "./config" }
 
 module "latest" {
-  source = "../../tflib/publisher"
-
-  name = basename(path.module)
-
+  source            = "../../tflib/publisher"
+  name              = basename(path.module)
   target_repository = var.target_repository
-  config            = module.config.config
-  main_package      = local.main_package
-  build-dev         = true
+  config            = module.latest-config.config
+
+  build-dev = true
+
 }
 
 module "test-latest" {
@@ -44,3 +36,4 @@ resource "oci_tag" "latest-dev" {
   digest_ref = module.latest.dev_ref
   tag        = "latest-dev"
 }
+
