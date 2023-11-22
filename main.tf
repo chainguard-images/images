@@ -413,6 +413,11 @@ module "gradle" {
   target_repository = "${var.target_repository}/gradle"
 }
 
+module "grafana-operator" {
+  source            = "./images/grafana-operator"
+  target_repository = "${var.target_repository}/grafana-operator"
+}
+
 module "grype" {
   source            = "./images/grype"
   target_repository = "${var.target_repository}/grype"
