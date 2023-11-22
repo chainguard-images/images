@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 This is a minimal [Hugo](https://gohugo.io/) image. The image only contains
-`hugo` and supporting libraries.  The hugo process starts in `/hugo` by default
+`hugo` and supporting libraries.  The Hugo process starts in `/hugo` by default
 so this directory may be initialized with the Hugo site to serve.
 
 - [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/hugo)
@@ -37,7 +37,7 @@ hugo v0.119.0-b84644c008e0dc2c4b67bd69cccf87a41a03937e linux/amd64 BuildDate=202
 
 The following is an example of using the Hugo image locally. It's based on the official [Hugo "quickstart"](https://gohugo.io/getting-started/quick-start/#commands) example.
 
-To begin, start a shell in the Hugo "dev" container:
+To begin, start a shell in the Hugo developer (dev) container.
 
 ```shell
 docker run -v $PWD/data:/home/data --entrypoint=/bin/sh -p 8080:8080 -it \
@@ -84,4 +84,4 @@ Now open your browser to [localhost:8080](http://localhost:8080) to visit the sa
 
 When finished, you can press `CTRL + C` to stop the Hugo server from running, and then `CTRL + D` to exit the container shell.
 
-If you're interested in enterprise support, SLAs, and access to older tags, [get in touch](https://www.chainguard.dev/chainguard-images).
+If you're interested in enterprise support, SLAs, and access to older tags, [get in touch](https://www.chainguard.dev/contact?utm_source=docs).
