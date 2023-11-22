@@ -20,13 +20,6 @@ so this directory may be initialized with the Hugo site to serve.
 - [Image Variants](https://edu.chainguard.dev/chainguard/chainguard-images/reference/hugo/image_specs/)
 - [Provenance Info](https://edu.chainguard.dev/chainguard/chainguard-images/reference/hugo/provenance_info/)
 
-## Image Variants
-
-The following tagged variants are available without authentication:
-
-- `latest`: This is a distroless image for running hugo to generate a website. It does not include `apk-tools` or `bash`, so no shell will be available.
-- `latest-dev`: This is a development / builder image that includes `bash`, `apk-tools`, and `busybox`. This variant allows you to customize your final image with additional Wolfi packages.
-
 ### Pulling the Image
 Run the following to pull the image to your local system and execute the command `hugo version`:
 
@@ -42,25 +35,53 @@ hugo v0.119.0-b84644c008e0dc2c4b67bd69cccf87a41a03937e linux/amd64 BuildDate=202
 
 ## Application Setup for End Users
 
-Here is an example using the Hugo image to run the
-["quickstart"](https://gohugo.io/getting-started/quick-start/#commands) locally:
+The following is an example of using the Hugo image locally. It's based on the official [Hugo "quickstart"](https://gohugo.io/getting-started/quick-start/#commands) example.
+
+To begin, start a shell in the Hugo "dev" container:
 
 ```shell
-# Start a shell in the Hugo "dev" container:
-docker run -ti --rm -v -p 8080:8080 --entrypoint=/bin/sh \
-       cgr.dev/chainguard/hugo:latest-dev
-
-# Pass the quickstart commands (changing the bind address and port)
-hugo new site quickstart
-cd quickstart
-git init
-git submodule add https://github.com/theNewDynamic/gohugo-theme-ananke themes/ananke
-echo "theme = 'ananke'" >> config.toml
-hugo server --bind 0.0.0.0 --port 8080
+docker run -v $PWD/data:/home/data --entrypoint=/bin/sh -p 8080:8080 -it \
+cgr.dev/chainguard/hugo:latest-dev
 ```
 
-Now open your browser to [localhost:8080](http://localhost:8080)!
+Create a new Hugo site using the quickstart commands.
+
+```shell
+hugo new site quickstart
+```
+
+Navigate into the new site's root directory.
+
+```shell
+cd quickstart
+```
+
+Initiate an empty Git repository 
+
+```shell
+git init
+```
+
+Clone a Hugo theme into the `themes` directory. 
+
+```shell
+git submodule add https://github.com/theNewDynamic/gohugo-theme-ananke themes/ananke
+```
+
+Add a line to the site's configuration file to let Hugo know to use the new theme.
+
+```shell
+echo "theme = 'ananke'" >> hugo.toml
+```
+
+Start the Hugo development server to serve the site. Be sure to change the default bind address and port to make the site accessible outside of the container.
+
+```shell
+hugo serve --bind 0.0.0.0 --port 8080
+```
+
+Now open your browser to [localhost:8080](http://localhost:8080) to visit the sample site.
+
+When finished, you can press `CTRL + C` to stop the Hugo server from running, and then `CTRL + D` to exit the container shell.
 
 If you're interested in enterprise support, SLAs, and access to older tags, [get in touch](https://www.chainguard.dev/chainguard-images).
-
-
