@@ -1017,6 +1017,11 @@ module "smarter-device-manager" {
   target_repository = "${var.target_repository}/smarter-device-manager"
 }
 
+module "solr" {
+  source            = "./images/solr"
+  target_repository = "${var.target_repository}/solr"
+}
+
 module "spark-operator" {
   source            = "./images/spark-operator"
   target_repository = "${var.target_repository}/spark-operator"
