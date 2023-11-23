@@ -1,21 +1,14 @@
 <!--monopod:start-->
 # kubernetes-ingress-defaultbackend
-
-<!--url:start-->
-<a href="https://github.com/kubernetes/registry.k8s.io">
-<!--logo:start-->
-  <img src="https://storage.googleapis.com/chainguard-academy/logos/kubernetes-ingress-defaultbackend/logo.svg" width="36px" height="36px" />
-<!--logo:end-->
-</a>
-<!--url:end-->
-
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/kubernetes-ingress-defaultbackend` |
 
+
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/kubernetes-ingress-defaultbackend/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
 ---
 <!--monopod:end-->
 

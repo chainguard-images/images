@@ -7,6 +7,8 @@ import (
 	"testing"
 )
 
+// this isn't the most granular test since it chains things together
+// but it does exercise the important methods and fails any invalid step
 func TestReadme(t *testing.T) {
 	tests := []struct {
 		name    string
@@ -19,7 +21,7 @@ func TestReadme(t *testing.T) {
 			readme: &renderReadmeImpl{
 				Image:      "apko",
 				Readme:     &completeReadme{},
-				hclFile:    "README.hcl",
+				hclFile:    "metadata.hcl",
 				mdFile:     "README.md",
 				rawMD:      "",
 				renderedMD: &bytes.Buffer{},

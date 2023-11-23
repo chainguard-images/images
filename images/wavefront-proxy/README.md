@@ -1,21 +1,14 @@
 <!--monopod:start-->
 # wavefront-proxy
-
-<!--url:start-->
-<a href="https://docs.wavefront.com/proxies.html">
-<!--logo:start-->
-  <img src="https://storage.googleapis.com/chainguard-academy/logos/wavefront-proxy/logo.svg" width="36px" height="36px" />
-<!--logo:end-->
-</a>
-<!--url:end-->
-
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/wavefront-proxy` |
 
+
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/wavefront-proxy/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
 ---
 <!--monopod:end-->
 

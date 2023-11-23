@@ -1,21 +1,14 @@
 <!--monopod:start-->
 # google-cloud-sdk
-
-<!--url:start-->
-<a href="https://cloud.google.com/sdk/">
-<!--logo:start-->
-  <img src="https://storage.googleapis.com/chainguard-academy/logos/google-cloud-sdk/logo.svg" width="36px" height="36px" />
-<!--logo:end-->
-</a>
-<!--url:end-->
-
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/google-cloud-sdk` |
 
+
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/google-cloud-sdk/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
 ---
 <!--monopod:end-->
 

@@ -27,7 +27,7 @@ type renderReadmeImpl struct {
 func NewReadmeRenderer(image string) *renderReadmeImpl {
 	return &renderReadmeImpl{
 		Image:      image,
-		hclFile:    path.Join(constants.ImagesDirName, image, "README.hcl"),
+		hclFile:    path.Join(constants.ImagesDirName, image, "metadata.hcl"),
 		mdFile:     path.Join(constants.ImagesDirName, image, "README.md"),
 		Readme:     &completeReadme{},
 		renderedMD: new(bytes.Buffer),
@@ -38,7 +38,7 @@ func Render() *cobra.Command {
 	ro := &options.RenderReadmeOptions{}
 	cmd := &cobra.Command{
 		Use:   "render",
-		Short: "Render a README.md for an image from a README.hcl file.",
+		Short: "Render a README.md for an image from a metadata.hcl file.",
 		Example: `
 monopod readme render --image postgresql
 `,

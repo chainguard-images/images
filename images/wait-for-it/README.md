@@ -1,21 +1,14 @@
 <!--monopod:start-->
 # wait-for-it
-
-<!--url:start-->
-<a href="https://github.com/vishnubob/wait-for-it">
-<!--logo:start-->
-  <img src="https://storage.googleapis.com/chainguard-academy/logos/wait-for-it/logo.svg" width="36px" height="36px" />
-<!--logo:end-->
-</a>
-<!--url:end-->
-
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/wait-for-it` |
 
+
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/wait-for-it/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
 ---
 <!--monopod:end-->
 

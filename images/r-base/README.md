@@ -1,21 +1,14 @@
 <!--monopod:start-->
 # r-base
-
-<!--url:start-->
-<a href="https://www.r-project.org/">
-<!--logo:start-->
-  <img src="https://storage.googleapis.com/chainguard-academy/logos/r-base/logo.svg" width="36px" height="36px" />
-<!--logo:end-->
-</a>
-<!--url:end-->
-
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/r-base` |
 
+
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/r-base/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
 ---
 <!--monopod:end-->
 

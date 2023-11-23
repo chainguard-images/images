@@ -1,21 +1,14 @@
 <!--monopod:start-->
 # envoy-ratelimit
-
-<!--url:start-->
-<a href="https://github.com/envoyproxy/ratelimit">
-<!--logo:start-->
-  <img src="https://storage.googleapis.com/chainguard-academy/logos/envoy-ratelimit/logo.svg" width="36px" height="36px" />
-<!--logo:end-->
-</a>
-<!--url:end-->
-
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/envoy-ratelimit` |
 
+
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/envoy-ratelimit/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
 ---
 <!--monopod:end-->
 

@@ -1,21 +1,14 @@
 <!--monopod:start-->
 # ingress-nginx-controller
-
-<!--url:start-->
-<a href="https://github.com/kubernetes/ingress-nginx">
-<!--logo:start-->
-  <img src="https://storage.googleapis.com/chainguard-academy/logos/ingress-nginx-controller/logo.svg" width="36px" height="36px" />
-<!--logo:end-->
-</a>
-<!--url:end-->
-
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/ingress-nginx-controller` |
 
+
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/ingress-nginx-controller/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
 ---
 <!--monopod:end-->
 

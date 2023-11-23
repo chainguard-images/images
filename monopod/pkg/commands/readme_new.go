@@ -20,7 +20,7 @@ func NewReadme() *cobra.Command {
 	ro := &options.NewReadmeOptions{}
 	cmd := &cobra.Command{
 		Use:   "new",
-		Short: "Create a README.hcl template for an image.",
+		Short: "Create a metadata.hcl template for an image's readme.",
 		Example: `
 monopod readme new --image postgresql
 `,
@@ -48,7 +48,7 @@ func (n *newReadmeImpl) Do() error {
 
 func (n *newReadmeImpl) checkExistingHCL() error {
 	img := n.Image
-	imagePath := fmt.Sprintf("images/%s/README.hcl", img)
+	imagePath := fmt.Sprintf("images/%s/metadata.hcl", img)
 	f, _ := os.Stat(imagePath)
 	if f != nil {
 		return fmt.Errorf("%s already exists, edit it and run `monopod readme render --image %s`", imagePath, img)
@@ -62,14 +62,14 @@ func (n *newReadmeImpl) createReadmeHCL() error {
 	}
 
 	doc := new(bytes.Buffer)
-	err := templates.ExecuteTemplate(doc, "README.hcl.tpl", templateData{
+	err := templates.ExecuteTemplate(doc, "metadata.hcl.tpl", templateData{
 		Readme: &readme,
 	})
 	if err != nil {
 		return err
 	}
 
-	filename := path.Join(constants.ImagesDirName, n.Image, "README.hcl")
+	filename := path.Join(constants.ImagesDirName, n.Image, "metadata.hcl")
 	err = os.WriteFile(filename, doc.Bytes(), 0o644)
 	if err != nil {
 		return err

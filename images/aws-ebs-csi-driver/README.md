@@ -1,21 +1,14 @@
 <!--monopod:start-->
 # aws-ebs-csi-driver
-
-<!--url:start-->
-<a href="https://github.com/kubernetes-sigs/aws-ebs-csi-driver">
-<!--logo:start-->
-  <img src="https://storage.googleapis.com/chainguard-academy/logos/aws-ebs-csi-driver/logo.svg" width="36px" height="36px" />
-<!--logo:end-->
-</a>
-<!--url:end-->
-
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/aws-ebs-csi-driver` |
 
+
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/aws-ebs-csi-driver/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
 ---
 <!--monopod:end-->
 

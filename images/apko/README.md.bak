@@ -13,6 +13,13 @@
 <!--monopod:end-->
 
 <!--overview:start-->
+<!--url:start-->
+<a href="https://github.com/chainguard-dev/apko">
+<!--logo:start-->
+  <img src="https://storage.googleapis.com/chainguard-academy/logos/apko/logo.svg" width="36px" height="36px" />
+<!--logo:end-->
+</a>
+<!--url:end-->
 Container image for running [apko](https://github.com/chainguard-dev/apko) container builds.
 <!--overview:end-->
 

@@ -1,21 +1,14 @@
 <!--monopod:start-->
 # bank-vaults
-
-<!--url:start-->
-<a href="https://github.com/bank-vaults/bank-vaults">
-<!--logo:start-->
-  <img src="https://storage.googleapis.com/chainguard-academy/logos/bank-vaults/logo.svg" width="36px" height="36px" />
-<!--logo:end-->
-</a>
-<!--url:end-->
-
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/bank-vaults` |
 
+
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/bank-vaults/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
 ---
 <!--monopod:end-->
 

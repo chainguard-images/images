@@ -1,21 +1,14 @@
 <!--monopod:start-->
 # buck2
-
-<!--url:start-->
-<a href="https://github.com/facebook/buck2">
-<!--logo:start-->
-  <img src="https://storage.googleapis.com/chainguard-academy/logos/buck2/logo.svg" width="36px" height="36px" />
-<!--logo:end-->
-</a>
-<!--url:end-->
-
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/buck2` |
 
+
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/buck2/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
 ---
 <!--monopod:end-->
 
