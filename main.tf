@@ -543,6 +543,11 @@ module "ko" {
   target_repository = "${var.target_repository}/ko"
 }
 
+module "kor" {
+  source            = "./images/kor"
+  target_repository = "${var.target_repository}/kor"
+}
+
 module "kube-bench" {
   source            = "./images/kube-bench"
   target_repository = "${var.target_repository}/kube-bench"
@@ -626,6 +631,11 @@ module "kubernetes-dashboard" {
 module "kubernetes-dns-node-cache" {
   source            = "./images/kubernetes-dns-node-cache"
   target_repository = "${var.target_repository}/kubernetes-dns-node-cache"
+}
+
+module "kubernetes-event-exporter" {
+  source            = "./images/kubernetes-event-exporter"
+  target_repository = "${var.target_repository}/kubernetes-event-exporter"
 }
 
 module "kubernetes-ingress-defaultbackend" {
