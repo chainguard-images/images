@@ -11,17 +11,15 @@ variable "digest" {
 data "oci_string" "ref" { input = var.digest }
 
 resource "helm_release" "vector" {
-  repository       = "https://helm.vector.dev"
-  name             = "vector"
-  chart            = "vector"
-  namespace        = "vector-namespace"
-  create_namespace = true
-  timeout          = 120
+  name       = "vector"
+  repository = "https://helm.vector.dev"
+  chart      = "vector"
 
   values = [jsonencode({
     image = {
-      repository = data.oci_string.ref.registry_repo
-      tag        = "0.34.1"
+      registry   = data.oci_string.ref.registry
+      repository = data.oci_string.ref.repo
+      digest     = data.oci_string.ref.digest
     }
   })]
 }
