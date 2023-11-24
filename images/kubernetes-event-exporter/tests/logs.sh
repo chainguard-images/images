@@ -18,9 +18,11 @@ declare -a missing_terms=()
 
 start_container() {  
   helm install my-release \
+      --namespace=k8s-event-exporter --create-namespace \
       oci://registry-1.docker.io/bitnamicharts/kubernetes-event-exporter
   helm upgrade my-release \
       oci://registry-1.docker.io/bitnamicharts/kubernetes-event-exporter \
+  --namespace=k8s-event-exporter \
   --set image.registry="${IMAGE_REGISTRY}" \
   --set image.repository="${IMAGE_REPOSITORY}" \
   --set image.tag=latest
@@ -32,7 +34,7 @@ search_logs() {
   local delay=15
 
   for ((i=1; i<=retries; i++)); do
-    local -r container_id=$(docker ps --format '{{.ID}}' --filter "name=my-release-kubernetes-event-exporter*")
+    local -r container_id=$(docker ps --format '{{.ID}}' --filter "name=my-release-kubernetes-event-exporter")
     local logs=$(docker logs "${container_id}" 2>&1)
     local all_terms_found=true
 
@@ -70,10 +72,10 @@ TEST_container_starts_ok() {
     # Create Keystore and launch Keycloak
     start_container
     local -r container_id=$(docker ps --format '{{.ID}}')
-    trap "helm uninstall my-release" EXIT
+    trap "helm uninstall my-release -n k8s-event-exporter" EXIT
 
     # Check if the container is running
-    if ! docker ps --format '{{.Names}}' --filter "name=my-release-kubernetes-event-exporter*" | grep "my-release-kubernetes-event-exporter"; then
+    if ! docker ps --format '{{.Names}}' --filter "name=my-release-kubernetes-event-exporter" | grep "my-release-kubernetes-event-exporter"; then
         echo "FAILED: Container kubernetes-event-exporter is not running."
         exit 1
     else
