@@ -1,0 +1,65 @@
+contents:
+  packages: [
+    # Package "solr" comes in via var.extra_packages
+    # To add a version stream image, see the extra_packages variable in config/main.tf to add packages conditionally.
+    # Otherwise, just add packages here.
+    "solr-oci-compat",
+  ]
+
+accounts:
+  groups:
+    - groupname: solr
+      gid: 8983
+  users:
+    - username: solr
+      uid: 8983
+      gid: 8983
+  run-as: 8983
+
+environment:
+  PATH: /usr/share/java/solr/bin:/usr/share/java/solr/bin:/usr/share/java/solr/docker/scripts:/usr/share/java/solr/prometheus-exporter/bin:/usr/sbin:/sbin:/usr/bin:/bin
+  SOLR_INCLUDE: /etc/default/solr.in.sh
+  SOLR_HOME: /var/solr/data
+  SOLR_PID_DIR: /var/solr
+  SOLR_LOGS_DIR: /var/solr/logs
+  LOG4J_PROPS: /var/solr/log4j2.xml
+  SOLR_JETTY_HOST: "0.0.0.0"
+  SOLR_ZK_EMBEDDED_HOST: "0.0.0.0"
+
+paths:
+  - path: /docker-entrypoint-initdb.d
+    type: directory
+    uid: 8983
+    gid: 8983
+    permissions: 0o770
+  - path: /var/solr
+    type: directory
+    uid: 8983
+    gid: 8983
+    recursive: true
+    permissions: 0o770
+  - path: /var/solr/data
+    type: directory
+    uid: 8983
+    gid: 8983
+    recursive: true
+    permissions: 0o770
+  - path: /var/solr/logs
+    type: directory
+    uid: 8983
+    gid: 8983
+    recursive: true
+    permissions: 0o770
+  - path: /usr/share/java/solr/server/resources
+    type: directory
+    uid: 8983
+    gid: 8983
+    recursive: true
+    permissions: 0o770
+
+work-dir: /usr/share/java/solr
+
+entrypoint:
+  command: /usr/share/java/solr/docker/scripts/docker-entrypoint.sh
+
+cmd: solr-foreground

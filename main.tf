@@ -543,6 +543,11 @@ module "ko" {
   target_repository = "${var.target_repository}/ko"
 }
 
+module "kor" {
+  source            = "./images/kor"
+  target_repository = "${var.target_repository}/kor"
+}
+
 module "kube-bench" {
   source            = "./images/kube-bench"
   target_repository = "${var.target_repository}/kube-bench"
@@ -1010,6 +1015,11 @@ module "slim-toolkit-debug" {
 module "smarter-device-manager" {
   source            = "./images/smarter-device-manager"
   target_repository = "${var.target_repository}/smarter-device-manager"
+}
+
+module "solr" {
+  source            = "./images/solr"
+  target_repository = "${var.target_repository}/solr"
 }
 
 module "spark-operator" {
