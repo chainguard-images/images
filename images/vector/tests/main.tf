@@ -20,9 +20,8 @@ resource "helm_release" "vector" {
 
   values = [jsonencode({
     image = {
-      registry   = data.oci_string.ref.registry
-      repository = data.oci_string.ref.repo
-      digest     = data.oci_string.ref.digest
+      repository = data.oci_string.ref.registry_repo
+      tag        = "0.34.1"
     }
   })]
 }

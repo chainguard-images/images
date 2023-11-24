@@ -4,16 +4,32 @@ terraform {
   }
 }
 
+module "accts" { source = "../../../tflib/accts" }
+
 variable "extra_packages" {
   description = "The additional packages to install"
-  default     = []
+  default     = [""]
 }
 
-data "apko_config" "this" {
-  config_contents = file("${path.module}/latest.apko.yaml")
-  extra_packages  = var.extra_packages
+variable "entrypoint" {
+  description = "The entrypoint to use."
+  default     = "/usr/bin/vector"
+}
+
+variable "environment" {
+  description = "Environment variables to add to the image"
+  default     = {}
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    contents = {
+      packages = var.extra_packages
+    }
+    accounts = module.accts.block
+    entrypoint = {
+      command = var.entrypoint
+    }
+    environment = var.environment
+  })
 }
