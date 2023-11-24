@@ -36,7 +36,7 @@ search_logs() {
 
   for ((i=1; i<=retries; i++)); do
     local -r container_id=$(kubectl get pods -n k8s-event-exporter | grep 'my-release-kubernetes-event-exporter')
-    local logs=$(kubectl get pods -n k8s-event-exporter -o custom-columns=NAME:.metadata.name | grep 'my-release-kubernetes-event-exporter') 2>&1)
+    local logs=$(kubectl get pods -n k8s-event-exporter -o custom-columns=NAME:.metadata.name | grep 'my-release-kubernetes-event-exporter' 2>&1)
     local all_terms_found=true
 
     for term in "${terms[@]}"; do
