@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
-Minimal Image for Bank Vaults
+<!--overview:start-->
+Minimal Image for [Bank Vaults](https://bank-vaults.dev/), a CLI tool to init, unseal and configure Vault 
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/bank-vaults:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 This image is a drop-in replacement for the upstream image.
@@ -34,3 +38,4 @@ $ helm install bank-vaults bank-vaults/bank-vaults \
     --set bankVaults.image.tag=latest
     <other configuration parameters here>
 ```
+<!--body:end-->

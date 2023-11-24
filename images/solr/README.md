@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 [solr](https://github.com/apache/solr) Solr is the popular, blazing fast open source search platform for all your enterprise, e-commerce, and analytics needs, built on Apache Lucene.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/solr
+docker pull cgr.dev/chainguard/solr:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using Solr
 
 This image should be a drop-in replacement for the `slim` variant of the upstream image.
@@ -62,3 +66,4 @@ WARNING: The Security Manager is deprecated and will be removed in a future rele
 ```
 
 The admin console should then be available in your browser at [http://localhost:8983](http://localhost:8983).
+<!--body:end-->

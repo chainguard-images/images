@@ -12,14 +12,19 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with the Keda binary. **EXPERIMENTAL**
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/keda:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 This image is a drop-in replacement for the KEDA manager available upstream at `ghcr.io/kedacore/keda`.
+<!--body:end-->

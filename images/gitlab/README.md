@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
-# GitLab Images
+<!--overview:start-->
+GitLab is an open source end-to-end software development platform with built-in version control, issue tracking, code review, CI/CD, and more.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
-The images are available on `cgr.dev`, e.g. `gitlab-kas`:
+The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/gitlab-kas:latest
+docker pull cgr.dev/chainguard/gitlab:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 This replaces the GitLab images used in the deployment by our Chainguard images for GitLab.
@@ -48,3 +52,4 @@ Once you did this, you can install Gitlab Kas to the target cluster:
         --set certmanager-issuer.email=me@example.com \
         --set postgresql.image.tag=13.6.0
 ```
+<!--body:end-->

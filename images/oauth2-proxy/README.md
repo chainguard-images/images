@@ -11,3 +11,19 @@
 
 ---
 <!--monopod:end-->
+
+<!--overview:start-->
+A reverse proxy that provides authentication with Google, Azure, OpenID Connect and many more identity providers.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/oauth2-proxy:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

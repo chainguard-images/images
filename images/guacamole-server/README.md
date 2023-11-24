@@ -12,12 +12,18 @@
 ---
 <!--monopod:end-->
 
-Minimal image with guacamole-server.
+<!--overview:start-->
+Minimal [Guacamole server](https://guacamole.apache.org/) remote desktop gateway image.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/guacamole-server:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

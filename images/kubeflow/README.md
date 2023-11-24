@@ -12,7 +12,20 @@
 ---
 <!--monopod:end-->
 
-Minimalist Kubeflow Images
+<!--overview:start-->
+Minimalist Kubeflow Machine Learning Toolkit for Kubernetes Images
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/kubeflow:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 
 ## Usage
 
@@ -56,4 +69,5 @@ Finally, apply the kustomize files:
 
 ```shell
 $ kubectl apply -k .
-````
+```
+<!--body:end-->

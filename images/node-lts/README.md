@@ -11,3 +11,19 @@
 
 ---
 <!--monopod:end-->
+
+<!--overview:start-->
+Minimal Node.js open-source, cross-platform JavaScript runtime environment.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/node-lts:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

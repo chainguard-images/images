@@ -12,11 +12,20 @@
 ---
 <!--monopod:end-->
 
-Minimalist Wolfi-based helm images for deploying helm applications to a kubernetes cluster. Includes `dev` variant. **EXPERIMENTAL**
+<!--overview:start-->
+Minimal image with [helm](https://helm.sh) binary. **EXPERIMENTAL**
+<!--overview:end-->
 
-- [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/helm)
-- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/helm/provenance_info/)
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
 
+```
+docker pull cgr.dev/chainguard/helm:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 ## Image Variants
 
 Our `latest` tags use the most recent build of the [Wolfi helm](https://github.com/wolfi-dev/os/blob/main/helm.yaml) package. The following tagged variants are available without authentication:
@@ -36,3 +45,4 @@ You should see output similar to this:
 ```
 version.BuildInfo{Version:"v3.13.1", GitCommit:"3547a4b5bf5edb5478ce352e18858d8a552a4110", GitTreeState:"dirty", GoVersion:"go1.21.3"}
 ```
+<!--body:end-->

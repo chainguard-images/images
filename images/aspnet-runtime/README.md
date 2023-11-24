@@ -12,10 +12,18 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Container image with the latest ASP.NET runtime.
+<!--overview:end-->
 
-## Get it!
-
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
-    docker pull cgr.dev/chainguard/aspnet-runtime:latest
+```
+docker pull cgr.dev/chainguard/aspnet-runtime:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

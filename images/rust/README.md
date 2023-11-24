@@ -12,7 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal Wolfi-based Rust image for building Rust applications. **EXPERIMENTAL**.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/rust:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 
 - [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/rust)
 - [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/rust/provenance_info/)
@@ -108,3 +121,4 @@ dlorenc@DANIELs-MacBook-Air rust-web-app % docker run foo /usr/local/bin/shop
 ```
 
 If you're interested in enterprise support, SLAs, and access to older tags, [get in touch](https://www.chainguard.dev/chainguard-images).
+<!--body:end-->

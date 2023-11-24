@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
-Minimalist Wolfi-based Keycloak image.
+<!--overview:start-->
+Minimalist Wolfi-based [Keycloak](https://www.keycloak.org/) image for identity and access management.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/keycloak:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 ### Docker
@@ -93,3 +97,4 @@ ENV KC_DB_PASSWORD=<DBPASSWORD>
 ENV KC_HOSTNAME=localhost
 ENTRYPOINT ["/usr/share/java/keycloak/bin/kc.sh"]
 ```
+<!--body:end-->

@@ -11,3 +11,19 @@
 
 ---
 <!--monopod:end-->
+
+<!--overview:start-->
+Check SPDX SBOM for NTIA minimum elements
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/ntia-conformance-checker:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

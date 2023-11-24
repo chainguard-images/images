@@ -12,12 +12,18 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Container image for running [apko](https://github.com/chainguard-dev/apko) container builds.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/apko:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

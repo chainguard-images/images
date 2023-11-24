@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimalist Wolfi-based Prometheus Redis Exporter image for exporting metrics to Redis.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/prometheus-redis-exporter:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 The easiest way to install the Prometheus Redis Exporter is to use the Helm chart.
@@ -34,3 +38,4 @@ $ helm install prom-redis-exporter prometheus-community/prometheus-redis-exporte
 ```
 
 For more detail, please refer to the [Redis Exporter documentation](https://github.com/oliver006/redis_exporter).
+<!--body:end-->
