@@ -284,6 +284,11 @@ module "deno" {
   target_repository = "${var.target_repository}/deno"
 }
 
+module "dependency-track" {
+  source            = "./images/dependency-track"
+  target_repository = "${var.target_repository}/dependency-track"
+}
+
 module "dex" {
   source            = "./images/dex"
   target_repository = "${var.target_repository}/dex"
