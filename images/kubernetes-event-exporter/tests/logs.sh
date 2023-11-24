@@ -35,7 +35,7 @@ search_logs() {
   local delay=15
 
   for ((i=1; i<=retries; i++)); do
-    local logs=$(kubectl logs pods/$(kubectl get pods -n k8s-event-exporter -o custom-columns=NAME:.metadata.name | grep 'my-release-kubernetes-event-exporter') -n k8s-event-exporter 2>&1)
+    local logs=$(kubectl logs pods/$(kubectl get pods -n k8s-event-exporter | grep 'Running' | awk '{print $1}') -n k8s-event-exporter 2>&1)
     local all_terms_found=true
 
     for term in "${terms[@]}"; do
