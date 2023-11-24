@@ -72,6 +72,8 @@ TEST_container_starts_ok() {
     local -r container_id=$(docker ps --format '{{.ID}}')
     trap "helm uninstall my-release" EXIT
 
+    echo $(docker ps)
+
     # Check if the container is running
     if ! docker ps --format '{{.Names}}' --filter "name=kubernetes-event-exporter" | grep "kubernetes-event-exporter"; then
         echo "FAILED: Container kubernetes-event-exporter is not running."
