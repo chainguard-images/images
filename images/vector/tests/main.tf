@@ -11,7 +11,7 @@ variable "digest" {
 data "oci_string" "ref" { input = var.digest }
 
 resource "helm_release" "vector" {
-  name = "vector"
+  name       = "vector"
   repository = "https://helm.vector.dev"
   chart      = "vector"
 
