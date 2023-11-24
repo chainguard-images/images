@@ -32,7 +32,7 @@ search_logs() {
   local delay=15
 
   for ((i=1; i<=retries; i++)); do
-    local -r container_id=$(docker ps --format '{{.ID}}' --filter "name=my-release-kubernetes-event-exporter")
+    local -r container_id=$(docker ps --format '{{.ID}}' --filter "name=kubernetes-event-exporter")
     local logs=$(docker logs "${container_id}" 2>&1)
     local all_terms_found=true
 
@@ -73,7 +73,7 @@ TEST_container_starts_ok() {
     trap "helm uninstall my-release" EXIT
 
     # Check if the container is running
-    if ! docker ps --format '{{.Names}}' --filter "name=my-release-kubernetes-event-exporter" | grep "my-release-kubernetes-event-exporter"; then
+    if ! docker ps --format '{{.Names}}' --filter "name=kubernetes-event-exporter" | grep "kubernetes-event-exporter"; then
         echo "FAILED: Container kubernetes-event-exporter is not running."
         exit 1
     else
