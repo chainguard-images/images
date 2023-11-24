@@ -1141,6 +1141,11 @@ module "vault" {
   target_repository = "${var.target_repository}/vault"
 }
 
+module "vector" {
+  source            = "./images/vector"
+  target_repository = "${var.target_repository}/vector"
+}
+
 module "vela-cli" {
   source            = "./images/vela-cli"
   target_repository = "${var.target_repository}/vela-cli"
