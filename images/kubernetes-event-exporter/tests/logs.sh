@@ -21,6 +21,7 @@ start_container() {
       oci://registry-1.docker.io/bitnamicharts/kubernetes-event-exporter
   helm upgrade my-release \
       oci://registry-1.docker.io/bitnamicharts/kubernetes-event-exporter \
+  --set containerName=kubernetes-event-exporter \
   --set image.registry="${IMAGE_REGISTRY}" \
   --set image.repository="${IMAGE_REPOSITORY}" \
   --set image.tag=latest
