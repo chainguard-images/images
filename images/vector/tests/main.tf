@@ -11,21 +11,22 @@ variable "digest" {
 data "oci_string" "ref" { input = var.digest }
 
 resource "helm_release" "vector" {
-  name       = "vector"
+  name = "vector"
   repository = "https://helm.vector.dev"
   chart      = "vector"
 
   values = [jsonencode({
-    image = {
-      registry   = data.oci_string.ref.registry
-      repository = data.oci_string.ref.repo
-      digest     = data.oci_string.ref.digest
+    localpv = {
+      image = {
+        registry   = join("", [data.oci_string.ref.registry, "/"])
+        repository = data.oci_string.ref.repo
+        tag        = data.oci_string.ref.pseudo_tag
+      }
     }
   })]
 }
 
 module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.vector.id
-  namespace = helm_release.vector.namespace
+  source = "../../../tflib/helm-cleanup"
+  name   = helm_release.vector.id
 }

@@ -8,23 +8,13 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-locals {
-  main_package = "vector"
-}
-
-module "config" {
-  source         = "./configs"
-  extra_packages = ["${local.main_package}"]
-}
+module "latest-config" { source = "./config" }
 
 module "latest" {
-  source = "../../tflib/publisher"
-
-  name = basename(path.module)
-
+  source            = "../../tflib/publisher"
+  name              = basename(path.module)
   target_repository = var.target_repository
-  config            = module.config.config
-  main_package      = local.main_package
+  config            = module.latest-config.config
   build-dev         = true
 }
 
