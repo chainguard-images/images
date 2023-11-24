@@ -3,7 +3,7 @@ variable "target_repository" {
 }
 
 module "config" {
-  source = "./config"
+  source         = "./config"
   extra_packages = ["vector"]
 }
 
@@ -16,7 +16,7 @@ module "versioned" {
   extra_dev_packages = [
     "build-base",
   ]
-  main_package      = "vector"
+  main_package = "vector"
 }
 
 module "test-things" {
