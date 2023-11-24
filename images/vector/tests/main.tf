@@ -1,7 +1,6 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci = { source = "chainguard-dev/oci" }
   }
 }
 
@@ -11,13 +10,6 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-resource "random_pet" "suffix" {}
-
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --version"
-}
-
 resource "helm_release" "vector" {
   repository       = "https://helm.vector.dev"
   name             = "vector"
@@ -26,15 +18,13 @@ resource "helm_release" "vector" {
   create_namespace = true
   timeout          = 120
 
-  values = [
-    jsonencode({
-      image = {
-        repository = data.oci_string.ref.registry_repo
-        tag        = "latest"
-        sha        = trimprefix(data.oci_string.ref.digest, "sha256:")
-      }
-    })
-  ]
+  values = [jsonencode({
+    image = {
+      registry   = data.oci_string.ref.registry
+      repository = data.oci_string.ref.repo
+      digest     = data.oci_string.ref.digest
+    }
+  })]
 }
 
 module "helm_cleanup" {
