@@ -18,11 +18,9 @@ declare -a missing_terms=()
 
 start_container() {  
   helm install my-release \
-      --namespace=k8s-event-exporter --create-namespace \
       oci://registry-1.docker.io/bitnamicharts/kubernetes-event-exporter
   helm upgrade my-release \
       oci://registry-1.docker.io/bitnamicharts/kubernetes-event-exporter \
-  --namespace=k8s-event-exporter \
   --set image.registry="${IMAGE_REGISTRY}" \
   --set image.repository="${IMAGE_REPOSITORY}" \
   --set image.tag=latest
@@ -72,7 +70,7 @@ TEST_container_starts_ok() {
     # Create Keystore and launch Keycloak
     start_container
     local -r container_id=$(docker ps --format '{{.ID}}')
-    trap "helm uninstall my-release -n k8s-event-exporter" EXIT
+    trap "helm uninstall my-release" EXIT
 
     # Check if the container is running
     if ! docker ps --format '{{.Names}}' --filter "name=my-release-kubernetes-event-exporter" | grep "my-release-kubernetes-event-exporter"; then
