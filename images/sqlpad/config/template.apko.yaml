@@ -1,0 +1,34 @@
+contents:
+  packages: [
+    # Package "sqlpad" comes in via var.extra_packages
+    # To add a version stream image, see the extra_packages variable in config/main.tf to add packages conditionally.
+    # Otherwise, just add packages here.
+  ]
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+
+environment:
+  SQLPAD_DB_PATH: /var/lib/sqlpad
+  NODE_ENV: production
+  SQLPAD_PORT: 3000
+
+paths:
+  - path: /usr/bin/sqlpad-server
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+    recursive: true
+
+entrypoint:
+  command:  /usr/bin/sqlpad-server
+
+cmd: node server.js --config ./config.dev.env
