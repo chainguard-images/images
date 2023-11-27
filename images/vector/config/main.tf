@@ -13,7 +13,7 @@ output "config" {
     }
     accounts = module.accts.block
     entrypoint = {
-      command = "/usr/bin/provisioner-vector"
+      command = "/usr/bin/vector"
     }
   })
 }
