@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
-# Caddy
+<!--overview:start-->
+Open source web server with automatic HTTPS written in Go
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/caddy:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 This image comes with a default configuration `Caddyfile` located in `/etc/caddy/Caddyfile`.
@@ -33,3 +37,4 @@ The following example runs `caddy` with a custom configuration file:
 ```
 docker run -it --rm -v "$(pwd)/Caddyfile:/etc/caddy/Caddyfile" cgr.dev/chainguard/caddy caddy run --config /etc/caddy/Caddyfile
 ```
+<!--body:end-->

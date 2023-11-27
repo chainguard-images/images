@@ -12,18 +12,22 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 [Trillian](https://github.com/google/trillian) is a Merkle tree implementation that is used as the backing for various functionalities including Certificate Transparency and the Sigstore Rekor transparency log.
+<!--overview:end-->
 
-## Get It
-
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/trillian-logserver
-docker pull cgr.dev/chainguard/trillian-logsigner
+docker pull cgr.dev/chainguard/trillian:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Sigstore
 
 Trillian is also deployed as part of the sigstore stack.  For more information
 on this see [`sigstore-scaffolding`](../sigstore-scaffolding/).
+<!--body:end-->

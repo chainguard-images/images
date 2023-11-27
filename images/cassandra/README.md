@@ -11,3 +11,19 @@
 
 ---
 <!--monopod:end-->
+
+<!--overview:start-->
+[Cassandra](https://cassandra.apache.org) is a free and open-source, distributed, wide-column store, NoSQL database.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/cassandra:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

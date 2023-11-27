@@ -12,14 +12,20 @@
 ---
 <!--monopod:end-->
 
-## Get It!
+<!--overview:start-->
+Fast distributed SQL query engine for big data analytics that helps you explore your data universe.
+<!--overview:end-->
 
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/trino
+docker pull cgr.dev/chainguard/trino:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 There is a TrinoDB Helm Chart exists, [here](https://github.com/trinodb/charts), which makes it easy to deploy TrinoDB on Kubernetes.
@@ -34,4 +40,4 @@ helm install trino trino/trino \
 ```
 
 That's it, now, you have TrinoDB running on Kubernetes.
-
+<!--body:end-->

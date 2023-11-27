@@ -1,0 +1,10 @@
+name                = "wait-for-it"
+image               = "cgr.dev/chainguard/wait-for-it"
+logo                = "https://storage.googleapis.com/chainguard-academy/logos/wait-for-it.svg"
+endoflife           = ""
+console_summary     = ""
+short_description   = "Container image for testing whether a service is listening on an address/port combination."
+compatibility_notes = ""
+readme_file         = "README.md"
+
+upstream_url        = "https://github.com/vishnubob/wait-for-it"

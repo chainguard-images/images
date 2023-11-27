@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with the `boring-registry` [server application](https://github.com/TierMobility/boring-registry).
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/boring-registry:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 To run `boring-registry`:
@@ -113,3 +117,4 @@ helm upgrade --install boring-registry oci://ghcr.io/tiermobility/charts/boring-
     --set global.image.tag="latest" \
     --wait
 ```
+<!--body:end-->

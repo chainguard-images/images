@@ -12,17 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 [prometheus-adapter](https://github.com/kubernetes-sigs/prometheus-adapter) is a Prometheus project used to collect Prometheus metrics in Kubernetes.
+<!--overview:end-->
 
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/prometheus-adapter:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 The easiest way to install the Prometheus Adapter is to use the Helm chart.
@@ -35,3 +38,4 @@ $ helm install adapter prometheus-community/prometheus-adapter \
 ```
 
 For more detail, please refer to the [Adapter documentation](https://github.com/kubernetes-sigs/prometheus-adapter).
+<!--body:end-->

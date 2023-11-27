@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
-Fluent Bit is a lightweight and high performance log processor. In this repository you will find the container images ready for production usage.
+<!--overview:start-->
+[Fluent Bit](https://fluentbit.io) is a lightweight and high performance log processor.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/fluent-bit
+docker pull cgr.dev/chainguard/fluent-bit:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using fluent-bit
 
 Run a Fluent Bit instance that will receive messages over TCP port 24224 through the Forward protocol, and send the messages to the STDOUT interface in JSON format every second:
@@ -73,3 +77,4 @@ helm upgrade --install fluent-bit \
     --set command="/usr/bin/fluent-bit" \
     fluent/fluent-bit
 ```
+<!--body:end-->

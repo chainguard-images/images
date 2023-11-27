@@ -12,6 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
+Policy Controller image that is part of the Sigstore stack
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/sigstore-policy-controller:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 # Minimal `sigstore/policy-controller` image
 
 This image can be used with the upstream helm chart with the following
@@ -28,3 +42,4 @@ helm install policy-controller sigstore/policy-controller \
 	--set webhook.image.repository="${IMAGE}" \
 	--set webhook.image.version="$(crane digest ${IMAGE})"
 ```
+<!--body:end-->

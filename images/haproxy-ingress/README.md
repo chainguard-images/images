@@ -12,6 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
+Kubernetes ingress controller implementation for HAProxy
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/haproxy-ingress:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 # Usage
 
 You can use this image with the [Helm Chart](https://artifacthub.io/packages/helm/haproxy-ingress/haproxy-ingress) of the project:
@@ -27,3 +41,4 @@ helm install ingress haproxy-ingress/haproxy-ingress \
 
 kubectl wait --for=condition=ready pod --selector "app.kubernetes.io/name=haproxy-ingress" --timeout=120s
 ```
+<!--body:end-->

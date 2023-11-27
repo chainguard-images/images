@@ -12,11 +12,21 @@
 ---
 <!--monopod:end-->
 
-This is a minimal Python image based on Wolfi.
+<!--overview:start-->
+Minimal Python image based on Wolfi.
+<!--overview:end-->
 
-While this image is being developed, we will stick to the latest stable Python version. Supported versions in the long term are TBD.
-
+<!--getting:start-->
 ## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/python:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+## Variants
 
 We have two images available: a `python:latest-dev` variant that contains `pip` and a shell, and a minimal runtime image that just contains
 python itself.
@@ -52,3 +62,4 @@ COPY main.py .
 
 ENTRYPOINT [ "python", "/app/main.py" ]
 ```
+<!--body:end-->

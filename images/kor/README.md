@@ -12,6 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
+A Golang Tool to discover unused Kubernetes Resources
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/kor:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 # Kor - Kubernetes Orphaned Resources Finder
 
 Kor is a tool to discover unused Kubernetes resources. Currently, Kor can identify and list unused:
@@ -63,3 +77,4 @@ helm upgrade --install kor \
     --timeout=300s \
     ./kor/charts/kor
 ```
+<!--body:end-->

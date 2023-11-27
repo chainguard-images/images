@@ -1,0 +1,10 @@
+name                = "wazero"
+image               = "cgr.dev/chainguard/wazero"
+logo                = "https://storage.googleapis.com/chainguard-academy/logos/wazero.svg"
+endoflife           = ""
+console_summary     = ""
+short_description   = "This image contains the `wazero` tool which can be used to compile or run wasm binaries."
+compatibility_notes = ""
+readme_file         = "README.md"
+
+upstream_url        = "https://wazero.io"

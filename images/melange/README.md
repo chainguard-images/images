@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Container image for running [melange](https://github.com/chainguard-dev/melange) workflows to build APK packages.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/melange:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 To build the melange workflow in [examples](examples/gnu-hello.yaml):
 
 ```
@@ -47,3 +51,4 @@ docker run --privileged -v "$PWD":/work -it --entrypoint /bin/sh cgr.dev/chaingu
 Note that melange uses bubblewrap internally, which requires various Linux capabilities, hence the
 use of `--privileged`. Because of this requirement, we recommend this image is used only for local
 development and testing.
+<!--body:end-->

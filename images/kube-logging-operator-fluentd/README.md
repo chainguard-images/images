@@ -12,17 +12,22 @@
 ---
 <!--monopod:end-->
 
-Kubernetes Logging Operator Fluentd Image!
+<!--overview:start-->
+Kubernetes Logging Operator Fluentd Image
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/kube-logging-operator-fluentd
+docker pull cgr.dev/chainguard/kube-logging-operator-fluentd:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Use It!
 
 This image comes with no preinstalled plugins. It does contain the `fluent-gem` command so any necessary plugins can
 be installed, keeping the image as minimal as possible.
+<!--body:end-->

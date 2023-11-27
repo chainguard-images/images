@@ -12,22 +12,20 @@
 ---
 <!--monopod:end-->
 
-This image contains the CLI for the [Semgrep](https://semgrep.dev) static analysis tool.
-Semgrep is a lightweight static analysis tool for many languages. Find bug variants with patterns that look like source code.
+<!--overview:start-->
+CLI for the [Semgrep](https://semgrep.dev) static analysis tool. Semgrep is a lightweight static analysis tool for many languages. It finds bug variants with patterns that look like source code.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
-```shell
-$ docker pull cgr.dev/chainguard/semgrep:latest
-Using default tag: latest
-latest: Pulling from chainguard/semgrep
-[...]
-Status: Downloaded newer image for cgr.dev/chainguard/semgrep:latest
-cgr.dev/chainguard/semgrep:latest
 ```
+docker pull cgr.dev/chainguard/semgrep:latest
+```
+<!--getting:end-->
 
+<!--body:start-->
 ## Use It!
 
 The image can be run directly and sets the semgrep binary as the entrypoint:
@@ -57,3 +55,4 @@ Commands:
   shouldafound         Report a false negative in this project.
 
 ```
+<!--body:end-->

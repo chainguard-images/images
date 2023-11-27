@@ -12,21 +12,20 @@
 ---
 <!--monopod:end-->
 
-# Kubernetes-Event-Exporter
+<!--overview:start-->
+Minimalist [wolfi](https://github.com/wolfi-dev)-based image of [Kubernetes Event Exporter](https://github.com/resmoio/kubernetes-event-exporter) for exporting Kubernetes events to various outputs to be used for observability or alerting purposes.
+<!--overview:end-->
 
-Minimalist [wolfi](https://github.com/wolfi-dev)-based image of [Kubernetes Event Exporter]
-(https://github.com/resmoio/kubernetes-event-exporter) for exporting Kubernetes 
-events to various outputs to be used for observability or alerting purposes.
-
-
-## Get it!
-
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/kubernetes-event-exporter:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 Project documentation suggests usage of Bitnami chart which is comprehensive.
@@ -50,4 +49,4 @@ To uninstall/delete this deployment:
 ```
 helm delete my-release
 ```
-
+<!--body:end-->

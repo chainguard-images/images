@@ -12,12 +12,18 @@
 ---
 <!--monopod:end-->
 
-Kubernetes CSI External Snapshotter is a sidecar container that watches Kubernetes Snapshot CRD objects and triggers CreateSnapshot/DeleteSnapshot against a CSI endpoint.
+<!--overview:start-->
+ Sidecar container that watches Kubernetes Snapshot CRD objects and triggers CreateSnapshot/DeleteSnapshot against a CSI endpoint.
+<!--overview:end-->
 
-## Get It
-
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/kubernetes-csi-external-snapshotter
+docker pull cgr.dev/chainguard/kubernetes-csi-external-snapshotter:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->
