@@ -739,6 +739,12 @@ module "newrelic-kube-events" {
   license_key       = var.newrelic_license_key
 }
 
+module "newrelic-kubernetes" {
+  source            = "./images/newrelic-kubernetes"
+  target_repository = "${var.target_repository}/newrelic-kubernetes"
+  license_key       = var.newrelic_license_key
+}
+
 module "nfs-subdir-external-provisioner" {
   source            = "./images/nfs-subdir-external-provisioner"
   target_repository = "${var.target_repository}/nfs-subdir-external-provisioner"
