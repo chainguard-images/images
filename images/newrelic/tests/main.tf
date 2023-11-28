@@ -14,7 +14,6 @@ variable "digests" {
     fluent-bit-output       = string
     prometheus-configurator = string
     prometheus              = string
-    kubernetes              = string
   })
 }
 
@@ -56,11 +55,6 @@ resource "helm_release" "nri-bundle" {
             registry   = data.oci_string.ref["infrastructure-bundle"].registry
             repository = data.oci_string.ref["infrastructure-bundle"].repo
             tag        = data.oci_string.ref["infrastructure-bundle"].pseudo_tag
-          }
-          integration = {
-            registry   = data.oci_string.ref["kubernetes"].registry
-            repository = data.oci_string.ref["kubernetes"].repo
-            tag        = data.oci_string.ref["kubernetes"].pseudo_tag
           }
         }
       }

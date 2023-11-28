@@ -21,8 +21,8 @@ module "newrelic-kubernetes" {
 }
 
 module "test" {
-  source = "./tests"
-  digest = module.newrelic-kubernetes.image_ref
+  source      = "./tests"
+  digest      = module.newrelic-kubernetes.image_ref
   license_key = var.license_key
 }
 

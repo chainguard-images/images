@@ -21,7 +21,6 @@ resource "random_pet" "suffix" {}
 resource "helm_release" "nri-bundle" {
   name             = "nri-bundle-${random_pet.suffix.id}"
   namespace        = "default" # the ksm pod seems to require the default namespace
-  # namespace        = "nri-bundle-${random_pet.suffix.id}"
   repository       = "https://helm-charts.newrelic.com"
   chart            = "nri-bundle"
   create_namespace = true
@@ -67,7 +66,7 @@ resource "helm_release" "nri-bundle" {
   ]
 }
 
-data "oci_exec_test" "check-logging-operator" {
+data "oci_exec_test" "check-deployment" {
   digest      = var.digest
   script      = "./helm.sh"
   working_dir = path.module
@@ -86,7 +85,8 @@ data "oci_exec_test" "check-logging-operator" {
 }
 
 module "helm_cleanup" {
-  source = "../../../tflib/helm-cleanup"
-  name   = helm_release.nri-bundle.id
-  depends_on = [data.oci_exec_test.check-logging-operator]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.nri-bundle.id
+  namespace  = helm_release.nri-bundle.namespace
+  depends_on = [data.oci_exec_test.check-deployment]
 }

@@ -9,11 +9,11 @@ variable "license_key" {}
 
 variable "digests" {
   description = "The image digests to run tests over."
-  type = string
+  type        = string
 }
 
 data "oci_string" "ref" {
-  input    = var.digests
+  input = var.digests
 }
 
 resource "helm_release" "nri-bundle" {

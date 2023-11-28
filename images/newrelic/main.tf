@@ -9,7 +9,6 @@ locals {
     "infrastructure-bundle",
     "fluent-bit-output",
     "prometheus-configurator",
-    "kubernetes",
     "prometheus",
   ])
 

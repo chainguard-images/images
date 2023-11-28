@@ -6,17 +6,9 @@ terraform {
 
 locals {
   components = {
-    "fluent-bit-output" = {
-      main_package   = "newrelic-fluent-bit-output${var.suffix}"
-      extra_packages = ["newrelic-fluent-bit-output-compat"]
-    },
     "infrastructure-bundle" = {
       main_package   = "newrelic-infrastructure-bundle${var.suffix}"
       extra_packages = ["newrelic-infrastructure-agent"]
-    },
-    "kubernetes" = {
-      main_package   = "nri-kubernetes${var.suffix}"
-      extra_packages = []
     },
     "prometheus-configurator" = {
       main_package   = "newrelic-prometheus-configurator${var.suffix}"
