@@ -1,7 +1,7 @@
 variable "extra_packages" {
   description = "Additional packages to install."
   type        = list(string)
-  default     = ["dotnet-7", "dotnet-7-runtime", "aspnet-7-runtime"]
+  default     = ["dotnet-8", "dotnet-8-runtime", "aspnet-8-runtime"]
 }
 
 module "accts" { source = "../../../tflib/accts" }
