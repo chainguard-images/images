@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 #
-# Tests Keycloak can be started in production mode. This requires a keystore to
-# be created and mounted into the Keycloak container image.
+# Tests kubernetes-event-exporter with its helm chart and reviews the logs
+# to ensure expecyed behaviour
 #
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-# Define log entries we are looking for in the keycloak logs here.
+# Defining log entries we are looking for in the k8s-event-export logs
 declare -a terms=(
   "Created container event-exporter"
   "Started container event-exporter"
@@ -69,9 +69,11 @@ search_logs() {
 }
 
 TEST_container_starts_ok() {
-    # Create Keystore and launch Keycloak
+    # Install k8s-event-exporter using the helm chart and the image we built
     start_container
     local -r container_id=$(docker ps --format '{{.ID}}')
+
+    # Clear up the resources on exiting
     trap "helm uninstall my-release -n k8s-event-exporter" EXIT
 
     # Check if the container is running
