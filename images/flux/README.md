@@ -12,17 +12,21 @@
 ---
 <!--monopod:end-->
 
-## Get It
+<!--overview:start-->
+`flux` cli to interact with the [Flux](https://fluxcd.io/) gitops toolkit components in a running cluster.
+<!--overview:end-->
 
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/flux
+docker pull cgr.dev/chainguard/flux:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using `flux`
-
-The `flux` cli contains various functionality to interact with the flux gitops toolkit components in a running cluster.
 
 > NOTE: Many `flux` commands assume a properly connected `kubectl` context, which isn't usually the case when running through docker.
 
@@ -30,3 +34,4 @@ The `flux` cli contains various functionality to interact with the flux gitops t
 # Install the flux gitops toolkit using chainguard images
 docker run cgr.dev/chainguard/flux export --registry cgr.dev/chainguard | kubectl apply -f -
 ```
+<!--body:end-->

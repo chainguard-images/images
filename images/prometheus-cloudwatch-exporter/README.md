@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimalist Wolfi-based Prometheus CloudWatch Exporter image for exporting metrics to Amazon AWS CloudWatch.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/prometheus-cloudwatch-exporter:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 The easiest way to install the Prometheus StatsD Exporter is to use the Helm chart.
@@ -34,3 +38,4 @@ $ helm install prom-cloudwatch-exporter prometheus-community/prometheus-cloudwat
 ```
 
 For more detail, please refer to the [CloudWatch Exporter documentation](https://github.com/prometheus/cloudwatch_exporter).
+<!--body:end-->

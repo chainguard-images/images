@@ -12,4 +12,19 @@
 ---
 <!--monopod:end-->
 
-Minimalist Wolfi-based [prometheus-pushgateway-bitnami]() image. This is intended to be a drop in replacement for deployments that require Bitnami compatibility.
+<!--overview:start-->
+Minimalist Wolfi-based [prometheus-pushgateway-bitnami](https://github.com/prometheus/pushgateway) image.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/prometheus-pushgateway-bitnami:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+ This is intended to be a drop in replacement for deployments that require Prometheus Pushgateway Bitnami compatibility.
+<!--body:end-->

@@ -11,3 +11,19 @@
 
 ---
 <!--monopod:end-->
+
+<!--overview:start-->
+Minimalist Wolfi-based Java JRE image using [OpenJDK](https://openjdk.org/projects/jdk/). Used for running Java applications.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/jre-lts:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

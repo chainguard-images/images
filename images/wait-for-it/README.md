@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Container image for testing whether a service is listening on an address/port combination.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/wait-for-it:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 ### Simple Example
@@ -63,3 +67,4 @@ wait-for-it: waiting 5 seconds for fake.doesnotexist:80
 wait-for-it: timeout occurred after waiting 5 seconds for fake.doesnotexist:80
 wait-for-it: strict mode, refusing to execute subprocess
 ```
+<!--body:end-->

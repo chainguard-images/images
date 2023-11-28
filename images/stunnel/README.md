@@ -12,21 +12,27 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 This image contains the CLI for the [stunnel](https://www.stunnel.org/) networking tool
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/stunnel:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+
 This tool can be used to encrypt network connections between a client and server, without changing those programs.
 
 `stunnel` requires a configuration file to run.
 This image does not include a default configuration file.
 You will need to provide your own configuration file and set it using the  at `/etc/conf/stunnel.conf` when running the container.
 Note: this location can be overridden with the positional command line argument.
-
-## Get It!
-
-The image is available on `cgr.dev`:
-
-```
-docker pull cgr.dev/chainguard/stunnel:latest
-```
 
 ## Use It!
 
@@ -87,3 +93,4 @@ logId                  = connection identifier type
 OCSP                   = OCSP responder URL
 ...
 ```
+<!--body:end-->

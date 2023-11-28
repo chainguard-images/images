@@ -12,7 +12,21 @@
 ---
 <!--monopod:end-->
 
-Minimalist Wolfi-based [Redis-Bitnami]() image. This is intended to be a drop in replacement for deployments that require Bitnami compatibility. The most common case is the Bitnami Helm chart, which can be deployed as follows:
+<!--overview:start-->
+Minimalist Wolfi-based [Redis-Bitnami](https://github.com/redis/redis) image.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/redis-bitnami:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+This image is intended to be a drop in replacement for deployments that require Bitnami compatibility. The most common case is the Bitnami Helm chart, which can be deployed as follows:
 
 ```bash
 cat <<EOF > values.yaml
@@ -29,3 +43,4 @@ sentinel:
     tag: latest
 EOF
 ```
+<!--body:end-->

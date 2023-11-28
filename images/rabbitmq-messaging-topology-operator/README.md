@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
-Minimal Project RabbitMQ Messaging Topology Kubernetes Operator
+<!--overview:start-->
+RabbitMQ messaging topology operator
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/rabbitmq-messaging-topology-operator:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 This image is a drop-in replacement for the upstream image.
@@ -49,3 +53,4 @@ EOF
 
 kubectl apply -f .
 ```
+<!--body:end-->

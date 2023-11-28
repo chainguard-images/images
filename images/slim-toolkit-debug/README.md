@@ -12,12 +12,18 @@
 ---
 <!--monopod:end-->
 
-Container image with some debugging utilies included. Suitable for using as a debugging tool.
+<!--overview:start-->
+Wolfi container image with some debugging utilies included. Suitable for using as a debugging tool.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/slim-toolkit-debug:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

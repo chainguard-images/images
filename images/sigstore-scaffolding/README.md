@@ -12,7 +12,21 @@
 ---
 <!--monopod:end-->
 
-## Minimal Wolfi-based [Sigstore](https://sigstore.dev) images.
+<!--overview:start-->
+Minimal Wolfi-based [Sigstore](https://sigstore.dev) images.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/sigstore-scaffolding:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+
 
 The images in this directory are just the "glue" for bootstrapping the stack,
 but Chainguard offers minimal images for each of the elements needed by the
@@ -35,3 +49,4 @@ The stack also pulls in several support images:
 
 To see an example of how we substitute images into the `scaffold` Helm chart's
 `values.yaml` see our [`values.tf`](./tests/values.tf) example.
+<!--body:end-->

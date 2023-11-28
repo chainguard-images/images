@@ -12,7 +12,22 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
+Rekor is one of the core components of the sigstore stack.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/rekor:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 ## Sigstore Rekor
 
 Rekor is one of the core components of the sigstore stack.  For more information
 on this see [`sigstore-scaffolding`](../sigstore-scaffolding/).
+<!--body:end-->

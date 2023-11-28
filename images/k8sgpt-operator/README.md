@@ -12,12 +12,18 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal k8sgpt-operator container image.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/k8sgpt-operator:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

@@ -12,22 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
+A minimal [haproxy](https://www.haproxy.org/) base image rebuilt every night from source.
+<!--overview:end-->
 
-
-
-
-
-
-A minimal haproxy base image rebuilt every night from source.
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/haproxy:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 Similar to the `docker-library/haproxy` image, this image does not come with any default configuration.
@@ -61,3 +59,4 @@ haproxy:
       add:
         - NET_BIND_SERVICE
 ```
+<!--body:end-->

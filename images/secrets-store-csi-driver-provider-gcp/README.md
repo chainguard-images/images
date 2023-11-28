@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with the Kubernetes Secrets Store CSI Driver GCP Plugin. **EXPERIMENTAL**
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/secrets-store-csi-driver-provider-gcp:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using Secrets Store CSI Driver GCP Plugin
 
 The Chainguard Secrets Store CSI Driver GCP Plugin image contains the `secrets-store-csi-driver-provider-gcp` binary and required utilities.
@@ -29,3 +33,4 @@ The Chainguard Secrets Store CSI Driver GCP Plugin image contains the `secrets-s
 ```shell
 $ docker run cgr.dev/chainguard/secrets-store-csi-driver-provider-gcp
 ```
+<!--body:end-->

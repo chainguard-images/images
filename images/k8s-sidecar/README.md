@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with the k8s-sidecar app. **EXPERIMENTAL**
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/k8s-sidecar:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using k8s-sidecar
 
 The Chainguard k8s-sidecar image contains the k8s-sidecar python app.
@@ -36,3 +40,4 @@ $ docker run cgr.dev/chainguard/k8s-sidecar
 {"time": "2023-03-31T11:50:30.950708+00:00", "msg": "No folder annotation was provided, defaulting to k8s-sidecar-target-directory", "level": "WARNING"}
 {"time": "2023-03-31T11:50:30.950751+00:00", "msg": "Should have added {LABEL} as environment variable! Exit", "level": "CRITICAL"}
 ```
+<!--body:end-->

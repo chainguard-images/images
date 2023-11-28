@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimalist Wolfi-based Prometheus StatsD Exporter image for exporting metrics to StatsD.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/prometheus-statsd-exporter:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 The easiest way to install the Prometheus StatsD Exporter is to use the Helm chart.
@@ -34,3 +38,4 @@ $ helm install prom-statsd-exporter prometheus-community/prometheus-statsd-expor
 ```
 
 For more detail, please refer to the [StatsD Exporter documentation](https://github.com/prometheus/statsd_exporter).
+<!--body:end-->

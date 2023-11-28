@@ -12,17 +12,20 @@
 ---
 <!--monopod:end-->
 
-Minimal image with `timoni` binary.
-`timoni` is a package manager for Kubernetes, powered by `cue` and inspired by `helm`.
+<!--overview:start-->
+Minimal image with `timoni` binary. `timoni` is a package manager for Kubernetes, powered by `cue` and inspired by `helm`.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/timoni:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 The image contains the `timoni`  binary and a few assorted runtime dependencies.
 
 ```
@@ -70,3 +73,4 @@ Flags:
   -v, --version                        version for timoni
 
 ```
+<!--body:end-->
