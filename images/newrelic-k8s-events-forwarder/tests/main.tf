@@ -18,18 +18,6 @@ data "oci_string" "ref" {
 
 resource "random_pet" "suffix" {}
 
-# kube-state-metrics is required by the newrelic ksm pod. It will fail to come
-# up successfully without it.
-resource "helm_release" "kube-state-metrics" {
-  name = "kube-state-metrics-${random_pet.suffix.id}"
-
-  repository = "https://prometheus-community.github.io/helm-charts"
-  chart      = "kube-state-metrics"
-
-  namespace        = "kube-state-metrics-${random_pet.suffix.id}"
-  create_namespace = true
-}
-
 resource "helm_release" "nri-bundle" {
   name             = "newrelic-kubernetes-${random_pet.suffix.id}"
   namespace        = "newrelic-kubernetes-${random_pet.suffix.id}"
@@ -79,8 +67,11 @@ resource "helm_release" "nri-bundle" {
         }
       }
 
+      kube-state-metrics = {
+        enabled = false
+      }
+
       nri-metadata-injection       = { enabled = false }
-      kube-state-metrics           = { enabled = false }
       newrelic-pixie               = { enabled = false }
       pixie-chart                  = { enabled = false }
       newrelic-infra-operator      = { enabled = false }
@@ -93,7 +84,7 @@ data "oci_exec_test" "check-deployment" {
   digest      = var.digest
   script      = "./helm.sh"
   working_dir = path.module
-  depends_on  = [helm_release.nri-bundle, helm_release.kube-state-metrics]
+  depends_on  = [helm_release.nri-bundle]
 
   env = [
     {
@@ -107,16 +98,9 @@ data "oci_exec_test" "check-deployment" {
   ]
 }
 
-module "helm_cleanup-nri" {
+module "helm_cleanup" {
   source     = "../../../tflib/helm-cleanup"
   name       = helm_release.nri-bundle.id
   namespace  = helm_release.nri-bundle.namespace
-  depends_on = [data.oci_exec_test.check-deployment]
-}
-
-module "helm_cleanup-ksm" {
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.kube-state-metrics.id
-  namespace  = helm_release.kube-state-metrics.namespace
   depends_on = [data.oci_exec_test.check-deployment]
 }

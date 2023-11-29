@@ -53,8 +53,11 @@ resource "helm_release" "nri-bundle" {
         }
       }
 
+      kube-state-metrics = {
+        enabled = true
+      }
+
       nri-metadata-injection       = { enabled = false }
-      kube-state-metrics           = { enabled = false }
       newrelic-pixie               = { enabled = false }
       pixie-chart                  = { enabled = false }
       newrelic-infra-operator      = { enabled = false }

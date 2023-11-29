@@ -32,23 +32,6 @@ resource "helm_release" "nri-bundle" {
         licenseKey = var.license_key
       }
 
-      newrelic-infrastructure = {
-        privileged = true
-        kubelet = {
-          // We use some extra volume mounts needed when running in a docker-in-docker environment
-          extraVolumeMounts = [{
-            mountPath = "/var/run/newrelic-infra"
-            name      = "var-run-newrelic-infra"
-          }]
-          extraVolumes = [{
-            hostPath = {
-              path = "/var/run/newrelic-infra"
-            }
-            name = "var-run-newrelic-infra"
-          }]
-        }
-      }
-
       newrelic-logging = {
         enabled = true
         image = {
@@ -58,6 +41,7 @@ resource "helm_release" "nri-bundle" {
         }
       }
 
+      newrelic-infrastructure      = { enabled = false }
       nri-metadata-injection       = { enabled = false }
       kube-state-metrics           = { enabled = false }
       newrelic-pixie               = { enabled = false }
