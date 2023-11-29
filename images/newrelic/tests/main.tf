@@ -11,7 +11,6 @@ variable "digests" {
   description = "The image digests to run tests over."
   type = object({
     prometheus-configurator = string
-    prometheus              = string
   })
 }
 

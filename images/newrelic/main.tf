@@ -7,7 +7,6 @@ terraform {
 locals {
   components = toset([
     "prometheus-configurator",
-    "prometheus",
   ])
 
   repositories = merge(
