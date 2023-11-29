@@ -25,9 +25,8 @@ output "config" {
     }
     accounts = module.accts.block
     entrypoint = {
-      command = "/sbin/tini --"
+      command = "/sbin/tini -- /usr/bin/nri-kube-events"
     }
-    cmd = "/usr/bin/nri-kube-events"
     environment = {
       "NRIA_IS_CONTAINERIZED"       = true,
       "NRIA_OVERRIDE_HOST_ROOT"     = "",
