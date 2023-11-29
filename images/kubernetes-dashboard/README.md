@@ -12,21 +12,27 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image that acts as a drop-in replacement for the `kubernetesui/dashboard` image.
+<!--overview:end-->
 
-The dashboard listens on port `8443` by default.
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/kubernetes-dashboard:latest
 ```
+<!--getting:end-->
 
+<!--compatibility:start-->
+## Compatibility NotesThe dashboard listens on port `8443` by default.<!--compatibility:end-->
+
+<!--body:start-->
 You can run it with the standard deployment with something like:
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
 kubectl set image -n kubernetes-dashboard deployment/kubernetes-dashboard kubernetes-dashboard="cgr.dev/chainguard/kubernetes-dashboard:latest"
 ```
+<!--body:end-->

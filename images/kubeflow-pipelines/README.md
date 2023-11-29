@@ -12,4 +12,18 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimalist Kubeflow Pipelines Images
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/kubeflow-pipelines:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

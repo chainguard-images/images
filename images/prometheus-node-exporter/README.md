@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimalist Wolfi-based Prometheus Node Exporter image for exporting node metrics.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/prometheus-node-exporter:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 The easiest way to install the Prometheus Node Exporter is to use the Helm chart.
@@ -38,3 +42,4 @@ $ helm install prom-node-exporter prometheus-community/prometheus-node-exporter 
 ```
 
 For more detail, please refer to the [Node Exporter documentation](https://github.com/prometheus/node_exporter).
+<!--body:end-->

@@ -12,17 +12,22 @@
 ---
 <!--monopod:end-->
 
-Minimal container image for running deno apps
+<!--overview:start-->
+Minimal container image for running [Deno](https://deno.com/) apps
+<!--overview:end-->
 
-The image specifies a default non-root `deno` user (UID 65532), and a working directory at `/app`, owned by that `deno` user, and accessible to all users.
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/deno:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
+
+The image specifies a default non-root `deno` user (UID 65532), and a working directory at `/app`, owned by that `deno` user, and accessible to all users.
 
 ## Usage Example
 
@@ -59,3 +64,4 @@ Your user-agent is:
 
 curl/7.84.0%
 ```
+<!--body:end-->

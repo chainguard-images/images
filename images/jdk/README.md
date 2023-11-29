@@ -12,20 +12,20 @@
 ---
 <!--monopod:end-->
 
-Minimalist Wolfi-based Java JDK image using OpenJDK.  Used for compiling Java applications.
+<!--overview:start-->
+Minimalist Wolfi-based Java JDK image using using [OpenJDK](https://openjdk.org/projects/jdk/).  Used for compiling Java applications.
+<!--overview:end-->
 
-- [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jdk)
-- [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jdk/overview/#use-it)
-- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jdk/provenance_info/)
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/jdk:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Use it
 
 Create a simple Java class
@@ -68,3 +68,4 @@ Run the image
 ```sh
 docker run my-simple-java-app
 ```
+<!--body:end-->

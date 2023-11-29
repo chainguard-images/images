@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with Apache Zookeeper. **EXPERIMENTAL**
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/zookeeper:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using Zookeeper
 
 To run Zookeeper image with the sample configuration, use:
@@ -63,3 +67,4 @@ Using config: /usr/share/java/zookeeper/bin/../conf/zoo_sample.cfg
 2023-03-12 20:38:22,357 [myid:] - INFO  [main:o.a.z.Environment@98] - Server environment:zookeeper.version=3.8.1-74db005175a4ec545697012f9069cb9dcc8cdda7, built on 2023-03-12 20:32 UTC
 2023-03-12 20:38:22,357 [myid:] - INFO  [main:o.a.z.Environment@98] - Server environment:host.name=f0739f928721
 ```
+<!--body:end-->

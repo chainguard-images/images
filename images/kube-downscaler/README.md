@@ -12,12 +12,18 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with [kube-downscaler](https://codeberg.org/hjacobs/kube-downscaler), scale down Kubernetes deployments after work hours.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/kube-downscaler:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

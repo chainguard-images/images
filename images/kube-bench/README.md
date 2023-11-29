@@ -12,12 +12,18 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with [kube-bench](https://github.com/aquasecurity/kube-bench).
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/kube-bench:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

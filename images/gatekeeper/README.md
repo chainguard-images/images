@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
-Minimalist Wolfi-based Gatekeeper which is a policy controller for Kubernetes
+<!--overview:start-->
+Minimalist Wolfi-based [Gatekeeper](https://open-policy-agent.github.io/gatekeeper) which is a policy controller for Kubernetes
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/gatekeeper:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 This image should be a drop-in replacement for the upstream `opa/gatekeeper` image.
@@ -47,3 +51,4 @@ Once you did this, you can install Gatekeeper to the target cluster:
 	    --set image.release="latest" \
         gatekeeper/gatekeeper
 ```
+<!--body:end-->

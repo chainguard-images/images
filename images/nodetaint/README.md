@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal [nodetaint](https://github.com/wish/nodetaint) container image.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/nodetaint
+docker pull cgr.dev/chainguard/nodetaint:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 To install on you Kubernetes, you can use the `Helm`:
@@ -36,3 +40,4 @@ helm install nodetaint ./chart \
   --set image.repository=${IMAGE_REPOSITORY} \
   --set image.tag=${IMAGE_TAG}
 ```
+<!--body:end-->

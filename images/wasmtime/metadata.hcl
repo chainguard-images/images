@@ -1,0 +1,10 @@
+name                = "wasmtime"
+image               = "cgr.dev/chainguard/wasmtime"
+logo                = "https://storage.googleapis.com/chainguard-academy/logos/wasmtime.svg"
+endoflife           = ""
+console_summary     = ""
+short_description   = "This image contains the `wasmtime` tool which can be used to compile or run wasm binaries."
+compatibility_notes = ""
+readme_file         = "README.md"
+
+upstream_url        = "https://wasmtime.dev"

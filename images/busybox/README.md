@@ -12,7 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Container image with only busybox and libc (available in both musl and glibc variants). Suitable for running any binaries that only have a dependency on glibc/musl.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/busybox:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 
 - [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/busybox)
 - [Usage](https://github.com/chainguard-images/images/blob/main/images/busybox/README.md#usage)
@@ -24,14 +37,6 @@ There are two variants, one for musl and one for gclib.
 
 - `latest`: This is a image that has busybox and is for musl based variants.
 - `latest-glibc`: This is a image that has busybox and is for glibc based variants.
-
-## Get It!
-
-The image is available on `cgr.dev`:
-
-```shell
-docker pull cgr.dev/chainguard/busybox:latest
-```
 
 ## Usage
 
@@ -54,3 +59,4 @@ You can get a running shell on the image like this:
 ```shell
 docker run -it cgr.dev/chainguard/busybox:latest sh
 ```
+<!--body:end-->

@@ -12,12 +12,18 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 A minimal image for Kubernetes CSI external-snapshot-validation-webhook.
+<!--overview:end-->
 
-## Get It
-
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/kubernetes-csi-external-snapshot-validation-webhook
+docker pull cgr.dev/chainguard/kubernetes-csi-external-snapshot-validation-webhook:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

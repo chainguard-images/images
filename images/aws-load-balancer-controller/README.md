@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal Image for Kubernetes controller for Elastic Load Balancers
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/aws-load-balancer-controller:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 This image is a drop-in replacement for the upstream image.
@@ -37,3 +41,4 @@ $ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
 
 Note that the `aws-load-balancer-controller` does need cloud provider configuration to work correctly, so it won't run locally.
 See the [configuration](https://github.com/aws/eks-charts/tree/master/stable/aws-load-balancer-controller) docs for more examples.
+<!--body:end-->

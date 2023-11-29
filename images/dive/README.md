@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal [dive](https://github.com/wagoodman/dive) container image.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/dive:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 ```
@@ -52,3 +56,4 @@ Flags:
 
 Use "dive [command] --help" for more information about a command.
 ```
+<!--body:end-->

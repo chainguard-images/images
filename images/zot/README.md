@@ -12,18 +12,20 @@
 ---
 <!--monopod:end-->
 
-Minimal image with
-[zot](https://github.com/project-zot/zot)
-binary. **EXPERIMENTAL**
+<!--overview:start-->
+Minimal image with [zot](https://github.com/project-zot/zot) binary. **EXPERIMENTAL**
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/zot:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 Create a zot config file:
@@ -69,3 +71,4 @@ docker run --rm \
   localhost:5000/demo:latest \
   -c 'echo hello world'
 ```
+<!--body:end-->

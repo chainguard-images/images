@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with Opensearch. **EXPERIMENTAL**
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/opensearch:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using Opensearch
 
 Chainguard Opensearch images include the `opensearch` package and helper scripts which can be used to start up or configure Opensearch.
@@ -48,3 +52,4 @@ $ docker run -it cgr.dev/chainguard/opensearch
 [2023-03-24T00:44:00,407][INFO ][o.o.i.r.ReindexPlugin    ] [6e57776e2bfa] Unable to find any implementation for RemoteReindexExtension
 [2023-03-24T00:44:00,415][INFO ][o.o.p.PluginsService     ] [6e57776e2bfa] loaded module [aggs-matrix-stats]
 ```
+<!--body:end-->

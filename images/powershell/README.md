@@ -12,10 +12,18 @@
 ---
 <!--monopod:end-->
 
-Container image with PowerShell.
+<!--overview:start-->
+Minimal Wolfi image with Powershell
+<!--overview:end-->
 
-## Get it!
-
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
-    docker pull cgr.dev/chainguard/powershell:latest
+```
+docker pull cgr.dev/chainguard/powershell:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

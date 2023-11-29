@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 [cAdvisor (Container Advisor)](https://github.com/google/cadvisor) provides container users an understanding of the resource usage and performance characteristics of their running containers.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/cadvisor
+docker pull cgr.dev/chainguard/cadvisor:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 See the [RUNNING.md](https://github.com/google/cadvisor/blob/master/docs/running.md) for the instructions. For the [Kubernetes deployment](https://github.com/google/cadvisor/tree/master/deploy/kubernetes), you can use the Kustomize:
@@ -40,3 +44,4 @@ namespace: cadvisor
 EOF
 kubectl apply -k .
 ```
+<!--body:end-->

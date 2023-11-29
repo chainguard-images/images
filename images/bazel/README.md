@@ -12,15 +12,20 @@
 ---
 <!--monopod:end-->
 
-[Bazel](https://github.com/bazelbuild/bazel) - A fast, scalable, multi-language and extensible build system.
+<!--overview:start-->
+[Bazel](https://bazel.build) - A fast, scalable, multi-language and extensible build system.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/bazel
+docker pull cgr.dev/chainguard/bazel:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
 
 ## Using Bazel
 
@@ -61,3 +66,4 @@ and see the message from the example application
 ```sh
 Hi
 ```
+<!--body:end-->
