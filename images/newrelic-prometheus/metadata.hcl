@@ -1,6 +1,6 @@
 name                = "newrelic-prometheus"
 image               = "cgr.dev/chainguard/newrelic-prometheus"
-logo                = "https://storage.googleapis.com/chainguard-academy/logos/newrelic.svg"
+logo                = "https://storage.googleapis.com/chainguard-academy/logos/newrelic-prometheus.svg"
 endoflife           = ""
 console_summary     = ""
 short_description   = "Minimal [newrelic-infrastructure-bundle](https://github.com/newrelic/infrastructure-bundle) container image."

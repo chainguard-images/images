@@ -19,8 +19,8 @@ data "oci_string" "ref" {
 resource "random_pet" "suffix" {}
 
 resource "helm_release" "nri-bundle" {
-  name             = "newrelic-prometheus-${random_pet.suffix.id}"
-  namespace        = "newrelic-prometheus-${random_pet.suffix.id}"
+  name             = "newrelic-pc-${random_pet.suffix.id}"
+  namespace        = "newrelic-pc-${random_pet.suffix.id}"
   repository       = "https://helm-charts.newrelic.com"
   chart            = "nri-bundle"
   create_namespace = true
@@ -32,15 +32,23 @@ resource "helm_release" "nri-bundle" {
         licenseKey = var.license_key
       }
 
-      nri-prometheus = {
+      newrelic-prometheus-agent = {
         enabled = true
-        image = {
-          registry   = data.oci_string.ref.registry
-          repository = data.oci_string.ref.repo
-          tag        = data.oci_string.ref.pseudo_tag
+        images = {
+          configurator = {
+            registry   = data.oci_string.ref.registry
+            repository = data.oci_string.ref.repo
+            tag        = data.oci_string.ref.pseudo_tag
+          }
+          prometheus = {
+            registry   = "cgr.dev"
+            repository = "chainguard/prometheus"
+            tag        = "latest"
+          }
         }
       }
 
+      nri-prometheus               = { enabled = false }
       newrelic-infrastructure      = { enabled = false }
       nri-metadata-injection       = { enabled = false }
       kube-state-metrics           = { enabled = false }

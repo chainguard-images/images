@@ -1,6 +1,5 @@
 contents:
-  packages:
-    # - newrelic-prometheus-configurator
+  packages: []
 
 accounts:
   groups:

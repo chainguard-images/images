@@ -791,6 +791,12 @@ module "newrelic-prometheus" {
   license_key       = var.newrelic_license_key
 }
 
+module "newrelic-prometheus-configurator" {
+  source            = "./images/newrelic-prometheus-configurator"
+  target_repository = "${var.target_repository}/newrelic-prometheus-configurator"
+  license_key       = var.newrelic_license_key
+}
+
 module "nfs-subdir-external-provisioner" {
   source            = "./images/nfs-subdir-external-provisioner"
   target_repository = "${var.target_repository}/nfs-subdir-external-provisioner"
