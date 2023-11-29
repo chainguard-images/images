@@ -733,6 +733,12 @@ module "newrelic-fluent-bit-output" {
   license_key       = var.newrelic_license_key
 }
 
+module "newrelic-infrastructure-bundle" {
+  source            = "./images/newrelic-infrastructure-bundle"
+  target_repository = "${var.target_repository}/newrelic-infrastructure-bundle"
+  license_key       = var.newrelic_license_key
+}
+
 module "newrelic-k8s-events-forwarder" {
   source            = "./images/newrelic-k8s-events-forwarder"
   target_repository = "${var.target_repository}/newrelic-k8s-events-forwarder"

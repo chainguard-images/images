@@ -2,8 +2,6 @@ contents:
   packages:
     - openjdk-8
     - openjdk-8-default-jvm
-    # - newrelic-infrastructure-agent
-    # - newrelic-infrastructure-bundle
     - kmod
 
 accounts:
@@ -15,3 +13,8 @@ accounts:
       uid: 65532
       gid: 65532
   run-as: 0
+
+# Discovered: crane config newrelic/infrastructure-bundle:latest | jq .config.Env
+environment:
+  NRIA_IS_CONTAINERIZED: true
+  NRIA_OVERRIDE_HOST_ROOT: "/host"
