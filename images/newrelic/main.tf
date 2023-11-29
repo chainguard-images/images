@@ -6,8 +6,6 @@ terraform {
 
 locals {
   components = toset([
-    "infrastructure-bundle",
-    "fluent-bit-output",
     "prometheus-configurator",
     "prometheus",
   ])

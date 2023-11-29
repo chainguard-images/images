@@ -10,8 +10,6 @@ variable "license_key" {}
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
-    infrastructure-bundle   = string
-    fluent-bit-output       = string
     prometheus-configurator = string
     prometheus              = string
   })
