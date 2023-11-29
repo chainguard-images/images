@@ -1,25 +1,25 @@
 <!--monopod:start-->
-# newrelic
+# newrelic-kube-events
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/newrelic` |
+| **OCI Reference** | `cgr.dev/chainguard/newrelic-kube-events` |
 
 
-* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/newrelic/overview/)
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/newrelic-kube-events/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
 ---
 <!--monopod:end-->
 
-Minimal [newrelic-infrastructure-bundle](https://github.com/newrelic/infrastructure-bundle) container image.
+Minimal [newrelic-kube-events](https://github.com/newrelic/nri-kube-events) container image.
 
 ## Get It
 
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/newrelic-infrastructure-bundle
+docker pull cgr.dev/chainguard/newrelic-kube-events
 ```
 
 ## Usage

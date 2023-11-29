@@ -7,13 +7,13 @@ terraform {
 
 variable "license_key" {}
 
-variable "digests" {
+variable "digest" {
   description = "The image digests to run tests over."
   type        = string
 }
 
 data "oci_string" "ref" {
-  input = var.digests
+  input = var.digest
 }
 
 resource "helm_release" "nri-bundle" {

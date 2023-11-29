@@ -1,25 +1,25 @@
 <!--monopod:start-->
-# newrelic
+# newrelic-k8s-events-forwarder
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/newrelic` |
+| **OCI Reference** | `cgr.dev/chainguard/newrelic-k8s-events-forwarder` |
 
 
-* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/newrelic/overview/)
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/newrelic-k8s-events-forwarder/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
 ---
 <!--monopod:end-->
 
-Minimal [newrelic-infrastructure-bundle](https://github.com/newrelic/infrastructure-bundle) container image.
+Minimal [newrelic-k8s-events-forwarder](https://github.com/newrelic/nri-kubernetes) container image.
 
 ## Get It
 
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/newrelic-infrastructure-bundle
+docker pull cgr.dev/chainguard/newrelic-k8s-events-forwarder
 ```
 
 ## Usage

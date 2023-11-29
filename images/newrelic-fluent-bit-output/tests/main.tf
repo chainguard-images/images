@@ -19,8 +19,8 @@ data "oci_string" "ref" {
 resource "random_pet" "suffix" {}
 
 resource "helm_release" "nri-bundle" {
-  name             = "nri-bundle-${random_pet.suffix.id}"
-  namespace        = "nri-bundle-${random_pet.suffix.id}"
+  name             = "newrelic-fbo-${random_pet.suffix.id}"
+  namespace        = "newrelic-fbo-${random_pet.suffix.id}"
   repository       = "https://helm-charts.newrelic.com"
   chart            = "nri-bundle"
   create_namespace = true

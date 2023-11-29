@@ -7,18 +7,35 @@ terraform {
 
 variable "license_key" {}
 
-variable "digests" {
+variable "digest" {
   description = "The image digests to run tests over."
   type        = string
 }
 
-data "oci_string" "ref" { input = var.digests }
+data "oci_string" "ref" {
+  input = var.digest
+}
+
+resource "random_pet" "suffix" {}
+
+# kube-state-metrics is required by the newrelic ksm pod. It will fail to come
+# up successfully without it.
+resource "helm_release" "kube-state-metrics" {
+  name = "kube-state-metrics-${random_pet.suffix.id}"
+
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart      = "kube-state-metrics"
+
+  namespace        = "kube-state-metrics-${random_pet.suffix.id}"
+  create_namespace = true
+}
 
 resource "helm_release" "nri-bundle" {
-  name       = "nri-bundle"
-  namespace  = "default"
-  repository = "https://helm-charts.newrelic.com"
-  chart      = "nri-bundle"
+  name             = "newrelic-kubernetes-${random_pet.suffix.id}"
+  namespace        = "newrelic-kubernetes-${random_pet.suffix.id}"
+  repository       = "https://helm-charts.newrelic.com"
+  chart            = "nri-bundle"
+  create_namespace = true
 
   values = [
     jsonencode({
@@ -72,7 +89,34 @@ resource "helm_release" "nri-bundle" {
   ]
 }
 
-module "helm_cleanup" {
-  source = "../../../tflib/helm-cleanup"
-  name   = helm_release.nri-bundle.id
+data "oci_exec_test" "check-deployment" {
+  digest      = var.digest
+  script      = "./helm.sh"
+  working_dir = path.module
+  depends_on  = [helm_release.nri-bundle, helm_release.kube-state-metrics]
+
+  env = [
+    {
+      name  = "NAMESPACE"
+      value = helm_release.nri-bundle.namespace
+    },
+    {
+      name  = "NAME"
+      value = helm_release.nri-bundle.name
+    }
+  ]
+}
+
+module "helm_cleanup-nri" {
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.nri-bundle.id
+  namespace  = helm_release.nri-bundle.namespace
+  depends_on = [data.oci_exec_test.check-deployment]
+}
+
+module "helm_cleanup-ksm" {
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.kube-state-metrics.id
+  namespace  = helm_release.kube-state-metrics.namespace
+  depends_on = [data.oci_exec_test.check-deployment]
 }

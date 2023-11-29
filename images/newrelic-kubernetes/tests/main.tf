@@ -19,7 +19,7 @@ data "oci_string" "ref" {
 resource "random_pet" "suffix" {}
 
 resource "helm_release" "nri-bundle" {
-  name             = "nri-bundle-${random_pet.suffix.id}"
+  name             = "newrelic-kubernetes-${random_pet.suffix.id}"
   namespace        = "default" # the ksm pod seems to require the default namespace
   repository       = "https://helm-charts.newrelic.com"
   chart            = "nri-bundle"
