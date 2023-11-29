@@ -194,3 +194,86 @@ The public repo uses GitHub Actions to build packages. It then uploads the packa
 4. Update the locally exist `APKINDEX.tar.gz` at the same folder with apks using `melange index -m -s APKINDEX.tar.gz *.apk`.
 5. Sign the index itself `melanges sign-index --signing-key melange.rsa APKINDEX.tar.gz`.
 6. Run the command to build the image as usual. The image will be built using the local packages instead of downloading from the internet.
+
+### Building using a local registry and `k3d` cluster
+
+During both presubmit and postsubmit, `k3s` (via `k3d`) is used as the target Kubernetes cluster. While this isn't a perfect encapsulation of all production environments, it is a good reflection of the smoke tests that releases require.
+
+For the best chance at reproducing CI results and working with a representative environment, your environment can be set up as follows:
+
+#### Prerequisites
+
+The following tools are required:
+
+- k3d
+  - requires docker, or some remote docker daemon
+- kubectl
+
+#### Setup
+
+```bash
+# Create a local registry managed by k3d
+k3d registry create k3d.localhost --port 5005
+
+# Create the k3d cluster
+k3d cluster create \
+    --k3s-arg "--disable=traefik@server:0" \
+    --k3s-arg "--disable=metrics-server@server:0" \
+    --registry-use k3d-k3d.localhost:5005
+```
+
+Alternatively, a `make` target is available for those who don't require any special options:
+
+```bash
+make k3d
+```
+
+For both cases, one time operations are required to ensure localhost DNS is properly functioning:
+
+```bash
+# Ensure the registry is accessible locally
+echo "127.0.0.1 k3d-k3d.localhost" | sudo tee -a /etc/hosts
+
+# Some tests (like the toolchains) test that images can be sufficiently built. We need to ensure the insecure local registry is accepted by the docker daemon
+# Ref: https://docs.docker.com/registry/insecure/#deploy-a-plain-http-registry
+```
+
+#### Run a test
+
+Assuming the setup above is complete, replace the `target_repository` variable with the newly created local registry.
+
+The example below outlines running a single build for `haproxy-ingress`:
+
+```bash
+❯ terraform apply -target 'module.haproxy-ingress' -var=target_repository="k3d-k3d.localhost:5005"
+```
+
+#### Gotchas
+
+Kubernetes is perfectly encapsulated with common APIs... right? Almost... for the most part, an app deployed on GKE or EKS vs k3s _should_ install the same way, there are a few common gotchas that are listed below:
+
+##### Load Balancers
+
+Some applications (like [`haproxy-ingress`](https://github.com/chainguard-images/images/blob/main/images/haproxy-ingress/tests/main.tf#L20)) require a load balancer to be provisioned.
+
+`k3s` ships with a [builtin load balancer](https://docs.k3s.io/networking#service-load-balancer) that can support a single IP claim. This means multiple ingress controllers or load balancers will conflict. For testing, ensure that only a single ingress controller and/or load balancer are deployed at any given time.
+
+> `k3s` also ships with `traefik-ingress-controller` by default, but you'll notice this is disabled in the above `k3d cluster create` command.
+
+##### Volumes
+
+Some applications (like [`external-dns`](https://github.com/chainguard-images/images/blob/main/images/external-dns/tests/e2e.sh#L90)) hard code the required `StorageClass` for dynamic `PersistentVolumes`.
+
+`k3s` ships with `local-path-provisioner` as the default `StorageClass`. For applications requiring `PersistentVolumes` that use hard coded `StorageClasses`, you need to ensure that it references the default `local-path`.
+
+##### Cluster name
+
+Some applications (like [`aws-load-balancer-controller`](https://github.com/chainguard-images/images/blob/main/images/aws-load-balancer-controller/tests/main.tf#L26)) require a specific hard coded cluster name.
+
+By default, the cluster name of the `k3d` clusters created for the dev setup are named `k3d-k3s-default`. 
+
+##### Docker network
+
+Some tests require referencing a specific docker network to ensure they're isolated on the `k3s` "internal" network.
+
+By default, the clusters docker network is named `k3d-k3s-default`.
