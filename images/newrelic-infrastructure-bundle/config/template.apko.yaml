@@ -3,6 +3,7 @@ contents:
     - openjdk-8
     - openjdk-8-default-jvm
     - kmod
+    - tini
 
 accounts:
   groups:
@@ -14,7 +15,14 @@ accounts:
       gid: 65532
   run-as: 0
 
-# Discovered: crane config newrelic/infrastructure-bundle:latest | jq .config.Env
+# Mimic: crane config newrelic/infrastructure-bundle:latest | jq .config.Entrypoint
+entrypoint:
+  command: "/sbin/tini --"
+
+# Mimic: crane config newrelic/infrastructure-bundle:latest | jq .config.Cmd
+cmd: "/usr/bin/newrelic-infra-service"
+
+# Mimic: crane config newrelic/infrastructure-bundle:latest | jq .config.Env
 environment:
   NRIA_IS_CONTAINERIZED: true
   NRIA_OVERRIDE_HOST_ROOT: "/host"
