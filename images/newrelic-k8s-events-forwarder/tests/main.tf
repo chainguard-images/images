@@ -19,8 +19,8 @@ data "oci_string" "ref" {
 resource "random_pet" "suffix" {}
 
 resource "helm_release" "nri-bundle" {
-  name             = "newrelic-kubernetes-${random_pet.suffix.id}"
-  namespace        = "newrelic-kubernetes-${random_pet.suffix.id}"
+  name             = "newrelic-kef-${random_pet.suffix.id}"
+  namespace        = "newrelic-kef-${random_pet.suffix.id}"
   repository       = "https://helm-charts.newrelic.com"
   chart            = "nri-bundle"
   create_namespace = true
@@ -68,7 +68,7 @@ resource "helm_release" "nri-bundle" {
       }
 
       kube-state-metrics = {
-        enabled = false
+        enabled = true
       }
 
       nri-metadata-injection       = { enabled = false }

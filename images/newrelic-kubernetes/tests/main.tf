@@ -20,7 +20,7 @@ resource "random_pet" "suffix" {}
 
 resource "helm_release" "nri-bundle" {
   name             = "newrelic-kubernetes-${random_pet.suffix.id}"
-  namespace        = "default" # the ksm pod seems to require the default namespace
+  namespace        = "newrelic-kubernetes-${random_pet.suffix.id}"
   repository       = "https://helm-charts.newrelic.com"
   chart            = "nri-bundle"
   create_namespace = true

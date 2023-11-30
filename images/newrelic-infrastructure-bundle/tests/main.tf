@@ -57,7 +57,7 @@ resource "helm_release" "nri-bundle" {
       }
 
       kube-state-metrics = {
-        enabled = false
+        enabled = true
       }
 
       nri-metadata-injection       = { enabled = false }
