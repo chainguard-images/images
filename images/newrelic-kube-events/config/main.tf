@@ -24,14 +24,13 @@ output "config" {
       ])
     }
     accounts = module.accts.block
+    # This entire string is required for the entrypoint, the chart relies
+    # on it being there
     entrypoint = {
       command = "/sbin/tini -- /usr/bin/nri-kube-events"
     }
     environment = {
-      "NRIA_IS_CONTAINERIZED"       = true,
-      "NRIA_OVERRIDE_HOST_ROOT"     = "",
-      "NRIA_IS_SECURE_FORWARD_ONLY" = true,
-      "NRIA_HTTP_SERVER_ENABLED"    = true,
+      "METADATA" = true,
     }
   })
 }
