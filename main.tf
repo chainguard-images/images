@@ -749,12 +749,6 @@ module "netcat" {
 }
 
 variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
-module "newrelic" {
-  source            = "./images/newrelic"
-  target_repository = "${var.target_repository}/newrelic"
-  license_key       = var.newrelic_license_key
-}
-
 module "newrelic-fluent-bit-output" {
   source            = "./images/newrelic-fluent-bit-output"
   target_repository = "${var.target_repository}/newrelic-fluent-bit-output"
