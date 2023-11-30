@@ -6,7 +6,13 @@ variable "entrypoint" {
   description = "The entrypoint to use for the image"
 }
 
-module "accts" { source = "../../../tflib/accts" }
+module "accts" {
+  source = "../../../tflib/accts"
+  name   = "minio"
+  uid    = 1000
+  gid    = 1000
+  run-as = 1000
+}
 
 output "config" {
   value = jsonencode({
