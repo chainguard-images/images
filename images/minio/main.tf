@@ -11,7 +11,7 @@ variable "target_repository" {
 locals {
   packages = {
     "minio" : {
-      extra_packages : ["minio"],
+      extra_packages : ["minio", "mc"],
       entrypoint : "/usr/bin/minio"
       repository = var.target_repository
     },
@@ -65,4 +65,3 @@ resource "oci_tag" "latest-dev" {
   digest_ref = module.latest[each.key].dev_ref
   tag        = "latest-dev"
 }
-
