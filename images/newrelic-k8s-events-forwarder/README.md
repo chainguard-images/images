@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal [newrelic-k8s-events-forwarder](https://github.com/newrelic/nri-kubernetes) container image.
+<!--overview:end-->
 
-## Get It
-
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/newrelic-k8s-events-forwarder
+docker pull cgr.dev/chainguard/newrelic-k8s-events-forwarder:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 These images are a drop-in replacement for the `newrelic` project. The images are tested against the upstream recommended [`nri-bundle`](https://github.com/newrelic/helm-charts/tree/master/charts/nri-bundle). chart.
@@ -84,3 +88,4 @@ newrelic-prometheus-agent:
       repository: chainguard/prometheus
       tag: latest
 ```
+<!--body:end-->

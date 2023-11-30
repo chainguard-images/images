@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal [newrelic-fluent-bit-output](https://github.com/newrelic/newrelic-fluent-bit-output) container image.
+<!--overview:end-->
 
-## Get It
-
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/newrelic-fluent-bit-output
+docker pull cgr.dev/chainguard/newrelic-fluent-bit-output:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 These images are a drop-in replacement for the `newrelic` project. The images are tested against the upstream recommended [`nri-bundle`](https://github.com/newrelic/helm-charts/tree/master/charts/nri-bundle). chart.
@@ -44,7 +48,7 @@ newrelic-infrastructure:
       tag: latest
     integration:
       registry: cgr.dev
-      repository: chainguard/newrelic-kubernetes
+      repository: chainguard/newrelic-nri-kubernetes
       tag: latest
 
 nri-prometheus:
@@ -84,3 +88,4 @@ newrelic-prometheus-agent:
       repository: chainguard/prometheus
       tag: latest
 ```
+<!--body:end-->
