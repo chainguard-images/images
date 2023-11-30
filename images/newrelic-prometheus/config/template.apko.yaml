@@ -15,7 +15,7 @@ accounts:
   run-as: 65532
 
 environment:
-  - STANDALONE: "TRUE"
+  STANDALONE: "TRUE"
 
 
 entrypoint:
