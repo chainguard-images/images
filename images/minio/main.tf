@@ -67,6 +67,12 @@ resource "oci_tag" "latest-dev" {
 }
 
 // TODO(jason): Stop version-tagging this public image.
+module "version-tags" {
+  for_each = local.packages
+  source   = "../../tflib/version-tags"
+  package  = each.value
+  config   = module.latest[each.key].config
+}
 module "tagger" {
   for_each   = local.packages
   source     = "../../tflib/tagger"
