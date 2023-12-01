@@ -68,8 +68,8 @@ resource "oci_tag" "latest-dev" {
 
 // TODO(jason): Stop version-tagging this public image.
 module "tagger" {
-  for_each = local.packages
-  source   = "../../tflib/tagger"
+  for_each   = local.packages
+  source     = "../../tflib/tagger"
   depends_on = [module.test-latest]
 
   tags = merge(
