@@ -65,3 +65,15 @@ resource "oci_tag" "latest-dev" {
   digest_ref = module.latest[each.key].dev_ref
   tag        = "latest-dev"
 }
+
+// TODO(jason): Stop version-tagging this public image.
+module "tagger" {
+  for_each = local.packages
+  source   = "../../tflib/tagger"
+  depends_on = [module.test-latest]
+
+  tags = merge(
+    { for t in module.version-tags[each.key].tag_list : t => module.latest[each.key].image_ref },
+    { for t in module.version-tags[each.key].tag_list : "${t}-dev" => module.latest[each.key].dev_ref },
+  )
+}
