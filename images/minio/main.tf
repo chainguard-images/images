@@ -70,7 +70,7 @@ resource "oci_tag" "latest-dev" {
 module "version-tags" {
   for_each = local.packages
   source   = "../../tflib/version-tags"
-  package  = each.value
+  package  = each.value.extra_packages[0]
   config   = module.latest[each.key].config
 }
 module "tagger" {
