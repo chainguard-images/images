@@ -18,6 +18,11 @@ data "oci_string" "ref" {
 
 resource "random_pet" "suffix" {}
 
+resource "random_integer" "random_port" {
+  min = 1025
+  max = 65534
+}
+
 resource "helm_release" "nri-bundle" {
   name             = "newrelic-kef-${random_pet.suffix.id}"
   namespace        = "newrelic-kef-${random_pet.suffix.id}"
@@ -46,6 +51,14 @@ resource "helm_release" "nri-bundle" {
             }
             name = "var-run-newrelic-infra"
           }]
+        }
+        common = {
+          agentConfig = {
+            # This agent uses the host network so we were getting port
+            # conflicts. This has the potential to be a flaky test due
+            # to being random and not gauranteed to be a free port.
+            http_server_port = random_integer.random_port.result
+          }
         }
         images = {
           forwarder = {
