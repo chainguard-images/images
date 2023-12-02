@@ -54,6 +54,9 @@ resource "helm_release" "nri-bundle" {
         }
         common = {
           agentConfig = {
+            # This agent uses the host network so we were getting port
+            # conflicts. This has the potential to be a flaky test due
+            # to being random and not gauranteed to be a free port.
             http_server_port = random_integer.random_port.result
           }
         }
