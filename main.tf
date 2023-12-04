@@ -187,6 +187,11 @@ module "cass-operator" {
   target_repository = "${var.target_repository}/cass-operator"
 }
 
+module "cass-config-builder" {
+  source            = "./images/cass-config-builder"
+  target_repository = "${var.target_repository}/cass-config-builder"
+}
+
 module "cassandra" {
   source            = "./images/cassandra"
   target_repository = "${var.target_repository}/cassandra"
