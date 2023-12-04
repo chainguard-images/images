@@ -2,4 +2,4 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-# TODO: Implement this test.
+docker run --rm ${IMAGE_NAME} --help
