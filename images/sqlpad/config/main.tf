@@ -10,6 +10,7 @@ variable "extra_packages" {
   // or update this default to [] if this isn't a version stream image.
   default = [
     "sqlpad",
+    "sqlpad-compat"
     // Other packages your image needs
   ]
 }

@@ -21,14 +21,20 @@ environment:
   SQLPAD_PORT: 3000
 
 paths:
-  - path: /usr/bin/sqlpad-server
+  - path: /var/lib/sqlpad
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+    recursive: true
+  - path: /usr/app/sqlpad-server
     type: directory
     permissions: 0o777
     uid: 65532
     gid: 65532
     recursive: true
 
-entrypoint:
-  command:  /usr/bin/sqlpad-server
+work-dir: /usr/app/sqlpad-server
 
-cmd: node server.js --config ./config.dev.env
+entrypoint:
+  command:  node server.js --config ./config.dev.env
