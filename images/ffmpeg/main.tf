@@ -13,18 +13,7 @@ module "latest" {
 
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.apko.yaml")
-}
-
-module "dev" { source = "../../tflib/dev-subvariant" }
-
-module "latest-dev" {
-  source = "../../tflib/publisher"
-
-  target_repository = var.target_repository
-  # Make the dev variant an explicit extension of the
-  # locked original.
-  config         = jsonencode(module.latest.config)
-  extra_packages = module.dev.extra_packages
+  build_dev         = true
 }
 
 module "version-tags" {
@@ -45,5 +34,6 @@ module "tagger" {
 
   tags = merge(
     { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },
+    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : "${t}-dev" => module.latest.dev_ref },
   )
 }
