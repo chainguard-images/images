@@ -1,6 +1,6 @@
 contents:
   packages: [
-    # Package "temporal-admin-tools" comes in via var.extra_packages
+    # Package "tctl" comes in via var.extra_packages
     # To add a version stream image, see the extra_packages variable in config/main.tf to add packages conditionally.
     # Otherwise, just add packages here.
   ]
@@ -16,4 +16,4 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command: /sbin/tini
+  command: /usr/bin/tctl

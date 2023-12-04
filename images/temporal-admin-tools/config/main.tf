@@ -9,8 +9,12 @@ variable "extra_packages" {
   // TODO: Add any other packages here you want to conditionally include,
   // or update this default to [] if this isn't a version stream image.
   default = [
-    "temporal-admin-tools",
-    // Other packages your image needs
+    "tctl",
+    "tdbg",
+    "temporal",
+    "temporal-cassandra-tool",
+    "temporal-sql-tool",
+    "temporal-server-schema"
   ]
 }
 
