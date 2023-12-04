@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 [Traefik](https://github.com/traefik/traefik) is a cloud native application proxy.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/traefik
+docker pull cgr.dev/chainguard/traefik:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using Traefik
 
 The default Traefik ports are 80 and 8080.
@@ -47,3 +51,4 @@ time="2023-01-29T12:37:55Z" level=info msg="Configuration loaded from file: /etc
 ## Users and Directories
 
 By default this image runs as a non-root user named `traefik` with a uid of 65532.
+<!--body:end-->

@@ -11,3 +11,19 @@
 
 ---
 <!--monopod:end-->
+
+<!--overview:start-->
+Monitoring and Observability Tool for the [PolicyReport CRD](https://kyverno.github.io/policy-reporter/) with an optional UI.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/kyverno-policy-reporter:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

@@ -1,0 +1,72 @@
+{
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": "apk-ca-certificates-bundle-20230506-r0",
+  "spdxVersion": "SPDX-2.3",
+  "creationInfo": {
+    "created": "2023-05-06T20:26:39Z",
+    "creators": [
+      "Tool: melange (v0.3.0-146-g08fae69)",
+      "Organization: Chainguard, Inc"
+    ],
+    "licenseListVersion": "3.18"
+  },
+  "dataLicense": "CC0-1.0",
+  "documentNamespace": "https://spdx.org/spdxdocs/chainguard/melange/",
+  "documentDescribes": [
+    "SPDXRef-Package-ca-certificates-bundle-20230506-r0"
+  ],
+  "files": [
+    {
+      "SPDXID": "SPDXRef-File--etc-ssl-certs-ca-certificates.crt",
+      "fileName": "etc/ssl/certs/ca-certificates.crt",
+      "licenseConcluded": "NOASSERTION",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "b132b312a42c8be5d632069aecc6797b629f1264"
+        },
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "824cefcee69de918c76b7b92776f304c3a4b7f6281539118bc1d41a9dd8476d9"
+        },
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "18d8c151a80c14db8a2b419503d589495ea2377e8f28bbe6f087bcc13d4c9d429616bfc57d3d7fcd40b3406760a036f8737a34ea29be53e3edf7c55e05809108"
+        }
+      ]
+    }
+  ],
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-Package-ca-certificates-bundle-20230506-r0",
+      "name": "ca-certificates-bundle",
+      "versionInfo": "20230506-r0",
+      "supplier": "Organization: Chainguard, Inc.",
+      "filesAnalyzed": true,
+      "hasFiles": [
+        "SPDXRef-File--etc-ssl-certs-ca-certificates.crt"
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "MPL-2.0 AND MIT",
+      "downloadLocation": "NOASSERTION",
+      "copyrightText": "\n",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE_MANAGER",
+          "referenceLocator": "pkg:apk/wolfi/ca-certificates-bundle@20230506-r0?arch=x86_64",
+          "referenceType": "purl"
+        }
+      ],
+      "packageVerificationCode": {
+        "packageVerificationCodeValue": "d98736c880d3536649f0593cd6ef1168a5683a06"
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-Package-ca-certificates-bundle-20230506-r0",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File--etc-ssl-certs-ca-certificates.crt"
+    }
+  ]
+}

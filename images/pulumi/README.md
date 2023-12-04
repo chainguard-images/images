@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal Pulumi Image
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/pulumi:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 ### Kubernetes Pod Example
@@ -141,3 +145,4 @@ Now check for pods, there should not be any:
 $ kubectl get pods
 No resources found in default namespace.
 ```
+<!--body:end-->

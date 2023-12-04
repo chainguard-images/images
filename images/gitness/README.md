@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with the `gitness` [server application](https://github.com/harness/gitness).
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/gitness:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 To run `gitness`:
@@ -48,3 +52,4 @@ time="2023-09-30T16:31:40Z" level=debug msg="poller: request stage from remote s
 ```
 
 The server should then be available at `localhost:3000`.
+<!--body:end-->

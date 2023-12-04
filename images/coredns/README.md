@@ -12,14 +12,20 @@
 ---
 <!--monopod:end-->
 
-## Get It!
+<!--overview:start-->
+[CoreDNS](https://coredns.io) is a fast and flexible DNS server written in Go
+<!--overview:end-->
 
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/coredns:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using CoreDNS
 
 The Chainguard CoreDNS image is a drop-in replacement for the upstream image.
@@ -34,3 +40,4 @@ helm install coredns coredns/coredns \
 	--set image.tag="latest" \
 	--set isClusterService=false
 ```
+<!--body:end-->

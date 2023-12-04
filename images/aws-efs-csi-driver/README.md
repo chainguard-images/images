@@ -12,12 +12,18 @@
 ---
 <!--monopod:end-->
 
-Minimal images for aws-efs-csi-driver.
+<!--overview:start-->
+Minimal images for [aws-efs-csi-driver](https://aws.amazon.com/efs/).
+<!--overview:end-->
 
-## Get It
-
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/aws-efs-csi-driver:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

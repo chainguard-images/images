@@ -2,17 +2,19 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-cat >deploy.yaml <<EOF
+ns=redis-${FREE_PORT}
+
+kubectl apply -f - <<EOF
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: redis
+  name: $ns
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: redis
+  namespace: $ns
   name: redis
 spec:
   replicas: 1
@@ -53,16 +55,13 @@ spec:
         - containerPort: 9121
 EOF
 
-kubectl apply -f deploy.yaml -n redis
-kubectl rollout status --timeout 5m -n redis deployment/redis
-kubectl wait --for=condition=ready pod --selector app=redis -n redis
+kubectl rollout status --timeout 5m -n $ns deployment/redis
+kubectl wait --for=condition=ready pod --selector app=redis -n $ns
 
-latest_pod_name="$(kubectl get pods --selector app=redis -n redis -o jsonpath="{.items[0].metadata.name}")"
-kubectl port-forward "pod/${latest_pod_name}" ${FREE_PORT}:9121 -n redis &
-
+latest_pod_name="$(kubectl get pods --selector app=redis -n $ns -o jsonpath="{.items[0].metadata.name}")"
+kubectl port-forward "pod/${latest_pod_name}" ${FREE_PORT}:9121 -n $ns &
 
 pid=$!
 trap "kill $pid" EXIT
 sleep 10
 curl localhost:${FREE_PORT}/metrics | grep "redis_up 1"
-

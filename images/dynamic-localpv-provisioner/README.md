@@ -12,19 +12,23 @@
 ---
 <!--monopod:end-->
 
-Minimal images for dynamic-localpv-provisioner
+<!--overview:start-->
+Dynamic Local Volumes for Kubernetes Stateful workloads.
+<!--overview:end-->
 
-## Get It
-
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/dynamic-localpv-provisioner:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Testing
 
-Fortunately, we have a Helm Chart ready-to-use for testing this image. 
+Fortunately, we have a Helm Chart ready-to-use for testing this image.
 
 You can find it [here](https://github.com/openebs/dynamic-localpv-provisioner/blob/develop/deploy/helm/charts/README.md).
 
@@ -40,3 +44,4 @@ helm install openebs-localpv openebs-localpv/dynamic-localpv-provisioner \
 ```
 
 Once you run the commands above, you will end up having the application running on your cluster.
+<!--body:end-->

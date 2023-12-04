@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with the [thanos-operator](https://github.com/banzaicloud/thanos-operator).
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/thanos-operator:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 ```shell
@@ -31,3 +35,4 @@ helm install thanos-operator banzaicloud-stable/thanos-operator \
     --set image.repository=cgr.dev/chainguard/thanos-operator \
     --set image.tag=latest
 ```
+<!--body:end-->

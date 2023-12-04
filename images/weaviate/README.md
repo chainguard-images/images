@@ -12,18 +12,20 @@
 ---
 <!--monopod:end-->
 
-Minimal container image for running the weaviate database.
+<!--overview:start-->
+Minimal container image for running the weaviate vector database.
+<!--overview:end-->
 
-The image specifies a default non-root `weaviate` user (UID 65532).
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/weaviate:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 This image should be a drop-in replacement for the upstream `weaviate` image.
@@ -87,3 +89,4 @@ Connector config & MQTT config:
 Help Options:
   -h, --help               Show this help message
 ```
+<!--body:end-->

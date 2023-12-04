@@ -1,6 +1,7 @@
 apiVersion: k3d.io/v1alpha5
 kind: Simple
 image: cgr.dev/chainguard/k3s:latest
+servers: 2
 registries:
   use:
     # For local runs, this can be removed

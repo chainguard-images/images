@@ -9,9 +9,9 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" {
-  input = var.digest
-}
+data "oci_string" "ref" { input = var.digest }
+
+resource "random_pet" "suffix" {}
 
 resource "random_pet" "suffix" {}
 

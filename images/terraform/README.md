@@ -12,12 +12,18 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 [Terraform](https://github.com/hashicorp/terraform) is an infrastructure as code tool.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/terraform
+docker pull cgr.dev/chainguard/terraform:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

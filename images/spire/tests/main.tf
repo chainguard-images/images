@@ -19,46 +19,51 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
-resource "helm_release" "spire" {
-  name             = "spire"
-  namespace        = "spire-system"
-  create_namespace = true
+resource "random_id" "hex" { byte_length = 4 }
 
-  repository = "https://spiffe.github.io/helm-charts"
-  chart      = "spire"
-  timeout    = 120
+data "oci_exec_test" "helm" {
+  digest      = var.digests["server"] // Not used, but required by the resource.
+  script      = <<EOF
+set -e
 
-  values = [
-    jsonencode({
-      spire-server = {
-        image = {
-          registry   = data.oci_string.ref["server"].registry
-          repository = data.oci_string.ref["server"].repo
-          tag        = data.oci_string.ref["server"].pseudo_tag
-        }
-      }
-      spire-agent = {
-        image = {
-          registry   = data.oci_string.ref["agent"].registry
-          repository = data.oci_string.ref["agent"].repo
-          tag        = data.oci_string.ref["agent"].pseudo_tag
-        }
-      }
-      spiffe-oidc-discovery-provider = {
-        enabled = true
-        config  = { acme = { tosAccepted = true } }
-        image = {
-          registry   = data.oci_string.ref["oidc-discovery-provider"].registry
-          repository = data.oci_string.ref["oidc-discovery-provider"].repo
-          tag        = data.oci_string.ref["oidc-discovery-provider"].pseudo_tag
-        }
-      }
-    }),
-  ]
-}
+rand=${random_id.hex.hex}
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.spire.id
-  namespace = helm_release.spire.namespace
+if ! command -v flock; then
+  echo "flock not installed; use \`brew install flock\`"
+  exit 1
+fi
+
+cat > /tmp/crd-values-$${rand}.yaml <<EOV
+annotations:
+  "helm.sh/resource-policy": "delete"
+EOV
+
+cat > /tmp/values-$${rand}.yaml <<EOV
+spire-server:
+  enabled: true
+  image:
+    registry: ${data.oci_string.ref["server"].registry}
+    repository: ${data.oci_string.ref["server"].repo}
+    tag: ${data.oci_string.ref["server"].pseudo_tag}
+spire-agent:
+  enabled: true
+  image:
+    registry: ${data.oci_string.ref["agent"].registry}
+    repository: ${data.oci_string.ref["agent"].repo}
+    tag: ${data.oci_string.ref["agent"].pseudo_tag}
+spiffe-oidc-discovery-provider:
+  enabled: true
+  image:
+    registry: ${data.oci_string.ref["oidc-discovery-provider"].registry}
+    repository: ${data.oci_string.ref["oidc-discovery-provider"].repo}
+    tag: ${data.oci_string.ref["oidc-discovery-provider"].pseudo_tag}
+  config:
+    acme:
+      tosAccepted: true
+EOV
+
+# Run with `flock` to ensure that only one test runs at a time.
+flock -e -w 600 /tmp/spire ./helm.sh $${rand}
+EOF
+  working_dir = path.module
 }

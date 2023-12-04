@@ -1,0 +1,48 @@
+contents:
+  packages: [
+    # Package "dependency-track" comes in via var.extra_packages
+    # To add a version stream image, see the extra_packages variable in config/main.tf to add packages conditionally.
+    # Otherwise, just add packages here.
+    openjdk-17-default-jvm,
+    busybox
+  ]
+
+accounts:
+  groups:
+    - groupname: dtrack
+      gid: 1000
+  users:
+    - username: dtrack
+      uid: 1000
+      gid: 1000
+  run-as: 1000
+
+environment:
+  JAVA_OPTIONS: "-XX:+UseParallelGC -XX:MaxRAMPercentage=90.0"
+  EXTRA_JAVA_OPTIONS: ""
+  TZ: Etc/UTC
+  # Dependency-Track's default logging level
+  LOGGING_LEVEL: INFO
+  # JVM Options that are passed at runtime by default
+  # JVM Options that can be passed at runtime, while maintaining also those set in JAVA_OPTIONS
+  # The web context defaults to the root. To override, supply an alternative context which starts with a / but does not end with one
+  # Example: /dtrack
+  CONTEXT: "/"
+  LANG: C.UTF-8
+  # Default notification publisher templates override environment variables
+  DEFAULT_TEMPLATES_OVERRIDE_ENABLED: false
+  DEFAULT_TEMPLATES_OVERRIDE_BASE_DIRECTORY: /data
+  LOGGING_CONFIG_PATH: "logback.xml"
+
+work-dir: /usr/share/java/dependency-track
+
+paths:
+  - path: /data
+    type: directory
+    permissions: 0o755
+    uid: 1000
+    gid: 1000
+    recursive: true
+
+cmd: |
+  sh -c "exec java ${JAVA_OPTIONS} ${EXTRA_JAVA_OPTIONS} --add-opens java.base/java.util.concurrent=ALL-UNNAMED -Dlogback.configurationFile=${LOGGING_CONFIG_PATH} -DdependencyTrack.logging.level=${LOGGING_LEVEL} -jar /usr/share/java/dependency-track/dependency-track-bundled.jar -context ${CONTEXT}"

@@ -1,0 +1,31 @@
+contents:
+  packages:
+    - kubeflow-pipelines-cache-deployer-compat
+    - busybox
+    - bash
+    - kubectl-latest
+    - openssl
+    # - kubeflow-pipelines-cache-deployer
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+
+paths:
+  - path: /kfp/cache/deployer
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+    recursive: true
+
+work-dir: /kfp/cache/deployer
+
+entrypoint:
+  command: /bin/bash /kfp/cache/deployer/deploy-cache-service.sh

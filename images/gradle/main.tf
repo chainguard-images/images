@@ -15,7 +15,6 @@ module "config" {
     "openjdk-17",
     "openjdk-17-default-jvm",
   ]
-  java_home = "/usr/lib/jvm/java-17-openjdk"
 }
 
 module "latest" {
@@ -25,12 +24,6 @@ module "latest" {
 
   target_repository = var.target_repository
   config            = module.config.config
-}
-
-module "version-tags" {
-  source  = "../../tflib/version-tags"
-  package = "gradle-8"
-  config  = module.latest.config
 }
 
 module "test-latest" {
