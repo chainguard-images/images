@@ -8,7 +8,7 @@ module "accts" { source = "../../../tflib/accts" }
 
 variable "extra_packages" {
   description = "The additional packages to install (e.g. memcached)."
-  default     = [""]
+  default     = ["memcached"]
 }
 
 variable "entrypoint" {
