@@ -12,11 +12,18 @@
 ---
 <!--monopod:end-->
 
-Minimal k8sgpt container image.
-## Get It!
+<!--overview:start-->
+Minimal [k8sgpt](https://k8sgpt.ai/) container image.
+<!--overview:end-->
 
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/k8sgpt:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

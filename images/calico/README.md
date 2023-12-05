@@ -12,11 +12,25 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
+[Calico](https://projectcalico.docs.tigera.io/) is a networking and security solution that enables Kubernetes workloads and non-Kubernetes/legacy workloads to communicate seamlessly and securely.
+<!--overview:end-->
+
+<!--getting:start-->
+<!--getting:end-->
+
+<!--body:start-->
 ## Installation
 
-There are several ways to install Calico. This document follows the upstream recommended way with the `tigera-operator` ([ref](https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart#install-calico)).
+There are several ways you can install Calico onto a Kubernetes cluster. This document follows method recommended in the [official Calico documentation](https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart#install-calico) which involves using the Tigera Calico operator. 
 
-There are two CRDs involved that work together to use the correct Chainguard Images:
+After setting up and connecting to the Kubernetes cluster where you want to install Calico, install the Tigera Calico operator and custom resource definitions (CRDs).
+
+```shell
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.4/manifests/tigera-operator.yaml
+```
+
+Then apply the following YAML manifest to create two CRDs.
 
 ```yaml
 ---
@@ -58,4 +72,11 @@ spec:
   imagePrefix: calico-
 ```
 
-The above combination of `ImageSet` and `Installation` can be used as a drop in replacement for the [upstream documentation](https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart#install-calico) step 2 (`custom-resources.yaml`) to correctly rename the Calico images to their `cgr.dev` variants.
+The combination of these `ImageSet` and `Installation` CRDs serve as a drop in replacement for [Step 2 of the upstream documentation](https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart#install-calico). Together, these correctly rename the Calico images to their `cgr.dev` variants.
+
+After creating the CRDs, you can ensure that the pods are running with a command like the following.
+
+```shell
+kubectl get pods -n calico-system
+```
+<!--body:end-->

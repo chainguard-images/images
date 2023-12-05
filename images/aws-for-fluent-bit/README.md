@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal [aws-for-fluent-bit](https://github.com/aws/aws-for-fluent-bit) Image
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/aws-for-fluent-bit
+docker pull cgr.dev/chainguard/aws-for-fluent-bit:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 See the [official usage documentation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/firelens-using-fluentbit.html) on AWS.
@@ -31,3 +35,4 @@ Run:
 ```sh
 docker run --rm cgr.dev/chainguard/aws-for-fluent-bit
 ```
+<!--body:end-->

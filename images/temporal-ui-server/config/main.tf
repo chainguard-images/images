@@ -9,6 +9,7 @@ variable "extra_packages" {
   default = [
     "temporal-ui-server",
     "temporal-ui-server-oci-entrypoint",
+    "dockerize",
   ]
 }
 

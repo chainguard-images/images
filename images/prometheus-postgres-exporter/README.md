@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
-Minimalist Wolfi-based Prometheus Postgres Exporter image for exporting various metrics about Postgres.
+<!--overview:start-->
+A PostgreSQL metric exporter for Prometheus
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/prometheus-postgres-exporter:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 The easiest way to install the Prometheus Prometheus Exporter is to use the Helm chart.
@@ -34,3 +38,4 @@ $ helm install prom-postgres-exporter prometheus-community/prometheus-postgres-e
 ```
 
 For more detail, please refer to the [Postgres Exporter documentation](https://github.com/prometheus-community/postgres_exporter).
+<!--body:end-->

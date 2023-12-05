@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
-Minimal image with buck2 binary and toolchain.
+<!--overview:start-->
+Minimal image with [buck2](https://buck2.build) build system binaries and toolchain.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/buck2:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 The default entrypoint is set to the `buck` binary, and a default C/C++ toolchain is installed in the image.
@@ -113,3 +117,4 @@ SUBCOMMANDS:
     uquery
             Perform queries on the unconfigured target graph
 ```
+<!--body:end-->

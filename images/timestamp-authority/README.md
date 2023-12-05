@@ -12,7 +12,21 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
+timestamp-authority is an RFC3161 Timestamp Authority, a core component of the sigstore stack
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/timestamp-authority:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 ## Sigstore timestamp-authority
 
-timestamp-authority is one of the core components of the sigstore stack.  For more information
-on this see [`sigstore-scaffolding`](../sigstore-scaffolding/).
+timestamp-authority is one of the core components of the sigstore stack.  For more information on this see [`sigstore-scaffolding`](../sigstore-scaffolding/).
+<!--body:end-->

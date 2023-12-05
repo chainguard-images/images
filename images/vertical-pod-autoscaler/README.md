@@ -11,3 +11,19 @@
 
 ---
 <!--monopod:end-->
+
+<!--overview:start-->
+Image to automatically adjust the amount of CPU and memory requested by pods running in the Kubernetes Cluster
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/vertical-pod-autoscaler:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

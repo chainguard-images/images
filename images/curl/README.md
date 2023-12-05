@@ -12,18 +12,20 @@
 ---
 <!--monopod:end-->
 
-This is a minimal curl image base.
+<!--overview:start-->
+Minimal [curl](https://curl.se/) image base containing curl and ca-certificates.
+<!--overview:end-->
 
-It contains curl and ca-certificates.
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/curl:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 The curl image allows you to run ordinary curl commands in CI/CD pipelines and also locally via Docker.
@@ -50,3 +52,4 @@ Release-Date: 2022-12-21
 Protocols: dict file ftp ftps gopher gophers http https imap imaps mqtt pop3 pop3s rtsp smb smbs smtp smtps telnet tftp
 Features: alt-svc AsynchDNS brotli HSTS HTTP2 HTTPS-proxy IPv6 Largefile libz NTLM NTLM_WB SSL threadsafe TLS-SRP UnixSockets
 ```
+<!--body:end-->

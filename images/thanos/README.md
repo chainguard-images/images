@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
-Minimal Thanos Image
+<!--overview:start-->
+Minimal Thanos Image, a highly available Prometheus setup with long term storage
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/thanos:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 THe default entrypoint for this image is the `thanos` binary.
@@ -65,3 +69,4 @@ Commands:
     Query node exposing PromQL enabled Query API with data retrieved from
     multiple store nodes.
 ```
+<!--body:end-->

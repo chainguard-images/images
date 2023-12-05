@@ -12,12 +12,18 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Container image with only bash and libc. Suitable for running any small scripts or binaries that need bash instead of just the busybox shell.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/bash:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

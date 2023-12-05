@@ -15,8 +15,8 @@ function cleanup() {
     kubectl delete ns ${ns} --wait=true
 
     for crd in $(kubectl get crds -o name | grep spire); do
-    kubectl delete $crd
-    kubectl wait --for=delete $crd --timeout=120s
+        kubectl delete $crd
+        kubectl wait --for=delete $crd --timeout=120s
     done
 }
 trap cleanup EXIT

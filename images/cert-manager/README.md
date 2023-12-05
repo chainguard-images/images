@@ -12,19 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 [Cert Manager](https://cert-manager.io/) Automatically provision and manage TLS certificates in Kubernetes
+<!--overview:end-->
 
-## Get It
-
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/cert-manager-controller
-docker pull cgr.dev/chainguard/cert-manager-acmesolver
-docker pull cgr.dev/chainguard/cert-manager-cainjector
-docker pull cgr.dev/chainguard/cert-manager-webhook
+docker pull cgr.dev/chainguard/cert-manager:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using Cert Manager
 
 These set of images are a drop in replacement for the standard `cert-manager` installation ([here](https://cert-manager.io/docs/installation/)), and replacing them with the Chainguard images.
@@ -49,3 +50,4 @@ webhook:
         repository: cgr.dev/chainguard/cert-manager-webhook
         tag: latest
 ```
+<!--body:end-->

@@ -11,28 +11,29 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-resource "random_pet" "suffix" {}
+resource "random_id" "hex" { byte_length = 4 }
 
-resource "helm_release" "tigera-operator" {
-  name = "tigera-operator-${random_pet.suffix.id}"
+data "oci_exec_test" "helm" {
+  digest      = var.digest // Not used, but required by the resource.
+  script      = <<EOF
+set -e
 
-  repository       = "https://projectcalico.docs.tigera.io/charts"
-  chart            = "tigera-operator"
-  namespace        = "tigera-operator-${random_pet.suffix.id}"
-  create_namespace = true
+rand=${random_id.hex.hex}
 
-  values = [jsonencode({
-    tigeraOperator = {
-      version  = data.oci_string.ref.pseudo_tag
-      image    = data.oci_string.ref.repo
-      registry = data.oci_string.ref.registry
-    }
-  })]
+if ! command -v flock; then
+  echo "flock not installed; use \`brew install flock\`"
+  exit 1
+fi
+
+cat > /tmp/values-$${rand}.yaml <<EOV
+tigeraOperator:
+  version: ${data.oci_string.ref.pseudo_tag}
+  image: ${data.oci_string.ref.repo}
+  registry: ${data.oci_string.ref.registry}
+EOV
+
+# Run with `flock` to ensure that only one test runs at a time.
+flock -e -w 1200 /tmp/spire ./helm.sh $${rand}
+EOF
+  working_dir = path.module
 }
-
-# This doesn't seem to cleanly uninstall things.
-# module "helm_cleanup" {
-#   source    = "../../../tflib/helm-cleanup"
-#   name      = helm_release.tigera-operator.id
-#   namespace = helm_release.tigera-operator.namespace
-# }

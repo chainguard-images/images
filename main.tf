@@ -143,6 +143,11 @@ module "buck2" {
   target_repository = "${var.target_repository}/buck2"
 }
 
+module "buildkit" {
+  source            = "./images/buildkit"
+  target_repository = "${var.target_repository}/buildkit"
+}
+
 module "busybox" {
   source            = "./images/busybox"
   target_repository = "${var.target_repository}/busybox"
@@ -192,6 +197,14 @@ module "clang" {
 }
 
 module "cert-manager" {
+  source            = "./images/cert-manager"
+  target_repository = "${var.target_repository}/cert-manager"
+}
+
+// This isn't intended to be run in production, but it's useful for testing
+// that the cert-manager test module can be run by multiple modules. To test this, run:
+// terraform apply -target=module.cert-manager -target=module.cert-manager-again-for-testing -auto-approve
+module "cert-manager-again-for-testing" {
   source            = "./images/cert-manager"
   target_repository = "${var.target_repository}/cert-manager"
 }
@@ -276,6 +289,11 @@ module "deno" {
   target_repository = "${var.target_repository}/deno"
 }
 
+module "dependency-track" {
+  source            = "./images/dependency-track"
+  target_repository = "${var.target_repository}/dependency-track"
+}
+
 module "dex" {
   source            = "./images/dex"
   target_repository = "${var.target_repository}/dex"
@@ -304,6 +322,11 @@ module "envoy" {
 module "envoy-ratelimit" {
   source            = "./images/envoy-ratelimit"
   target_repository = "${var.target_repository}/envoy-ratelimit"
+}
+
+module "erlang" {
+  source            = "./images/erlang"
+  target_repository = "${var.target_repository}/erlang"
 }
 
 module "etcd" {
@@ -535,6 +558,11 @@ module "ko" {
   target_repository = "${var.target_repository}/ko"
 }
 
+module "kor" {
+  source            = "./images/kor"
+  target_repository = "${var.target_repository}/kor"
+}
+
 module "kube-bench" {
   source            = "./images/kube-bench"
   target_repository = "${var.target_repository}/kube-bench"
@@ -620,6 +648,11 @@ module "kubernetes-dns-node-cache" {
   target_repository = "${var.target_repository}/kubernetes-dns-node-cache"
 }
 
+module "kubernetes-event-exporter" {
+  source            = "./images/kubernetes-event-exporter"
+  target_repository = "${var.target_repository}/kubernetes-event-exporter"
+}
+
 module "kubernetes-ingress-defaultbackend" {
   source            = "./images/kubernetes-ingress-defaultbackend"
   target_repository = "${var.target_repository}/kubernetes-ingress-defaultbackend"
@@ -695,6 +728,11 @@ module "memcached-exporter" {
   target_repository = "${var.target_repository}/memcached-exporter"
 }
 
+module "memcached-exporter-bitnami" {
+  source            = "./images/memcached-exporter-bitnami"
+  target_repository = "${var.target_repository}/memcached-exporter-bitnami"
+}
+
 module "metrics-server" {
   source            = "./images/metrics-server"
   target_repository = "${var.target_repository}/metrics-server"
@@ -721,9 +759,45 @@ module "netcat" {
 }
 
 variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
-module "newrelic" {
-  source            = "./images/newrelic"
-  target_repository = "${var.target_repository}/newrelic"
+module "newrelic-fluent-bit-output" {
+  source            = "./images/newrelic-fluent-bit-output"
+  target_repository = "${var.target_repository}/newrelic-fluent-bit-output"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-infrastructure-bundle" {
+  source            = "./images/newrelic-infrastructure-bundle"
+  target_repository = "${var.target_repository}/newrelic-infrastructure-bundle"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-k8s-events-forwarder" {
+  source            = "./images/newrelic-k8s-events-forwarder"
+  target_repository = "${var.target_repository}/newrelic-k8s-events-forwarder"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-kube-events" {
+  source            = "./images/newrelic-kube-events"
+  target_repository = "${var.target_repository}/newrelic-kube-events"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-kubernetes" {
+  source            = "./images/newrelic-kubernetes"
+  target_repository = "${var.target_repository}/newrelic-kubernetes"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-prometheus" {
+  source            = "./images/newrelic-prometheus"
+  target_repository = "${var.target_repository}/newrelic-prometheus"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-prometheus-configurator" {
+  source            = "./images/newrelic-prometheus-configurator"
+  target_repository = "${var.target_repository}/newrelic-prometheus-configurator"
   license_key       = var.newrelic_license_key
 }
 
@@ -755,6 +829,11 @@ module "nodetaint" {
 module "node-problem-detector" {
   source            = "./images/node-problem-detector"
   target_repository = "${var.target_repository}/node-problem-detector"
+}
+
+module "ntia-conformance-checker" {
+  source            = "./images/ntia-conformance-checker"
+  target_repository = "${var.target_repository}/ntia-conformance-checker"
 }
 
 module "ntpd-rs" {
@@ -888,6 +967,11 @@ module "python" {
   target_repository = "${var.target_repository}/python"
 }
 
+module "qdrant" {
+  source            = "./images/qdrant"
+  target_repository = "${var.target_repository}/qdrant"
+}
+
 module "r-base" {
   source            = "./images/r-base"
   target_repository = "${var.target_repository}/r-base"
@@ -959,6 +1043,11 @@ module "semgrep" {
   target_repository = "${var.target_repository}/semgrep"
 }
 
+module "sigstore-policy-controller" {
+  source            = "./images/sigstore-policy-controller"
+  target_repository = "${var.target_repository}/sigstore-policy-controller"
+}
+
 module "sigstore-scaffolding" {
   source            = "./images/sigstore-scaffolding"
   target_repository = "${var.target_repository}/sigstore-scaffolding"
@@ -977,6 +1066,11 @@ module "slim-toolkit-debug" {
 module "smarter-device-manager" {
   source            = "./images/smarter-device-manager"
   target_repository = "${var.target_repository}/smarter-device-manager"
+}
+
+module "solr" {
+  source            = "./images/solr"
+  target_repository = "${var.target_repository}/solr"
 }
 
 module "spark-operator" {
@@ -1050,6 +1144,14 @@ module "tigera-operator" {
   target_repository = "${var.target_repository}/tigera-operator"
 }
 
+// This isn't intended to be run in production, but it's useful for testing
+// that the tigera-operator test module can be run by multiple modules. To test this, run:
+// terraform apply -target=module.tigera-operator -target=module.tigera-operator-again-for-testing -auto-approve
+module "tigera-operator-again-for-testing" {
+  source            = "./images/tigera-operator"
+  target_repository = "${var.target_repository}/tigera-operator"
+}
+
 module "timestamp-authority" {
   source            = "./images/timestamp-authority"
   target_repository = "${var.target_repository}/timestamp-authority"
@@ -1088,6 +1190,11 @@ module "trust-manager" {
 module "vault" {
   source            = "./images/vault"
   target_repository = "${var.target_repository}/vault"
+}
+
+module "vector" {
+  source            = "./images/vector"
+  target_repository = "${var.target_repository}/vector"
 }
 
 module "vela-cli" {

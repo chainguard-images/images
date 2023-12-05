@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal container image for building C applications (which require glibc).
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/gcc-glibc:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 To build the C application in [examples/hello/main.c](https://github.com/chainguard-images/images/blob/main/images/gcc-glibc/examples/hello/main.c):
@@ -68,3 +72,4 @@ FROM cgr.dev/chainguard/static
 COPY --from=build /work/hello /hello
 CMD ["/hello"]
 ```
+<!--body:end-->

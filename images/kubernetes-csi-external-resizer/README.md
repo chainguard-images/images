@@ -12,19 +12,24 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal image with [kubernetes-csi/external-resizer](https://github.com/kubernetes-csi/external-resizer).
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/external-resizer:latest
+docker pull cgr.dev/chainguard/kubernetes-csi-external-resizer:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using external-resizer
 
 The Chainguard external-resizer image contains the `csi-resizer` controller and is a drop-in replacement for the upstream image.
 
 To try it out, follow the [official installation
 instructions](https://github.com/kubernetes-csi/external-resizer/blob/master/README.md#usage).
+<!--body:end-->

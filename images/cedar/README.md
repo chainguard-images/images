@@ -12,17 +12,20 @@
 ---
 <!--monopod:end-->
 
-This image contains the CLI for the [Cedar Policy](https://www.cedarpolicy.com/en) Language.
-The binary can be used to run, test, format, or evaluate Cedar policies
+<!--overview:start-->
+This image contains the CLI for the [Cedar Policy](https://www.cedarpolicy.com/en) Language. The binary can be used to run, test, format, or evaluate Cedar policies.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/cedar:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Use It!
 
 The image can be run directly and sets the cedar image as the entrypoint:
@@ -46,3 +49,4 @@ Options:
   -h, --help     Print help
   -V, --version  Print version
 ```
+<!--body:end-->

@@ -12,12 +12,18 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 This image contains the `wasmtime` tool which can be used to compile or run wasm binaries.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/wasmtime:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

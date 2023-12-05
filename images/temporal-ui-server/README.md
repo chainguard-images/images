@@ -12,12 +12,18 @@
 ---
 <!--monopod:end-->
 
-Minimal image for temporal.io's [ui-server](https://github.com/temporalio/ui-server).
+<!--overview:start-->
+Golang Server for https://github.com/temporalio/ui
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/temporal-ui-server:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
+ <!--body:end-->

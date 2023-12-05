@@ -12,8 +12,20 @@
 ---
 <!--monopod:end-->
 
-Minimalist Wolfi-based grype images for signing and verifying images using Sigstore.
+<!--overview:start-->
+A vulnerability scanner for container images and filesystems
+<!--overview:end-->
 
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/grype:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 - [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/grype)
 - [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/grype/provenance_info/)
 <!-- TODO: add Getting Started Guide - [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/grype/getting-started-grype/) -->
@@ -55,3 +67,4 @@ You can also pipe in Syft JSON directly:
 Usage:
   grype [command]
 ```
+<!--body:end-->

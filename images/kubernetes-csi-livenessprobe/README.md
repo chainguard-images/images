@@ -12,14 +12,20 @@
 ---
 <!--monopod:end-->
 
-## Get It
+<!--overview:start-->
+ A sidecar container that can be included in a CSI plugin pod to enable integration with Kubernetes Liveness Probe.
+<!--overview:end-->
 
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/kubernetes-csi-livenessprobe
+docker pull cgr.dev/chainguard/kubernetes-csi-livenessprobe:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Run it
 
 Generally speaking, the `kubernetes-csi-livenessprobe` is a low level Kubernetes component not meant to be managed directly. However, all the steps outlined in the [upstream repo](https://github.com/kubernetes-csi/livenessprobe) apply just as well to the Chainguard Image version.
@@ -71,3 +77,4 @@ fi
 
 exit 0
 ```
+<!--body:end-->

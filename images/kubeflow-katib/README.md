@@ -12,4 +12,18 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimalist Kubeflow Katib Images
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/kubeflow-katib:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->
