@@ -10,7 +10,9 @@ variable "target_repository" {
 
 module "config" { source = "./config" }
 
-module "memcached" {
+variable "license_key" {}
+
+module "newrelic-kubernetes" {
   source            = "../../tflib/publisher"
   name              = basename(path.module)
   target_repository = var.target_repository
@@ -19,19 +21,20 @@ module "memcached" {
 }
 
 module "test" {
-  source = "./tests"
-  digest = module.memcached.image_ref
+  source      = "./tests"
+  digest      = module.newrelic-kubernetes.image_ref
+  license_key = var.license_key
 }
 
 resource "oci_tag" "latest" {
   depends_on = [module.test]
-  digest_ref = module.memcached.image_ref
+  digest_ref = module.newrelic-kubernetes.image_ref
   tag        = "latest"
 }
 
 resource "oci_tag" "latest-dev" {
   depends_on = [module.test]
-  digest_ref = module.memcached.dev_ref
+  digest_ref = module.newrelic-kubernetes.dev_ref
   tag        = "latest-dev"
 }
 
