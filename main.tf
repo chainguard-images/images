@@ -143,6 +143,11 @@ module "buck2" {
   target_repository = "${var.target_repository}/buck2"
 }
 
+module "buildkit" {
+  source            = "./images/buildkit"
+  target_repository = "${var.target_repository}/buildkit"
+}
+
 module "busybox" {
   source            = "./images/busybox"
   target_repository = "${var.target_repository}/busybox"
