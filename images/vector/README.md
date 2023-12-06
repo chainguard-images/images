@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-short desc
+Minimal image with [Vector](https://vector.dev/), a high-performance, end-to-end (agent & aggregator) observability data pipeline
 <!--overview:end-->
 
 <!--getting:start-->
