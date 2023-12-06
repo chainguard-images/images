@@ -143,6 +143,11 @@ module "buck2" {
   target_repository = "${var.target_repository}/buck2"
 }
 
+module "buildkit" {
+  source            = "./images/buildkit"
+  target_repository = "${var.target_repository}/buildkit"
+}
+
 module "busybox" {
   source            = "./images/busybox"
   target_repository = "${var.target_repository}/busybox"
@@ -317,6 +322,11 @@ module "envoy" {
 module "envoy-ratelimit" {
   source            = "./images/envoy-ratelimit"
   target_repository = "${var.target_repository}/envoy-ratelimit"
+}
+
+module "erlang" {
+  source            = "./images/erlang"
+  target_repository = "${var.target_repository}/erlang"
 }
 
 module "etcd" {
@@ -749,9 +759,45 @@ module "netcat" {
 }
 
 variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
-module "newrelic" {
-  source            = "./images/newrelic"
-  target_repository = "${var.target_repository}/newrelic"
+module "newrelic-fluent-bit-output" {
+  source            = "./images/newrelic-fluent-bit-output"
+  target_repository = "${var.target_repository}/newrelic-fluent-bit-output"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-infrastructure-bundle" {
+  source            = "./images/newrelic-infrastructure-bundle"
+  target_repository = "${var.target_repository}/newrelic-infrastructure-bundle"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-k8s-events-forwarder" {
+  source            = "./images/newrelic-k8s-events-forwarder"
+  target_repository = "${var.target_repository}/newrelic-k8s-events-forwarder"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-kube-events" {
+  source            = "./images/newrelic-kube-events"
+  target_repository = "${var.target_repository}/newrelic-kube-events"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-kubernetes" {
+  source            = "./images/newrelic-kubernetes"
+  target_repository = "${var.target_repository}/newrelic-kubernetes"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-prometheus" {
+  source            = "./images/newrelic-prometheus"
+  target_repository = "${var.target_repository}/newrelic-prometheus"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-prometheus-configurator" {
+  source            = "./images/newrelic-prometheus-configurator"
+  target_repository = "${var.target_repository}/newrelic-prometheus-configurator"
   license_key       = var.newrelic_license_key
 }
 

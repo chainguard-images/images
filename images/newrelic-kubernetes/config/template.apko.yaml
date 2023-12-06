@@ -1,0 +1,22 @@
+contents:
+  packages:
+    - busybox
+    - bind-tools
+    - tini
+
+accounts:
+  # Match the GID/UID the upstream helm chart use
+  groups:
+    - groupname: nri-agent
+      gid: 2000
+  users:
+    - username: nri
+      uid: 1000
+      gid: 2000
+  run-as: 1000
+
+entrypoint:
+  command: /sbin/tini -- /usr/bin/nri-kubernetes
+
+environment:
+  METADATA: true
