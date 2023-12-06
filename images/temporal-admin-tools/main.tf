@@ -15,9 +15,7 @@ module "temporal-admin-tools" {
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.config.config
-
   build-dev         = true
-
 }
 
 module "test" {
