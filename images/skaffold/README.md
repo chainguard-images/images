@@ -26,7 +26,10 @@ docker pull cgr.dev/chainguard/skaffold:latest
 <!--getting:end-->
 
 <!--compatibility:start-->
-## Compatibility NotesThe image specifies a default non-root `skaffold` user (UID 65532), and a working directory at `/app`, owned by that `skaffold` user, and accessible to all users.<!--compatibility:end-->
+## Compatibility Notes
+
+The image specifies a default non-root `skaffold` user (UID 65532), and a working directory at `/app`, owned by that `skaffold` user, and accessible to all users.
+<!--compatibility:end-->
 
 <!--body:start-->
 

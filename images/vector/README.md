@@ -12,19 +12,20 @@
 ---
 <!--monopod:end-->
 
-Minimalist [wolfi](https://github.com/wolfi-dev)-based image of [Vector]
-(https://github.com/vectordotdev/vector) for high-performance, end-to-end 
-(agent & aggregator) observability data pipeline that puts you in 
-control of your observability data
+<!--overview:start-->
+short desc
+<!--overview:end-->
 
-## Get It
-
+<!--getting:start-->
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/vector:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Testing
 
 Fortunately, we have a Helm Chart ready-to-use for testing this image. 
@@ -43,3 +44,4 @@ helm install --name vector \
 ```
 
 Once you run the commands above, you will end up having the application running on your cluster.
+<!--body:end-->

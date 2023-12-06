@@ -11,3 +11,18 @@
 
 ---
 <!--monopod:end-->
+
+<!--overview:start-->
+Buildkit is a concurrent, cache-efficient, and Dockerfile-agnostic builder toolkit.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/buildkit:latest
+```
+<!--getting:end-->
+
+<!--body:start--><!--body:end-->
