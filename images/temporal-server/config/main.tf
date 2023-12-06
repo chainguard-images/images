@@ -8,9 +8,11 @@ variable "extra_packages" {
   description = "The additional packages to install"
   default = [
     "temporal-server",
+    "temporal-server-compat",
     "temporal-server-oci-entrypoint",
     "dockerize",
     "tctl",
+    "tctl-compat",
   ]
 }
 
