@@ -11,7 +11,7 @@ variable "target_repository" {
 locals {
   packages = {
     "minio" : {
-      extra_packages : ["minio"],
+      extra_packages : ["minio", "mc"],
       entrypoint : "/usr/bin/minio"
       repository = var.target_repository
     },
@@ -66,3 +66,20 @@ resource "oci_tag" "latest-dev" {
   tag        = "latest-dev"
 }
 
+// TODO(jason): Stop version-tagging this public image.
+module "version-tags" {
+  for_each = local.packages
+  source   = "../../tflib/version-tags"
+  package  = each.value.extra_packages[0]
+  config   = module.latest[each.key].config
+}
+module "tagger" {
+  for_each   = local.packages
+  source     = "../../tflib/tagger"
+  depends_on = [module.test-latest]
+
+  tags = merge(
+    { for t in module.version-tags[each.key].tag_list : t => module.latest[each.key].image_ref },
+    { for t in module.version-tags[each.key].tag_list : "${t}-dev" => module.latest[each.key].dev_ref },
+  )
+}
