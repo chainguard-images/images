@@ -7,7 +7,8 @@ git clone https://github.com/sqlpad/sqlpad.git && cd sqlpad/sqlpad-charts
 # Set up a trap to remove the directory on script exit
 cleanup() {
     echo "Cleaning up..."
-    rm -rf sqlpad
+    rm -rf ../../sqlpad
+    cd ../../
     helm uninstall sqlpad -n sqlpad
     echo "Cleanup complete."
 }

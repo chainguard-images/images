@@ -13,7 +13,10 @@ data "oci_exec_test" "manifest" {
   script      = "./02-curl-test.sh"
   working_dir = path.module
 }
+
+data "oci_string" "ref" { input = var.digest }
 # Will work only when we use updated version postgresql 13.2.23 in upstream charts https://github.com/sqlpad/sqlpad/blob/f42ce1a84e1327e69178f38e7b3a2462dcaeeb7c/sqlpad-charts/requirements.yaml#L3
+# Have created PR for this in upstream https://github.com/sqlpad/sqlpad/pull/1212
 # data "oci_exec_test" "helm-install" {
 #   digest = var.digest
 #   script = "${path.module}/03-helm-test.sh"
