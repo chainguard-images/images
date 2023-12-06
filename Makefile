@@ -1,4 +1,5 @@
 cfg?=images/static/configs/wolfi.apko.yaml
+TERRAFORM ?= $(shell which terraform)
 
 .PHONY: apko-build
 apko-build:
@@ -29,13 +30,13 @@ endif
 
 .PHONY: all
 all: check-env-tf init
-	terraform apply $(TF_VARS)
+	$(TERRAFORM) apply $(TF_VARS)
 
 image/%: check-env-tf init
-	terraform apply $(TF_VARS) -target=module.$*
+	$(TERRAFORM) apply $(TF_VARS) -target=module.$*
 
 init:
-	terraform init -upgrade
+	$(TERRAFORM) init -upgrade
 
 LOCAL_REGISTRY_NAME := k3d.localhost
 LOCAL_REGISTRY_PORT := 5005
