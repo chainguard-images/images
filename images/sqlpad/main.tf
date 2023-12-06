@@ -10,30 +10,29 @@ variable "target_repository" {
 
 module "config" { source = "./config" }
 
-module "sqlpad" {
+module "latest" {
   source            = "../../tflib/publisher"
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.config.config
-
-  build-dev = true
+  build-dev         = true
 
 }
 
 module "test" {
   source = "./tests"
-  digest = module.sqlpad.image_ref
+  digest = module.latest.image_ref
 }
 
 resource "oci_tag" "latest" {
   depends_on = [module.test]
-  digest_ref = module.sqlpad.image_ref
+  digest_ref = module.latest.image_ref
   tag        = "latest"
 }
 
 resource "oci_tag" "latest-dev" {
   depends_on = [module.test]
-  digest_ref = module.sqlpad.dev_ref
+  digest_ref = module.latest.dev_ref
   tag        = "latest-dev"
 }
 

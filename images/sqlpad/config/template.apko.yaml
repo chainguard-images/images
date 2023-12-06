@@ -33,4 +33,4 @@ paths:
 work-dir: /usr/app/sqlpad-server
 
 entrypoint:
-  command:  node server.js --config ./config.dev.env
+  command: node server.js --config ./config.dev.env
