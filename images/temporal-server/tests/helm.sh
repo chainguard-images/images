@@ -7,7 +7,8 @@ git clone https://github.com/temporalio/helm-charts.git && cd helm-charts
 # Set up a trap to remove the directory on script exit
 cleanup() {
     echo "Cleaning up..."
-    rm -rf helm-charts
+    rm -rf ../helm-charts
+    cd ..
     helm uninstall temporaltest -n temporaltest
     echo "Cleanup complete."
 }
