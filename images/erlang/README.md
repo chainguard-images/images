@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Container image for building Erlang applications.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/erlang:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 The image can be used to run the `erl` tool, or to compile and run Erlang scripts.
@@ -46,3 +50,4 @@ CMD [ "-noshell", "-eval", "hello:hello_world().", "-s", "init", "stop" ]
 ```
 
 Running this image should output `hello, world`.
+<!--body:end-->

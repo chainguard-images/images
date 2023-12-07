@@ -26,7 +26,10 @@ docker pull cgr.dev/chainguard/kubernetes-csi-external-provisioner:latest
 <!--getting:end-->
 
 <!--compatibility:start-->
-## Compatibility NotesThe image runs as `root` so that it can mount a `CSI_ENDPOINT` socket.<!--compatibility:end-->
+## Compatibility Notes
+
+The image runs as `root` so that it can mount a `CSI_ENDPOINT` socket.
+<!--compatibility:end-->
 
 <!--body:start-->
 You can run it with the standard deployment with something like:

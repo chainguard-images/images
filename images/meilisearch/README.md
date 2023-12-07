@@ -26,7 +26,10 @@ docker pull cgr.dev/chainguard/meilisearch:latest
 <!--getting:end-->
 
 <!--compatibility:start-->
-## Compatibility NotesThe image specifies a default non-root `meilisearch` user (UID 999), and a data and dump directory at `/var/data.ms`, owned by that `meilisearch` user, accessible to all users.<!--compatibility:end-->
+## Compatibility Notes
+
+The image specifies a default non-root `meilisearch` user (UID 999), and a data and dump directory at `/var/data.ms`, owned by that `meilisearch` user, accessible to all users.
+<!--compatibility:end-->
 
 <!--body:start-->
 ## Usage Example

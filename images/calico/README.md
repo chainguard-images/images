@@ -17,6 +17,12 @@
 <!--overview:end-->
 
 <!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/calico:latest
+```
 <!--getting:end-->
 
 <!--body:start-->

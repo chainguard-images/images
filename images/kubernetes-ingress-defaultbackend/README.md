@@ -26,7 +26,10 @@ docker pull cgr.dev/chainguard/kubernetes-ingress-defaultbackend:latest
 <!--getting:end-->
 
 <!--compatibility:start-->
-## Compatibility NotesThe image runs as `non-root`.<!--compatibility:end-->
+## Compatibility Notes
+
+The image runs as `non-root`.
+<!--compatibility:end-->
 
 <!--body:start-->
 

@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
-
+<!--overview:start-->
 [Dependency Track](https://github.com/DependencyTrack/dependency-track) Dependency-Track is an intelligent Component Analysis platform that allows organizations to identify and reduce risk in the software supply chain.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/dependency-track
+docker pull cgr.dev/chainguard/dependency-track:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
 
 ## Using Dependency Track
 
@@ -128,3 +132,5 @@ $ docker run -p 8080:8080 cgr.dev/chainguard/dependency-track
 ```
 
 The admin console should then be available in your browser at [http://localhost:8080](http://localhost:8080).
+
+<!--body:end-->
