@@ -13,14 +13,14 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-[HAProxy Ingress](https://haproxy-ingress.github.io/) is a Kubernetes ingress controller implementation for HAProxy.
+Kubernetes ingress controller implementation for HAProxy
 <!--overview:end-->
 
 <!--getting:start-->
 ## Get It!
-The image is available on `cgr.dev`.
+The image is available on `cgr.dev`:
 
-```shell
+```
 docker pull cgr.dev/chainguard/haproxy-ingress:latest
 ```
 <!--getting:end-->

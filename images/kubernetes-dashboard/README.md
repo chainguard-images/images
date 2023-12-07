@@ -26,7 +26,10 @@ docker pull cgr.dev/chainguard/kubernetes-dashboard:latest
 <!--getting:end-->
 
 <!--compatibility:start-->
-## Compatibility NotesThe dashboard listens on port `8443` by default.<!--compatibility:end-->
+## Compatibility Notes
+
+The dashboard listens on port `8443` by default.
+<!--compatibility:end-->
 
 <!--body:start-->
 You can run it with the standard deployment with something like:

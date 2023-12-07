@@ -588,6 +588,11 @@ module "kubeflow" {
   target_repository = "${var.target_repository}/kubeflow"
 }
 
+module "kubeflow-centraldashboard" {
+  source            = "./images/kubeflow-centraldashboard"
+  target_repository = "${var.target_repository}/kubeflow-centraldashboard"
+}
+
 module "kubeflow-katib" {
   source            = "./images/kubeflow-katib"
   target_repository = "${var.target_repository}/kubeflow-katib"
@@ -1117,6 +1122,11 @@ module "tekton" {
 module "telegraf" {
   source            = "./images/telegraf"
   target_repository = "${var.target_repository}/telegraf"
+}
+
+module "temporal-admin-tools" {
+  source            = "./images/temporal-admin-tools"
+  target_repository = "${var.target_repository}/temporal-admin-tools"
 }
 
 module "temporal-ui-server" {

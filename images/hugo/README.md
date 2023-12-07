@@ -26,7 +26,10 @@ docker pull cgr.dev/chainguard/hugo:latest
 <!--getting:end-->
 
 <!--compatibility:start-->
-## Compatibility NotesThis image only contains `hugo` and supporting libraries.  The Hugo process starts in `/hugo` by default so this directory may be initialized with the Hugo site to serve.<!--compatibility:end-->
+## Compatibility Notes
+
+This image only contains `hugo` and supporting libraries.  The Hugo process starts in `/hugo` by default so this directory may be initialized with the Hugo site to serve.
+<!--compatibility:end-->
 
 <!--body:start-->
 ## Application Setup for End Users
