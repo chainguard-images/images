@@ -143,6 +143,11 @@ module "buck2" {
   target_repository = "${var.target_repository}/buck2"
 }
 
+module "buildkit" {
+  source            = "./images/buildkit"
+  target_repository = "${var.target_repository}/buildkit"
+}
+
 module "busybox" {
   source            = "./images/busybox"
   target_repository = "${var.target_repository}/busybox"
@@ -581,6 +586,11 @@ module "kubectl" {
 module "kubeflow" {
   source            = "./images/kubeflow"
   target_repository = "${var.target_repository}/kubeflow"
+}
+
+module "kubeflow-centraldashboard" {
+  source            = "./images/kubeflow-centraldashboard"
+  target_repository = "${var.target_repository}/kubeflow-centraldashboard"
 }
 
 module "kubeflow-katib" {
@@ -1112,6 +1122,11 @@ module "tekton" {
 module "telegraf" {
   source            = "./images/telegraf"
   target_repository = "${var.target_repository}/telegraf"
+}
+
+module "temporal-admin-tools" {
+  source            = "./images/temporal-admin-tools"
+  target_repository = "${var.target_repository}/temporal-admin-tools"
 }
 
 module "temporal-ui-server" {

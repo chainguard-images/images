@@ -5,6 +5,7 @@ contents:
     - netcat-openbsd
     - glibc-locale-en
     - bash
+    - coreutils
     # zookeeper comes via var.extra_packages
     - openjdk-17-jre
     - openjdk-17-default-jvm

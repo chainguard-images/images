@@ -26,9 +26,12 @@ docker pull cgr.dev/chainguard/node:latest
 <!--getting:end-->
 
 <!--compatibility:start-->
-## Compatibility NotesThe image specifies a default non-root `node` user (UID 65532), and a working directory at `/app`, owned by that `node` user, and accessible to all users.
+## Compatibility Notes
+
+The image specifies a default non-root `node` user (UID 65532), and a working directory at `/app`, owned by that `node` user, and accessible to all users.
 
 It specifies `NODE_PORT=3000` by default.
+
 <!--compatibility:end-->
 
 <!--body:start-->

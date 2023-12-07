@@ -18,7 +18,7 @@ Minimal image with [helm](https://helm.sh) binary. **EXPERIMENTAL**
 
 <!--getting:start-->
 ## Get It!
-The image is available on `cgr.dev`.
+The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/helm:latest
