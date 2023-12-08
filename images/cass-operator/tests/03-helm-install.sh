@@ -32,7 +32,7 @@ helm install cass-operator \
    -n cass-operator \
    --set image.registry=${IMAGE_REGISTRY} \
    --set image.repository=${IMAGE_REPOSITORY} \
-   --set image.tag=${IMAGE_TAG}
+   --set image.tag=${IMAGE_TAG} \
    --wait \
    k8ssandra/cass-operator 
 }
