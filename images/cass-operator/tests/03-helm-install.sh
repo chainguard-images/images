@@ -29,7 +29,7 @@ helm install cert-manager \
     jetstack/cert-manager
 
 helm install cass-operator k8ssandra/cass-operator -n cass-operator
-
+}
 
 
 search_logs() {
