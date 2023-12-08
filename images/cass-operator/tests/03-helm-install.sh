@@ -85,6 +85,7 @@ TEST_container_starts_ok() {
     trap "helm uninstall cass-operator -n cass-operator; helm uninstall cert-manager -n cass-operator" EXIT
 
     # Check if the container is running
+    echo $(kubectl describe pods/$(kubectl get pods -n cass-operator | grep 'cass-operator' | awk '{print $1}') -n cass-operator)
     if ! kubectl get pods -n "$namespace" | grep 'cass-operator-'; then
         echo "FAILED: Pod cass-operator is not running."
         exit 1
