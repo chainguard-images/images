@@ -12,7 +12,7 @@
 ---
 <!--monopod:end-->
 
-Minimalist Wolfi-based `sqlpad` images.
+A minimal wolf-based image for sqlpad, which is a web application for generating and running SQL queries and visualizing the results. For more information, please refer to the [applications documentation](https://github.com/sqlpad/sqlpad) on github.
 
 ## Get It!
 
@@ -43,4 +43,18 @@ docker ps
 
 # To stop running docker image by name. (otherwise use container id from `docker ps`)
 docker stop sqlpad
+```
+
+## Deploying via helm
+A helm chart is provided for deploying sqlpad in Kubernetes. This can be found in the applications [GitHub repository](https://github.com/sqlpad/sqlpad/tree/master/sqlpad-charts).
+Below is an example, using the chainguard image with the vendors helm chart:
+```bash
+git clone https://github.com/sqlpad/sqlpad.git && cd sqlpad/sqlpad-charts
+helm dependency update
+helm -n sqlpad install sqlpad  \
+    --namespace sqlpad \
+    --create-namespace \
+    --set image.repository=cgr.dev/chainguard/sqlpad\
+    --set image.tag=latest \
+    ./
 ```
