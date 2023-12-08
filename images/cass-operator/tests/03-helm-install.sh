@@ -35,7 +35,6 @@ helm upgrade cass-operator \
     --set image.registry=${IMAGE_REGISTRY} \
     --set image.repository=${IMAGE_REPOSITORY} \
     --set image.tag="latest" \
-    --wait \
     k8ssandra/cass-operator
 }
 
