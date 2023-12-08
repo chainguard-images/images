@@ -30,7 +30,7 @@ helm install cert-manager \
 
 helm install cass-operator k8ssandra/cass-operator -n cass-operator
 
-helm install cass-operator \
+helm upgrade cass-operator \
     --namespace "$namespace" \
     --set image.registry="${IMAGE_REGISTRY}" \
     --set image.repository="${IMAGE_REPOSITORY}" \
