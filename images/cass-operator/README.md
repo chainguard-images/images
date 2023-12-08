@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with the [thanos-operator](https://github.com/banzaicloud/thanos-operator).
+Minimal image with the [cass-operator](https://github.com/k8ssandra/cass-operator)
 <!--overview:end-->
 
 <!--getting:start-->
@@ -21,7 +21,7 @@ Minimal image with the [thanos-operator](https://github.com/banzaicloud/thanos-o
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/thanos-operator:latest
+docker pull cgr.dev/chainguard/cass-operator:latest
 ```
 <!--getting:end-->
 
