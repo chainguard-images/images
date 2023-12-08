@@ -588,6 +588,11 @@ module "kubeflow" {
   target_repository = "${var.target_repository}/kubeflow"
 }
 
+module "kubeflow-centraldashboard" {
+  source            = "./images/kubeflow-centraldashboard"
+  target_repository = "${var.target_repository}/kubeflow-centraldashboard"
+}
+
 module "kubeflow-katib" {
   source            = "./images/kubeflow-katib"
   target_repository = "${var.target_repository}/kubeflow-katib"

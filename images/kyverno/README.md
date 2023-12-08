@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Kyverno is a policy engine that allows you to write policies as Kubernetes resources and manage them with familiar tools
+[Kyverno](https://kyverno.io/) is a policy engine that allows you to write policies as Kubernetes resources and manage them with familiar tools
 <!--overview:end-->
 
 <!--getting:start-->
@@ -26,4 +26,8 @@ docker pull cgr.dev/chainguard/kyverno:latest
 <!--getting:end-->
 
 <!--body:start-->
+## Use It!
+
+Please refer to the [official Kyverno documentation](https://kyverno.io/docs/) for instructions on how to work with the `kyverno` Chainguard Image. 
+
 <!--body:end-->

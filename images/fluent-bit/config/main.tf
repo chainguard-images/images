@@ -6,7 +6,10 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install"
-  default     = ["fluent-bit"]
+  default = [
+    "fluent-bit",
+    "fluent-bit-compat",
+  ]
 }
 
 data "apko_config" "this" {
