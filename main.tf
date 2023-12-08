@@ -1129,6 +1129,11 @@ module "temporal-admin-tools" {
   target_repository = "${var.target_repository}/temporal-admin-tools"
 }
 
+module "temporal-server" {
+  source            = "./images/temporal-server"
+  target_repository = "${var.target_repository}/temporal-server"
+}
+
 module "temporal-ui-server" {
   source            = "./images/temporal-ui-server"
   target_repository = "${var.target_repository}/temporal-ui-server"

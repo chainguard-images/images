@@ -1,0 +1,32 @@
+contents:
+  packages: [
+    # Package "temporal-server" comes in via var.extra_packages
+    # To add a version stream image, see the extra_packages variable in config/main.tf to add packages conditionally.
+    # Otherwise, just add packages here.
+  ]
+
+accounts:
+  groups:
+    - groupname: temporal
+      gid: 1000
+  users:
+    - username: temporal
+      uid: 1000
+      gid: 1000
+  run-as: 1000
+
+paths:
+  - path: /etc/temporal
+    type: directory
+    uid: 1000
+    gid: 1000
+    permissions: 0o755
+    recursive: true
+
+environment:
+  TEMPORAL_HOME: /etc/temporal
+
+entrypoint:
+  command: /etc/temporal/entrypoint.sh
+
+work-dir: /etc/temporal
