@@ -166,6 +166,11 @@ module "calico" {
   target_repository = "${var.target_repository}/calico"
 }
 
+module "cass-operator" {
+  source            = "./images/cass-operator"
+  target_repository = "${var.target_repository}/cass-operator"
+}
+
 module "cassandra" {
   source            = "./images/cassandra"
   target_repository = "${var.target_repository}/cassandra"
@@ -327,6 +332,11 @@ module "etcd" {
 module "external-secrets" {
   source            = "./images/external-secrets"
   target_repository = "${var.target_repository}/external-secrets"
+}
+
+module "falco" {
+  source            = "./images/falco"
+  target_repository = "${var.target_repository}/falco"
 }
 
 module "falcoctl" {
