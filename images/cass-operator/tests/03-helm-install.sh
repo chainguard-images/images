@@ -28,7 +28,12 @@ helm install cert-manager \
     --wait \
     jetstack/cert-manager
 
-helm install cass-operator k8ssandra/cass-operator -n cass-operator
+helm install cass-operator \
+   -n cass-operator \
+   --set image.registry='${IMAGE_REGISTRY}' \
+   --set image.repository='${IMAGE_REPOSITORY}' \
+   --wait \
+   k8ssandra/cass-operator 
 }
 
 
