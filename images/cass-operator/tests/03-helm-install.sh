@@ -30,8 +30,7 @@ helm install cert-manager \
 
 helm install cass-operator \
     --namespace "$namespace" \
-    --set image.registry="${IMAGE_REGISTRY}" \
-    --set image.repository="${IMAGE_REPOSITORY}" \
+    --set image.registry="${IMAGE_REGISTRY_REPO}" \
     --set image.tag="latest" \
     --wait \
     k8ssandra/cass-operator
