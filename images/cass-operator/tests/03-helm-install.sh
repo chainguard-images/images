@@ -32,7 +32,8 @@ helm install cass-operator k8ssandra/cass-operator -n cass-operator
 
 helm upgrade cass-operator \
     --namespace "$namespace" \
-    --set image.repository="${IMAGE_REGISTRY_REPO}" \
+    --set image.registry=${IMAGE_REGISTRY} \
+    --set image.repository=${IMAGE_REPOSITORY} \
     --set image.tag="latest" \
     --wait \
     k8ssandra/cass-operator
