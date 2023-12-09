@@ -1,8 +1,7 @@
 contents:
   packages:
-    - cass-operator=1.18.2-r2
-    - cass-operator-compat=1.18.2-r2
-
+    - cass-operator
+    - cass-operator-compat
 accounts:
   groups:
     - groupname: nonroot
