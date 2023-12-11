@@ -10,9 +10,9 @@ variable "extra_packages" {
 
 module "accts" {
   source = "../../../tflib/accts"
-  run-as = 0
-  uid    = 70
-  gid    = 70
+  run-as = 1001
+  uid    = 1001
+  gid    = 1001
   name   = "postgres"
 }
 
@@ -25,30 +25,42 @@ output "config" {
     contents = {
       packages = concat([
         "glibc-locale-en", # required for initdb entrypoint
-        "busybox",         # required for initdb entrypoint
       ], var.extra_packages)
     }
     accounts = module.accts.block
     environment = merge({
-      "PGDATA" : "/var/lib/postgresql/data",
+      "PGDATA" : "/opt/bitnami/postgresql/data",
       "LANG" : "en_US.UTF-8"
+      "BITNAMI_APP_NAME" : "postgresql",
     }, var.environment)
     entrypoint = {
-      command = "/var/lib/postgres/initdb/postgresql-entrypoint.sh postgres"
+      command = "/opt/bitnami/scripts/postgresql/entrypoint.sh /opt/bitnami/scripts/postgresql/run.sh"
     }
-    work-dir = "/home/postgres"
     paths = [{
-      path        = "/var/lib/postgresql/data"
+      path        = "/opt/bitnami/postgresql/data"
       type        = "directory"
       uid         = module.accts.block.run-as
       gid         = module.accts.block.run-as
-      permissions = 511 // 0o777 (HCL explicitly does not support octal literals)
+      permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
       }, {
-      path        = "/var/run/postgresql"
+      path        = "/opt/bitnami/postgresql/tmp"
+      type        = "directory"
+      uid         = module.accts.block.run-as
+      gid         = module.accts.block.run-as
+      permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
+      }, {
+      path        = "/opt/bitnami/postgresql/logs"
+      type        = "directory"
+      uid         = module.accts.block.run-as
+      gid         = module.accts.block.run-as
+      permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
+      }, {
+      path        = "/opt/bitnami/postgresql/conf"
       type        = "directory"
       uid         = module.accts.block.run-as
       gid         = module.accts.block.run-as
       permissions = 511 // 0o777 (HCL explicitly does not support octal literals)
+      recursive   = true
     }]
     }
   )

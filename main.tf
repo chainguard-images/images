@@ -901,6 +901,11 @@ module "postgres" {
   target_repository = "${var.target_repository}/postgres"
 }
 
+module "postgres-helm-compat" {
+  source            = "./images/postgres-helm-compat"
+  target_repository = "${var.target_repository}/postgres-helm-compat"
+}
+
 module "powershell" {
   source            = "./images/powershell"
   target_repository = "${var.target_repository}/powershell"
