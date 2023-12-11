@@ -16,7 +16,7 @@ connection_config {
 }
 EOF
 # Start the server
-ID=$(docker run --rm --net mlmd -v "/tmp/mlmd-config.yaml:/mlmd-config.yaml" -d ${IMAGE_NAME} --metadata_store_server_config_file=/mlmd-config.yaml)
+ID=$(docker run --rm --net mlmd -v "${TMP}/mlmd-config.yaml:/mlmd-config.yaml" -d ${IMAGE_NAME} --metadata_store_server_config_file=/mlmd-config.yaml)
 
 trap "(rm -rf "${TMP}" || sudo rm -rf "${TMP}") && \
   docker logs $ID && docker rm -f $ID && \
