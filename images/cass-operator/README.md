@@ -29,7 +29,9 @@ docker pull cgr.dev/chainguard/cass-operator:latest
 
 <!--body:start-->
 ## Usage
+cass-operator is a Kubernetes operator, which can be deployed using helm. Refer to the [upstream repositories documentation](https://github.com/k8ssandra/cass-operator) for how to consume and use the helm chart.
 
+You'll need to override the image used by the chart and specify the chainguard image, as per below example:
 ```shell
 helm repo add k8ssandra https://helm.k8ssandra.io/stable
 helm repo update
