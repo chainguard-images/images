@@ -433,6 +433,11 @@ module "gradle" {
   target_repository = "${var.target_repository}/gradle"
 }
 
+module "grafana" {
+  source            = "./images/grafana"
+  target_repository = "${var.target_repository}/grafana"
+}
+
 module "grype" {
   source            = "./images/grype"
   target_repository = "${var.target_repository}/grype"
