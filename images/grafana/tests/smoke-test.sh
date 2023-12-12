@@ -9,8 +9,8 @@ if kubectl logs "deploy/${K8S_NAME}" -n "${K8S_NAMESPACE}" | grep "level=error";
   exit 1
 fi
 
-if ! kubectl logs "deploy/${K8S_NAME}" -n "${K8S_NAMESPACE}" | grep "version=9.3"; then
-  echo "Test failed: Did not find version=9.3 in the logs"
+if ! kubectl logs "deploy/${K8S_NAME}" -n "${K8S_NAMESPACE}" | grep "HTTP Server Listen"; then
+  echo "Test failed: Did not find HTTP Server Listen in the logs"
   exit 1
 fi
 
