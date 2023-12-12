@@ -1111,6 +1111,11 @@ module "spire-again-for-testing" {
   target_repository = "${var.target_repository}/spire"
 }
 
+module "sqlpad" {
+  source            = "./images/sqlpad"
+  target_repository = "${var.target_repository}/sqlpad"
+}
+
 module "stakater-reloader" {
   source            = "./images/stakater-reloader"
   target_repository = "${var.target_repository}/stakater-reloader"
