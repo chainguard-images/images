@@ -13,7 +13,9 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with the [cass-operator](https://github.com/k8ssandra/cass-operator)
+A minimal, wolfi-based image for [cass-operator](https://github.com/k8ssandra/cass-operator).
+
+[cass-operator](https://github.com/k8ssandra/cass-operator), is a Kubernetes operator for managing Apache Cassandra. It automates tasks like deployment, scaling, and configuration management, facilitating the integration of Cassandra clusters with Kubernetes environments.
 <!--overview:end-->
 
 <!--getting:start-->
