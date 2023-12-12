@@ -51,7 +51,7 @@ data "oci_exec_test" "smoke" {
 
 module "helm_cleanup" {
   depends_on = [data.oci_exec_test.smoke]
-  source      = "../../../tflib/helm-cleanup"
-  name        = helm_release.helm_test.id
-  namespace   = helm_release.helm_test.namespace
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.helm_test.id
+  namespace  = helm_release.helm_test.namespace
 }
