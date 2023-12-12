@@ -758,6 +758,11 @@ module "minio" {
   target_repository = "${var.target_repository}/minio"
 }
 
+module "ml-metadata-store-server" {
+  source            = "./images/ml-metadata-store-server"
+  target_repository = "${var.target_repository}/ml-metadata-store-server"
+}
+
 module "nats" {
   source            = "./images/nats"
   target_repository = "${var.target_repository}/nats"
