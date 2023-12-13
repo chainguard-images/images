@@ -5,6 +5,7 @@ module "wolfi" {
 
   target_repository = var.target_repository
   config            = file("${path.module}/configs/wolfi.apko.yaml")
+  check-sbom        = true
 }
 
 module "test-wolfi" {
