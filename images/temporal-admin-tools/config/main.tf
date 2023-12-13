@@ -19,7 +19,9 @@ variable "extra_packages" {
     "tdbg-compat",
     "temporal-compat",
     "temporal-cassandra-tool-compat",
-    "temporal-sql-tool-compat"
+    "temporal-sql-tool-compat",
+    "tctl-authorization-plugin",
+    "tctl-authorization-plugin-compat"
   ]
 }
 
