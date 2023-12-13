@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
-Minimal Temporal-Server Image
+<!--overview:start-->
+Minimal image for [Temporal](https://docs.temporal.io/), a durable execution platform that handles intermittent failures and retries failed operations
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/temporal-server:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 The default entrypoint for this image is `/etc/temporal/entrypoint.sh`
@@ -70,3 +74,4 @@ helm -n temporaltest install \
     --set server.image.tag=latest \
     temporaltest . --timeout 15m
 ```
+<!--body:end-->

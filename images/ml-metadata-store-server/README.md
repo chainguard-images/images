@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Remote gRPC server for ML Metadata
+[ML Metadata (MLMD)](https://www.tensorflow.org/tfx/guide/mlmd) remote gRPC server
 <!--overview:end-->
 
 <!--getting:start-->

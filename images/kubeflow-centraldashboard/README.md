@@ -16,6 +16,7 @@
 This project serves as the landing page and central dashboard for Kubeflow deployments. It provides a jump-off point to all other facets of the platform.
 
 For more information, see the [Kubeflow Central Dashboard](https://www.kubeflow.org/docs/components/central-dash/) documentation.
+
 <!--overview:end-->
 
 <!--getting:start-->

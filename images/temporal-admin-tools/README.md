@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Golang Server for https://github.com/temporalio/ui
+Golang Server for [https://github.com/temporalio/ui](https://github.com/temporalio/ui)
 <!--overview:end-->
 
 <!--getting:start-->
