@@ -9,11 +9,32 @@ variable "extra_packages" {
   default     = ["openjdk-17", "openjdk-17-default-jvm", "keycloak"]
 }
 
-data "apko_config" "this" {
-  config_contents = file("${path.module}/latest.apko.yaml")
-  extra_packages  = var.extra_packages
+variable "environment" {
+  default = {}
 }
 
+module "accts" { source = "../../../tflib/accts" }
+
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    contents = {
+      packages = concat([
+        "busybox",
+      ], var.extra_packages)
+    }
+    accounts = module.accts.block
+
+    paths = [{
+      path        = "/usr/share/java/keycloak"
+      type        = "directory"
+      uid         = module.accts.block.run-as
+      gid         = module.accts.block.run-as
+      permissions = 511 // 0o777 (HCL explicitly does not support octal literals)
+      recursive   = true
+    }]
+    environment = var.environment
+    entrypoint = {
+      command = "/usr/bin/kc.sh"
+    }
+  })
 }
