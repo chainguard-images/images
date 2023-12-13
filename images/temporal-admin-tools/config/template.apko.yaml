@@ -1,19 +1,33 @@
 contents:
-  packages: [
-    # Package "tctl" comes in via var.extra_packages
-    # To add a version stream image, see the extra_packages variable in config/main.tf to add packages conditionally.
-    # Otherwise, just add packages here.
-  ]
+  packages:
+    - busybox
+    - tini
 
 accounts:
   groups:
-    - groupname: nonroot
-      gid: 65532
+    - groupname: temporal
+      gid: 1000
   users:
-    - username: nonroot
-      uid: 65532
-      gid: 65532
-  run-as: 65532
+    - username: temporal
+      uid: 1000
+      gid: 1000
+  run-as: 1000
+
+paths:
+  - path: /etc/temporal
+    type: directory
+    uid: 1000
+    gid: 1000
+    permissions: 0o755
+    recursive: true
+
+environment:
+  TEMPORAL_HOME: /etc/temporal
 
 entrypoint:
-  command: /usr/bin/tctl
+  command: "/sbin/tini --"
+
+# This is what the upstream Dockerfile does, so we're replicating here: https://github.com/temporalio/docker-builds/blob/main/admin-tools.Dockerfile#L49
+cmd: "sleep infinity"
+
+work-dir: /etc/temporal
