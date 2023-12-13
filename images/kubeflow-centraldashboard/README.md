@@ -1,11 +1,11 @@
 <!--monopod:start-->
-# kubeflow-central-dashboard
+# kubeflow-centraldashboard
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/kubeflow-central-dashboard` |
+| **OCI Reference** | `cgr.dev/chainguard/kubeflow-centraldashboard` |
 
 
-* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/kubeflow-central-dashboard/overview/)
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/kubeflow-centraldashboard/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
@@ -24,7 +24,7 @@ For more information, see the [Kubeflow Central Dashboard](https://www.kubeflow.
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/kubeflow-central-dashboard:latest
+docker pull cgr.dev/chainguard/kubeflow-centraldashboard:latest
 ```
 <!--getting:end-->
 

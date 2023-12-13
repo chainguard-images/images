@@ -1,6 +1,6 @@
-name                = "kubeflow-central-dashboard"
-image               = "cgr.dev/chainguard/kubeflow-central-dashboard"
-logo                = "https://storage.googleapis.com/chainguard-academy/logos/kubeflow-central-dashboard.svg"
+name                = "kubeflow-centraldashboard"
+image               = "cgr.dev/chainguard/kubeflow-centraldashboard"
+logo                = "https://storage.googleapis.com/chainguard-academy/logos/kubeflow-centraldashboard.svg"
 endoflife           = ""
 console_summary     = ""
 short_description   = <<EOF
