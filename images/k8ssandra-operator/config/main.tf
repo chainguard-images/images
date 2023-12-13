@@ -7,6 +7,7 @@ terraform {
 variable "extra_packages" {
   description = "The additional packages to install"
   default = [
+    "k8ssandra-operator",
     "k8ssandra-operator-compat",
   ]
 }
