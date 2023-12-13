@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 A minimal Wolfi-based image for sqlpad, which is a web application for generating and running SQL queries and visualizing the results. For more information, please refer to the [applications documentation](https://github.com/sqlpad/sqlpad) on github.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/sqlpad:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Important note about data and docker
 
 Unless data volumes are mapped outside the containers, you will lose data inside SQLPad and various database when the containers are shutdown and removed.
@@ -58,3 +62,4 @@ helm -n sqlpad install sqlpad  \
     --set image.tag=latest \
     ./
 ```
+<!--body:end-->

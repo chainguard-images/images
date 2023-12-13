@@ -12,5 +12,18 @@
 ---
 <!--monopod:end-->
 
-k8ssandra-operator is the Kubernetes operator for
-[K8ssandra](https://docs.k8ssandra.io/).
+<!--overview:start-->
+The Kubernetes operator for K8ssandra
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/k8ssandra-operator:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->
