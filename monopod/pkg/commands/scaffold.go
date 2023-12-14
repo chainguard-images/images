@@ -99,8 +99,7 @@ func (o scaffoldOptions) runScaffold(ctx context.Context) error {
 	}
 
 	// render the readme's markdown
-	rr := NewReadmeRenderer(o.PackageName)
-	rr.Readme = &nr.Readme
+	rr := newReadmeRenderer(o.PackageName, &nr.Readme)
 	if err := rr.render(); err != nil {
 		return err
 	}
@@ -134,7 +133,7 @@ func (o *scaffoldOptions) walk(path string, info os.FileInfo, err error) error {
 	if strings.HasSuffix(repl, ".tpl") {
 		f, err := os.Create(strings.TrimSuffix(repl, ".tpl"))
 		if err != nil {
-			panic(err.Error())
+			return err
 		}
 		defer f.Close()
 		log.Println("writing file", f.Name())

@@ -94,7 +94,7 @@ func (i *readmeImpl) check() error {
 		return allImages[i].ImageName < allImages[j].ImageName
 	})
 	for _, i := range allImages {
-		r := NewReadmeRenderer(i.ImageName)
+		r := newReadmeRenderer(i.ImageName, nil)
 
 		if err := r.decodeHcl(); err != nil {
 			fmt.Printf("Error decoding %s: %s\n", r.hclFile, err)
@@ -151,7 +151,7 @@ func (i *readmeImpl) fixAllReadmes() error {
 		return allImages[i].ImageName < allImages[j].ImageName
 	})
 	for _, i := range allImages {
-		r := NewReadmeRenderer(i.ImageName)
+		r := newReadmeRenderer(i.ImageName, nil)
 
 		if err := r.Do(); err != nil {
 			return err

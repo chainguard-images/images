@@ -24,14 +24,18 @@ type renderReadmeImpl struct {
 	renderedMD *bytes.Buffer
 }
 
-func NewReadmeRenderer(image string) *renderReadmeImpl {
-	return &renderReadmeImpl{
+func newReadmeRenderer(image string, cr *completeReadme) *renderReadmeImpl {
+	r := &renderReadmeImpl{
 		Image:      image,
 		hclFile:    path.Join(constants.ImagesDirName, image, "metadata.hcl"),
 		mdFile:     path.Join(constants.ImagesDirName, image, "README.md"),
-		Readme:     &completeReadme{},
 		renderedMD: new(bytes.Buffer),
 	}
+	if cr == nil {
+		cr = &completeReadme{Name: image}
+	}
+	r.Readme = cr
+	return r
 }
 
 func Render() *cobra.Command {
@@ -43,7 +47,7 @@ func Render() *cobra.Command {
 monopod readme render --image postgresql
 `,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			impl := NewReadmeRenderer(ro.Image)
+			impl := newReadmeRenderer(ro.Image, nil)
 			return impl.Do()
 		},
 	}
