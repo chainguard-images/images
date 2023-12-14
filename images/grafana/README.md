@@ -13,8 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-A minimal wolfi-based image for grafana, which is an open-source monitoring and
-observability application.
+A minimal wolfi-based image for grafana, which is an open-source monitoring and observability application
 <!--overview:end-->
 
 <!--getting:start-->
