@@ -16,6 +16,7 @@ import (
 	"github.com/hashicorp/hcl/v2/hclwrite"
 	"github.com/spf13/cobra"
 	"github.com/zclconf/go-cty/cty"
+	"golang.org/x/exp/maps"
 )
 
 type scaffoldOptions struct {
@@ -225,10 +226,7 @@ func (o *scaffoldOptions) addModuleToMainTf() error {
 	blocks[newModule.Labels()[0]] = newModule
 
 	// alphabetize the slice of block names
-	labels := []string{}
-	for k := range blocks {
-		labels = append(labels, k)
-	}
+	labels := maps.Keys(blocks)
 	sort.Strings(labels)
 
 	for i, l := range labels {
