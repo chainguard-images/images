@@ -7,6 +7,7 @@ module "latest-alpine" {
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.alpine.${each.key}.apko.yaml")
+  check-sbom        = false # Alpine-based SBOMs are not conformant because the Alpine baselayout has an invalid license specifier
   # Override the module's default wolfi packages that conflict with alpine
   extra_packages = []
   build-dev      = true

@@ -4,6 +4,7 @@ module "latest-wolfi" {
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.wolfi.${each.key}.apko.yaml")
+  check-sbom        = false # TODO: Not yet conformant: ncurses, libedit, openssh
   build-dev         = true
 }
 

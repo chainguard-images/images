@@ -5,6 +5,7 @@ module "latest-wolfi" {
 
   target_repository = var.target_repository
   config            = file("${path.module}/configs/latest.wolfi.apko.yaml")
+  check-sbom        = true
 }
 
 module "one-tirtysix-wolfi" {
