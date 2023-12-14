@@ -1,7 +1,6 @@
 contents:
   packages:
     - busybox
-    - grafana
 
 accounts:
   groups:
