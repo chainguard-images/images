@@ -1,16 +1,21 @@
 package commands
 
 import (
-	"bufio"
+	"bytes"
 	"context"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"text/template"
 
+	"github.com/hashicorp/hcl/v2"
+	"github.com/hashicorp/hcl/v2/hclsyntax"
+	"github.com/hashicorp/hcl/v2/hclwrite"
 	"github.com/spf13/cobra"
+	"github.com/zclconf/go-cty/cty"
 )
 
 type scaffoldOptions struct {
@@ -24,6 +29,7 @@ type scaffoldOptions struct {
 	UserUid       uint16
 	GroupGid      uint16
 	RunAs         uint16
+	MainTf        []byte
 }
 
 // Scaffold creates the command that will process the scaffolding.
@@ -72,47 +78,86 @@ func (o scaffoldOptions) runScaffold(ctx context.Context) error {
 		return err
 	}
 
+	if err := o.mkImageDir(); err != nil {
+		return err
+	}
+
+	if err := filepath.Walk("images/TEMPLATE", o.walk); err != nil {
+		return err
+	}
+
+	// create readme hcl metadata file
+	nr := newReadmeImpl{
+		Readme:      completeReadme{Name: o.PackageName},
+		renderedHCl: new(bytes.Buffer),
+	}
+	if err := nr.render(); err != nil {
+		return err
+	}
+	if err := nr.write(); err != nil {
+		return err
+	}
+
+	// render the readme's markdown
+	rr := NewReadmeRenderer(o.PackageName)
+	rr.Readme = &nr.Readme
+	if err := rr.render(); err != nil {
+		return err
+	}
+	if err := rr.write(); err != nil {
+		return err
+	}
+
+	// read, render, then write main.tf
+	if err := o.readMainTf(); err != nil {
+		return err
+	}
+	if err := o.addModuleToMainTf(); err != nil {
+		return err
+	}
+	return o.writeMainTf()
+}
+
+func (o *scaffoldOptions) walk(path string, info os.FileInfo, err error) error {
+	if err != nil {
+		return err
+	}
+
+	if info.IsDir() {
+		return nil
+	}
+	repl := strings.Replace(path, "TEMPLATE", o.ModuleName, 1) // Replacing TEMPLATE with the module name
+	if err := os.MkdirAll(filepath.Dir(repl), os.ModePerm); err != nil {
+		return err
+	}
+
+	if strings.HasSuffix(repl, ".tpl") {
+		f, err := os.Create(strings.TrimSuffix(repl, ".tpl"))
+		if err != nil {
+			panic(err.Error())
+		}
+		defer f.Close()
+		log.Println("writing file", f.Name())
+		return template.Must(template.ParseFiles(path)).Execute(f, o)
+	}
+
+	// Just copy the file without templating.
+	b, err := os.ReadFile(path)
+	if err != nil {
+		return err
+	}
+	log.Println("writing file", repl)
+	return os.WriteFile(repl, b, 0644)
+}
+
+// mkImageDir creates the target images/o.moduleName directory
+func (o *scaffoldOptions) mkImageDir() error {
 	modroot := filepath.Join(o.OutputPath, "images", o.ModuleName)
 
 	if err := os.MkdirAll(modroot, os.ModePerm); err != nil {
 		return fmt.Errorf("unable to generate target folder images/%s: %w", o.ModuleName, err)
 	}
-
-	if err := filepath.Walk("images/TEMPLATE", func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-
-		if info.IsDir() {
-			return nil
-		}
-		repl := strings.Replace(path, "TEMPLATE", o.ModuleName, 1) // Replacing TEMPLATE with the module name
-		if err := os.MkdirAll(filepath.Dir(repl), os.ModePerm); err != nil {
-			return err
-		}
-
-		if strings.HasSuffix(repl, ".tpl") {
-			f, err := os.Create(strings.TrimSuffix(repl, ".tpl"))
-			if err != nil {
-				panic(err.Error())
-			}
-			defer f.Close()
-			log.Println("writing file", f.Name())
-			return template.Must(template.ParseFiles(path)).Execute(f, o)
-		}
-
-		// Just copy the file without templating.
-		b, err := os.ReadFile(path)
-		if err != nil {
-			return err
-		}
-		log.Println("writing file", repl)
-		return os.WriteFile(repl, b, 0644)
-	}); err != nil {
-		return err
-	}
-
-	return o.addModuleToMainTf()
+	return nil
 }
 
 // validateOptions validates that the set of options specified is valid and
@@ -136,72 +181,78 @@ func (o *scaffoldOptions) validateOptions() error {
 	return nil
 }
 
-func (o scaffoldOptions) addModuleToMainTf() error {
-	// Define the module source
-	moduleSource := "./images/%s"
-
-	// Define the target repository
-	targetRepository := "${var.target_repository}"
-
-	file, err := os.OpenFile("main.tf", os.O_RDWR, os.ModePerm)
-	if err != nil {
-		fmt.Printf("Error opening file: %v\n", err)
-		os.Exit(1)
+// addModuleToMainTf reads main.tf from disk and adds a new module to it
+func (o *scaffoldOptions) addModuleToMainTf() error {
+	source := fmt.Sprintf("./images/%s", o.ModuleName)
+	targetRepo := fmt.Sprintf(` "${var.target_repository}/%s"`, o.ModuleName)
+	// use a Token here because hclwrite escapes things like $ in strings
+	// even using literals or double escaping doesn't help. See this go.cty issue:
+	// https://github.com/zclconf/go-cty/issues/163#issuecomment-1754073585
+	toks := hclwrite.Tokens{
+		&hclwrite.Token{
+			Type:         hclsyntax.TokenStringLit,
+			Bytes:        []byte(targetRepo),
+			SpacesBefore: 0,
+		},
 	}
-	defer file.Close()
 
-	// Create a slice to hold the lines of the updated content
-	var updatedContent []string
+	newModule := hclwrite.NewBlock("module", []string{o.ModuleName})
+	newModule.Body().SetAttributeValue("source", cty.StringVal(source))
+	newModule.Body().SetAttributeRaw("target_repository", toks)
 
-	// Track whether the module block has been inserted
-	moduleInserted := false
+	f, diags := hclwrite.ParseConfig(o.MainTf, "main.tf", hcl.Pos{
+		Line:   0,
+		Column: 0,
+		Byte:   0,
+	})
+	if diags != nil {
+		return fmt.Errorf("%v", diags)
+	}
 
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := scanner.Text()
-
-		// Check if this is where the module block should be inserted
-		if !moduleInserted && strings.HasPrefix(line, "module ") {
-			l := strings.TrimPrefix(strings.ReplaceAll(strings.TrimSuffix(line, " {"), "\"", ""), "module ")
-			if strings.Compare(o.PackageName, l) == 0 {
-				return fmt.Errorf("module %s block already exists in main.tf", o.PackageName)
-			}
-			if strings.Compare(o.PackageName, l) < 0 {
-				// Insert the new module block here
-				updatedContent = append(updatedContent,
-					fmt.Sprintf("module \"%s\" {", o.PackageName),
-					fmt.Sprintf("  source            = \"%s\"", fmt.Sprintf(moduleSource, o.PackageName)),
-					fmt.Sprintf("  target_repository = \"%s/%s\"", targetRepository, o.PackageName), "}",
-					fmt.Sprintf(""), // this line will be added as a blank line after the new module added
-				)
-				moduleInserted = true
-			}
+	newTf := hclwrite.NewEmptyFile()
+	blocks := make(map[string]*hclwrite.Block)
+	for _, b := range f.Body().Blocks() {
+		switch b.Type() {
+		// extract modules to the map for sorting later
+		case "module":
+			blocks[b.Labels()[0]] = b
+		// write the block unchanged back to main.tf in the order it appears
+		default:
+			newTf.Body().AppendBlock(b)
+			newTf.Body().AppendNewline()
 		}
-
-		// Append the current line to the updated content
-		updatedContent = append(updatedContent, line)
 	}
+	// add the new o.scaffold.PackageName module
+	blocks[newModule.Labels()[0]] = newModule
 
-	// If the module block wasn't inserted, append it to the end
-	if !moduleInserted {
-		updatedContent = append(updatedContent,
-			fmt.Sprintf("module \"%s\" {", o.PackageName),
-			fmt.Sprintf("  source            = \"%s\"", fmt.Sprintf(moduleSource, o.PackageName)),
-			fmt.Sprintf("  target_repository = \"%s/%s\"", targetRepository, o.PackageName), "}",
-			fmt.Sprintf(""), // this line will be added as a blank line after the new module added
-		)
+	// alphabetize the slice of block names
+	labels := []string{}
+	for k := range blocks {
+		labels = append(labels, k)
 	}
+	sort.Strings(labels)
 
-	// Truncate the file to remove any remaining content
-	file.Truncate(0)
-	file.Seek(0, 0)
-
-	// Write the updated content back to the file
-	writer := bufio.NewWriter(file)
-	for _, line := range updatedContent {
-		fmt.Fprintln(writer, line)
+	for i, l := range labels {
+		newTf.Body().AppendBlock(blocks[l])
+		// append a newline for all but the last block in the file
+		if i < len(labels)-1 {
+			newTf.Body().AppendNewline()
+		}
 	}
-	writer.Flush()
+	o.MainTf = newTf.Bytes()
 
 	return nil
+}
+
+func (o *scaffoldOptions) readMainTf() error {
+	b, err := os.ReadFile("main.tf")
+	if err != nil {
+		return err
+	}
+	o.MainTf = b
+	return nil
+}
+
+func (o *scaffoldOptions) writeMainTf() error {
+	return os.WriteFile("main.tf", o.MainTf, 0o644)
 }
