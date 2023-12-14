@@ -25,8 +25,7 @@ docker pull cgr.dev/chainguard/grafana:latest
 ```
 <!--getting:end-->
 
-<!--body:start--><!--body:end-->
-
+<!--body:start-->
 ## Upstream documentation
 For more information on grafana, refer to the [grafana documentation](https://grafana.com/docs/).
 Additionally the grafana GitHub reposiory can be [found here](https://github.com/grafana/grafana).
@@ -64,3 +63,4 @@ docker run --name=local-grafana -p 3000:3000 cgr.dev/chainguard/grafana:latest
 
 The grafana Web UI would be accessible via:
 - [http://localhost:3000](http://localhost:3000)
+<!--body:end-->
