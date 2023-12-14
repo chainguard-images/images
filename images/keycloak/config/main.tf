@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install"
-  default     = ["openjdk-17", "openjdk-17-default-jvm", "keycloak"]
+  default     = ["keycloak"]
 }
 
 variable "environment" {
