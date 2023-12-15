@@ -5,15 +5,15 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 server_name="postgres_server-${RANDOM}"
 client_name="postgres_client-${RANDOM}"
 network_name="postgres_network-${RANDOM}"
-certs_dir="certs"
+certs_dir="certs-${RANDOM}"
 postgres_password="secret"
 
 # Function to clean up resources in case of an error
 cleanup() {
-  echo "Cleaning up..."
-  docker rm -f $server_name $client_name
-  docker network rm $network_name
-  rm -rf $certs_dir
+	echo "Cleaning up..."
+	docker rm -f $server_name $client_name
+	docker network rm $network_name
+	rm -rf $certs_dir
 }
 trap cleanup EXIT
 
@@ -35,8 +35,8 @@ docker run --rm -d --name $server_name --network $network_name -v $(pwd)/$certs_
 
 # Health check - wait for the server to start
 until docker run --rm --network $network_name --entrypoint pg_isready $IMAGE_NAME -h $server_name; do
-  echo "Waiting for database to be ready..."
-  sleep 2
+	echo "Waiting for database to be ready..."
+	sleep 2
 done
 
 # Run the client in another container on the same network
