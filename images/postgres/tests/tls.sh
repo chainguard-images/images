@@ -2,9 +2,9 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-server_name="postgres_server"
-client_name="postgres_client"
-network_name="postgres_network"
+server_name="postgres_server-${RANDOM}"
+client_name="postgres_client-${RANDOM}"
+network_name="postgres_network-${RANDOM}"
 certs_dir="certs"
 postgres_password="secret"
 
