@@ -14,12 +14,6 @@ locals {
       packages = ["crossplane"]
       repo     = var.target_repository
     }
-    # TODO: This is moving into its own repo:
-    # https://github.com/crossplane/function-runtime-oci
-    "xfn" : {
-      packages : ["crossplane-xfn", "crun"]
-      repo : "${var.target_repository}-xfn"
-    }
   }
 }
 
