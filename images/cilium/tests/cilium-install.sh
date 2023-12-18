@@ -72,9 +72,6 @@ $TMPDIR/cilium install --context k3d-$CLUSTER_NAME \
     --helm-set hubble.ui.backend.image.override=$HUBBLE_UI_BACKEND_IMAGE \
     --helm-set operator.image.override=$OPERATOR_IMAGE
 
-# Enable Hubble, as well as UI
-$TMPDIR/cilium hubble enable --ui
-
 $TMPDIR/cilium status --context k3d-$CLUSTER_NAME --wait
 
 QUAY_IMAGES=$($TMPDIR/cilium status --context k3d-$CLUSTER_NAME -o json | grep quay.io || true )
