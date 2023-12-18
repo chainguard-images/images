@@ -12,6 +12,10 @@ jobs:
       shard-0: ${{ steps.generate-matrix-0.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4 # v3.5.2
+      - uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: '1.6.0-beta5'
+          tofu_wrapper: false
 
       - run: terraform fmt -check -recursive -diff
       - run: ./lint.sh
@@ -49,12 +53,10 @@ jobs:
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
       - uses: actions/checkout@v4 # v3.5.2
-
-      - uses: hashicorp/setup-terraform@v3
+      - uses: opentofu/setup-opentofu@v1
         with:
-          terraform_version: '1.3.*'
-          terraform_wrapper: false
-      # Make cosign/crane CLI available to the tests
+          tofu_version: '1.6.0-beta5'
+          tofu_wrapper: false
       - uses: sigstore/cosign-installer@v3.1.0
       - uses: imjasonh/setup-crane@v0.3
 
@@ -73,7 +75,9 @@ jobs:
           set -x -o pipefail
           env | grep '^TF_VAR_'
 
-          echo ::group::terraform init
+          alias terraform=tofu
+
+          echo ::group::tf init
           terraform init
           echo ::endgroup::
           terraform apply -auto-approve "-target=module.${{ matrix.imageName }}" -json | tee /tmp/${{ matrix.imageName }}.tf.json | jq -r '.["@message"]'
