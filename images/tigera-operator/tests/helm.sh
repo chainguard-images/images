@@ -22,7 +22,7 @@ trap cleanup EXIT
 
 cat /tmp/values-${rand}.yaml
 
-helm install ${name} tigera-operator -n ${ns} --repo https://docs.tigera.io/calico/charts -f /tmp/values-${rand}.yaml --create-namespace
+helm install ${name} tigera-operator -n ${ns} --repo https://docs.tigera.io/calico/charts -f /tmp/values-${rand}.yaml --create-namespace --version v3.26.4
 
 # Wait for the pods to be ready.
 kubectl wait --for=condition=Ready -n ${ns} pod --all --timeout=120s

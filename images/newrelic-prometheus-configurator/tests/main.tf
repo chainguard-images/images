@@ -16,11 +16,11 @@ data "oci_string" "ref" {
   input = var.digest
 }
 
-resource "random_pet" "suffix" {}
+resource "random_id" "hex" { byte_length = 4 }
 
 resource "helm_release" "nri-bundle" {
-  name             = "newrelic-pc-${random_pet.suffix.id}"
-  namespace        = "newrelic-pc-${random_pet.suffix.id}"
+  name             = "newrelic-pc-${random_id.hex.hex}"
+  namespace        = "newrelic-pc-${random_id.hex.hex}"
   repository       = "https://helm-charts.newrelic.com"
   chart            = "nri-bundle"
   create_namespace = true
