@@ -52,6 +52,8 @@ done
 
 # Download the cilium CLI
 pushd $TMPDIR
+
+# Version v0.15.18 has test logic that needs `jq`. Temporarily pin this back to v0.15.17 here.
 CILIUM_CLI_VERSION=v0.15.17
 # These use the platform passed into Docker. It's still better to let Go
 # translate that into its format than do any Bash-based translation here.
