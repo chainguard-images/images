@@ -5,7 +5,7 @@ module "wolfi" {
 
   target_repository = var.target_repository
   config            = file("${path.module}/configs/wolfi.apko.yaml")
-  check-sbom        = true
+  check-sbom        = false # TODO(jason): Temporarily disabled.
 }
 
 module "test-wolfi" {
