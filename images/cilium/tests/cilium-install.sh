@@ -52,9 +52,7 @@ done
 
 # Download the cilium CLI
 pushd $TMPDIR
-
-# Version v0.15.18 has test logic that needs `jq`. Temporarily pin this back to v0.15.17 here.
-CILIUM_CLI_VERSION=v0.15.17
+CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
 # These use the platform passed into Docker. It's still better to let Go
 # translate that into its format than do any Bash-based translation here.
 GOOS=$(go env GOOS || docker run cgr.dev/chainguard/go env GOOS)
@@ -89,7 +87,8 @@ $TMPDIR/cilium connectivity test --context k3d-$CLUSTER_NAME \
     `# 1.1.1.1 and 1.0.0.1 are usually blocked by firewalls` \
     --external-cidr 8.0.0.0/8 \
     --external-ip 8.8.8.8 \
-    --external-other-ip 8.8.4.4
+    --external-other-ip 8.8.4.4 \
+    --test \!no-unexpected-packet-drops
 
 # Test the hubble UI
 kubectl --context k3d-$CLUSTER_NAME create configmap cypress --from-file $SCRIPT_DIR/cypress
