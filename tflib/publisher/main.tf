@@ -98,9 +98,11 @@ module "this-dev" {
 
   target_repository = var.target_repository
 
-  # Make the dev variant an explicit extension of the
-  # locked original.
-  config = jsonencode(module.this.config)
+  # *Don't* reuse the locked config from module.this.config, since we want to
+  # install extra packages which may differ from the versions selected by the
+  # main config, which has fewer constraints.
+  config = yamlencode(local.updated_config)
+
   extra_packages = concat([
     "apk-tools",
     "bash",
