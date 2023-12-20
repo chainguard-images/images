@@ -910,6 +910,11 @@ module "php" {
   target_repository = "${var.target_repository}/php"
 }
 
+module "php-fpm_exporter" {
+  source            = "./images/php-fpm_exporter"
+  target_repository = "${var.target_repository}/php-fpm_exporter"
+}
+
 module "postgres" {
   source            = "./images/postgres"
   target_repository = "${var.target_repository}/postgres"
