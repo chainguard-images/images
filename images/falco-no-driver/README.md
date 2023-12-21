@@ -1,3 +1,19 @@
+<!--monopod:start-->
+# falco-no-driver
+| | |
+| - | - |
+| **OCI Reference** | `cgr.dev/chainguard/falco-no-driver` |
+
+
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/falco-no-driver/overview/)
+* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
+* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
+---
+<!--monopod:end-->
+
+<!--overview:start-->
+Minimalist [wolfi](https://github.com/wolfi-dev)-based image of [Falco](https://github.com/falcosecurity/falco/tree/master) to detect and alert on abnormal behavior and potential security threats in real-time in Linux OS
 <!--overview:end-->
 
 <!--getting:start-->
@@ -56,6 +72,17 @@ docker run --rm -i -t \
 ```
 
 ### Helm chart
+
+To install falco-nodriver image supporting modern bpf probe,
+```
+  helm install falco \
+  --namespace falco --create-namespace  \
+  --set image.registry=cgr \
+  --set image.repository=chainguard/falco-no-driver \
+  --set image.tag=latest \
+  --set driver.kind=modern-bpf \
+  --wait falcosecurity/falco
+```
 
 <TODO...>
 <!--body:end-->

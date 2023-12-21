@@ -9,7 +9,7 @@ variable "target_repository" {
 }
 
 module "config" {
-  source         = "./config"
+  source = "./config"
 }
 
 
