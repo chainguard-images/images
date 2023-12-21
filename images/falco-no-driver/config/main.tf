@@ -7,7 +7,7 @@ variable "extra_packages" {
 module "accts" {
   source = "../../../tflib/accts"
 
-  # This package expects to run as root, context:
+  # Falco is required to run as root, particularly when loading the modern-bpf driver
   run-as = 0
 }
 
