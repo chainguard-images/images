@@ -33,7 +33,7 @@ module "helm_cleanup" {
 }
 */
 
-
+/*
 data "oci_exec_test" "helm-install" {
   digest = var.digest
   script = "${path.module}/falco-helm-install.sh"
@@ -51,3 +51,4 @@ data "oci_exec_test" "helm-install" {
     value = data.oci_string.ref.pseudo_tag
   }
 }
+*/

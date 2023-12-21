@@ -1,5 +1,5 @@
-name                = "falco"
-image               = "cgr.dev/chainguard/falco"
+name                = "falco-no-driver"
+image               = "cgr.dev/chainguard/falco-no-driver"
 logo                = "https://storage.googleapis.com/chainguard-academy/logos/falco.svg"
 endoflife           = ""
 console_summary     = ""
