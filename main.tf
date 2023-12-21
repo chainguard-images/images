@@ -350,6 +350,11 @@ module "external-secrets" {
   target_repository = "${var.target_repository}/external-secrets"
 }
 
+module "falco-no-driver" {
+  source            = "./images/falco-no-driver"
+  target_repository = "${var.target_repository}/falco-no-driver"
+}
+
 module "falcoctl" {
   source            = "./images/falcoctl"
   target_repository = "${var.target_repository}/falcoctl"
