@@ -34,7 +34,7 @@ output "config" {
       "LANG" : "en_US.UTF-8"
     }, var.environment)
     entrypoint = {
-      command = "/var/lib/postgres/initdb/postgresql-entrypoint.sh postgres"
+      command = "/usr/bin/postgresql-entrypoint.sh postgres"
     }
     work-dir = "/home/postgres"
     paths = [{
