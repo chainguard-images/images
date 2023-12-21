@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimalist [wolfi](https://github.com/wolfi-dev)-based image of [Falco](https://github.com/falcosecurity/falco/tree/master) to detect and alert on abnormal behavior and potential security threats in real-time in Linux OS
+A minimal, [wolfi](https://github.com/wolfi-dev)-based image for falco-no-driver. This streamlined variant of [Falco](https://github.com/falcosecurity/falco/tree/master) designed for real-time security monitoring on Linux, replaces the traditional kernel module with eBPF technology, thus enhancing portability in containerized environments.
 <!--overview:end-->
 
 <!--getting:start-->
@@ -73,16 +73,19 @@ docker run --rm -i -t \
 
 ### Helm chart
 
-To install falco-nodriver image supporting modern bpf probe,
-```
-  helm install falco \
-  --namespace falco --create-namespace  \
-  --set image.registry=cgr \
-  --set image.repository=chainguard/falco-no-driver \
-  --set image.tag=latest \
-  --set driver.kind=modern-bpf \
-  --wait falcosecurity/falco
-```
+The deployment of Falco in a Kubernetes cluster is managed through a Helm chart. Documentation on this helm chart is available [here](https://github.com/falcosecurity/charts)
 
-<TODO...>
+To install falco-no-driver image supporting modern bpf probe,
+```
+    helm repo add falcosecurity https://falcosecurity.github.io/charts
+    helm repo update
+
+    helm install falco \
+    --namespace falco --create-namespace  \
+    --set image.registry=cgr \
+    --set image.repository=chainguard/falco-no-driver \
+    --set image.tag=latest \
+    --set driver.kind=modern-bpf \
+    --wait falcosecurity/falco
+```
 <!--body:end-->
