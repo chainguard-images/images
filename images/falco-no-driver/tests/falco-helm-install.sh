@@ -25,8 +25,8 @@ start_container() {
   helm repo add falcosecurity https://falcosecurity.github.io/charts
   helm repo update
 
-  helm install $(installation) \
-  --namespace $(namespace) --create-namespace  \
+  helm install $installation \
+  --namespace $namespace --create-namespace  \
   --set image.registry="${IMAGE_REGISTRY}" \
   --set image.repository="${IMAGE_REPOSITORY}" \
   --set image.tag=${IMAGE_TAG} \
@@ -55,7 +55,7 @@ search_logs() {
       return 0
     elif [[ $i -lt $retries ]]; then
       echo "Some log terms were missing. Retrying in $delay seconds..."
-      sleep $delay:q
+      sleep $delay
       
     fi
   done
@@ -82,10 +82,10 @@ TEST_container_starts_ok() {
 
     # Check if the container is running
     if ! kubectl get pods -n $namespace | grep 'falco-'; then
-        echo "FAILED: Pod $(pod_name) is not running."
+        echo "FAILED: Pod $pod_name is not running."
         exit 1
     else
-        echo "Pod $(pod_name) is running."
+        echo "Pod $pod_name is running."
     fi
 
     # Look for each log term. Will record any which are not found.
