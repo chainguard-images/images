@@ -2,7 +2,7 @@ module "accts" { source = "../../../tflib/accts" }
 
 variable "extra_packages" {
   description = "The additional packages to install"
-  type = list(string)
+  type        = list(string)
   default     = ["cass-operator", "cass-operator-compat"]
 }
 
