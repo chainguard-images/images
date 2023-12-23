@@ -17,7 +17,6 @@ variable "target_repository" {
   description = "The root repo into which the images should be published (e.g., cgr.dev/chainguard). Individual images will be published within this root repo."
 }
 
-
 variable "extra_repositories" {
   type        = list(string)
   default     = []
@@ -67,6 +66,8 @@ provider "helm" {
     config_path = "~/.kube/config"
   }
 }
+
+variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
 
 module "apko" {
   source            = "./images/apko"
@@ -118,14 +119,14 @@ module "aws-load-balancer-controller" {
   target_repository = "${var.target_repository}/aws-load-balancer-controller"
 }
 
-module "bash" {
-  source            = "./images/bash"
-  target_repository = "${var.target_repository}/bash"
-}
-
 module "bank-vaults" {
   source            = "./images/bank-vaults"
   target_repository = "${var.target_repository}/bank-vaults"
+}
+
+module "bash" {
+  source            = "./images/bash"
+  target_repository = "${var.target_repository}/bash"
 }
 
 module "bazel" {
@@ -141,6 +142,11 @@ module "boring-registry" {
 module "buck2" {
   source            = "./images/buck2"
   target_repository = "${var.target_repository}/buck2"
+}
+
+module "buildkit" {
+  source            = "./images/buildkit"
+  target_repository = "${var.target_repository}/buildkit"
 }
 
 module "busybox" {
@@ -186,16 +192,6 @@ module "cedar" {
   target_repository = "${var.target_repository}/cedar"
 }
 
-module "cfssl" {
-  source            = "./images/cfssl"
-  target_repository = "${var.target_repository}/cfssl"
-}
-
-module "clang" {
-  source            = "./images/clang"
-  target_repository = "${var.target_repository}/clang"
-}
-
 module "cert-manager" {
   source            = "./images/cert-manager"
   target_repository = "${var.target_repository}/cert-manager"
@@ -209,6 +205,21 @@ module "cert-manager-again-for-testing" {
   target_repository = "${var.target_repository}/cert-manager"
 }
 
+module "cfssl" {
+  source            = "./images/cfssl"
+  target_repository = "${var.target_repository}/cfssl"
+}
+
+module "cilium" {
+  source            = "./images/cilium"
+  target_repository = "${var.target_repository}/cilium"
+}
+
+module "clang" {
+  source            = "./images/clang"
+  target_repository = "${var.target_repository}/clang"
+}
+
 module "cluster-autoscaler" {
   source            = "./images/cluster-autoscaler"
   target_repository = "${var.target_repository}/cluster-autoscaler"
@@ -217,11 +228,6 @@ module "cluster-autoscaler" {
 module "cluster-proportional-autoscaler" {
   source            = "./images/cluster-proportional-autoscaler"
   target_repository = "${var.target_repository}/cluster-proportional-autoscaler"
-}
-
-module "cilium" {
-  source            = "./images/cilium"
-  target_repository = "${var.target_repository}/cilium"
 }
 
 module "conda" {
@@ -324,9 +330,19 @@ module "envoy-ratelimit" {
   target_repository = "${var.target_repository}/envoy-ratelimit"
 }
 
+module "erlang" {
+  source            = "./images/erlang"
+  target_repository = "${var.target_repository}/erlang"
+}
+
 module "etcd" {
   source            = "./images/etcd"
   target_repository = "${var.target_repository}/etcd"
+}
+
+module "external-dns" {
+  source            = "./images/external-dns"
+  target_repository = "${var.target_repository}/external-dns"
 }
 
 module "external-secrets" {
@@ -334,9 +350,9 @@ module "external-secrets" {
   target_repository = "${var.target_repository}/external-secrets"
 }
 
-module "falco" {
-  source            = "./images/falco"
-  target_repository = "${var.target_repository}/falco"
+module "falco-no-driver" {
+  source            = "./images/falco-no-driver"
+  target_repository = "${var.target_repository}/falco-no-driver"
 }
 
 module "falcoctl" {
@@ -379,22 +395,27 @@ module "gcc-glibc" {
   target_repository = "${var.target_repository}/gcc-glibc"
 }
 
-module "gitlab" {
-  source            = "./images/gitlab"
-  target_repository = "${var.target_repository}/gitlab"
-}
-
-module "glibc-dynamic" {
-  source            = "./images/glibc-dynamic"
-  target_repository = "${var.target_repository}/glibc-dynamic"
-}
-
 module "git" {
   source            = "./images/git"
   target_repository = "${var.target_repository}/git"
   providers = {
     apko.alpine = apko.alpine
   }
+}
+
+module "gitlab" {
+  source            = "./images/gitlab"
+  target_repository = "${var.target_repository}/gitlab"
+}
+
+module "gitness" {
+  source            = "./images/gitness"
+  target_repository = "${var.target_repository}/gitness"
+}
+
+module "glibc-dynamic" {
+  source            = "./images/glibc-dynamic"
+  target_repository = "${var.target_repository}/glibc-dynamic"
 }
 
 module "go" {
@@ -407,17 +428,6 @@ module "google-cloud-sdk" {
   target_repository = "${var.target_repository}/google-cloud-sdk"
 }
 
-
-module "external-dns" {
-  source            = "./images/external-dns"
-  target_repository = "${var.target_repository}/external-dns"
-}
-
-module "gitness" {
-  source            = "./images/gitness"
-  target_repository = "${var.target_repository}/gitness"
-}
-
 module "graalvm-native" {
   source            = "./images/graalvm-native"
   target_repository = "${var.target_repository}/graalvm-native"
@@ -426,6 +436,11 @@ module "graalvm-native" {
 module "gradle" {
   source            = "./images/gradle"
   target_repository = "${var.target_repository}/gradle"
+}
+
+module "grafana" {
+  source            = "./images/grafana"
+  target_repository = "${var.target_repository}/grafana"
 }
 
 module "grype" {
@@ -458,19 +473,24 @@ module "helm-chartmuseum" {
   target_repository = "${var.target_repository}/helm-chartmuseum"
 }
 
-module "hugo" {
-  source            = "./images/hugo"
-  target_repository = "${var.target_repository}/hugo"
-}
-
 module "http-echo" {
   source            = "./images/http-echo"
   target_repository = "${var.target_repository}/http-echo"
 }
 
+module "hugo" {
+  source            = "./images/hugo"
+  target_repository = "${var.target_repository}/hugo"
+}
+
 module "influxdb" {
   source            = "./images/influxdb"
   target_repository = "${var.target_repository}/influxdb"
+}
+
+module "ingress-nginx-controller" {
+  source            = "./images/ingress-nginx-controller"
+  target_repository = "${var.target_repository}/ingress-nginx-controller"
 }
 
 module "ip-masq-agent" {
@@ -481,11 +501,6 @@ module "ip-masq-agent" {
 module "istio" {
   source            = "./images/istio"
   target_repository = "${var.target_repository}/istio"
-}
-
-module "ingress-nginx-controller" {
-  source            = "./images/ingress-nginx-controller"
-  target_repository = "${var.target_repository}/ingress-nginx-controller"
 }
 
 module "jdk" {
@@ -533,6 +548,11 @@ module "k8sgpt-operator" {
   target_repository = "${var.target_repository}/k8sgpt-operator"
 }
 
+module "k8ssandra-operator" {
+  source            = "./images/k8ssandra-operator"
+  target_repository = "${var.target_repository}/k8ssandra-operator"
+}
+
 module "kafka" {
   source            = "./images/kafka"
   target_repository = "${var.target_repository}/kafka"
@@ -573,6 +593,21 @@ module "kube-downscaler" {
   target_repository = "${var.target_repository}/kube-downscaler"
 }
 
+module "kube-fluentd-operator" {
+  source            = "./images/kube-fluentd-operator"
+  target_repository = "${var.target_repository}/kube-fluentd-operator"
+}
+
+module "kube-logging-operator" {
+  source            = "./images/kube-logging-operator"
+  target_repository = "${var.target_repository}/kube-logging-operator"
+}
+
+module "kube-logging-operator-fluentd" {
+  source            = "./images/kube-logging-operator-fluentd"
+  target_repository = "${var.target_repository}/kube-logging-operator-fluentd"
+}
+
 module "kube-state-metrics" {
   source            = "./images/kube-state-metrics"
   target_repository = "${var.target_repository}/kube-state-metrics"
@@ -586,6 +621,11 @@ module "kubectl" {
 module "kubeflow" {
   source            = "./images/kubeflow"
   target_repository = "${var.target_repository}/kubeflow"
+}
+
+module "kubeflow-centraldashboard" {
+  source            = "./images/kubeflow-centraldashboard"
+  target_repository = "${var.target_repository}/kubeflow-centraldashboard"
 }
 
 module "kubeflow-katib" {
@@ -658,21 +698,6 @@ module "kubernetes-ingress-defaultbackend" {
   target_repository = "${var.target_repository}/kubernetes-ingress-defaultbackend"
 }
 
-module "kube-fluentd-operator" {
-  source            = "./images/kube-fluentd-operator"
-  target_repository = "${var.target_repository}/kube-fluentd-operator"
-}
-
-module "kube-logging-operator-fluentd" {
-  source            = "./images/kube-logging-operator-fluentd"
-  target_repository = "${var.target_repository}/kube-logging-operator-fluentd"
-}
-
-module "kube-logging-operator" {
-  source            = "./images/kube-logging-operator"
-  target_repository = "${var.target_repository}/kube-logging-operator"
-}
-
 module "kubewatch" {
   source            = "./images/kubewatch"
   target_repository = "${var.target_repository}/kubewatch"
@@ -733,19 +758,24 @@ module "memcached-exporter-bitnami" {
   target_repository = "${var.target_repository}/memcached-exporter-bitnami"
 }
 
-module "metrics-server" {
-  source            = "./images/metrics-server"
-  target_repository = "${var.target_repository}/metrics-server"
-}
-
 module "metacontroller" {
   source            = "./images/metacontroller"
   target_repository = "${var.target_repository}/metacontroller"
 }
 
+module "metrics-server" {
+  source            = "./images/metrics-server"
+  target_repository = "${var.target_repository}/metrics-server"
+}
+
 module "minio" {
   source            = "./images/minio"
   target_repository = "${var.target_repository}/minio"
+}
+
+module "ml-metadata-store-server" {
+  source            = "./images/ml-metadata-store-server"
+  target_repository = "${var.target_repository}/ml-metadata-store-server"
 }
 
 module "nats" {
@@ -758,10 +788,45 @@ module "netcat" {
   target_repository = "${var.target_repository}/netcat"
 }
 
-variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
-module "newrelic" {
-  source            = "./images/newrelic"
-  target_repository = "${var.target_repository}/newrelic"
+module "newrelic-fluent-bit-output" {
+  source            = "./images/newrelic-fluent-bit-output"
+  target_repository = "${var.target_repository}/newrelic-fluent-bit-output"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-infrastructure-bundle" {
+  source            = "./images/newrelic-infrastructure-bundle"
+  target_repository = "${var.target_repository}/newrelic-infrastructure-bundle"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-k8s-events-forwarder" {
+  source            = "./images/newrelic-k8s-events-forwarder"
+  target_repository = "${var.target_repository}/newrelic-k8s-events-forwarder"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-kube-events" {
+  source            = "./images/newrelic-kube-events"
+  target_repository = "${var.target_repository}/newrelic-kube-events"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-kubernetes" {
+  source            = "./images/newrelic-kubernetes"
+  target_repository = "${var.target_repository}/newrelic-kubernetes"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-prometheus" {
+  source            = "./images/newrelic-prometheus"
+  target_repository = "${var.target_repository}/newrelic-prometheus"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-prometheus-configurator" {
+  source            = "./images/newrelic-prometheus-configurator"
+  target_repository = "${var.target_repository}/newrelic-prometheus-configurator"
   license_key       = var.newrelic_license_key
 }
 
@@ -785,14 +850,14 @@ module "node-lts" {
   target_repository = "${var.target_repository}/node-lts"
 }
 
-module "nodetaint" {
-  source            = "./images/nodetaint"
-  target_repository = "${var.target_repository}/nodetaint"
-}
-
 module "node-problem-detector" {
   source            = "./images/node-problem-detector"
   target_repository = "${var.target_repository}/node-problem-detector"
+}
+
+module "nodetaint" {
+  source            = "./images/nodetaint"
+  target_repository = "${var.target_repository}/nodetaint"
 }
 
 module "ntia-conformance-checker" {
@@ -850,9 +915,19 @@ module "php" {
   target_repository = "${var.target_repository}/php"
 }
 
+module "php-fpm_exporter" {
+  source            = "./images/php-fpm_exporter"
+  target_repository = "${var.target_repository}/php-fpm_exporter"
+}
+
 module "postgres" {
   source            = "./images/postgres"
   target_repository = "${var.target_repository}/postgres"
+}
+
+module "postgres-helm-compat" {
+  source            = "./images/postgres-helm-compat"
+  target_repository = "${var.target_repository}/postgres-helm-compat"
 }
 
 module "powershell" {
@@ -868,11 +943,6 @@ module "prometheus" {
 module "prometheus-adapter" {
   source            = "./images/prometheus-adapter"
   target_repository = "${var.target_repository}/prometheus-adapter"
-}
-
-module "prometheus-postgres-exporter" {
-  source            = "./images/prometheus-postgres-exporter"
-  target_repository = "${var.target_repository}/prometheus-postgres-exporter"
 }
 
 module "prometheus-cloudwatch-exporter" {
@@ -893,6 +963,11 @@ module "prometheus-mongodb-exporter" {
 module "prometheus-node-exporter" {
   source            = "./images/prometheus-node-exporter"
   target_repository = "${var.target_repository}/prometheus-node-exporter"
+}
+
+module "prometheus-postgres-exporter" {
+  source            = "./images/prometheus-postgres-exporter"
+  target_repository = "${var.target_repository}/prometheus-postgres-exporter"
 }
 
 module "prometheus-pushgateway-bitnami" {
@@ -992,14 +1067,14 @@ module "rust" {
   target_repository = "${var.target_repository}/rust"
 }
 
-module "secrets-store-csi-driver-provider-gcp" {
-  source            = "./images/secrets-store-csi-driver-provider-gcp"
-  target_repository = "${var.target_repository}/secrets-store-csi-driver-provider-gcp"
-}
-
 module "secrets-store-csi-driver" {
   source            = "./images/secrets-store-csi-driver"
   target_repository = "${var.target_repository}/secrets-store-csi-driver"
+}
+
+module "secrets-store-csi-driver-provider-gcp" {
+  source            = "./images/secrets-store-csi-driver-provider-gcp"
+  target_repository = "${var.target_repository}/secrets-store-csi-driver-provider-gcp"
 }
 
 module "semgrep" {
@@ -1055,6 +1130,11 @@ module "spire-again-for-testing" {
   target_repository = "${var.target_repository}/spire"
 }
 
+module "sqlpad" {
+  source            = "./images/sqlpad"
+  target_repository = "${var.target_repository}/sqlpad"
+}
+
 module "stakater-reloader" {
   source            = "./images/stakater-reloader"
   target_repository = "${var.target_repository}/stakater-reloader"
@@ -1081,6 +1161,16 @@ module "tekton" {
 module "telegraf" {
   source            = "./images/telegraf"
   target_repository = "${var.target_repository}/telegraf"
+}
+
+module "temporal-admin-tools" {
+  source            = "./images/temporal-admin-tools"
+  target_repository = "${var.target_repository}/temporal-admin-tools"
+}
+
+module "temporal-server" {
+  source            = "./images/temporal-server"
+  target_repository = "${var.target_repository}/temporal-server"
 }
 
 module "temporal-ui-server" {

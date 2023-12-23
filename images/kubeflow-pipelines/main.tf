@@ -1,7 +1,14 @@
+terraform {
+  required_providers {
+    oci = { source = "chainguard-dev/oci" }
+  }
+}
+
 locals {
   components = toset([
     "api-server",
     "cache-server",
+    "metadata-envoy",
     "metadata-writer",
     "persistenceagent",
     "scheduledworkflow",
@@ -15,6 +22,7 @@ locals {
     {
       "api-server"            = "kubeflow-pipelines-apiserver"
       "cache-server"          = "kubeflow-pipelines-cache_server"
+      "metadata-envoy"        = "kubeflow-pipelines-metadata-envoy-config"
       "metadata-writer"       = "kubeflow-pipelines-metadata-writer"
       "persistenceagent"      = "kubeflow-pipelines-persistence_agent"
       "scheduledworkflow"     = "kubeflow-pipelines-scheduledworkflow"
@@ -29,6 +37,7 @@ locals {
     {
       "api-server"            = "${var.target_repository}-api-server"
       "cache-server"          = "${var.target_repository}-cache-server"
+      "metadata-envoy"        = "${var.target_repository}-metadata-envoy"
       "metadata-writer"       = "${var.target_repository}-metadata-writer"
       "persistenceagent"      = "${var.target_repository}-persistenceagent"
       "scheduledworkflow"     = "${var.target_repository}-scheduledworkflow"
@@ -72,14 +81,16 @@ module "test-latest" {
   digests = { for k, v in module.latest : k => v.image_ref }
 }
 
-module "tagger" {
-  for_each = local.components
-  source   = "../../tflib/tagger"
-
+resource "oci_tag" "latest" {
+  for_each   = local.components
   depends_on = [module.test-latest]
+  digest_ref = module.latest[each.key].image_ref
+  tag        = "latest"
+}
 
-  tags = merge(
-    { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : t => module.latest[each.key].image_ref },
-    { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : "${t}-dev" => module.latest[each.key].dev_ref },
-  )
+resource "oci_tag" "latest-dev" {
+  for_each   = local.components
+  depends_on = [module.test-latest]
+  digest_ref = module.latest[each.key].dev_ref
+  tag        = "latest-dev"
 }

@@ -10,15 +10,23 @@ variable "target_repository" {
 
 
 module "config" {
-  source         = "./configs"
+  source = "./configs"
 }
 
 module "latest" {
   source = "../../tflib/publisher"
-  name = basename(path.module)
+  name   = basename(path.module)
 
   target_repository = var.target_repository
   config            = module.config.config
+  build-dev         = true
+}
+
+module "latest" {
+  source            = "../../tflib/publisher"
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  config            = file("${path.module}/configs/latest.apko.yaml")
   build-dev         = true
 }
 

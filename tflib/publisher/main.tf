@@ -43,6 +43,12 @@ variable "build-dev" {
   description = "If true, build a dev variant of the image. If extra_dev_packages is non-empty, then build-dev is implicitly true."
 }
 
+variable "check-sbom" {
+  type        = bool
+  default     = false
+  description = "Whether to run the NTIA conformance checker over the images we produce prior to attesting the SBOMs."
+}
+
 variable "main_package" {
   type        = string
   default     = ""
@@ -75,17 +81,20 @@ locals {
 
 module "this" {
   source  = "chainguard-dev/apko/publisher"
-  version = "0.0.10"
+  version = "0.0.11"
 
   target_repository = var.target_repository
   config            = yamlencode(local.updated_config)
   extra_packages    = var.extra_packages
+
+  check_sbom   = var.check-sbom
+  sbom_checker = "cgr.dev/chainguard/ntia-conformance-checker:latest@sha256:75c1f8dcdf53d365bf30cdd630f800fa7a3b5d572ffc58346da6e5f1360e0787"
 }
 
 module "this-dev" {
   count   = local.build-dev ? 1 : 0
   source  = "chainguard-dev/apko/publisher"
-  version = "0.0.10"
+  version = "0.0.11"
 
   target_repository = var.target_repository
 
@@ -98,6 +107,9 @@ module "this-dev" {
     "busybox",
     "git",
   ], var.extra_dev_packages)
+
+  check_sbom   = var.check-sbom
+  sbom_checker = "cgr.dev/chainguard/ntia-conformance-checker:latest@sha256:75c1f8dcdf53d365bf30cdd630f800fa7a3b5d572ffc58346da6e5f1360e0787"
 }
 
 data "oci_exec_test" "check-reproducibility" {

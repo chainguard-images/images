@@ -1,18 +1,44 @@
 package commands
 
 import (
+	"embed"
+	_ "embed"
 	"fmt"
-	"os"
-	"path"
 	"sort"
-	"strings"
+	"text/template"
 
 	"github.com/spf13/cobra"
 
 	"github.com/chainguard-images/images/monopod/pkg/commands/options"
-	"github.com/chainguard-images/images/monopod/pkg/constants"
 	"github.com/chainguard-images/images/monopod/pkg/images"
 )
+
+type completeReadme struct {
+	ReadmeFile     string `tfsdk:"readme_file" hcl:"readme_file"`
+	ShortDesc      string `tfsdk:"short_description" hcl:"short_description"`
+	ConsoleSummary string `tfsdk:"console_summary" hcl:"console_summary"`
+	Image          string `tfsdk:"image" hcl:"image"`
+	Name           string `tfsdk:"name" hcl:"name"`
+	Logo           string `tfsdk:"logo" hcl:"logo"`
+	EndOfLife      string `tfsdk:"endoflife" hcl:"endoflife"`
+	CompatNotes    string `tfsdk:"compatibility_notes" hcl:"compatibility_notes"`
+	URL            string `tfsdk:"upstream_url" hcl:"upstream_url"`
+	Body           string `tfsdk:"body"` // anything read from ReadmeFile between <!--body:*--> markers
+}
+
+//go:embed all:templates
+var templateFS embed.FS
+var templates *template.Template
+
+var isPrivateImage bool
+
+func init() {
+	templates = template.Must(
+		template.New("").
+			Funcs(template.FuncMap{}).
+			ParseFS(templateFS, "templates/*.tpl"),
+	)
+}
 
 func Readme() *cobra.Command {
 	ro := &options.ReadmeOptions{}
@@ -28,11 +54,15 @@ monopod readme
 				RootReadmeToStdout: ro.RootReadmeToStdout,
 				Check:              ro.Check,
 				DefaultRegistry:    ro.DefaultRegistry,
+				New:                ro.New,
+				Render:             ro.Render,
 			}
 			return impl.Do()
 		},
 	}
 	ro.AddFlags(cmd)
+
+	cmd.AddCommand(NewReadme(), Render())
 	return cmd
 }
 
@@ -41,6 +71,8 @@ type readmeImpl struct {
 	RootReadmeToStdout bool
 	Check              bool
 	DefaultRegistry    string
+	New                bool
+	Render             bool
 }
 
 func (i *readmeImpl) Do() error {
@@ -62,36 +94,41 @@ func (i *readmeImpl) check() error {
 		return allImages[i].ImageName < allImages[j].ImageName
 	})
 	for _, i := range allImages {
-		img := i.ImageName
-		// Generate the section to prepend to beginning of file
-		readmeInsert := fmt.Sprintf("# %s\n| | |\n| - | - |\n", img)
-		readmeInsert += fmt.Sprintf("| **OCI Reference** | `cgr.dev/chainguard/%s` |\n", img)
+		r := newReadmeRenderer(i.ImageName, nil)
 
-		readmeInsert += "\n\n"
-		readmeInsert += fmt.Sprintf("* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/%s/overview/)\n", img)
-		readmeInsert += "* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.\n"
-		readmeInsert += "* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*\n\n"
-		readmeInsert += "---"
-
-		filename := path.Join(constants.ImagesDirName, img, "README.md")
-		existingContent, err := os.ReadFile(filename)
-		if err != nil {
-			fmt.Printf("Error opening %s: %s", filename, err.Error())
+		if err := r.decodeHcl(); err != nil {
+			fmt.Printf("Error decoding %s: %s\n", r.hclFile, err)
 			numIssues++
-		} else {
-			existingContentStr := string(existingContent)
-			tmp1 := strings.Split(existingContentStr, constants.ImageReadmeGenStartComment)
-			if len(tmp1) < 2 {
-				fmt.Printf("%s exists but has not yet been modified by monopod.\n", filename)
-				numIssues++
-			} else {
-				padded := fmt.Sprintf("%s\n%s\n%s\n", constants.ImageReadmeGenStartComment, readmeInsert, constants.ImageReadmeGenEndComment)
-				if !strings.HasPrefix(existingContentStr, padded) {
-					fmt.Printf("%s is out-of-date.\n", filename)
-					numIssues++
-				}
-			}
+			continue
 		}
+		if err := r.validate(); err != nil {
+			fmt.Printf("Error validating %s: %s\n", r.hclFile, err)
+			numIssues++
+			continue
+		}
+		if err := r.read(); err != nil {
+			fmt.Printf("Error reading %s: %s\n", r.mdFile, err)
+			numIssues++
+			continue
+		}
+		if err := r.scanForBody(); err != nil {
+			fmt.Printf("Error finding <!--body...--> content: %s: %s\n", r.mdFile, err)
+			numIssues++
+			continue
+		}
+		if err := r.render(); err != nil {
+			fmt.Printf("Error rendering %s for comparison: %s\n", r.mdFile, err)
+			numIssues++
+			continue
+		}
+
+		//finally compare if the on disk versus rendered versions match
+		if r.rawMD != r.renderedMD.String() {
+			fmt.Printf("%s exists but does not match the monopod generated version.\n", r.mdFile)
+			numIssues++
+			continue
+		}
+
 	}
 
 	if numIssues > 0 {
@@ -109,50 +146,15 @@ func (i *readmeImpl) fixAllReadmes() error {
 		return err
 	}
 
-	// Individual image README.md files
+	// Individual image README.hcl files
 	sort.Slice(allImages, func(i, j int) bool {
 		return allImages[i].ImageName < allImages[j].ImageName
 	})
 	for _, i := range allImages {
-		img := i.ImageName
-		// Generate the section to prepend to beginning of file
-		readmeInsert := fmt.Sprintf("# %s\n| | |\n| - | - |\n", img)
-		readmeInsert += fmt.Sprintf("| **OCI Reference** | `cgr.dev/chainguard/%s` |\n", img)
+		r := newReadmeRenderer(i.ImageName, nil)
 
-		readmeInsert += "\n\n"
-		readmeInsert += fmt.Sprintf("* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/%s/overview/)\n", img)
-		readmeInsert += "* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.\n"
-		readmeInsert += "* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*\n\n"
-		readmeInsert += "---"
-		padded := fmt.Sprintf("%s\n%s\n%s\n", constants.ImageReadmeGenStartComment, readmeInsert, constants.ImageReadmeGenEndComment)
-		filename := path.Join(constants.ImagesDirName, img, "README.md")
-		existingContent, err := os.ReadFile(filename)
-		if err != nil {
-			// does not yet exist, create it!
-			fmt.Printf("Error opening %s: %s", filename, err.Error())
-			if err := os.WriteFile(filename, []byte(padded), 0644); err != nil {
-				return err
-			}
-		} else {
-			// replace existing insert if exists
-			existingContentStr := string(existingContent)
-			tmp1 := strings.Split(existingContentStr, constants.ImageReadmeGenStartComment)
-			if len(tmp1) < 2 {
-				if strings.HasPrefix(existingContentStr, "# ") {
-					// fix for there already being an h1 header (just remove it)
-					existingContentStr = strings.Join(strings.Split(existingContentStr, "\n")[1:], "\n")
-				}
-				if err := os.WriteFile(filename, []byte(padded+existingContentStr), 0644); err != nil {
-					return err
-				}
-			} else {
-				tmp2 := strings.Split(tmp1[1], constants.ImageReadmeGenEndComment)
-				padded := fmt.Sprintf("%s\n%s\n%s\n\n", constants.ImageReadmeGenStartComment, readmeInsert, constants.ImageReadmeGenEndComment)
-				final := strings.TrimRight(padded+strings.TrimLeft(tmp2[1], "\n")+"\n", "\n") + "\n"
-				if err := os.WriteFile(filename, []byte(final), 0644); err != nil {
-					return err
-				}
-			}
+		if err := r.Do(); err != nil {
+			return err
 		}
 	}
 	return nil

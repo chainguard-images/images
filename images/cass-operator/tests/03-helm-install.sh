@@ -37,6 +37,7 @@ helm install cass-operator \
     k8ssandra/cass-operator
 }
 
+
 search_logs() {
   local retries=10
   local delay=15

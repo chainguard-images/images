@@ -87,7 +87,8 @@ $TMPDIR/cilium connectivity test --context k3d-$CLUSTER_NAME \
     `# 1.1.1.1 and 1.0.0.1 are usually blocked by firewalls` \
     --external-cidr 8.0.0.0/8 \
     --external-ip 8.8.8.8 \
-    --external-other-ip 8.8.4.4
+    --external-other-ip 8.8.4.4 \
+    --test \!no-unexpected-packet-drops
 
 # Test the hubble UI
 kubectl --context k3d-$CLUSTER_NAME create configmap cypress --from-file $SCRIPT_DIR/cypress
