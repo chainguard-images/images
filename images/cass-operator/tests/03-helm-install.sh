@@ -29,7 +29,7 @@ helm install cert-manager \
     jetstack/cert-manager
 
 helm install cass-operator \
-    --namespace "$namespace" \
+    -n cass-operator \
     --set image.registry="${IMAGE_REGISTRY}" \
     --set image.repository="${IMAGE_REPOSITORY}" \
     --set image.tag="latest" \
