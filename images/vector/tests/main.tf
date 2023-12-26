@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci  = { source = "chainguard-dev/oci" }
+    helm = { source = "hashicorp/helm" }
   }
 }
 
@@ -10,6 +11,25 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
+data "oci_exec_test" "helm-install" {
+  digest = var.digest
+  script = "${path.module}/vector-helm-install.sh"
+
+  env {
+    name  = "IMAGE_REGISTRY"
+    value = data.oci_string.ref.registry
+  }
+  env {
+    name  = "IMAGE_REPOSITORY"
+    value = data.oci_string.ref.repo
+  }
+  env {
+    name  = "IMAGE_TAG"
+    value = "latest"
+  }
+}
+
+/*
 resource "helm_release" "vector" {
   name       = "vector"
   repository = "https://helm.vector.dev"
@@ -30,3 +50,4 @@ module "helm_cleanup" {
   source = "../../../tflib/helm-cleanup"
   name   = helm_release.vector.id
 }
+*/

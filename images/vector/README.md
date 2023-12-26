@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with [Vector](https://vector.dev/), a high-performance, end-to-end (agent & aggregator) observability data pipeline
+A minimal, [wolfi](https://github.com/wolfi-dev)-based image for [Vector](https://vector.dev/), a high-performance, end-to-end (agent & aggregator) observability data pipeline
 <!--overview:end-->
 
 <!--getting:start-->
@@ -28,7 +28,7 @@ docker pull cgr.dev/chainguard/vector:latest
 <!--body:start-->
 ## Testing
 
-Fortunately, we have a Helm Chart ready-to-use for testing this image. 
+We have a Helm Chart ready-to-use for testing this image. 
 
 You can find it [here](https://github.com/vectordotdev/helm-charts/blob/develop/charts/vector/README.md).
 
@@ -38,9 +38,11 @@ Basically, all you need to do is running the commands below to test the applicat
 helm repo add vector https://helm.vector.dev
 helm repo update
 helm install --name vector \
-  --set image.registry=cgr.dev/ \
+  --namespace vector --create-namespace \
+  --set image.registry=cgr.dev \
   --set image.repository=chainguard/vector \
-  --set image.tag=latest
+  --set image.tag=latest \
+  vector/vector
 ```
 
 Once you run the commands above, you will end up having the application running on your cluster.
