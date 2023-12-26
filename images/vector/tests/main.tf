@@ -28,26 +28,3 @@ data "oci_exec_test" "helm-install" {
     value = "latest"
   }
 }
-
-/*
-resource "helm_release" "vector" {
-  name       = "vector"
-  repository = "https://helm.vector.dev"
-  chart      = "vector"
-
-  values = [jsonencode({
-    localpv = {
-      image = {
-        registry   = join("", [data.oci_string.ref.registry, "/"])
-        repository = data.oci_string.ref.repo
-        tag        = data.oci_string.ref.pseudo_tag
-      }
-    }
-  })]
-}
-
-module "helm_cleanup" {
-  source = "../../../tflib/helm-cleanup"
-  name   = helm_release.vector.id
-}
-*/
