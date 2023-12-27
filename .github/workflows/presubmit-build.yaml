@@ -150,7 +150,7 @@ jobs:
         cluster-type: k3d
         namespace-resources: deploy,ds,sts,pods
 
-  check-build-roundup:
+  presubmit-roundup:
     needs: build-the-world
     runs-on: ubuntu-latest
     if: always()
