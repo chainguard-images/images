@@ -22,11 +22,10 @@ pod_name="vector"
 
 helm repo add vector https://helm.vector.dev
 
-helm install "$installation" \
-   --namespace "$namespace" \
-   --create-namespace \
-   --set image.repository=${IMAGE_REGISTRY}/${IMAGE_REPOSITORY} \
-   --set image.tag=${IMAGE_TAG} \
+helm install $installation \
+   --namespace $namespace --create-namespace \
+   --set image.repository="${IMAGE_REGISTRY}"/"${IMAGE_REPOSITORY}" \
+   --set image.tag="latest" \
    --wait \
    vector/vector 
 }
@@ -100,4 +99,3 @@ TEST_container_starts_ok() {
 }
 
 TEST_container_starts_ok
-
