@@ -24,8 +24,8 @@ helm repo add vector https://helm.vector.dev
 
 helm install $installation \
    --namespace $namespace --create-namespace \
-   --set image.repository="${IMAGE_REGISTRY}"/"${IMAGE_REPOSITORY}" \
-   --set image.tag="latest" \
+   --set image.repository=${IMAGE_REGISTRY}/${IMAGE_REPOSITORY} \
+   --set image.tag=${IMAGE_TAG} \
    --wait \
    vector/vector 
 }
