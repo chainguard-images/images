@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -o errexit -o nounset -o errtrace -o pipefa
+set -o errexit -o nounset -o errtrace -o pipefail
 
 tmpdir=$(mktemp -d) && cd "$tmpdir"
 curl -sLO https://raw.githubusercontent.com/fabianlee/blogcode/master/prometheus/pod-count-dashboard.yaml
