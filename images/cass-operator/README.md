@@ -28,7 +28,6 @@ docker pull cgr.dev/chainguard/cass-operator:latest
 <!--body:start-->
 
 ## Usage
-
 cass-operator is a Kubernetes operator, which can be deployed using helm. Refer to the [upstream repositories documentation](https://github.com/k8ssandra/cass-operator) for how to get started with cass-operator.
 
 To use our minimal, wolfi-based image with this Helm chart you'll need to override the image used by the official helm chart and specify the chainguard image as per below example:
@@ -48,5 +47,4 @@ helm upgrade cass-operator \
 ```
 
 As per [project documentation](https://github.com/k8ssandra/cass-operator/blob/master/README.md#installing-the-operator-with-helm), by default, the Helm installation requires cert-manager to be present in the Kubernetes installation. If you do not have cert-manager installed, follow the steps at (https://cert-manager.io/docs/installation/helm/)[cert-manager's] documentation.
-
 <!--body:end-->
