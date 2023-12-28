@@ -14,13 +14,6 @@ module "latest-wolfi" {
   build-dev         = true
 }
 
-module "version-tags-wolfi" {
-  for_each = local.accounts
-  source   = "../../tflib/version-tags"
-  package  = "git"
-  config   = module.latest-wolfi[each.key].config
-}
-
 module "test-latest-wolfi" {
   for_each = local.accounts
   source   = "./tests"
