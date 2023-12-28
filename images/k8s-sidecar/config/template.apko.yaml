@@ -1,7 +1,5 @@
 contents:
   packages:
-    - busybox
-    - k8s-sidecar
 
 environment:
   PYTHONUNBUFFERED: 1
