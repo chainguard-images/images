@@ -18,13 +18,6 @@ module "latest-alpine" {
   build-dev         = true
 }
 
-module "version-tags-alpine" {
-  for_each = local.accounts
-  source   = "../../tflib/version-tags"
-  package  = "git"
-  config   = module.latest-alpine[each.key].config
-}
-
 module "test-latest-alpine" {
   for_each = local.accounts
   source   = "./tests"
