@@ -10,9 +10,19 @@ accounts:
     - groupname: nonroot
       gid: 65532
   users:
-    - username: parseable
-      uid: 10001
+    - username: nonroot
+      uid: 65532
       gid: 65532
-  run-as: parseable
+  run-as: nonroot
+
+paths:
+  - path: /parseable
+    type: directory
+    uid: 65532
+    gid: 65532
+    recursive: true
+    permissions: 0o755
+
+work-dir: /parseable
 
 cmd: "/usr/bin/parseable"
