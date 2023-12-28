@@ -66,7 +66,6 @@ Hello World!
 The following example Dockerfile builds a hello-world program in Go and copies it on top of the `cgr.dev/chainguard/static:latest` base image:
 
 ```dockerfile
-# syntax=docker/dockerfile:1.4
 FROM cgr.dev/chainguard/go:latest as build
 
 WORKDIR /work
