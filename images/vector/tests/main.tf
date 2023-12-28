@@ -8,11 +8,6 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-variable "helm_chart_tag" {
-  description = "Whether to pull a specific version of the helm chart for testing."
-  default     = ""
-}
-
 data "oci_string" "ref" { input = var.digest }
 
 resource "random_id" "hex" { byte_length = 4 }
@@ -30,7 +25,7 @@ resource "helm_release" "vector" {
       image = {
         registry   = join("", [data.oci_string.ref.registry, "/"])
         repository = data.oci_string.ref.repo
-        tag        = var.helm_chart_tag != "" ? var.helm_chart_tag : trimprefix(data.oci_string.ref.digest, "sha256:")
+        tag        = trimprefix(data.oci_string.ref.digest, "sha256:")
       }
     }
   })]
