@@ -905,6 +905,11 @@ module "paranoia" {
   target_repository = "${var.target_repository}/paranoia"
 }
 
+module "parseable" {
+  source            = "./images/parseable"
+  target_repository = "${var.target_repository}/parseable"
+}
+
 module "pgbouncer" {
   source            = "./images/pgbouncer"
   target_repository = "${var.target_repository}/pgbouncer"
