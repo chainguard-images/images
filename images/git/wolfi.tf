@@ -1,7 +1,7 @@
 module "wolfi" {
   for_each = local.accounts
-  source = "./config"
-  root = each.key == "root"
+  source   = "./config"
+  root     = each.key == "root"
 }
 
 module "latest-wolfi" {

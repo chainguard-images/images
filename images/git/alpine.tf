@@ -15,7 +15,7 @@ module "latest-alpine" {
   target_repository = var.target_repository
   config            = module.alpine[each.key].config
   check-sbom        = false # Alpine-based SBOMs are not conformant because the Alpine baselayout has an invalid license specifier
-  build-dev      = true
+  build-dev         = true
 }
 
 module "version-tags-alpine" {
