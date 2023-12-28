@@ -12,6 +12,8 @@ data "oci_string" "ref" { input = var.digest }
 
 resource "random_id" "hex" { byte_length = 4 }
 
+resource "random_id" "hex" { byte_length = 4 }
+
 resource "helm_release" "vector" {
   name             = "vector-${random_id.hex.hex}"
   repository       = "https://helm.vector.dev"
@@ -21,12 +23,10 @@ resource "helm_release" "vector" {
   timeout          = 120
 
   values = [jsonencode({
-    localpv = {
-      image = {
-        registry   = join("", [data.oci_string.ref.registry, "/"])
-        repository = data.oci_string.ref.repo
-        tag        = trimprefix(data.oci_string.ref.digest, "sha256:")
-      }
+    image = {
+      repository = data.oci_string.ref.registry_repo
+      tag        = "latest"
+      sha        = trimprefix(data.oci_string.ref.digest, "sha256:")
     }
   })]
 }
@@ -36,3 +36,4 @@ module "helm_cleanup" {
   name      = helm_release.vector.id
   namespace = helm_release.vector.namespace
 }
+
