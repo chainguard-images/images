@@ -15,13 +15,6 @@ module "latest-alpine" {
   check-sbom     = false # Alpine-based SBOMs are not conformant because the Alpine baselayout has an invalid license specifier
 }
 
-
-module "version-tags-alpine" {
-  source  = "../../tflib/version-tags"
-  package = "busybox"
-  config  = module.latest-alpine.config
-}
-
 module "test-latest-alpine" {
   source = "./tests"
   digest = module.latest-alpine.image_ref
