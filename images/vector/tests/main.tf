@@ -30,7 +30,7 @@ resource "helm_release" "vector" {
       image = {
         registry   = join("", [data.oci_string.ref.registry, "/"])
         repository = data.oci_string.ref.repo
-        tag        = var.helm_chart_tag != "" ? var.helm_chart_tag : data.oci_string.ref.pseudo_tag
+        tag        = var.helm_chart_tag != "" ? var.helm_chart_tag : trimprefix(data.oci_string.ref.digest, "sha256:")
       }
     }
   })]
