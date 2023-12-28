@@ -12,8 +12,6 @@ data "oci_string" "ref" { input = var.digest }
 
 resource "random_id" "hex" { byte_length = 4 }
 
-resource "random_id" "hex" { byte_length = 4 }
-
 resource "helm_release" "vector" {
   name             = "vector-${random_id.hex.hex}"
   repository       = "https://helm.vector.dev"
