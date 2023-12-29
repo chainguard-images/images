@@ -5,6 +5,9 @@ contents:
     - coreutils
     - busybox
     - tzdata
+    - git
+    - git-lfs
+    - openssh-client
     # jenkins and openjdk provided by extra_packages
 
 accounts:
