@@ -950,6 +950,11 @@ module "prometheus-adapter" {
   target_repository = "${var.target_repository}/prometheus-adapter"
 }
 
+module "prometheus-alertmanager" {
+  source            = "./images/prometheus-alertmanager"
+  target_repository = "${var.target_repository}/prometheus-alertmanager"
+}
+
 module "prometheus-cloudwatch-exporter" {
   source            = "./images/prometheus-cloudwatch-exporter"
   target_repository = "${var.target_repository}/prometheus-cloudwatch-exporter"
