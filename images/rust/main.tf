@@ -37,7 +37,7 @@ resource "oci_tag" "latest" {
 }
 
 resource "oci_tag" "latest-dev" {
-  depends_on = [module.test]
+  depends_on = [module.test-dev]
   digest_ref = module.rust.dev_ref
   tag        = "latest-dev"
 }
