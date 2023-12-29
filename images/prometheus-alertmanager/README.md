@@ -87,6 +87,13 @@ receivers:
     - url: 'http://example.com/hook'
 ```
 
+In order to ensure the 'nonroot' container user can access the file when
+volume mounted (below step), ensure you've set read-only permissions:
+
+```bash
+chmod 400 alertmanager.ym
+```
+
 #### Run container
 
 > **IMPORTANT**: Prometheus looks for a file mounted as 'alertmanager.yml' (i.e not .yaml).

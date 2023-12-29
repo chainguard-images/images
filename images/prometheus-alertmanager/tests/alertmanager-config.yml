@@ -1,0 +1,13 @@
+global:
+  resolve_timeout: 11m
+  pagerduty_url: https://example-pagerduty.com/v2/test
+route:
+  group_by: ['alertname']
+  group_wait: 10s
+  group_interval: 10m
+  repeat_interval: 1h
+  receiver: 'web.hook'
+receivers:
+  - name: 'web.hook'
+    webhook_configs:
+    - url: 'http://example.com/hook'
