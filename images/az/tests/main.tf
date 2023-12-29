@@ -16,10 +16,10 @@ data "oci_exec_test" "version" {
 
 data "oci_exec_test" "help" {
   digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --version"
+  script = "docker run --rm $IMAGE_NAME --help"
 }
 
 data "oci_exec_test" "sql-help" {
   digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --version"
+  script = "docker run --rm $IMAGE_NAME sql --help"
 }

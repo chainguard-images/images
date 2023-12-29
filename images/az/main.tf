@@ -16,7 +16,6 @@ module "az" {
   target_repository = var.target_repository
   config            = module.config.config
   build-dev         = true
-
 }
 
 module "test" {
