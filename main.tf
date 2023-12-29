@@ -119,6 +119,11 @@ module "aws-load-balancer-controller" {
   target_repository = "${var.target_repository}/aws-load-balancer-controller"
 }
 
+module "az" {
+  source            = "./images/az"
+  target_repository = "${var.target_repository}/az"
+}
+
 module "bank-vaults" {
   source            = "./images/bank-vaults"
   target_repository = "${var.target_repository}/bank-vaults"
