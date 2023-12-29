@@ -1,7 +1,7 @@
 contents:
   packages:
+    # Package "rust" comes in via var.extra_packages
     - busybox
-    - rust
     - build-base
 
 accounts:
