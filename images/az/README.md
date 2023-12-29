@@ -13,9 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Azure Command-Line Interface (CLI) used to create and manage Azure resources.
-The Azure CLI is available across Azure services and is designed to get you
-working quickly with Azure, with an emphasis on automation.
+Azure CLI
 <!--overview:end-->
 
 <!--getting:start-->
@@ -27,4 +25,34 @@ docker pull cgr.dev/chainguard/az:latest
 ```
 <!--getting:end-->
 
-<!--body:start--><!--body:end-->
+<!--body:start-->
+
+## Overview
+
+Azure Command-Line Interface (CLI) used to create and manage Azure resources.
+The Azure CLI is available across Azure services and is designed to get you
+working quickly with Azure, with an emphasis on automation.
+
+### Docker setup
+
+To make sure you have the latest image version available, start by running a `docker pull` command:
+
+```shell
+docker pull cgr.dev/chainguard/az
+```
+
+Then, run the image with the `--version` flag to make sure it is functional:
+
+```shell
+docker run -it --rm cgr.dev/chainguard/az --version
+```
+You should get output similar to this:
+
+```
+azure-cli                         2.55.0
+
+core                              2.55.0
+telemetry                          1.1.0
+...
+```
+<!--body:end-->
