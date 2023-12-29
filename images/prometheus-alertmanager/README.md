@@ -26,10 +26,17 @@ docker pull cgr.dev/chainguard/prometheus-alertmanager:latest
 <!--getting:end-->
 
 <!--body:start-->
+
 ## Usage
 For full instructions on prometheus-alertmanager, refer to the
 [official documentation](https://prometheus.io/docs/alerting/latest/alertmanager).
 The GitHub repository can also be [found here](https://github.com/prometheus/alertmanager).
+
+### Default config settings
+The upstream docker image, overrides some of the default values for
+alertmanager, for example, [see here](https://github.com/prometheus/alertmanager/blob/main/Dockerfile#L20).
+We replicate the same behaviour in the chainguard image to provide parity with
+the upstream image.
 
 ### Helm
 To deploy via helm, please refer to the upstream
