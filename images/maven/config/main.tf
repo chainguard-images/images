@@ -15,7 +15,7 @@ variable "extra_packages" {
 
 variable "java_home" {
   description = "The JAVA_HOME to set"
-  default     = "/usr/lib/jvm/java-17-openjdk-amd64"
+  default     = "/usr/lib/jvm/java-17-openjdk"
 }
 
 data "apko_config" "this" {
