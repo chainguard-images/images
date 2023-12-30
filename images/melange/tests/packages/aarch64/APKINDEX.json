@@ -1,0 +1,27 @@
+{
+  "Signature": null,
+  "Description": "",
+  "Packages": [
+    {
+      "Name": "minimal",
+      "Version": "0.0.1-r0",
+      "Arch": "aarch64",
+      "Description": "a very basic melange example",
+      "License": "",
+      "Origin": "minimal",
+      "Maintainer": "",
+      "URL": "",
+      "Checksum": "KYGl5XOx9NB3X2hT+0dmWTfVxNk=",
+      "Dependencies": null,
+      "Provides": null,
+      "InstallIf": null,
+      "Size": 1498,
+      "InstalledSize": 22557,
+      "ProviderPriority": 0,
+      "BuildTime": "1970-01-01T00:00:00Z",
+      "BuildDate": 0,
+      "RepoCommit": "",
+      "Replaces": null
+    }
+  ]
+}
