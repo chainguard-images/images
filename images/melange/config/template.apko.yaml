@@ -4,7 +4,6 @@ contents:
     - alpine-keys
     - bubblewrap
     - wolfi-keys
-    - ca-certificates
 
 paths:
   - path: /work
