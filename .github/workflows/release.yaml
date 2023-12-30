@@ -90,8 +90,8 @@ jobs:
         with:
           # This allows chainguard-images/images-private to publish images to cgr.dev/chainguard-private
           # We maintain this identity here:
-          # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-private-pusher.tf
-          identity: ce2d1984a010471142503340d670612d63ffb9f6/ac92e3a8b3865440
+          # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
+          identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
 
       # Make cosign/crane CLI available to the tests
       - uses: sigstore/cosign-installer@v3.3.0
