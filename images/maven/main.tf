@@ -5,7 +5,7 @@ terraform {
 }
 
 locals {
-  jdks = toset(["11", "17"])
+  jdks = toset(["11", "17", "21"])
 }
 
 variable "target_repository" {
@@ -46,6 +46,10 @@ module "tagger" {
     "openjdk-17" : module.maven["17"].image_ref
     "openjdk-17-dev" : module.maven["17"].dev_ref
 
+    "openjdk-21" : module.maven["21"].image_ref
+    "openjdk-21-dev" : module.maven["21"].dev_ref
+
+    # TODO: Update these to point to openjdk-21
     "latest" : module.maven["17"].image_ref
     "latest-dev" : module.maven["17"].dev_ref
   }
