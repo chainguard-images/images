@@ -1,6 +1,6 @@
 contents:
   packages:
-    - kubernetes-dns-node-cache
+    # kubernetes-dns-node-cache comes in via var.extra_packages
     - iptables
     - ip6tables
 

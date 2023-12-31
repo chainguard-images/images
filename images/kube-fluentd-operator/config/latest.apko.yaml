@@ -1,6 +1,6 @@
 contents:
   packages:
-    - kube-fluentd-operator
+    # kube-fluent-operator comes in via var.extra_packages
     - kube-fluentd-operator-oci-entrypoint
     - kube-fluentd-operator-default-config
     - kube-fluentd-operator-compat
