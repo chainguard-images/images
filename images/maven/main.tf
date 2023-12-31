@@ -4,34 +4,49 @@ terraform {
   }
 }
 
+locals {
+  jdks = ["11", "17"]
+}
+
 variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "config" { source = "./config" }
+module "config" {
+  for_each       = local.jdks
+  source         = "./config"
+  extra_packages = ["openjdk-${each.key}", "openjdk-${each.key}-default-jvm"]
+  java_home      = "/usr/lib/jvm/java-${each.key}-openjdk"
+}
 
 module "maven" {
+  for_each          = local.jdks
   source            = "../../tflib/publisher"
   name              = basename(path.module)
   target_repository = var.target_repository
-  config            = module.config.config
+  config            = module.config[each.key].config
   build-dev         = true
 }
 
 module "test" {
-  source = "./tests"
-  digest = module.maven.image_ref
+  for_each = local.jdks
+  source   = "./tests"
+  digest   = module.maven[each.key].image_ref
 }
 
-resource "oci_tag" "latest" {
+module "tagger" {
+  source = "../../tflib/tagger"
+
   depends_on = [module.test]
-  digest_ref = module.maven.image_ref
-  tag        = "latest"
-}
 
-resource "oci_tag" "latest-dev" {
-  depends_on = [module.test]
-  digest_ref = module.maven.dev_ref
-  tag        = "latest-dev"
-}
+  tags = {
+    "openjdk-11" : module.maven["11"].image_ref
+    "openjdk-11-dev" : module.maven["11"].dev_ref
 
+    "openjdk-17" : module.maven["17"].image_ref
+    "openjdk-17-dev" : module.maven["17"].dev_ref
+
+    "latest" : module.maven["17"].image_ref
+    "latest-dev" : module.maven["17"].dev_ref
+  }
+}
