@@ -1,6 +1,6 @@
 contents:
   packages:
-    - traefik
+    # traefik comes in via var.extra_packages
 
 accounts:
   groups:
