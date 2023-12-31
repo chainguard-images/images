@@ -1,6 +1,6 @@
 contents:
   packages:
-    - proxysql
+    # proxysql comes in via var.extra_packages
 
 accounts:
   groups:
