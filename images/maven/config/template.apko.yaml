@@ -1,10 +1,8 @@
 contents:
   packages:
+    # Package "maven" and openjdk packages come in via var.extra_packages
     - glibc-locale-en
     - busybox
-    - maven
-    - openjdk-11
-    - openjdk-11-default-jvm
 
 accounts:
   groups:
@@ -22,7 +20,7 @@ entrypoint:
 
 environment:
   LANG: en_US.UTF-8
-  JAVA_HOME: /usr/lib/jvm/java-11-openjdk
+  # JAVA_HOME is set by var.java_home
 
 paths:
   - path: /home/build
