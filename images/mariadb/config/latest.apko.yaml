@@ -1,6 +1,6 @@
 contents:
   packages:
-    - mariadb
+    # mariadb comes in via var.extra_packages.
     - mariadb-oci-entrypoint
     - tzdata
 
