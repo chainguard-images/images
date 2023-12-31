@@ -15,7 +15,7 @@ variable "target_repository" {
 module "config" {
   for_each       = local.jdks
   source         = "./config"
-  extra_packages = ["openjdk-${each.key}", "openjdk-${each.key}-default-jvm"]
+  extra_packages = ["maven", "openjdk-${each.key}", "openjdk-${each.key}-default-jvm"]
   java_home      = "/usr/lib/jvm/java-${each.key}-openjdk"
 }
 
