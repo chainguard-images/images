@@ -5,7 +5,7 @@ terraform {
 }
 
 locals {
-  jdks = ["11", "17"]
+  jdks = toset(["11", "17"])
 }
 
 variable "target_repository" {
