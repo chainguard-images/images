@@ -12,11 +12,11 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-data "random_id" "id" { byte_length = 4 }
+resource "random_id" "id" { byte_length = 4 }
 
 resource "helm_release" "kube-logging-operator" {
-  name             = "kube-logging-${data.random_id.id.hex}"
-  namespace        = "kube-logging-${data.random_id.id.hex}"
+  name             = "kube-logging-${random_id.id.hex}"
+  namespace        = "kube-logging-${random_id.id.hex}"
   repository       = "https://kube-logging.dev/helm-charts"
   chart            = "logging-operator"
   create_namespace = true
@@ -37,9 +37,10 @@ data "oci_exec_test" "smoke" {
   working_dir = path.module
   script      = "./smoke-test.sh"
 
-  env = {
-    NS = helm_release.kube-logging-operator.namespace
-  }
+  env = [{
+    name = "NS"
+    value = helm_release.kube-logging-operator.namespace
+  }]
 
   depends_on = [helm_release.kube-logging-operator]
 }
