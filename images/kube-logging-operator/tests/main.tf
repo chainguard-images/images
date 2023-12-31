@@ -38,7 +38,7 @@ data "oci_exec_test" "smoke" {
   script      = "./smoke-test.sh"
 
   env = [{
-    name = "NS"
+    name  = "NS"
     value = helm_release.kube-logging-operator.namespace
   }]
 
