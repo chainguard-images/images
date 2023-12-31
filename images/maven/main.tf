@@ -8,6 +8,8 @@ module "tagger" {
   depends_on = [
     module.test-eleven,
     module.test-seventeen,
+    module.test-twentyone,
+
   ]
 
   tags = merge(
@@ -17,6 +19,8 @@ module "tagger" {
     { for t in toset(module.version-tags-17.tag_list) : "openjdk-17-${t}" => module.seventeen.image_ref },
     { for t in toset(module.version-tags-17.tag_list) : "openjdk-17-${t}-dev" => module.seventeen.dev_ref },
     { "openjdk-17" : module.seventeen.image_ref, "openjdk-17-dev" : module.seventeen.dev_ref },
+    { for t in toset(module.version-tags-21.tag_list) : "openjdk-21-${t}" => module.twentyone.image_ref },
+    { for t in toset(module.version-tags-21.tag_list) : "openjdk-21-${t}-dev" => module.twentyone.dev_ref },
     { "latest" : module.seventeen.image_ref, "latest-dev" : module.seventeen.dev_ref },
   )
 }
