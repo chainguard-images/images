@@ -1,6 +1,6 @@
 contents:
   packages:
-    - rabbitmq-server
+    # rabbitmq-server comes in via var.extra_packages
     - bash
     - glibc-locale-en
     - tzdata
