@@ -13,7 +13,9 @@ curl -sSL -o "$job_file" 'https://raw.githubusercontent.com/aquasecurity/kube-be
 # Update the config to use our image
 yq -i ".spec.template.spec.containers[0].image |= \"${IMAGE_NAME}\"" "$job_file"
 
-kubectl apply -f "$job_file"
+ns=kube-bench-${RANDOM}
+kubectl create ns "$ns"
+kubectl apply -f "$job_file" -n $ns
 
 # Wait for job to complete
-kubectl wait --for=condition=complete job.batch/kube-bench --timeout=30s
+kubectl wait --for=condition=complete job.batch/kube-bench --timeout=30s -n $ns
