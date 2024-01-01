@@ -1,6 +1,5 @@
 contents:
   packages:
-    - aws-cli
 
 accounts:
   groups:
