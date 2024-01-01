@@ -1,5 +1,7 @@
 contents:
   packages:
+    - vault-entrypoint
+    # vault comes in via var.extra_packages
 
 accounts:
   groups:
