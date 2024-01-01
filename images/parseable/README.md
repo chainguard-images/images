@@ -13,9 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-[Parseable](https://github.com/parseablehq/parseable) is a lightweight, cloud native log observability engine. Parseable is written in Rust and uses Apache Arrow and Parquet as underlying data structures. Additionally, it uses a simple, index-free mechanism to organize and query data allowing low latency, and high throughput ingestion and query.
-
-Parseable consumes up to ~80% lower memory and ~50% lower CPU than Elastic for similar ingestion throughput.
+[Parseable](https://github.com/parseablehq/parseable) is a log analytics system, built for high throughput log ingestion cases.
 <!--overview:end-->
 
 <!--getting:start-->
