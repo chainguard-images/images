@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install (e.g. terraform)."
-  default     = ["terraform"]
+  default     = []
 }
 
 data "apko_config" "this" {
