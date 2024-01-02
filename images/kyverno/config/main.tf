@@ -1,9 +1,3 @@
-terraform {
-  required_providers {
-    apko = { source = "chainguard-dev/apko" }
-  }
-}
-
 variable "component" {
   description = "The component to build."
   type        = string
