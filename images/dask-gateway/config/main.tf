@@ -1,6 +1,6 @@
 variable "main_package" {
   description = "Main package to install."
-  type = string
+  type        = string
 }
 
 module "accts" { source = "../../../tflib/accts" }
@@ -12,7 +12,7 @@ output "config" {
     }
     accounts = module.accts.block
     entrypoint = {
-      command =  "/sbin/tini -g --"
+      command = "/sbin/tini -g --"
     }
     cmd = var.main_package == "dask-gateway" ? "/usr/bin/dask-gateway-server --config /etc/dask-gateway/dask_gateway_config.py" : ""
   })
