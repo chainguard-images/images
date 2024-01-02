@@ -20,6 +20,13 @@ data "oci_string" "ref" {
 
 resource "random_pet" "suffix" {}
 
+# The helm chart expects a 'monitoring' namespace to pre-exist. This isn't
+# conigurable, so we ensure it exists before running the chart test.
+data "oci_exec_test" "test_create_ns" {
+  digest = var.digest
+  script = "kubectl create namespace monitoring || true"
+}
+
 resource "helm_release" "test_helm_deploy" {
   name             = "cert-exporter-${random_pet.suffix.id}"
   repository       = "https://joe-elliott.github.io/cert-exporter"
