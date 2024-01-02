@@ -28,9 +28,12 @@ resource "helm_release" "helm" {
 
   values = [
     jsonencode({
-      image = {
-        repository = data.oci_string.ref.registry_repo
-        tag        = data.oci_string.ref.pseudo_tag
+      parseable = {
+        image = {
+          repository = data.oci_string.ref.registry_repo
+          tag        = data.oci_string.ref.pseudo_tag
+        }
+        local = true
       }
     })
   ]
