@@ -154,6 +154,11 @@ module "buildkit" {
   target_repository = "${var.target_repository}/buildkit"
 }
 
+module "bun" {
+  source            = "./images/bun"
+  target_repository = "${var.target_repository}/bun"
+}
+
 module "busybox" {
   source            = "./images/busybox"
   target_repository = "${var.target_repository}/busybox"
