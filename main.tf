@@ -202,6 +202,11 @@ module "cedar" {
   target_repository = "${var.target_repository}/cedar"
 }
 
+module "cert-exporter" {
+  source            = "./images/cert-exporter"
+  target_repository = "${var.target_repository}/cert-exporter"
+}
+
 module "cert-manager" {
   source            = "./images/cert-manager"
   target_repository = "${var.target_repository}/cert-manager"
