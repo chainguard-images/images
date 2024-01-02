@@ -5,7 +5,6 @@ contents:
     # The curl package is required for the upstream chart to work as it uses
     # curl for the readiness probe
     - curl
-    - consul-oci-entrypoint-compat
     # Consul comes via var.extra_packages
 
 accounts:
