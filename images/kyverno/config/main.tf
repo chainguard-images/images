@@ -23,7 +23,7 @@ module "accts" { source = "../../../tflib/accts" }
 output "config" {
   value = jsonencode({
     contents = {
-      packages = concat(["kubectl-latest"], [var.main_package])
+      packages = ["kubectl-latest", var.main_package]
     }
     accounts = module.accts.block
     entrypoint = {
