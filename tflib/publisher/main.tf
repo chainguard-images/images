@@ -45,7 +45,7 @@ variable "build-dev" {
 
 variable "check-sbom" {
   type        = bool
-  default     = false
+  default     = true
   description = "Whether to run the NTIA conformance checker over the images we produce prior to attesting the SBOMs."
 }
 
