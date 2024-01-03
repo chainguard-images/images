@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install"
-  default     = ["prometheus-config-reloader", "prometheus-config-reloader-oci-entrypoint-compat"]
+  default     = ["prometheus-config-reloader"]
 }
 
 data "apko_config" "this" {

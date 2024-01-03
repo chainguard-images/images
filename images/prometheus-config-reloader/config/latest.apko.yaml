@@ -1,5 +1,6 @@
 contents:
   packages:
+    - prometheus-config-reloader-oci-entrypoint-compat
 
 accounts:
   groups:
