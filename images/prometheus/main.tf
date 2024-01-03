@@ -4,7 +4,6 @@ locals {
     "config-reloader",
     "core",
     "mysqld-exporter",
-    "operator",
     "pushgateway",
   ])
 

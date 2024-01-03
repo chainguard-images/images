@@ -985,6 +985,11 @@ module "prometheus-node-exporter" {
   target_repository = "${var.target_repository}/prometheus-node-exporter"
 }
 
+module "prometheus-operator" {
+  source            = "./images/prometheus-operator"
+  target_repository = "${var.target_repository}/prometheus-operator"
+}
+
 module "prometheus-postgres-exporter" {
   source            = "./images/prometheus-postgres-exporter"
   target_repository = "${var.target_repository}/prometheus-postgres-exporter"
