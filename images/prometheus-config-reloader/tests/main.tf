@@ -39,8 +39,9 @@ resource "helm_release" "kube-prometheus-stack" {
 }
 
 data "oci_exec_test" "helm_cleanup" {
-  digest = var.digest
-  script = "${path.module}/cleanup.sh"
+  depends_on = [resource.helm_release.kube-prometheus-stack]
+  digest     = var.digest
+  script     = "${path.module}/cleanup.sh"
 
   env {
     name  = "CHART_NAME"
@@ -51,11 +52,3 @@ data "oci_exec_test" "helm_cleanup" {
     value = helm_release.kube-prometheus-stack.namespace
   }
 }
-
-
-/* module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.kube-prometheus-stack.id
-  namespace = helm_release.kube-prometheus-stack.namespace
-} */
-
