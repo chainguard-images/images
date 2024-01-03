@@ -1,0 +1,39 @@
+contents:
+  packages:
+    # mariadb comes in via var.extra_packages.
+    - mariadb-oci-entrypoint
+    - tzdata
+
+accounts:
+  groups:
+    - groupname: mysql
+      gid: 65532
+  users:
+    - username: mysql
+      uid: 65532
+  run-as: 65532
+
+entrypoint:
+  command: /usr/local/bin/docker-entrypoint.sh mariadbd
+
+paths:
+  - path: /var/lib/mysql
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+  - path: /var/tmp
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+  - path: /run/mysqld
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+  - path: /docker-entrypoint-initdb.d
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532

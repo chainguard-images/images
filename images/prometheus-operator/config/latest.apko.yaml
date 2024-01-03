@@ -1,0 +1,17 @@
+contents:
+  packages:
+
+entrypoint:
+  command: /usr/bin/operator
+
+# From the Dockerfile, it sets the user to 65534
+# https://github.com/prometheus-operator/prometheus-operator/blob/d8ea7da1a5da7ed25b8d92aed145cfeb3683dc12/Dockerfile#L8
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65534
+  users:
+    - username: nonroot
+      uid: 65534
+      gid: 65534
+  run-as: 65534

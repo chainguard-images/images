@@ -1,0 +1,31 @@
+contents:
+  packages:
+    # kubernetes-dns-node-cache comes in via var.extra_packages
+    - iptables
+    - ip6tables
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  # This typically binds to the nodes network and opens up low
+  # (dns/53/{tcp,udp}) ports for other pods to cache dns requests to. It
+  # usually writes a Corefile (for coredns) to /etc/Corefile that's mounted
+  # from a configmap.
+  #   Ref: https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/
+  run-as: 0
+
+paths:
+  - path: /etc/coredns
+    type: directory
+    uid: 65532
+    gid: 65532
+    permissions: 0o755
+    recursive: true
+
+entrypoint:
+  command: /usr/bin/node-cache

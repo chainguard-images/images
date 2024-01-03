@@ -5,8 +5,8 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. consul, consul-1.15)."
-  default     = ["consul", "consul-oci-entrypoint-compat"]
+  description = "The additional packages to install (e.g. consul<1.17)."
+  default     = []
 }
 
 data "apko_config" "this" {

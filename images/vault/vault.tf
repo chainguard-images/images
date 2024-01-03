@@ -1,4 +1,7 @@
-module "vault-config" { source = "./configs/vault" }
+module "vault-config" {
+  source         = "./configs/vault"
+  extra_packages = ["vault<1.15"]
+}
 
 module "vault" {
   source            = "../../tflib/publisher"

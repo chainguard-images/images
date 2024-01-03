@@ -1,0 +1,30 @@
+contents:
+  packages:
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+
+# Upstream image creates a /alertmanager directory and uses it as the value for
+# `--storage.path` (cmd section below). See:
+# - https://github.com/prometheus/alertmanager/blob/main/Dockerfile
+paths:
+  - path: /alertmanager
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+    recursive: true
+
+entrypoint:
+  command: /usr/bin/alertmanager
+
+# Replicating args from upstream docker image:
+# - https://github.com/prometheus/alertmanager/blob/main/Dockerfile
+cmd: --config.file=/etc/alertmanager/alertmanager.yml --storage.path=/alertmanager
