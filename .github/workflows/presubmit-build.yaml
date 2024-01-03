@@ -34,7 +34,7 @@ jobs:
         args: lint yam images/
 
     - id: changed
-      uses: tj-actions/changed-files@v40
+      uses: tj-actions/changed-files@v41
       with:
         dir_names: "true"
         # Truncates (not ignores) the path of changed files to 2 (ie: images/flux/tests/main.tf -> images/flux)
