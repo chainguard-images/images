@@ -10,7 +10,6 @@ variable "digests" {
   type = object({
     alertmanager    = string
     core            = string
-    config-reloader = string
     mysqld-exporter = string
     pushgateway     = string
   })
@@ -45,20 +44,6 @@ resource "helm_release" "kube-prometheus-stack" {
   // NOTE: we use "set" over "values" here because the upstream
   // values.yaml is 4000 lines long, and it isn't worth trying
   // to sort out which of the many knobs to stand things up properly.
-
-  // config-reloader
-  set {
-    name  = "prometheusOperator.prometheusConfigReloader.image.registry"
-    value = data.oci_string.ref["config-reloader"].registry
-  }
-  set {
-    name  = "prometheusOperator.prometheusConfigReloader.image.repository"
-    value = data.oci_string.ref["config-reloader"].repo
-  }
-  set {
-    name  = "prometheusOperator.prometheusConfigReloader.image.tag"
-    value = data.oci_string.ref["config-reloader"].pseudo_tag
-  }
 
   // prometheus
   set {

@@ -970,6 +970,11 @@ module "prometheus-cloudwatch-exporter" {
   target_repository = "${var.target_repository}/prometheus-cloudwatch-exporter"
 }
 
+module "prometheus-config-reloader" {
+  source            = "./images/prometheus-config-reloader"
+  target_repository = "${var.target_repository}/prometheus-config-reloader"
+}
+
 module "prometheus-elasticsearch-exporter" {
   source            = "./images/prometheus-elasticsearch-exporter"
   target_repository = "${var.target_repository}/prometheus-elasticsearch-exporter"
