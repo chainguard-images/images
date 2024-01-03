@@ -12,7 +12,6 @@ variable "digests" {
     core            = string
     config-reloader = string
     mysqld-exporter = string
-    operator        = string
     pushgateway     = string
   })
 }
@@ -59,20 +58,6 @@ resource "helm_release" "kube-prometheus-stack" {
   set {
     name  = "prometheusOperator.prometheusConfigReloader.image.tag"
     value = data.oci_string.ref["config-reloader"].pseudo_tag
-  }
-
-  // operator
-  set {
-    name  = "prometheusOperator.image.registry"
-    value = data.oci_string.ref["operator"].registry
-  }
-  set {
-    name  = "prometheusOperator.image.repository"
-    value = data.oci_string.ref["operator"].repo
-  }
-  set {
-    name  = "prometheusOperator.image.tag"
-    value = data.oci_string.ref["operator"].pseudo_tag
   }
 
   // prometheus
