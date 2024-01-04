@@ -93,6 +93,10 @@ jobs:
           # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
           identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
 
+      - uses: chainguard-dev/actions/setup-k3d@main
+        with:
+          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:5bf7e7eebcff66a03f360511155b90732dd2b9ebcf4079bbf0c3d9501d717ddc
+
       # Make cosign/crane CLI available to the tests
       - uses: sigstore/cosign-installer@v3.3.0
       - uses: imjasonh/setup-crane@v0.3
@@ -103,6 +107,7 @@ jobs:
         timeout-minutes: 60
         run: |
           set -exo pipefail
+          env | grep '^TF_VAR_'
 
           targets=""
           for image in ${{ matrix.shard.images }}; do
