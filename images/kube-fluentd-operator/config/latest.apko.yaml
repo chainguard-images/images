@@ -1,0 +1,26 @@
+contents:
+  packages:
+    # kube-fluent-operator comes in via var.extra_packages
+    - kube-fluentd-operator-oci-entrypoint
+    - kube-fluentd-operator-default-config
+    - kube-fluentd-operator-compat
+
+entrypoint:
+  command: /fluentd/entrypoint.sh
+
+environment:
+  FLUENTD_CONF: fluent.conf
+  LD_PRELOAD: /usr/lib/libjemalloc.so.2
+  GEM_PATH: /usr/lib/gem/home
+  GEM_HOME: /usr/lib/gem/home
+  PATH: /usr/lib/gem/home/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 0 # need to write to /var/log and hostPath volumes are mounted as root

@@ -1,18 +1,17 @@
+module "wolfi" {
+  for_each = local.accounts
+  source   = "./config"
+  root     = each.key == "root"
+}
+
 module "latest-wolfi" {
   for_each          = local.accounts
   source            = "../../tflib/publisher"
   name              = basename(path.module)
   target_repository = var.target_repository
-  config            = file("${path.module}/configs/latest.wolfi.${each.key}.apko.yaml")
+  config            = module.wolfi[each.key].config
   check-sbom        = false # TODO: Not yet conformant: ncurses, libedit, openssh
   build-dev         = true
-}
-
-module "version-tags-wolfi" {
-  for_each = local.accounts
-  source   = "../../tflib/version-tags"
-  package  = "git"
-  config   = module.latest-wolfi[each.key].config
 }
 
 module "test-latest-wolfi" {

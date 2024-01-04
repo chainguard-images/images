@@ -7,7 +7,7 @@ terraform {
 variable "extra_packages" {
   description = "The additional packages to install."
   type        = list(string)
-  default     = ["vault", "vault-entrypoint"]
+  default     = []
 }
 
 data "apko_config" "this" {

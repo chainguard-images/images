@@ -1,0 +1,18 @@
+contents:
+  packages:
+    # Package "melange" comes in via var.extra_packages
+    - alpine-keys
+    - bubblewrap
+    - wolfi-keys
+
+paths:
+  - path: /work
+    type: directory
+    permissions: 0o777
+
+work-dir: /work
+
+entrypoint:
+  command: /usr/bin/melange
+
+cmd: --help

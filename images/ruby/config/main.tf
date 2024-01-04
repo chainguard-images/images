@@ -6,7 +6,6 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install (e.g. ruby, ruby-3.2)."
-  default     = ["ruby-3.2"]
 }
 
 data "apko_config" "this" {

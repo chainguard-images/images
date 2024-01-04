@@ -1,6 +1,6 @@
 contents:
   packages:
-    - terraform
+    # terraform comes in via var.extra_packages
 
 accounts:
   groups:

@@ -50,14 +50,6 @@ module "latest" {
   config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
 }
 
-module "version-tags" {
-  for_each = local.components
-  source   = "../../tflib/version-tags"
-
-  package = local.packages[each.key]
-  config  = module.latest[each.key].config
-}
-
 module "test-latest" {
   source = "./tests"
 
@@ -70,14 +62,5 @@ module "tagger" {
 
   depends_on = [module.test-latest]
 
-  tags = merge(
-    { for t in toset(concat(["latest"], module.version-tags[each.key].tag_list)) : t => module.latest[each.key].image_ref },
-
-    # NOTE: Ensure the calico copy of kubernetes-csi-node-driver-registrar is tagged with the same tags as the upstream calico version.
-    { for t in toset(concat(["latest"], module.version-tags["node"].tag_list)) : t => module.latest["node-driver-registrar"].image_ref if each.key == "node-driver-registrar" },
-
-    # This will also tag the image with :v1, :v1.2, :v1.2.3, :v1.2.3-r4, for compatibility with Tigera Operator to install Calico.
-    # TODO(jason): Do this for all images, not just calico, and potentially only for `:v1.2.3` and `:v1.2.3-r4` (not `:v1` or `:v1.2`).
-    { for t in module.version-tags[each.key].tag_list : "v${t}" => module.latest[each.key].image_ref },
-  )
+  tags = { "latest" = module.latest[each.key].image_ref }
 }

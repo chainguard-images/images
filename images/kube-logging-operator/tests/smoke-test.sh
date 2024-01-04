@@ -18,7 +18,7 @@ TIMER=0
 # Loop until the current time is greater than the end time
 while [ $TIMER -lt $TIMEOUT ]; do
   # Run the command and check for the pod is running
-  if kubectl get pods -l app.kubernetes.io/name=logging-operator -n kube-logging -o jsonpath='{.items[*].status.phase}'| grep "Running"; then
+  if kubectl get pods -l app.kubernetes.io/name=logging-operator -n $NS -o jsonpath='{.items[*].status.phase}'| grep "Running"; then
     echo "logger is running"
       exit 0
   fi
