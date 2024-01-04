@@ -47,7 +47,7 @@ for full instructions on how to use and deploy Cert mananager via helm.
 Below is an example of how to use the Chainguard images with the helm chart:
 
 ```bash
-# Refer to the helm chart docs and replace --version accordingly.
+# Replace `--version`` accordingly, refer to helm chart documentation.
 helm install \
   cert-manager jetstack/cert-manager \
     --namespace cert-manager \
@@ -61,6 +61,10 @@ helm install \
     --set acmesolver.image.tag=latest \
     --set webhook.image.repository=cgr.dev/chainguard/cert-manager-webhook \
     --set webhook.image.tag=latest \
-    # --set installCRDs=true # Optional, but chart installation will fail if CRDs are missing
+    --set installCRDs=true
 ```
+
+> Note, if the required CRDs are not available in the cluster, the helm chart
+> will fail if the `--set installCRDs=true` arugment is omitted.
+
 <!--body:end-->
