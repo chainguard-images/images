@@ -36,8 +36,8 @@ The chainguard provided images for Cert manager are as follows:
 ```bash
 cgr.dev/chainguard/cert-manager-controller:latest
 cgr.dev/chainguard/cert-manager-cainjector:latest
-chainguard/cert-manager-acmesolver:latest
-chainguard/cert-manager-webhook:latest
+cgr.dev/chainguard/cert-manager-acmesolver:latest
+cgr.dev/chainguard/cert-manager-webhook:latest
 ```
 
 ## Deploy using helm
