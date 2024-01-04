@@ -5,7 +5,9 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 TMPDIR=$(mktemp -d)
 
 cleanup() {
-	rm -rf $TMPDIR
+  helm uninstall edns
+  helm uninstall coredns
+  rm -rf $TMPDIR
 }
 
 trap cleanup EXIT
@@ -134,7 +136,7 @@ servers:
   - name: loadbalance
 EOF
 helm repo add coredns https://coredns.github.io/helm
-helm upgrade -i coredns coredns/coredns -f $TMPDIR/coredns-values.yaml
+helm upgrade --install coredns coredns/coredns --values $TMPDIR/coredns-values.yaml
 
 # Install External DNS
 cat >$TMPDIR/external-dns-values.yaml <<EOF
@@ -148,9 +150,9 @@ env:
   value: http://${etcd_ip}:2379
 EOF
 helm repo add external-dns https://kubernetes-sigs.github.io/external-dns/
-helm upgrade -i edns external-dns/external-dns -f $TMPDIR/external-dns-values.yaml
+helm upgrade --install edns external-dns/external-dns --values $TMPDIR/external-dns-values.yaml
 
-kubectl rollout status --timeout 5m deployment/coredns-coredns
+kubectl rollout status --timeout 5m deployment/coredns
 kubectl wait --for=condition=ready pod --selector app.kubernetes.io/name=coredns --timeout 120s
 
 kubectl rollout status --timeout 5m deployment/edns-external-dns
@@ -171,7 +173,7 @@ spec:
   externalName: ${ip}
 EOF
 
-kubectl port-forward svc/coredns-coredns ${FREE_PORT}:53 &
+kubectl port-forward svc/coredns ${FREE_PORT}:53 &
 fwd_pid=$!
 
 cleanup_pid() {
