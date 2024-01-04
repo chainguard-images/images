@@ -68,7 +68,7 @@ jobs:
         done
 
         matrix=$(printf "%s\n" "${bins[@]}" | jq -cRnjr '[inputs] | [ range(0; length) as $i | { "index": $i | tostring, "images": .[$i] } ]')
-        echo "matrix=${matrix}" >> $GITHUB_OUTPUT
+        echo "matrix=${matrix}" >> $GITHUB_ENV
 
     - id: discover-images
       name: Discover modified images
@@ -85,7 +85,7 @@ jobs:
         echo "shard_matrix=${out}" >> $GITHUB_OUTPUT
 
     - name: Shard Results
-      run: echo ${{ steps.set-matrix.outputs.shard_matrix }}
+      run: echo '${{ steps.set-matrix.outputs.shard_matrix }}' | jq .
 
     outputs:
       # This is of the format [{"index": 0, "images": "a b c"}, {"index": 1, "images": "d e f"}, ...], or empty ([]) when nothing relevant has changed
