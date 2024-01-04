@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-[Cert Manager](https://cert-manager.io/) Automatically provision and manage TLS certificates in Kubernetes
+Minimal, wolfi-based images for [Cert Manager](https://cert-manager.io): Provisions and manages TLS certificates automatically in Kubernetes.
 <!--overview:end-->
 
 <!--getting:start-->
@@ -26,28 +26,41 @@ docker pull cgr.dev/chainguard/cert-manager:latest
 <!--getting:end-->
 
 <!--body:start-->
-## Using Cert Manager
+## Images
+Cert manager is composed of multiple container images. These can be deployed
+separately, but are typically deployed together leveraging the official
+[helm chart](https://cert-manager.io/docs/installation/helm/).
 
-These set of images are a drop in replacement for the standard `cert-manager` installation ([here](https://cert-manager.io/docs/installation/)), and replacing them with the Chainguard images.
+The chainguard provided images for Cert manager are as follows:
 
-For example, we can use these images with the helm installation and the following values:
+```bash
+cgr.dev/chainguard/cert-manager-controller:latest
+cgr.dev/chainguard/cert-manager-cainjector:latest
+chainguard/cert-manager-acmesolver:latest
+chainguard/cert-manager-webhook:latest
+```
 
-```yaml
-image:
-    repository: cgr.dev/chainguard/cert-manager-controller
-    tag: latest
+## Deploy using helm
+Please refer to the [upstream documentation](https://cert-manager.io/docs/installation/helm/)
+for full instructions on how to use and deploy Cert mananager via helm.
 
-cainjector:
-    image:
-        repository: cgr.dev/chainguard/cert-manager-cainjector
-        tag: latest
-acmesolver:
-    image:
-        repository: cgr.dev/chainguard/cert-manager-acmesolver
-        tag: latest
-webhook:
-    image:
-        repository: cgr.dev/chainguard/cert-manager-webhook
-        tag: latest
+Below is an example of how to use the Chainguard images with the helm chart:
+
+```bash
+# Refer to the helm chart docs and replace --version accordingly.
+helm install \
+  cert-manager jetstack/cert-manager \
+    --namespace cert-manager \
+    --create-namespace \
+    --version v1.13.3 \
+    --set image.repository=cgr.dev/chainguard/cert-manager-controller \
+    --set image.tag=latest \
+    --set cainjector.image.repository=cgr.dev/chainguard/cert-manager-cainjector \
+    --set cainjector.image.tag=latest \
+    --set acmesolver.image.repository=cgr.dev/chainguard/cert-manager-acmesolver \
+    --set acmesolver.image.tag=latest \
+    --set webhook.image.repository=cgr.dev/chainguard/cert-manager-webhook \
+    --set webhook.image.tag=latest \
+    # --set installCRDs=true # Optional, but chart installation will fail if CRDs are missing
 ```
 <!--body:end-->
