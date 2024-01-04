@@ -65,6 +65,6 @@ helm install \
 ```
 
 > Note, if the required CRDs are not available in the cluster, the helm chart
-> will fail if the `--set installCRDs=true` arugment is omitted.
+> will fail if `--set installCRDs=true` is omitted.
 
 <!--body:end-->
