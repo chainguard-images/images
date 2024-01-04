@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal, wolfi-based images for [Cert Manager](https://cert-manager.io): Provisions and manages TLS certificates automatically in Kubernetes.
+Minimal, wolfi-based images for [Cert Manager](https://cert-manager.io): Provisions and manages TLS certificates in Kubernetes.
 <!--overview:end-->
 
 <!--getting:start-->
