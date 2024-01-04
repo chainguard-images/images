@@ -53,7 +53,7 @@ resource "kubernetes_job_v1" "check_coredns" {
           command = ["/bin/sh", "-c"]
           args = [
             # Check that our Corefile returns what we want, validating that corends is ~functioning
-            "nslookup -q=TXT ping.chainguard.foo ${helm_release.coredns.id}-coredns.${helm_release.coredns.namespace}.svc.cluster.local 2>&1 | grep -q '\\\"pong\\\"' || (echo 'Warning: TXT record for ping.chainguard.foo is not \"pong\"' && exit 1)"
+            "nslookup -q=TXT ping.chainguard.foo ${helm_release.coredns.id}.${helm_release.coredns.namespace}.svc.cluster.local 2>&1 | grep -q '\\\"pong\\\"' || (echo 'Warning: TXT record for ping.chainguard.foo is not \"pong\"' && exit 1)"
           ]
         }
         restart_policy = "Never"
