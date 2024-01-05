@@ -17,6 +17,15 @@ Minimalist Wolfi-based Java JDK image using using [OpenJDK](https://openjdk.org/
 <!--overview:end-->
 
 <!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/jdk:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 ## Java Application Example
 
 This section outlines how you can build a Java application with the Chainguard JDK Image.
