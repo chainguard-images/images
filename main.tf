@@ -1286,6 +1286,11 @@ module "vela-cli" {
   target_repository = "${var.target_repository}/vela-cli"
 }
 
+module "velero" {
+  source            = "./images/velero"
+  target_repository = "${var.target_repository}/velero"
+}
+
 module "vertical-pod-autoscaler" {
   source            = "./images/vertical-pod-autoscaler"
   target_repository = "${var.target_repository}/vertical-pod-autoscaler"
