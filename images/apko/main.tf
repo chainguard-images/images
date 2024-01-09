@@ -29,3 +29,11 @@ resource "oci_tag" "latest" {
   digest_ref = module.latest.image_ref
   tag        = "latest"
 }
+
+module "output" {
+  source = "../../tflib/image-outputer"
+  images = { latest = module.latest }
+  tagger = module.tagger
+}
+
+output "images" { value = module.output.images }

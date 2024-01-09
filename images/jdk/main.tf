@@ -34,3 +34,18 @@ resource "oci_tag" "latest-dev" {
   digest_ref = module.latest.dev_ref
   tag        = "latest-dev"
 }
+
+module "output" {
+  source = "../../tflib/image-outputer"
+  images = {
+    "eleven"        = module.eleven
+    "eleven-dev"    = module.eleven-dev
+    "seventeen"     = module.seventeen
+    "seventeen-dev" = module.seventeen-dev
+  }
+  tagger = module.tagger
+}
+
+output "images" {
+  value = module.output.images
+}
