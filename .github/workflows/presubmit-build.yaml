@@ -111,8 +111,8 @@ jobs:
         terraform_version: '1.3.*'
         terraform_wrapper: false
     # Make cosign/crane CLI available to the tests
-    - uses: sigstore/cosign-installer@v3.3.0
-    - uses: imjasonh/setup-crane@v0.3
+    - uses: sigstore/cosign-installer@9614fae9e5c5eddabb09f90a270fcb487c9f7149 # v3.3.0
+    - uses: imjasonh/setup-crane@00c9e93efa4e1138c9a7a5c594acd6c75a2fbf0c # v0.3
 
     - uses: chainguard-dev/actions/setup-k3d@main
       with:
