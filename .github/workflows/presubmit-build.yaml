@@ -106,7 +106,7 @@ jobs:
       with:
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-    - uses: hashicorp/setup-terraform@v3
+    - uses: hashicorp/setup-terraform@a1502cd9e758c50496cc9ac5308c4843bcd56d36 # v3
       with:
         terraform_version: '1.3.*'
         terraform_wrapper: false
