@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    apko = { source = "chainguard-dev/apko" }
+    apko       = { source = "chainguard-dev/apko" }
+    chainguard = { source = "chainguard-dev/chainguard" }
   }
 
   # We don't take advantage of terraform.tfstate, so we don't need to save state anywhere.
@@ -64,6 +65,14 @@ provider "kubernetes" {
 provider "helm" {
   kubernetes {
     config_path = "~/.kube/config"
+  }
+}
+
+provider "chainguard" {
+  // Don't attempt to get a token, in case we're running in an environment without a Chainguard token available (e.g., CI).
+  // If you're pushing to cgr.dev, you'll need to set up a Chainguard token with `chainctl auth login` or the setup-chainctl action.
+  login_options {
+    disabled = true
   }
 }
 
