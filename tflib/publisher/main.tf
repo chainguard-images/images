@@ -12,6 +12,10 @@ terraform {
       source  = "chainguard-dev/oci"
       version = "0.0.10"
     }
+    chainguard = {
+      source  = "chainguard-dev/chainguard"
+      version = "0.1.4"
+    }
   }
 }
 
