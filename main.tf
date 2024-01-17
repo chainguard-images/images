@@ -1,7 +1,6 @@
 terraform {
   required_providers {
-    apko       = { source = "chainguard-dev/apko" }
-    chainguard = { source = "chainguard-dev/chainguard" }
+    apko = { source = "chainguard-dev/apko" }
   }
 
   # We don't take advantage of terraform.tfstate, so we don't need to save state anywhere.
