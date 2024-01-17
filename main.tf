@@ -69,13 +69,7 @@ provider "helm" {
 }
 
 provider "chainguard" {
-  // Don't attempt to get a token, in case we're running in an environment without a Chainguard token available (e.g., CI).
-  // If you're pushing to cgr.dev, you'll need to set up a Chainguard token with `chainctl auth login` or the setup-chainctl action.
-  login_options {
-    disabled = true
-  }
 }
-
 variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
 
 module "apko" {
