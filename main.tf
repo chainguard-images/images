@@ -68,8 +68,6 @@ provider "helm" {
   }
 }
 
-provider "chainguard" {
-}
 variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
 
 module "apko" {
