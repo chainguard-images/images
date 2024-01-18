@@ -12,9 +12,11 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
+resource "random_id" "id" { byte_length = 4 }
+
 resource "helm_release" "kube-logging-operator" {
-  name             = "kube-logging"
-  namespace        = "kube-logging"
+  name             = "kube-logging-${random_id.id.hex}"
+  namespace        = "kube-logging-${random_id.id.hex}"
   repository       = "https://kube-logging.dev/helm-charts"
   chart            = "logging-operator"
   create_namespace = true
@@ -34,6 +36,11 @@ data "oci_exec_test" "smoke" {
   # This script calls other files in the same relative directory
   working_dir = path.module
   script      = "./smoke-test.sh"
+
+  env = [{
+    name  = "NS"
+    value = helm_release.kube-logging-operator.namespace
+  }]
 
   depends_on = [helm_release.kube-logging-operator]
 }

@@ -1,5 +1,5 @@
 cfg?=images/static/configs/wolfi.apko.yaml
-TERRAFORM ?= $(shell which terraform)
+TERRAFORM ?= $(shell command -v terraform)
 
 .PHONY: apko-build
 apko-build:
@@ -36,11 +36,11 @@ image/%: check-env-tf init
 	$(TERRAFORM) apply $(TF_VARS) -target=module.$*
 
 init:
-	$(TERRAFORM) init -upgrade
+	$(TERRAFORM) init --upgrade
 
 LOCAL_REGISTRY_NAME := k3d.localhost
 LOCAL_REGISTRY_PORT := 5005
-K3S_IMAGE := cgr.dev/chainguard/k3s:latest@sha256:c13c05d260363fadb5401b48331945ac21ed378ca832d7077f11bf89feb0a791 
+K3S_IMAGE := cgr.dev/chainguard/k3s:latest@sha256:0c460cd61d3d062fc2eb7d9452bfa2f67a0e37a8566e104270006a879e1d07b9 
 
 k3d-registry:
 	@# Create a local registry managed by k3d only if it doesn't exist

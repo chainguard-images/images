@@ -24,6 +24,12 @@ resource "helm_release" "kubernetes-event-exporter" {
   })]
 }
 
+module "helm_cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.kubernetes-event-exporter.id
+  namespace = helm_release.kubernetes-event-exporter.namespace
+}
+
 data "oci_exec_test" "log-review-test" {
   digest = var.digest
   script = "${path.module}/logs.sh"

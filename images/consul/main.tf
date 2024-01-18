@@ -8,7 +8,14 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "latest-config" { source = "./config" }
+module "latest-config" {
+  source = "./config"
+  extra_packages = [
+    "consul<1.17",
+    "consul-oci-entrypoint<1.17",
+    "consul-oci-entrypoint-compat<1.17",
+  ]
+}
 
 module "latest" {
   source            = "../../tflib/publisher"

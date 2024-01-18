@@ -8,4 +8,5 @@ module "cli" {
   target_repository = "${var.target_repository}-cli"
   config            = module.cli-config.config
   build-dev         = true
+  check-sbom        = true
 }

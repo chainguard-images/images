@@ -15,48 +15,62 @@ on:
         type: string
         required: false
         default: ''
+
 concurrency: release
+
+env:
+  TOTAL_SHARDS: 4
+  TF_VAR_target_repository: cgr.dev/chainguard
+
 jobs:
-  generate-matrix:
+  shard:
     runs-on: ubuntu-latest
-    outputs:
-      shard-0: ${{ steps.generate-matrix-0.outputs.matrix }}
-      unique-images-shard-0: ${{ steps.generate-matrix-0.outputs.matrix-unique-images }}
     steps:
-    - uses: actions/checkout@v4 # v3.5.2
-    # On push to main branch, only build images necessary
-    - id: files
-      if: ${{ github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' }}
-      uses: tj-actions/changed-files@1c938490c880156b746568a518594309cfb3f66b # v40.2.1
-      with:
-        separator: ','
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
 
-    - id: build-filter
-      run: |
-        set -xe
-        TMP=$(mktemp)
 
-        # For manual builds, build only the image requested
-        [[ "${{ github.event_name }}" != "workflow_dispatch" || "${{ inputs.only }}" == "" ]] || echo -n 'images/${{ inputs.only }}/image.yaml' > "${TMP}"
+      - id: shard
+        name: Shard
+        shell: bash # bash math foo required
+        run: |
+          images=($(find ./images -maxdepth 1 -type d -not -path "./images/TEMPLATE" | awk -F'/' '{print $3}' | sort -R)) # randomize
 
-        # On push to main branch, only build images necessary
-        [[ "${{ github.event_name }}" == "schedule" || "${{ github.event_name }}" == "workflow_dispatch" ]] || echo -n '${{ steps.files.outputs.all_changed_files }}' > "${TMP}"
+          # n buckets to shard into
+          n=${{ env.TOTAL_SHARDS }}
+          total=${#images[@]}
+          base_size=$((total / n))
+          remainder=$((total % n))
 
-        echo "filter=$(cat "${TMP}")" >> $GITHUB_OUTPUT
+          declare -a bins
+          # Sequentially fill up each bin, and append any remainders to the last bin
+          for ((i = 0; i < total; i++)); do
+            idx=$((i < (total - remainder) ? i / base_size : n - 1))
+            bins[$idx]+="${images[$i]} "
+          done
 
-    - id: generate-matrix-0
-      uses: ./.github/actions/generate-matrix
-      with:
-        shard: 0
-        sharding-factor: 1
-        modified-files: ${{ steps.build-filter.outputs.filter }}
+          matrix=$(printf "%s\n" "${bins[@]}" | jq -cRnjr '[inputs] | [ range(0; length) as $i | { "index": $i | tostring, "images": .[$i] } ]')
+          echo "matrix=${matrix}" >> $GITHUB_OUTPUT
 
-  build-0:
-    runs-on: ubuntu-latest
-    needs: [generate-matrix]
+          # Overwrite the output above if workflow_dispatch'd with `only`
+          if [ -n "${{ inputs.only }}" ]; then
+            shard='[{"index": 0, "images": "${{ inputs.only }}"}]'
+            echo "matrix=${shard}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Shard Results
+        run: echo ${{ steps.shard.outputs.matrix }}
+
+    outputs:
+      # This is of the format [{"index": 0, "images": "a b c"}, {"index": 1, "images": "d e f"}, ...]
+      matrix: "${{steps.shard.outputs.matrix}}"
+
+  build:
+    runs-on: ubuntu-latest-64-cores
+    needs: shard
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.generate-matrix.outputs.shard-0) }}
+      matrix:
+        shard: ${{ fromJson(needs.shard.outputs.matrix) }}
     permissions:
       id-token: write
       packages: write
@@ -66,78 +80,70 @@ jobs:
       # In some cases, we runs out of disk space during tests, so this hack frees up approx 10G.
       # See the following issue for more info: https://github.com/actions/runner-images/issues/2840#issuecomment-1284059930
       - name: Free up runner disk space
+        shell: bash
         run: |
           set -x
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
-      - uses: actions/checkout@v4 # v3.5.2
-
-      - uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@a1502cd9e758c50496cc9ac5308c4843bcd56d36 # v3
         with:
           terraform_version: '1.3.*'
           terraform_wrapper: false
-      # Make cosign/crane CLI available to the tests
-      - uses: sigstore/cosign-installer@v3.3.0
-      - uses: imjasonh/setup-crane@v0.3
 
       - uses: chainguard-dev/actions/setup-chainctl@main
         with:
-          # This allows chainguard-images/images to publish images to cgr.dev/chainguard
+          # This allows chainguard-images/images-private to publish images to cgr.dev/chainguard-private
           # We maintain this identity here:
           # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
           identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
 
       - uses: chainguard-dev/actions/setup-k3d@main
         with:
-          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:5bf7e7eebcff66a03f360511155b90732dd2b9ebcf4079bbf0c3d9501d717ddc
+          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:0c460cd61d3d062fc2eb7d9452bfa2f67a0e37a8566e104270006a879e1d07b9
 
-      # Disable creating new version tags.
-      - run: |
-          # temporarily generate tags for these modules
-          if [[ "${{ matrix.imageName }}" != "minio" ]]; then
-            echo "TF_APKO_DISABLE_VERSION_TAGS=true" >> $GITHUB_ENV
-          fi
+      # Make cosign/crane CLI available to the tests
+      - uses: sigstore/cosign-installer@9614fae9e5c5eddabb09f90a270fcb487c9f7149 # v3.3.0
+      - uses: imjasonh/setup-crane@00c9e93efa4e1138c9a7a5c594acd6c75a2fbf0c # v0.3
+
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
 
       - name: Terraform apply
-        env:
-          TF_VAR_target_repository: cgr.dev/chainguard
+        timeout-minutes: 60
         run: |
-          set -x -o pipefail
+          set -exo pipefail
           env | grep '^TF_VAR_'
 
-          echo ::group::terraform init
+          targets=""
+          for image in ${{ matrix.shard.images }}; do
+            targets+=' -target='module."${image}"''
+          done
           terraform init
-          echo ::endgroup::
-          terraform apply -auto-approve "-target=module.${{ matrix.imageName }}" -json | tee /tmp/${{ matrix.imageName }}.tf.json | jq -r '.["@message"]'
+          terraform apply ${targets} -auto-approve --parallelism=$(nproc) -json | tee /tmp/mega-module.tf.json | jq -r '.["@message"]'
 
-      - name: Collect TF diagnostics and upload
+      - name: Collect TF diagnostics
         if: ${{ always() }}
         id: tf-diag
         uses: chainguard-dev/actions/terraform-diag@main
         with:
-          json-file: /tmp/${{ matrix.imageName }}.tf.json
+          json-file: /tmp/mega-module.tf.json
 
       - name: Collect K8s diagnostics and upload
         if: ${{ failure() }}
         uses: chainguard-dev/actions/k8s-diag@main
         with:
+          artifact-name: "k8s-test-harness-${{ matrix.shard.index }}-logs"
           cluster-type: k3d
+          namespace-resources: deploy,ds,sts,pods
 
       - name: Upload terraform logs
         if: always()
-        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3
+        uses: actions/upload-artifact@1eb3cb2b3e0f29609092a73eb033bb759a334595 # v3
         with:
-          name: ${{ matrix.imageName }}.tf.json
-          path: /tmp/${{ matrix.imageName }}.tf.json
+          name: "mega-module-${{ matrix.shard.index }}.tf.json"
+          path: /tmp/mega-module.tf.json
 
-      - name: Touch actions file to prevent postrun failure
-        if: always()
-        run: |
-          set -x && [[ -f .github/actions/release-image/action.yml ]] || ( \
-            mkdir -p .github/actions/release-image/ && echo 'runs: {using: composite, steps: []}' > .github/actions/release-image/action.yml )
-
-      - uses: rtCamp/action-slack-notify@v2.2.1
+      - uses: rtCamp/action-slack-notify@f05987dc91a66984f1666f486497def2cf85183d # v2.2.1
         if: ${{ failure() && github.event_name == 'schedule' }}
         env:
           SLACK_ICON: http://github.com/chainguard-dev.png?size=48
@@ -145,9 +151,9 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
           SLACK_MSG_AUTHOR: chainguardian
           SLACK_CHANNEL: chainguard-images-alerts
-          SLACK_COLOR: '#8E1600'
-          MSG_MINIMAL: 'true'
-          SLACK_TITLE: '[images] release failed ${{ matrix.imageName }}'
+          SLACK_COLOR: "#8E1600"
+          MSG_MINIMAL: "true"
+          SLACK_TITLE: "[images] release failed (shard ${{ matrix.shard.index }} of ${{ env.TOTAL_SHARDS }})"
           SLACK_MESSAGE: |
             https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 

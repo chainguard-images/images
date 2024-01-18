@@ -1,0 +1,19 @@
+package:
+  name: minimal
+  version: 0.0.1
+  description: a very basic melange example
+  target-architecture: [x86_64, aarch64]
+
+environment:
+  contents:
+    repositories:
+      - https://packages.wolfi.dev/os
+    keyring:
+      - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+    packages:
+      - wolfi-base
+
+pipeline:
+  - runs: |
+      mkdir -p "${{targets.destdir}}"
+      echo "hello" > "${{targets.destdir}}/hello"

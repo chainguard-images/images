@@ -8,4 +8,5 @@ module "workflowcontroller" {
   target_repository = "${var.target_repository}-workflowcontroller"
   config            = module.workflowcontroller-config.config
   build-dev         = true
+  check-sbom        = true
 }

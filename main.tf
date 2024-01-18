@@ -119,6 +119,11 @@ module "aws-load-balancer-controller" {
   target_repository = "${var.target_repository}/aws-load-balancer-controller"
 }
 
+module "az" {
+  source            = "./images/az"
+  target_repository = "${var.target_repository}/az"
+}
+
 module "bank-vaults" {
   source            = "./images/bank-vaults"
   target_repository = "${var.target_repository}/bank-vaults"
@@ -149,6 +154,11 @@ module "buildkit" {
   target_repository = "${var.target_repository}/buildkit"
 }
 
+module "bun" {
+  source            = "./images/bun"
+  target_repository = "${var.target_repository}/bun"
+}
+
 module "busybox" {
   source            = "./images/busybox"
   target_repository = "${var.target_repository}/busybox"
@@ -177,6 +187,11 @@ module "cass-operator" {
   target_repository = "${var.target_repository}/cass-operator"
 }
 
+module "cass-config-builder" {
+  source            = "./images/cass-config-builder"
+  target_repository = "${var.target_repository}/cass-config-builder"
+}
+
 module "cassandra" {
   source            = "./images/cassandra"
   target_repository = "${var.target_repository}/cassandra"
@@ -190,6 +205,11 @@ module "cc-dynamic" {
 module "cedar" {
   source            = "./images/cedar"
   target_repository = "${var.target_repository}/cedar"
+}
+
+module "cert-exporter" {
+  source            = "./images/cert-exporter"
+  target_repository = "${var.target_repository}/cert-exporter"
 }
 
 module "cert-manager" {
@@ -950,9 +970,19 @@ module "prometheus-adapter" {
   target_repository = "${var.target_repository}/prometheus-adapter"
 }
 
+module "prometheus-alertmanager" {
+  source            = "./images/prometheus-alertmanager"
+  target_repository = "${var.target_repository}/prometheus-alertmanager"
+}
+
 module "prometheus-cloudwatch-exporter" {
   source            = "./images/prometheus-cloudwatch-exporter"
   target_repository = "${var.target_repository}/prometheus-cloudwatch-exporter"
+}
+
+module "prometheus-config-reloader" {
+  source            = "./images/prometheus-config-reloader"
+  target_repository = "${var.target_repository}/prometheus-config-reloader"
 }
 
 module "prometheus-elasticsearch-exporter" {
@@ -968,6 +998,11 @@ module "prometheus-mongodb-exporter" {
 module "prometheus-node-exporter" {
   source            = "./images/prometheus-node-exporter"
   target_repository = "${var.target_repository}/prometheus-node-exporter"
+}
+
+module "prometheus-operator" {
+  source            = "./images/prometheus-operator"
+  target_repository = "${var.target_repository}/prometheus-operator"
 }
 
 module "prometheus-postgres-exporter" {

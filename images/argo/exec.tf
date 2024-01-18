@@ -8,4 +8,5 @@ module "exec" {
   target_repository = "${var.target_repository}-exec"
   config            = module.exec-config.config
   build-dev         = true
+  check-sbom        = true
 }
