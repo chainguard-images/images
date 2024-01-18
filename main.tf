@@ -197,6 +197,11 @@ module "cassandra" {
   target_repository = "${var.target_repository}/cassandra"
 }
 
+module "cassandra-medusa" {
+  source            = "./images/cassandra-medusa"
+  target_repository = "${var.target_repository}/cassandra-medusa"
+}
+
 module "cc-dynamic" {
   source            = "./images/cc-dynamic"
   target_repository = "${var.target_repository}/cc-dynamic"
