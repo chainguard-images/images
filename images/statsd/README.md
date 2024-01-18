@@ -1,0 +1,43 @@
+<!--monopod:start-->
+# statsd
+| | |
+| - | - |
+| **OCI Reference** | `cgr.dev/chainguard/statsd` |
+
+
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/statsd/overview/)
+* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
+* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
+---
+<!--monopod:end-->
+
+<!--overview:start-->
+Container image for running [statsd](https://github.com/statds/statsd).
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/statsd:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+## Usage
+
+See the [statsd documentation](https://github.com/statsd/statsd?tab=readme-ov-file#usage) for more information on how to use statsd.
+
+You can also use a Helm chart to install this image on a Kubernetes cluster:
+
+```bash
+helm repo add keyporttech https://keyporttech.github.io/helm-charts/
+helm install my-release keyporttech/statsd \
+  --namespace statsd \
+  --create-namespace \
+  --set image.repository="cgr.dev/chainguard/statsd" \
+  --set image.tag="latest"
+```
+<!--body:end-->

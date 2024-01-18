@@ -1183,6 +1183,11 @@ module "static" {
   }
 }
 
+module "statsd" {
+  source            = "./images/statsd"
+  target_repository = "${var.target_repository}/statsd"
+}
+
 module "stunnel" {
   source            = "./images/stunnel"
   target_repository = "${var.target_repository}/stunnel"
