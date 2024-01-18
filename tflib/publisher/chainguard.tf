@@ -21,7 +21,7 @@ data "chainguard_group" "group" {
 resource "chainguard_image_repo" "repo" {
   count = local.is_chainguard ? 1 : 0
   // Use either the known group ID, or the one we looked up.
-  parent_id = lookup(local.groups, local.group, data.chainguard_group.group[0].id)
+  parent_id = lookup(local.groups, local.group, "") == "" ? data.chainguard_group.group[0].id : local.groups[local.group]
   readme    = file("images/${var.name}/README.md")
   name      = local.repo_name
 }
