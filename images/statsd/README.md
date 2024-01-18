@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Container image for running [statsd](https://github.com/statds/statsd).
+Daemon for easy but powerful stats aggregation
 <!--overview:end-->
 
 <!--getting:start-->
