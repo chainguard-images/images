@@ -29,7 +29,7 @@ docker pull cgr.dev/chainguard/kubeflow:latest
 
 ## Usage
 
-There are kustomize files exist for deploying this image to a Kubernetes cluster in kubeflow official GitHub [repository](github.com/kubeflow/kubeflow/).
+There are kustomize files exist for deploying this image to a Kubernetes cluster in kubeflow official GitHub [repository](https://github.com/kubeflow/kubeflow/).
 
 All you need to do is issuing the following commands:
 
