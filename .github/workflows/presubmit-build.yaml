@@ -28,7 +28,7 @@ jobs:
     - run: terraform fmt -check -recursive -diff
     - run: ./lint.sh
     - name: Enforce YAML formatting
-      uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:98741929cf4152114277139a762c4f29636263cfcb92d5bbf2ca34566d33903c
+      uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:4c9087d2c2fccf2c0f3470cfa695c605bc0dcd7bcbb1ee9c64f80f62d8e1cfdc
       with:
         entrypoint: wolfictl
         args: lint yam images/
@@ -116,7 +116,7 @@ jobs:
 
     - uses: chainguard-dev/actions/setup-k3d@main
       with:
-        k3s-image: cgr.dev/chainguard/k3s:latest@sha256:0c460cd61d3d062fc2eb7d9452bfa2f67a0e37a8566e104270006a879e1d07b9
+        k3s-image: cgr.dev/chainguard/k3s:latest@sha256:0ef62d22d89f611f9df50b9cc86d1f23d3d92d39062d4d13e500736f4e29d0d9
 
     - name: Build
       timeout-minutes: 60
