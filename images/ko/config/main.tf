@@ -9,7 +9,7 @@ module "accts" { source = "../../../tflib/accts" }
 output "config" {
   value = jsonencode({
     contents = {
-      packages = concat(["busybox", "build-base", "go"], var.extra_packages)
+      packages = concat(["busybox", "build-base", "go", "git"], var.extra_packages)
     }
     accounts = module.accts.block
     entrypoint = {
