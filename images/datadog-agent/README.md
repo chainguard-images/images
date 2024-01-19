@@ -24,7 +24,7 @@ docker pull cgr.dev/chainguard/datadog-agent:latest
 
 ## Usage
 
-The Datadog Agent is software that runs on your hosts. It collects events and metrics from hosts and sends them to Datadog, where you can analyze your monitoring and performance data.
+The Datadog Agent collects events and metrics from hosts and sends them to Datadog.
 
 ### Prerequisites
 
