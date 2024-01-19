@@ -12,20 +12,24 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimalist Wolfi-based image for `falcoctl`.
+<!--overview:end-->
 
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/falcoctl:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 `falcoctl` is a command-line tool for managing the runtime security tool Falco,
 assisting with configuration, rule management, and integration in Kubernetes
 environments. falcoctl runs as part of falco by default, but can also be ran
 as an external service.
-
-## Get It!
-
-The image is available on `cgr.dev`:
-
-```bash
-docker pull cgr.dev/chainguard/falcoctl:latest
-```
 
 ## Usage
 
@@ -39,3 +43,4 @@ docker run cgr.dev/chainguard/falcoctl:latest help
 For more information, refer to the falco documentation:
 - [Install and operate falco](https://falco.org/docs/install-operate/running/)
 - [Falco GitHub](https://github.com/falcosecurity/falco)
+<!--body:end-->

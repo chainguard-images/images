@@ -12,14 +12,19 @@
 ---
 <!--monopod:end-->
 
-Minimal image with the Keda binary. **EXPERIMENTAL**
+<!--overview:start-->
+Minimal image with Keda, a Kubernetes-based Event Driven Autoscaler. **EXPERIMENTAL**
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/stakater-reloader:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 This image is a drop-in replacement for the stakater-reloader image available upstream at `ghcr.io/stakater/reloader`.
+<!--body:end-->

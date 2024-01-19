@@ -15,10 +15,10 @@ data "oci_exec_test" "version" {
 
 data "oci_exec_test" "healthy" {
   digest = var.digest
-  script = "${path.module}/02-healthy.sh"
+  script = "${path.module}/healthy.sh"
 }
 
 data "oci_exec_test" "works" {
   digest = var.digest
-  script = "${path.module}/03-works.sh"
+  script = "${path.module}/works.sh"
 }

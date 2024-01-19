@@ -1,26 +1,22 @@
 package commands
 
 import (
-	"bufio"
-	"errors"
+	"bytes"
+	"context"
 	"fmt"
-	"io"
+	"log"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"text/template"
 
+	"github.com/hashicorp/hcl/v2"
+	"github.com/hashicorp/hcl/v2/hclsyntax"
+	"github.com/hashicorp/hcl/v2/hclwrite"
 	"github.com/spf13/cobra"
-)
-
-const (
-	MainTfTemplate       = "main.tf.tpl"
-	MainConfigTfTemplate = "main-config.tf.tpl"
-	ApkoTemplate         = "template.apko.yaml.tpl"
-
-	ConfigFolder    = "config"
-	TestsFolder     = "tests"
-	GeneratedFolder = "generated"
+	"github.com/zclconf/go-cty/cty"
+	"golang.org/x/exp/maps"
 )
 
 type scaffoldOptions struct {
@@ -34,21 +30,8 @@ type scaffoldOptions struct {
 	UserUid       uint16
 	GroupGid      uint16
 	RunAs         uint16
+	MainTf        []byte
 }
-
-var (
-	outputMappings = map[string]string{
-		MainTfTemplate:       "main.tf",
-		MainConfigTfTemplate: "main.tf",
-		ApkoTemplate:         "latest.apko.yaml",
-	}
-
-	copyOutputMappings = map[string]string{
-		"main-test.tf":    filepath.Join(TestsFolder, "main.tf"),
-		"EXAMPLE_TEST.sh": filepath.Join(TestsFolder, "EXAMPLE_TEST.sh"),
-		"README.md":       "README.md",
-	}
-)
 
 // Scaffold creates the command that will process the scaffolding.
 func Scaffold() *cobra.Command {
@@ -57,27 +40,27 @@ func Scaffold() *cobra.Command {
 		Use:   "scaffold",
 		Short: "scaffold generates scaffolding for an image",
 		Long:  `scaffold generates scaffolding for an image, based on the arguments provided`,
-		Example: `  # Generate a test image with a dev variant
-  monopod scaffold --package-name test --entrypoint /usr/bin/test
+		Example: `  # Generate a new image with a dev variant
+  monopod scaffold my-new-image --entrypoint /usr/bin/test
 
-  # Generate a test image with no dev variant
-  monopod scaffold --package-name test --entrypoint /usr/bin/test --dev-variant=false
+  # Generate a new image with no dev variant
+  monopod scaffold my-new-image --entrypoint /usr/bin/test --dev-variant=false
 
-  # Generate a test image in a custom folder
-  monopod scaffold --package-name test --entrypoint /usr/bin/test --output-path /tmp/output
+  # Generate a new image in a custom folder
+  monopod scaffold my-new-image --entrypoint /usr/bin/test --output-path /tmp/output
 
-  # Generate a test image with run-as, user-gid, and group-gid
-  monopod scaffold --package-name test --entrypoint /usr/bin/test --run-as 65530 --user-gid 65534 --group-gid 65534`,
+  # Generate a new image with run-as, user-gid, and group-gid, and custom package name
+  monopod scaffold my-new-image --package-name somethingelse --entrypoint /usr/bin/test --run-as 65530 --user-gid 65534 --group-gid 65534`,
 
-		RunE: func(_ *cobra.Command, _ []string) error {
-			return o.runScaffold()
+		RunE: func(cmd *cobra.Command, args []string) error {
+			o.ModuleName = args[0]
+			return o.runScaffold(cmd.Context())
 		},
-		Args: cobra.NoArgs,
+		Args: cobra.ExactArgs(1),
 	}
 
 	scaffoldCmd.Flags().StringVarP(&o.TemplatesPath, "templates-path", "t", "images/TEMPLATE/", "Path to the templates folder")
-	scaffoldCmd.Flags().StringVarP(&o.OutputPath, "output-path", "o", "generated/", "Path to the output folder")
-	scaffoldCmd.Flags().StringVarP(&o.ModuleName, "module-name", "m", "latest", "Desired Terraform module name")
+	scaffoldCmd.Flags().StringVarP(&o.OutputPath, "output-path", "o", "", "Path to the output folder")
 	scaffoldCmd.Flags().StringVarP(&o.PackageName, "package-name", "p", "", "The package name to be used in scaffolding")
 	scaffoldCmd.Flags().StringVarP(&o.Entrypoint, "entrypoint", "e", "", "Entrypoint path for the resulting image")
 	scaffoldCmd.Flags().BoolVar(&o.DevVariant, "dev-variant", true, "Indicates whether the development variant should be generated")
@@ -91,263 +74,182 @@ func Scaffold() *cobra.Command {
 
 // runScaffold does the real work of creating the folders, files, and evaluating
 // templates.
-func (o scaffoldOptions) runScaffold() error {
+func (o scaffoldOptions) runScaffold(ctx context.Context) error {
 	if err := o.validateOptions(); err != nil {
 		return err
 	}
 
-	if err := o.createOutputFolderStructure(); err != nil {
+	if err := o.mkImageDir(); err != nil {
 		return err
 	}
 
-	// this file should be written to the root of the resulting folder
-	mainTfOutfile, err := o.createOutputFile(outputMappings[MainTfTemplate])
-	if err != nil {
-		return err
-	}
-	defer mainTfOutfile.Close()
-
-	if err := o.scaffoldMainTerraform(mainTfOutfile); err != nil {
+	if err := filepath.Walk("images/TEMPLATE", o.walk); err != nil {
 		return err
 	}
 
-	// this file should be written in the configs directory
-	mainConfigTfOutfile, err := o.createOutputFile(filepath.Join(ConfigFolder, outputMappings[MainConfigTfTemplate]))
-	if err != nil {
+	// create readme hcl metadata file
+	nr := newReadmeImpl{
+		Readme:      completeReadme{Name: o.PackageName},
+		renderedHCl: new(bytes.Buffer),
+	}
+	if err := nr.render(); err != nil {
 		return err
 	}
-	defer mainConfigTfOutfile.Close()
-
-	if err := o.scaffoldMainConfigTerraform(mainConfigTfOutfile); err != nil {
-		return err
-	}
-
-	// this file should be written in the configs directory
-	apkoOutfile, err := o.createOutputFile(filepath.Join(ConfigFolder, outputMappings[ApkoTemplate]))
-	if err != nil {
-		return err
-	}
-	defer apkoOutfile.Close()
-
-	if err := o.scaffoldApkoYaml(apkoOutfile); err != nil {
+	if err := nr.write(); err != nil {
 		return err
 	}
 
-	if err := o.copyNonScaffoldedFiles(); err != nil {
+	// render the readme's markdown
+	rr := newReadmeRenderer(o.PackageName, &nr.Readme)
+	if err := rr.render(); err != nil {
+		return err
+	}
+	if err := rr.write(); err != nil {
 		return err
 	}
 
+	// read, render, then write main.tf
+	if err := o.readMainTf(); err != nil {
+		return err
+	}
 	if err := o.addModuleToMainTf(); err != nil {
 		return err
 	}
+	return o.writeMainTf()
+}
 
+func (o *scaffoldOptions) walk(path string, info os.FileInfo, err error) error {
+	if err != nil {
+		return err
+	}
+
+	if info.IsDir() {
+		return nil
+	}
+	repl := strings.Replace(path, "TEMPLATE", o.ModuleName, 1) // Replacing TEMPLATE with the module name
+	if err := os.MkdirAll(filepath.Dir(repl), os.ModePerm); err != nil {
+		return err
+	}
+
+	if strings.HasSuffix(repl, ".tpl") {
+		f, err := os.Create(strings.TrimSuffix(repl, ".tpl"))
+		if err != nil {
+			return err
+		}
+		defer f.Close()
+		log.Println("writing file", f.Name())
+		return template.Must(template.ParseFiles(path)).Execute(f, o)
+	}
+
+	// Just copy the file without templating.
+	b, err := os.ReadFile(path)
+	if err != nil {
+		return err
+	}
+	log.Println("writing file", repl)
+	return os.WriteFile(repl, b, 0644)
+}
+
+// mkImageDir creates the target images/o.moduleName directory
+func (o *scaffoldOptions) mkImageDir() error {
+	modroot := filepath.Join(o.OutputPath, "images", o.ModuleName)
+
+	if err := os.MkdirAll(modroot, os.ModePerm); err != nil {
+		return fmt.Errorf("unable to generate target folder images/%s: %w", o.ModuleName, err)
+	}
 	return nil
 }
 
 // validateOptions validates that the set of options specified is valid and
 // check that mandatory arguments have been specified, as well as check that
 // the folder specified for template input exists.
-func (o scaffoldOptions) validateOptions() error {
+func (o *scaffoldOptions) validateOptions() error {
 	if _, err := os.Stat(o.TemplatesPath); err != nil {
 		return fmt.Errorf("failed to check templates folder at path %s: %w", o.TemplatesPath, err)
 	}
 
+	// Entrypoint doesn't need to be set if templates don't use it, but it should fail with a clear error if it's needed.
 	if "" == o.Entrypoint {
-		return errors.New("--entrypoint must be specified")
+		o.Entrypoint = "TODO"
 	}
 
+	// If the package name is not set, use the module name as a sane default.
 	if "" == o.PackageName {
-		return errors.New("--package-name must be specified")
+		o.PackageName = o.ModuleName
 	}
 
 	return nil
 }
 
-// targetFolderName is a helper to build the output path.
-func (o scaffoldOptions) targetFolderName() string {
-	return filepath.Join(o.OutputPath, o.PackageName)
-}
-
-// createOutputFolderStructure is a helper to create the output folder structure.
-func (o scaffoldOptions) createOutputFolderStructure() error {
-	path := o.targetFolderName()
-	if err := os.MkdirAll(path, os.ModePerm); err != nil {
-		return fmt.Errorf("unable to generate target folder %s: %w", path, err)
+// addModuleToMainTf reads main.tf from disk and adds a new module to it
+func (o *scaffoldOptions) addModuleToMainTf() error {
+	source := fmt.Sprintf("./images/%s", o.ModuleName)
+	targetRepo := fmt.Sprintf(` "${var.target_repository}/%s"`, o.ModuleName)
+	// use a Token here because hclwrite escapes things like $ in strings
+	// even using literals or double escaping doesn't help. See this go.cty issue:
+	// https://github.com/zclconf/go-cty/issues/163#issuecomment-1754073585
+	toks := hclwrite.Tokens{
+		&hclwrite.Token{
+			Type:         hclsyntax.TokenStringLit,
+			Bytes:        []byte(targetRepo),
+			SpacesBefore: 0,
+		},
 	}
 
-	for _, f := range []string{ConfigFolder, TestsFolder} {
-		subPath := filepath.Join(path, f)
-		if err := os.MkdirAll(subPath, os.ModePerm); err != nil {
-			return fmt.Errorf("unable to generate target folder %s: %w", subPath, err)
+	newModule := hclwrite.NewBlock("module", []string{o.ModuleName})
+	newModule.Body().SetAttributeValue("source", cty.StringVal(source))
+	newModule.Body().SetAttributeRaw("target_repository", toks)
+
+	f, diags := hclwrite.ParseConfig(o.MainTf, "main.tf", hcl.Pos{
+		Line:   0,
+		Column: 0,
+		Byte:   0,
+	})
+	if diags != nil {
+		return fmt.Errorf("%v", diags)
+	}
+
+	newTf := hclwrite.NewEmptyFile()
+	blocks := make(map[string]*hclwrite.Block)
+	for _, b := range f.Body().Blocks() {
+		switch b.Type() {
+		// extract modules to the map for sorting later
+		case "module":
+			blocks[b.Labels()[0]] = b
+		// write the block unchanged back to main.tf in the order it appears
+		default:
+			newTf.Body().AppendBlock(b)
+			newTf.Body().AppendNewline()
 		}
 	}
+	// add the new o.scaffold.PackageName module
+	blocks[newModule.Labels()[0]] = newModule
+
+	// alphabetize the slice of block names
+	labels := maps.Keys(blocks)
+	sort.Strings(labels)
+
+	for i, l := range labels {
+		newTf.Body().AppendBlock(blocks[l])
+		// append a newline for all but the last block in the file
+		if i < len(labels)-1 {
+			newTf.Body().AppendNewline()
+		}
+	}
+	o.MainTf = newTf.Bytes()
 
 	return nil
 }
 
-// createOutputFile is a helper to create the output files to which the evaluated
-// templates will be written.
-func (o scaffoldOptions) createOutputFile(fileName string) (*os.File, error) {
-	targetFileName := filepath.Join(o.targetFolderName(), fileName)
-	file, err := os.Create(targetFileName)
-	if err != nil {
-		return nil, fmt.Errorf("failed to create file: %w", err)
-	}
-
-	return file, nil
-}
-
-// loadTemplateFile is a helper to load the template file to be evaluated on a given
-// step of scaffolding.
-func (o scaffoldOptions) loadTemplateFile(templateName string) (*template.Template, error) {
-	templatePath := filepath.Join(o.TemplatesPath, templateName)
-	tmpl, err := template.ParseFiles(templatePath)
-	if err != nil {
-		return nil, fmt.Errorf("failed to read template %s: %w", templatePath, err)
-	}
-
-	return tmpl, nil
-}
-
-// processTemplate is a helper to evaluate the loaded template.
-func (o scaffoldOptions) processTemplate(template *template.Template, outfile io.Writer) error {
-	err := template.Execute(outfile, o)
-	if err != nil {
-		return fmt.Errorf("failed to execute template: %w", err)
-	}
-
-	return nil
-}
-
-// copyFiles copies a single file from the source path to the destination path.
-func copyFiles(src, dest string) error {
-	srcFile, err := os.Open(src)
-	if err != nil {
-		return fmt.Errorf("failed to read file %s: %w", src, err)
-	}
-	defer srcFile.Close()
-
-	dstFile, err := os.Create(dest)
-	if err != nil {
-		return fmt.Errorf("failed to read file: %s: %w", dest, err)
-	}
-	defer dstFile.Close()
-
-	_, err = dstFile.ReadFrom(srcFile)
-	if err != nil {
-		return fmt.Errorf("failed to copy file data %s to %s: %w", src, dest, err)
-	}
-
-	return nil
-}
-
-// scaffoldMainTerraform scaffolds the main.tf file
-func (o scaffoldOptions) scaffoldMainTerraform(writer io.Writer) error {
-	tmpl, err := o.loadTemplateFile(MainTfTemplate)
+func (o *scaffoldOptions) readMainTf() error {
+	b, err := os.ReadFile("main.tf")
 	if err != nil {
 		return err
 	}
-
-	return o.processTemplate(tmpl, writer)
-}
-
-// scaffoldApkoYaml scaffolds the latest.apko.yaml file.
-func (o scaffoldOptions) scaffoldApkoYaml(writer io.Writer) error {
-	tmpl, err := o.loadTemplateFile(ApkoTemplate)
-	if err != nil {
-		return err
-	}
-
-	return o.processTemplate(tmpl, writer)
-}
-
-// scaffoldMainConfigTerraform
-func (o scaffoldOptions) scaffoldMainConfigTerraform(writer io.Writer) error {
-	tmpl, err := o.loadTemplateFile(MainConfigTfTemplate)
-	if err != nil {
-		return err
-	}
-
-	return o.processTemplate(tmpl, writer)
-}
-
-// copyNonScaffoldedFiles copies the files that do not have templating.
-func (o scaffoldOptions) copyNonScaffoldedFiles() error {
-	for key, val := range copyOutputMappings {
-		if err := copyFiles(filepath.Join(o.TemplatesPath, key), filepath.Join(o.targetFolderName(), val)); err != nil {
-			return err
-		}
-	}
-
+	o.MainTf = b
 	return nil
 }
 
-func (o scaffoldOptions) addModuleToMainTf() error {
-	// Define the module source
-	moduleSource := "./images/%s"
-
-	// Define the target repository
-	targetRepository := "${var.target_repository}"
-
-	file, err := os.OpenFile(outputMappings[MainTfTemplate], os.O_RDWR, os.ModePerm)
-	if err != nil {
-		fmt.Printf("Error opening file: %v\n", err)
-		os.Exit(1)
-	}
-	defer file.Close()
-
-	// Create a slice to hold the lines of the updated content
-	var updatedContent []string
-
-	// Track whether the module block has been inserted
-	moduleInserted := false
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := scanner.Text()
-
-		// Check if this is where the module block should be inserted
-		if !moduleInserted && strings.HasPrefix(line, "module ") {
-			l := strings.TrimPrefix(strings.ReplaceAll(strings.TrimSuffix(line, " {"), "\"", ""), "module ")
-			if strings.Compare(o.PackageName, l) == 0 {
-				return fmt.Errorf("module %s block already exists in main.tf", o.PackageName)
-			}
-			if strings.Compare(o.PackageName, l) < 0 {
-				// Insert the new module block here
-				updatedContent = append(updatedContent,
-					fmt.Sprintf("module \"%s\" {", o.PackageName),
-					fmt.Sprintf("  source            = \"%s\"", fmt.Sprintf(moduleSource, o.PackageName)),
-					fmt.Sprintf("  target_repository = \"%s/%s\"", targetRepository, o.PackageName), "}",
-					fmt.Sprintf(""), // this line will be added as a blank line after the new module added
-				)
-				moduleInserted = true
-			}
-		}
-
-		// Append the current line to the updated content
-		updatedContent = append(updatedContent, line)
-	}
-
-	// If the module block wasn't inserted, append it to the end
-	if !moduleInserted {
-		updatedContent = append(updatedContent,
-			fmt.Sprintf("module \"%s\" {", o.PackageName),
-			fmt.Sprintf("  source            = \"%s\"", fmt.Sprintf(moduleSource, o.PackageName)),
-			fmt.Sprintf("  target_repository = \"%s/%s\"", targetRepository, o.PackageName), "}",
-			fmt.Sprintf(""), // this line will be added as a blank line after the new module added
-		)
-	}
-
-	// Truncate the file to remove any remaining content
-	file.Truncate(0)
-	file.Seek(0, 0)
-
-	// Write the updated content back to the file
-	writer := bufio.NewWriter(file)
-	for _, line := range updatedContent {
-		fmt.Fprintln(writer, line)
-	}
-	writer.Flush()
-
-	return nil
+func (o *scaffoldOptions) writeMainTf() error {
+	return os.WriteFile("main.tf", o.MainTf, 0o644)
 }

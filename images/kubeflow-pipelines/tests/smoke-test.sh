@@ -5,7 +5,7 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 # Ref: https://www.kubeflow.org/docs/components/pipelines/v1/installation/localcluster-deployment/#deploying-kubeflow-pipelines
 
 NAMESPACE=kubeflow
-PIPELINE_VERSION=2.0.1
+PIPELINE_VERSION=2.0.4
 
 function manifests() {
   cat <<EOF > kustomization.yaml
@@ -32,9 +32,12 @@ images:
   - name: gcr.io/ml-pipeline/scheduledworkflow
     newName: ${IMAGE_REPOSITORY_SCHEDULEDWORKFLOW}
     newTag: ${IMAGE_REPOSITORY_SCHEDULEDWORKFLOW_TAG}
-  - name: gcr.io/ml-pipeline/viewer-crd-controller
-    newName: ${IMAGE_REPOSITORY_VIEWERCRDCONTROLLER}
-    newTag: ${IMAGE_REPOSITORY_VIEWERCRDCONTROLLER_TAG}
+  - name: gcr.io/ml-pipeline/frontend
+    newName: ${IMAGE_REPOSITORY_FRONTEND}
+    newTag: ${IMAGE_REPOSITORY_FRONTEND_TAG}
+  - name: gcr.io/ml-pipeline/metadata-envoy
+    newName: ${IMAGE_REPOSITORY_METADATA_ENVOY}
+    newTag: ${IMAGE_REPOSITORY_METADATA_ENVOY_TAG}
 namespace: ${NAMESPACE}
 EOF
 }
@@ -53,4 +56,5 @@ kubectl rollout status -n ${NAMESPACE} deployment/ml-pipeline-ui
 kubectl rollout status -n ${NAMESPACE} deployment/cache-server
 kubectl rollout status -n ${NAMESPACE} deployment/cache-deployer-deployment
 kubectl rollout status -n ${NAMESPACE} deployment/metadata-writer
+kubectl rollout status -n ${NAMESPACE} deployment/metadata-envoy-deployment
 

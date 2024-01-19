@@ -20,13 +20,15 @@ data "oci_exec_test" "version" {
   EOF
 }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "external-secrets" {
-  name = "external-secrets"
+  name = "external-secrets-${random_pet.suffix.id}"
 
   repository = "https://charts.external-secrets.io"
   chart      = "external-secrets"
 
-  namespace        = "external-secrets"
+  namespace        = "external-secrets-${random_pet.suffix.id}"
   create_namespace = true
 
   values = [jsonencode({

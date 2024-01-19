@@ -12,18 +12,20 @@
 ---
 <!--monopod:end-->
 
-Kubernetes ConfigMap Reload
-
+<!--overview:start-->
 `configmap-reload` is a simple binary to trigger a reload when Kubernetes ConfigMaps or Secrets, mounted into pods, are updated.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/configmap-reload:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 This image is a drop-in replacement for the upstream image.
@@ -37,3 +39,4 @@ $ helm install my-release prometheus-community/alertmanager \
     --set image.tag=latest
     <other configuration parameters here>
 ```
+<!--body:end-->

@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimalist Wolfi-based Prometheus Elasticsearch Exporter image for exporting various metrics about Elasticsearch.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/prometheus-elasticsearch-exporter:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 The easiest way to install the Prometheus Elasticsearch Exporter is to use the Helm chart.
@@ -34,3 +38,4 @@ $ helm install prom-elasticsearch-exporter prometheus-community/prometheus-elast
 ```
 
 For more detail, please refer to the [Elasticsearch Exporter documentation](https://github.com/prometheus-community/elasticsearch_exporter).
+<!--body:end-->

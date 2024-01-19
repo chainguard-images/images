@@ -19,6 +19,11 @@ variable "namespace" {
   description = "The namespace to install Istio in."
 }
 
+variable "helm-chart-version" {
+  description = "The version of the Helm chart."
+  default     = "1.19.0"
+}
+
 data "oci_exec_test" "proxy-version" {
   digest = var.digests.proxy
   script = "docker run --rm $IMAGE_NAME --version"
@@ -44,7 +49,6 @@ resource "helm_release" "operator" {
   # there's no official helm chart for the istio operator
   repository = "https://stevehipwell.github.io/helm-charts/"
   chart      = "istio-operator"
-
   values = [jsonencode({
     image = {
       repository = data.oci_string.operator-ref.registry_repo
@@ -71,11 +75,15 @@ resource "helm_release" "base" {
   create_namespace = true
   repository       = "https://istio-release.storage.googleapis.com/charts/"
   chart            = "base"
+  version          = var.helm-chart-version
   replace          = true # Allow reinstallation - as CRDs are not reinstalled anyway.
   values = [jsonencode({
     global = {
       istioNamespace = local.namespace
     }
+    # Disable the CRD validation webhook to avoid contention w/ tests of other versions,
+    # as this is a cluster-wide resource that we can't customize the name.
+    defaultRevision = ""
   })]
 }
 
@@ -86,6 +94,7 @@ resource "helm_release" "istiod" {
   create_namespace = true
   repository       = "https://istio-release.storage.googleapis.com/charts/"
   chart            = "istiod"
+  version          = var.helm-chart-version
   values = [jsonencode({
     # Set the revision so that only namespace with istio.io/rev=local.namespace
     # will be managed.
@@ -122,6 +131,7 @@ resource "helm_release" "gateway" {
   create_namespace = true
   repository       = "https://istio-release.storage.googleapis.com/charts/"
   chart            = "gateway"
+  version          = var.helm-chart-version
   values = [jsonencode({
     # Set the revision so that only namespace with istio.io/rev=local.namespace
     # will be managed.
@@ -154,6 +164,7 @@ resource "helm_release" "install-cni" {
   namespace  = local.namespace
   repository = "https://istio-release.storage.googleapis.com/charts/"
   chart      = "cni"
+  version    = var.helm-chart-version
   values = [jsonencode({
     global = {
       # These Helm charts do not like slashes in the image param.

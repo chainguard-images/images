@@ -3,7 +3,7 @@ terraform {
     oci = { source = "chainguard-dev/oci" }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "~> 2.23.0"
+      version = "~> 2.24.0"
     }
   }
 }
@@ -14,16 +14,18 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
+resource "random_pet" "suffix" {}
+
 resource "kubernetes_namespace" "cassandra" {
   metadata {
-    name = "cassandra"
+    name = "cassandra-${random_pet.suffix.id}"
   }
 }
 
 resource "kubernetes_service" "cassandra" {
   metadata {
     name      = "cassandra"
-    namespace = "cassandra"
+    namespace = kubernetes_namespace.cassandra.metadata[0].name
 
     labels = {
       app = "cassandra"

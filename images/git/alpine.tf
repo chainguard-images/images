@@ -1,3 +1,10 @@
+module "alpine" {
+  for_each           = local.accounts
+  source             = "./config"
+  root               = each.key == "root"
+  extra_repositories = ["https://dl-cdn.alpinelinux.org/alpine/edge/community"]
+}
+
 module "latest-alpine" {
   providers = {
     apko = apko.alpine
@@ -6,17 +13,9 @@ module "latest-alpine" {
   source            = "../../tflib/publisher"
   name              = basename(path.module)
   target_repository = var.target_repository
-  config            = file("${path.module}/configs/latest.alpine.${each.key}.apko.yaml")
-  # Override the module's default wolfi packages that conflict with alpine
-  extra_packages = []
-  build-dev      = true
-}
-
-module "version-tags-alpine" {
-  for_each = local.accounts
-  source   = "../../tflib/version-tags"
-  package  = "git"
-  config   = module.latest-alpine[each.key].config
+  config            = module.alpine[each.key].config
+  check-sbom        = false # Alpine-based SBOMs are not conformant because the Alpine baselayout has an invalid license specifier
+  build-dev         = true
 }
 
 module "test-latest-alpine" {

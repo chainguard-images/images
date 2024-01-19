@@ -7,8 +7,11 @@ terraform {
 variable "digests" {
   description = "The digests to run tests over."
   type = object({
-    agent    = string
-    operator = string
+    agent             = string
+    hubble-relay      = string
+    hubble-ui         = string
+    hubble-ui-backend = string
+    operator          = string
   })
 }
 
@@ -20,14 +23,21 @@ data "oci_exec_test" "operator-version" {
 data "oci_exec_test" "cilium-install" {
   script          = "${path.module}/cilium-install.sh"
   digest          = var.digests.agent
-  timeout_seconds = 900
-  env {
+  timeout_seconds = 1200
+  env = [{
     name  = "AGENT_IMAGE"
     value = var.digests.agent
-  }
-
-  env {
+    }, {
+    name  = "HUBBLE_RELAY_IMAGE"
+    value = var.digests.hubble-relay
+    }, {
+    name  = "HUBBLE_UI_IMAGE"
+    value = var.digests.hubble-ui
+    }, {
+    name  = "HUBBLE_UI_BACKEND_IMAGE"
+    value = var.digests.hubble-ui-backend
+    }, {
     name  = "OPERATOR_IMAGE"
     value = var.digests.operator
-  }
+  }]
 }

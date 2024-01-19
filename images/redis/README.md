@@ -12,6 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
+Minimalist Wolfi-based [Redis](https://github.com/redis/redis) image.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/redis:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 Minimalist Wolfi-based [Redis](https://github.com/redis/redis) image.
 
 Redis is an in-memory database that persists on disk.
@@ -83,3 +97,4 @@ $ docker run -d -v $(pwd):/data -p 6379:6379 redis
 $ redis-cli get foo
 "bar"
 ```
+<!--body:end-->

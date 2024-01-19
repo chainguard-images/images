@@ -17,7 +17,6 @@ variable "target_repository" {
   description = "The root repo into which the images should be published (e.g., cgr.dev/chainguard). Individual images will be published within this root repo."
 }
 
-
 variable "extra_repositories" {
   type        = list(string)
   default     = []
@@ -68,9 +67,16 @@ provider "helm" {
   }
 }
 
+variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
+
 module "apko" {
   source            = "./images/apko"
   target_repository = "${var.target_repository}/apko"
+}
+
+module "argo" {
+  source            = "./images/argo"
+  target_repository = "${var.target_repository}/argo"
 }
 
 module "argocd" {
@@ -81,6 +87,11 @@ module "argocd" {
 module "aspnet-runtime" {
   source            = "./images/aspnet-runtime"
   target_repository = "${var.target_repository}/aspnet-runtime"
+}
+
+module "atlantis" {
+  source            = "./images/atlantis"
+  target_repository = "${var.target_repository}/atlantis"
 }
 
 module "aws-cli" {
@@ -108,14 +119,19 @@ module "aws-load-balancer-controller" {
   target_repository = "${var.target_repository}/aws-load-balancer-controller"
 }
 
-module "bash" {
-  source            = "./images/bash"
-  target_repository = "${var.target_repository}/bash"
+module "az" {
+  source            = "./images/az"
+  target_repository = "${var.target_repository}/az"
 }
 
 module "bank-vaults" {
   source            = "./images/bank-vaults"
   target_repository = "${var.target_repository}/bank-vaults"
+}
+
+module "bash" {
+  source            = "./images/bash"
+  target_repository = "${var.target_repository}/bash"
 }
 
 module "bazel" {
@@ -131,6 +147,16 @@ module "boring-registry" {
 module "buck2" {
   source            = "./images/buck2"
   target_repository = "${var.target_repository}/buck2"
+}
+
+module "buildkit" {
+  source            = "./images/buildkit"
+  target_repository = "${var.target_repository}/buildkit"
+}
+
+module "bun" {
+  source            = "./images/bun"
+  target_repository = "${var.target_repository}/bun"
 }
 
 module "busybox" {
@@ -156,6 +182,16 @@ module "calico" {
   target_repository = "${var.target_repository}/calico"
 }
 
+module "cass-operator" {
+  source            = "./images/cass-operator"
+  target_repository = "${var.target_repository}/cass-operator"
+}
+
+module "cass-config-builder" {
+  source            = "./images/cass-config-builder"
+  target_repository = "${var.target_repository}/cass-config-builder"
+}
+
 module "cassandra" {
   source            = "./images/cassandra"
   target_repository = "${var.target_repository}/cassandra"
@@ -171,19 +207,37 @@ module "cedar" {
   target_repository = "${var.target_repository}/cedar"
 }
 
-module "cfssl" {
-  source            = "./images/cfssl"
-  target_repository = "${var.target_repository}/cfssl"
-}
-
-module "clang" {
-  source            = "./images/clang"
-  target_repository = "${var.target_repository}/clang"
+module "cert-exporter" {
+  source            = "./images/cert-exporter"
+  target_repository = "${var.target_repository}/cert-exporter"
 }
 
 module "cert-manager" {
   source            = "./images/cert-manager"
   target_repository = "${var.target_repository}/cert-manager"
+}
+
+// This isn't intended to be run in production, but it's useful for testing
+// that the cert-manager test module can be run by multiple modules. To test this, run:
+// terraform apply -target=module.cert-manager -target=module.cert-manager-again-for-testing -auto-approve
+module "cert-manager-again-for-testing" {
+  source            = "./images/cert-manager"
+  target_repository = "${var.target_repository}/cert-manager"
+}
+
+module "cfssl" {
+  source            = "./images/cfssl"
+  target_repository = "${var.target_repository}/cfssl"
+}
+
+module "cilium" {
+  source            = "./images/cilium"
+  target_repository = "${var.target_repository}/cilium"
+}
+
+module "clang" {
+  source            = "./images/clang"
+  target_repository = "${var.target_repository}/clang"
 }
 
 module "cluster-autoscaler" {
@@ -194,11 +248,6 @@ module "cluster-autoscaler" {
 module "cluster-proportional-autoscaler" {
   source            = "./images/cluster-proportional-autoscaler"
   target_repository = "${var.target_repository}/cluster-proportional-autoscaler"
-}
-
-module "cilium" {
-  source            = "./images/cilium"
-  target_repository = "${var.target_repository}/cilium"
 }
 
 module "conda" {
@@ -229,6 +278,11 @@ module "cosign" {
 module "crane" {
   source            = "./images/crane"
   target_repository = "${var.target_repository}/crane"
+}
+
+module "crossplane" {
+  source            = "./images/crossplane"
+  target_repository = "${var.target_repository}/crossplane"
 }
 
 module "crossplane-aws" {
@@ -266,6 +320,11 @@ module "deno" {
   target_repository = "${var.target_repository}/deno"
 }
 
+module "dependency-track" {
+  source            = "./images/dependency-track"
+  target_repository = "${var.target_repository}/dependency-track"
+}
+
 module "dex" {
   source            = "./images/dex"
   target_repository = "${var.target_repository}/dex"
@@ -296,14 +355,29 @@ module "envoy-ratelimit" {
   target_repository = "${var.target_repository}/envoy-ratelimit"
 }
 
+module "erlang" {
+  source            = "./images/erlang"
+  target_repository = "${var.target_repository}/erlang"
+}
+
 module "etcd" {
   source            = "./images/etcd"
   target_repository = "${var.target_repository}/etcd"
 }
 
+module "external-dns" {
+  source            = "./images/external-dns"
+  target_repository = "${var.target_repository}/external-dns"
+}
+
 module "external-secrets" {
   source            = "./images/external-secrets"
   target_repository = "${var.target_repository}/external-secrets"
+}
+
+module "falco-no-driver" {
+  source            = "./images/falco-no-driver"
+  target_repository = "${var.target_repository}/falco-no-driver"
 }
 
 module "falcoctl" {
@@ -346,22 +420,27 @@ module "gcc-glibc" {
   target_repository = "${var.target_repository}/gcc-glibc"
 }
 
-module "gitlab" {
-  source            = "./images/gitlab"
-  target_repository = "${var.target_repository}/gitlab"
-}
-
-module "glibc-dynamic" {
-  source            = "./images/glibc-dynamic"
-  target_repository = "${var.target_repository}/glibc-dynamic"
-}
-
 module "git" {
   source            = "./images/git"
   target_repository = "${var.target_repository}/git"
   providers = {
     apko.alpine = apko.alpine
   }
+}
+
+module "gitlab" {
+  source            = "./images/gitlab"
+  target_repository = "${var.target_repository}/gitlab"
+}
+
+module "gitness" {
+  source            = "./images/gitness"
+  target_repository = "${var.target_repository}/gitness"
+}
+
+module "glibc-dynamic" {
+  source            = "./images/glibc-dynamic"
+  target_repository = "${var.target_repository}/glibc-dynamic"
 }
 
 module "go" {
@@ -374,17 +453,6 @@ module "google-cloud-sdk" {
   target_repository = "${var.target_repository}/google-cloud-sdk"
 }
 
-
-module "external-dns" {
-  source            = "./images/external-dns"
-  target_repository = "${var.target_repository}/external-dns"
-}
-
-module "gitness" {
-  source            = "./images/gitness"
-  target_repository = "${var.target_repository}/gitness"
-}
-
 module "graalvm-native" {
   source            = "./images/graalvm-native"
   target_repository = "${var.target_repository}/graalvm-native"
@@ -393,6 +461,11 @@ module "graalvm-native" {
 module "gradle" {
   source            = "./images/gradle"
   target_repository = "${var.target_repository}/gradle"
+}
+
+module "grafana" {
+  source            = "./images/grafana"
+  target_repository = "${var.target_repository}/grafana"
 }
 
 module "grype" {
@@ -425,19 +498,24 @@ module "helm-chartmuseum" {
   target_repository = "${var.target_repository}/helm-chartmuseum"
 }
 
-module "hugo" {
-  source            = "./images/hugo"
-  target_repository = "${var.target_repository}/hugo"
-}
-
 module "http-echo" {
   source            = "./images/http-echo"
   target_repository = "${var.target_repository}/http-echo"
 }
 
+module "hugo" {
+  source            = "./images/hugo"
+  target_repository = "${var.target_repository}/hugo"
+}
+
 module "influxdb" {
   source            = "./images/influxdb"
   target_repository = "${var.target_repository}/influxdb"
+}
+
+module "ingress-nginx-controller" {
+  source            = "./images/ingress-nginx-controller"
+  target_repository = "${var.target_repository}/ingress-nginx-controller"
 }
 
 module "ip-masq-agent" {
@@ -448,11 +526,6 @@ module "ip-masq-agent" {
 module "istio" {
   source            = "./images/istio"
   target_repository = "${var.target_repository}/istio"
-}
-
-module "ingress-nginx-controller" {
-  source            = "./images/ingress-nginx-controller"
-  target_repository = "${var.target_repository}/ingress-nginx-controller"
 }
 
 module "jdk" {
@@ -500,6 +573,11 @@ module "k8sgpt-operator" {
   target_repository = "${var.target_repository}/k8sgpt-operator"
 }
 
+module "k8ssandra-operator" {
+  source            = "./images/k8ssandra-operator"
+  target_repository = "${var.target_repository}/k8ssandra-operator"
+}
+
 module "kafka" {
   source            = "./images/kafka"
   target_repository = "${var.target_repository}/kafka"
@@ -525,6 +603,11 @@ module "ko" {
   target_repository = "${var.target_repository}/ko"
 }
 
+module "kor" {
+  source            = "./images/kor"
+  target_repository = "${var.target_repository}/kor"
+}
+
 module "kube-bench" {
   source            = "./images/kube-bench"
   target_repository = "${var.target_repository}/kube-bench"
@@ -533,6 +616,21 @@ module "kube-bench" {
 module "kube-downscaler" {
   source            = "./images/kube-downscaler"
   target_repository = "${var.target_repository}/kube-downscaler"
+}
+
+module "kube-fluentd-operator" {
+  source            = "./images/kube-fluentd-operator"
+  target_repository = "${var.target_repository}/kube-fluentd-operator"
+}
+
+module "kube-logging-operator" {
+  source            = "./images/kube-logging-operator"
+  target_repository = "${var.target_repository}/kube-logging-operator"
+}
+
+module "kube-logging-operator-fluentd" {
+  source            = "./images/kube-logging-operator-fluentd"
+  target_repository = "${var.target_repository}/kube-logging-operator-fluentd"
 }
 
 module "kube-state-metrics" {
@@ -548,6 +646,11 @@ module "kubectl" {
 module "kubeflow" {
   source            = "./images/kubeflow"
   target_repository = "${var.target_repository}/kubeflow"
+}
+
+module "kubeflow-centraldashboard" {
+  source            = "./images/kubeflow-centraldashboard"
+  target_repository = "${var.target_repository}/kubeflow-centraldashboard"
 }
 
 module "kubeflow-katib" {
@@ -610,19 +713,14 @@ module "kubernetes-dns-node-cache" {
   target_repository = "${var.target_repository}/kubernetes-dns-node-cache"
 }
 
+module "kubernetes-event-exporter" {
+  source            = "./images/kubernetes-event-exporter"
+  target_repository = "${var.target_repository}/kubernetes-event-exporter"
+}
+
 module "kubernetes-ingress-defaultbackend" {
   source            = "./images/kubernetes-ingress-defaultbackend"
   target_repository = "${var.target_repository}/kubernetes-ingress-defaultbackend"
-}
-
-module "kube-fluentd-operator" {
-  source            = "./images/kube-fluentd-operator"
-  target_repository = "${var.target_repository}/kube-fluentd-operator"
-}
-
-module "kube-logging-operator" {
-  source            = "./images/kube-logging-operator"
-  target_repository = "${var.target_repository}/kube-logging-operator"
 }
 
 module "kubewatch" {
@@ -680,9 +778,9 @@ module "memcached-exporter" {
   target_repository = "${var.target_repository}/memcached-exporter"
 }
 
-module "metrics-server" {
-  source            = "./images/metrics-server"
-  target_repository = "${var.target_repository}/metrics-server"
+module "memcached-exporter-bitnami" {
+  source            = "./images/memcached-exporter-bitnami"
+  target_repository = "${var.target_repository}/memcached-exporter-bitnami"
 }
 
 module "metacontroller" {
@@ -690,9 +788,19 @@ module "metacontroller" {
   target_repository = "${var.target_repository}/metacontroller"
 }
 
+module "metrics-server" {
+  source            = "./images/metrics-server"
+  target_repository = "${var.target_repository}/metrics-server"
+}
+
 module "minio" {
   source            = "./images/minio"
   target_repository = "${var.target_repository}/minio"
+}
+
+module "ml-metadata-store-server" {
+  source            = "./images/ml-metadata-store-server"
+  target_repository = "${var.target_repository}/ml-metadata-store-server"
 }
 
 module "nats" {
@@ -705,10 +813,45 @@ module "netcat" {
   target_repository = "${var.target_repository}/netcat"
 }
 
-variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
-module "newrelic" {
-  source            = "./images/newrelic"
-  target_repository = "${var.target_repository}/newrelic"
+module "newrelic-fluent-bit-output" {
+  source            = "./images/newrelic-fluent-bit-output"
+  target_repository = "${var.target_repository}/newrelic-fluent-bit-output"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-infrastructure-bundle" {
+  source            = "./images/newrelic-infrastructure-bundle"
+  target_repository = "${var.target_repository}/newrelic-infrastructure-bundle"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-k8s-events-forwarder" {
+  source            = "./images/newrelic-k8s-events-forwarder"
+  target_repository = "${var.target_repository}/newrelic-k8s-events-forwarder"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-kube-events" {
+  source            = "./images/newrelic-kube-events"
+  target_repository = "${var.target_repository}/newrelic-kube-events"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-kubernetes" {
+  source            = "./images/newrelic-kubernetes"
+  target_repository = "${var.target_repository}/newrelic-kubernetes"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-prometheus" {
+  source            = "./images/newrelic-prometheus"
+  target_repository = "${var.target_repository}/newrelic-prometheus"
+  license_key       = var.newrelic_license_key
+}
+
+module "newrelic-prometheus-configurator" {
+  source            = "./images/newrelic-prometheus-configurator"
+  target_repository = "${var.target_repository}/newrelic-prometheus-configurator"
   license_key       = var.newrelic_license_key
 }
 
@@ -732,14 +875,19 @@ module "node-lts" {
   target_repository = "${var.target_repository}/node-lts"
 }
 
+module "node-problem-detector" {
+  source            = "./images/node-problem-detector"
+  target_repository = "${var.target_repository}/node-problem-detector"
+}
+
 module "nodetaint" {
   source            = "./images/nodetaint"
   target_repository = "${var.target_repository}/nodetaint"
 }
 
-module "node-problem-detector" {
-  source            = "./images/node-problem-detector"
-  target_repository = "${var.target_repository}/node-problem-detector"
+module "ntia-conformance-checker" {
+  source            = "./images/ntia-conformance-checker"
+  target_repository = "${var.target_repository}/ntia-conformance-checker"
 }
 
 module "ntpd-rs" {
@@ -792,9 +940,19 @@ module "php" {
   target_repository = "${var.target_repository}/php"
 }
 
+module "php-fpm_exporter" {
+  source            = "./images/php-fpm_exporter"
+  target_repository = "${var.target_repository}/php-fpm_exporter"
+}
+
 module "postgres" {
   source            = "./images/postgres"
   target_repository = "${var.target_repository}/postgres"
+}
+
+module "postgres-helm-compat" {
+  source            = "./images/postgres-helm-compat"
+  target_repository = "${var.target_repository}/postgres-helm-compat"
 }
 
 module "powershell" {
@@ -812,14 +970,19 @@ module "prometheus-adapter" {
   target_repository = "${var.target_repository}/prometheus-adapter"
 }
 
-module "prometheus-postgres-exporter" {
-  source            = "./images/prometheus-postgres-exporter"
-  target_repository = "${var.target_repository}/prometheus-postgres-exporter"
+module "prometheus-alertmanager" {
+  source            = "./images/prometheus-alertmanager"
+  target_repository = "${var.target_repository}/prometheus-alertmanager"
 }
 
 module "prometheus-cloudwatch-exporter" {
   source            = "./images/prometheus-cloudwatch-exporter"
   target_repository = "${var.target_repository}/prometheus-cloudwatch-exporter"
+}
+
+module "prometheus-config-reloader" {
+  source            = "./images/prometheus-config-reloader"
+  target_repository = "${var.target_repository}/prometheus-config-reloader"
 }
 
 module "prometheus-elasticsearch-exporter" {
@@ -835,6 +998,16 @@ module "prometheus-mongodb-exporter" {
 module "prometheus-node-exporter" {
   source            = "./images/prometheus-node-exporter"
   target_repository = "${var.target_repository}/prometheus-node-exporter"
+}
+
+module "prometheus-operator" {
+  source            = "./images/prometheus-operator"
+  target_repository = "${var.target_repository}/prometheus-operator"
+}
+
+module "prometheus-postgres-exporter" {
+  source            = "./images/prometheus-postgres-exporter"
+  target_repository = "${var.target_repository}/prometheus-postgres-exporter"
 }
 
 module "prometheus-pushgateway-bitnami" {
@@ -873,6 +1046,11 @@ module "python" {
   target_repository = "${var.target_repository}/python"
 }
 
+module "qdrant" {
+  source            = "./images/qdrant"
+  target_repository = "${var.target_repository}/qdrant"
+}
+
 module "r-base" {
   source            = "./images/r-base"
   target_repository = "${var.target_repository}/r-base"
@@ -881,6 +1059,16 @@ module "r-base" {
 module "rabbitmq" {
   source            = "./images/rabbitmq"
   target_repository = "${var.target_repository}/rabbitmq"
+}
+
+module "rabbitmq-cluster-operator" {
+  source            = "./images/rabbitmq-cluster-operator"
+  target_repository = "${var.target_repository}/rabbitmq-cluster-operator"
+}
+
+module "rabbitmq-messaging-topology-operator" {
+  source            = "./images/rabbitmq-messaging-topology-operator"
+  target_repository = "${var.target_repository}/rabbitmq-messaging-topology-operator"
 }
 
 module "redis" {
@@ -919,19 +1107,24 @@ module "rust" {
   target_repository = "${var.target_repository}/rust"
 }
 
-module "secrets-store-csi-driver-provider-gcp" {
-  source            = "./images/secrets-store-csi-driver-provider-gcp"
-  target_repository = "${var.target_repository}/secrets-store-csi-driver-provider-gcp"
-}
-
 module "secrets-store-csi-driver" {
   source            = "./images/secrets-store-csi-driver"
   target_repository = "${var.target_repository}/secrets-store-csi-driver"
 }
 
+module "secrets-store-csi-driver-provider-gcp" {
+  source            = "./images/secrets-store-csi-driver-provider-gcp"
+  target_repository = "${var.target_repository}/secrets-store-csi-driver-provider-gcp"
+}
+
 module "semgrep" {
   source            = "./images/semgrep"
   target_repository = "${var.target_repository}/semgrep"
+}
+
+module "sigstore-policy-controller" {
+  source            = "./images/sigstore-policy-controller"
+  target_repository = "${var.target_repository}/sigstore-policy-controller"
 }
 
 module "sigstore-scaffolding" {
@@ -954,6 +1147,11 @@ module "smarter-device-manager" {
   target_repository = "${var.target_repository}/smarter-device-manager"
 }
 
+module "solr" {
+  source            = "./images/solr"
+  target_repository = "${var.target_repository}/solr"
+}
+
 module "spark-operator" {
   source            = "./images/spark-operator"
   target_repository = "${var.target_repository}/spark-operator"
@@ -962,6 +1160,19 @@ module "spark-operator" {
 module "spire" {
   source            = "./images/spire"
   target_repository = "${var.target_repository}/spire"
+}
+
+// This isn't intended to be run in production, but it's useful for testing
+// that the spire test module can be run by multiple modules. To test this, run:
+// terraform apply -target=module.spire -target=module.spire-again-for-testing -auto-approve
+module "spire-again-for-testing" {
+  source            = "./images/spire"
+  target_repository = "${var.target_repository}/spire"
+}
+
+module "sqlpad" {
+  source            = "./images/sqlpad"
+  target_repository = "${var.target_repository}/sqlpad"
 }
 
 module "stakater-reloader" {
@@ -977,6 +1188,11 @@ module "static" {
   }
 }
 
+module "statsd" {
+  source            = "./images/statsd"
+  target_repository = "${var.target_repository}/statsd"
+}
+
 module "stunnel" {
   source            = "./images/stunnel"
   target_repository = "${var.target_repository}/stunnel"
@@ -990,6 +1206,21 @@ module "tekton" {
 module "telegraf" {
   source            = "./images/telegraf"
   target_repository = "${var.target_repository}/telegraf"
+}
+
+module "temporal-admin-tools" {
+  source            = "./images/temporal-admin-tools"
+  target_repository = "${var.target_repository}/temporal-admin-tools"
+}
+
+module "temporal-server" {
+  source            = "./images/temporal-server"
+  target_repository = "${var.target_repository}/temporal-server"
+}
+
+module "temporal-ui-server" {
+  source            = "./images/temporal-ui-server"
+  target_repository = "${var.target_repository}/temporal-ui-server"
 }
 
 module "terraform" {
@@ -1012,9 +1243,27 @@ module "tigera-operator" {
   target_repository = "${var.target_repository}/tigera-operator"
 }
 
+// This isn't intended to be run in production, but it's useful for testing
+// that the tigera-operator test module can be run by multiple modules. To test this, run:
+// terraform apply -target=module.tigera-operator -target=module.tigera-operator-again-for-testing -auto-approve
+module "tigera-operator-again-for-testing" {
+  source            = "./images/tigera-operator"
+  target_repository = "${var.target_repository}/tigera-operator"
+}
+
+module "timestamp-authority" {
+  source            = "./images/timestamp-authority"
+  target_repository = "${var.target_repository}/timestamp-authority"
+}
+
 module "timoni" {
   source            = "./images/timoni"
   target_repository = "${var.target_repository}/timoni"
+}
+
+module "tomcat" {
+  source            = "./images/tomcat"
+  target_repository = "${var.target_repository}/tomcat"
 }
 
 module "traefik" {
@@ -1027,6 +1276,11 @@ module "trillian" {
   target_repository = "${var.target_repository}/trillian"
 }
 
+module "trino" {
+  source            = "./images/trino"
+  target_repository = "${var.target_repository}/trino"
+}
+
 module "trust-manager" {
   source            = "./images/trust-manager"
   target_repository = "${var.target_repository}/trust-manager"
@@ -1035,6 +1289,11 @@ module "trust-manager" {
 module "vault" {
   source            = "./images/vault"
   target_repository = "${var.target_repository}/vault"
+}
+
+module "vector" {
+  source            = "./images/vector"
+  target_repository = "${var.target_repository}/vector"
 }
 
 module "vela-cli" {

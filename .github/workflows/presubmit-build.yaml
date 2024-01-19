@@ -1,108 +1,157 @@
 on:
-  pull_request:
+  pull_request: # TODO: pull_request_target
+    branches:
+      - main
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  TF_VAR_target_repository: registry.local:5000/testing
+  TF_APKO_DISABLE_VERSION_TAGS: true # Disable version tags.
+  TF_COSIGN_DISABLE: true # Don't sign in presubmit.
 
 concurrency:
   group: presubmit-build-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
-  presubmit-matrix:
+  shard:
     runs-on: ubuntu-latest
-    outputs:
-      shard-0: ${{ steps.generate-matrix-0.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v4 # v3.5.2
+    - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      with:
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - run: terraform fmt -check -recursive -diff
-      - run: ./lint.sh
-      - name: Enforce YAML formatting
-        uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:9437d20a511dd2db6393f7cf1a29cbc89df5fd4304389d040c1e722165b7fe03
-        with:
-          entrypoint: wolfictl
-          args: lint yam images/
+    - run: make init # Initialize modules.
+    - run: terraform fmt -check -recursive -diff
+    - run: ./lint.sh
+    - name: Enforce YAML formatting
+      uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:98741929cf4152114277139a762c4f29636263cfcb92d5bbf2ca34566d33903c
+      with:
+        entrypoint: wolfictl
+        args: lint yam images/
 
-      - id: files
-        uses: tj-actions/changed-files@408093d9ff9c134c33b974e0722ce06b9d6e8263 # v39.2.2
-        with:
-          separator: ','
-      - id: generate-matrix-0
-        uses: ./.github/actions/generate-matrix
-        with:
-          shard: 0
-          sharding-factor: 1
-          modified-files: ${{ steps.files.outputs.all_changed_files }}
+    - id: changed
+      uses: tj-actions/changed-files@v41
+      with:
+        dir_names: "true"
+        # Truncates (not ignores) the path of changed files to 2 (ie: images/flux/tests/main.tf -> images/flux)
+        dir_names_max_depth: "2"
+        files_separator: "\n" # This is the default, but ensure we keep it such so the below discover steps work
+        files_yaml: |
+          base:
+            - .github/actions/**
+            - ./tflib/**
+          images:
+            - ./images/**
+            - '!./images/**.md'
 
-  presubmit-build-0:
+    - id: discover-base
+      name: Discovered modified base files
+      shell: bash # bash math foo required
+      if: steps.changed.outputs.base_any_changed == 'true'
+      run: |
+        images=($(find ./images -maxdepth 1 -type d -not -path "./images/TEMPLATE" | awk -F'/' '{print $3}' | sort -uR)) # randomize
+
+        n=50 # buckets to shard into
+        total=${#images[@]}
+        base_size=$((total / n))
+        remainder=$((total % n))
+
+        declare -a bins
+        # Sequentially fill up each bin, and append any remainders to the last bin
+        for ((i = 0; i < total; i++)); do
+          idx=$((i < (total - remainder) ? i / base_size : n - 1))
+          bins[$idx]+="${images[$i]} "
+        done
+
+        matrix=$(printf "%s\n" "${bins[@]}" | jq -cRnjr '[inputs] | [ range(0; length) as $i | { "index": $i | tostring, "images": .[$i] } ]')
+        echo "matrix=${matrix}" >> $GITHUB_ENV
+
+    - id: discover-images
+      name: Discover modified images
+      if: steps.changed.outputs.base_any_changed != 'true' && steps.changed.outputs.images_any_changed == 'true'
+      run: |
+        # Randomize and shard into bins of 5 images each
+        n=5
+        bins=$(echo "${{ steps.changed.outputs.images_all_changed_files }}" | sed 's/images\///g' | sed 's/ /\n/g' | sort -uR | tr '\n' ' ' | xargs -n $n | jq -cRnjr '[inputs] | [ range(0; length) as $i | { "index": $i | tostring, "images": .[$i] } ]')
+        echo "matrix=${bins}" >> $GITHUB_ENV
+
+    - id: set-matrix
+      run: |
+        out='${{ env.matrix }}'
+        echo "shard_matrix=${out}" >> $GITHUB_OUTPUT
+
+    - name: Shard Results
+      run: echo '${{ steps.set-matrix.outputs.shard_matrix }}' | jq .
+
+    outputs:
+      # This is of the format [{"index": 0, "images": "a b c"}, {"index": 1, "images": "d e f"}, ...], or empty ([]) when nothing relevant has changed
+      shard_matrix: ${{ steps.set-matrix.outputs.shard_matrix }}
+
+
+  build-the-world:
     runs-on: ubuntu-latest
-    needs: presubmit-matrix
+    needs: shard
+    if: ${{ needs.shard.outputs.shard_matrix != '' }}
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.presubmit-matrix.outputs.shard-0) }}
+      matrix:
+        shard: ${{ fromJson(needs.shard.outputs.shard_matrix) }}
+
     steps:
-      # In some cases, we runs out of disk space during tests, so this hack frees up approx 10G.
-      # See the following issue for more info: https://github.com/actions/runner-images/issues/2840#issuecomment-1284059930
-      - name: Free up runner disk space
-        shell: bash
-        run: |
-          set -x
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+    - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      with:
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
-      - uses: actions/checkout@v4 # v3.5.2
+    - uses: hashicorp/setup-terraform@a1502cd9e758c50496cc9ac5308c4843bcd56d36 # v3
+      with:
+        terraform_version: '1.3.*'
+        terraform_wrapper: false
+    # Make cosign/crane CLI available to the tests
+    - uses: sigstore/cosign-installer@9614fae9e5c5eddabb09f90a270fcb487c9f7149 # v3.3.0
+    - uses: imjasonh/setup-crane@00c9e93efa4e1138c9a7a5c594acd6c75a2fbf0c # v0.3
 
-      - uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: '1.3.*'
-          terraform_wrapper: false
-      # Make cosign/crane CLI available to the tests
-      - uses: sigstore/cosign-installer@v3.1.0
-      - uses: imjasonh/setup-crane@v0.3
+    - uses: chainguard-dev/actions/setup-k3d@main
+      with:
+        k3s-image: cgr.dev/chainguard/k3s:latest@sha256:0c460cd61d3d062fc2eb7d9452bfa2f67a0e37a8566e104270006a879e1d07b9
 
-      - uses: chainguard-dev/actions/setup-k3d@main
-        with:
-          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:5bf7e7eebcff66a03f360511155b90732dd2b9ebcf4079bbf0c3d9501d717ddc
+    - name: Build
+      timeout-minutes: 60
+      run: |
+        set -eo pipefail
 
-      # Disable version tags.
-      - run: |
-          echo "TF_APKO_DISABLE_VERSION_TAGS=true" >> $GITHUB_ENV
+        make init
+        targets=""
+        for image in ${{ matrix.shard.images }}; do
+          targets+=' -target='module."${image}"''
+        done
+        terraform apply ${targets} -auto-approve --parallelism=$(nproc) -json | tee /tmp/mega-module.tf.json | jq -r '.["@message"]'
 
-      - name: Terraform apply
-        env:
-          APKO_IMAGE: ghcr.io/wolfi-dev/apko:latest@sha256:0e59c4b632ffc02ef2bd3472124d2abc7834c896e79c1d67dafea51dab09e31c
-          TF_VAR_target_repository: registry.local:5000/testing
-        run: |
-          set -x -o pipefail
-          env | grep '^TF_VAR_'
+    - name: Collect TF diagnostics
+      if: ${{ always() }}
+      uses: chainguard-dev/actions/terraform-diag@main
+      with:
+        json-file: /tmp/mega-module.tf.json
 
-          echo ::group::terraform init
-          terraform init
-          echo ::endgroup::
-          terraform apply -auto-approve "-target=module.${{ matrix.imageName }}" -json | tee /tmp/${{ matrix.imageName }}.tf.json | jq -r '.["@message"]'
+    - name: Upload terraform logs
+      if: always()
+      uses: actions/upload-artifact@1eb3cb2b3e0f29609092a73eb033bb759a334595 # v3
+      with:
+        name: "mega-module-${{ matrix.shard.index }}.tf.json"
+        path: /tmp/mega-module.tf.json
 
-      - name: Collect diagnostics and upload
-        if: ${{ failure() }}
-        uses: chainguard-dev/actions/k8s-diag@main
-        with:
-          cluster-type: k3d
-
-      - name: Surface terraform warnings.
-        if: always()
-        run: grep '"@level":"warn"' /tmp/${{ matrix.imageName }}.tf.json | jq || true
-
-      - name: Surface terraform errors
-        if: failure()
-        run: grep '"@level":"error"' /tmp/${{ matrix.imageName }}.tf.json | jq  || true
-
-      - name: Upload terraform logs
-        if: always()
-        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3
-        with:
-          name: ${{ matrix.imageName }}.tf.json
-          path: /tmp/${{ matrix.imageName }}.tf.json
+    - name: Collect diagnostics and upload
+      if: ${{ failure() }}
+      uses: chainguard-dev/actions/k8s-diag@main
+      with:
+        cluster-type: k3d
+        namespace-resources: deploy,ds,sts,pods
 
   presubmit-roundup:
-    needs:
-      - presubmit-build-0
+    needs: build-the-world
     runs-on: ubuntu-latest
     if: always()
     steps:

@@ -1,0 +1,39 @@
+contents:
+  packages:
+    # Package "dex" comes in via var.extra_packages
+    - gomplate
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 1001
+  users:
+    - username: nonroot
+      uid: 1001
+      gid: 1001
+  run-as: 1001
+
+paths:
+  - path: /var/dex
+    type: directory
+    uid: 1001
+    gid: 1001
+    permissions: 0o755
+    recursive: true
+  - path: /etc/dex
+    uid: 1001
+    gid: 1001
+    type: directory
+    permissions: 0o755
+    recursive: true
+  - path: /srv/dex
+    type: directory
+    uid: 1001
+    gid: 1001
+    permissions: 0o755
+    recursive: true
+
+entrypoint:
+  command: /usr/bin/docker-entrypoint
+
+cmd: dex serve /etc/dex/config.docker.yaml

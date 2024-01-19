@@ -1,5 +1,20 @@
+terraform {
+  required_providers {
+    oci = { source = "chainguard-dev/oci" }
+  }
+}
+
 variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
+}
+
+module "config" {
+  source = "./config"
+  extra_packages = [
+    "gradle-8",
+    "openjdk-17",
+    "openjdk-17-default-jvm",
+  ]
 }
 
 module "latest" {
@@ -8,13 +23,7 @@ module "latest" {
   name = basename(path.module)
 
   target_repository = var.target_repository
-  config            = file("${path.module}/configs/latest.apko.yaml")
-}
-
-module "version-tags" {
-  source  = "../../tflib/version-tags"
-  package = "gradle-8"
-  config  = module.latest.config
+  config            = module.config.config
 }
 
 module "test-latest" {
@@ -22,12 +31,8 @@ module "test-latest" {
   digest = module.latest.image_ref
 }
 
-module "tagger" {
-  source = "../../tflib/tagger"
-
+resource "oci_tag" "latest" {
   depends_on = [module.test-latest]
-
-  tags = merge(
-    { for t in toset(concat(["latest"], module.version-tags.tag_list)) : t => module.latest.image_ref },
-  )
+  digest_ref = module.latest.image_ref
+  tag        = "latest"
 }

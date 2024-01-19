@@ -178,15 +178,16 @@ locals {
     serviceaccount: tuf-secret-copy-job
     backoffLimit: 6
 
-  # TODO: Enable TSA
-  # Warning  FailedMount  114s (x12 over 10m)  kubelet            MountVolume.SetUp failed for volume "tsa-key" : secret "tsa-server-secret" not found
   tsa:
-    enabled: false
+    enabled: true
     namespace:
-      name: tsa-system
       create: true
-    forceNamespace: tsa-system
     server:
-      fullnameOverride: tsa-server
+      args:
+        signer: memory
+      image:
+        registry: ${data.oci_string.images["tsa-server"].registry}
+        repository: ${data.oci_string.images["tsa-server"].repo}
+        version: ${data.oci_string.images["tsa-server"].digest}
   EOF
 }

@@ -9,11 +9,13 @@ variable "digests" {
   type = object({
     api-server            = string
     cache-server          = string
+    metadata-envoy        = string
     metadata-writer       = string
     persistenceagent      = string
     scheduledworkflow     = string
     viewer-crd-controller = string
     cache-deployer        = string
+    frontend              = string
   })
 }
 
@@ -34,6 +36,7 @@ data "oci_exec_test" "smoke" {
     name  = "IMAGE_REPOSITORY_APISERVER_TAG"
     value = data.oci_string.ref["api-server"].pseudo_tag
   }
+
   env {
     name  = "IMAGE_REPOSITORY_CACHESERVER"
     value = data.oci_string.ref["cache-server"].registry_repo
@@ -42,6 +45,7 @@ data "oci_exec_test" "smoke" {
     name  = "IMAGE_REPOSITORY_CACHESERVER_TAG"
     value = data.oci_string.ref["cache-server"].pseudo_tag
   }
+
   env {
     name  = "IMAGE_REPOSITORY_CACHEDEPLOYER"
     value = data.oci_string.ref["cache-deployer"].registry_repo
@@ -50,6 +54,7 @@ data "oci_exec_test" "smoke" {
     name  = "IMAGE_REPOSITORY_CACHEDEPLOYER_TAG"
     value = data.oci_string.ref["cache-deployer"].pseudo_tag
   }
+
   env {
     name  = "IMAGE_REPOSITORY_METADATAWRITER"
     value = data.oci_string.ref["metadata-writer"].registry_repo
@@ -57,6 +62,15 @@ data "oci_exec_test" "smoke" {
   env {
     name  = "IMAGE_REPOSITORY_METADATAWRITER_TAG"
     value = data.oci_string.ref["metadata-writer"].pseudo_tag
+  }
+
+  env {
+    name  = "IMAGE_REPOSITORY_METADATA_ENVOY"
+    value = data.oci_string.ref["metadata-envoy"].registry_repo
+  }
+  env {
+    name  = "IMAGE_REPOSITORY_METADATA_ENVOY_TAG"
+    value = data.oci_string.ref["metadata-envoy"].pseudo_tag
   }
 
   env {
@@ -84,5 +98,14 @@ data "oci_exec_test" "smoke" {
   env {
     name  = "IMAGE_REPOSITORY_VIEWERCRDCONTROLLER_TAG"
     value = data.oci_string.ref["viewer-crd-controller"].pseudo_tag
+  }
+
+  env {
+    name  = "IMAGE_REPOSITORY_FRONTEND"
+    value = data.oci_string.ref["frontend"].registry_repo
+  }
+  env {
+    name  = "IMAGE_REPOSITORY_FRONTEND_TAG"
+    value = data.oci_string.ref["frontend"].pseudo_tag
   }
 }

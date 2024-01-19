@@ -1,0 +1,40 @@
+contents:
+  packages: [
+    # Package "qdrant" comes in via var.extra_packages
+    # To add a version stream image, see the extra_packages variable in config/main.tf to add packages conditionally.
+    # Otherwise, just add packages here.
+    busybox,
+    qdrant-oci-entrypoint,
+    qdrant-oci-compat,
+    bash
+  ]
+
+accounts:
+  groups:
+    - groupname: qdrant
+      gid: 1000
+    - groupname: fsgroup
+      gid: 3000
+      members: [qdrant]
+  users:
+    - username: qdrant
+      uid: 1000
+      gid: 1000
+  # We have to default to running as root, the helm chart will drop this down in the right places.
+  run-as: 0
+
+paths:
+  - path: /qdrant
+    type: directory
+    uid: 1000
+    gid: 1000
+    recursive: true
+    permissions: 0o755
+
+environment:
+  RUN_MODE: production
+
+work-dir: /qdrant
+
+entrypoint:
+  command: /usr/lib/qdrant/entrypoint.sh

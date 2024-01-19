@@ -34,6 +34,12 @@ paths:
     uid: 101
     gid: 101
     recursive: true
+  - path: /etc/ingress-controller/telemetry
+    type: directory
+    permissions: 0o755
+    uid: 101
+    gid: 101
+    recursive: true
   - path: /etc/ingress-controller/auth
     type: directory
     permissions: 0o755
@@ -89,6 +95,12 @@ paths:
     permissions: 0o755
     recursive: true
   - path: /etc/nginx
+    uid: 101
+    gid: 101
+    type: directory
+    permissions: 0o755
+    recursive: true
+  - path: /etc/nginx/geoip
     uid: 101
     gid: 101
     type: directory

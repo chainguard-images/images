@@ -31,17 +31,17 @@ locals {
 }
 
 module "config" {
-  for_each   = local.components
-  source     = "./config"
-  package    = local.packages[each.key]
-  entrypoint = local.entrypoints[each.key]
+  for_each       = local.components
+  source         = "./config"
+  extra_packages = [local.packages[each.key], "${local.packages[each.key]}-compat"]
+  entrypoint     = local.entrypoints[each.key]
 }
 
 module "latest" {
   for_each          = local.components
   source            = "../../tflib/publisher"
   name              = basename(path.module)
-  target_repository = "${var.target_repository}-${each.key}"
+  target_repository = local.repositories[each.key]
   config            = module.config[each.key].config
   build-dev         = true
 }

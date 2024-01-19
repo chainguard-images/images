@@ -26,44 +26,15 @@ module "tagger" {
   ]
 
   tags = merge(
-    # Tagging format for alpine/musl variant:
-    # - latest
-    # - latest-dev
-    # - latest-root
-    # - latest-root-dev
-    # - $v
-    # - $v-dev
-    # - root-$v
-    # - root-$v-dev
-    # Nonroot alpine variant
-    { for t in toset(module.version-tags-alpine["nonroot"].tag_list) : t => module.latest-alpine["nonroot"].image_ref },
-    { for t in toset(module.version-tags-alpine["nonroot"].tag_list) : "${t}-dev" => module.latest-alpine["nonroot"].dev_ref },
+    // Alpine-based tags.
     { "latest" = module.latest-alpine["nonroot"].image_ref },
     { "latest-dev" = module.latest-alpine["nonroot"].dev_ref },
-
-    # Root alpine variant
-    { for t in toset(module.version-tags-alpine["root"].tag_list) : "root-${t}" => module.latest-alpine["root"].image_ref },
-    { for t in toset(module.version-tags-alpine["root"].tag_list) : "root-${t}-dev" => module.latest-alpine["root"].dev_ref },
     { "latest-root" = module.latest-alpine["root"].image_ref },
     { "latest-root-dev" = module.latest-alpine["root"].dev_ref },
 
-    # Tagging format for wolfi/glibc variant:
-    # - latest-glibc
-    # - latest-glibc-dev
-    # - latest-glibc-root
-    # - glibc-$v
-    # - glibc-$v-dev
-    # - glibc-root-$v
-    # - glibc-root-$v-dev
-    # Nonroot wolfi variant
-    { for t in toset(module.version-tags-wolfi["nonroot"].tag_list) : "glibc-${t}" => module.latest-wolfi["nonroot"].image_ref },
-    { for t in toset(module.version-tags-wolfi["nonroot"].tag_list) : "glibc-${t}-dev" => module.latest-wolfi["nonroot"].dev_ref },
+    // Wolfi-based tags:
     { "latest-glibc" = module.latest-wolfi["nonroot"].image_ref },
     { "latest-glibc-dev" = module.latest-wolfi["nonroot"].dev_ref },
-
-    # Root wolfi variant
-    { for t in toset(module.version-tags-wolfi["root"].tag_list) : "glibc-root-${t}" => module.latest-wolfi["root"].image_ref },
-    { for t in toset(module.version-tags-wolfi["root"].tag_list) : "glibc-root-${t}-dev" => module.latest-wolfi["root"].dev_ref },
     { "latest-glibc-root" = module.latest-wolfi["root"].image_ref },
     { "latest-glibc-root-dev" = module.latest-wolfi["root"].dev_ref },
   )

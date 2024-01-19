@@ -12,16 +12,21 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal [redis-sentinel](https://redis.io/docs/management/sentinel/) Image which is compatible with [Bitnami's](https://github.com/bitnami/containers/tree/main/bitnami/redis-sentinel)
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/redis-sentinel
+docker pull cgr.dev/chainguard/redis-sentinel:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 See the [official usage documentation](https://redis.io/docs/management/sentinel/) on Redis.
+<!--body:end-->

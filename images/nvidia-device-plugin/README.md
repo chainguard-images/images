@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal [nvidia-device-plugin](https://github.com/NVIDIA/k8s-device-plugin) container image.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/nvidia-device-plugin
+docker pull cgr.dev/chainguard/nvidia-device-plugin:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 Ensure your environment satisfies the [prerequisites](https://github.com/NVIDIA/k8s-device-plugin#prerequisites).
@@ -73,3 +77,24 @@ image:
   repository: cgr.dev/chainguard/nvidia-device-plugin
   tag: latest
 ```
+
+When using this image with the `nvidia/gpu-operator` [helm chart](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/23.9.0/index.html) `bash` is required to run the mounted `/bin/entrypoint.sh` script.
+
+For this you should use the `latest-dev` variant.
+
+```
+helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
+helm repo update
+
+helm install --wait gpu  -n gpu-operator --create-namespace nvidia/gpu-operator
+```
+Values:
+```yaml
+driver:
+   enabled: false
+devicePlugin:
+  repository: cgr.dev/chainguard
+  image: nvidia-device-plugin
+  tag: latest-dev
+```
+<!--body:end-->

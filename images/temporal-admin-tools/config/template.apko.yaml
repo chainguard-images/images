@@ -1,0 +1,33 @@
+contents:
+  packages:
+    - busybox
+    - tini
+
+accounts:
+  groups:
+    - groupname: temporal
+      gid: 1000
+  users:
+    - username: temporal
+      uid: 1000
+      gid: 1000
+  run-as: 1000
+
+paths:
+  - path: /etc/temporal
+    type: directory
+    uid: 1000
+    gid: 1000
+    permissions: 0o755
+    recursive: true
+
+environment:
+  TEMPORAL_HOME: /etc/temporal
+
+entrypoint:
+  command: "/sbin/tini --"
+
+# This is what the upstream Dockerfile does, so we're replicating here: https://github.com/temporalio/docker-builds/blob/main/admin-tools.Dockerfile#L49
+cmd: "sleep infinity"
+
+work-dir: /etc/temporal

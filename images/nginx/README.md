@@ -12,69 +12,89 @@
 ---
 <!--monopod:end-->
 
-A minimal nginx base image rebuilt every night from source.
+<!--overview:start-->
+Minimal Wolfi-based nginx HTTP, reverse proxy, mail proxy, and a generic TCP/UDP proxy server
+<!--overview:end-->
 
-## Breaking Changes
-
-On May 3 2023 the Chainguard nginx image was rebuilt with several improvements, including
-breaking changes. You may need to take action to update your application. 
-
-Specifically, the config file was changed to bring the default configuration closer to that of
-official nginx image. If you override the config with a custom configuration, you should not be affected.
-
-The changes included:
-
- - Moving the default port from 80 to 8080. This is required to run on Kubernetes as a non-privileged user.
- - Setting nginx to automatically determine the number of worker processes
- - Moving the HTML directory to `/usr/share/nginx/html`
-
-If you are unable to update currently, you can use the last build of the previous image e.g: 
-
-```
-docker pull cgr.dev/chainguard/nginx@sha256:bcc6b0d052298112e4644b258de0fa4dc1509e3df8f7c0fba09e8c92987825e7
-```
-
-This digest corresponds to nginx version 1.24.0. This image is not updated and you should migrate to the
-new configuration as soon as possible.
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/nginx:latest
 ```
+<!--getting:end-->
 
+<!--compatibility:start-->
+## Compatibility Notes
+
+On May 3, 2023 the Chainguard nginx Image was rebuilt with several improvements, including breaking changes. You may need to take action to update your application.
+
+Specifically, the config file was changed to bring the default configuration closer to that of the official nginx image. If you override the config with a custom configuration, you should not be affected.
+
+The changes included:
+
+ - Moving the default port from `80` to `8080`. This is required to run on Kubernetes as a non-privileged user.
+ - Setting nginx to automatically determine the number of worker processes
+ - Moving the HTML directory to `/usr/share/nginx/html`
+
+If you are unable to update currently, you can use the last build of the previous image:
+
+```sh
+docker pull cgr.dev/chainguard/nginx@sha256:bcc6b0d052298112e4644b258de0fa4dc1509e3df8f7c0fba09e8c92987825e7
+```
+
+This digest corresponds to nginx version 1.24.0. This image is not updated and you should migrate to the new configuration as soon as possible.
+
+<!--compatibility:end-->
+
+<!--body:start-->
 ## Usage
 
 To try out the image, run:
 
-```
+```sh
 docker run -p 8080:8080 cgr.dev/chainguard/nginx
 ```
 
-If you navigate to `localhost:8080`, you should see the nginx welcome page.
+Following that, navigate to `localhost:8080` in your web browser. There, you will find the default nginx welcome page.
 
-To run an example Hello World app, navigate to the root of this repo and run:
+You can also use the nginx Image to serve your own custom content. As an example, create a file named `index.html` with the following command:
 
+```sh
+cat > idex.html <<EOF
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Nginx</title>
+</head>
+<body>
+  <h2>Hello World from Nginx!</h2>
+</body>
+</html>
+EOF
 ```
-docker run -v $(pwd)/examples/hello-world/site-content:/usr/share/nginx/html -p 8080:8080 cgr.dev/chainguard/nginx
+
+Then can instruct the the nginx Image to serve the `index.html` file:
+
+```sh
+docker run -v $(pwd):/usr/share/nginx/html -p 8080:8080 cgr.dev/chainguard/nginx
 ```
 
-If you navigate to `localhost:8080`, you should see `Hello World from Nginx!`.
+If you navigate to `localhost:8080` in your web browser, it will return `Hello World from Nginx!`.
 
 To use a custom `nginx.conf` you can mount the file into the container, being sure to edit the `-p 8080:8080` published port(s) to match your configuration's `listen` directive:
 
-```
+```sh
 docker run -v $(pwd)/$CUSTOM_NGINX_CONF_DIRECTORY/nginx.conf:/etc/nginx/nginx.conf -p 8080:8080 cgr.dev/chainguard/nginx
 ```
 
 ## Run in a read-only File System
 
-If you want to run with read-only filesystem, you will need to mount the `/var/run` and
-`/var/lib/nginx/tmp` directories. The easiest way to do this is with `--tmpfs` e.g:
+If you want to run with read-only filesystem, you will need to mount the `/var/run` and `/var/lib/nginx/tmp` directories. The easiest way to do this is with `--tmpfs` e.g:
 
-```
+```sh
 docker run \
   --read-only \
   --tmpfs /var/lib/nginx/tmp/ --tmpfs /var/run/ \
@@ -87,32 +107,28 @@ docker run \
 
 Starting the container gives the following warning:
 
-```
+```sh
 nginx: [warn] the "user" directive makes sense only if the master process runs with super-user privileges, ignored in /etc/nginx/nginx.conf:2
 ```
 
-The warning is telling us container is already running as the named user, so it doesn't have
-anything to do. If the container is run as root, it would switch to the named user. We decided to
-leave this configuration in despite the warning for anyone that runs with `--user` switch in Docker
-or an equivalent.
+The warning is telling us container is already running as the named user, so it doesn't have anything to do. If the container is run as root, it would switch to the named user. We decided to leave this configuration in despite the warning for anyone that runs with `--user` switch in Docker or an equivalent.
 
-## Differences to [Docker Official Image](https://hub.docker.com/_/nginx)
 
-Where possible, the image tries to stay close to Docker official image configuration. However our
-image strives for minimalism and the default image does not include a shell or package manager,
-meaning it isn't possible to achieve an identical configuration. In this section we outline the
-major differences.
+## Differences from [Official Docker Image](https://hub.docker.com/_/nginx)
+
+Wherever possible, the Chainguard nginx Image tries to follow the same configuration as the official Docker version. However, Chainguard designs Images with minimalism in mind; many Chainguard Images, by default, don't include a shell or package manager. This means that it's often impossible to achieve an identical configuration as the upstream version, as is the case between Chainguard's nginx Image and the official image from Docker Hub. This section outlines the major differences between these images. 
+
+### Users
+
+The official Docker image starts as the root user and forks to a less privileged user. By contrast, the Chainguard nginx Image starts up as a less privileged user and no forking is required. For most users this shouldn't make a difference, but note the "User Directive Warning" outlined previously.
 
 ### Default port
 
-To support the change to an unprivileged user, the default port was moved to 8080, contrasting with
-port 80 used by the official image.
+To support the change to an unprivileged user, the default port was moved to `8080`, contrasting with port `80` used by the official image.
 
 ### IPv6 Support
 
-The official Docker image checks for the existence of `/proc/net/if_inet6` and automatically listens
-on `[::]:80` if it exists. For simplicity, we only listen on IPv4, but IPv6 support can be easily
-added by mounting a config file with a section such as:
+The official Docker image checks for the existence of `/proc/net/if_inet6` and automatically listens on `[::]:80` if it exists. For simplicity, we only listen on IPv4, but you can add IPv6 support by mounting a configuration file with a section like the following:
 
 ```
 server {
@@ -122,15 +138,10 @@ server {
 
 ```
 
-Note that the default config has the relevant section at `/etc/nginx/conf.d/default.conf`
-
-### Users
-
-The official Docker image starts as the root user and forks to a less privileged user. By contrast,
-our image starts up as a less priviliged user and no forking is required. For most users this
-shouldn't make a difference, but note the "User Directive Warning" above.
+Note that the default configuration file in the Chainguard nginx Image has the relevant section at `/etc/nginx/conf.d/default.conf`
 
 ### Environment Variable Substitution
 
-The Docker official image has support for setting environment variables that get substitued into the
-config file. Currently we do not have support for this, but are [looking into options](https://github.com/chainguard-images/images/issues/435). 
+The Docker official image has support for setting environment variables that get substituted into the
+config file. Currently we do not have support for this, but are [looking into options](https://github.com/chainguard-images/images/issues/435).
+<!--body:end-->

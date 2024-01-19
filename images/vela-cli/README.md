@@ -12,12 +12,18 @@
 ---
 <!--monopod:end-->
 
-Minimal image for vela-cli.
+<!--overview:start-->
+Vela is a Pipeline Automation (CI/CD) framework built on Linux container technology written in Golang.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/vela-cli:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

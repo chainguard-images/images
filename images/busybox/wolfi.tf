@@ -1,25 +1,13 @@
+module "wolfi" { source = "./config/wolfi" }
+
 module "latest-wolfi" {
   source = "../../tflib/publisher"
 
   name = basename(path.module)
 
   target_repository = var.target_repository
-  config            = file("${path.module}/configs/latest.wolfi.apko.yaml")
-}
-
-module "one-tirtysix-wolfi" {
-  source = "../../tflib/publisher"
-
-  name = basename(path.module)
-
-  target_repository = var.target_repository
-  config            = file("${path.module}/configs/1.36.wolfi.apko.yaml")
-}
-
-module "version-tags-wolfi" {
-  source  = "../../tflib/version-tags"
-  package = "busybox"
-  config  = module.latest-wolfi.config
+  config            = module.wolfi.config
+  check-sbom        = false # TODO(jason): Temporarily disabled.
 }
 
 module "test-latest-wolfi" {

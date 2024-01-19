@@ -13,13 +13,15 @@ data "oci_string" "ref" {
   input = var.digest
 }
 
+resource "random_pet" "suffix" {}
+
 resource "helm_release" "coredns" {
-  name = "coredns"
+  name = "coredns-${random_pet.suffix.id}"
 
   repository = "https://coredns.github.io/helm"
   chart      = "coredns"
 
-  namespace        = "coredns"
+  namespace        = "coredns-${random_pet.suffix.id}"
   create_namespace = true
   wait             = true
 
@@ -36,7 +38,7 @@ resource "helm_release" "coredns" {
 
 resource "kubernetes_job_v1" "check_coredns" {
   metadata {
-    name      = "check-coredns"
+    name      = "check-coredns-${random_pet.suffix.id}"
     namespace = helm_release.coredns.namespace
   }
 
@@ -51,7 +53,7 @@ resource "kubernetes_job_v1" "check_coredns" {
           command = ["/bin/sh", "-c"]
           args = [
             # Check that our Corefile returns what we want, validating that corends is ~functioning
-            "nslookup -q=TXT ping.chainguard.foo coredns-coredns.coredns.svc.cluster.local 2>&1 | grep -q '\\\"pong\\\"' || (echo 'Warning: TXT record for ping.chainguard.foo is not \"pong\"' && exit 1)"
+            "nslookup -q=TXT ping.chainguard.foo ${helm_release.coredns.id}.${helm_release.coredns.namespace}.svc.cluster.local 2>&1 | grep -q '\\\"pong\\\"' || (echo 'Warning: TXT record for ping.chainguard.foo is not \"pong\"' && exit 1)"
           ]
         }
         restart_policy = "Never"

@@ -12,20 +12,24 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Container image for running [melange](https://github.com/chainguard-dev/melange) workflows to build APK packages.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/melange:latest
 ```
+<!--getting:end-->
 
-To build the melange workflow in [examples](examples/gnu-hello.yaml):
+<!--body:start-->
+To build the melange workflow in [examples](tests/minimal.yaml):
 
 ```
-docker run --privileged -v "$PWD":/work cgr.dev/chainguard/melange build /work/examples/gnu-hello.yaml
+docker run --privileged -v "$PWD":/work cgr.dev/chainguard/melange build /work/tests/minimal.yaml
 ```
 
 Output will be in the `packages` directory.
@@ -33,13 +37,13 @@ Output will be in the `packages` directory.
 To build the melange package for the host architecture:
 
 ```
-docker run --privileged -v "$PWD":/work cgr.dev/chainguard/melange build --empty-workspace --arch $(uname -m) /work/melange.yaml
+docker run --privileged -v "$PWD":/work cgr.dev/chainguard/melange build --empty-workspace --arch $(uname -m) /work/tests/minimal.yaml
 ```
 
-To get a shell, you can change the entrypoint:
+To get a shell, you can use the `-dev` variant, and change the entrypoint:
 
 ```
-docker run --privileged -v "$PWD":/work -it --entrypoint /bin/sh cgr.dev/chainguard/melange
+docker run --privileged -v "$PWD":/work -it --entrypoint /bin/sh cgr.dev/chainguard/melange:latest-dev
 
 / # melange version
 ...
@@ -47,3 +51,4 @@ docker run --privileged -v "$PWD":/work -it --entrypoint /bin/sh cgr.dev/chaingu
 Note that melange uses bubblewrap internally, which requires various Linux capabilities, hence the
 use of `--privileged`. Because of this requirement, we recommend this image is used only for local
 development and testing.
+<!--body:end-->

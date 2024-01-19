@@ -12,11 +12,31 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
+[Calico](https://projectcalico.docs.tigera.io/) is a networking and security solution that enables Kubernetes workloads and non-Kubernetes/legacy workloads to communicate seamlessly and securely.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/calico:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 ## Installation
 
-There are several ways to install Calico. This document follows the upstream recommended way with the `tigera-operator` ([ref](https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart#install-calico)).
+There are several ways you can install Calico onto a Kubernetes cluster. This document follows method recommended in the [official Calico documentation](https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart#install-calico) which involves using the Tigera Calico operator. 
 
-There are two CRDs involved that work together to use the correct Chainguard Images:
+After setting up and connecting to the Kubernetes cluster where you want to install Calico, install the Tigera Calico operator and custom resource definitions (CRDs).
+
+```shell
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.4/manifests/tigera-operator.yaml
+```
+
+Then apply the following YAML manifest to create two CRDs.
 
 ```yaml
 ---
@@ -28,27 +48,20 @@ metadata:
 spec:
   images:
     - image: calico/node
-      # crane digest cgr.dev/chainguard/calico-node:latest
-      digest: $node_digest
+      digest: ... # Replace with $(crane digest cgr.dev/chainguard/calico-node:latest)
     - image: calico/cni
-      # crane digest cgr.dev/chainguard/calico-cni:latest
-      digest: $cni_digest
+      digest: ... # Replace with $(crane digest cgr.dev/chainguard/calico-cni:latest)
     - image: calico/kube-controllers
-      # crane digest cgr.dev/chainguard/calico-kube-controllers:latest
-      digest: $calico-kube-controllers
+      digest: ... # Replace with $(crane digest cgr.dev/chainguard/calico-kube-controllers:latest)
     - image: calico/pod2daemon-flexvol
-      # crane digest cgr.dev/chainguard/calico-pod2daemon-flexvol:latest
-      digest: $calico-pod2daemon-flexvol
+      digest: ... # Replace with $(crane digest cgr.dev/chainguard/calico-pod2daemon-flexvol:latest)
     - image: calico/csi
-      # crane digest cgr.dev/chainguard/calico-csi:latest
-      digest: $calico-csi
+      digest: ... # Replace with $(crane digest cgr.dev/chainguard/calico-csi:latest)
     - image: calico/typha
-      # crane digest cgr.dev/chainguard/calico-typha:latest
-      digest: $calico-typha
+      digest: ... # Replace with $(crane digest cgr.dev/chainguard/calico-typha:latest)
     - image: calico/node-driver-registrar
-      # crane digest cgr.dev/chainguard/calico-node-driver-registrar:latest
-      digest: $calico-node-driver-registrar
-    # This isn't used on Linux, it just needs to have a value.
+      digest: ... # Replace with $(crane digest cgr.dev/chainguard/calico-node-driver-registrar:latest)
+    # This isn't used on Linux, but it needs to have a value containing a valid digest.
     - image: calico/windows-upgrade
       digest: sha256:0000000000000000000000000000000000000000000000000000000000000000
 
@@ -65,4 +78,11 @@ spec:
   imagePrefix: calico-
 ```
 
-The above combination of `ImageSet` and `Installation` can be used as a drop in replacement for the [upstream documentation](https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart#install-calico) step 2 (`custom-resources.yaml`) to correctly rename the Calico images to their `cgr.dev` variants.
+The combination of these `ImageSet` and `Installation` CRDs serve as a drop in replacement for [Step 2 of the upstream documentation](https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart#install-calico). Together, these correctly rename the Calico images to their `cgr.dev` variants.
+
+After creating the CRDs, you can ensure that the pods are running with a command like the following.
+
+```shell
+kubectl get pods -n calico-system
+```
+<!--body:end-->

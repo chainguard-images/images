@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal Prometheus Image
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/prometheus:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 This requires a prometheus configuration file to run.
@@ -57,3 +61,4 @@ ts=2022-12-27T02:32:45.188Z caller=main.go:1234 level=info msg="Completed loadin
 ts=2022-12-27T02:32:45.188Z caller=main.go:978 level=info msg="Server is ready to receive web requests."
 ts=2022-12-27T02:32:45.188Z caller=manager.go:953 level=info component="rule manager" msg="Starting rule manager..."
 ```
+<!--body:end-->

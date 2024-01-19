@@ -4,16 +4,21 @@ terraform {
   }
 }
 
+module "accts" { source = "../../../tflib/accts" }
+
 variable "extra_packages" {
   description = "The additional packages to install (e.g. memcached-exporter)."
   default     = ["memcached-exporter"]
 }
 
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
-}
-
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    contents = {
+      packages = var.extra_packages
+    }
+    accounts = module.accts.block
+    entrypoint = {
+      command = "/usr/bin/memcached_exporter"
+    }
+  })
 }

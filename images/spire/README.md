@@ -12,17 +12,31 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimalist Wolfi-based `spire` images.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/spire:latest
+```
+<!--getting:end-->
+
+<!--compatibility:start-->
+## Compatibility Notes
 
 **Note**: Unlike most other Chainguard images, the `spire-agent` image must run as root.
 This is due to a constraint in the way it is typically deployed into Kubernetes clusters.
 See https://github.com/spiffe/spire/issues/1862 for more context.
 
-## Get It!
+<!--compatibility:end-->
 
-The image is available on `cgr.dev`:
+<!--body:start-->
 
-```
-docker pull cgr.dev/chainguard/spire-agent:latest
-docker pull cgr.dev/chainguard/spire-server:latest
-```
+**Note**: Unlike most other Chainguard images, the `spire-agent` image must run as root.
+This is due to a constraint in the way it is typically deployed into Kubernetes clusters.
+See https://github.com/spiffe/spire/issues/1862 for more context.
+<!--body:end-->

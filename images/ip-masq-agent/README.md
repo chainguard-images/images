@@ -11,3 +11,19 @@
 
 ---
 <!--monopod:end-->
+
+<!--overview:start-->
+Minimal image to manage IP masquerading on Kubernetes nodes
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/ip-masq-agent:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

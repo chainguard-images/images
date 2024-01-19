@@ -18,6 +18,7 @@ function cleanup() {
     if [ -z "$CI" ]; then
         k3d cluster delete $CLUSTER_NAME
     fi
+    kill $PORT_FORWARD_PID &>/dev/null
 }
 trap cleanup EXIT
 
@@ -63,11 +64,39 @@ rm cilium-${GOOS}-${GOARCH}.tar.gz{,.sha256sum}
 
 # Install cilium
 $TMPDIR/cilium install --context k3d-$CLUSTER_NAME \
+    --helm-set hubble.relay.enabled=true \
+    --helm-set hubble.ui.enabled=true \
     --helm-set image.override=$AGENT_IMAGE \
+    --helm-set hubble.relay.image.override=$HUBBLE_RELAY_IMAGE \
+    --helm-set hubble.ui.frontend.image.override=$HUBBLE_UI_IMAGE \
+    --helm-set hubble.ui.backend.image.override=$HUBBLE_UI_BACKEND_IMAGE \
     --helm-set operator.image.override=$OPERATOR_IMAGE
 
 $TMPDIR/cilium status --context k3d-$CLUSTER_NAME --wait
-$TMPDIR/cilium connectivity test --context k3d-$CLUSTER_NAME
+
+QUAY_IMAGES=$($TMPDIR/cilium status --context k3d-$CLUSTER_NAME -o json | grep quay.io || true )
+if [ -n "$QUAY_IMAGES" ]; then
+    echo "error: quay.io images were pulled, but should have been overridden"
+    echo "$QUAY_IMAGES"
+    exit 1
+fi
+
+# Run the network connectivity test suite
+$TMPDIR/cilium connectivity test --context k3d-$CLUSTER_NAME \
+    `# Use 8.8.8.8 and 8.8.4.4 because the default IPs` \
+    `# 1.1.1.1 and 1.0.0.1 are usually blocked by firewalls` \
+    --external-cidr 8.0.0.0/8 \
+    --external-ip 8.8.8.8 \
+    --external-other-ip 8.8.4.4 \
+    --test \!no-unexpected-packet-drops
+
+# Test the hubble UI
+kubectl --context k3d-$CLUSTER_NAME create configmap cypress --from-file $SCRIPT_DIR/cypress
+kubectl --context k3d-$CLUSTER_NAME apply -f $SCRIPT_DIR/cypress.yaml
+kubectl --context k3d-$CLUSTER_NAME wait \
+    --for=condition=complete \
+    --timeout=5m \
+    job/cypress
 
 # Clean up
 k3d cluster delete $CLUSTER_NAME

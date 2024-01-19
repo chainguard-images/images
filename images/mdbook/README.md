@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
-This is an image that contains mdbook.
+<!--overview:start-->
+Minimal image that contains [mdbook](https://rust-lang.github.io/mdBook/).
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/mdbook:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 # Usage
 
 Example: build an mdbook project in the `/work` directory
@@ -33,3 +37,4 @@ docker run --rm \
     cgr.dev/chainguard/mdbook:latest
     init --force --title chainguard-images --ignore git
 ```
+<!--body:end-->

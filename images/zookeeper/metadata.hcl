@@ -1,0 +1,10 @@
+name                = "zookeeper"
+image               = "cgr.dev/chainguard/zookeeper"
+logo                = "https://storage.googleapis.com/chainguard-academy/logos/zookeeper.svg"
+endoflife           = ""
+console_summary     = ""
+short_description   = "Minimal image with Apache Zookeeper. **EXPERIMENTAL**"
+compatibility_notes = ""
+readme_file         = "README.md"
+
+upstream_url        = "https://zookeeper.apache.org/"

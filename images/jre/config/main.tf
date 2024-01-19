@@ -9,11 +9,31 @@ variable "extra_packages" {
   default     = ["default-jvm"]
 }
 
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
+variable "environment" {
+  default = {}
+}
+
+module "accts" {
+  source = "../../../tflib/accts"
+  name   = "java"
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    contents = {
+      packages = concat([
+        "glibc-locale-en",
+        "libstdc++",
+      ], var.extra_packages)
+    }
+    accounts = module.accts.block
+    work-dir = "/app"
+    environment = merge({
+      "LANG" : "en_US.UTF-8",
+      "JAVA_HOME" : "/usr/lib/jvm/default-jvm"
+    }, var.environment)
+    entrypoint = {
+      command = "/usr/bin/java"
+    }
+  })
 }

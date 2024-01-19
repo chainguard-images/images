@@ -12,6 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
+Crossplane lets you build a control plane with Kubernetes-style declarative and API-driven configuration and management for anything.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/crossplane-aws:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
 These images provide Crossplane providers for AWS.
 
 | Upstream Image | Chainguard Image |
@@ -31,3 +45,4 @@ metadata:
 spec:
   package: cgr.dev/chainguard/crossplane-aws-s3:latest
 ```
+<!--body:end-->

@@ -1,0 +1,27 @@
+contents:
+  packages: [
+    # hubble-ui-backend and gops come from extra_packages
+  ]
+
+accounts:
+  groups:
+    - groupname: hubble-ui-backend
+      gid: 65532
+  users:
+    - username: hubble-ui-backend
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+
+entrypoint:
+  command: /usr/bin/backend
+
+environment:
+  GOPS_CONFIG_DIR: /etc/hubble-ui/gops
+
+paths:
+  - path: /etc/hubble-ui/gops
+    type: directory
+    uid: 65532
+    gid: 65532
+    permissions: 0o755

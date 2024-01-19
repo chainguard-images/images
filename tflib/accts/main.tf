@@ -32,3 +32,19 @@ output "block" {
     run-as = var.run-as
   }
 }
+
+output "name" {
+  value = var.name
+}
+
+output "uid" {
+  value = var.uid
+}
+
+output "gid" {
+  value = var.gid
+}
+
+output "run-as" {
+  value = var.run-as
+}

@@ -12,20 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimal [Jenkins](https://jenkins.io) container image. **Currently experimental.**
+<!--overview:end-->
 
-- [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jenkins)
-- [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jenkins/overview/#use-it)
-- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jenkins/provenance_info/)
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/jenkins:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Use It
 
 This is an experimental image and subject to change.  We welcome all feedback.
@@ -51,3 +51,4 @@ docker run --rm \
 cp -r /var/jenkins_home /backup-dir/
 exit
 ```
+<!--body:end-->

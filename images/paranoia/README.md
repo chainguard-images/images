@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimalist Wolfi-based paranoia image for inspecting certificate authorities in container images
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/paranoia:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 Paranoia can be used to list out the certificates in a container image:
@@ -29,3 +33,4 @@ Paranoia can be used to list out the certificates in a container image:
 ```
 docker run --rm cgr.dev/chainguard/paranoia:latest export alpine:latest
 ```
+<!--body:end-->

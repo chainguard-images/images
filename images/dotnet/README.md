@@ -11,3 +11,19 @@
 
 ---
 <!--monopod:end-->
+
+<!--overview:start-->
+Minimal image for .NET and the .NET Tools.
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/dotnet:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

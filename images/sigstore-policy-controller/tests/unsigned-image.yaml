@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  generateName: unsigned-
+spec:
+  restartPolicy: Never
+  containers:
+  - name: sample
+    image: docker.io/alpine:latest
+    command: [/bin/sh, -c, "exit 0"]

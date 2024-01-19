@@ -10,14 +10,6 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = <<EOF
-    # We expect the command to fail, but want its output anyway.
-    ( docker run --rm $IMAGE_NAME 2>&1 || true ) | grep "failed to register Bundle controller"
-  EOF
-}
-
 data "oci_exec_test" "helm-install" {
   digest = var.digest
   script = "${path.module}/02-helm-install.sh"

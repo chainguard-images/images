@@ -1,0 +1,51 @@
+contents:
+  packages:
+    - python3
+    - busybox
+    - bash
+    - cassandra
+    - cassandra-compat
+
+accounts:
+  groups:
+    - groupname: cassandra
+      gid: 999
+  users:
+    - username: cassandra
+      uid: 999
+  run-as: 999
+
+work-dir: /
+
+entrypoint:
+  command: /opt/cassandra/bin/cassandra -f
+
+environment:
+  LANG: en_US.UTF-8
+  CASSANDRA_HOME: /opt/cassandra
+  PATH: /usr/sbin:/sbin:/usr/bin:/bin:/opt/cassandra/bin/
+
+paths:
+  - path: /var/lib/cassandra
+    type: directory
+    permissions: 0o777
+    uid: 999
+    gid: 999
+    recursive: true
+  - path: /opt/cassandra
+    type: directory
+    permissions: 0o777
+    uid: 999
+    gid: 999
+    recursive: true
+  - path: /var/lib/cassandra
+    type: directory
+    permissions: 0o777
+    uid: 999
+    gid: 999
+  - path: /var/log/cassandra
+    type: directory
+    permissions: 0o777
+    uid: 999
+    gid: 999
+    recursive: true

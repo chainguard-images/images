@@ -20,8 +20,7 @@ module "tagger" {
   ]
 
   tags = merge(
-    { for t in toset(concat(["latest"], module.version-tags-alpine.tag_list)) : t => module.latest-alpine.image_ref },
-    { for t in toset(module.version-tags-wolfi.tag_list) : "glibc-${t}" => module.latest-wolfi.image_ref },
+    { "latest" = module.latest-alpine.image_ref },
     { "latest-glibc" = module.latest-wolfi.image_ref },
   )
 }

@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
-Minimal Metacontroller Container
+<!--overview:start-->
+Minimal Metacontroller Image
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/:latest
+docker pull cgr.dev/chainguard/metacontroller:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 This image is a drop-in replacement for the upstream image.
@@ -36,3 +40,4 @@ $ helm install my-metacontroller-helm oci://ghcr.io/metacontroller/metacontrolle
 ```
 
 See the [configuration](https://metacontroller.github.io/metacontroller/guide/helm-install.html#configuration) docs for more examples.
+<!--body:end-->

@@ -12,59 +12,59 @@
 ---
 <!--monopod:end-->
 
-This is the base image for the [Wolfi Linux Distribution](wolfi.dev). It includes a shell and package manager,
-allowing further packages to be installed such as in a Dockerfile. 
+<!--overview:start-->
+Base image for the [Wolfi Linux Distribution](https://wolfi.dev).
+<!--overview:end-->
 
-This image is a great place to start when exploring Wolfi.
-
-## Image Variants
-
-As Wolfi is a rolling distribution, we only supply the "latest" tag. There are no point releases of
-Wolfi.
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/wolfi-base:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
-The image will start in a shell by default:
+The Chainguard `wolfi-base` Image includes a shell and package manager. The Image will start in a shell by default:
 
+```sh
+docker run -it cgr.dev/chainguard/wolfi-base
 ```
-$ docker run -it cgr.dev/chainguard/wolfi-base
-6d38c9b4f0d9:/# whoami
-root
-6d38c9b4f0d9:/# cat /etc/os-release
-ID=wolfi
-NAME="Wolfi"
-PRETTY_NAME="Wolfi"
-VERSION_ID="20230201"
-HOME_URL="https://wolfi.dev"
-6d38c9b4f0d9:/# exit
+```
+6d38c9b4f0d9:/#
 ```
 
-You can run commands directly:
+You can run commands from within the shell like this, or you can run commands directly on your local machine without opening a shell:
 
+```sh
+docker run cgr.dev/chainguard/wolfi-base ps
 ```
-$ docker run cgr.dev/chainguard/wolfi-base ps
+```
 PID   USER     TIME  COMMAND
     1 root      0:00 ps
 ```
 
-It's commonly used in Dockerfiles:
+This Image is commonly used in Dockerfiles, as in the following example:
 
 ```
-$ cat Dockerfile
 FROM cgr.dev/chainguard/wolfi-base
 
 RUN apk update && apk add redis
 
 ENTRYPOINT ["/usr/bin/redis-server"]
-$ docker build -t myredis --progress plain --no-cache .
+```
+
+This example Dockerfile will update `apk` and install the Redis server onto the base Image. 
+
+You could use a Dockerfile like this to build a new image:
+
+```sh
+docker build -t myredis --progress plain --no-cache .
+```
+```
 #0 building with "desktop-linux" instance using docker driver
 
 #1 [internal] load .dockerignore
@@ -94,17 +94,15 @@ $ docker build -t myredis --progress plain --no-cache .
 #6 writing image sha256:bde1c89d952e0e0155acb410ee8143b1daf542bd36a6b22c032250633d08bf76 done
 #6 naming to docker.io/library/myredis done
 #6 DONE 0.0s
+```
 
-$ docker run myredis
-1:C 23 Aug 2023 12:04:56.104 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
-1:C 23 Aug 2023 12:04:56.104 * Redis version=7.2.0, bits=64, commit=00000000, modified=0, pid=1, just started
-1:C 23 Aug 2023 12:04:56.104 # Warning: no config file specified, using the default config. In order to specify a config file use /usr/bin/redis-server /path/to/redis.conf
-1:M 23 Aug 2023 12:04:56.104 * monotonic clock: POSIX clock_gettime
-1:M 23 Aug 2023 12:04:56.105 * Running mode=standalone, port=6379.
-1:M 23 Aug 2023 12:04:56.105 * Server initialized
-1:M 23 Aug 2023 12:04:56.105 * Ready to accept connections tcp
+Following that, you can run the new image built from the `wolfi-base` Image.
+
+```
+docker run myredis
 ```
 
 ## Further Reading
 
-The [edu.chainguard.dev](https://edu.chainguard.dev) site contains extensive documentation on [getting started with Wolfi](https://edu.chainguard.dev/open-source/wolfi/overview/).
+To learn more, we encourage you to visit [Chainguard Academy](https://edu.chainguard.dev) which contains extensive documentation on [getting started with Wolfi](https://edu.chainguard.dev/open-source/wolfi/overview/).
+<!--body:end-->

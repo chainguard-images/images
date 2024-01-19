@@ -11,3 +11,19 @@
 
 ---
 <!--monopod:end-->
+
+<!--overview:start-->
+Minimal Logging operator for Kubernetes Image
+<!--overview:end-->
+
+<!--getting:start-->
+## Get It!
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/kube-logging-operator:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

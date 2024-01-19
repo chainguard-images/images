@@ -12,16 +12,20 @@
 ---
 <!--monopod:end-->
 
-Minimal image with Kubernetes External DNS. **EXPERIMENTAL**
+<!--overview:start-->
+Minimal image to configure external DNS servers (AWS Route53, Google CloudDNS and others) for Kubernetes Ingresses and Services
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/external-dns:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Using External DNS
 
 The Chainguard External DNS image is a drop-in replacement for the upstream image.
@@ -47,3 +51,4 @@ Flags:
                                  a Kubernetes configuration file (default:
                                  auto-detect)
 ```
+<!--body:end-->

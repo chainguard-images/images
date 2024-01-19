@@ -4,6 +4,11 @@ variable "extra_packages" {
   default     = []
 }
 
+module "accts" {
+  source = "../../../tflib/accts"
+  run-as = 0
+}
+
 output "config" {
   value = jsonencode({
     contents = {
@@ -13,6 +18,7 @@ output "config" {
         "curl",
       ], var.extra_packages)
     }
+    accounts = module.accts.block
     entrypoint = {
       command = "/bin/bash -c"
     }

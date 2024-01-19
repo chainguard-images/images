@@ -1,0 +1,74 @@
+contents:
+  packages:
+    - busybox
+
+accounts:
+  groups:
+    - groupname: grafana
+      gid: 65532
+  users:
+    - username: grafana
+      uid: 65532
+  run-as: 65532
+
+work-dir: /usr/share/grafana
+
+entrypoint:
+  command: /opt/grafana/run.sh
+
+environment:
+  LANG: en_US.UTF-8
+  PATH: /usr/share/grafana/bin:/usr/sbin:/sbin:/usr/bin:/bin
+  GF_PATHS_CONFIG: /etc/grafana/grafana.ini
+  GF_PATHS_DATA: /var/lib/grafana
+  GF_PATHS_HOME: /usr/share/grafana
+  GF_PATHS_LOGS: /var/log/grafana
+  GF_PATHS_PLUGINS: /var/lib/grafana/plugins
+  GF_PATHS_PROVISIONING: /etc/grafana/provisioning
+
+paths:
+  - path: /etc/grafana/provisioning/alerting
+    type: directory
+    uid: 65532
+    gid: 65532
+    permissions: 0o777
+  - path: /etc/grafana/provisioning/datasources
+    type: directory
+    uid: 65532
+    gid: 65532
+    permissions: 0o777
+  - path: /etc/grafana/provisioning/dashboards
+    type: directory
+    uid: 65532
+    gid: 65532
+    permissions: 0o777
+  - path: /etc/grafana/provisioning/notifiers
+    type: directory
+    uid: 65532
+    gid: 65532
+    permissions: 0o777
+  - path: /etc/grafana/provisioning/plugins
+    type: directory
+    uid: 65532
+    gid: 65532
+    permissions: 0o777
+  - path: /var/log/grafana
+    type: directory
+    uid: 65532
+    gid: 65532
+    permissions: 0o777
+  - path: /var/lib/grafana/plugins
+    type: directory
+    uid: 65532
+    gid: 65532
+    permissions: 0o777
+  - path: /var/lib/grafana
+    type: directory
+    uid: 65532
+    gid: 65532
+    permissions: 0o777
+  - path: /var/log/grafana
+    type: directory
+    uid: 65532
+    gid: 65532
+    permissions: 0o777

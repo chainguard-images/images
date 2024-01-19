@@ -12,23 +12,25 @@
 ---
 <!--monopod:end-->
 
-Minimalist Wolfi-based Java JDK image using OpenJDK.  Used for compiling Java applications.
+<!--overview:start-->
+Minimalist Wolfi-based Java JDK image using using [OpenJDK](https://openjdk.org/projects/jdk/).  Used for compiling Java applications.
+<!--overview:end-->
 
-- [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jdk)
-- [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jdk/overview/#use-it)
-- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/jdk/provenance_info/)
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/jdk:latest
 ```
+<!--getting:end-->
 
-## Use it
+<!--body:start-->
+## Java Application Example
 
-Create a simple Java class
+This section outlines how you can build a Java application with the Chainguard JDK Image.
+
+Start by creating a sample Java class named `HelloWolfi.java`:
 
 ```sh
 cat >HelloWolfi.java <<EOL
@@ -42,7 +44,7 @@ class HelloWolfi
 EOL
 ```
 
-Next create a multistage Dockerfile and add the Java class
+Then create a multistage Dockerfile, adding the Java class you just created:
 
 ```sh
 cat >Dockerfile <<EOL
@@ -58,13 +60,18 @@ CMD ["HelloWolfi"]
 EOL
 ```
 
-Build the image
+Following that, you can build the image:
 
 ```sh
-docker build -t my-simple-java-app .
+docker build -t my-java-app .
 ```
 
-Run the image
+Note that this example tags the image with `my-java-app`. You can now run the image by referencing this tag, as in the following command:
+
 ```sh
-docker run my-simple-java-app
+docker run my-java-app
 ```
+```
+Hello Wolfi users!
+```
+<!--body:end-->

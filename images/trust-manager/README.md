@@ -12,12 +12,18 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimalist Wolfi-based trust-manager operator for distributing trust bundles across a Kubernetes cluster.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/trust-manager:latest
 ```
+<!--getting:end-->
+
+<!--body:start-->
+<!--body:end-->

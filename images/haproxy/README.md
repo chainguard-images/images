@@ -12,22 +12,20 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
+A minimal [haproxy](https://www.haproxy.org/) base image rebuilt every night from source.
+<!--overview:end-->
 
-
-
-
-
-
-A minimal haproxy base image rebuilt every night from source.
-
+<!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/haproxy:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 Similar to the `docker-library/haproxy` image, this image does not come with any default configuration.
@@ -45,3 +43,20 @@ In order for the container to work, you need to mount your custom `haproxy.cfg` 
 ```
 docker run -it --rm -v "$(pwd):/etc/haproxy" cgr.dev/chainguard/haproxy haproxy -f /etc/haproxy/haproxy.cfg
 ```
+
+### Helm install
+
+When installing in Kubernetes, `securityContexts` that drop `[ "ALL" ]` capabilities interfere with the `setcap` privileged `haproxy`. In order to support Kubernetes based installs which default to dropping `ALL` capabilities, the necessary modifications must be made to add back `NET_ADMIN` capabilities.
+
+For example, in the `ha-redis` chart used by `argocd`, the `values.yaml` becomes:
+
+```yaml
+# values.yaml
+haproxy:
+  enabled: true
+  containerSecurityContext:
+    capabilities:
+      add:
+        - NET_BIND_SERVICE
+```
+<!--body:end-->

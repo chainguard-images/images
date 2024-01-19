@@ -1,8 +1,11 @@
 contents:
   packages:
     - busybox
+    # Helm charts for zookeeper use nc -q in probes, which busybox does not have.
+    - netcat-openbsd
     - glibc-locale-en
     - bash
+    - coreutils
     # zookeeper comes via var.extra_packages
     - openjdk-17-jre
     - openjdk-17-default-jvm
@@ -48,8 +51,8 @@ paths:
     gid: 1001
     permissions: 0o755
     recursive: true
-    
+
 environment:
   LANG: en_US.UTF-8
-  JAVA_HOME: /usr/lib/jvm/java-17-openjdk
+  JAVA_HOME: /usr/lib/jvm/default-jvm
   BITNAMI_APP_NAME: zookeeper

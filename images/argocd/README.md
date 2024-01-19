@@ -12,22 +12,25 @@
 ---
 <!--monopod:end-->
 
-[argocd](https://argo-cd.readthedocs.io/en/stable/) Declarative continuous deployment for Kubernetes.
+<!--overview:start-->
+[Argo CD](https://argo-cd.readthedocs.io/en/stable/) is a declarative continuous deployment tool for Kubernetes.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
-
-The images available on `cgr.dev`:
+The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/argocd
-docker pull cgr.dev/chainguard/argocd-repo-server
+docker pull cgr.dev/chainguard/argocd:latest
 ```
+<!--getting:end-->
 
-## Using argocd
+<!--body:start-->
+## Usage
 
-ArgoCD provides two upstream methods for installing, helm, and raw manifests.
+There are two recommended methods for installing Argo CD: using `helm` and raw manifests. Chainguard's Argo CD Image is designed to be a drop-in replacement for either method.
 
-The Chainguard Images for ArgoCD are designed to be a drop in replacement for either method. To use them, simply replace the appropriate `image:` path with the Chainguard specific ArgoCD image. Below is an example values file for doing this with helm:
+To use this Image, replace the appropriate `image:` value with the Chainguard Argo CD Image. The following is an example how such a value might appear within a Helm chart:
 
 ```yaml
 global:
@@ -35,11 +38,15 @@ global:
     repository: cgr.dev/chainguard/argocd
 ```
 
-Using the above values, the helm commands become:
+Based on these values, you would install Argo CD using the following `helm` commands. First, add the Argo Helm repository:
 
 ```bash
 helm repo add argo https://argoproj.github.io/argo-helm
+```
 
+Then you can install Argo CD:
+
+```bash
 helm install argocd argo/argo-cd \
 	--namespace argocd \
 	--create-namespace \
@@ -49,11 +56,11 @@ helm install argocd argo/argo-cd \
 	--set repoServer.image.tag="latest"
 ```
 
-Note the multiple images: `argocd` and `argocd-repo-server`. See the [components](#argocd-components) section below for more info.
+Note that this example uses multiple container images, namely `argocd` and `argocd-repo-server`. Refer to the following [components](#argocd-components) section for more information.
 
-> NOTE: Setting the tag to "latest" is not recommended, and only shown for illustrative purposes.
+> NOTE: Setting the tag to `latest` is not recommended, and only shown for illustrative purposes.
 
-Optionally, you can use Chainguard Images to replace the other ArgoCD dependencies:
+Optionally, you can use other Chainguard Images to replace Argo CD dependencies:
 
 ```yaml
 redis:
@@ -67,8 +74,9 @@ dex:
     tag: latest
 ```
 
-### ArgoCD Components
+### Argo CD Components
 
-ArgoCD is comprised of multiple [components](https://argo-cd.readthedocs.io/en/stable/operator-manual/architecture/#components) that all share the same image.
+Argo CD is comprised of multiple [components](https://argo-cd.readthedocs.io/en/stable/operator-manual/architecture/#components) that all share the same container image.
 
-Keeping in line with the philosophy of minimal components in Chainguard images, we chose to split this up to keep the number of packages in the components to a minimum. This means the overall number of images increases, but the size and complexity of each image is reduced to (almost) the bare minimum needed to function.
+Keeping in line with the philosophy of minimal dependencies in Chainguard Images, we chose to split this up to keep the number of packages in each respective component to a minimum. This means the overall number of images increases, but the size and complexity of each image is reduced down to the minimum needed to function.
+<!--body:end-->
