@@ -11,13 +11,13 @@
 
 ---
 <!--monopod:end-->
+
 <!--overview:start-->
-Minimalist Wolfi-based DataDog Agent to collect events and metrics and send to Datadog.
+Minimalist Wolfi-based Datadog Agent to collect events and metrics from hosts and send them to Datadog.
 <!--overview:end-->
 
 <!--getting:start-->
 ## Get It!
-
 The image is available on `cgr.dev`:
 
 ```
