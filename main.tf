@@ -256,6 +256,11 @@ module "dask-gateway" {
   target_repository = "${var.target_repository}/dask-gateway"
 }
 
+module "datadog-agent" {
+  source            = "./images/datadog-agent"
+  target_repository = "${var.target_repository}/datadog-agent"
+}
+
 module "deno" {
   source            = "./images/deno"
   target_repository = "${var.target_repository}/deno"
