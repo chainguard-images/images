@@ -12,8 +12,11 @@
 ---
 <!--monopod:end-->
 
+<!--overview:start-->
 Minimalist Wolfi-based DataDog Agent to collect events and metrics and send to Datadog.
+<!--overview:end-->
 
+<!--getting:start-->
 ## Get It!
 
 The image is available on `cgr.dev`:
@@ -21,7 +24,9 @@ The image is available on `cgr.dev`:
 ```
 docker pull cgr.dev/chainguard/datadog-agent:latest
 ```
+<!--getting:end-->
 
+<!--body:start-->
 ## Usage
 
 The Datadog Agent collects events and metrics from hosts and sends them to Datadog.
@@ -50,3 +55,4 @@ docker run \
 ```
 
 For more detail, please refer to the [DataDog Agent documentation](https://github.com/DataDog/datadog-agent).
+<!--body:end-->
