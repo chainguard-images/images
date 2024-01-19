@@ -182,19 +182,24 @@ module "calico" {
   target_repository = "${var.target_repository}/calico"
 }
 
-module "cass-operator" {
-  source            = "./images/cass-operator"
-  target_repository = "${var.target_repository}/cass-operator"
-}
-
 module "cass-config-builder" {
   source            = "./images/cass-config-builder"
   target_repository = "${var.target_repository}/cass-config-builder"
 }
 
+module "cass-operator" {
+  source            = "./images/cass-operator"
+  target_repository = "${var.target_repository}/cass-operator"
+}
+
 module "cassandra" {
   source            = "./images/cassandra"
   target_repository = "${var.target_repository}/cassandra"
+}
+
+module "cassandra-reaper" {
+  source            = "./images/cassandra-reaper"
+  target_repository = "${var.target_repository}/cassandra-reaper"
 }
 
 module "cc-dynamic" {
