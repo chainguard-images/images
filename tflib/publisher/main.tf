@@ -64,6 +64,12 @@ variable "name" {
   description = "Name of the image, which gets used in the image annotations."
 }
 
+variable "groups" {
+  type        = map(string)
+  default     = { "chainguard" : "720909c9f5279097d847ad02a2f24ba8f59de36a" }
+  description = "A map of friendly names to Chainguard IAM group UIDPs."
+}
+
 locals {
   build-dev = var.build-dev || length(var.extra_dev_packages) > 0
 }
