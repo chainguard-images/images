@@ -23,7 +23,6 @@ resource "helm_release" "kube-prometheus-stack" {
   namespace        = "prometheus-config-reloader-${random_pet.suffix.id}"
   create_namespace = true
 
-  // config-reloader
   set {
     name  = "prometheusOperator.prometheusConfigReloader.image.registry"
     value = data.oci_string.ref.registry
@@ -41,7 +40,17 @@ resource "helm_release" "kube-prometheus-stack" {
 data "oci_exec_test" "helm_cleanup" {
   depends_on = [resource.helm_release.kube-prometheus-stack]
   digest     = var.digest
-  script     = "${path.module}/cleanup.sh"
+  script     = <<EOF
+set -e
+
+if ! command -v flock; then
+  echo "flock not installed; please install it."
+  exit 1
+fi
+
+# Run with `flock` to ensure that only one cleanup process runs at a time.
+flock -e -w 1200 /tmp/prometheus-config-reloader ${path.module}/cleanup.sh
+EOF
 
   env {
     name  = "CHART_NAME"
