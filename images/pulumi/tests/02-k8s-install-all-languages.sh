@@ -3,6 +3,7 @@
 set -o errexit -o errtrace -o pipefail -x
 
 ONLY_TEST_LANG="${ONLY_TEST_LANG:-}"
+EXCLUDE_LANG="${EXCLUDE_LANG:-}"
 
 K3S_IP="$(docker ps | grep 'k3d-k3s-default-server-0' | awk '{print $1}' | xargs docker inspect | jq -r '.[0].NetworkSettings.Networks["k3d-k3s-default"].IPAddress')"
 if [[ "${K3S_IP}" == "" ]]; then
@@ -87,6 +88,9 @@ function main {
     d="$(date +%s)"
     for lang in "dotnet" "go" "java" "nodejs" "python" "yaml"; do
         if [[ "${ONLY_TEST_LANG}" != "" && "${lang}" != "${ONLY_TEST_LANG}" ]]; then
+            continue
+        fi
+        if [[ -n "${EXCLUDE_LANG}" && "${EXCLUDE_LANG}" == *"${lang}"* ]]; then
             continue
         fi
         (set +x && echo "---------- BEGIN TESTING SUPPORT FOR LANGUAGE: ${lang} ----------")
