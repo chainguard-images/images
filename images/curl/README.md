@@ -28,7 +28,7 @@ docker pull cgr.dev/chainguard/curl:latest
 <!--body:start-->
 ## Usage
 
-The curl Image allows you to run ordinary `curl` commands in CI/CD pipelines as well as locally with Docker.
+The curl Chainguard Image allows you to run ordinary `curl` commands in CI/CD pipelines as well as locally with Docker.
 
 To make sure you have the latest version of the Image available, start by running a `docker pull` command:
 
