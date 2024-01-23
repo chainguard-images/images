@@ -30,7 +30,7 @@ locals {
       recursive : true
     }]
   }
-    # Upstream charts deploy with fsGroup: 1337 by default.
+  # Upstream charts deploy with fsGroup: 1337 by default.
   run-as = var.component == "source-controller" ? 1337 : 65532
 }
 
@@ -43,8 +43,8 @@ variable "packages" {
 
 module "accts" {
   source = "../../../tflib/accts"
-  uid = local.run-as
-  gid = local.run-as
+  uid    = local.run-as
+  gid    = local.run-as
   run-as = local.run-as
 }
 

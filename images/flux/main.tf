@@ -16,8 +16,8 @@ locals {
   ])
 
   packages = merge(
-    {for k in local.components : k => ["flux-${k}"]},
-        {"cli": ["flux", "flux-compat", "busybox"]},
+    { for k in local.components : k => ["flux-${k}"] },
+    { "cli" : ["flux", "flux-compat", "busybox"] },
   )
 
   // Normally the repository is named like "flux-{component}"
