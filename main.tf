@@ -182,14 +182,14 @@ module "calico" {
   target_repository = "${var.target_repository}/calico"
 }
 
-module "cass-operator" {
-  source            = "./images/cass-operator"
-  target_repository = "${var.target_repository}/cass-operator"
-}
-
 module "cass-config-builder" {
   source            = "./images/cass-config-builder"
   target_repository = "${var.target_repository}/cass-config-builder"
+}
+
+module "cass-operator" {
+  source            = "./images/cass-operator"
+  target_repository = "${var.target_repository}/cass-operator"
 }
 
 module "cassandra" {
@@ -661,6 +661,11 @@ module "kubeflow-katib" {
 module "kubeflow-pipelines" {
   source            = "./images/kubeflow-pipelines"
   target_repository = "${var.target_repository}/kubeflow-pipelines"
+}
+
+module "kubeflow-pipelines-visualization-server" {
+  source            = "./images/kubeflow-pipelines-visualization-server"
+  target_repository = "${var.target_repository}/kubeflow-pipelines-visualization-server"
 }
 
 module "kubernetes-csi-external-attacher" {
