@@ -54,7 +54,9 @@ provider "apko" {
   extra_repositories = ["https://dl-cdn.alpinelinux.org/alpine/edge/main"]
   # These packages match chainguard-images/static
   extra_packages = ["alpine-baselayout-data", "alpine-release", "ca-certificates-bundle"]
-  default_archs  = length(var.archs) == 0 ? ["386", "amd64", "arm/v6", "arm/v7", "arm64", "ppc64le", "s390x"] : var.archs // All arches *except* riscv64
+  // Don't build for riscv64, 386, arm/v6
+  // Only build for: amd64, arm/v7, arm64, ppc64le, s390x
+  default_archs = length(var.archs) == 0 ? ["amd64", "arm/v7", "arm64", "ppc64le", "s390x"] : var.archs
 }
 
 provider "kubernetes" {
@@ -182,19 +184,24 @@ module "calico" {
   target_repository = "${var.target_repository}/calico"
 }
 
-module "cass-operator" {
-  source            = "./images/cass-operator"
-  target_repository = "${var.target_repository}/cass-operator"
-}
-
 module "cass-config-builder" {
   source            = "./images/cass-config-builder"
   target_repository = "${var.target_repository}/cass-config-builder"
 }
 
+module "cass-operator" {
+  source            = "./images/cass-operator"
+  target_repository = "${var.target_repository}/cass-operator"
+}
+
 module "cassandra" {
   source            = "./images/cassandra"
   target_repository = "${var.target_repository}/cassandra"
+}
+
+module "cassandra-reaper" {
+  source            = "./images/cassandra-reaper"
+  target_repository = "${var.target_repository}/cassandra-reaper"
 }
 
 module "cc-dynamic" {
@@ -661,6 +668,11 @@ module "kubeflow-katib" {
 module "kubeflow-pipelines" {
   source            = "./images/kubeflow-pipelines"
   target_repository = "${var.target_repository}/kubeflow-pipelines"
+}
+
+module "kubeflow-pipelines-visualization-server" {
+  source            = "./images/kubeflow-pipelines-visualization-server"
+  target_repository = "${var.target_repository}/kubeflow-pipelines-visualization-server"
 }
 
 module "kubernetes-csi-external-attacher" {
