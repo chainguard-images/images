@@ -51,7 +51,7 @@ search_logs() {
       return 0
     elif [[ $i -lt $retries ]]; then
       echo "Some log terms were missing. Retrying in $delay seconds..."
-      sleep $delay:q
+      sleep $delay
       
     fi
   done

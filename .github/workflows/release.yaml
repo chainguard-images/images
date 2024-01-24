@@ -26,7 +26,7 @@ jobs:
   shard:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
 
       - id: shard
@@ -100,13 +100,13 @@ jobs:
 
       - uses: chainguard-dev/actions/setup-k3d@main
         with:
-          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:0c460cd61d3d062fc2eb7d9452bfa2f67a0e37a8566e104270006a879e1d07b9
+          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:0ef62d22d89f611f9df50b9cc86d1f23d3d92d39062d4d13e500736f4e29d0d9
 
       # Make cosign/crane CLI available to the tests
       - uses: sigstore/cosign-installer@9614fae9e5c5eddabb09f90a270fcb487c9f7149 # v3.3.0
       - uses: imjasonh/setup-crane@00c9e93efa4e1138c9a7a5c594acd6c75a2fbf0c # v0.3
 
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Terraform apply
         timeout-minutes: 60
@@ -138,7 +138,7 @@ jobs:
 
       - name: Upload terraform logs
         if: always()
-        uses: actions/upload-artifact@1eb3cb2b3e0f29609092a73eb033bb759a334595 # v3
+        uses: actions/upload-artifact@694cdabd8bdb0f10b2cea11669e1bf5453eed0a6 # v3
         with:
           name: "mega-module-${{ matrix.shard.index }}.tf.json"
           path: /tmp/mega-module.tf.json
