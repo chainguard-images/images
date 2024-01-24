@@ -48,17 +48,6 @@ provider "apko" {
   default_archs      = length(var.archs) == 0 ? ["x86_64", "aarch64"] : var.archs
 }
 
-provider "apko" {
-  alias = "alpine"
-
-  extra_repositories = ["https://dl-cdn.alpinelinux.org/alpine/edge/main"]
-  # These packages match chainguard-images/static
-  extra_packages = ["alpine-baselayout-data", "alpine-release", "ca-certificates-bundle"]
-  // Don't build for riscv64, 386, arm/v6
-  // Only build for: amd64, arm/v7, arm64, ppc64le, s390x
-  default_archs = length(var.archs) == 0 ? ["amd64", "arm/v7", "arm64", "ppc64le", "s390x"] : var.archs
-}
-
 provider "kubernetes" {
   config_path = "~/.kube/config"
 }
@@ -164,9 +153,6 @@ module "bun" {
 module "busybox" {
   source            = "./images/busybox"
   target_repository = "${var.target_repository}/busybox"
-  providers = {
-    apko.alpine = apko.alpine
-  }
 }
 
 module "caddy" {
@@ -430,9 +416,6 @@ module "gcc-glibc" {
 module "git" {
   source            = "./images/git"
   target_repository = "${var.target_repository}/git"
-  providers = {
-    apko.alpine = apko.alpine
-  }
 }
 
 module "gitlab" {
@@ -1195,9 +1178,6 @@ module "stakater-reloader" {
 module "static" {
   source            = "./images/static"
   target_repository = "${var.target_repository}/static"
-  providers = {
-    apko.alpine = apko.alpine
-  }
 }
 
 module "statsd" {
