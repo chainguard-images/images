@@ -65,6 +65,8 @@ resource "helm_release" "gitlab" {
         }
       }
       webservice = {
+        minReplicas = 1
+        maxReplicas = 1
         resources = {
           requests = {
             cpu    = "50m"
@@ -76,6 +78,8 @@ resource "helm_release" "gitlab" {
         enabled = false
       }
       gitlab-shell = {
+        minReplicas = 1
+        maxReplicas = 1
         image = {
           tag        = data.oci_string.ref["shell"].pseudo_tag
           repository = data.oci_string.ref["shell"].registry_repo
@@ -87,22 +91,44 @@ resource "helm_release" "gitlab" {
         tag = "13.6.0"
       }
     }
-    certmanager-issuer = {
-      email = "me@example.com"
+    certmanager = {
+      # NOTE: Explicitly disabled since it sometimes conflicts with the
+      # cert-manager tests.
+      install = false
     }
     prometheus = {
       install = false
     }
     gitlab-runner = {
+      # TODO: This won't work without a valid cert, which we explicitly
+      # disable. Use a more real but still fake cert when we want to enable
+      # this.
       install = false
     }
+    registry = {
+      hpa = { minReplicas = 1, maxReplicas = 1 }
+    }
     global = {
+      ingress = {
+        configureCertmanager = false
+      }
       pages = {
         enabled = true
       }
       hosts = {
         domain     = "example.com"
         externalIP = "10.10.10.10"
+      }
+    }
+    nginx-ingress = {
+      controller = {
+        replicaCount = 1
+        minAvailable = 1
+        resources = {
+          requests = {
+            cpu = "20m"
+          }
+        }
       }
     }
   })]

@@ -31,6 +31,9 @@ resource "helm_release" "redis" {
 
   values = [
     jsonencode({
+      # NOTE: Workaround for https://github.com/bitnami/charts/pull/22223
+      serviceAccount = { name = "default" }
+
       image = {
         registry   = data.oci_string.ref["server"].registry
         repository = data.oci_string.ref["server"].repo
