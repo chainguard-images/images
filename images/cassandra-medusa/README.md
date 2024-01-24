@@ -37,7 +37,8 @@ helm repo add k8ssandra https://helm.k8ssandra.io/stable
 helm repo update
 
 helm install cassandra-medusa k8ssandra/k8ssandra-operator -n cassandra-medusa
-helm upgrade k8ssandra-operator \
+kubectl create ns cassandra-medusa
+helm install k8ssandra-operator \
     -n cassandra-medusa \
     --set medusa.image.registry=cgr \
     --set medusa.image.repository=chainguard/cassandra-medusa \
