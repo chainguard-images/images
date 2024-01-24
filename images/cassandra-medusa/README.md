@@ -28,7 +28,7 @@ docker pull cgr.dev/chainguard/cassandra-medusa:latest
 <!--body:start-->
 
 ## Usage
-Medusa for Apache Cassandra® is deployed by a K8ssandra Operator install, based on the Medusa Custom Resource Definition (CRD). Once K8ssandra Operato is deployed, you can refer to the [official documentation](https://docs.k8ssandra.io/tasks/backup-restore/) for further usage of Medusa 
+Medusa for Apache Cassandra® is deployed by a K8ssandra Operator install, based on the Medusa Custom Resource Definition (CRD). Once K8ssandra Operator is deployed, you can refer to the [official documentation](https://docs.k8ssandra.io/tasks/backup-restore/) for further usage of Medusa 
 
 To use our minimal, wolfi-based image with this Helm chart you'll need to override the image used by the official helm chart and specify the chainguard image as per below example:
 
