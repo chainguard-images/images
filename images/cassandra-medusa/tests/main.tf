@@ -8,66 +8,33 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-resource "random_pet" "suffix" {
-  length = 1
-}
+resource "random_pet" "suffix" {}
 
 data "oci_string" "ref" { input = var.digest }
 
-resource "helm_release" "cert-manager" {
-  name             = "cert-manager-${random_pet.suffix.id}"
-  namespace        = "cert-manager"
-  repository       = "https://charts.jetstack.io"
-  chart            = "cert-manager"
-  create_namespace = true
+data "oci_exec_test" "medusa-install" {
 
-  set {
-    name  = "installCRDs"
-    value = "true"
+  digest = var.digest
+  script = "${path.module}/medusa-install.sh"
+
+  env {
+    name  = "NAMESPACE"
+    value = "k8s-medusa-${random_pet.suffix.id}"
+  }
+
+  env {
+    name  = "CERT"
+    value = "cert-manager-${random_pet.suffix.id}"
+  }
+
+  env {
+    name  = "REPOSITORY"
+    value = split("/", data.oci_string.ref.repo)[0]
+  }
+
+  env {
+    name  = "NAME"
+    value = split("/", data.oci_string.ref.repo)[1]
   }
 }
 
-resource "helm_release" "helm" {
-  // We use a shortened name to avoid hitting the 63 character limit for cert-manager names.
-  name             = "k8ss-op-${random_pet.suffix.id}"
-  namespace        = "k8ss-op-${random_pet.suffix.id}"
-  repository       = "https://helm.k8ssandra.io/stable" // TODO
-  chart            = "k8ssandra-operator"               // TODO
-  create_namespace = true
-
-  // Requires cert-manager to be installed first.
-  depends_on = [helm_release.cert-manager]
-
-  values = [
-    jsonencode({
-      image = {
-        registry   = "cgr.dev"
-        repository = "chainguard/k8ssandra-operator"
-        tag        = "latest"
-      }
-      medusa = {
-        enabled = true
-        image = {
-          registry   = data.oci_string.ref.registry
-          repository = data.oci_string.ref.repo
-          tag        = data.oci_string.ref.pseudo_tag
-        }
-      }
-    }),
-  ]
-}
-
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.helm.id
-  namespace = helm_release.helm.namespace
-}
-
-module "helm_cleanup_cert_manager" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.cert-manager.id
-  namespace = helm_release.cert-manager.namespace
-
-  // Uninstall in reverse order so we don't clean this up prematurely.
-  depends_on = [module.helm_cleanup]
-}

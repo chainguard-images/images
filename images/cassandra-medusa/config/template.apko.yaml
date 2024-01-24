@@ -24,9 +24,9 @@ environment:
   DEBUG_SLEEP: 0
   LC_ALL: C.UTF-8
   LANG: C.UTF-8
+  PATH : "/usr/share/medusa/.venv/bin:usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+work-dir: /home/cassandra/
 
 entrypoint:
   command: /home/cassandra/docker-entrypoint.sh
-
-
-work-dir: /home/cassandra/
