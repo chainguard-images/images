@@ -10,6 +10,7 @@ variable "extra_packages" {
   // or update this default to [] if this isn't a version stream image.
   default = [
     "cassandra-reaper",
+    "openjdk-11-default-jvm"
     // Other packages your image needs
   ]
 }
