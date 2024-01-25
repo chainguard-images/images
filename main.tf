@@ -199,6 +199,11 @@ module "cassandra" {
   target_repository = "${var.target_repository}/cassandra"
 }
 
+module "cassandra-medusa" {
+  source            = "./images/cassandra-medusa"
+  target_repository = "${var.target_repository}/cassandra-medusa"
+}
+
 module "cassandra-reaper" {
   source            = "./images/cassandra-reaper"
   target_repository = "${var.target_repository}/cassandra-reaper"
