@@ -262,3 +262,15 @@ Other tests that should be considered:
 * Tests for any configuration options provided e.g. setting a password
 * Mounting data or configuration e.g. running nginx with a HTML directory
 * Connecting via another container
+
+## Vulnerability scanning
+
+Use Grype to find vulnerabilities in Chainguard images. Note that we rely on a tweaked configuration when monitoring vulnerabilities. Add the following content to the file `~/.grype.yaml` to capture more accurate findings:
+
+```
+external-sources:
+  enable: true
+  maven:
+    search-upstream-by-sha1: true
+    base-url: https://search.maven.org/solrsearch/select
+```
