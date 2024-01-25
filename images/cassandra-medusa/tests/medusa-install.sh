@@ -55,9 +55,6 @@ helm install k8ssandra-operator k8ssandra/k8ssandra-operator -n ${NAMESPACE} --c
 sleep 30 
 
 # create a secret, needed for medusa
-
-# echo "${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}/${NAME}:${IMAGE_TAG}"
-
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Secret
