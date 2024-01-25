@@ -23,18 +23,22 @@ data "oci_exec_test" "medusa-install" {
   }
 
   env {
-    name  = "CERT"
-    value = "cert-manager-${random_pet.suffix.id}"
+    name  = "IMAGE_REGISTRY"
+    value = data.oci_string.ref.registry
   }
-
   env {
-    name  = "REPOSITORY"
+    name  = "IMAGE_REPOSITORY"
     value = split("/", data.oci_string.ref.repo)[0]
   }
 
   env {
     name  = "NAME"
     value = split("/", data.oci_string.ref.repo)[1]
+  }
+
+  env {
+    name  = "IMAGE_TAG"
+    value = data.oci_string.ref.pseudo_tag
   }
 }
 
