@@ -77,7 +77,14 @@ spec:
             heapSize: 512M
         stargate:
           size: 1
-          heapSize: 256M
+          heapSize: 512M
+          resources:
+            limits:
+              cpu: 1
+              memory: 1Gi
+            requests:
+              cpu: 1
+              memory: 1Gi
           affinity: {}
 EOF
 sleep 30
