@@ -75,10 +75,6 @@ spec:
         config:
           jvmOptions:
             heapSize: 512M
-        stargate:
-          size: 1
-          heapSize: 256M
-          affinity: {}
 EOF
 sleep 30
 
