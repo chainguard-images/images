@@ -69,18 +69,25 @@ make image/ko image/crane image/consul
 By default all Wolfi-based images are built for `x86_64` (`amd64`) and `aarch64` (`arm64`),
 and Alpine-based images are built for all architectures supported by Alpine.
 
-During testing it can be useful to only build for certain architectures, such as the host architecture.
+During testing, or if certain packages are only supported for a particular
+arch you will need to restrict what architectures are built.
 
-To achieve this, set the `archs` variable. For example:
+To achieve this, set the `archs` variable when running locally. For example:
 
 ```shell
 export TF_VAR_archs='["x86_64"]'
 make image/ko
 ```
-
 See [Assigning Values to Root Module Variables](https://developer.hashicorp.com/terraform/language/values/variables#assigning-values-to-root-module-variables).
 
 The `[]`s are important here; omitting them results in an error saying `Variables may not be used here.`
+
+You can also specify this in the apko configuration like so:
+
+```yaml
+archs:
+  - x86_64
+```
 
 ### Building from local packages
 
@@ -270,7 +277,7 @@ Some applications (like [`external-dns`](https://github.com/chainguard-images/im
 
 Some applications (like [`aws-load-balancer-controller`](https://github.com/chainguard-images/images/blob/main/images/aws-load-balancer-controller/tests/main.tf#L26)) require a specific hard coded cluster name.
 
-By default, the cluster name of the `k3d` clusters created for the dev setup are named `k3d-k3s-default`. 
+By default, the cluster name of the `k3d` clusters created for the dev setup are named `k3d-k3s-default`.
 
 ##### Docker network
 
