@@ -77,14 +77,7 @@ spec:
             heapSize: 512M
         stargate:
           size: 1
-          heapSize: 512M
-          resources:
-            limits:
-              cpu: 1
-              memory: 1Gi
-            requests:
-              cpu: 1
-              memory: 1Gi
+          heapSize: 256M
           affinity: {}
 EOF
 sleep 30
@@ -92,10 +85,7 @@ sleep 30
 # wait for cassandra to be ready
 kubectl wait --for=condition=ready pod --selector app.kubernetes.io/instance=cassandra-demo --namespace $k8ssandra_operator_release_namespace  --timeout=600s
 
-
-sleep 120
-# wait for stargate to be ready
-kubectl wait --for=condition=ready pod --selector app.kubernetes.io/component=stargate --namespace $k8ssandra_operator_release_namespace  --timeout=600s
+sleep 90
 
 # wait for reaper to be ready
 kubectl wait --for=condition=ready pod --selector app.kubernetes.io/component=reaper --namespace $k8ssandra_operator_release_namespace --timeout=600s
