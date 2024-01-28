@@ -1,5 +1,5 @@
 <!--monopod:start-->
-# cassandra
+# management-api-for-apache-cassandra
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/management-api-for-apache-cassandra` |
@@ -13,11 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Cassandra operations have historically been command line driven. The management of operational tools for Apache Cassandra have been mostly outsourced to teams who manage their specific environments.
-
-The Management API is a sidecar service layer that attempts to build a well supported set of operational actions on Cassandra nodes that can be administered centrally. It currently works with official Apache Cassandra 3.11.x and 4.0 via a drop in java agent.
-
-To get more detail on the Management API, please visit the [Management API GitHub repository](https://github.com/k8ssandra/management-api-for-apache-cassandra). 
+RESTful / Secure Management Sidecar for Apache Cassandra
 <!--overview:end-->
 
 <!--getting:start-->
