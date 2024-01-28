@@ -760,6 +760,11 @@ module "loki" {
   target_repository = "${var.target_repository}/loki"
 }
 
+module "management-api-for-apache-cassandra" {
+  source            = "./images/management-api-for-apache-cassandra"
+  target_repository = "${var.target_repository}/management-api-for-apache-cassandra"
+}
+
 module "mariadb" {
   source            = "./images/mariadb"
   target_repository = "${var.target_repository}/mariadb"
