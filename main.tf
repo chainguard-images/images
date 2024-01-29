@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    apko = { source = "chainguard-dev/apko" }
+    apko      = { source = "chainguard-dev/apko" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 
   # We don't take advantage of terraform.tfstate, so we don't need to save state anywhere.
@@ -10,6 +11,25 @@ terraform {
   #
   # Consider removing this if that's ever fixed and/or if we want to use tfstate.
   backend "inmem" {}
+}
+
+provider "imagetest" {
+  harnesses = {
+    k3s = {
+      networks = {
+        // wire in k3d's default network where the registry lives
+        "k3d-default" = { name = "k3d-k3s-default" }
+      }
+      registries = {
+        # Mirror the var.target_repository host registry to the local registry.
+        # This ensures the images that are pushed from the host registry are
+        # mirrored to the internal hostname:port registry.
+        "${element(split("/", var.target_repository), 0)}" = {
+          mirror = { endpoints = ["http://${element(split(":", var.target_repository), 0)}:5000"] }
+        }
+      }
+    }
+  }
 }
 
 variable "target_repository" {
@@ -225,14 +245,6 @@ module "cert-exporter" {
 }
 
 module "cert-manager" {
-  source            = "./images/cert-manager"
-  target_repository = "${var.target_repository}/cert-manager"
-}
-
-// This isn't intended to be run in production, but it's useful for testing
-// that the cert-manager test module can be run by multiple modules. To test this, run:
-// terraform apply -target=module.cert-manager -target=module.cert-manager-again-for-testing -auto-approve
-module "cert-manager-again-for-testing" {
   source            = "./images/cert-manager"
   target_repository = "${var.target_repository}/cert-manager"
 }

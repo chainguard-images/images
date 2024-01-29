@@ -1,7 +1,8 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    helm      = { source = "hashicorp/helm" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -15,51 +16,101 @@ variable "digests" {
   })
 }
 
-variable "skip_crds" {
-  description = "Used to deconflict between multiple installations within the same cluster."
-  default     = false
-}
-
 data "oci_string" "ref" {
   for_each = var.digests
   input    = each.value
 }
 
-resource "random_id" "hex" { byte_length = 4 }
+data "imagetest_inventory" "this" {}
 
-data "oci_exec_test" "helm" {
-  digest      = var.digests["controller"] // Not used, but required by the resource.
-  script      = <<EOF
-set -e
+resource "imagetest_harness_k3s" "this" {
+  name      = "cert-manager"
+  inventory = data.imagetest_inventory.this
 
-rand=${random_id.hex.hex}
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+  }
+}
 
-if ! command -v flock; then
-  echo "flock not installed; use \`brew install flock\`"
-  exit 1
-fi
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-cat > /tmp/values-$${rand}.yaml <<EOV
-installCRDs: true
-image:
-  repository: ${data.oci_string.ref["controller"].registry_repo}
-  tag: ${data.oci_string.ref["controller"].pseudo_tag}
-acmesolver:
-  image:
-    repository: ${data.oci_string.ref["acmesolver"].registry_repo}
-    tag: ${data.oci_string.ref["acmesolver"].pseudo_tag}
-cainjector:
-  image:
-    repository: ${data.oci_string.ref["cainjector"].registry_repo}
-    tag: ${data.oci_string.ref["cainjector"].pseudo_tag}
-webhook:
-  image:
-    repository: ${data.oci_string.ref["webhook"].registry_repo}
-    tag: ${data.oci_string.ref["webhook"].pseudo_tag}
-EOV
+  namespace = "cert-manager"
+  chart     = "cert-manager"
+  repo      = "https://charts.jetstack.io"
 
-# Run with `flock` to ensure that only one test runs at a time.
-flock -e -w 1200 /tmp/cert-manager ./helm.sh $${rand}
-EOF
-  working_dir = path.module
+  values = {
+    installCRDs = true
+    image = {
+      repository = data.oci_string.ref["controller"].registry_repo
+      tag        = data.oci_string.ref["controller"].pseudo_tag
+    }
+    acmesolver = {
+      image = {
+        repository = data.oci_string.ref["acmesolver"].registry_repo
+        tag        = data.oci_string.ref["acmesolver"].pseudo_tag
+      }
+    }
+    cainjector = {
+      image = {
+        repository = data.oci_string.ref["cainjector"].registry_repo
+        tag        = data.oci_string.ref["cainjector"].pseudo_tag
+      }
+    }
+    webhook = {
+      image = {
+        repository = data.oci_string.ref["webhook"].registry_repo
+        tag        = data.oci_string.ref["webhook"].pseudo_tag
+      }
+    }
+  }
+}
+
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the cert-manager helm chart."
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
+    },
+    {
+      name = "Ensure it passes cmctl readiness checks"
+      cmd  = <<EOF
+apk add cmctl
+cmctl check api --wait=60s
+      EOF
+    },
+    {
+      name = "Create a SelfSigned Issuer"
+      cmd  = <<EOF
+kubectl apply -f /tests/manifests/issuer.yaml
+          EOF
+    },
+    {
+      name = "Create a Certificate"
+      cmd  = <<EOF
+kubectl apply -f /tests/manifests/certificate.yaml
+          EOF
+    },
+    {
+      name = "Check the certificate is valid"
+      cmd  = <<EOF
+kubectl wait --for=condition=Ready certificate/test -n sandbox --timeout=60s
+cmctl status certificate -n sandbox test
+cmctl inspect secret -n sandbox test-server-tls
+          EOF
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }
