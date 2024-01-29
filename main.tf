@@ -1,6 +1,33 @@
 terraform {
   required_providers {
-    apko = { source = "chainguard-dev/apko" }
+    cosign = {
+      source  = "chainguard-dev/cosign"
+      version = "0.0.17"
+    }
+    apko = {
+      source  = "chainguard-dev/apko"
+      version = "0.13.1"
+    }
+    oci = {
+      source  = "chainguard-dev/oci"
+      version = "0.0.10"
+    }
+    chainguard = {
+      source  = "chainguard-dev/chainguard"
+      version = "0.1.5"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~> 2.12.0"
+    }
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = "1.14.0"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.24.0"
+    }
   }
 
   # We don't take advantage of terraform.tfstate, so we don't need to save state anywhere.

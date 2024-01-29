@@ -5,9 +5,7 @@ SPDX-License-Identifier: Apache-2.0
 
 terraform {
   required_providers {
-    cosign = {
-      source = "chainguard-dev/cosign"
-    }
+    cosign = { source = "chainguard-dev/cosign" }
   }
 }
 

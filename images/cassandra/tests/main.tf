@@ -1,10 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "~> 2.24.0"
-    }
+    oci        = { source = "chainguard-dev/oci" }
+    kubernetes = { source = "hashicorp/kubernetes" }
   }
 }
 
