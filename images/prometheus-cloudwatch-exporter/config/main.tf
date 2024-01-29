@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install"
-  default     = ["cloudwatch-exporter"]
+  default     = ["openjdk-17-jre", "openjdk-17-default-jvm", "cloudwatch-exporter"]
 }
 
 data "apko_config" "this" {
