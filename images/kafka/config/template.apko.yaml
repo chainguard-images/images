@@ -2,10 +2,7 @@ contents:
   packages:
     - bash
     - busybox
-    - kafka
     - kafka-bitnami-compat
-    - openjdk-11-default-jvm
-    - kafka
 
 accounts:
   groups:
