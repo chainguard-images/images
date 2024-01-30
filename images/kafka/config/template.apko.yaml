@@ -27,6 +27,11 @@ paths:
     permissions: 0o755
     uid: 65532
     gid: 65532
+  - path: /bitnami
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
 
 entrypoint:
   command: /opt/bitnami/scripts/kafka/entrypoint.sh /opt/bitnami/scripts/kafka/run.sh
