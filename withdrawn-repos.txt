@@ -2,3 +2,6 @@ crossplane-xfn
 
 # Renamed to kyverno-policy-reporter
 kyverno-policy-reporter-reporter
+
+# Accidentally published in terraform migration
+spire
