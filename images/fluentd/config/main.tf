@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install (e.g. kubectl-default, kubectl-1.28-default)."
-  default     = ["ruby3.2-fluentd", "libpq-11"]
+  default     = ["ruby3.2-fluentd", "libpq-15"]
 }
 
 data "apko_config" "this" {

@@ -1,7 +1,7 @@
 contents:
   # fluent-bit comes in via var.extra_packages
   packages:
-    - libpq-11
+    - libpq-15
     - fluent-bit-compat
 
 accounts:

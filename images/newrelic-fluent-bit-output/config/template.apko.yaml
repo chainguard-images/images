@@ -1,7 +1,7 @@
 contents:
   packages:
     - fluent-bit
-    - libpq-11
+    - libpq-15
 
 accounts:
   groups:
