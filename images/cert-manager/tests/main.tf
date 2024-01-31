@@ -92,13 +92,13 @@ cmctl check api --wait=60s
       name = "Create a SelfSigned Issuer"
       cmd  = <<EOF
 kubectl apply -f /tests/manifests/issuer.yaml
-          EOF
+      EOF
     },
     {
       name = "Create a Certificate"
       cmd  = <<EOF
 kubectl apply -f /tests/manifests/certificate.yaml
-          EOF
+      EOF
     },
     {
       name = "Check the certificate is valid"
@@ -106,7 +106,7 @@ kubectl apply -f /tests/manifests/certificate.yaml
 kubectl wait --for=condition=Ready certificate/test -n sandbox --timeout=60s
 cmctl status certificate -n sandbox test
 cmctl inspect secret -n sandbox test-server-tls
-          EOF
+      EOF
     },
   ]
 
