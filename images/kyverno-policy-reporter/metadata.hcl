@@ -7,3 +7,4 @@ short_description   = "Monitoring and Observability Tool for the [PolicyReport C
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kyverno/policy-reporter"
+keywords            = ["application", "tools"]

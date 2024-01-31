@@ -7,3 +7,4 @@ short_description   = "A minimal image for Kubernetes CSI external-snapshot-cont
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes-csi/external-snapshotter"
+keywords            = ["application", "kubernetes"]

@@ -7,3 +7,4 @@ short_description   = "Minimal image with [buck2](https://buck2.build) build sys
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/facebook/buck2"
+keywords            = ["application", "tools"]

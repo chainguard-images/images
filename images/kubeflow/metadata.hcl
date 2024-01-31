@@ -7,3 +7,4 @@ short_description   = "Minimalist Kubeflow Machine Learning Toolkit for Kubernet
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubeflow/kubeflow"
+keywords            = ["ai", "application", "kubernetes"]

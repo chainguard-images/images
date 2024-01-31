@@ -7,3 +7,4 @@ short_description   = "[node-problem-detector](https://github.com/kubernetes/nod
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes/node-problem-detector"
+keywords            = ["application", "languages"]

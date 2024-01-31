@@ -7,3 +7,4 @@ short_description   = "Minimal [cass-config-builder](https://github.com/datastax
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/datastax/cass-config-builder"
+keywords            = []

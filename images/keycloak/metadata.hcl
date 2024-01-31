@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based [Keycloak](https://www.keycloak.or
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/keycloak/keycloak"
+keywords            = ["application", "tools"]

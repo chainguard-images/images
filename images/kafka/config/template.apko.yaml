@@ -2,10 +2,7 @@ contents:
   packages:
     - bash
     - busybox
-    - kafka
     - kafka-bitnami-compat
-    - openjdk-11-default-jvm
-    - kafka
 
 accounts:
   groups:
@@ -26,6 +23,11 @@ paths:
     uid: 65532
     gid: 65532
   - path: /opt/bitnami
+    type: directory
+    permissions: 0o755
+    uid: 65532
+    gid: 65532
+  - path: /bitnami
     type: directory
     permissions: 0o755
     uid: 65532

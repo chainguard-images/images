@@ -7,3 +7,4 @@ short_description   = "Minimal image with [proxysql](https://github.com/sysown/p
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/sysown/proxysql"
+keywords            = ["application", "databases"]

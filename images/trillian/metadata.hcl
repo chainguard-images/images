@@ -7,3 +7,4 @@ short_description   = "[Trillian](https://github.com/google/trillian) is a Merkl
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/google/trillian"
+keywords            = ["application", "sigstore", "tools"]

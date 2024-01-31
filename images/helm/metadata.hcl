@@ -7,3 +7,4 @@ short_description   = "Minimal image with [helm](https://helm.sh) binary. **EXPE
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/helm/helm"
+keywords            = ["application", "kubernetes"]

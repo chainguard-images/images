@@ -7,3 +7,4 @@ short_description   = "Minimal image with [Gradle](https://gradle.org/) build sy
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/gradle/gradle"
+keywords            = ["application", "tools"]

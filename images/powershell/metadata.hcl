@@ -7,3 +7,4 @@ short_description   = "Minimal Wolfi image with Powershell"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/PowerShell/PowerShell"
+keywords            = ["application", "tools"]

@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based image for smarter device manager."
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://gitlab.com/arm-research/smarter/smarter-device-manager"
+keywords            = ["application", "tools"]

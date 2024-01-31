@@ -7,3 +7,4 @@ short_description   = "Minimal image with the [Google Cloud SDK](https://cloud.g
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://cloud.google.com/sdk/"
+keywords            = ["application", "tools"]

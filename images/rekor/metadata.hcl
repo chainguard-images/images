@@ -7,3 +7,4 @@ short_description   = "Rekor is one of the core components of the sigstore stack
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://www.sigstore.dev/"
+keywords            = ["application", "sigstore", "tools"]

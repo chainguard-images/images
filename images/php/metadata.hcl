@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based PHP images for building and runnin
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://www.php.net/"
+keywords            = ["base", "languages"]

@@ -7,3 +7,4 @@ short_description   = "Minimal [newrelic-k8s-events-forwarder](https://github.co
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/newrelic/nri-kubernetes"
+keywords            = ["analytics", "application"]

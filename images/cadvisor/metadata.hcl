@@ -7,3 +7,4 @@ short_description   = "[cAdvisor (Container Advisor)](https://github.com/google/
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/google/cadvisor"
+keywords            = ["application", "kubernetes"]

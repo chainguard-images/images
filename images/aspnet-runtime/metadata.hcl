@@ -7,3 +7,4 @@ short_description   = "Container image with the latest ASP.NET runtime."
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/dotnet/core"
+keywords            = ["base", "languages"]

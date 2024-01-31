@@ -7,3 +7,4 @@ short_description   = "A minimal wolfi-based image for grafana, which is an open
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/grafana/grafana"
+keywords            = ["analytics", "application"]

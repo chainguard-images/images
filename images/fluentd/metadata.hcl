@@ -7,3 +7,4 @@ short_description   = "[Fluentd](https://www.fluentd.org/): Unified Logging Laye
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/fluent/fluentd"
+keywords            = ["analytics", "application", "featured"]

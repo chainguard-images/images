@@ -7,3 +7,4 @@ short_description   = "Minimal image with the Keda binary. **EXPERIMENTAL**"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://keda.sh/"
+keywords            = ["application", "kubernetes"]

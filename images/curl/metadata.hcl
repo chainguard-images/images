@@ -7,3 +7,4 @@ short_description   = "Minimal [curl](https://curl.se/) image base containing cu
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/curl/curl"
+keywords            = ["application", "tools"]

@@ -7,3 +7,4 @@ short_description   = "Images for working with [Argo workflows](https://argoproj
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://argoproj.github.io/argo-workflows/"
+keywords            = ["application", "cicd"]

@@ -7,3 +7,4 @@ short_description   = "This image contains the `promtail` application for log ag
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/grafana/loki"
+keywords            = ["analytics", "application"]

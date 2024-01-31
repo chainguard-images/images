@@ -7,3 +7,4 @@ short_description   = "Minimal image with rqlite. **EXPERIMENTAL**"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://rqlite.io/"
+keywords            = ["application", "databases"]

@@ -7,3 +7,4 @@ short_description   = "Dynamic sub-dir volume provisioner on a remote NFS server
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner"
+keywords            = ["application", "kubernetes"]

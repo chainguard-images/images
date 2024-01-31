@@ -7,3 +7,4 @@ short_description   = "The Kubernetes operator for K8ssandra"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/k8ssandra/k8ssandra-operator"
+keywords            = []

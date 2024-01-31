@@ -7,3 +7,4 @@ short_description   = "Minimal image with [bun](https://bun.sh/) tool."
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/oven-sh/bun"
+keywords            = []

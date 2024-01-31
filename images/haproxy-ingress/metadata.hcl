@@ -7,3 +7,4 @@ short_description   = "Kubernetes ingress controller implementation for HAProxy"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://haproxy-ingress.github.io/"
+keywords            = ["application", "servers"]

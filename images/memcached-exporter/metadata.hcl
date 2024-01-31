@@ -7,3 +7,4 @@ short_description   = "A memcached exporter for Prometheus."
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/prometheus/memcached_exporter"
+keywords            = ["application", "databases"]

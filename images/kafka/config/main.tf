@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install (e.g. kafka)."
-  default     = ["kafka"]
+  default     = ["kafka", "openjdk-11-default-jvm"]
 }
 
 data "apko_config" "this" {

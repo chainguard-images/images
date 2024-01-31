@@ -7,3 +7,4 @@ short_description   = "Minimal php-fpm_exporter Image"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/hipages/php-fpm_exporter"
+keywords            = []

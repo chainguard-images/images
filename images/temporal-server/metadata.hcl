@@ -7,3 +7,4 @@ short_description   = "Minimal image for [Temporal](https://docs.temporal.io/), 
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/temporalio/temporal"
+keywords            = []

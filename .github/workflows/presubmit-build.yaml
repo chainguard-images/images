@@ -118,6 +118,34 @@ jobs:
       with:
         k3s-image: cgr.dev/chainguard/k3s:latest@sha256:0ef62d22d89f611f9df50b9cc86d1f23d3d92d39062d4d13e500736f4e29d0d9
 
+    - name: Configure imagetest provider
+      run: |
+        # Run a presubmit scoped global imagetest provider override that
+        # configures the k3s harnesses for the presubmit scoped local registry.
+        # This _could_ be in the `main.tf` with some conditionals, but since
+        # this is striclty for presubmit we take this approach to keep things
+        # simpler.
+        cat >> main_override.tf <<EOF
+        provider "imagetest" {
+          harnesses = {
+            k3s = {
+              networks = {
+                // wire in k3d's default network where the registry lives
+                "k3d-default" = { name = "k3d-k3s-default" }
+              }
+              registries = {
+                # Mirror the var.target_repository host registry to the local registry.
+                # This ensures the images that are pushed from the host registry are
+                # mirrored to the internal hostname:port registry.
+                "registry.local:5000" = {
+                  mirror = { endpoints = ["http://registry.local:5000"] }
+                }
+              }
+            }
+          }
+        }
+        EOF
+
     - name: Build
       timeout-minutes: 60
       run: |

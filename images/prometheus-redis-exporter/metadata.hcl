@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based Prometheus Redis Exporter image fo
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/oliver006/redis_exporter"
+keywords            = ["analytics", "application"]

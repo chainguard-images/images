@@ -7,3 +7,4 @@ short_description   = "Minimal image for Debian port of OpenBSD's netcat. **EXPE
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://salsa.debian.org/debian/netcat-openbsd"
+keywords            = ["application", "networking", "sigstore"]

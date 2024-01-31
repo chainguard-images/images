@@ -7,3 +7,4 @@ short_description   = "This image contains the `loki` application for log aggreg
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://grafana.com/oss/loki/"
+keywords            = ["analytics", "application"]

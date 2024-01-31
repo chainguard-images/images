@@ -7,3 +7,4 @@ short_description   = "Base images with the minimum contents needed to run stati
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/wolfi-dev/os"
+keywords            = ["base", "featured", "tools"]

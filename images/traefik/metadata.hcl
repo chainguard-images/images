@@ -7,3 +7,4 @@ short_description   = "[Traefik](https://github.com/traefik/traefik) is a cloud 
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/traefik/traefik"
+keywords            = ["application", "kubernetes"]

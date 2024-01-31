@@ -7,3 +7,4 @@ short_description   = "Daemon for easy but powerful stats aggregation"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/wolfi-dev/os"
+keywords            = []

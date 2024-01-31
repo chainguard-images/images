@@ -7,3 +7,4 @@ short_description   = "Container image with only Bash and libc. Suitable for run
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://www.gnu.org/software/bash/"
+keywords            = ["application", "tools"]

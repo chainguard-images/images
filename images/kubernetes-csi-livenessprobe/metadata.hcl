@@ -7,3 +7,4 @@ short_description   = " A sidecar container that can be included in a CSI plugin
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes-csi/livenessprobe"
+keywords            = ["application", "kubernetes"]

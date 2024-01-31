@@ -7,3 +7,4 @@ short_description   = "Wolfi container image with some debugging utilies include
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://wolfi.dev"
+keywords            = ["application", "tools"]

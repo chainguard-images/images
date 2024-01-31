@@ -7,3 +7,4 @@ short_description   = "Minimal image with Kubernetes Secrets Store CSI Driver. *
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://secrets-store-csi-driver.sigs.k8s.io/"
+keywords            = ["application", "kubernetes"]

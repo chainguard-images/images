@@ -7,3 +7,4 @@ short_description   = "[prometheus-adapter](https://github.com/kubernetes-sigs/p
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes-sigs/prometheus-adapter"
+keywords            = ["analytics", "application"]

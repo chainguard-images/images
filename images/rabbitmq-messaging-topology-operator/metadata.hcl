@@ -7,3 +7,4 @@ short_description   = "RabbitMQ messaging topology operator"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/rabbitmq/messaging-topology-operator"
+keywords            = ["application", "messaging"]

@@ -7,3 +7,4 @@ short_description   = "Minimal [dive](https://github.com/wagoodman/dive) contain
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/wagoodman/dive"
+keywords            = ["application", "tools"]

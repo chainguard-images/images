@@ -7,3 +7,4 @@ short_description   = "Minimal image with the `boring-registry` [server applicat
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/TierMobility/boring-registry"
+keywords            = ["application", "tools"]

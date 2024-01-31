@@ -7,3 +7,4 @@ short_description   = "Minimal Fulcio image"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "http://sigstore.dev/"
+keywords            = ["application", "sigstore", "tools"]

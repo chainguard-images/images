@@ -7,3 +7,4 @@ short_description   = "Minimal image with [ntpd-rs](https://github.com/pendulum-
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://tweedegolf.nl/en/pendulum"
+keywords            = ["application", "networking"]

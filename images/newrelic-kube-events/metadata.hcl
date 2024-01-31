@@ -7,3 +7,4 @@ short_description   = "Minimal [newrelic-kube-events](https://github.com/newreli
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/newrelic/nri-kube-events"
+keywords            = ["analytics", "application"]

@@ -7,3 +7,4 @@ short_description   = "Minimal Project Calico Tigera Operator Image"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/tigera/operator"
+keywords            = ["application", "kubernetes"]

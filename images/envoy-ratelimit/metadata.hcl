@@ -7,3 +7,4 @@ short_description   = " Go/gRPC service designed to enable generic rate limit sc
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/envoyproxy/ratelimit"
+keywords            = ["application", "networking"]

@@ -13,24 +13,7 @@ terraform {
   backend "inmem" {}
 }
 
-provider "imagetest" {
-  harnesses = {
-    k3s = {
-      networks = {
-        // wire in k3d's default network where the registry lives
-        "k3d-default" = { name = "k3d-k3s-default" }
-      }
-      registries = {
-        # Mirror the var.target_repository host registry to the local registry.
-        # This ensures the images that are pushed from the host registry are
-        # mirrored to the internal hostname:port registry.
-        "${element(split("/", var.target_repository), 0)}" = {
-          mirror = { endpoints = ["http://${element(split(":", var.target_repository), 0)}:5000"] }
-        }
-      }
-    }
-  }
-}
+provider "imagetest" {}
 
 variable "target_repository" {
   type        = string

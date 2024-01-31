@@ -7,3 +7,4 @@ short_description   = "A minimal [haproxy](https://www.haproxy.org/) base image 
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://www.haproxy.org/"
+keywords            = ["application", "featured", "servers"]

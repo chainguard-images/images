@@ -7,3 +7,4 @@ short_description   = "Minimal [k8sgpt](https://k8sgpt.ai/) container image."
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/k8sgpt-ai/k8sgpt"
+keywords            = ["application", "kubernetes"]

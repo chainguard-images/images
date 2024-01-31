@@ -7,3 +7,4 @@ short_description   = "[RabbitMQ](https://github.com/rabbitmq/rabbitmq-server) R
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/rabbitmq/rabbitmq-server"
+keywords            = ["application", "messaging"]

@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based Spark Operator image for managing 
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/GoogleCloudPlatform/spark-on-k8s-operator"
+keywords            = ["ai", "application", "tools"]

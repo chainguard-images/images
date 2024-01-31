@@ -7,3 +7,4 @@ short_description   = "Terraform Pull Request Automation"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/runatlantis/atlantis"
+keywords            = ["application", "tools"]

@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based paranoia image for inspecting cert
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/jetstack/paranoia"
+keywords            = ["application", "tools"]

@@ -7,3 +7,4 @@ short_description   = "[Cassandra](https://cassandra.apache.org) is a free and o
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/apache/cassandra"
+keywords            = ["application", "databases"]

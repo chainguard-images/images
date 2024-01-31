@@ -7,3 +7,4 @@ short_description   = "Minimal image with the [thanos-operator](https://github.c
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/banzaicloud/thanos-operator"
+keywords            = ["analytics", "application"]

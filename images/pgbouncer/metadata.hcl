@@ -7,3 +7,4 @@ short_description   = "This image contains the CLI for the [pgbouncer](https://w
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://www.pgbouncer.org/"
+keywords            = ["application", "databases"]

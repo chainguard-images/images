@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based image for Prometheus Operator. Pro
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/prometheus-operator/prometheus-operator"
+keywords            = ["analytics", "application"]
