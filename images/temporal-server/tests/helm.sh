@@ -2,7 +2,7 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-git clone https://github.com/temporalio/helm-charts.git && cd helm-charts
+git clone https://github.com/temporalio/helm-charts.git && cd helm-charts/charts/temporal
 
 # Set up a trap to remove the directory on script exit
 cleanup() {
