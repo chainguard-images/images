@@ -24,4 +24,6 @@ resource "chainguard_image_repo" "repo" {
   parent_id = lookup(local.groups, local.group, "") == "" ? data.chainguard_group.group[0].id : local.groups[local.group]
   readme    = file("images/${var.name}/README.md")
   name      = local.repo_name
+  // keywords in the metadata file maps to bundles in the Chainguard API
+  bundles = yamldecode(file("images/${var.name}/metadata.yaml")).keywords
 }

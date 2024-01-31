@@ -11,14 +11,14 @@ import (
 
 	"github.com/chainguard-images/images/monopod/pkg/commands/options"
 	"github.com/chainguard-images/images/monopod/pkg/constants"
-	"github.com/hashicorp/hcl/v2/hclsimple"
 	"github.com/spf13/cobra"
+	"gopkg.in/yaml.v3"
 )
 
 type renderReadmeImpl struct {
 	Image      string
 	Readme     *completeReadme
-	hclFile    string
+	yamlFile   string
 	mdFile     string
 	rawMD      string
 	renderedMD *bytes.Buffer
@@ -27,7 +27,7 @@ type renderReadmeImpl struct {
 func newReadmeRenderer(image string, cr *completeReadme) *renderReadmeImpl {
 	r := &renderReadmeImpl{
 		Image:      image,
-		hclFile:    path.Join(constants.ImagesDirName, image, "metadata.hcl"),
+		yamlFile:   path.Join(constants.ImagesDirName, image, metadataYamlFilename),
 		mdFile:     path.Join(constants.ImagesDirName, image, "README.md"),
 		renderedMD: new(bytes.Buffer),
 	}
@@ -63,7 +63,7 @@ func (r *renderReadmeImpl) Do() error {
 		err = fmt.Errorf("missing --image argument")
 		return err
 	}
-	if err = r.decodeHcl(); err != nil {
+	if err = r.decodeYaml(); err != nil {
 		return err
 	}
 	if err = r.validate(); err != nil {
@@ -133,21 +133,25 @@ func (r *renderReadmeImpl) write() error {
 func (r *renderReadmeImpl) validate() error {
 	switch {
 	case r.Readme.Name == "":
-		return fmt.Errorf("missing name field in %s", r.hclFile)
+		return fmt.Errorf("missing name field in %s", r.yamlFile)
 	case r.Readme.Image == "":
-		return fmt.Errorf("missing image field in %s", r.hclFile)
+		return fmt.Errorf("missing image field in %s", r.yamlFile)
 	case r.Readme.ShortDesc == "":
-		return fmt.Errorf("missing short description field in %s", r.hclFile)
+		return fmt.Errorf("missing short description field in %s", r.yamlFile)
 	case r.Readme.ReadmeFile == "":
-		return fmt.Errorf("missing readme file location in %s", r.hclFile)
+		return fmt.Errorf("missing readme file location in %s", r.yamlFile)
 	case r.Readme.ReadmeFile == "":
-		return fmt.Errorf("missing upstream project URL in %s", r.hclFile)
+		return fmt.Errorf("missing upstream project URL in %s", r.yamlFile)
 	}
 	return nil
 }
 
-func (r *renderReadmeImpl) decodeHcl() error {
-	return hclsimple.DecodeFile(r.hclFile, nil, r.Readme)
+func (r *renderReadmeImpl) decodeYaml() error {
+	b, err := os.ReadFile(r.yamlFile)
+	if err != nil {
+		return err
+	}
+	return yaml.Unmarshal(b, r.Readme)
 }
 
 func (r *renderReadmeImpl) scanForBody() error {
