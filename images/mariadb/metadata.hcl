@@ -7,3 +7,4 @@ short_description   = "[MariaDB](https://mariadb.org) is one of the most popular
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://mariadb.org"
+keywords            = ["application", "databases", "featured"]

@@ -7,3 +7,4 @@ short_description   = "RESTful / Secure Management Sidecar for Apache Cassandra"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/k8ssandra/management-api-for-apache-cassandra"
+keywords            = []

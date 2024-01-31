@@ -7,3 +7,4 @@ short_description   = "Container image with only busybox and libc (available in 
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://www.busybox.net/"
+keywords            = ["application", "tools"]

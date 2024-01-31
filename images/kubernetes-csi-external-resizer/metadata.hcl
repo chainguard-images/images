@@ -7,3 +7,4 @@ short_description   = "Minimal image with [kubernetes-csi/external-resizer](http
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes-csi/external-resizer"
+keywords            = ["application", "kubernetes"]

@@ -7,3 +7,4 @@ short_description   = "Container image for running [apko](https://github.com/cha
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/chainguard-dev/apko"
+keywords            = ["application", "tools"]

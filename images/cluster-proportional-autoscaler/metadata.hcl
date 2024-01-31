@@ -7,3 +7,4 @@ short_description   = "Minimal Kubernetes Cluster Proportional Autoscaler Contai
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes-sigs/cluster-proportional-autoscaler"
+keywords            = ["application", "kubernetes"]

@@ -7,3 +7,4 @@ short_description   = " Sidecar container that registers a CSI driver with the k
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes-csi/node-driver-registrar"
+keywords            = ["application", "kubernetes"]

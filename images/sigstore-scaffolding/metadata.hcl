@@ -7,3 +7,4 @@ short_description   = "Minimal Wolfi-based [Sigstore](https://sigstore.dev) imag
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://sigstore.dev"
+keywords            = ["application", "tools"]

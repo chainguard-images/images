@@ -7,3 +7,4 @@ short_description   = "[ML Metadata (MLMD)](https://www.tensorflow.org/tfx/guide
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/google/ml-metadata"
+keywords            = []

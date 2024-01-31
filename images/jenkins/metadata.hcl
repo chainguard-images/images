@@ -7,3 +7,4 @@ short_description   = "Minimal [Jenkins](https://jenkins.io) container image. **
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/jenkinsci/jenkins"
+keywords            = ["application", "cicd"]

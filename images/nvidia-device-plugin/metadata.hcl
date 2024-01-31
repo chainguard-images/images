@@ -7,3 +7,4 @@ short_description   = "Minimal [nvidia-device-plugin](https://github.com/NVIDIA/
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/NVIDIA/k8s-device-plugin"
+keywords            = ["application", "tools"]

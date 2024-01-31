@@ -7,3 +7,4 @@ short_description   = "Golang Server for https://github.com/temporalio/ui"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/temporalio/ui-server"
+keywords            = ["application"]

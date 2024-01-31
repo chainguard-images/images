@@ -7,3 +7,4 @@ short_description   = "Base image with just enough files to run native [GraalVM]
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/oracle/graal"
+keywords            = ["base", "languages"]

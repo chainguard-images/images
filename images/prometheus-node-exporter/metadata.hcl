@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based Prometheus Node Exporter image for
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/prometheus/node_exporter"
+keywords            = ["analytics", "application"]

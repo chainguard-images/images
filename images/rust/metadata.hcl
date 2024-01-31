@@ -7,3 +7,4 @@ short_description   = "Minimal Wolfi-based Rust image for building Rust applicat
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://www.rust-lang.org/"
+keywords            = ["application", "languages"]

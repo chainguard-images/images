@@ -7,3 +7,4 @@ short_description   = "Minimal container image for running [Deno](https://deno.c
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/denoland/deno"
+keywords            = ["application", "languages"]

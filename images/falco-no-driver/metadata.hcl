@@ -7,3 +7,4 @@ short_description   = "A minimal, [wolfi](https://github.com/wolfi-dev)-based im
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://falco.org/"
+keywords            = []

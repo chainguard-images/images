@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based image for `falcoctl`."
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/falcosecurity/falcoctl"
+keywords            = ["application", "tools"]

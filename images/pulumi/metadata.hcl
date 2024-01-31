@@ -7,3 +7,4 @@ short_description   = "Minimal Pulumi Image"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://www.pulumi.com/"
+keywords            = ["application", "tools"]

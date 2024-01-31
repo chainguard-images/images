@@ -7,3 +7,4 @@ short_description   = "Minimal image with [Vector](https://vector.dev/), a high-
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/vectordotdev/vector"
+keywords            = ["analytics", "application"]

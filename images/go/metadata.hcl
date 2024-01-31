@@ -7,3 +7,4 @@ short_description   = "Container image for building Go applications."
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://go.dev/"
+keywords            = ["application", "featured", "languages"]

@@ -8,3 +8,4 @@ compatibility_notes = ""
 readme_file         = "README.md"
 
 upstream_url        = "https://wasmtime.dev"
+keywords            = ["application", "languages"]

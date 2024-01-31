@@ -7,3 +7,4 @@ short_description   = "[Memcached](https://memcached.org/) is an in-memory key-v
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://memcached.org/"
+keywords            = ["application", "databases"]

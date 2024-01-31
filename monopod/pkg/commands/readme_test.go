@@ -29,6 +29,7 @@ func TestReadme(t *testing.T) {
 		CompatNotes:    "",
 		URL:            "https://github.com/chainguard-dev/apko",
 		Body:           "\nTest body here.\n",
+		Keywords:       []string{"application", "tools"},
 	}
 
 	t.Run("render readme", func(t *testing.T) {

@@ -7,3 +7,4 @@ short_description   = "[Cilium](https://cilium.io/) is an open source, cloud nat
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/cilium/cilium"
+keywords            = ["application", "networking"]

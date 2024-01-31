@@ -7,3 +7,4 @@ short_description   = " Ingress-NGINX Controller for Kubernetes"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes/ingress-nginx"
+keywords            = ["application", "servers"]

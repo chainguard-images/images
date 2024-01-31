@@ -7,3 +7,4 @@ short_description   = "PostgreSQL image compatible with helm charts."
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://www.postgresql.org/"
+keywords            = []

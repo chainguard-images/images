@@ -7,3 +7,4 @@ short_description   = "Minimal image with [opentelemetry-collector-contrib](http
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/open-telemetry/opentelemetry-collector-contrib"
+keywords            = ["analytics", "application"]

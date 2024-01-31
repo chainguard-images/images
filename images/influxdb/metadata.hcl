@@ -7,3 +7,4 @@ short_description   = "Minimal image with influxdb. **EXPERIMENTAL**"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/influxdata/influxdb"
+keywords            = ["application", "databases"]

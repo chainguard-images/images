@@ -7,3 +7,4 @@ short_description   = "Minimal metric-server container image."
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes-sigs/metrics-server"
+keywords            = ["analytics", "application"]

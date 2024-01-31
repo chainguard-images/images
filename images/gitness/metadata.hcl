@@ -7,3 +7,4 @@ short_description   = "Minimal image with the `gitness` [server application](htt
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/harness/gitness"
+keywords            = ["application", "tools"]

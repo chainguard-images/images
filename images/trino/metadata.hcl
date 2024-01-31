@@ -7,3 +7,4 @@ short_description   = "Fast distributed SQL query engine for big data analytics 
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/trinodb/trino"
+keywords            = ["analytics", "application"]

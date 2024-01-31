@@ -7,3 +7,4 @@ short_description   = "Minimal image with the Kubernetes Secrets Store CSI Drive
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/GoogleCloudPlatform/secrets-store-csi-driver-provider-gcp"
+keywords            = ["application", "kubernetes"]

@@ -7,3 +7,4 @@ short_description   = "Minimal Ruby base image."
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://www.ruby-lang.org"
+keywords            = ["base", "languages"]

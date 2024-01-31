@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based [Redis-Bitnami](https://github.com
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/redis/redis"
+keywords            = []

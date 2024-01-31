@@ -7,3 +7,4 @@ short_description   = "Minimal PostgreSQL image. **EXPERIMENTAL**"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://www.postgresql.org/"
+keywords            = ["application", "databases"]

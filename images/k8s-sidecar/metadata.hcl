@@ -7,3 +7,4 @@ short_description   = "Minimal image with the k8s-sidecar app. **EXPERIMENTAL**"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kiwigrid/k8s-sidecar"
+keywords            = ["application", "kubernetes"]

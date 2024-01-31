@@ -7,3 +7,4 @@ short_description   = "Minimal image with `timoni` binary. `timoni` is a package
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://timoni.sh/"
+keywords            = ["application", "kubernetes"]

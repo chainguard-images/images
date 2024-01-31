@@ -7,3 +7,4 @@ short_description   = "[cassandra-medusa](https://github.com/thelastpickle/cassa
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/thelastpickle/cassandra-medusa"
+keywords            = ["application", "databases"]

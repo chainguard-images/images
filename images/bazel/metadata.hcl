@@ -7,3 +7,4 @@ short_description   = "[Bazel](https://bazel.build) - A fast, scalable, multi-la
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/bazelbuild/bazel"
+keywords            = ["application", "cicd"]

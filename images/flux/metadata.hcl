@@ -7,3 +7,4 @@ short_description   = "`flux` cli to interact with the [Flux](https://fluxcd.io/
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/fluxcd/flux2"
+keywords            = ["application", "cicd"]

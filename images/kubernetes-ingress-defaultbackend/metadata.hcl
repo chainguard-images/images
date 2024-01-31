@@ -7,3 +7,4 @@ short_description   = "Minimal image that acts as a drop-in replacement for the 
 compatibility_notes = "The image runs as `non-root`."
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes/registry.k8s.io"
+keywords            = ["application", "kubernetes"]

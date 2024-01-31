@@ -8,3 +8,4 @@ compatibility_notes = ""
 readme_file         = "README.md"
 
 upstream_url        = "https://virustotal.github.io/vt-cli/"
+keywords            = ["application", "tools"]

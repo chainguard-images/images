@@ -7,3 +7,4 @@ short_description   = "Minimal image to configure external DNS servers (AWS Rout
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes-sigs/external-dns"
+keywords            = ["application", "networking"]

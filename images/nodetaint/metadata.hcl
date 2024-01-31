@@ -7,3 +7,4 @@ short_description   = "Minimal [nodetaint](https://github.com/wish/nodetaint) co
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/wish/nodetaint"
+keywords            = ["application", "languages"]

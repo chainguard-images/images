@@ -7,3 +7,4 @@ short_description   = "Minimal [Guacamole server](https://guacamole.apache.org/)
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/apache/guacamole-server"
+keywords            = ["application", "networking"]

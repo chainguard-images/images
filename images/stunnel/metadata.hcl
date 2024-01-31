@@ -7,3 +7,4 @@ short_description   = "This image contains the CLI for the [stunnel](https://www
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://www.stunnel.org/"
+keywords            = ["application", "networking"]

@@ -7,3 +7,4 @@ short_description   = "This image contains the CLI for the [Conda](https://docs.
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "(https://docs.conda.io/en/latest/"
+keywords            = ["ai", "application", "tools"]

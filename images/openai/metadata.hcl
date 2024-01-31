@@ -7,3 +7,4 @@ short_description   = "Minimal image with the OpenAI CLI."
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/openai/openai-python"
+keywords            = ["ai", "analytics", "application"]

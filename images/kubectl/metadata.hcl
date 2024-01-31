@@ -7,3 +7,4 @@ short_description   = "Minimal image with kubectl binary. **EXPERIMENTAL**"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://kubernetes.io/docs/reference/kubectl/"
+keywords            = ["application", "kubernetes"]

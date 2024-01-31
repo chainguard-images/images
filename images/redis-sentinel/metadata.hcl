@@ -7,3 +7,4 @@ short_description   = "Minimal [redis-sentinel](https://redis.io/docs/management
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://redis.io/docs/management/sentinel/"
+keywords            = ["application", "databases"]

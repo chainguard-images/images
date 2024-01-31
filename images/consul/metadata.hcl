@@ -7,3 +7,4 @@ short_description   = "Minimal image with [Consul](https://www.consul.io/). **EX
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/hashicorp/consul"
+keywords            = ["application", "networking"]

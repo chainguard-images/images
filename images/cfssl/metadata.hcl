@@ -7,3 +7,4 @@ short_description   = "[CFSSL](https://cfssl.org/) is Cloudflare's PKI and TLS t
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/cloudflare/cfssl"
+keywords            = ["application", "tools"]

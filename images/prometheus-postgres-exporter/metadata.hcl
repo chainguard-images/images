@@ -7,3 +7,4 @@ short_description   = "A PostgreSQL metric exporter for Prometheus"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/prometheus-community/postgres_exporter"
+keywords            = ["analytics", "application"]

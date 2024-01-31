@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based [Gatekeeper](https://open-policy-a
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/open-policy-agent/gatekeeper"
+keywords            = ["application", "tools"]

@@ -7,3 +7,4 @@ short_description   = "Minimal Prometheus Image"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://prometheus.io/"
+keywords            = ["analytics", "application"]

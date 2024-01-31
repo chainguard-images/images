@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based Java JRE image using [OpenJDK](htt
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/openjdk/jdk"
+keywords            = ["base", "languages"]

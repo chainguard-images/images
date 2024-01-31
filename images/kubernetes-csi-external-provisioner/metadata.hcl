@@ -7,3 +7,4 @@ short_description   = "Minimal image that acts as a drop-in replacement for the 
 compatibility_notes = "The image runs as `root` so that it can mount a `CSI_ENDPOINT` socket."
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes-csi/external-provisioner"
+keywords            = ["application", "kubernetes"]

@@ -7,3 +7,4 @@ short_description   = "[Crossplane](https://www.crossplane.io/) lets you build a
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/crossplane/crossplane"
+keywords            = ["application", "tools"]

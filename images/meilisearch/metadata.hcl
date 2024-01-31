@@ -7,3 +7,4 @@ short_description   = "Minimal meilisearch image."
 compatibility_notes = "The image specifies a default non-root `meilisearch` user (UID 999), and a data and dump directory at `/var/data.ms`, owned by that `meilisearch` user, accessible to all users."
 readme_file         = "README.md"
 upstream_url        = "https://www.meilisearch.com/"
+keywords            = ["analytics", "application"]

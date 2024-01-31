@@ -7,3 +7,4 @@ short_description   = "Minimal image with Kafka. **EXPERIMENTAL**"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://kafka.apache.org/"
+keywords            = ["ai", "analytics", "application"]

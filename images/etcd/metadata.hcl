@@ -7,3 +7,4 @@ short_description   = "[etcd](https://etcd.io/) Distributed reliable key-value s
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/etcd-io/etcd"
+keywords            = ["application", "tools"]

@@ -7,3 +7,4 @@ short_description   = "Dynamic Local Volumes for Kubernetes Stateful workloads."
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/openebs/dynamic-localpv-provisioner"
+keywords            = ["application", "kubernetes"]

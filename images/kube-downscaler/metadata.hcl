@@ -7,3 +7,4 @@ short_description   = "Minimal image with [kube-downscaler](https://codeberg.org
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://codeberg.org/hjacobs/kube-downscaler"
+keywords            = ["application", "kubernetes"]

@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based trust-manager operator for distrib
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://cert-manager.io/docs/trust/trust-manager"
+keywords            = ["application", "tools"]

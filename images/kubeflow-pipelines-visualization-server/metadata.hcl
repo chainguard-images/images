@@ -7,3 +7,4 @@ short_description   = "Minimal image with [ml-pipeline/visualization-server](htt
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubeflow/pipelines/tree/master/backend/src/apiserver/visualization"
+keywords            = []

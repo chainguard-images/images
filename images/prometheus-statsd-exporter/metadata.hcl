@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based Prometheus StatsD Exporter image f
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/prometheus/statsd_exporter"
+keywords            = ["analytics", "application"]

@@ -8,3 +8,4 @@ compatibility_notes = ""
 readme_file         = "README.md"
 
 upstream_url        = "https://zookeeper.apache.org/"
+keywords            = ["application", "featured", "tools"]

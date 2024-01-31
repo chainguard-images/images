@@ -7,3 +7,4 @@ short_description   = "Minimal image of [K3s](https://k3s.io/), a lightweight Ku
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/k3s-io/k3s"
+keywords            = ["application", "kubernetes"]
