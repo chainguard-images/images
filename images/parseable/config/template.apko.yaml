@@ -1,0 +1,28 @@
+contents:
+  packages: [
+    # Package "parseable" comes in via var.extra_packages
+    # To add a version stream image, see the extra_packages variable in config/main.tf to add packages conditionally.
+    # Otherwise, just add packages here.
+  ]
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: nonroot
+
+paths:
+  - path: /parseable
+    type: directory
+    uid: 65532
+    gid: 65532
+    recursive: true
+    permissions: 0o755
+
+work-dir: /parseable
+
+cmd: "/usr/bin/parseable"
