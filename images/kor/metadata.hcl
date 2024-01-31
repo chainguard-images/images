@@ -7,3 +7,4 @@ short_description   = "A Golang Tool to discover unused Kubernetes Resources"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/yonahd/kor"
+keywords            = ["application"]

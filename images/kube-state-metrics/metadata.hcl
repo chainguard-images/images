@@ -7,3 +7,4 @@ short_description   = "Minimal Kube State Metrics Image"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes/kube-state-metrics"
+keywords            = ["application", "kubernetes"]

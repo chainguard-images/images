@@ -7,3 +7,4 @@ short_description   = "A vulnerability scanner for container images and filesyst
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/anchore/grype"
+keywords            = ["application", "tools"]

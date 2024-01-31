@@ -7,3 +7,4 @@ short_description   = "[Tomcat](https://tomcat.apache.org/) is a free and open-s
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/apache/tomcat"
+keywords            = ["base", "servers"]

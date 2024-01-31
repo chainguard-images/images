@@ -7,3 +7,4 @@ short_description   = "[kubewatch](https://github.com/robusta-dev/kubewatch) is 
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/robusta-dev/kubewatch"
+keywords            = ["application", "kubernetes"]

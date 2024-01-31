@@ -7,3 +7,4 @@ short_description   = "A multi-tenant server for securely deploying and managing
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/dask/dask-gateway"
+keywords            = ["application", "tools"]

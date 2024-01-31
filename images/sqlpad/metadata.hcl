@@ -7,3 +7,4 @@ short_description   = "A minimal Wolfi-based image for sqlpad, which is a web ap
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/sqlpad/sqlpad"
+keywords            = []

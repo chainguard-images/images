@@ -7,3 +7,4 @@ short_description   = "`configmap-reload` is a simple binary to trigger a reload
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/jimmidyson/configmap-reload"
+keywords            = ["application", "kubernetes"]

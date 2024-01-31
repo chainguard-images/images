@@ -25,3 +25,4 @@ This digest corresponds to nginx version 1.24.0. This image is not updated and y
 EOF
 readme_file         = "README.md"
 upstream_url        = "https://nginx.org"
+keywords            = ["application", "featured", "servers"]

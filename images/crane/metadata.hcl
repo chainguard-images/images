@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based crane image for interacting with r
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/google/go-containerregistry/tree/main/cmd/crane"
+keywords            = ["application", "tools"]

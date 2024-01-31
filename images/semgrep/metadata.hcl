@@ -7,3 +7,4 @@ short_description   = "CLI for the [Semgrep](https://semgrep.dev) static analysi
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://semgrep.dev/"
+keywords            = ["application", "tools"]

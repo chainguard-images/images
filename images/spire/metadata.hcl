@@ -11,3 +11,4 @@ See https://github.com/spiffe/spire/issues/1862 for more context.
 EOF
 readme_file         = "README.md"
 upstream_url        = "https://spiffe.io/docs/latest/spire-about/"
+keywords            = ["application", "kubernetes"]

@@ -7,3 +7,4 @@ short_description   = "A minimal, wolfi-based image for cert-exporter: an applic
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/joe-elliott/cert-exporter"
+keywords            = []

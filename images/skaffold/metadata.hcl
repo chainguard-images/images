@@ -7,3 +7,4 @@ short_description   = "Minimal container image for running skaffold apps"
 compatibility_notes = "The image specifies a default non-root `skaffold` user (UID 65532), and a working directory at `/app`, owned by that `skaffold` user, and accessible to all users."
 readme_file         = "README.md"
 upstream_url        = "https://skaffold.dev/"
+keywords            = ["application", "cicd"]

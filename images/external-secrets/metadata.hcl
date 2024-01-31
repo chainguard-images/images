@@ -7,3 +7,4 @@ short_description   = "Minimal Kubernetes [External Secrets Operator](https://ex
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/external-secrets/external-secrets"
+keywords            = ["application", "tools"]

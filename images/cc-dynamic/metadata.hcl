@@ -7,3 +7,4 @@ short_description   = "Base image with just enough to run arbitrary binaries tha
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://wolfi.dev"
+keywords            = ["base", "languages"]

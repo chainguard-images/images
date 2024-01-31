@@ -7,3 +7,4 @@ short_description   = "[Clang](https://clang.llvm.org) is a compiler front end f
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://clang.llvm.org"
+keywords            = ["application", "languages"]

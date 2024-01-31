@@ -7,3 +7,4 @@ short_description   = "Minimalist [wolfi](https://github.com/wolfi-dev)-based im
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/resmoio/kubernetes-event-exporter"
+keywords            = ["application"]

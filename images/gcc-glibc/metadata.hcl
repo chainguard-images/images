@@ -7,3 +7,4 @@ short_description   = "Minimal container image for building C applications (whic
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://wolfi.dev"
+keywords            = ["application", "languages"]

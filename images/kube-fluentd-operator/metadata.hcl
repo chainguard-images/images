@@ -7,3 +7,4 @@ short_description   = "This image is used for the [Kubernetes Fluentd Operator](
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/vmware/kube-fluentd-operator"
+keywords            = ["application", "kubernetes"]

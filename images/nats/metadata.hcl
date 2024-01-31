@@ -7,3 +7,4 @@ short_description   = "Minimal image with NATS. **EXPERIMENTAL**"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://nats.io/"
+keywords            = ["application", "featured", "messaging"]

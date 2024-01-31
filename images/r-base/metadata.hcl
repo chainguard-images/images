@@ -7,3 +7,4 @@ short_description   = "This image contains the R programming language and enviro
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://www.r-project.org/"
+keywords            = ["base", "databases"]

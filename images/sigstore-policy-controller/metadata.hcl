@@ -7,3 +7,4 @@ short_description   = "Policy Controller image that is part of the Sigstore stac
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://sigstore.dev"
+keywords            = ["application"]

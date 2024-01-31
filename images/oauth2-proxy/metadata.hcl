@@ -7,3 +7,4 @@ short_description   = "[OAuth2 Proxy](https://oauth2-proxy.github.io/oauth2-prox
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/oauth2-proxy/oauth2-proxy"
+keywords            = ["application", "servers"]

@@ -7,3 +7,4 @@ short_description   = "Open source web server with automatic HTTPS written in Go
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://caddyserver.com/"
+keywords            = ["application", "servers"]

@@ -7,3 +7,4 @@ short_description   = "[Envoy](https://www.envoyproxy.io/) Cloud-native high-per
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/envoyproxy/envoy"
+keywords            = ["application", "featured", "networking"]

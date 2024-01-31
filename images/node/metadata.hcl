@@ -11,3 +11,4 @@ It specifies `NODE_PORT=3000` by default.
 EOF
 readme_file         = "README.md"
 upstream_url        = "https://nodejs.org/"
+keywords            = ["base", "languages"]

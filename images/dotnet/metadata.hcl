@@ -7,3 +7,4 @@ short_description   = "Minimal image for .NET and the .NET Tools."
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://dot.net/core"
+keywords            = ["base", "languages"]

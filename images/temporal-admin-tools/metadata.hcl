@@ -7,3 +7,4 @@ short_description   = "Golang Server for [https://github.com/temporalio/ui](http
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/temporalio/docker-builds/blob/main/admin-tools.Dockerfile"
+keywords            = ["application"]

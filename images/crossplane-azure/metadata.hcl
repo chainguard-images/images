@@ -7,3 +7,4 @@ short_description   = "Crossplane lets you build a control plane with Kubernetes
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/crossplane-contrib/provider-azure"
+keywords            = ["application", "tools"]

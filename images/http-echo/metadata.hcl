@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based http-echo image that echos what yo
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/hashicorp/http-echo"
+keywords            = ["application", "networking"]

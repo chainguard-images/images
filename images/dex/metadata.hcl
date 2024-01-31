@@ -7,3 +7,4 @@ short_description   = "[dex](https://dexidp.io) is a federated OpenID Connect pr
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/dexidp/dex"
+keywords            = ["ai", "application", "tools"]

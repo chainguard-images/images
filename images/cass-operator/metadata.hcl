@@ -7,3 +7,4 @@ short_description   = "[cass-operator](https://github.com/k8ssandra/cass-operato
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/k8ssandra/cass-operator"
+keywords            = []

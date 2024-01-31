@@ -7,3 +7,4 @@ short_description   = "Minimal Thanos Image, a highly available Prometheus setup
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://thanos.io/"
+keywords            = ["analytics", "application"]

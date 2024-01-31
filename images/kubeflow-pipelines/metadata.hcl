@@ -7,3 +7,4 @@ short_description   = "Minimalist Kubeflow Pipelines Images"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubeflow/pipelines"
+keywords            = ["ai", "application", "kubernetes"]

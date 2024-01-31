@@ -7,3 +7,4 @@ short_description   = "Minimal [newrelic-fluent-bit-output](https://github.com/n
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/newrelic/newrelic-fluent-bit-output"
+keywords            = ["analytics", "application"]

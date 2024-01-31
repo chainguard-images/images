@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based Prometheus MongoDB Exporter image 
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/percona/mongodb_exporter"
+keywords            = ["analytics", "application"]

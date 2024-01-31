@@ -7,3 +7,4 @@ short_description   = "Minimal image that acts as a drop-in replacement for the 
 compatibility_notes = "The dashboard listens on port `8443` by default."
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes/dashboard"
+keywords            = ["application", "kubernetes"]

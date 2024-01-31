@@ -7,3 +7,4 @@ short_description   = "Container image for building Erlang applications."
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://www.erlang.org/"
+keywords            = ["application"]

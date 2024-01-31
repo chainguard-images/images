@@ -7,3 +7,4 @@ short_description   = "Minimal, wolfi-based images for [Cert Manager](https://ce
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/cert-manager/cert-manager"
+keywords            = ["application", "tools"]

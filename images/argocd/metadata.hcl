@@ -7,3 +7,4 @@ short_description   = "[Argo CD](https://argo-cd.readthedocs.io/en/stable/) is a
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://argoproj.github.io/cd/"
+keywords            = ["application", "cicd"]

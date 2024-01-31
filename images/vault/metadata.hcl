@@ -7,3 +7,4 @@ short_description   = "Vault Server Image"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://www.hashicorp.com/products/vault"
+keywords            = ["application", "tools"]

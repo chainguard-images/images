@@ -7,3 +7,4 @@ short_description   = "[Istio](https://istio.io) is a service mesh that extends 
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/istio/istio"
+keywords            = ["application", "kubernetes"]

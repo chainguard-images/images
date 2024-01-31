@@ -7,3 +7,4 @@ short_description   = "[Terraform](https://github.com/hashicorp/terraform) is an
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/hashicorp/terraform"
+keywords            = ["application", "tools"]

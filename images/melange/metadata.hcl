@@ -7,3 +7,4 @@ short_description   = "Container image for running [melange](https://github.com/
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/chainguard-dev/melange"
+keywords            = ["application", "tools"]

@@ -7,3 +7,4 @@ short_description   = "[Tekton](https://tekton.dev) provides a cloud-native Pipe
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://tekton.dev"
+keywords            = ["application", "cicd"]

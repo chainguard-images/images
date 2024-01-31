@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based Prometheus Elasticsearch Exporter 
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/prometheus-community/elasticsearch_exporter"
+keywords            = ["analytics", "application"]

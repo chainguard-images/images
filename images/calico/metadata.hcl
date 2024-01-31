@@ -7,3 +7,4 @@ short_description   = "[Calico](https://projectcalico.docs.tigera.io/) is a netw
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/projectcalico/calico"
+keywords            = ["application", "kubernetes"]

@@ -7,3 +7,4 @@ short_description   = "Minimal images for [aws-efs-csi-driver](https://aws.amazo
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes-sigs/aws-efs-csi-driver"
+keywords            = ["application", "kubernetes"]

@@ -7,3 +7,4 @@ short_description   = "Minimal Image for Kubernetes controller for Elastic Load 
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes-sigs/aws-load-balancer-controller"
+keywords            = ["application", "kubernetes"]

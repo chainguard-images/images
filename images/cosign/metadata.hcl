@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based Cosign images for signing and veri
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/sigstore/cosign"
+keywords            = ["application", "tools"]

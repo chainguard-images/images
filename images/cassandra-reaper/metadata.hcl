@@ -7,3 +7,4 @@ short_description   = "Automated Repair Awesomeness for Apache Cassandra"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/thelastpickle/cassandra-reaper"
+keywords            = []

@@ -7,3 +7,4 @@ short_description   = "Minimal Image for [Bank Vaults](https://bank-vaults.dev/)
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/bank-vaults/bank-vaults"
+keywords            = ["application", "tools"]

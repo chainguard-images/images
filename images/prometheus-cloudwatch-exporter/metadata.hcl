@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based Prometheus CloudWatch Exporter ima
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/prometheus/cloudwatch_exporter"
+keywords            = ["analytics", "application"]

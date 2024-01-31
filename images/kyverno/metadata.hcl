@@ -7,3 +7,4 @@ short_description   = "[Kyverno](https://kyverno.io/) is a policy engine that al
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kyverno/kyverno"
+keywords            = ["application", "tools"]

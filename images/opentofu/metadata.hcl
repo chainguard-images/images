@@ -7,3 +7,4 @@ short_description   = "[opentofu](https://github.com/opentofufoundation/opentofu
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/opentofufoundation/opentofu"
+keywords            = ["application", "tools"]

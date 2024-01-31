@@ -7,3 +7,4 @@ short_description   = "Minimal image that contains [mdbook](https://rust-lang.gi
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/rust-lang/mdBook"
+keywords            = ["application", "tools"]

@@ -7,3 +7,4 @@ short_description   = "ctlog is deployed as part of the sigstore stack"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "http://sigstore.dev/"
+keywords            = ["application", "sigstore", "tools"]

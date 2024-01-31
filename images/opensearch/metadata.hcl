@@ -7,3 +7,4 @@ short_description   = "Minimal image with Opensearch. **EXPERIMENTAL**"
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://opensearch.org/"
+keywords            = ["analytics", "application"]

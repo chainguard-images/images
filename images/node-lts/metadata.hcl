@@ -7,3 +7,4 @@ short_description   = "Minimal Node.js open-source, cross-platform JavaScript ru
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://nodejs.org/"
+keywords            = ["base", "languages"]

@@ -7,3 +7,4 @@ short_description   = "Minimal image with Keda, a Kubernetes-based Event Driven 
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://keda.sh"
+keywords            = ["application", "kubernetes"]

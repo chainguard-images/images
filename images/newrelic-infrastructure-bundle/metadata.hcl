@@ -7,3 +7,4 @@ short_description   = "Minimal [newrelic-infrastructure-bundle](https://github.c
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/newrelic/infrastructure-bundle"
+keywords            = ["analytics", "application"]

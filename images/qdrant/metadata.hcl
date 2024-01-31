@@ -7,3 +7,4 @@ short_description   = "[qdrant](https://github.com/qdrant/qdrant) Qdrant is a hi
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/qdrant/qdrant"
+keywords            = ["application"]

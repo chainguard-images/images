@@ -7,3 +7,4 @@ short_description   = "Minimalist Wolfi-based Datadog Agent to collect events an
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/DataDog/datadog-agent"
+keywords            = []

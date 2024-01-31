@@ -7,3 +7,4 @@ short_description   = "Minimal image to manage IP masquerading on Kubernetes nod
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes-sigs/ip-masq-agent"
+keywords            = ["application", "networking"]

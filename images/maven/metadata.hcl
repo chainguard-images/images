@@ -7,3 +7,4 @@ short_description   = "Minimal image with Maven build system."
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://maven.apache.org/"
+keywords            = ["application", "tools"]

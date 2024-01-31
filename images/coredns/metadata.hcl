@@ -7,3 +7,4 @@ short_description   = "[CoreDNS](https://coredns.io) is a fast and flexible DNS 
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/coredns/coredns"
+keywords            = ["application", "networking"]

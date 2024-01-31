@@ -7,3 +7,4 @@ short_description   = "Buildkit is a concurrent, cache-efficient, and Dockerfile
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/moby/buildkit"
+keywords            = ["application"]

@@ -7,3 +7,4 @@ short_description   = "Minimal [newrelic-prometheus-configurator](https://github
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/newrelic/newrelic-prometheus-configurator"
+keywords            = ["analytics", "application"]

@@ -7,3 +7,4 @@ short_description   = "This is a minimal [Hugo](https://gohugo.io/) image."
 compatibility_notes = "This image only contains `hugo` and supporting libraries.  The Hugo process starts in `/hugo` by default so this directory may be initialized with the Hugo site to serve."
 readme_file         = "README.md"
 upstream_url        = "https://github.com/gohugoio/hugo/"
+keywords            = ["base", "tools"]

@@ -8,3 +8,4 @@ compatibility_notes = ""
 readme_file         = "README.md"
 
 upstream_url        = "https://weaviate.io"
+keywords            = ["ai", "application", "tools"]

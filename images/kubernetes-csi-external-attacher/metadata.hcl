@@ -7,3 +7,4 @@ short_description   = "Minimal image with [kubernetes-csi/external-attacher](htt
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/kubernetes-csi/external-attacher"
+keywords            = ["application", "kubernetes"]

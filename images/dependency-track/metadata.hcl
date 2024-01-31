@@ -7,3 +7,4 @@ short_description   = "[Dependency Track](https://github.com/DependencyTrack/dep
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/DependencyTrack/dependency-track"
+keywords            = ["application"]

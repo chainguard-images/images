@@ -7,3 +7,4 @@ short_description   = "This image contains the CLI for the [Cedar Policy](https:
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/cedar-policy/cedar"
+keywords            = ["application", "languages"]

@@ -7,3 +7,4 @@ short_description   = "GitLab is an open source end-to-end software development 
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://docs.gitlab.com/charts/"
+keywords            = ["application", "tools"]

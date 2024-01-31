@@ -7,3 +7,4 @@ short_description   = "[Fluent Bit](https://fluentbit.io) is a lightweight and h
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/fluent/fluent-bit"
+keywords            = ["analytics", "application"]

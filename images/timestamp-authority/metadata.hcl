@@ -7,3 +7,4 @@ short_description   = "timestamp-authority is an RFC3161 Timestamp Authority, a 
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/sigstore/timestamp-authority"
+keywords            = ["application", "sigstore", "tools"]

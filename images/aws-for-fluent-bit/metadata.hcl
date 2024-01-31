@@ -7,3 +7,4 @@ short_description   = "Minimal [aws-for-fluent-bit](https://github.com/aws/aws-f
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/aws/aws-for-fluent-bit"
+keywords            = ["application", "kubernetes"]

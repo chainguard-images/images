@@ -7,3 +7,4 @@ short_description   = "Minimal image with [chartmuseum](https://github.com/helm/
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/helm/chartmuseum"
+keywords            = ["application", "kubernetes"]

@@ -8,3 +8,4 @@ compatibility_notes = ""
 readme_file         = "README.md"
 
 upstream_url        = "https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler"
+keywords            = ["application", "kubernetes"]

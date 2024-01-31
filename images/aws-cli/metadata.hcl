@@ -7,3 +7,4 @@ short_description   = "Minimal [aws-cli](https://github.com/aws/aws-cli) contain
 compatibility_notes = ""
 readme_file         = "README.md"
 upstream_url        = "https://github.com/aws/aws-cli"
+keywords            = ["application", "tools"]

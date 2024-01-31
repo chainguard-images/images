@@ -14,16 +14,17 @@ import (
 )
 
 type completeReadme struct {
-	ReadmeFile     string `tfsdk:"readme_file" hcl:"readme_file"`
-	ShortDesc      string `tfsdk:"short_description" hcl:"short_description"`
-	ConsoleSummary string `tfsdk:"console_summary" hcl:"console_summary"`
-	Image          string `tfsdk:"image" hcl:"image"`
-	Name           string `tfsdk:"name" hcl:"name"`
-	Logo           string `tfsdk:"logo" hcl:"logo"`
-	EndOfLife      string `tfsdk:"endoflife" hcl:"endoflife"`
-	CompatNotes    string `tfsdk:"compatibility_notes" hcl:"compatibility_notes"`
-	URL            string `tfsdk:"upstream_url" hcl:"upstream_url"`
-	Body           string `tfsdk:"body"` // anything read from ReadmeFile between <!--body:*--> markers
+	ReadmeFile     string   `tfsdk:"readme_file" hcl:"readme_file"`
+	ShortDesc      string   `tfsdk:"short_description" hcl:"short_description"`
+	ConsoleSummary string   `tfsdk:"console_summary" hcl:"console_summary"`
+	Image          string   `tfsdk:"image" hcl:"image"`
+	Name           string   `tfsdk:"name" hcl:"name"`
+	Logo           string   `tfsdk:"logo" hcl:"logo"`
+	EndOfLife      string   `tfsdk:"endoflife" hcl:"endoflife"`
+	CompatNotes    string   `tfsdk:"compatibility_notes" hcl:"compatibility_notes"`
+	URL            string   `tfsdk:"upstream_url" hcl:"upstream_url"`
+	Body           string   `tfsdk:"body"` // anything read from ReadmeFile between <!--body:*--> markers
+	Keywords       []string `tfsdk:"keywords" hcl:"keywords"`
 }
 
 //go:embed all:templates
