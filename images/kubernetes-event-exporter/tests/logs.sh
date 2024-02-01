@@ -9,8 +9,8 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 
 # Defining log entries we are looking for in the k8s-event-export logs
 declare -a terms=(
-	"Created container event-exporter"
-	"Started container event-exporter"
+	"Received event"
+	"sending event to sink"
 )
 
 declare -a missing_terms=()
