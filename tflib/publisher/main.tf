@@ -47,6 +47,12 @@ variable "build-dev" {
   description = "If true, build a dev variant of the image. If extra_dev_packages is non-empty, then build-dev is implicitly true."
 }
 
+variable "update-repo" {
+  type        = bool
+  default     = true
+  description = "Whether to update the Chainguard image repo resource."
+}
+
 variable "check-sbom" {
   type        = bool
   default     = false
