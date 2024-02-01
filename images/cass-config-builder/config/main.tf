@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install."
-  default     = ["cass-config-builder", "bash", "busybox"]
+  default     = ["cass-config-builder", "bash", "busybox", "openjdk-8-default-jvm"]
 }
 
 data "apko_config" "this" {
