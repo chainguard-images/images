@@ -43,7 +43,7 @@ data "oci_string" "operator-ref" { input = var.digests.operator }
 data "oci_string" "proxy-ref" { input = var.digests.proxy }
 data "oci_string" "install-cni-ref" { input = var.digests.install-cni }
 resource "helm_release" "operator" {
-  name             = "operator"
+  name             = "${local.namespace}-operator"
   namespace        = local.namespace
   create_namespace = true
   # there's no official helm chart for the istio operator
