@@ -16,7 +16,6 @@ if [ -x "$(command -v docker-credential-cgr)" ]; then
   pass=$(echo $token | jq -r '.Secret')
 
   DOCKER_CONFIG=${tmp} crane auth login -u ${user} -p ${pass} cgr.dev
-  echo "WROTE ${tmp}/config.json"
 fi
 head -c 100 ${tmp}/config.json
 kubectl delete secret regcred -n crossplane-system || true
