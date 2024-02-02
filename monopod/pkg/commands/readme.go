@@ -14,17 +14,17 @@ import (
 )
 
 type completeReadme struct {
-	ReadmeFile     string   `tfsdk:"readme_file" hcl:"readme_file"`
-	ShortDesc      string   `tfsdk:"short_description" hcl:"short_description"`
-	ConsoleSummary string   `tfsdk:"console_summary" hcl:"console_summary"`
-	Image          string   `tfsdk:"image" hcl:"image"`
-	Name           string   `tfsdk:"name" hcl:"name"`
-	Logo           string   `tfsdk:"logo" hcl:"logo"`
-	EndOfLife      string   `tfsdk:"endoflife" hcl:"endoflife"`
-	CompatNotes    string   `tfsdk:"compatibility_notes" hcl:"compatibility_notes"`
-	URL            string   `tfsdk:"upstream_url" hcl:"upstream_url"`
-	Body           string   `tfsdk:"body"` // anything read from ReadmeFile between <!--body:*--> markers
-	Keywords       []string `tfsdk:"keywords" hcl:"keywords"`
+	ReadmeFile     string   `tfsdk:"readme_file" hcl:"readme_file" yaml:"readme_file"`
+	ShortDesc      string   `tfsdk:"short_description" hcl:"short_description" yaml:"short_description"`
+	ConsoleSummary string   `tfsdk:"console_summary" hcl:"console_summary" yaml:"console_summary"`
+	Image          string   `tfsdk:"image" hcl:"image" yaml:"image"`
+	Name           string   `tfsdk:"name" hcl:"name" yaml:"name"`
+	Logo           string   `tfsdk:"logo" hcl:"logo" yaml:"logo"`
+	EndOfLife      string   `tfsdk:"endoflife" hcl:"endoflife" yaml:"endoflife"`
+	CompatNotes    string   `tfsdk:"compatibility_notes" hcl:"compatibility_notes" yaml:"compatibility_notes"`
+	URL            string   `tfsdk:"upstream_url" hcl:"upstream_url" yaml:"upstream_url"`
+	Body           string   `tfsdk:"body" yaml:"body"` // anything read from ReadmeFile between <!--body:*--> markers
+	Keywords       []string `tfsdk:"keywords" hcl:"keywords" yaml:"keywords"`
 }
 
 //go:embed all:templates
@@ -32,6 +32,8 @@ var templateFS embed.FS
 var templates *template.Template
 
 var isPrivateImage bool
+
+const metadataYamlFilename = "metadata.yaml"
 
 func init() {
 	templates = template.Must(
@@ -97,13 +99,13 @@ func (i *readmeImpl) check() error {
 	for _, i := range allImages {
 		r := newReadmeRenderer(i.ImageName, nil)
 
-		if err := r.decodeHcl(); err != nil {
-			fmt.Printf("Error decoding %s: %s\n", r.hclFile, err)
+		if err := r.decodeYaml(); err != nil {
+			fmt.Printf("Error decoding %s: %s\n", r.yamlFile, err)
 			numIssues++
 			continue
 		}
 		if err := r.validate(); err != nil {
-			fmt.Printf("Error validating %s: %s\n", r.hclFile, err)
+			fmt.Printf("Error validating %s: %s\n", r.yamlFile, err)
 			numIssues++
 			continue
 		}
