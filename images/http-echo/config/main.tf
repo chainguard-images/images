@@ -13,7 +13,7 @@ output "config" {
     }
     accounts = module.accts.block
     entrypoint = {
-      command = "/http-echo"
+      command = "/usr/bin/http-echo"
     }
   })
 }

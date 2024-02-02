@@ -11,11 +11,12 @@ variable "target_repository" {
 module "config" { source = "./config" }
 
 module "latest" {
-  source            = "../../tflib/publisher"
-  name              = basename(path.module)
-  target_repository = var.target_repository
-  config            = module.config.config
-  build-dev         = true
+  source             = "../../tflib/publisher"
+  name               = basename(path.module)
+  target_repository  = var.target_repository
+  config             = module.config.config
+  build-dev          = true
+  extra_dev_packages = ["jq"]
 }
 
 module "test-latest" {

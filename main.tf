@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    apko = { source = "chainguard-dev/apko" }
+    apko      = { source = "chainguard-dev/apko" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 
   # We don't take advantage of terraform.tfstate, so we don't need to save state anywhere.
@@ -11,6 +12,8 @@ terraform {
   # Consider removing this if that's ever fixed and/or if we want to use tfstate.
   backend "inmem" {}
 }
+
+provider "imagetest" {}
 
 variable "target_repository" {
   type        = string
@@ -54,7 +57,9 @@ provider "apko" {
   extra_repositories = ["https://dl-cdn.alpinelinux.org/alpine/edge/main"]
   # These packages match chainguard-images/static
   extra_packages = ["alpine-baselayout-data", "alpine-release", "ca-certificates-bundle"]
-  default_archs  = length(var.archs) == 0 ? ["386", "amd64", "arm/v6", "arm/v7", "arm64", "ppc64le", "s390x"] : var.archs // All arches *except* riscv64
+  // Don't build for riscv64, 386, arm/v6
+  // Only build for: amd64, arm/v7, arm64, ppc64le, s390x
+  default_archs = length(var.archs) == 0 ? ["amd64", "arm/v7", "arm64", "ppc64le", "s390x"] : var.archs
 }
 
 provider "kubernetes" {
@@ -119,6 +124,11 @@ module "aws-load-balancer-controller" {
   target_repository = "${var.target_repository}/aws-load-balancer-controller"
 }
 
+module "az" {
+  source            = "./images/az"
+  target_repository = "${var.target_repository}/az"
+}
+
 module "bank-vaults" {
   source            = "./images/bank-vaults"
   target_repository = "${var.target_repository}/bank-vaults"
@@ -149,6 +159,11 @@ module "buildkit" {
   target_repository = "${var.target_repository}/buildkit"
 }
 
+module "bun" {
+  source            = "./images/bun"
+  target_repository = "${var.target_repository}/bun"
+}
+
 module "busybox" {
   source            = "./images/busybox"
   target_repository = "${var.target_repository}/busybox"
@@ -172,6 +187,11 @@ module "calico" {
   target_repository = "${var.target_repository}/calico"
 }
 
+module "cass-config-builder" {
+  source            = "./images/cass-config-builder"
+  target_repository = "${var.target_repository}/cass-config-builder"
+}
+
 module "cass-operator" {
   source            = "./images/cass-operator"
   target_repository = "${var.target_repository}/cass-operator"
@@ -180,6 +200,16 @@ module "cass-operator" {
 module "cassandra" {
   source            = "./images/cassandra"
   target_repository = "${var.target_repository}/cassandra"
+}
+
+module "cassandra-medusa" {
+  source            = "./images/cassandra-medusa"
+  target_repository = "${var.target_repository}/cassandra-medusa"
+}
+
+module "cassandra-reaper" {
+  source            = "./images/cassandra-reaper"
+  target_repository = "${var.target_repository}/cassandra-reaper"
 }
 
 module "cc-dynamic" {
@@ -192,15 +222,12 @@ module "cedar" {
   target_repository = "${var.target_repository}/cedar"
 }
 
-module "cert-manager" {
-  source            = "./images/cert-manager"
-  target_repository = "${var.target_repository}/cert-manager"
+module "cert-exporter" {
+  source            = "./images/cert-exporter"
+  target_repository = "${var.target_repository}/cert-exporter"
 }
 
-// This isn't intended to be run in production, but it's useful for testing
-// that the cert-manager test module can be run by multiple modules. To test this, run:
-// terraform apply -target=module.cert-manager -target=module.cert-manager-again-for-testing -auto-approve
-module "cert-manager-again-for-testing" {
+module "cert-manager" {
   source            = "./images/cert-manager"
   target_repository = "${var.target_repository}/cert-manager"
 }
@@ -288,6 +315,11 @@ module "curl" {
 module "dask-gateway" {
   source            = "./images/dask-gateway"
   target_repository = "${var.target_repository}/dask-gateway"
+}
+
+module "datadog-agent" {
+  source            = "./images/datadog-agent"
+  target_repository = "${var.target_repository}/datadog-agent"
 }
 
 module "deno" {
@@ -638,6 +670,11 @@ module "kubeflow-pipelines" {
   target_repository = "${var.target_repository}/kubeflow-pipelines"
 }
 
+module "kubeflow-pipelines-visualization-server" {
+  source            = "./images/kubeflow-pipelines-visualization-server"
+  target_repository = "${var.target_repository}/kubeflow-pipelines-visualization-server"
+}
+
 module "kubernetes-csi-external-attacher" {
   source            = "./images/kubernetes-csi-external-attacher"
   target_repository = "${var.target_repository}/kubernetes-csi-external-attacher"
@@ -716,6 +753,11 @@ module "kyverno-policy-reporter" {
 module "loki" {
   source            = "./images/loki"
   target_repository = "${var.target_repository}/loki"
+}
+
+module "management-api-for-apache-cassandra" {
+  source            = "./images/management-api-for-apache-cassandra"
+  target_repository = "${var.target_repository}/management-api-for-apache-cassandra"
 }
 
 module "mariadb" {
@@ -945,9 +987,19 @@ module "prometheus-adapter" {
   target_repository = "${var.target_repository}/prometheus-adapter"
 }
 
+module "prometheus-alertmanager" {
+  source            = "./images/prometheus-alertmanager"
+  target_repository = "${var.target_repository}/prometheus-alertmanager"
+}
+
 module "prometheus-cloudwatch-exporter" {
   source            = "./images/prometheus-cloudwatch-exporter"
   target_repository = "${var.target_repository}/prometheus-cloudwatch-exporter"
+}
+
+module "prometheus-config-reloader" {
+  source            = "./images/prometheus-config-reloader"
+  target_repository = "${var.target_repository}/prometheus-config-reloader"
 }
 
 module "prometheus-elasticsearch-exporter" {
@@ -963,6 +1015,11 @@ module "prometheus-mongodb-exporter" {
 module "prometheus-node-exporter" {
   source            = "./images/prometheus-node-exporter"
   target_repository = "${var.target_repository}/prometheus-node-exporter"
+}
+
+module "prometheus-operator" {
+  source            = "./images/prometheus-operator"
+  target_repository = "${var.target_repository}/prometheus-operator"
 }
 
 module "prometheus-postgres-exporter" {
@@ -1146,6 +1203,11 @@ module "static" {
   providers = {
     apko.alpine = apko.alpine
   }
+}
+
+module "statsd" {
+  source            = "./images/statsd"
+  target_repository = "${var.target_repository}/statsd"
 }
 
 module "stunnel" {

@@ -10,13 +10,13 @@ kubectl apply -n ${NAMESPACE} -f pod-count-dashboard.yaml
 
 PASSWORD=$(kubectl get secret ${NAME}-grafana -n ${NAMESPACE} -o jsonpath='{.data.admin-password}' | base64 --decode)
 
-kubectl port-forward -n ${NAMESPACE} service/${NAME}-grafana 3000:80 &
+kubectl port-forward -n ${NAMESPACE} service/${NAME}-grafana ${FREE_PORT}:80 &
 pid=$!
 trap "kill -9 $pid" EXIT
 
 sleep 5
 
-RESPONSE=$(curl -u admin:${PASSWORD} --retry 5 --retry-all-errors "http://localhost:3000/api/search?query=kubernetes%20pod%20count")
+RESPONSE=$(curl -u admin:${PASSWORD} --retry 5 --retry-all-errors "http://localhost:${FREE_PORT}/api/search?query=kubernetes%20pod%20count")
 
 if [ "$(echo "$RESPONSE" | jq length)" -eq 0 ]; then
     echo "Grafana should have at least one Dashboard, exiting..."

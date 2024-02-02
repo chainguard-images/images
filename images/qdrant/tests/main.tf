@@ -26,6 +26,12 @@ resource "helm_release" "helm" {
         repository = data.oci_string.ref.registry_repo
         tag        = data.oci_string.ref.pseudo_tag
       }
+      readinessProbe = {
+        enabled = false
+      }
+      startupProbe = {
+        enabled = true
+      }
     })
   ]
 }

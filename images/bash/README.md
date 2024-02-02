@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Container image with only bash and libc. Suitable for running any small scripts or binaries that need bash instead of just the busybox shell.
+Container image with only Bash and libc. Suitable for running any small scripts or binaries that need Bash instead of the BusyBox shell.
 <!--overview:end-->
 
 <!--getting:start-->
@@ -26,4 +26,17 @@ docker pull cgr.dev/chainguard/bash:latest
 <!--getting:end-->
 
 <!--body:start-->
+## Usage
+
+You open up an interactive shell in the Bash Image with a command like the following:
+
+```sh
+docker run -it cgr.dev/chainguard/bash:latest /bin/bash
+```
+
+You can also use a bind mount to test scripts from your local machine on the Bash Image:
+
+```sh
+docker run -it --rm -v /path/to/local-script.sh:/container-script.sh cgr.dev/chainguard/bash:latest /container-script.sh
+```
 <!--body:end-->

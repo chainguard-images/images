@@ -9,7 +9,7 @@ variable "target_repository" {
 }
 
 locals {
-  components = toset(["acmesolver", "controller", "cainjector", "webhook"])
+  components = toset(["acmesolver", "controller", "cainjector", "webhook", "cmctl"])
 }
 
 module "config" {

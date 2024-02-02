@@ -9,7 +9,7 @@ variable "extra_packages" {
   default = [
     "ruby3.2-fluentd-1.16",
     "ruby3.2-fluentd-1.16-logging-operator-compat",
-    "libpq-11",
+    "libpq",
     "fluent-plugin-tag-normaliser",
     "fluent-plugin-detect-exceptions",
     "fluent-plugin-label-router",

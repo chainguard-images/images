@@ -1,10 +1,8 @@
 locals {
   components = toset([
     "alertmanager",
-    "config-reloader",
     "core",
     "mysqld-exporter",
-    "operator",
     "pushgateway",
   ])
 

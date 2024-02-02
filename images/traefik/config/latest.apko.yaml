@@ -1,0 +1,20 @@
+contents:
+  packages:
+    # traefik comes in via var.extra_packages
+
+accounts:
+  groups:
+    - groupname: traefik
+      gid: 65532
+  users:
+    - username: traefik
+      uid: 65532
+  run-as: 65532
+
+paths:
+  - path: /tmp
+    type: directory
+    permissions: 0o777
+
+entrypoint:
+  command: /usr/bin/traefik

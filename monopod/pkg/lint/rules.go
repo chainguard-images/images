@@ -42,9 +42,6 @@ var AllRules = func(l *Linter) Rules {
 				if len(c.Contents.Repositories) != 0 {
 					errs = append(errs, errors.New("repositories is not empty"))
 				}
-				if len(c.Archs) != 0 {
-					errs = append(errs, errors.New("archs is not empty"))
-				}
 				if slices.Contains(c.Contents.Packages, "wolfi-baselayout") {
 					errs = append(errs, errors.New("wolfi-baselayout is in packages"))
 				}
