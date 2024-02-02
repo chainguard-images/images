@@ -14,7 +14,7 @@ accounts:
 
 environment:
   SUGGESTION_DIR: "cmd/suggestion/skopt/v1beta1"
-  PYTHONPATH: /opt/katib:/opt/katib/pkg/apis/manager/v1beta1/python:/opt/katib/pkg/apis/manager/health/python
+  PYTHONPATH: :/opt/katib/cmd/suggestion/skopt/v1beta1/opt/katib/.venv-skopt/bin:/opt/katib/pkg/apis/manager/v1beta1/python:/opt/katib/pkg/apis/manager/health/python
   PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
 
 entrypoint:

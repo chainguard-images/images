@@ -14,7 +14,7 @@ accounts:
 
 environment:
   SUGGESTION_DIR: "cmd/suggestion/hyperopt/v1beta1"
-  PYTHONPATH: /opt/katib:/opt/katib/pkg/apis/manager/v1beta1/python:/opt/katib/pkg/apis/manager/health/python
+  PYTHONPATH: /opt/katibmd/suggestion/hyperopt/v1beta1/.venv-hyperopt/bin:/opt/katib:/opt/katib/pkg/apis/manager/v1beta1/python:/opt/katib/pkg/apis/manager/health/python
   PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
 
 entrypoint:
