@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-A minimal, Wolfi-based image for Spark Operator, which facilitates the deployment and management of Apache Spark applications in Kubernetes environments.
+A minimal, Wolfi-based image for Spark Operator. Facilitates the deployment and management of Apache Spark applications in Kubernetes environments.
 <!--overview:end-->
 
 <!--getting:start-->
@@ -43,7 +43,7 @@ helm repo add spark-operator https://googlecloudplatform.github.io/spark-on-k8s-
 helm install spark-operator spark-operator/spark-operator \
   --namespace spark \
   --create-namespace \
-  --set image.repository=docker.io/electricthunder/spark-operator \
+  --set image.repository=cgr.dev/chainguard/spark-operator \
   --set image.tag=latest
 ```
 

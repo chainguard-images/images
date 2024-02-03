@@ -135,4 +135,4 @@ kubectl wait --for=condition=ready pod -l app=${NAME}-cassandra-medusa-medusa-st
 
 # check if medusa grpc server started
 sleep 5
-kubectl logs -l app=${NAME}-cassandra-medusa-medusa-standalone -n ${NAMESPACE} | grep "Starting server. Listening on port 50051"
+kubectl logs -l app=${NAME}-cassandra-medusa-medusa-standalone --tail -1 -n ${NAMESPACE} | grep "Starting server. Listening on port 50051"

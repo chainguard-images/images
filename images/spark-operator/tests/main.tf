@@ -35,7 +35,7 @@ resource "helm_release" "operator" {
     image = {
       registry   = ""
       repository = data.oci_string.ref.registry_repo,
-      tag     = data.oci_string.ref.pseudo_tag
+      tag        = data.oci_string.ref.pseudo_tag
     },
   })]
 }
