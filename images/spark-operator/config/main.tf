@@ -6,8 +6,6 @@ variable "extra_packages" {
 
 module "accts" {
   source = "../../../tflib/accts"
-
-  run-as = 0
 }
 
 # TODO: procps should be moved to a runtime dependency of the spark-operator
@@ -18,7 +16,6 @@ output "config" {
     contents = {
       packages = concat([
         "busybox",
-        "procps",
         "spark-compat",
         "spark-operator-oci-entrypoint"
         ],
