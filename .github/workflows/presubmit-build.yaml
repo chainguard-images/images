@@ -53,7 +53,7 @@ jobs:
       shell: bash # bash math foo required
       if: steps.changed.outputs.base_any_changed == 'true'
       run: |
-        images=($(find ./images -maxdepth 1 -type d -not -path "./images/TEMPLATE" | awk -F'/' '{print $3}' | sort -uR)) # randomize
+        images=($(find ./images -maxdepth 1 -type d -not -path "./images/TEMPLATE" | awk -F'/' '{print $3}' | sort -u))
 
         n=50 # buckets to shard into
         total=${#images[@]}
