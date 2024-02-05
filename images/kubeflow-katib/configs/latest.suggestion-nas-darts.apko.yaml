@@ -14,7 +14,8 @@ accounts:
 
 environment:
   SUGGESTION_DIR: "cmd/suggestion/nas/darts/v1beta1"
-  PYTHONPATH: /opt/katib/cmd/suggestion/nas/darts/v1beta1/.venv-darts/bin:/opt/katib:/opt/katib/pkg/apis/manager/v1beta1/python:/opt/katib/pkg/apis/manager/health/python
+  PATH: /opt/katib/cmd/suggestion/nas/darts/v1beta1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  PYTHONPATH: /opt/katib:/opt/katib/pkg/apis/manager/v1beta1/python:/opt/katib/pkg/apis/manager/health/python
   PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
 
 entrypoint:

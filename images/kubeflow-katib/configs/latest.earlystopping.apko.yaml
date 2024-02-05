@@ -14,7 +14,8 @@ accounts:
 
 environment:
   EARLY_STOPPING_DIR: "cmd/earlystopping/medianstop/v1beta1"
-  PYTHONPATH: /opt/katib/cmd/earlystopping/medianstop/v1beta1/.venv-earlystopping/bin:/opt/katib:/opt/katib/pkg/apis/manager/v1beta1/python
+  PATH: /opt/katib/cmd/earlystopping/medianstop/v1beta1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  PYTHONPATH: /opt/katib:/opt/katib/pkg/apis/manager/v1beta1/python
   PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
 
 entrypoint:
