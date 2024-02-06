@@ -43,18 +43,21 @@ output "config" {
       uid         = module.accts.block.run-as
       gid         = module.accts.block.run-as
       permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
+      recursive   = true
       }, {
       path        = "/opt/bitnami"
       type        = "directory"
       uid         = module.accts.block.run-as
       gid         = module.accts.block.run-as
       permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
+      recursive   = true
       }, {
       path        = "/bitnami"
       type        = "directory"
       uid         = module.accts.block.run-as
       gid         = module.accts.block.run-as
       permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
+      recursive   = true
     }]
     }
   )
