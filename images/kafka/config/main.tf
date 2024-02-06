@@ -13,16 +13,49 @@ variable "environment" {
   default = {}
 }
 
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
+module "accts" {
+  source = "../../../tflib/accts"
+  run-as = 65532
+  uid    = 65532
+  gid    = 65532
+  name   = "kafka"
 }
 
 output "config" {
-  value = jsonencode(merge(
-    {
-      environment = var.environment
-    },
-    data.apko_config.this.config,
-  ))
+  value = jsonencode({
+    contents = {
+      packages = concat([
+        "bash",
+        "busybox",
+        "kafka-bitnami-compat",
+      ], var.extra_packages)
+    }
+    accounts = module.accts.block
+    environment = merge({
+      "BITNAMI_APP_NAME" : "kafka"
+    }, var.environment)
+    entrypoint = {
+      command = "/opt/bitnami/scripts/kafka/entrypoint.sh /opt/bitnami/scripts/kafka/run.sh"
+    }
+    paths = [{
+      path        = "/usr/lib/kafka/logs"
+      type        = "directory"
+      uid         = module.accts.block.run-as
+      gid         = module.accts.block.run-as
+      permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
+      }, {
+      path        = "/opt/bitnami"
+      type        = "directory"
+      uid         = module.accts.block.run-as
+      gid         = module.accts.block.run-as
+      permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
+      }, {
+      path        = "/bitnami"
+      type        = "directory"
+      uid         = module.accts.block.run-as
+      gid         = module.accts.block.run-as
+      permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
+    }]
+    }
+  )
 }
