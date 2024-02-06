@@ -14,7 +14,7 @@ accounts:
 
 environment:
   SUGGESTION_DIR: "cmd/suggestion/hyperband/v1beta1"
-  PATH: /opt/katib/cmd/suggestion/hyberpand/v1beta1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  PATH: /opt/katib/cmd/suggestion/hyperband/v1beta1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
   PYTHONPATH: /opt/katib:/opt/katib/pkg/apis/manager/v1beta1/python:/opt/katib/pkg/apis/manager/health/python
   PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
 
