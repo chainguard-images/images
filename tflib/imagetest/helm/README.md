@@ -15,10 +15,10 @@ module "helm" {
   name   = "logstash"
   chart  = "logstash"
   repo   = "https://helm.elastic.co"
+  values_files = ["/path/to/values.yaml"]
   values = {
     imageTag = "8.9.0"
   }
-  values_file = "/path/to/values.yaml"
 }
 
 ```
@@ -34,13 +34,35 @@ module "helm" {
   source = "../../../helm"
   name   = "test_local"
   chart  = "/path/to/chart/"
+  values_files = ["/path/to/values.yaml"]
   values = {
     test1 = "foo"
     test2 = {
       bar = "baz"
     }
   }
-  values_file = "/path/to/values.yaml"
 }
 ```
 
+### Overriding values
+
+Helm has a concept of priority for values applied to a configuration. Read more
+at https://helm.sh/docs/helm/helm_install/#synopsis. The `values_files` will be
+a lower priority than the inline `values`. The `values_files` on the right will
+have a higher priority than the left. For example
+
+```terraform
+module "helm" {
+  source = "../../../helm"
+  name   = "test_local"
+  chart  = "/path/to/chart/"
+  values_files = ["values.yaml", "override.yaml"]
+  values = {
+    foo = "bar"
+}
+```
+This will be evaluated in the following order
+
+* `values.yaml`
+* `override.yaml` overrides anything in `values.yaml`
+* `{foo: "bar"}` overrides `foo` in `override.yaml`
