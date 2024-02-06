@@ -750,6 +750,11 @@ module "kyverno-policy-reporter" {
   target_repository = "${var.target_repository}/kyverno-policy-reporter"
 }
 
+module "logstash" {
+  source            = "./images/logstash"
+  target_repository = "${var.target_repository}/logstash"
+}
+
 module "loki" {
   source            = "./images/loki"
   target_repository = "${var.target_repository}/loki"

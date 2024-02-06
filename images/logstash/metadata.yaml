@@ -1,0 +1,14 @@
+name: logstash
+image: cgr.dev/chainguard/logstash
+logo: https://storage.googleapis.com/chainguard-academy/logos/logstash.svg
+endoflife: ""
+console_summary: ""
+short_description: |
+  [Logstash](https://github.com/elastic/logstash) is a server-side data procesing pipeline that ingests data from a
+  multitude of sources simultaneously, transforms it, and then sends it to your favorite "stash".
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/elastic/logstash
+keywords:
+  - application
+  - tools
