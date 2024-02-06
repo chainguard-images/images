@@ -1,23 +1,31 @@
 variable "name" {
-  default     = ""
   description = "The name of the helm release. One will be generated if not provided"
+  type        = string
+  default     = ""
+
 }
 
 variable "namespace" {
   description = "The namespace to install the helm release into."
+  type        = string
+  default     = "default"
 }
 
 variable "chart" {
   description = "The name of the helm chart to install."
+  type        = string
 }
 
 variable "repo" {
   description = "The helm repo to install the chart from."
+  type        = string
+  default     = ""
 }
 
 variable "chart_version" {
-  default     = ""
   description = "The version of the helm chart to install. The latest will be used if none is provided."
+  type        = string
+  default     = ""
 }
 
 variable "values" {
@@ -26,8 +34,15 @@ variable "values" {
   default     = {}
 }
 
+variable "values_file" {
+  description = "Path to values file on the local filesystem."
+  type        = string
+  default     = ""
+}
+
 variable "timeout" {
   description = "The timeout on the helm install."
+  type        = string
   default     = "5m"
 }
 
@@ -35,13 +50,14 @@ locals {
   install_cmd = <<-EOa
 apk add helm
 helm install ${var.name} ${var.chart} \
-  --namespace ${var.namespace} --create-namespace \
-  --repo ${var.repo} \
-  --wait --wait-for-jobs \
-  --timeout ${var.timeout} \
+  %{if var.namespace != "default"}--namespace ${var.namespace} --create-namespace%{endif} \
+  %{if var.repo != ""}--repo ${var.repo}%{endif} \
   %{if var.name == ""}--generate-name%{endif} \
   %{if var.chart_version != ""}--version ${var.chart_version}%{endif} \
-  --values <(echo '${jsonencode(var.values)}')
+  --wait --wait-for-jobs \
+  --timeout ${var.timeout} \
+  --values <(echo '${jsonencode(var.values)}') \
+  --values ${var.values_file}
   EOa
 
   uninstall_cmd = <<-EOb
