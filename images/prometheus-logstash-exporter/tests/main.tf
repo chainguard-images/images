@@ -104,7 +104,7 @@ resource "imagetest_feature" "basic" {
     # stale for a while. This developer has taken over development for the
     # logstash-exporter and has included a chart but has not published it yet.
     # There is an issue to publish the chart https://github.com/kuskoman/logstash-exporter/issues/76
-        # For now we just need to clone the repo and use the chart
+    # For now we just need to clone the repo and use the chart
     {
       name = "Helm install logstash-exporter"
       cmd  = <<EOF
