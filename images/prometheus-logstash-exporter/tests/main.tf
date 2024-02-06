@@ -36,7 +36,7 @@ module "helm_prometheus" {
   namespace = "default"
   chart     = "prometheus"
   repo      = "https://prometheus-community.github.io/helm-charts"
-  name = "prometheus"
+  name      = "prometheus"
 
   values = {
     server = {
@@ -84,6 +84,9 @@ resource "imagetest_feature" "basic" {
       name = "Helm install prometheus"
       cmd  = module.helm_prometheus.install_cmd
     },
+    # logstash has a weird values file that didn't quite work with the helm
+    # module for imagetest
+    # TODO: make it so this can work with imagestest/helm
     {
       name = "Helm install logstash"
       cmd  = <<EOF
@@ -95,6 +98,13 @@ resource "imagetest_feature" "basic" {
             --wait-for-jobs
       EOF
     },
+
+    # The logstash-exporter project does not have an official helm chart. There
+    # was progress on the official prometheus charts repo but that PR has been
+    # stale for a while. This developer has taken over development for the
+    # logstash-exporter and has included a chart but has not published it yet.
+    # There is an issue to publish the chart https://github.com/kuskoman/logstash-exporter/issues/76
+        # For now we just need to clone the repo and use the chart
     {
       name = "Helm install logstash-exporter"
       cmd  = <<EOF
