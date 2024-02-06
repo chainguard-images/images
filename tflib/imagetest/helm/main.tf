@@ -49,7 +49,7 @@ helm install ${var.name} ${var.chart} \
   %{if var.chart_version != ""}--version ${var.chart_version}%{endif} \
   --wait --wait-for-jobs \
   --timeout ${var.timeout} \
-  --values ${join(",", var.values_files)} \
+  %{if length(var.values_files) != 0}--values ${join(",", var.values_files)}%{endif} \
   --values <(echo '${jsonencode(var.values)}')
   EOa
 
