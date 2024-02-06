@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimalist Wolfi-based Prometheus Logstash Exporter image for exporting various metrics about Logstash.
+Prometheus exporter for Logstash written in Go
 <!--overview:end-->
 
 <!--getting:start-->
@@ -24,5 +24,5 @@ The image is available on `cgr.dev`:
 docker pull cgr.dev/chainguard/prometheus-logstash-exporter:latest
 ```
 <!--getting:end-->
-See the [upstream git repo](https://github.com/kuskoman/logstash-exporter) for more details on deployment methods! Just swap out `cgr.dev/chainguard/prometheus-logstash-exporter:latest`
+
 <!--body:start--><!--body:end-->
