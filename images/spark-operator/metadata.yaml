@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/spark-operator
 logo: https://storage.googleapis.com/chainguard-academy/logos/spark-operator.svg
 endoflife: ""
 console_summary: ""
-short_description: Minimalist Wolfi-based Spark Operator image for managing the lifecycle of Apache Spark applications on Kubernetes.
+short_description: A minimal, Wolfi-based image for Spark Operator. Facilitates the deployment and management of Apache Spark applications in Kubernetes environments.
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/GoogleCloudPlatform/spark-on-k8s-operator
