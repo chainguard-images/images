@@ -2,7 +2,6 @@ variable "name" {
   description = "The name of the helm release. One will be generated if not provided"
   type        = string
   default     = ""
-
 }
 
 variable "namespace" {
