@@ -11,7 +11,7 @@ variable "namespace" {
 }
 
 variable "chart" {
-  description = "The name of the helm chart to install."
+  description = "The name of, or path to the helm chart to install."
   type        = string
 }
 
