@@ -14,14 +14,18 @@ data "oci_string" "ref" {
 
 resource "random_pet" "suffix" {}
 
-# spark-operator requires a spark cluster to interact with. We don't have a
-# chainguard apache spark image today, so using defaults.
 resource "helm_release" "spark" {
   name             = "spark"
   repository       = "oci://registry-1.docker.io/bitnamicharts"
   chart            = "spark"
   namespace        = "spark-${random_pet.suffix.id}"
   create_namespace = true
+
+  values = [jsonencode({
+    worker = {
+      replicaCount = 1
+    }
+  })]
 }
 
 resource "helm_release" "operator" {
@@ -40,10 +44,10 @@ resource "helm_release" "operator" {
   })]
 }
 
-data "oci_exec_test" "runs" {
+data "oci_exec_test" "run-tests" {
   depends_on  = [resource.helm_release.operator]
   digest      = var.digest
-  script      = "./test-spark-job.sh"
+  script      = "./test-spark.sh"
   working_dir = path.module
 
   env {
