@@ -16,7 +16,7 @@ variable "chart" {
 }
 
 variable "repo" {
-  description = "The helm repo to install the chart from."
+  description = "The helm repo to install the chart from. When not specified, a local helm chart will be assumed."
   type        = string
   default     = ""
 }
