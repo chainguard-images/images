@@ -1007,6 +1007,11 @@ module "prometheus-elasticsearch-exporter" {
   target_repository = "${var.target_repository}/prometheus-elasticsearch-exporter"
 }
 
+module "prometheus-logstash-exporter" {
+  source            = "./images/prometheus-logstash-exporter"
+  target_repository = "${var.target_repository}/prometheus-logstash-exporter"
+}
+
 module "prometheus-mongodb-exporter" {
   source            = "./images/prometheus-mongodb-exporter"
   target_repository = "${var.target_repository}/prometheus-mongodb-exporter"

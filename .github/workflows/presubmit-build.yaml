@@ -28,7 +28,7 @@ jobs:
     - run: terraform fmt -check -recursive -diff
     - run: ./lint.sh
     - name: Enforce YAML formatting
-      uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:e543df7f8b2e4746d48cca924fc51190b3d04cbf64453c9587e4ee6a1823c108
+      uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:4a467536971f7766d3319358e75ddeeebce2dcc776583acbd10e58e75d9cf423
       with:
         entrypoint: wolfictl
         args: lint yam images/
@@ -53,7 +53,7 @@ jobs:
       shell: bash # bash math foo required
       if: steps.changed.outputs.base_any_changed == 'true'
       run: |
-        images=($(find ./images -maxdepth 1 -type d -not -path "./images/TEMPLATE" | awk -F'/' '{print $3}' | sort -uR)) # randomize
+        images=($(find ./images -maxdepth 1 -type d -not -path "./images/TEMPLATE" | awk -F'/' '{print $3}' | sort -u))
 
         n=50 # buckets to shard into
         total=${#images[@]}
@@ -116,7 +116,7 @@ jobs:
 
     - uses: chainguard-dev/actions/setup-k3d@main
       with:
-        k3s-image: cgr.dev/chainguard/k3s:latest@sha256:c49ea9b7685c4814554dc5dff710cd8e6ae6d25e590845426babd06c60e1ea18
+        k3s-image: cgr.dev/chainguard/k3s:latest@sha256:cb07f771be251367d407175bd6217001ecf1b1d3ce831d1e1a1f28e3cc39025b
 
     - name: Configure imagetest provider
       run: |
@@ -166,7 +166,7 @@ jobs:
 
     - name: Upload terraform logs
       if: always()
-      uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v3
+      uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v3
       with:
         name: "mega-module-${{ matrix.shard.index }}.tf.json"
         path: /tmp/mega-module.tf.json
