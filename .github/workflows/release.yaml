@@ -162,6 +162,7 @@ jobs:
   summary:
     name: "Build Summary"
     runs-on: ubuntu-latest
+    if: ${{ always() }}
     needs: build
 
     steps:
