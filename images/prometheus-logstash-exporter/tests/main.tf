@@ -139,14 +139,11 @@ resource "imagetest_feature" "basic" {
       name  = "Query metrics"
       cmd   = <<EOF
         apk add curl jq
-        # Wait for api to become available
-        until curl http://localhost:9090/api/v1/label/__name__/values; do sleep 1; done
-
         # Ensure we see logstash metrics
         curl -L http://localhost:9090/api/v1/label/__name__/values | \
             jq -r '.data[]' | grep -E '^logstash_'
       EOF
-      retry = { attempts = 5, delay = "5s" }
+      retry = { attempts = 5, delay = "10s" }
     },
   ]
 
