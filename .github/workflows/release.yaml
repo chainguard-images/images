@@ -172,19 +172,33 @@ jobs:
           path: /tmp/shard-logs
           pattern: mega-module-*
 
-      # Cat all the files into one
+      # Cat all the files into one, while maintaining their shard
       - run: |
-          find /tmp/shard-logs -name 'mega-module.tf.json' -exec cat {} + >> logs.tf.json
+          find '/tmp/shard-logs' -name 'mega-module.tf.json' | while read file; do
+            shard_index=$(echo "$file" | sed -E 's/.*mega-module-([0-9]+)\.tf\.json.*/\1/')
+            echo $shard_index
+            jq -cr --arg shard_index "$shard_index" '. + {"shard_index":$shard_index}' $file >> logs.tf.json
+          done
+
+      # process the logs
+      - run: |
+          # Create a file just for errors
+          jq -r 'select(.["@level"]=="error")' logs.tf.json > errors.tf.json
 
       # Build the markdown table
       - run: |
-          echo "| Status | Image | Summary | Address |" >> $GITHUB_STEP_SUMMARY
-          echo "| :-:    | ----- | ------- | ------- |" >> $GITHUB_STEP_SUMMARY
+          echo "| Status | Shard | Image | Summary | Address |" >> $GITHUB_STEP_SUMMARY
+          echo "| :-:    | ----- | ----- | ------- | ------- |" >> $GITHUB_STEP_SUMMARY
 
           # append the rows to the table
-          export rows="$(jq -r 'select(.["@level"]=="error") | ("| ❌ | " + (.diagnostic.address | split(".")[1]) + " | ```" + .diagnostic.summary + "``` | ```" + .diagnostic.address + "``` |")' logs.tf.json)"
+          export rows="$(jq -r '"| ❌ | " + .shard_index + " | " + (.diagnostic.address | split(".")[1]) + " | ```" + .diagnostic.summary + "``` | ```" + .diagnostic.address + "``` |"' errors.tf.json)"
           echo "${rows}"
 
           cat >> $GITHUB_STEP_SUMMARY <<EOR
           ${rows}
           EOR
+
+      - name: Error Details
+        run: |
+          # Print the errors as expandable groups
+          jq -r '"::group:: shard: " + .shard_index + " | " + (.diagnostic.address | split(".")[1]) + "\nresource: " + .diagnostic.address + "\n\nsummary: " + .diagnostic.summary + "\n\ndetails:\n\n" + .diagnostic.detail + "\n::endgroup::"' errors.tf.json || true
