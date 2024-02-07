@@ -131,7 +131,6 @@ resource "imagetest_feature" "basic" {
     {
       name = "Port Forward Prometheus"
       cmd  = <<EOF
-        apk add kubectl
         kubectl port-forward svc/prometheus-server 9090:80 &
       EOF
     },
