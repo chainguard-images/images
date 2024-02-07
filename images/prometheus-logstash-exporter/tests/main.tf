@@ -32,12 +32,9 @@ resource "imagetest_harness_k3s" "this" {
 
 module "helm_prometheus" {
   source = "../../../tflib/imagetest/helm"
-
-  namespace = "default"
-  chart     = "prometheus"
-  repo      = "https://prometheus-community.github.io/helm-charts"
-  name      = "prometheus"
-
+  chart  = "prometheus"
+  repo   = "https://prometheus-community.github.io/helm-charts"
+  name   = "prometheus"
   values = {
     server = {
       global = {
@@ -74,6 +71,35 @@ module "helm_prometheus" {
   }
 }
 
+module "helm_logstash" {
+  source       = "../../../tflib/imagetest/helm"
+  chart        = "logstash"
+  repo         = "https://helm.elastic.co"
+  name         = "logstash"
+  values_files = ["/tests/values/logstash.values.yaml"]
+}
+
+module "helm_logstash_exporter" {
+  source = "../../../tflib/imagetest/helm"
+  chart  = "./logstash-exporter/chart"
+  name   = "exporter"
+  values = {
+    logstash = {
+      urls = [
+        "http://logstash-logstash-headless:9600"
+      ]
+      logging = {
+        level = "debug"
+      }
+    }
+    image = {
+      repository = data.oci_string.ref.registry_repo
+      tag        = data.oci_string.ref.pseudo_tag
+      pullPolicy = "Always"
+    }
+  }
+}
+
 resource "imagetest_feature" "basic" {
   harness     = imagetest_harness_k3s.this
   name        = "Basic"
@@ -84,21 +110,10 @@ resource "imagetest_feature" "basic" {
       name = "Helm install prometheus"
       cmd  = module.helm_prometheus.install_cmd
     },
-    # logstash has a weird values file that didn't quite work with the helm
-    # module for imagetest
-    # TODO: make it so this can work with imagestest/helm
     {
       name = "Helm install logstash"
-      cmd  = <<EOF
-        apk add helm
-        helm repo add elastic https://helm.elastic.co
-        helm upgrade --install logstash elastic/logstash \
-            --values /tests/values/logstash.values.yaml \
-            --wait \
-            --wait-for-jobs
-      EOF
+      cmd  = module.helm_logstash.install_cmd
     },
-
     # The logstash-exporter project does not have an official helm chart. There
     # was progress on the official prometheus charts repo but that PR has been
     # stale for a while. This developer has taken over development for the
@@ -110,21 +125,14 @@ resource "imagetest_feature" "basic" {
       cmd  = <<EOF
         apk add git helm
         git clone https://github.com/kuskoman/logstash-exporter.git
-        helm upgrade --install exporter ./logstash-exporter/chart \
-          --set logstash.urls[0]="http://logstash-logstash-headless:9600" \
-          --set logstash.logging.level="debug" \
-          --set image.repository="${data.oci_string.ref.registry_repo}" \
-          --set image.tag="${data.oci_string.ref.pseudo_tag}" \
-          --set image.pullPolicy="Always" \
-          --wait \
-          --wait-for-jobs
+        ${module.helm_logstash_exporter.install_cmd}
       EOF
     },
     {
       name = "Query metrics"
       cmd  = <<EOF
         apk add kubectl curl jq
-        kubectl port-forward svc/prometheus-server 9090:80 & 
+        kubectl port-forward svc/prometheus-server 9090:80 &
 
         # Wait for api to become available
         until curl http://localhost:9090/api/v1/label/__name__/values; do sleep 1; done
