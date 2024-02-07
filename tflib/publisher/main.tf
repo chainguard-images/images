@@ -116,6 +116,7 @@ module "this-dev" {
     "bash",
     "busybox",
     "git",
+    "wget",
   ], var.extra_dev_packages)
 
   check_sbom   = var.check-sbom
