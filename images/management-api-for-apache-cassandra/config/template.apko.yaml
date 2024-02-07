@@ -1,6 +1,5 @@
 contents:
   packages:
-    - python3
     - busybox
     - bash
     - tini
