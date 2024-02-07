@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -24,75 +24,26 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "kyverno" {
-  name       = "kyverno-${random_pet.suffix.id}"
-  repository = "https://kyverno.github.io/kyverno"
-  chart      = "kyverno"
-
-  namespace        = "kyverno-${random_pet.suffix.id}"
-  create_namespace = true
-
-  values = [jsonencode({
-    admissionController = {
-      container = {
-        image = {
-          registry   = "cgr.dev"
-          repository = "chainguard/kyverno"
-          tag        = "latest"
-        }
-      }
-      initContainer = {
-        image = {
-          registry   = "cgr.dev"
-          repository = "chainguard/kyvernopre"
-          tag        = "latest"
-        }
-      }
-    }
-    backgroundController = {
-      container = {
-        image = {
-          registry   = "cgr.dev"
-          repository = "chainguard/kyverno-background-controller"
-          tag        = "latest"
-        }
-      }
-    }
-    cleanupController = {
-      container = {
-        image = {
-          registry   = "cgr.dev"
-          repository = "chainguard/kyverno-cleanup-controller"
-          tag        = "latest"
-        }
-      }
-    }
-    reportsController = {
-      container = {
-        image = {
-          registry   = "cgr.dev"
-          repository = "chainguard/kyverno-reports-controller"
-          tag        = "latest"
-        }
-      }
-    }
-  })]
+resource "imagetest_harness_k3s" "this" {
+  name      = "kyverno"
+  inventory = data.imagetest_inventory.this
 }
 
-resource "helm_release" "kyverno-policy-reporter" {
-  depends_on = [helm_release.kyverno]
-  name       = "policy-reporter"
-  repository = "https://kyverno.github.io/policy-reporter"
-  chart      = "policy-reporter"
-  version    = var.chart-version
-  timeout    = 600
+module "kyverno_helm" {
+  source = "../../kyverno/tests/helm"
+}
 
-  create_namespace = true
-  namespace        = "policy-reporter"
+module "policy_reporter_helm" {
+  source = "../../../tflib/imagetest/helm"
 
-  values = [jsonencode({
+  name      = "policy-reporter"
+  namespace = "kyverno"
+  repo      = "https://kyverno.github.io/policy-reporter"
+  chart     = "policy-reporter"
+
+  values = {
     image = {
       registry   = data.oci_string.ref["reporter"].registry
       repository = data.oci_string.ref["reporter"].repo
@@ -119,18 +70,26 @@ resource "helm_release" "kyverno-policy-reporter" {
         tag        = data.oci_string.ref["plugin"].pseudo_tag
       }
     }
-  })]
+  }
 }
 
-module "helm_cleanup-kpr" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.kyverno-policy-reporter.id
-  namespace = helm_release.kyverno-policy-reporter.namespace
-}
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the kyverno helm chart."
 
-module "helm_cleanup" {
-  depends_on = [module.helm_cleanup-kpr]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.kyverno.id
-  namespace  = helm_release.kyverno.namespace
+  steps = [
+    {
+      name = "Kyverno helm install"
+      cmd  = module.kyverno_helm.install_cmd
+    },
+    {
+      name = "Policy reporter helm install"
+      cmd  = module.policy_reporter_helm.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }
