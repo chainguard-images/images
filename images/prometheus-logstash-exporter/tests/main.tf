@@ -129,11 +129,16 @@ resource "imagetest_feature" "basic" {
       EOF
     },
     {
-      name = "Query metrics"
+      name = "Port Forward Prometheus"
       cmd  = <<EOF
-        apk add kubectl curl jq
+        apk add kubectl
         kubectl port-forward svc/prometheus-server 9090:80 &
-
+      EOF
+    },
+    {
+      name  = "Query metrics"
+      cmd   = <<EOF
+        apk add curl jq
         # Wait for api to become available
         until curl http://localhost:9090/api/v1/label/__name__/values; do sleep 1; done
 
@@ -141,6 +146,7 @@ resource "imagetest_feature" "basic" {
         curl -L http://localhost:9090/api/v1/label/__name__/values | \
             jq -r '.data[]' | grep -E '^logstash_'
       EOF
+      retry = { attempts = 5, delay = "5s" }
     },
   ]
 
