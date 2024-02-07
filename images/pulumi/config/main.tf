@@ -15,7 +15,7 @@ output "config" {
     contents = {
       packages = concat([
         "pulumi-watch",
-				# Needed for language support
+        # Needed for language support
         "busybox",
         # for Pulumi Go support
         "pulumi-language-go",
