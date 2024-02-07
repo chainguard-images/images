@@ -123,24 +123,23 @@ resource "imagetest_feature" "basic" {
     {
       name = "Helm install logstash-exporter"
       cmd  = <<EOF
-        apk add git helm
         git clone https://github.com/kuskoman/logstash-exporter.git
         ${module.helm_logstash_exporter.install_cmd}
       EOF
     },
     {
-      name = "Query metrics"
-      cmd  = <<EOF
-        apk add kubectl curl jq
+      name  = "Query metrics with retry"
+      cmd   = <<EOF
+        apk add curl jq
         kubectl port-forward svc/prometheus-server 9090:80 &
 
-        # Wait for api to become available
-        until curl http://localhost:9090/api/v1/label/__name__/values; do sleep 1; done
+        until curl -L http://localhost:9090/api/v1/label/__name__/values; do sleep 1; done
 
         # Ensure we see logstash metrics
         curl -L http://localhost:9090/api/v1/label/__name__/values | \
             jq -r '.data[]' | grep -E '^logstash_'
       EOF
+      retry = { attempts = 5, delay = "10s" }
     },
   ]
 
