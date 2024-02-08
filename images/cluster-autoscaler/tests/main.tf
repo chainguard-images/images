@@ -46,7 +46,7 @@ resource "imagetest_feature" "basic" {
 
   steps = [
     {
-      name = "Convert to cluster to a CAPI management cluster"
+      name = "Convert cluster to a CAPI management cluster"
       cmd  = <<EOF
 apk add clusterctl
 clusterctl init --infrastructure docker
