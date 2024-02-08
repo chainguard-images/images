@@ -20,9 +20,36 @@ paths:
     gid: 65532
     permissions: 0o755
     recursive: true
+  - path: /usr/share/opensearch/config
+    type: directory
+    uid: 65532
+    gid: 65532
+    permissions: 0o755
+    recursive: true
+  - path: /usr/share/opensearch/config/jvm.options.d
+    type: directory
+    uid: 65532
+    gid: 65532
+    permissions: 0o755
+    recursive: true
+  - path: /usr/share/opensearch/data
+    type: directory
+    uid: 65532
+    gid: 65532
+    permissions: 0o755
+    recursive: true
+  - path: /usr/share/opensearch/logs
+    type: directory
+    uid: 65532
+    gid: 65532
+    permissions: 0o755
+    recursive: true
+
+work-dir: /usr/share/opensearch
 
 environment:
   JAVA_HOME: /usr/lib/jvm/default-jvm
+  OPENSEARCH_JAVA_OPTS: -Xlog:gc:/usr/share/opensearch/logs/gc.log
 
 entrypoint:
   command: /usr/bin/docker-entrypoint.sh
