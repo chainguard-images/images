@@ -148,7 +148,9 @@ There are two classes of tests that exist today, `oci_exec_test` and `imagetest`
 
 #### Testing with `oci_exec_test`
 
-Tests using this resource execute scripts on the host machine. They are extremely simple to author. A minimal example is below:
+Tests using this resource execute scripts on the host machine. They are extremely simple to author. The currently built image is available to the script via the `IMAGE_NAME` environment variable.
+
+A minimal example is below:
 
 ```hcl
 data "oci_exec_test" "foo" {
@@ -156,7 +158,7 @@ data "oci_exec_test" "foo" {
   # whatever script is executed.
   digest = "my-image@"
   # A script that executes on the host with various context achieved and
-  # plubmed through the provided digest as environment variables.
+  # plumbed through the provided digest as environment variables.
   script = <<EOF
     ...
   EOF
@@ -188,8 +190,8 @@ development.
 A minimal test implemented with `imagetest` is below, commented where applicable:
 
 ```hcl
-# A _required_ data source, used for keeping a provider internal inventory of #
-# which harnesses should be cleaned up and when. Its important that this should
+# A _required_ data source, used for keeping a provider internal inventory of
+# which harnesses should be cleaned up and when. It's important to note that this should
 # always be fully determined at _plan_ time. In other words, it should have no
 # _apply_ time dependencies. To make this hard to mess up, this data source takes
 # no inputs. The name of this data source does not matter, and multiple data
@@ -199,7 +201,7 @@ data "imagetest_inventory" "this" {}
 # The imagetest provider provides multiple imagetest_harness_* resources that
 # abstract the creation and configuration of various test harnesses. These test
 # harnesses will be ephemeral to the lifecycle of the _apply_, and are typically
-# authored with sane defaults that require minimal configuration.
+# authored with sensible defaults that require minimal configuration.
 resource "imagetest_harness_k3s" "foo" {
   # The inventory this harness should be registered against. This is primarily
   # used for internal provider plumbing, and as such, the data format of the
@@ -232,10 +234,10 @@ resource "imagetest_feature" "foo" {
   # The optional description of the harness
   description = "My great footure"
 
-  # Steps are a series of commands executed in order to completion. Depending #
-  # on the provided harness, these location and method of how these steps are #
+  # Steps are a series of commands executed in order to completion. Depending
+  # on the provided harness, these location and method of how these steps are
   # executed will vary, but in general, they are typically abstracted to operate
-  # # as shell scripts. For example, in this example, the `imagetest_harness_k3s`
+  # as shell scripts. For example, in this example, the `imagetest_harness_k3s`
   # is used, which means these steps will execute within a sandboxed `wolfi-base`
   # image that has `kubectl` pre-installed and pre-configured to connect to the
   # network attached k3s cluster. The intent with the harness feature setups is
