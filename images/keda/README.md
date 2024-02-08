@@ -28,3 +28,22 @@ docker pull cgr.dev/chainguard/keda:latest
 <!--body:start-->
 This image is a drop-in replacement for the KEDA manager available upstream at `ghcr.io/kedacore/keda`.
 <!--body:end-->
+
+## Usage
+
+**TL;DR**
+
+This chart bootstraps KEDA infrastructure on a Kubernetes cluster using the Helm package manager.
+
+As part of that, it will install all the required Custom Resource Definitions (CRD).
+
+```shell
+helm repo add kedacore https://kedacore.github.io/charts
+helm repo update
+
+kubectl create namespace keda
+helm install keda kedacore/keda --namespace keda \
+    --set image.keda.repository="developerguy/keda" \
+    --set image.keda.tag="2.9" \
+    --set image.pullPolicy=IfNotPresent --version 2.9.1
+```

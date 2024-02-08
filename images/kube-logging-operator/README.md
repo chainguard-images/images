@@ -26,4 +26,23 @@ docker pull cgr.dev/chainguard/kube-logging-operator:latest
 <!--getting:end-->
 
 <!--body:start-->
+
+## Usage
+
+To test:
+
+```shell
+$ docker run cgr.dev/chainguard-private/kube-logging-operator
+```
+
+With `Helm`:
+
+```shell
+helm repo add kube-logging https://kube-logging.dev/helm-charts
+helm repo update
+helm upgrade --install logging-operator kube-logging/logging-operator \
+    --set image.repository=cgr.dev/chainguard-private/kube-logging-operator \
+    --set image.tag=$VERSION
+```
+
 <!--body:end-->
