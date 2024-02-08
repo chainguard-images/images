@@ -30,6 +30,7 @@ variable "cmd" {
   description = "The command followed by entrypoint"
   default     = ""
 }
+
 module "accts" {
   source = "../../../tflib/accts"
   run-as = var.run-as
@@ -47,3 +48,4 @@ output "config" {
     cmd = var.cmd
   })
 }
+
