@@ -299,12 +299,13 @@ To prevent each harness from requiring the _same_ configuration, `provider`
 level configs for each harness types are provided as a method for "global"
 configuration.
 
-A copy/pastable example with inline comments is available below for those
-working with a _local_ registry and `docker`. To prevent different
-configuration existing in the tree, this file is typically included as a
-`main_override.tf` (see
+Several copy/pasteable examples are below with descriptions for various local
+development setups. To prevent different configurations from existing in the
+tree, these are usually configured through a `main_override.tf` (see
 [overrides](https://developer.hashicorp.com/terraform/language/files/override))
-and not committed.
+that is not commited.
+
+If you're using a local docker backed registry:
 
 ```hcl
 # main_override.tf
@@ -313,6 +314,11 @@ provider "imagetest" {
     # Configuration to apply to _all_ `imagetest_harness_k3s` resources created
     # with this provider
     k3s = {
+      # Additional networks to attach to the any containers created by the harness.
+      networks = {
+        # If using k3d's registry, this wires in the k3d's registry network
+        "k3d-default" = { name = "k3d-k3s-default" }
+      }
       registries = {
         # Configure k3s' registry mirror to point to docker's magic host dns.
         # This lets the k3s cluster running in docker access the neighboring
@@ -321,6 +327,31 @@ provider "imagetest" {
         "${element(split("/", var.target_repository), 0)}" = {
           mirror = { endpoints = ["http://host.docker.internal:5005"] }
         }
+      }
+    }
+  }
+}
+```
+
+If you're using a remote registry with a known and trusted cert (like `ttl.sh`), you likely will not need a `main_override.tf`.
+
+If you're using a private remote registry:
+
+```hcl
+# main_override.tf
+provider "imagetest" {
+  harnesses = {
+    k3s = {
+      registries = {
+        # Configure the k3s' containerd with credentials created from the
+        # available `docker-credential-*`.
+        # 
+        # This example uses `docker-credential-gcloud` to obtain auth
+        # credentials and plumb them through to k3s' registries.yaml
+        "gcr.io" = { auth = {} }
+        # This example uses `docker-credential-cgr` to obtain auth
+        # credentials and plumb them through to k3s' registries.yaml
+        "cgr.dev" = { auth = {} }
       }
     }
   }
