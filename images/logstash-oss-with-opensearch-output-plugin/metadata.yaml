@@ -1,0 +1,10 @@
+name: logstash-oss-with-opensearch-output-plugin
+image: cgr.dev/chainguard/logstash-oss-with-opensearch-output-plugin
+logo: https://storage.googleapis.com/chainguard-academy/logos/logstash-oss-with-opensearch-output-plugin.svg
+endoflife: ""
+console_summary: ""
+short_description: 
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: 
+keywords: []
