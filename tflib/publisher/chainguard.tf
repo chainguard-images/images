@@ -14,7 +14,12 @@ locals {
 
   readme_filepath   = "images/${var.name}/README.md"
   metadata_filepath = "images/${var.name}/metadata.yaml"
-  metadata          = yamldecode(file(local.metadata_filepath))
+
+  // Parse metadata from metadata.yaml. If the file is missing,
+  // do not fail, create a basic structure containing empty keywords
+  metadata = fileexists(local.metadata_filepath) ? yamldecode(file(local.metadata_filepath)) : {
+    keywords : [],
+  }
 
   // If the repo name ends with "-fips", add "fips" as a keyword
   keywords = endswith(local.repo_name, "-fips") ? concat(local.metadata.keywords, ["fips"]) : local.metadata.keywords
