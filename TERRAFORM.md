@@ -156,7 +156,7 @@ A minimal example is below:
 data "oci_exec_test" "foo" {
   # A required image digest. This will be injected as environment variables to
   # whatever script is executed.
-  digest = "my-image@"
+  digest = var.digest
   # A script that executes on the host with various context achieved and
   # plumbed through the provided digest as environment variables.
   script = <<EOF
