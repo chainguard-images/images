@@ -255,13 +255,15 @@ resource "imagetest_feature" "foo" {
     # approach of a bash retry loop with a simple provider resource definition
     {
       name = "Do a thing that may flake"
-      cmd = <<EOF
-        ...
-      EOF
-      # Retry with a linear backoff
+      cmd = "..."
+      # Retry with a linear backoff (10s, then 20s, then 30s, ...)
       retry = { attempts = 5, delay = "10s" },
-      # Retry with an exponential backoff
-      # retry = { attempts = 3, delay = "5s", factor = "2" },
+    },
+    {
+      name = "Do a another thing that may flake"
+      cmd = "..."
+      # Retry with an exponential backoff (5s, then 10s, then 20s)
+      retry = { attempts = 3, delay = "5s", factor = "2" },
     },
   ]
 }
