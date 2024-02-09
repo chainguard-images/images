@@ -13,7 +13,6 @@ variable "extra_packages" {
 }
 
 variable "environment" {
-  type    = map(string)
   default = {}
 }
 

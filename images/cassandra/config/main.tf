@@ -16,10 +16,7 @@ variable "environment" {
 output "config" {
   value = jsonencode({
     contents = {
-      packages = concat([
-        "busybox",
-        "bash",
-      ], var.extra_packages),
+      packages = var.extra_packages,
     },
     accounts = {
       groups = [

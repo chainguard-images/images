@@ -5,7 +5,6 @@ terraform {
 }
 
 variable "environment" {
-  type    = map(string)
   default = {}
 }
 
@@ -22,6 +21,7 @@ output "config" {
       packages = var.extra_packages,
     },
     accounts = module.accts.block,
+    environment = var.environment,
     entrypoint = {
       command = "/usr/local/bin/entrypoint",
     },

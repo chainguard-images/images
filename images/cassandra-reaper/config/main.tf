@@ -5,14 +5,12 @@ terraform {
 }
 
 variable "environment" {
-  type    = map(string)
   default = {}
 }
 
 variable "extra_packages" {
   description = "The additional packages to install"
   default = [
-    "busybox",
     "cassandra-reaper",
     "openjdk-11-default-jvm"
   ]
