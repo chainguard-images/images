@@ -4,16 +4,26 @@ terraform {
   }
 }
 
+variable "environment" {
+  type    = map(string)
+  default = {}
+}
+
 variable "extra_packages" {
   description = "The additional packages to install."
   default     = ["cass-config-builder", "bash", "busybox", "openjdk-8-default-jvm"]
 }
 
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
-}
+module "accts" { source = "../../../tflib/accts" }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    contents = {
+      packages = var.extra_packages,
+    },
+    accounts = module.accts.block,
+    entrypoint = {
+      command = "/usr/local/bin/entrypoint",
+    },
+  })
 }

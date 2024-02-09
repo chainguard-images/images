@@ -12,11 +12,52 @@ variable "extra_packages" {
   ]
 }
 
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
+variable "environment" {
+  type    = map(string)
+  default = {}
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    contents = {
+      packages = var.extra_packages,
+    },
+    accounts = {
+      groups = [
+        {
+          groupname = "cassandra",
+          gid       = 999,
+        },
+      ],
+      users = [
+        {
+          username = "cassandra",
+          uid      = 999,
+          gid      = 999,
+        },
+      ],
+      run-as = 999,
+    },
+    paths = [
+      {
+        path        = "/home/cassandra",
+        type        = "directory",
+        uid         = 999,
+        gid         = 999,
+        permissions = 493, // 0o755 in decimal
+        recursive   = true,
+      },
+    ],
+    environment = merge({
+      DEBUG_VERSION = "1",
+      DEBUG_SLEEP   = "0",
+      LC_ALL        = "C.UTF-8",
+      LANG          = "C.UTF-8",
+      PATH          = "/usr/share/medusa/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    }, var.environment),
+    work-dir = "/home/cassandra/",
+    entrypoint = {
+      command = "/home/cassandra/docker-entrypoint.sh",
+    },
+  })
 }
