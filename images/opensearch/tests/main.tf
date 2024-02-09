@@ -1,6 +1,6 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
     helm      = { source = "hashicorp/helm" }
     imagetest = { source = "chainguard-dev/imagetest" }
   }
@@ -14,10 +14,10 @@ data "oci_string" "ref" {
   input = var.digest
 }
 
-# data "oci_exec_test" "server" {
-#   digest = var.digest
-#   script = "${path.module}/server.sh"
-# }
+data "oci_exec_test" "server" {
+  digest = var.digest
+  script = "${path.module}/server.sh"
+}
 
 data "imagetest_inventory" "this" {}
 
@@ -34,7 +34,7 @@ module "helm_opensearch" {
   repo      = "https://opensearch-project.github.io/helm-charts"
 
   values = {
-    singleNode = true
+    singleNode   = true
     majorVersion = "2"
     image = {
       repository = data.oci_string.ref.registry_repo

@@ -5,41 +5,17 @@ contents:
 accounts:
   groups:
     - groupname: opensearch
-      gid: 65532
+      gid: 1000
   users:
     - username: opensearch
-      uid: 65532
-  run-as: 65532
+      uid: 1000
+  run-as: 1000 # upstream image uses 1000
 
 paths:
   - path: /usr/share/opensearch
     type: directory
-    uid: 65532
-    gid: 65532
-    permissions: 0o755
-    recursive: true
-  - path: /usr/share/opensearch/config
-    type: directory
-    uid: 65532
-    gid: 65532
-    permissions: 0o755
-    recursive: true
-  - path: /usr/share/opensearch/config/jvm.options.d
-    type: directory
-    uid: 65532
-    gid: 65532
-    permissions: 0o755
-    recursive: true
-  - path: /usr/share/opensearch/data
-    type: directory
-    uid: 65532
-    gid: 65532
-    permissions: 0o755
-    recursive: true
-  - path: /usr/share/opensearch/logs
-    type: directory
-    uid: 65532
-    gid: 65532
+    uid: 1000
+    gid: 1000
     permissions: 0o755
     recursive: true
 
@@ -47,7 +23,6 @@ work-dir: /usr/share/opensearch
 
 environment:
   JAVA_HOME: /usr/lib/jvm/default-jvm
-  OPENSEARCH_JAVA_OPTS: -Xlog:gc:/usr/share/opensearch/logs/gc.log
 
 entrypoint:
   command: /usr/bin/docker-entrypoint.sh
