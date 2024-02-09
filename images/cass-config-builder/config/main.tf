@@ -20,7 +20,7 @@ output "config" {
     contents = {
       packages = var.extra_packages,
     },
-    accounts = module.accts.block,
+    accounts    = module.accts.block,
     environment = var.environment,
     entrypoint = {
       command = "/usr/local/bin/entrypoint",
