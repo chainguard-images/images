@@ -16,23 +16,23 @@ module "logstash-oss-with-opensearch-output-plugin" {
   target_repository = var.target_repository
   config            = module.config.config
 
-  build-dev         = true
+  build-dev = true
 
 }
 
-# module "test" {
-#   source = "./tests"
-#   digest = module.logstash-oss-with-opensearch-output-plugin.image_ref
-# }
+module "test" {
+  source = "./tests"
+  digest = module.logstash-oss-with-opensearch-output-plugin.image_ref
+}
 
 resource "oci_tag" "latest" {
-  # depends_on = [module.test]
+  depends_on = [module.test]
   digest_ref = module.logstash-oss-with-opensearch-output-plugin.image_ref
   tag        = "latest"
 }
 
 resource "oci_tag" "latest-dev" {
-  # depends_on = [module.test]
+  depends_on = [module.test]
   digest_ref = module.logstash-oss-with-opensearch-output-plugin.dev_ref
   tag        = "latest-dev"
 }

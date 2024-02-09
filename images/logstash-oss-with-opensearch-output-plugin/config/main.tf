@@ -9,8 +9,8 @@ variable "extra_packages" {
   default = [
     "openjdk-11-default-jvm",
     "logstash-with-output-opensearch",
-    "logstash-compat",
     "logstash-env2yaml",
+    "logstash-compat",
   ]
 }
 

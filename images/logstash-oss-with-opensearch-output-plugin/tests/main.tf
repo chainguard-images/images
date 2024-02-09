@@ -1,37 +1,81 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    helm      = { source = "hashicorp/helm" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
 variable "digest" {
-  description = "The image digest to run tests over."
+  description = "The image digests to run tests over."
 }
 
-data "oci_exec_test" "manifest" {
-  digest      = var.digest
-  script      = "./EXAMPLE_TEST.sh"
-  working_dir = path.module
+data "oci_string" "ref" {
+  input = var.digest
 }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "helm" {
-  name             = "logstash-oss-with-opensearch-output-plugin-${random_pet.suffix.id}"
-  namespace        = "logstash-oss-with-opensearch-output-plugin-${random_pet.suffix.id}"
-  repository       = "" // TODO
-  chart            = "" // TODO
-  create_namespace = true
+resource "imagetest_harness_k3s" "this" {
+  name      = "prometheus-logstash-exporter"
+  inventory = data.imagetest_inventory.this
 
-  values = [
-    jsonencode({
-      // TODO:
-    })
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+  }
+}
+
+module "helm_logstash" {
+  source       = "../../../tflib/imagetest/helm"
+  chart        = "logstash"
+  repo         = "https://helm.elastic.co"
+  name         = "logstash"
+  values_files = ["/tests/values/logstash.values.yaml"]
+}
+
+module "helm_opensearch" {
+  source       = "../../../tflib/imagetest/helm"
+  chart        = "opensearch"
+  repo         = "https://opensearch-project.github.io/helm-charts/"
+  name         = "opensearch"
+  values_files = ["/tests/values/opensearch.values.yaml"]
+}
+
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the logstash image."
+
+  steps = [
+    {
+      name = "Helm install prometheus"
+      cmd  = module.helm_opensearch.install_cmd
+    },
+    {
+      name = "Helm install logstash"
+      cmd  = module.helm_logstash.install_cmd
+    },
+    {
+      name  = "Query metrics with retry"
+      cmd   = <<EOF
+        apk add curl jq
+        kubectl port-forward svc/opensearch-cluster-master-headless 9200:9200 &
+
+        until curl -L https://localhost:9200/ -ku admin:admin; do sleep 1; done
+
+        # Ensure we see logstash metrics
+        curl --head --fail https://localhost:9200/heartbeats_cg -ku admin:admin
+      EOF
+      retry = { attempts = 10, delay = "10s" }
+    },
   ]
-}
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.helm.id
-  namespace = helm_release.helm.namespace
+  labels = {
+    type = "k8s"
+  }
 }

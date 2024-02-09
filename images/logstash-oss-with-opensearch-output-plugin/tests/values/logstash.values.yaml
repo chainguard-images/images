@@ -6,9 +6,9 @@ replicas: 1
 #
 # Note that when overriding logstash.yml, `http.host: 0.0.0.0` should always be included
 # to make default probes work.
-logstashConfig: {}
-#  logstash.yml: |
-#    key:
+logstashConfig:
+ logstash.yml: |
+    http.host: 0.0.0.0
 #      nestedkey: value
 #  log4j2.properties: |
 #    key = value
@@ -24,12 +24,10 @@ logstashPipeline:
     output {
       opensearch {
         hosts  => ["https://opensearch-cluster-master-headless:9200"]
-        auth_type => {
-          type => 'basic'
-          user => 'admin'
-          password => 'admin'
-        }
-        index => "heartbeats"
+        user => 'admin'
+        password => 'admin'
+        ssl_certificate_verification => false
+        index => "heartbeats_cg"
         action => "create"
       }
     }
@@ -81,6 +79,8 @@ hostAliases: []
 
 image: "ttl.sh/turnip/logstash-oss-with-opensearch-output-plugin"
 imageTag: "latest-dev"
+# image: "docker.io/opensearchproject/logstash-oss-with-opensearch-output-plugin"
+# imageTag: "latest"
 imagePullPolicy: "Always"
 imagePullSecrets: []
 
