@@ -1,5 +1,5 @@
 variable "name" {
-  description = "Package name (e.g. cainjector, acmeresolver, controller, webhook)"
+  description = "Package name (e.g. server, agent, oidc-discovery-provider)"
 }
 
 variable "suffix" {
