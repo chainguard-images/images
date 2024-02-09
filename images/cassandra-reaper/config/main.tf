@@ -15,9 +15,18 @@ variable "extra_packages" {
   ]
 }
 
+variable "extra_env" {
+  description = "The additional environment variables to set"
+  default     = {}
+  type        = map(string)
+}
+
 data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
+  config_contents = merge(
+    file("${path.module}/template.apko.yaml"),
+    { environment = var.extra_env }
+  )
+  extra_packages = var.extra_packages
 }
 
 output "config" {
