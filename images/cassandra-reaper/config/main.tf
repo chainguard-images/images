@@ -15,9 +15,18 @@ variable "extra_packages" {
   ]
 }
 
+variable "environment" {
+  description = "Additional environment variables to set in the image."
+  type        = map(string)
+  default     = {}
+}
+
 data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
+  config_contents = yamlencode(merge(
+    yamldecode(file("${path.module}/template.apko.yaml")),
+    { environment = var.environment },
+  ))
+  extra_packages = var.extra_packages
 }
 
 output "config" {
