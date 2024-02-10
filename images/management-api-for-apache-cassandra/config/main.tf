@@ -21,10 +21,12 @@ variable "extra_packages" {
   "openjdk-11-default-jvm"]
 }
 
+locals { decoded = yamldecode(file("${path.module}/template.apko.yaml")) }
+
 data "apko_config" "this" {
   config_contents = yamlencode(merge(
-    yamldecode(file("${path.module}/template.apko.yaml")),
-    { environment = var.environment },
+    decoded,
+    { environment = merge(decoded.environment, var.environment) },
   ))
   extra_packages = var.extra_packages
 }
