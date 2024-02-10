@@ -23,7 +23,7 @@ variable "extra_env" {
 
 data "apko_config" "this" {
   config_contents = yamlencode(merge(
-    yamldecode( file("${path.module}/template.apko.yaml")),
+    yamldecode(file("${path.module}/template.apko.yaml")),
     { environment = var.extra_env },
   ))
   extra_packages = var.extra_packages
