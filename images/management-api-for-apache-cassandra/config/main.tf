@@ -25,8 +25,8 @@ locals { decoded = yamldecode(file("${path.module}/template.apko.yaml")) }
 
 data "apko_config" "this" {
   config_contents = yamlencode(merge(
-    decoded,
-    { environment = merge(decoded.environment, var.environment) },
+    local.decoded,
+    { environment = merge(local.decoded.environment, var.environment) },
   ))
   extra_packages = var.extra_packages
 }
