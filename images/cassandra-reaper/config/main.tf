@@ -16,15 +16,17 @@ variable "extra_packages" {
 }
 
 variable "environment" {
-  description = "Additional environment variables to set in the image."
-  type        = map(string)
+  description = "The additional environment variables to set"
   default     = {}
+  type        = map(string)
 }
+
+locals { decoded = yamldecode(file("${path.module}/template.apko.yaml")) }
 
 data "apko_config" "this" {
   config_contents = yamlencode(merge(
-    yamldecode(file("${path.module}/template.apko.yaml")),
-    { environment = var.environment },
+    decoded,
+    { environment = merge(decoded.environment, var.environment) },
   ))
   extra_packages = var.extra_packages
 }
