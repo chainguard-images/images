@@ -12,12 +12,14 @@ locals {
     "chainguard" : "720909c9f5279097d847ad02a2f24ba8f59de36a",
   }
 
-  readme_filepath   = "images/${var.name}/README.md"
-  metadata_filepath = "images/${var.name}/metadata.yaml"
-  metadata          = yamldecode(file(local.metadata_filepath))
+  readme_filepath = "images/${var.name}/README.md"
 
-  // If the repo name ends with "-fips", add "fips" as a keyword
-  keywords = endswith(local.repo_name, "-fips") ? concat(local.metadata.keywords, ["fips"]) : local.metadata.keywords
+  // Parse keywords out of from metadata.yaml
+  metadata_filepath = "images/${var.name}/metadata.yaml"
+  keywords          = fileexists(local.metadata_filepath) ? yamldecode(file(local.metadata_filepath)).keywords : []
+
+  // If the repo name ends with "-fips", add "fips" as a keyword (if not already present)
+  keywords_updated = (endswith(local.repo_name, "-fips") && !contains(local.keywords, "fips")) ? concat(local.keywords, ["fips"]) : local.keywords
 
   should_run_repo_update  = var.update-repo && local.is_chainguard
   should_run_group_lookup = local.should_run_repo_update && !local.group_is_uidp && local.is_chainguard && lookup(local.groups, local.group, "") == ""
@@ -37,5 +39,5 @@ resource "chainguard_image_repo" "repo" {
   readme    = file(local.readme_filepath)
   name      = local.repo_name
   // keywords in the metadata file maps to bundles in the Chainguard API
-  bundles = local.keywords
+  bundles = local.keywords_updated
 }

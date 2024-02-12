@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -11,26 +11,22 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-data "oci_exec_test" "run" {
-  digest = var.digest
-  script = <<EOF
-    # We expect the command to fail, but want its output anyway.
-    ( docker run --rm $IMAGE_NAME --help 2>&1 || true ) | grep autoscaler
-  EOF
+data "imagetest_inventory" "this" {}
+
+resource "imagetest_harness_k3s" "this" {
+  name      = "cluster-autoscaler"
+  inventory = data.imagetest_inventory.this
 }
 
-resource "random_pet" "suffix" {}
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-resource "helm_release" "cluster-autoscaler" {
-  name = "cluster-autoscaler-${random_pet.suffix.id}"
+  namespace = "cluster-autoscaler"
+  chart     = "cluster-autoscaler"
+  repo      = "https://kubernetes.github.io/autoscaler"
 
-  repository = "https://kubernetes.github.io/autoscaler"
-  chart      = "cluster-autoscaler"
-
-  namespace        = "cluster-autoscaler-${random_pet.suffix.id}"
-  create_namespace = true
-
-  values = [jsonencode({
+  values = {
+    cloudProvider = "clusterapi"
     global = {
       image = {
         tag        = data.oci_string.ref.pseudo_tag
@@ -40,11 +36,29 @@ resource "helm_release" "cluster-autoscaler" {
     autoDiscovery = {
       clusterName = "foo"
     }
-  })]
+  }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.cluster-autoscaler.id
-  namespace = helm_release.cluster-autoscaler.namespace
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the cluster-autoscaler helm chart."
+
+  steps = [
+    {
+      name = "Convert cluster to a CAPI management cluster"
+      cmd  = <<EOF
+apk add clusterctl
+clusterctl init --infrastructure docker
+      EOF
+    },
+    {
+      name = "Install the cluster-autoscaler helm chart, using the CAPI as a mock endpoint"
+      cmd  = module.helm.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }

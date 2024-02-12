@@ -27,7 +27,10 @@ locals {
     },
 
     "oidc-discovery-provider" = {
-      run-as         = 65532
+      # NOTE: The sidecar `ghcr.io/spiffe/spiffe-helper` runs as root
+      # and creates the cert with root ownership. Therefore, the image itself
+      # needs root to read the cert. This seems like an upstream bug.
+      run-as         = 0
       entrypoint-cmd = "/usr/bin/oidc-discovery-provider"
       extra_packages = []
       cmd            = "--help"

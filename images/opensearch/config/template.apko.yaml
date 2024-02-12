@@ -1,8 +1,6 @@
 contents:
   packages:
     - busybox
-    - opensearch-2
-    - openjdk-11-default-jvm
 
 accounts:
   groups:

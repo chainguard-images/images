@@ -5,8 +5,12 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. opensearch-2)."
-  default     = ["opensearch-2", "openjdk-11-default-jvm"]
+  description = "The additional packages to install"
+  // TODO: Add any other packages here you want to conditionally include,
+  // or update this default to [] if this isn't a version stream image.
+  default = [
+    "filebeat",
+  ]
 }
 
 data "apko_config" "this" {

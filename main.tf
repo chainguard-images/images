@@ -397,6 +397,11 @@ module "ffmpeg" {
   target_repository = "${var.target_repository}/ffmpeg"
 }
 
+module "filebeat" {
+  source            = "./images/filebeat"
+  target_repository = "${var.target_repository}/filebeat"
+}
+
 module "fluent-bit" {
   source            = "./images/fluent-bit"
   target_repository = "${var.target_repository}/fluent-bit"

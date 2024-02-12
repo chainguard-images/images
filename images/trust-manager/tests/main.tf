@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -10,20 +11,77 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-data "oci_exec_test" "helm-install" {
-  digest = var.digest
-  script = "${path.module}/02-helm-install.sh"
+data "imagetest_inventory" "this" {}
 
-  env {
-    name  = "IMAGE_REGISTRY"
-    value = data.oci_string.ref.registry
+resource "imagetest_harness_k3s" "this" {
+  name      = "trust-manager"
+  inventory = data.imagetest_inventory.this
+}
+
+module "cert-manager" {
+  source = "../../../tflib/imagetest/helm"
+
+  namespace = "cert-manager"
+  chart     = "cert-manager"
+  repo      = "https://charts.jetstack.io"
+
+  values = {
+    installCRDs = true
   }
-  env {
-    name  = "IMAGE_REPOSITORY"
-    value = data.oci_string.ref.repo
+}
+
+module "trust-manager" {
+  source = "../../../tflib/imagetest/helm"
+
+  namespace = "cert-manager"
+  chart     = "trust-manager"
+  repo      = "https://charts.jetstack.io"
+
+  values = {
+    image = {
+      repository = data.oci_string.ref.registry_repo
+      tag        = data.oci_string.ref.pseudo_tag
+    }
   }
-  env {
-    name  = "IMAGE_TAG"
-    value = data.oci_string.ref.pseudo_tag
+}
+
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the trust-manager helm chart."
+
+  steps = [
+    {
+      name = "cert-manager helm install"
+      cmd  = module.cert-manager.install_cmd
+    },
+    {
+      name = "trust-manager helm install"
+      cmd  = module.trust-manager.install_cmd
+    },
+    {
+      name = "Ensure we can create and inspect a bundle"
+      cmd  = <<EOT
+kubectl apply --wait -f - <<EOF
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: example-bundle
+spec:
+  sources:
+  - useDefaultCAs: true
+  target:
+    configMap:
+      key: "trust-bundle.pem"
+EOF
+
+kubectl wait --for=condition=Synced bundle example-bundle --timeout 1m
+kubectl get configmap example-bundle -o "jsonpath={.data['trust-bundle\.pem']}"
+      EOT
+    },
+  ]
+
+  labels = {
+    type = "k8s"
   }
 }
