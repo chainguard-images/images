@@ -14,7 +14,8 @@ locals {
   install_cmd = <<-EOinstall
 apk add helm
 if ! helm install ${local.name} ${var.chart} \
-  --namespace ${var.namespace} --create-namespace \
+  --namespace ${var.namespace} \
+  %{if var.create_namespace}--create-namespace%{endif} \
   %{if var.repo != ""}--repo ${var.repo}%{endif} \
   %{if var.chart_version != ""}--version ${var.chart_version}%{endif} \
   --wait --wait-for-jobs \

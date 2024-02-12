@@ -38,3 +38,8 @@ variable "timeout" {
   description = "The timeout on the helm install."
   default     = "5m"
 }
+
+variable "create_namespace" {
+  description = "Indicates whether Helm should use --create-namespace."
+  default     = true
+}
