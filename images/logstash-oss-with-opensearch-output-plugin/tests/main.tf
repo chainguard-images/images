@@ -17,7 +17,7 @@ data "oci_string" "ref" {
 data "imagetest_inventory" "this" {}
 
 resource "imagetest_harness_k3s" "this" {
-  name      = "prometheus-logstash-exporter"
+  name      = "logstash-output-opensearch"
   inventory = data.imagetest_inventory.this
 
   sandbox = {

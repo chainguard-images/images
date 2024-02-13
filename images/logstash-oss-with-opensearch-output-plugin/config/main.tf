@@ -7,7 +7,10 @@ terraform {
 variable "extra_packages" {
   description = "The additional packages to install"
   default = [
-    "openjdk-11-default-jvm",
+    "openjdk-17-default-jvm",
+    # See the logstash package if you want to know more about this. The way
+    # logstash does plugins is by using bundler to create an environment with
+    # the right gems.
     "logstash-with-output-opensearch",
     "logstash-env2yaml",
     "logstash-compat",
