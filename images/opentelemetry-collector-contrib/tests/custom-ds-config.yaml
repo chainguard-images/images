@@ -45,7 +45,7 @@ exporters:
     const_labels:
       label1: value1
 
-  logging:
+  debug: {}
 
   zipkin:
     endpoint: "http://zipkin-all-in-one:9411/api/v2/spans"
@@ -99,7 +99,7 @@ service:
         - k8sattributes
         - batch
       exporters:
-        - logging
+        - debug
         - prometheus
         # - datadog
 
@@ -111,7 +111,7 @@ service:
         - k8sattributes
         - batch
       exporters:
-        - logging
+        - debug
         - zipkin # fails (with warning) without zipkin deployed
         # - datadog
 
@@ -123,6 +123,6 @@ service:
         - k8sattributes
         - batch
       exporters:
-        - logging
+        - debug
         # - datadog
 
