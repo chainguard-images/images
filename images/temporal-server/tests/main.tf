@@ -11,8 +11,9 @@ variable "digest" {
 data "oci_string" "ref" { input = var.digest }
 
 data "oci_exec_test" "helm-install" {
-  digest = var.digest
-  script = "${path.module}/helm.sh"
+  digest          = var.digest
+  script          = "${path.module}/helm.sh"
+  timeout_seconds = 15 * 60 // 15 minutes, as specified in the helm install command
 
   env {
     name  = "IMAGE_REGISTRY_REPO"
