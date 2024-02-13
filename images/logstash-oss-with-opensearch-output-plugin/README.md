@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-
+An image with the Logstash plugin that sends event data to a OpenSearch clusters and stores as an index.
 <!--overview:end-->
 
 <!--getting:start-->

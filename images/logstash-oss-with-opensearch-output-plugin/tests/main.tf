@@ -36,6 +36,11 @@ module "helm_logstash" {
   repo         = "https://helm.elastic.co"
   name         = "logstash"
   values_files = ["/tests/values/logstash.values.yaml"]
+  values = {
+    image           = data.oci_string.ref.registry_repo
+    imageTag        = data.oci_string.ref.pseudo_tag
+    imagePullPolicy = "Always"
+  }
 }
 
 module "helm_opensearch" {

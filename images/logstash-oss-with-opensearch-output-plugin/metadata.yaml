@@ -3,8 +3,8 @@ image: cgr.dev/chainguard/logstash-oss-with-opensearch-output-plugin
 logo: https://storage.googleapis.com/chainguard-academy/logos/logstash-oss-with-opensearch-output-plugin.svg
 endoflife: ""
 console_summary: ""
-short_description: 
+short_description: An image with the Logstash plugin that sends event data to a OpenSearch clusters and stores as an index.
 compatibility_notes: ""
 readme_file: README.md
-upstream_url: 
+upstream_url: https://github.com/opensearch-project/logstash-output-opensearch
 keywords: []
