@@ -16,7 +16,6 @@ environment:
   LS_JAVA_HOME: /usr/lib/jvm/default-jvm
   ELASTIC_CONTAINER: true
   LANG: en_US.UTF-8
-  LC_ALL: en_US.UTF-8
 
 paths:
   - path: /usr/share/logstash
