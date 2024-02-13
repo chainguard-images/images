@@ -17,7 +17,6 @@ module "prometheus-logstash-exporter" {
   config            = module.config.config
 
   build-dev = true
-
 }
 
 module "test" {
