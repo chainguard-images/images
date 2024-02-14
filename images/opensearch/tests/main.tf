@@ -14,11 +14,6 @@ data "oci_string" "ref" {
   input = var.digest
 }
 
-data "oci_exec_test" "server" {
-  digest = var.digest
-  script = "${path.module}/server.sh"
-}
-
 data "imagetest_inventory" "this" {}
 
 resource "imagetest_harness_k3s" "this" {
@@ -39,19 +34,6 @@ module "helm_opensearch" {
     image = {
       repository = data.oci_string.ref.registry_repo
       tag        = data.oci_string.ref.pseudo_tag
-    }
-    config = {
-      "log4j2.properties" = <<-EOT
-      status = error
-
-      appender.console.type = Console
-      appender.console.name = console
-      appender.console.layout.type = PatternLayout
-      appender.console.layout.pattern = [%d{ISO8601}][%-5p][%-25c{1.}] [%node_name]%marker %m%n
-
-      rootLogger.level = info
-      rootLogger.appenderRef.console.ref = console
-      EOT
     }
   }
 }
