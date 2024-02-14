@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -12,33 +13,42 @@ resource "random_pet" "suffix" {}
 
 data "oci_string" "ref" { input = var.digest }
 
-data "oci_exec_test" "medusa-install" {
+data "imagetest_inventory" "this" {}
 
-  digest = var.digest
-  script = "${path.module}/medusa-install.sh"
+resource "imagetest_harness_k3s" "this" {
+  name      = "cassandra-medusa"
+  inventory = data.imagetest_inventory.this
 
-  env {
-    name  = "NAMESPACE"
-    value = "k8s-medusa-${random_pet.suffix.id}"
-  }
-
-  env {
-    name  = "IMAGE_REGISTRY"
-    value = data.oci_string.ref.registry
-  }
-  env {
-    name  = "IMAGE_REPOSITORY"
-    value = split("/", data.oci_string.ref.repo)[0]
-  }
-
-  env {
-    name  = "NAME"
-    value = split("/", data.oci_string.ref.repo)[1]
-  }
-
-  env {
-    name  = "IMAGE_TAG"
-    value = data.oci_string.ref.pseudo_tag
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+    envs = {
+      "NAMESPACE"        = "k8s-medusa-${random_pet.suffix.id}"
+      "IMAGE_REGISTRY"   = data.oci_string.ref.registry
+      "IMAGE_REPOSITORY" = split("/", data.oci_string.ref.repo)[0]
+      "NAME"             = split("/", data.oci_string.ref.repo)[1]
+      "IMAGE_TAG"        = data.oci_string.ref.pseudo_tag
+    }
   }
 }
 
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the cert-manager helm chart."
+
+  steps = [
+    {
+      name = "Test"
+      cmd  = "/tests/medusa-install.sh"
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
+}
