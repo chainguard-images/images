@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -16,60 +16,57 @@ variable "digests" {
   })
 }
 
-resource "helm_release" "crossplane" {
-  name             = "crossplane"
-  repository       = "https://charts.crossplane.io/stable"
-  chart            = "crossplane"
-  namespace        = "crossplane-system"
-  create_namespace = true
+data "imagetest_inventory" "this" {}
 
-  values = [jsonencode({
-    // Our images have package config in one big layer, which might cause the
-    // Crossplane control plane to have difficulty.
-    resourcesCrossplane = {
-      limits = {
-        cpu    = "1"
-        memory = "1Gi"
+resource "imagetest_harness_k3s" "this" {
+  name      = "crossplane"
+  inventory = data.imagetest_inventory.this
+
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
       }
-      requests = {
-        cpu    = "1"
-        memory = "1Gi"
-      }
+    ]
+
+    envs = {
+      "AZURE_DIGEST"           = var.digests.family
+      "AUTHORIZATION_DIGEST"   = var.digests.authorization
+      "MANAGEDIDENTITY_DIGEST" = var.digests.managedidentity
+      "SQL_DIGEST"             = var.digests.sql
+      "STORAGE_DIGEST"         = var.digests.storage
     }
-  })]
-}
-
-data "oci_exec_test" "install" {
-  depends_on = [helm_release.crossplane]
-
-  script = "${path.module}/install.sh"
-  digest = var.digests.family // Unused but required by the data source
-
-  env {
-    name  = "AZURE_DIGEST"
-    value = var.digests.family
-  }
-  env {
-    name  = "AUTHORIZATION_DIGEST"
-    value = var.digests.authorization
-  }
-  env {
-    name  = "MANAGEDIDENTITY_DIGEST"
-    value = var.digests.managedidentity
-  }
-  env {
-    name  = "SQL_DIGEST"
-    value = var.digests.sql
-  }
-  env {
-    name  = "STORAGE_DIGEST"
-    value = var.digests.storage
   }
 }
 
-module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.install]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.crossplane.id
-  namespace  = helm_release.crossplane.namespace
+module "helm_crossplane" {
+  source = "../../crossplane/tests/install"
+}
+
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the cert-manager helm chart."
+
+  steps = [
+    {
+      name = "Install crossplane",
+      cmd  = module.helm_crossplane.install_cmd
+    },
+    {
+      name = "Something"
+      cmd  = "/tests/install.sh"
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
+
+  timeouts = {
+    # This can take a while since we're working in serial to avoid disk
+    # pressure
+    create = "15m"
+  }
 }
