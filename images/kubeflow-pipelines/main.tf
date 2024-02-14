@@ -45,7 +45,6 @@ module "version-tags" {
 
 module "test-latest" {
   source  = "./tests"
-
   digests = { for k, v in module.latest : k => v.image_ref }
 }
 
