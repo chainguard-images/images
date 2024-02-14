@@ -10,29 +10,30 @@ variable "target_repository" {
 
 module "config" { source = "./config" }
 
-module "prometheus-logstash-exporter" {
+module "logstash-oss-with-opensearch-output-plugin" {
   source            = "../../tflib/publisher"
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.config.config
 
   build-dev = true
+
 }
 
 module "test" {
   source = "./tests"
-  digest = module.prometheus-logstash-exporter.image_ref
+  digest = module.logstash-oss-with-opensearch-output-plugin.image_ref
 }
 
 resource "oci_tag" "latest" {
   depends_on = [module.test]
-  digest_ref = module.prometheus-logstash-exporter.image_ref
+  digest_ref = module.logstash-oss-with-opensearch-output-plugin.image_ref
   tag        = "latest"
 }
 
 resource "oci_tag" "latest-dev" {
   depends_on = [module.test]
-  digest_ref = module.prometheus-logstash-exporter.dev_ref
+  digest_ref = module.logstash-oss-with-opensearch-output-plugin.dev_ref
   tag        = "latest-dev"
 }
 

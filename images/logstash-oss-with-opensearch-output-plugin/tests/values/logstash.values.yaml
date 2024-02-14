@@ -1,0 +1,21 @@
+---
+logstashConfig:
+ logstash.yml: |
+    http.host: 0.0.0.0
+
+logstashPipeline:
+  logstash.conf: |
+    input {
+      heartbeat { }
+    }
+
+    output {
+      opensearch {
+        hosts  => ["https://opensearch-cluster-master-headless:9200"]
+        user => 'admin'
+        password => 'admin'
+        ssl_certificate_verification => false
+        index => "heartbeats_cg"
+        action => "create"
+      }
+    }
