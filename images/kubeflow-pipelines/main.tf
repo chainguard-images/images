@@ -1,3 +1,9 @@
+terraform {
+  required_providers {
+    oci = { source = "chainguard-dev/oci" }
+  }
+}
+
 locals {
   components = {
     "api-server"            = "kubeflow-pipelines-apiserver",
