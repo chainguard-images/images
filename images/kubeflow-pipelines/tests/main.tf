@@ -1,9 +1,3 @@
-terraform {
-  required_providers {
-    oci = { source = "chainguard-dev/oci" }
-  }
-}
-
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
