@@ -17,7 +17,7 @@ Minimal [aws-cli](https://github.com/aws/aws-cli) container image.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

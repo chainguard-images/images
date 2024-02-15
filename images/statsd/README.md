@@ -17,7 +17,7 @@ Daemon for easy but powerful stats aggregation
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

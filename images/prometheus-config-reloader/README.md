@@ -17,7 +17,7 @@ Minimalist Wolfi-based image for Prometheus Config Reloader. It helps with confi
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

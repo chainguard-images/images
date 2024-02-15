@@ -17,7 +17,7 @@ Minimal [newrelic-k8s-events-forwarder](https://github.com/newrelic/nri-kubernet
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

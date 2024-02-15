@@ -17,7 +17,7 @@ Minimal image for [Temporal](https://docs.temporal.io/), a durable execution pla
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

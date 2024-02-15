@@ -17,7 +17,7 @@ timestamp-authority is an RFC3161 Timestamp Authority, a core component of the s
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

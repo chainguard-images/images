@@ -17,7 +17,7 @@ Minimal image with [kubernetes-csi/external-attacher](https://github.com/kuberne
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

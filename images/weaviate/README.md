@@ -17,7 +17,7 @@ Minimal container image for running the weaviate vector database.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

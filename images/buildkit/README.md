@@ -17,7 +17,7 @@ Buildkit is a concurrent, cache-efficient, and Dockerfile-agnostic builder toolk
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

@@ -17,7 +17,7 @@ Minimal [dive](https://github.com/wagoodman/dive) container image.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

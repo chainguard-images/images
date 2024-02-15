@@ -17,7 +17,7 @@ Minimal image with [chartmuseum](https://github.com/helm/chartmuseum) binary. **
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

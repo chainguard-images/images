@@ -17,7 +17,7 @@ Minimal image to manage IP masquerading on Kubernetes nodes
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

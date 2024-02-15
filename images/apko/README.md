@@ -17,7 +17,7 @@ Container image for running [apko](https://github.com/chainguard-dev/apko) conta
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```
