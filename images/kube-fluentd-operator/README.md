@@ -17,7 +17,7 @@ This image is used for the [Kubernetes Fluentd Operator](https://github.com/vmwa
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

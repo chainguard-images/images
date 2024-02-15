@@ -17,7 +17,7 @@ Minimalist Wolfi-based crane image for interacting with registries.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

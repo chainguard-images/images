@@ -17,7 +17,7 @@ Minimal [newrelic-fluent-bit-output](https://github.com/newrelic/newrelic-fluent
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

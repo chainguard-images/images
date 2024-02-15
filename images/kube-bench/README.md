@@ -17,7 +17,7 @@ Minimal image with [kube-bench](https://github.com/aquasecurity/kube-bench).
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

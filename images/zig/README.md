@@ -17,7 +17,7 @@ Minimal image with zig binary.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

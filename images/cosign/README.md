@@ -17,7 +17,7 @@ Minimalist Wolfi-based Cosign images for signing and verifying images using Sigs
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

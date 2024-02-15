@@ -17,7 +17,7 @@ Minimalist Wolfi-based Java JRE image using [OpenJDK](https://openjdk.org/projec
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

@@ -17,7 +17,7 @@ Minimalist Wolfi-based http-echo image that echos what you start it with.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

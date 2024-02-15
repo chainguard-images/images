@@ -17,7 +17,7 @@ Monitoring and Observability Tool for the [PolicyReport CRD](https://kyverno.git
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```
