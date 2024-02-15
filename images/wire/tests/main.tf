@@ -12,3 +12,8 @@ data "oci_exec_test" "help" {
   digest = var.digest
   script = "docker run --rm $IMAGE_NAME help"
 }
+
+data "oci_exec_test" "runs" {
+  digest = var.digest
+  script = "${path.module}/01-run.sh"
+}
