@@ -1,0 +1,12 @@
+name: wire
+image: cgr.dev/chainguard/wire
+logo: https://storage.googleapis.com/chainguard-academy/logos/wire.svg
+endoflife: ""
+console_summary: ""
+short_description: Minimalist Wolfi-based wire image for Go code generation.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/google/wire
+keywords:
+  - application
+  - tools

@@ -1373,6 +1373,11 @@ module "weaviate" {
   target_repository = "${var.target_repository}/weaviate"
 }
 
+module "wire" {
+  source            = "./images/wire"
+  target_repository = "${var.target_repository}/wire"
+}
+
 module "wolfi-base" {
   source            = "./images/wolfi-base"
   target_repository = "${var.target_repository}/wolfi-base"
