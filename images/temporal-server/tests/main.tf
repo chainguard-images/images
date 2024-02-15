@@ -24,6 +24,10 @@ resource "imagetest_harness_k3s" "this" {
         destination = "/tests"
       }
     ]
+    envs = {
+      "IMAGE_REGISTRY_REPO" = data.oci_string.ref.registry_repo
+      "IMAGE_TAG"           = data.oci_string.ref.pseudo_tag
+    }
   }
 }
 
@@ -40,8 +44,6 @@ resource "imagetest_feature" "basic" {
     {
       name = "Install Helm chart"
       cmd  = <<EOF
-        export IMAGE_REGISTRY_REPO=${data.oci_string.ref.registry_repo}
-        export IMAGE_TAG=${data.oci_string.ref.pseudo_tag}
         /tests/helm.sh
       EOF
     },
