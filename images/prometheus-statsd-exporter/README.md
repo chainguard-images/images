@@ -17,7 +17,7 @@ Minimalist Wolfi-based Prometheus StatsD Exporter image for exporting metrics to
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

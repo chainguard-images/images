@@ -17,7 +17,7 @@ Minimal container image for building C applications (which require glibc).
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

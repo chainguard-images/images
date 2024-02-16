@@ -17,7 +17,7 @@ This image contains the CLI for the [Cedar Policy](https://www.cedarpolicy.com/e
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

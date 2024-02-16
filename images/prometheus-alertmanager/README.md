@@ -17,7 +17,7 @@ Minimalist Wolfi-based image for Prometheus Alertmanager. Handles alerts sent by
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

@@ -17,7 +17,7 @@ Minimalist Wolfi-based paranoia image for inspecting certificate authorities in 
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```
