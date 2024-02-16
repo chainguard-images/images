@@ -15,7 +15,7 @@ resource "random_pet" "suffix" {}
 resource "helm_release" "helm" {
   name             = "falcosidekick-${random_pet.suffix.id}"
   namespace        = "falcosidekick"
-  repository       = "falcosecurity"
+  repository       = "falcosecurity/falcosidekick"
   chart            = "falcosidekick"
   create_namespace = true
 
