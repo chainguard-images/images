@@ -392,6 +392,11 @@ module "falcoctl" {
   target_repository = "${var.target_repository}/falcoctl"
 }
 
+module "falcosidekick" {
+  source            = "./images/falcosidekick"
+  target_repository = "${var.target_repository}/falcosidekick"
+}
+
 module "ffmpeg" {
   source            = "./images/ffmpeg"
   target_repository = "${var.target_repository}/ffmpeg"
