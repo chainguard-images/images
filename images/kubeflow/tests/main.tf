@@ -45,7 +45,7 @@ resource "imagetest_feature" "basic" {
     {
       name  = "Wait for Kubeflow to be ready",
       cmd   = "kubectl wait --for=condition=Ready --timeout=300s -n kubeflow --all pods"
-      retry = { attempts = 4, delay = "1s", factor = 2 }
+      retry = { attempts = 4, delay = "5s", factor = 2 }
     },
   ]
 
