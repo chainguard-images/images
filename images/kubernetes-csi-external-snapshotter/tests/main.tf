@@ -1,14 +1,9 @@
-terraform {
-  required_providers {
-    oci = { source = "chainguard-dev/oci" }
-  }
-}
-
 variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "help" {
-  digest = var.digest
-  script = "${path.module}/deploy.sh"
-}
+# These tests are empty in favor of the package based testing here:
+# https://github.com/wolfi-dev/os/pull/13133
+# 
+# This module is left intact to preserve the behavior of any callers, and
+# reduce the downstream impact when and if image tests are added.
