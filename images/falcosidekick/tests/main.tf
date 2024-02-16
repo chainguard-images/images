@@ -27,8 +27,7 @@ resource "helm_release" "helm" {
       repository = data.oci_string.ref.repo
       tag     = "latest"
     }
-  })
-]
+  })]
 }
 
 module "helm_cleanup" {
