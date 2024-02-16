@@ -56,7 +56,7 @@ resource "oci_tag" "latest-busl-dev" {
   tag        = "latest-dev"
 }
 
-locals { pre_busl_tags = toset(["1.5.7", "1.5"]) }
+locals { pre_busl_tags = toset(["1.5.7", "1.5", "latest-mpl"]) }
 
 resource "oci_tag" "pre-busl" {
   for_each   = local.pre_busl_tags
