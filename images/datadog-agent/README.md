@@ -17,7 +17,7 @@ Minimalist Wolfi-based Datadog Agent to collect events and metrics from hosts an
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

@@ -17,7 +17,7 @@ Minimal image with the [thanos-operator](https://github.com/banzaicloud/thanos-o
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

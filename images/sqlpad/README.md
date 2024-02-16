@@ -17,7 +17,7 @@ A minimal Wolfi-based image for sqlpad, which is a web application for generatin
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

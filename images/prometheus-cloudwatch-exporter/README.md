@@ -17,7 +17,7 @@ Minimalist Wolfi-based Prometheus CloudWatch Exporter image for exporting metric
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

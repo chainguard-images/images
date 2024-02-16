@@ -17,7 +17,7 @@ Minimal image with Telegraf agent for collecting, processing, aggregating, and w
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

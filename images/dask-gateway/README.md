@@ -17,7 +17,7 @@ A multi-tenant server for securely deploying and managing [Dask clusters](https:
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

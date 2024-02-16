@@ -17,7 +17,7 @@ Vela is a Pipeline Automation (CI/CD) framework built on Linux container technol
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

@@ -17,7 +17,7 @@ Minimal image that contains [mdbook](https://rust-lang.github.io/mdBook/).
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

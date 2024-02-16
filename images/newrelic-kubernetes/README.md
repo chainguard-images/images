@@ -17,7 +17,7 @@ Minimal [newrelic-kubernetes](https://github.com/newrelic/nri-kubernetes) contai
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

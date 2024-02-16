@@ -17,7 +17,7 @@ Minimal image with the Kubernetes Secrets Store CSI Driver GCP Plugin. **EXPERIM
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

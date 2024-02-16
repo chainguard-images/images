@@ -17,7 +17,7 @@ Open source web server with automatic HTTPS written in Go
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

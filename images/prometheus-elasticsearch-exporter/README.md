@@ -17,7 +17,7 @@ Minimalist Wolfi-based Prometheus Elasticsearch Exporter image for exporting var
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

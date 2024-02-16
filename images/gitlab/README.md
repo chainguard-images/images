@@ -17,7 +17,7 @@ GitLab is an open source end-to-end software development platform with built-in 
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

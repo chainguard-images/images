@@ -17,7 +17,7 @@ Container image for testing whether a service is listening on an address/port co
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

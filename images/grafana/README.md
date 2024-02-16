@@ -17,7 +17,7 @@ A minimal wolfi-based image for grafana, which is an open-source monitoring and 
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

@@ -17,7 +17,7 @@ Container image for building Go applications.
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

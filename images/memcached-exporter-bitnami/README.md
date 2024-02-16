@@ -17,7 +17,7 @@ A memcached exporter for Prometheus that is compatible with Bitnami Helm charts.
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

@@ -17,7 +17,7 @@ Minimal image that acts as a drop-in replacement for the [NodeLocal DNSCache](ht
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

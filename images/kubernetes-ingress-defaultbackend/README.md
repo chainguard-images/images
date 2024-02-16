@@ -17,7 +17,7 @@ Minimal image that acts as a drop-in replacement for the `registry.k8s.io/defaul
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

@@ -17,7 +17,7 @@ Minimal images for [aws-efs-csi-driver](https://aws.amazon.com/efs/).
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

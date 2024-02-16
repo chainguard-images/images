@@ -17,7 +17,7 @@ Minimalist Wolfi-based Java JDK image using using [OpenJDK](https://openjdk.org/
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

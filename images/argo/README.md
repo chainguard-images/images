@@ -17,7 +17,7 @@ Images for working with [Argo workflows](https://argoproj.github.io/argo-workflo
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

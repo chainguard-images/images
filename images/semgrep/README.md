@@ -17,7 +17,7 @@ CLI for the [Semgrep](https://semgrep.dev) static analysis tool. Semgrep is a li
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

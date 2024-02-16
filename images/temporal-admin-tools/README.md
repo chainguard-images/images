@@ -17,7 +17,7 @@ Golang Server for [https://github.com/temporalio/ui](https://github.com/temporal
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

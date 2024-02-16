@@ -17,7 +17,7 @@ Minimal image with [ml-pipeline/visualization-server](https://github.com/kubeflo
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

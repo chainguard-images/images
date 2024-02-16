@@ -17,7 +17,7 @@ Minimal image with Keda, a Kubernetes-based Event Driven Autoscaler. **EXPERIMEN
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

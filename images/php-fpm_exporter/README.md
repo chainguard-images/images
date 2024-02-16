@@ -17,7 +17,7 @@ Minimal php-fpm_exporter Image
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

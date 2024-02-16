@@ -17,7 +17,7 @@ Minimal Thanos Image, a highly available Prometheus setup with long term storage
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

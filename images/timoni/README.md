@@ -17,7 +17,7 @@ Minimal image with `timoni` binary. `timoni` is a package manager for Kubernetes
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

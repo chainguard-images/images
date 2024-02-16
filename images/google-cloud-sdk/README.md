@@ -17,7 +17,7 @@ Minimal image with the [Google Cloud SDK](https://cloud.google.com/sdk/). **EXPE
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

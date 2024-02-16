@@ -17,7 +17,7 @@ Minimal image with Apache Zookeeper. **EXPERIMENTAL**
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

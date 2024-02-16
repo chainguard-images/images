@@ -17,7 +17,7 @@ Base image with just enough files to run native [GraalVM](https://www.graalvm.or
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

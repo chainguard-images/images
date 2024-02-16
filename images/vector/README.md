@@ -17,7 +17,7 @@ Minimal image with [Vector](https://vector.dev/), a high-performance, end-to-end
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

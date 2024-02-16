@@ -17,7 +17,7 @@ This image contains the `wazero` tool which can be used to compile or run wasm b
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

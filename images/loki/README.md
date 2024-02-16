@@ -17,7 +17,7 @@ This image contains the `loki` application for log aggregation. `loki` can be us
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

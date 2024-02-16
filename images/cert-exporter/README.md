@@ -17,7 +17,7 @@ A minimal, wolfi-based image for cert-exporter: an application that exports cert
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

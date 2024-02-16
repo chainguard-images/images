@@ -17,7 +17,7 @@ Minimal [newrelic-prometheus-configurator](https://github.com/newrelic/newrelic-
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

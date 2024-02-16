@@ -17,7 +17,7 @@ An image with the Logstash plugin that sends event data to a OpenSearch clusters
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

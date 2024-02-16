@@ -17,7 +17,7 @@ Minimal image with [zot](https://github.com/project-zot/zot) binary. **EXPERIMEN
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

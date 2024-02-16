@@ -17,7 +17,7 @@ Minimal image with [ntpd-rs](https://github.com/pendulum-project/ntpd-rs). **EXP
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

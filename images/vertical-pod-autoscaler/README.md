@@ -17,7 +17,7 @@ Image to automatically adjust the amount of CPU and memory requested by pods run
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

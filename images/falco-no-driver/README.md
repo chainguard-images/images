@@ -17,7 +17,7 @@ A minimal, [wolfi](https://github.com/wolfi-dev)-based image for falco-no-driver
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

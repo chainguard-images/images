@@ -17,7 +17,7 @@ This image contains the `wasmtime` tool which can be used to compile or run wasm
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
