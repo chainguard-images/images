@@ -2,178 +2,33 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail
 
-trap "kubectl get providers && kubectl describe providers" EXIT
+declare -A providerDigests=(
+  # NOTE: The providers below are all packaged the same way, with significant
+  # redundancy, and unpacked with each installation. The redundancy with each
+  # provider means on smaller machines (like presubmit), we very quickly run
+  # out of disk space waiting for each provider to install and unpack the
+  # **same** /usr/bin/provider binary (>400Mb). The only "important" non-unique
+  # thing in the provider images is the package.yaml, which isn't simply copied
+  # into the apk, and tested at melange test time.
+  #
+  # All that to say, for this test, we're going to pick one of the providers
+  # and install only that, but leave the logic for others in place in case the
+  # future brings leaner installation methods.
 
-# If the image is on cgr.dev and we have a cred helper for that available, use
-# it to generate creds we can pass to the Crossplane control plane.
-# This is necessary when pushing to a private repo, since the Crossplane
-# control plane needs to pull the image to get configuration from it.
-tmp=$(mktemp -d)
-echo "{}" > ${tmp}/config.json
-if [ -x "$(command -v docker-credential-cgr)" ]; then
-  token=$(echo "cgr.dev" | docker-credential-cgr get)
-  user=$(echo $token | jq -r '.Username')
-  pass=$(echo $token | jq -r '.Secret')
-
-  DOCKER_CONFIG=${tmp} crane auth login -u ${user} -p ${pass} cgr.dev
-  echo "WROTE ${tmp}/config.json"
-fi
-head -c 100 ${tmp}/config.json
-kubectl delete secret regcred -n crossplane-system || true
-kubectl create secret generic regcred \
-  -n crossplane-system \
-  --from-file=.dockerconfigjson=${tmp}/config.json \
-  --type=kubernetes.io/dockerconfigjson
-
-cat <<EOF | kubectl apply -f -
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-cloudfront
-spec:
-  package: ${CLOUDFRONT_DIGEST}
-  packagePullSecrets:
-  - name: regcred
-EOF
-
-cat <<EOF | kubectl apply -f -
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-cloudwatchlogs
-spec:
-  package: ${CLOUDWATCHLOGS_DIGEST}
-  packagePullSecrets:
-  - name: regcred
-EOF
-
-cat <<EOF | kubectl apply -f -
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-dynamodb
-spec:
-  package: ${DYNAMODB_DIGEST}
-  packagePullSecrets:
-  - name: regcred
-EOF
-
-cat <<EOF | kubectl apply -f -
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-ec2
-spec:
-  package: ${EC2_DIGEST}
-  packagePullSecrets:
-  - name: regcred
-EOF
-
-cat <<EOF | kubectl apply -f -
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-eks
-spec:
-  package: ${EKS_DIGEST}
-  packagePullSecrets:
-  - name: regcred
-EOF
-
-cat <<EOF | kubectl apply -f -
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-firehose
-spec:
-  package: ${FIREHOSE_DIGEST}
-  packagePullSecrets:
-  - name: regcred
-EOF
-
-cat <<EOF | kubectl apply -f -
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-iam
-spec:
-  package: ${IAM_DIGEST}
-  packagePullSecrets:
-  - name: regcred
-EOF
-
-cat <<EOF | kubectl apply -f -
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-kms
-spec:
-  package: ${KMS_DIGEST}
-  packagePullSecrets:
-  - name: regcred
-EOF
-
-cat <<EOF | kubectl apply -f -
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-lambda
-spec:
-  package: ${LAMBDA_DIGEST}
-  packagePullSecrets:
-  - name: regcred
-EOF
-
-cat <<EOF | kubectl apply -f -
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-rds
-spec:
-  package: ${RDS_DIGEST}
-  packagePullSecrets:
-  - name: regcred
-EOF
-
-cat <<EOF | kubectl apply -f -
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-s3
-spec:
-  package: ${S3_DIGEST}
-  packagePullSecrets:
-  - name: regcred
-EOF
-
-cat <<EOF | kubectl apply -f -
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-sns
-spec:
-  package: ${SNS_DIGEST}
-  packagePullSecrets:
-  - name: regcred
-EOF
-
-cat <<EOF | kubectl apply -f -
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-aws-sqs
-spec:
-  package: ${SQS_DIGEST}
-  packagePullSecrets:
-  - name: regcred
-EOF
-
-for provider in cloudfront cloudwatchlogs dynamodb ec2 eks firehose iam kms lambda rds s3 sns sqs ; do
-  kubectl wait --for=condition=Installed "provider/provider-aws-${provider}" --timeout=3m
-  kubectl wait --for=condition=Healthy   "provider/provider-aws-${provider}" --timeout=5m
-done
-
-# Update the AWS family provider that was installed by the above providers as a dependency, to use our AWS family provider instead.
+	# [cloudfront]=${CLOUDFRONT_DIGEST}
+	# [cloudwatchlogs]=${CLOUDWATCHLOGS_DIGEST}
+	# [dynamodb]=${DYNAMODB_DIGEST}
+	[ec2]=${EC2_DIGEST}
+	# [eks]=${EKS_DIGEST}
+	# [firehose]=${FIREHOSE_DIGEST}
+	# [iam]=${IAM_DIGEST}
+	# [kms]=${KMS_DIGEST}
+	# [lambda]=${LAMBDA_DIGEST}
+	# [rds]=${RDS_DIGEST}
+	# [s3]=${S3_DIGEST}
+	# [sns]=${SNS_DIGEST}
+	# [sqs]=${SQS_DIGEST}
+)
 
 cat <<EOF | kubectl apply -f -
 apiVersion: pkg.crossplane.io/v1
@@ -182,9 +37,42 @@ metadata:
   name: upbound-provider-family-aws
 spec:
   package: ${AWS_DIGEST}
+  revisionHistoryLimit: 0
+  ignoreCrossplaneConstraints: true
   packagePullSecrets:
   - name: regcred
 EOF
 
-kubectl wait --for=condition=Installed provider/upbound-provider-family-aws --timeout=3m
-kubectl wait --for=condition=Healthy   provider/upbound-provider-family-aws --timeout=5m
+kubectl wait --for=condition=Installed provider upbound-provider-family-aws --timeout=3m
+kubectl wait --for=condition=Healthy provider upbound-provider-family-aws --timeout=5m
+
+for provider in "${!providerDigests[@]}"; do
+	digest="${providerDigests[$provider]}"
+
+	cat <<EOF | kubectl apply -f -
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-aws-${provider}
+spec:
+  package: ${digest}
+  # The providers seem to hardcode their dependency on the upstream
+  # upbound-provider-family-aws reference. Since we're using our own, we
+  # disable this check.
+  skipDependencyResolution: true
+  # Delete the revision history to save space
+  revisionHistoryLimit: 0
+  # We use psuedo_tags for the provider images, so we need to ignore the semver
+  # checks.
+  ignoreCrossplaneConstraints: true
+  # When applicable, use the regcred secret to pull the provider images.
+  packagePullSecrets:
+  - name: regcred
+EOF
+
+done
+
+for provider in "${!providerDigests[@]}"; do
+	kubectl wait --for=condition=Installed "provider/provider-aws-${provider}" --timeout=3m
+	kubectl wait --for=condition=Healthy "provider/provider-aws-${provider}" --timeout=5m
+done

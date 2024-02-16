@@ -102,6 +102,15 @@ jobs:
         shard: ${{ fromJson(needs.shard.outputs.shard_matrix) }}
 
     steps:
+    # In some cases, we runs out of disk space during tests, so this hack frees up approx 10G.
+    # See the following issue for more info: https://github.com/actions/runner-images/issues/2840#issuecomment-1284059930
+    - name: Free up runner disk space
+      shell: bash
+      run: |
+        set -x
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+
     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       with:
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
