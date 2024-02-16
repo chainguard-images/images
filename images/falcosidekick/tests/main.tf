@@ -22,11 +22,11 @@ resource "helm_release" "helm" {
   values = [
     jsonencode({
       containerName = "falcosidekick"
-    image = {
-      registry   = data.oci_string.ref.registry
-      repository = data.oci_string.ref.repo
-      tag     = "latest"
-    }
+      image = {
+        registry   = data.oci_string.ref.registry
+        repository = data.oci_string.ref.repo
+        tag        = "latest"
+      }
   })]
 }
 
