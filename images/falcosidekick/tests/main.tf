@@ -25,7 +25,7 @@ resource "helm_release" "helm" {
       image = {
         registry   = data.oci_string.ref.registry
         repository = data.oci_string.ref.repo
-        tag        = "latest"
+        tag        = data.oci_string.ref.pseudo_tag
       }
   })]
 }
