@@ -1,28 +1,55 @@
 contents:
   packages:
-    - busybox
+    - opensearch-2-alerting
+    - opensearch-2-anomaly-detection
+    - opensearch-2-asynchronous-search
+    - opensearch-2-cross-cluster-replication
+    - opensearch-2-custom-codecs
+    - opensearch-2-geospatial
+    - opensearch-2-index-management
+    - opensearch-2-job-scheduler
+    - opensearch-2-k-nn
+    - opensearch-2-ml-commons
+    - opensearch-2-neural-search
+    - opensearch-2-notifications
+    - opensearch-2-observability
+    - opensearch-2-performance-analyzer
+    - opensearch-2-reporting
+    - opensearch-2-security
+    - opensearch-2-security-analytics
+    - opensearch-2-sql
+    - openssl
+    - grep
+    - openjdk-17-jre-base
+    - openjdk-17-default-jvm
 
 accounts:
   groups:
-    - groupname: opensearch
-      gid: 65532
+    - groupname: nonroot
+      gid: 1000
   users:
-    - username: opensearch
-      uid: 65532
-  run-as: 65532
+    - username: nonroot
+      uid: 1000
+  run-as: 1000 # upstream image uses 1000
 
 paths:
   - path: /usr/share/opensearch
     type: directory
-    uid: 65532
-    gid: 65532
+    uid: 1000
+    gid: 1000
     permissions: 0o755
     recursive: true
 
+work-dir: /usr/share/opensearch
+
 environment:
   JAVA_HOME: /usr/lib/jvm/default-jvm
+  OPENSEARCH_HOME: /usr/share/opensearch
+  OPENSEARCH_JAVA_OPTS: -Dopensearch.cgroups.hierarchy.override=/
+  LD_LIBRARY_PATH: :/usr/share/opensearch/plugins/opensearch-knn/lib
+  OPENSEARCH_PATH_CONF: /usr/share/opensearch/config
+  PATH: /usr/share/opensearch/.local/bin:/usr/share/opensearch/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/jvm/default-jvm/bin:/usr/share/opensearch/bin:/usr/lib/jvm/default-jvm/bin
+  HOME: /usr/share/opensearch
 
 entrypoint:
-  command: /usr/bin/docker-entrypoint.sh
-
-cmd: opensearchwrapper
+  command: /usr/bin/opensearch-docker-entrypoint.sh
