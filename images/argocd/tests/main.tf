@@ -41,14 +41,16 @@ module "helm" {
   repo   = "https://argoproj.github.io/argo-helm"
   name   = "argocd"
   values = {
-    image = {
-      tag        = data.oci_string.ref["server"].pseudo_tag
-      repository = data.oci_string.ref["server"].registry_repo
+    server = {
+      image = {
+        repository = data.oci_string.ref["server"].registry_repo
+        tag        = data.oci_string.ref["server"].pseudo_tag
+      }
     }
     repoServer = {
       image = {
-        tag        = data.oci_string.ref["repo-server"].pseudo_tag
         repository = data.oci_string.ref["repo-server"].registry_repo
+        tag        = data.oci_string.ref["repo-server"].pseudo_tag
       }
     }
   }
