@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install (e.g. opensearch-2)."
-  default     = ["opensearch-2"]
+  default     = ["opensearch-2", "openjdk-17-jre-base", "openjdk-17-default-jvm"]
 }
 
 variable "environment" {
