@@ -302,6 +302,11 @@ module "crossplane-azure" {
   target_repository = "${var.target_repository}/crossplane-azure"
 }
 
+module "crossplane-gcp" {
+  source            = "./images/crossplane-gcp"
+  target_repository = "${var.target_repository}/crossplane-gcp"
+}
+
 module "ctlog" {
   source            = "./images/ctlog"
   target_repository = "${var.target_repository}/ctlog"
