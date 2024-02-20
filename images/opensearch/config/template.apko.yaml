@@ -20,8 +20,6 @@ contents:
     - opensearch-2-sql
     - openssl
     - grep
-    - openjdk-17-jre-base
-    - openjdk-17-default-jvm
 
 accounts:
   groups:
