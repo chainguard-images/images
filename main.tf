@@ -952,6 +952,11 @@ module "opensearch" {
   target_repository = "${var.target_repository}/opensearch"
 }
 
+module "opensearch-dashboards" {
+  source            = "./images/opensearch-dashboards"
+  target_repository = "${var.target_repository}/opensearch-dashboards"
+}
+
 module "opentelemetry-collector-contrib" {
   source            = "./images/opentelemetry-collector-contrib"
   target_repository = "${var.target_repository}/opentelemetry-collector-contrib"
