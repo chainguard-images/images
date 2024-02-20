@@ -9,9 +9,19 @@ variable "extra_packages" {
   default     = ["opensearch-2"]
 }
 
+variable "environment" {
+  description = "The additional environment variables to set"
+  default     = {}
+  type        = map(string)
+}
+
+locals { decoded = yamldecode(file("${path.module}/template.apko.yaml")) }
 data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
+  config_contents = yamlencode(merge(
+    local.decoded,
+    { environment = merge(local.decoded.environment, var.environment) },
+  ))
+  extra_packages = var.extra_packages
 }
 
 output "config" {
