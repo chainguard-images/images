@@ -46,12 +46,18 @@ module "helm" {
         repository = data.oci_string.ref["server"].registry_repo
         tag        = data.oci_string.ref["server"].pseudo_tag
       }
+      extraArgs = [
+        "--tlsciphers=TLS_AES_256_GCM_SHA384",
+      ]
     }
     repoServer = {
       image = {
         repository = data.oci_string.ref["repo-server"].registry_repo
         tag        = data.oci_string.ref["repo-server"].pseudo_tag
       }
+      extraArgs = [
+        "--tlsciphers=TLS_AES_256_GCM_SHA384",
+      ]
     }
   }
 }
