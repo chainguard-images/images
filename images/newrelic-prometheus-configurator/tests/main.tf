@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -16,71 +16,67 @@ data "oci_string" "ref" {
   input = var.digest
 }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "nri-bundle" {
-  name             = "newrelic-pc-${random_pet.suffix.id}"
-  namespace        = "newrelic-pc-${random_pet.suffix.id}"
-  repository       = "https://helm-charts.newrelic.com"
-  chart            = "nri-bundle"
-  create_namespace = true
+resource "imagetest_harness_k3s" "this" {
+  name      = "newrelic-prometheus-agent"
+  inventory = data.imagetest_inventory.this
+}
 
-  values = [
-    jsonencode({
-      global = {
-        cluster    = "test"
-        licenseKey = var.license_key
-      }
+module "nri_bundle_install" {
+  source = "../../../tflib/imagetest/helm"
 
-      newrelic-prometheus-agent = {
-        enabled = true
-        images = {
-          configurator = {
-            registry   = data.oci_string.ref.registry
-            repository = data.oci_string.ref.repo
-            tag        = data.oci_string.ref.pseudo_tag
-          }
-          prometheus = {
-            registry   = "cgr.dev"
-            repository = "chainguard/prometheus"
-            tag        = "latest"
-          }
+  namespace = "newrelic-pc"
+  repo      = "https://helm-charts.newrelic.com"
+  chart     = "nri-bundle"
+
+  values = {
+    global = {
+      cluster    = "test"
+      licenseKey = var.license_key
+    }
+
+    newrelic-prometheus-agent = {
+      enabled = true
+      images = {
+        configurator = {
+          registry   = data.oci_string.ref.registry
+          repository = data.oci_string.ref.repo
+          tag        = data.oci_string.ref.pseudo_tag
+        }
+        prometheus = {
+          registry   = "cgr.dev"
+          repository = "chainguard/prometheus"
+          tag        = "latest"
         }
       }
-
-      nri-prometheus               = { enabled = false }
-      newrelic-infrastructure      = { enabled = false }
-      nri-metadata-injection       = { enabled = false }
-      kube-state-metrics           = { enabled = false }
-      newrelic-pixie               = { enabled = false }
-      pixie-chart                  = { enabled = false }
-      newrelic-infra-operator      = { enabled = false }
-      newrelic-k8s-metrics-adapter = { enabled = false }
-    })
-  ]
-}
-
-data "oci_exec_test" "check-deployment" {
-  digest      = var.digest
-  script      = "./helm.sh"
-  working_dir = path.module
-  depends_on  = [helm_release.nri-bundle]
-
-  env = [
-    {
-      name  = "NAMESPACE"
-      value = helm_release.nri-bundle.namespace
-    },
-    {
-      name  = "NAME"
-      value = helm_release.nri-bundle.name
     }
-  ]
+
+    nri-prometheus               = { enabled = false }
+    newrelic-infrastructure      = { enabled = false }
+    nri-metadata-injection       = { enabled = false }
+    kube-state-metrics           = { enabled = false }
+    newrelic-pixie               = { enabled = false }
+    pixie-chart                  = { enabled = false }
+    newrelic-infra-operator      = { enabled = false }
+    newrelic-k8s-metrics-adapter = { enabled = false }
+
+  }
 }
 
-module "helm_cleanup" {
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.nri-bundle.id
-  namespace  = helm_release.nri-bundle.namespace
-  depends_on = [data.oci_exec_test.check-deployment]
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the nri bundle helm chart."
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.nri_bundle_install.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }

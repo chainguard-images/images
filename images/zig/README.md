@@ -17,7 +17,7 @@ Minimal image with zig binary.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```
@@ -148,7 +148,7 @@ These wasm binaries can also be run in other WASM runtimes outside of Docker.
 
 Wolfi currently packages [wazero](https://edu.chainguard.dev/chainguard/chainguard-images/reference/wazero/), [wasmtime](https://edu.chainguard.dev/chainguard/chainguard-images/reference/wasmtime/), and [wasmer](https://edu.chainguard.dev/chainguard/chainguard-images/reference/wasmer/).
 
-These can be used together. Here's an example using Zig with [Wasmer](wasmer.io):
+These can be used together. Here's an example using Zig with [Wasmer](https://wasmer.io):
 
 ```shell
 $ docker run -it cgr.dev/chainguard/wolfi-base sh

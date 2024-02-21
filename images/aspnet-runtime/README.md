@@ -17,7 +17,7 @@ Container image with the latest ASP.NET runtime.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```
@@ -26,4 +26,7 @@ docker pull cgr.dev/chainguard/aspnet-runtime:latest
 <!--getting:end-->
 
 <!--body:start-->
+## Usage
+
+The `aspnet-runtime` Chainguard Image contains both the ASP.NET runtime and the .NET core runtime, allowing you to run ASP.NET applications. For more information, please refer to the official [ASP.NET documentation](https://learn.microsoft.com/en-us/aspnet/core/?view=aspnetcore-8.0).
 <!--body:end-->

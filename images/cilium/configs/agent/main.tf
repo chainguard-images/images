@@ -12,7 +12,6 @@ variable "extra_packages" {
     "cilium",
     "cilium-container-init-compat",
     "gops",
-    "cni-plugins-main",
   ]
 }
 

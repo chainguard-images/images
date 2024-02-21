@@ -17,7 +17,7 @@ Minimal image with [kubernetes-csi/external-resizer](https://github.com/kubernet
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

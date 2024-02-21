@@ -17,7 +17,7 @@ Minimal [Guacamole server](https://guacamole.apache.org/) remote desktop gateway
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

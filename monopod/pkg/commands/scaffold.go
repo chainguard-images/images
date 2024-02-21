@@ -87,10 +87,10 @@ func (o scaffoldOptions) runScaffold(ctx context.Context) error {
 		return err
 	}
 
-	// create readme hcl metadata file
+	// create readme and yaml metadata file
 	nr := newReadmeImpl{
-		Readme:      completeReadme{Name: o.PackageName},
-		renderedHCl: new(bytes.Buffer),
+		Readme:       completeReadme{Name: o.PackageName},
+		renderedYaml: new(bytes.Buffer),
 	}
 	if err := nr.render(); err != nil {
 		return err

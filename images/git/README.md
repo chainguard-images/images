@@ -17,7 +17,7 @@ A minimal Git image.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```
@@ -26,38 +26,39 @@ docker pull cgr.dev/chainguard/git:latest
 <!--getting:end-->
 
 <!--body:start-->
-## Usage
-
-Note that this image also has a glibc version:
+Note that there is also glibc version of this Image available:
 
 ```
 docker pull cgr.dev/chainguard/git:latest-glibc
 ```
 
-The Git image allows you to run ordinary Git commands in CI/CD pipelines and also locally via Docker.
+## Usage
+
+Chainguard's Git Image allows you to run ordinary Git commands in CI/CD pipelines and also locally via Docker.
 
 ### Docker Setup
 
-To make sure you have the latest image version available, start by running a `docker pull` command:
+To make sure you have the latest version of the Image available, start by running a `docker pull` command:
 
 ```shell
 docker pull cgr.dev/chainguard/git
 ```
 
-Then, run the image with the `--version` flag to make sure it is functional:
+Then, run the Image with the `--version` flag to make sure the Image is functional:
 
 ```shell
 docker run -it --rm cgr.dev/chainguard/git --version
 ```
-You should get output similar to this:
+
+You will receive output similar to this:
 
 ```
-git version 2.37.1
+git version 2.43.0
 ```
 
 ### Cloning a Repository Locally
 
-Because your local system user's ID (uid) might differ from that of the container image, if you want to clone repositories locally using this image you'll need to set up special permissions for the target dir. Then, you'll be able to set up a volume and have the contents of the cloned repo replicated on your host machine.
+Because your local system user's unique identifier might differ from that of the container, you'll need to set up special permissions for the target directory if you want to use this Image to clone repositories locally. Once you've configured these permissions, you'll be able to set up a volume and have the contents of the cloned repository replicated on your host machine.
 
 First, create a target directory somewhere in your home folder and set the required permissions:
 
@@ -66,23 +67,32 @@ mkdir ~/workspace
 chmod go+wrx ~/workspace
 ```
 
-Now you can use `docker run` to execute the clone command, using the directory you just set up as a volume share between your local machine and the container image on `/home/git`.
+Now you can use `docker run` to execute the `git clone` command, using the directory you just set up as a volume shared between your local machine and the container Image:
 
 ```shell
 docker run -it -v ~/workspace:/home/git --rm cgr.dev/chainguard/git clone https://github.com/chainguard-images/.github.git
 ```
 
-You should get output like this:
+Here, the volume is mounted to the `/home/git` directory in the container.
+
+This will return output like the following:
 
 ```
 Cloning into '.github'...
-remote: Enumerating objects: 217, done.
-remote: Counting objects: 100% (104/104), done.
-remote: Compressing objects: 100% (74/74), done.
-remote: Total 217 (delta 39), reused 78 (delta 27), pack-reused 113
-Receiving objects: 100% (217/217), 207.47 KiB | 1.46 MiB/s, done.
-Resolving deltas: 100% (70/70), done.
+remote: Enumerating objects: 251, done.
+remote: Counting objects: 100% (33/33), done.
+remote: Compressing objects: 100% (23/23), done.
+remote: Total 251 (delta 15), reused 22 (delta 10), pack-reused 218
+Receiving objects: 100% (251/251), 216.59 KiB | 1.04 MiB/s, done.
+Resolving deltas: 100% (88/88), done.
 ```
 
-You can now check the contents of your `workspace` directory, where you should find the cloned repo.
+You can now check the contents of your `workspace` directory, where you will find the cloned repository:
+
+```shell
+ls -a ~/workspace/
+```
+```
+.  ..  .github
+```
 <!--body:end-->
