@@ -1,7 +1,6 @@
 contents:
   packages:
     - datadog-agent
-    - vim
 accounts:
   groups:
     - groupname: nonroot
