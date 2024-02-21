@@ -1,6 +1,7 @@
 contents:
   packages:
     - datadog-agent
+    - vim
 accounts:
   groups:
     - groupname: nonroot
@@ -25,3 +26,5 @@ paths:
     recursive: true
 entrypoint:
   command: /opt/datadog-agent/bin/agent/agent
+environment:
+  PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/jvm/java-11-openjdk/bin"
