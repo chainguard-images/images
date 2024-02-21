@@ -17,7 +17,7 @@ Minimal [nvidia-device-plugin](https://github.com/NVIDIA/k8s-device-plugin) cont
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

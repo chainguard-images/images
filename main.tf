@@ -247,6 +247,11 @@ module "clang" {
   target_repository = "${var.target_repository}/clang"
 }
 
+module "clickhouse" {
+  source            = "./images/clickhouse/"
+  target_repository = "${var.target_repository}/clickhouse"
+}
+
 module "cluster-autoscaler" {
   source            = "./images/cluster-autoscaler"
   target_repository = "${var.target_repository}/cluster-autoscaler"
@@ -392,9 +397,19 @@ module "falcoctl" {
   target_repository = "${var.target_repository}/falcoctl"
 }
 
+module "falcosidekick" {
+  source            = "./images/falcosidekick"
+  target_repository = "${var.target_repository}/falcosidekick"
+}
+
 module "ffmpeg" {
   source            = "./images/ffmpeg"
   target_repository = "${var.target_repository}/ffmpeg"
+}
+
+module "filebeat" {
+  source            = "./images/filebeat"
+  target_repository = "${var.target_repository}/filebeat"
 }
 
 module "fluent-bit" {
@@ -750,6 +765,11 @@ module "kyverno-policy-reporter" {
   target_repository = "${var.target_repository}/kyverno-policy-reporter"
 }
 
+module "logstash-oss-with-opensearch-output-plugin" {
+  source            = "./images/logstash-oss-with-opensearch-output-plugin"
+  target_repository = "${var.target_repository}/logstash-oss-with-opensearch-output-plugin"
+}
+
 module "loki" {
   source            = "./images/loki"
   target_repository = "${var.target_repository}/loki"
@@ -932,6 +952,11 @@ module "opensearch" {
   target_repository = "${var.target_repository}/opensearch"
 }
 
+module "opensearch-dashboards" {
+  source            = "./images/opensearch-dashboards"
+  target_repository = "${var.target_repository}/opensearch-dashboards"
+}
+
 module "opentelemetry-collector-contrib" {
   source            = "./images/opentelemetry-collector-contrib"
   target_repository = "${var.target_repository}/opentelemetry-collector-contrib"
@@ -1005,6 +1030,11 @@ module "prometheus-config-reloader" {
 module "prometheus-elasticsearch-exporter" {
   source            = "./images/prometheus-elasticsearch-exporter"
   target_repository = "${var.target_repository}/prometheus-elasticsearch-exporter"
+}
+
+module "prometheus-logstash-exporter" {
+  source            = "./images/prometheus-logstash-exporter"
+  target_repository = "${var.target_repository}/prometheus-logstash-exporter"
 }
 
 module "prometheus-mongodb-exporter" {

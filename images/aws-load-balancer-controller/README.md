@@ -17,7 +17,7 @@ Minimal Image for Kubernetes controller for Elastic Load Balancers
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

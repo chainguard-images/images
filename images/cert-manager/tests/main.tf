@@ -1,7 +1,6 @@
 terraform {
   required_providers {
     oci       = { source = "chainguard-dev/oci" }
-    helm      = { source = "hashicorp/helm" }
     imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
@@ -37,12 +36,8 @@ resource "imagetest_harness_k3s" "this" {
   }
 }
 
-module "helm" {
-  source = "../../../tflib/imagetest/helm"
-
-  namespace = "cert-manager"
-  chart     = "cert-manager"
-  repo      = "https://charts.jetstack.io"
+module "install" {
+  source = "./install"
 
   values = {
     installCRDs = true
@@ -79,7 +74,7 @@ resource "imagetest_feature" "basic" {
   steps = [
     {
       name = "Helm install"
-      cmd  = module.helm.install_cmd
+      cmd  = module.install.install_cmd
     },
     {
       name = "Ensure it passes cmctl readiness checks"

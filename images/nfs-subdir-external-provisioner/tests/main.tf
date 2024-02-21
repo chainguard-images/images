@@ -1,16 +1,9 @@
-terraform {
-  required_providers {
-    oci = { source = "chainguard-dev/oci" }
-  }
-}
-
 variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
-
-data "oci_exec_test" "runs" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME 2>&1 | grep 'NFS_SERVER not set'"
-}
+# These tests are empty in favor of the package based testing here:
+# https://github.com/wolfi-dev/os/pull/13133
+# 
+# This module is left intact to preserve the behavior of any callers, and
+# reduce the downstream impact when and if image tests are added.

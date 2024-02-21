@@ -13,11 +13,11 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimalist Wolfi-based Spark Operator image for managing the lifecycle of Apache Spark applications on Kubernetes.
+A minimal, Wolfi-based image for Spark Operator. Facilitates the deployment and management of Apache Spark applications in Kubernetes environments.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```
@@ -28,12 +28,23 @@ docker pull cgr.dev/chainguard/spark-operator:latest
 <!--body:start-->
 ## Usage
 
-The easiest way to install the Kubernetes Operator for Apache Spark is to use the Helm chart.
+> Spark Operator expects to be deployed in a Kubernetes cluster, where an
+> instance of Apache Spark is running, on which it will schedule jobs.
+
+
+Installation using helm chart, replacing with the Chainguard image:
+
+Below is an example of how to install the spark operator using helm, with the
+chainguard image:
 
 ```bash
-$ helm repo add spark-operator https://googlecloudplatform.github.io/spark-on-k8s-operator
+helm repo add spark-operator https://googlecloudplatform.github.io/spark-on-k8s-operator
 
-$ helm install my-release spark-operator/spark-operator --namespace spark-operator --create-namespace --set image.repository=cgr.dev/chainguard/spark-operator --set image.tag=latest
+helm install spark-operator spark-operator/spark-operator \
+  --namespace spark \
+  --create-namespace \
+  --set image.repository=cgr.dev/chainguard/spark-operator \
+  --set image.tag=latest
 ```
 
 For more detail, please refer to the [Spark Operator installation documentation](https://github.com/GoogleCloudPlatform/spark-on-k8s-operator?tab=readme-ov-file#installation).
