@@ -247,6 +247,11 @@ module "clang" {
   target_repository = "${var.target_repository}/clang"
 }
 
+module "clickhouse" {
+  source            = "./images/clickhouse/"
+  target_repository = "${var.target_repository}/clickhouse"
+}
+
 module "cluster-autoscaler" {
   source            = "./images/cluster-autoscaler"
   target_repository = "${var.target_repository}/cluster-autoscaler"
