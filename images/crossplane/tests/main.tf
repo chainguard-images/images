@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -16,24 +17,37 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
-resource "helm_release" "crossplane" {
-  name       = "crossplane"
-  repository = "https://charts.crossplane.io/stable"
-  chart      = "crossplane"
+data "imagetest_inventory" "this" {}
 
-  create_namespace = true
-  namespace        = "crossplane-system"
+resource "imagetest_harness_k3s" "this" {
+  name      = "crossplane"
+  inventory = data.imagetest_inventory.this
+}
 
-  values = [jsonencode({
+module "helm_crossplane" {
+  source = "../../crossplane/tests/install"
+
+  values = {
     image = {
       repository = data.oci_string.ref["crossplane"].registry_repo
       tag        = data.oci_string.ref["crossplane"].pseudo_tag
     }
-  })]
+  }
 }
 
-module "helm-cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.crossplane.id
-  namespace = helm_release.crossplane.namespace
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the cert-manager helm chart."
+
+  steps = [
+    {
+      name = "Install crossplane",
+      cmd  = module.helm_crossplane.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }

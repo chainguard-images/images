@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    apko = { source = "chainguard-dev/apko" }
+    apko      = { source = "chainguard-dev/apko" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 
   # We don't take advantage of terraform.tfstate, so we don't need to save state anywhere.
@@ -11,6 +12,8 @@ terraform {
   # Consider removing this if that's ever fixed and/or if we want to use tfstate.
   backend "inmem" {}
 }
+
+provider "imagetest" {}
 
 variable "target_repository" {
   type        = string
@@ -229,14 +232,6 @@ module "cert-manager" {
   target_repository = "${var.target_repository}/cert-manager"
 }
 
-// This isn't intended to be run in production, but it's useful for testing
-// that the cert-manager test module can be run by multiple modules. To test this, run:
-// terraform apply -target=module.cert-manager -target=module.cert-manager-again-for-testing -auto-approve
-module "cert-manager-again-for-testing" {
-  source            = "./images/cert-manager"
-  target_repository = "${var.target_repository}/cert-manager"
-}
-
 module "cfssl" {
   source            = "./images/cfssl"
   target_repository = "${var.target_repository}/cfssl"
@@ -250,6 +245,11 @@ module "cilium" {
 module "clang" {
   source            = "./images/clang"
   target_repository = "${var.target_repository}/clang"
+}
+
+module "clickhouse" {
+  source            = "./images/clickhouse/"
+  target_repository = "${var.target_repository}/clickhouse"
 }
 
 module "cluster-autoscaler" {
@@ -397,9 +397,19 @@ module "falcoctl" {
   target_repository = "${var.target_repository}/falcoctl"
 }
 
+module "falcosidekick" {
+  source            = "./images/falcosidekick"
+  target_repository = "${var.target_repository}/falcosidekick"
+}
+
 module "ffmpeg" {
   source            = "./images/ffmpeg"
   target_repository = "${var.target_repository}/ffmpeg"
+}
+
+module "filebeat" {
+  source            = "./images/filebeat"
+  target_repository = "${var.target_repository}/filebeat"
 }
 
 module "fluent-bit" {
@@ -755,9 +765,19 @@ module "kyverno-policy-reporter" {
   target_repository = "${var.target_repository}/kyverno-policy-reporter"
 }
 
+module "logstash-oss-with-opensearch-output-plugin" {
+  source            = "./images/logstash-oss-with-opensearch-output-plugin"
+  target_repository = "${var.target_repository}/logstash-oss-with-opensearch-output-plugin"
+}
+
 module "loki" {
   source            = "./images/loki"
   target_repository = "${var.target_repository}/loki"
+}
+
+module "management-api-for-apache-cassandra" {
+  source            = "./images/management-api-for-apache-cassandra"
+  target_repository = "${var.target_repository}/management-api-for-apache-cassandra"
 }
 
 module "mariadb" {
@@ -932,6 +952,11 @@ module "opensearch" {
   target_repository = "${var.target_repository}/opensearch"
 }
 
+module "opensearch-dashboards" {
+  source            = "./images/opensearch-dashboards"
+  target_repository = "${var.target_repository}/opensearch-dashboards"
+}
+
 module "opentelemetry-collector-contrib" {
   source            = "./images/opentelemetry-collector-contrib"
   target_repository = "${var.target_repository}/opentelemetry-collector-contrib"
@@ -1005,6 +1030,11 @@ module "prometheus-config-reloader" {
 module "prometheus-elasticsearch-exporter" {
   source            = "./images/prometheus-elasticsearch-exporter"
   target_repository = "${var.target_repository}/prometheus-elasticsearch-exporter"
+}
+
+module "prometheus-logstash-exporter" {
+  source            = "./images/prometheus-logstash-exporter"
+  target_repository = "${var.target_repository}/prometheus-logstash-exporter"
 }
 
 module "prometheus-mongodb-exporter" {

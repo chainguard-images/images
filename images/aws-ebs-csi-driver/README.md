@@ -17,7 +17,7 @@ Minimal images for [aws-ebs-csi-driver](https://aws.amazon.com/ebs/).
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

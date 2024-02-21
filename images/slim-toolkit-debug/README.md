@@ -17,7 +17,7 @@ Wolfi container image with some debugging utilies included. Suitable for using a
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

@@ -17,7 +17,7 @@ A vulnerability scanner for container images and filesystems
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

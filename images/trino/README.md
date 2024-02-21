@@ -17,7 +17,7 @@ Fast distributed SQL query engine for big data analytics that helps you explore 
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

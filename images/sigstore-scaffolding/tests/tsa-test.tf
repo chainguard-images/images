@@ -56,7 +56,7 @@ resource "kubernetes_job_v1" "tsa_sign_verify" {
           working_dir = "/workspace"
           args = [
             "-Lo", "/workspace/tsa-cert-chain.pem",
-            "http://tsa-server.tsa-system.svc/api/v1/timestamp/certchain",
+            "http://tsa-server.tsa-${random_pet.suffix.id}.svc/api/v1/timestamp/certchain",
           ]
           volume_mount {
             name       = "workspace"
@@ -71,7 +71,7 @@ resource "kubernetes_job_v1" "tsa_sign_verify" {
           args = [
             "sign-blob", "/etc/os-release",
             "--fulcio-url", "http://fulcio-server.fulcio-${random_pet.suffix.id}.svc",
-            "--timestamp-server-url", "http://tsa-server.tsa-system.svc/api/v1/timestamp",
+            "--timestamp-server-url", "http://tsa-server.tsa-${random_pet.suffix.id}.svc/api/v1/timestamp",
             "--output-certificate", "cert.pem",
             "--output-signature", "sig",
             "--yes",

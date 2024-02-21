@@ -40,7 +40,7 @@ init:
 
 LOCAL_REGISTRY_NAME := k3d.localhost
 LOCAL_REGISTRY_PORT := 5005
-K3S_IMAGE := cgr.dev/chainguard/k3s:latest@sha256:0ef62d22d89f611f9df50b9cc86d1f23d3d92d39062d4d13e500736f4e29d0d9 
+K3S_IMAGE := cgr.dev/chainguard/k3s:latest@sha256:cb07f771be251367d407175bd6217001ecf1b1d3ce831d1e1a1f28e3cc39025b 
 
 k3d-registry:
 	@# Create a local registry managed by k3d only if it doesn't exist

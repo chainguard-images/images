@@ -17,7 +17,7 @@ Minimal image with Karpenter. **EXPERIMENTAL**
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

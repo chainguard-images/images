@@ -17,7 +17,7 @@ Minimal image with the Virus Total CLI - `vt-cli`.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

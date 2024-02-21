@@ -4,39 +4,41 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 
 # The CRDs which are left behind by the helm charts.
 crds=(
-  "cassandradatacenters.cassandra.datastax.com"
-  "cassandratasks.control.k8ssandra.io"
-  "clientconfigs.config.k8ssandra.io"
-  "k8ssandraclusters.k8ssandra.io"
-  "k8ssandratasks.control.k8ssandra.io"
-  "medusabackupjobs.medusa.k8ssandra.io"
-  "medusabackups.medusa.k8ssandra.io"
-  "medusabackupschedules.medusa.k8ssandra.io"
-  "medusarestorejobs.medusa.k8ssandra.io"
-  "medusatasks.medusa.k8ssandra.io"
-  "reapers.reaper.k8ssandra.io"
-  "replicatedsecrets.replication.k8ssandra.io"
-  "stargates.stargate.k8ssandra.io"
+	"cassandradatacenters.cassandra.datastax.com"
+	"cassandratasks.control.k8ssandra.io"
+	"clientconfigs.config.k8ssandra.io"
+	"k8ssandraclusters.k8ssandra.io"
+	"k8ssandratasks.control.k8ssandra.io"
+	"medusabackupjobs.medusa.k8ssandra.io"
+	"medusabackups.medusa.k8ssandra.io"
+	"medusabackupschedules.medusa.k8ssandra.io"
+	"medusarestorejobs.medusa.k8ssandra.io"
+	"medusatasks.medusa.k8ssandra.io"
+	"reapers.reaper.k8ssandra.io"
+	"replicatedsecrets.replication.k8ssandra.io"
+	"stargates.stargate.k8ssandra.io"
 )
 
 # Delete all resources created by the test.
 function cleanup() {
-  helm uninstall k8ssandra-operator -n ${NAMESPACE}
-  helm uninstall cert-manager -n ${NAMESPACE}
-  kubectl patch replicatedsecrets.replication.k8ssandra.io ${NAME} -n ${NAMESPACE} -p '{"metadata":{"finalizers":[]}}' --type=merge || true
-  kubectl patch k8ssandraclusters.k8ssandra.io ${NAME} -n ${NAMESPACE} -p '{"metadata":{"finalizers":[]}}' --type=merge || true
-  kubectl patch cassandradatacenters.cassandra.datastax.com ${NAME} -n ${NAMESPACE} -p '{"metadata":{"finalizers":[]}}' --type=merge || true
-  kubectl delete replicatedsecrets.replication.k8ssandra.io ${NAME} -n ${NAMESPACE} || true
-  kubectl delete k8ssandraclusters.k8ssandra.io ${NAME} -n ${NAMESPACE} || true
-  kubectl delete cassandradatacenters.cassandra.datastax.com ${NAME} -n ${NAMESPACE} || true
-  kubectl delete ns ${NAMESPACE} --wait=true
+	helm uninstall k8ssandra-operator -n ${NAMESPACE}
+	helm uninstall cert-manager -n ${NAMESPACE}
+	kubectl patch replicatedsecrets.replication.k8ssandra.io ${NAME} -n ${NAMESPACE} -p '{"metadata":{"finalizers":[]}}' --type=merge || true
+	kubectl patch k8ssandraclusters.k8ssandra.io ${NAME} -n ${NAMESPACE} -p '{"metadata":{"finalizers":[]}}' --type=merge || true
+	kubectl patch cassandradatacenters.cassandra.datastax.com ${NAME} -n ${NAMESPACE} -p '{"metadata":{"finalizers":[]}}' --type=merge || true
+	kubectl delete replicatedsecrets.replication.k8ssandra.io ${NAME} -n ${NAMESPACE} || true
+	kubectl delete k8ssandraclusters.k8ssandra.io ${NAME} -n ${NAMESPACE} || true
+	kubectl delete cassandradatacenters.cassandra.datastax.com ${NAME} -n ${NAMESPACE} || true
+	kubectl delete ns ${NAMESPACE} --wait=true
 
-  for crd in "${crds[@]}"; do
-    kubectl delete crd $crd
-  done
+	for crd in "${crds[@]}"; do
+		kubectl delete crd $crd
+	done
 }
 
 trap cleanup EXIT
+
+apk add helm
 
 # we have to install cert-manager first
 
@@ -52,7 +54,7 @@ helm repo add k8ssandra https://helm.k8ssandra.io/stable
 helm repo update
 
 helm install k8ssandra-operator k8ssandra/k8ssandra-operator -n ${NAMESPACE} --create-namespace
-sleep 30 
+sleep 30
 
 # create a secret, needed for medusa
 cat <<EOF | kubectl apply -f -
@@ -90,7 +92,7 @@ spec:
               - ReadWriteOnce
             resources:
               requests:
-                storage: 5Gi
+                storage: 1Gi
         config:
           jvmOptions:
             heapSize: 512M
@@ -115,18 +117,17 @@ spec:
       secure: false
 EOF
 
-
 # NOTE: There is usually a delay (up to 60 seconds), before the mesuda pod is
 # created by the operator. So we can't simply use `kubectl wait`, as it'll fail
 # if no pod exists.
-for (( i=0; i<10; i++ )); do
-    if kubectl get pod -l app=${NAME}-cassandra-medusa-medusa-standalone -n ${NAMESPACE} &> /dev/null; then
-      echo "pod found!"
-      exit 0
-    else
-      echo "pod not found..."
-      sleep 15
-    fi
+for ((i = 0; i < 10; i++)); do
+	if kubectl get pod -l app=${NAME}-cassandra-medusa-medusa-standalone -n ${NAMESPACE} &>/dev/null; then
+		echo "pod found!"
+		exit 0
+	else
+		echo "pod not found..."
+		sleep 15
+	fi
 done
 echo "Pod did not exist after ${RETRY_COUNT} attempts."
 exit 1

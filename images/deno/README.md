@@ -17,7 +17,7 @@ Minimal container image for running [Deno](https://deno.com/) apps
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

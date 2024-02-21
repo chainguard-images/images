@@ -17,7 +17,7 @@ Minimal [curl](https://curl.se/) image base containing curl and ca-certificates.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

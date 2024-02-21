@@ -17,7 +17,7 @@ Minimal Kubernetes Cluster Proportional Autoscaler Container
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

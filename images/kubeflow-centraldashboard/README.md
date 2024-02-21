@@ -20,7 +20,7 @@ For more information, see the [Kubeflow Central Dashboard](https://www.kubeflow.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

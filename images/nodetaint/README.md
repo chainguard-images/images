@@ -17,7 +17,7 @@ Minimal [nodetaint](https://github.com/wish/nodetaint) container image.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```
