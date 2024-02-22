@@ -36,7 +36,7 @@ image/%: check-env-tf init
 	$(TERRAFORM) apply $(TF_VARS) -target=module.$*
 
 init:
-	$(TERRAFORM) init --upgrade
+	$(TERRAFORM) init -upgrade
 
 LOCAL_REGISTRY_NAME := k3d.localhost
 LOCAL_REGISTRY_PORT := 5005
