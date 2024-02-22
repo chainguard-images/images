@@ -8,3 +8,7 @@ short_description: |
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://www.pytorch.org/
+keywords:
+  - ai
+  - library
+  - python
