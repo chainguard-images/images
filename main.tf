@@ -470,6 +470,11 @@ module "go" {
   target_repository = "${var.target_repository}/go"
 }
 
+module "go-ipfs" {
+  source            = "./images/go-ipfs"
+  target_repository = "${var.target_repository}/go-ipfs"
+}
+
 module "google-cloud-sdk" {
   source            = "./images/google-cloud-sdk"
   target_repository = "${var.target_repository}/google-cloud-sdk"
