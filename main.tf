@@ -1093,9 +1093,9 @@ module "pulumi" {
   target_repository = "${var.target_repository}/pulumi"
 }
 
-module "pytorch" {
-  source            = "./images/pytorch"
-  target_repository = "${var.target_repository}/pytorch"
+module "pytorch-cuda12" {
+  source            = "./images/pytorch-cuda12"
+  target_repository = "${var.target_repository}/pytorch-cuda12"
 }
 
 module "python" {

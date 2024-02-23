@@ -1,11 +1,11 @@
 <!--monopod:start-->
-# pytorch
+# pytorch-cuda12
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/pytorch` |
+| **OCI Reference** | `cgr.dev/chainguard/pytorch-cuda12` |
 
 
-* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/pytorch/overview/)
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/pytorch-cuda12/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
@@ -22,13 +22,13 @@ A minimal, [wolfi](https://github.com/wolfi-dev)-based image for pytorch, a Pyth
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/pytorch:latest
+docker pull cgr.dev/chainguard/pytorch-cuda12:latest
 ```
 <!--getting:end-->
 
 <!--body:start-->
 
-## Running pytorch
+## Running pytorch-cuda12
 
 Pytorch has some pre-requisites which need to be configured in the environment
 prior to running. For examples, please refer to [TESTING.md](https://github.com/chainguard-images/images/blob/main/images/pytorch/TESTING.md).
