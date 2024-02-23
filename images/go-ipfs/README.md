@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimalist Wolfi-based image for `ipfs/go-ipfs`.
+Minimalist Wolfi-based image for `go-ipfs`.
 <!--overview:end-->
 
 <!--getting:start-->
