@@ -70,9 +70,5 @@ k3d-clean:
 # that is based on the "registry:2" image (the Docker distribution registry project)
 .PHONY: what-was-pushed
 what-was-pushed:
-	@echo && echo "The following images were pushed to the registry:" && echo && \
-		REGISTRY_CONTAINER_ID=`docker ps --format json | jq -r 'select(.Image | startswith("registry:")) | .ID'` && \
-			docker logs $$REGISTRY_CONTAINER_ID 2>/dev/null | \
-				grep '"PUT /v2/.*/manifests/.*' | grep ' 201 ' | grep -v 'sha256:' | \
-					sed -r "s|.*\"PUT /v2/(.*)/manifests/([^ ]*).*|- `echo $$TF_VAR_target_repository | cut -d/ -f1`/\1:\2|" | uniq | sort && \
-						echo
+	@REGISTRY_CONTAINER_ID=`docker ps --format json | jq -r 'select(.Image | startswith("registry:")) | .ID'` && \
+		docker logs $$REGISTRY_CONTAINER_ID 2>/dev/null | grep '"PUT /v2/.*/manifests/.*' | grep ' 201 ' | grep -v 'sha256:' | sed -r "s|.*\"PUT /v2/(.*)/manifests/([^ ]*).*|`echo $$TF_VAR_target_repository | cut -d/ -f1`/\1:\2|" | uniq | sort
