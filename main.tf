@@ -690,6 +690,11 @@ module "kubeflow-pipelines-visualization-server" {
   target_repository = "${var.target_repository}/kubeflow-pipelines-visualization-server"
 }
 
+module "kuberay-operator" {
+  source            = "./images/kuberay-operator"
+  target_repository = "${var.target_repository}/kuberay-operator"
+}
+
 module "kubernetes-csi-external-attacher" {
   source            = "./images/kubernetes-csi-external-attacher"
   target_repository = "${var.target_repository}/kubernetes-csi-external-attacher"
