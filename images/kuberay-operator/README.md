@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-
+A toolkit to run Ray applications on Kubernetes
 <!--overview:end-->
 
 <!--getting:start-->

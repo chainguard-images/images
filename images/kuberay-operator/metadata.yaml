@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/kuberay-operator
 logo: https://storage.googleapis.com/chainguard-academy/logos/kuberay-operator.svg
 endoflife: ""
 console_summary: ""
-short_description: 
+short_description: "A toolkit to run Ray applications on Kubernetes"
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: 
