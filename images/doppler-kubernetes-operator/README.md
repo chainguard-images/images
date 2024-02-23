@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-
+Automatically sync secrets from Doppler to Kubernetes and auto-reload deployments when secrets change.
 <!--overview:end-->
 
 <!--getting:start-->
