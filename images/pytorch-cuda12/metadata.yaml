@@ -1,5 +1,5 @@
-name: pytorch
-image: cgr.dev/chainguard/pytorch
+name: pytorch-cuda12
+image: cgr.dev/chainguard/pytorch-cuda12
 logo: https://storage.googleapis.com/chainguard-academy/logos/pytorch.svg
 endoflife: ""
 console_summary: ""
