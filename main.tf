@@ -1093,6 +1093,11 @@ module "pulumi" {
   target_repository = "${var.target_repository}/pulumi"
 }
 
+module "pytorch" {
+  source            = "./images/pytorch"
+  target_repository = "${var.target_repository}/pytorch"
+}
+
 module "python" {
   source            = "./images/python"
   target_repository = "${var.target_repository}/python"
