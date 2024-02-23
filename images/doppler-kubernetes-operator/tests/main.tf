@@ -1,6 +1,6 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci    = { source = "chainguard-dev/oci" }
     helm   = { source = "hashicorp/helm" }
     random = { source = "hashicorp/random" }
   }
@@ -54,8 +54,8 @@ data "oci_exec_test" "smoke" {
 }
 
 module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.doppler-kubernetes-operator.id
-  namespace = helm_release.doppler-kubernetes-operator.namespace
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.doppler-kubernetes-operator.id
+  namespace  = helm_release.doppler-kubernetes-operator.namespace
   depends_on = [data.oci_exec_test.smoke]
 }

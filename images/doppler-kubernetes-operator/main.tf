@@ -16,7 +16,7 @@ module "doppler-kubernetes-operator" {
   target_repository = var.target_repository
   config            = module.config.config
 
-  build-dev         = true
+  build-dev = true
 
 }
 

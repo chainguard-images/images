@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install"
-  default = ["doppler-kubernetes-operator"]
+  default     = ["doppler-kubernetes-operator"]
 }
 
 data "apko_config" "this" {
