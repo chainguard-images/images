@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-A minimal, [wolfi](https://github.com/wolfi-dev)-based image for pytorch, a Python package that provides two high-level features: Tensor computation (like NumPy) with strong GPU acceleration and Deep neural networks built on a tape-based autograd system.
+A minimal, [wolfi](https://github.com/wolfi-dev)-based image for pytorch, a Python package that provides two high-level features: Tensor computation with strong GPU acceleration and Deep neural networks built on a tape-based autograd system.
 
 <!--overview:end-->
 
@@ -30,11 +30,14 @@ docker pull cgr.dev/chainguard/pytorch:latest
 
 ## Running pytorch
 
-Please refer TESTING.md for instructions on how to configure and test pytorch. 
-The below examples are intended as demonstrating how to substitute with the chainguard image, and
-are not comprehensive.
+Pytorch has some pre-requisites which need to be configured in the environment
+prior to running. For examples, please refer to [TESTING.md](https://github.com/chainguard-images/images/blob/main/images/pytorch/TESTING.md).
 
-### Docker
+Additionally, please refer to the [upstream documentation](https://github.com/pytorch/pytorch)
+for more information on coniguring and using Pytorch.
+
+Assuming the environment pre-requisite have been met, below demonstrates how
+to launch the container:
 
 ```bash
 docker run --rm -i -t \
