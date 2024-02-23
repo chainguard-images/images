@@ -166,7 +166,7 @@ jobs:
     - name: Check images pushed to registry
       if: ${{ always() }}
       run: |
-        make what-was-pushed
+        ./hack/what-was-pushed.sh
 
     - name: Collect TF diagnostics
       if: ${{ always() }}
