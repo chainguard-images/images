@@ -1,6 +1,6 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci  = { source = "chainguard-dev/oci" }
     helm = { source = "hashicorp/helm" }
   }
 }
@@ -33,8 +33,8 @@ resource "helm_release" "kuberay-operator" {
 }
 
 module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.kuberay-operator.id
-  namespace = helm_release.kuberay-operator.namespace
-  depends_on = [ helm_release.kuberay-operator ]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.kuberay-operator.id
+  namespace  = helm_release.kuberay-operator.namespace
+  depends_on = [helm_release.kuberay-operator]
 }
