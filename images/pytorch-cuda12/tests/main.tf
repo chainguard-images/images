@@ -19,6 +19,7 @@ resource "helm_release" "pytorch" {
   create_namespace = true
   repository       = "oci://registry-1.docker.io/bitnamicharts"
   chart            = "pytorch"
+  timeout          = 600
 
   values = [jsonencode({
     containerName = "pytorch"
