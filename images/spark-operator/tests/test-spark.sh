@@ -148,20 +148,20 @@ apply_manifests() {
 	EOF
 }
 
-# function cleanup() {
-#   kubectl delete clusterrole spark-pi
-#   kubectl delete clusterrole spark-operator-clusterrole
-#   kubectl delete clusterrolebinding spark-pi
-#   kubectl delete clusterrolebinding spark-operator-clusterrolebinding
-#   kubectl delete sparkapplication spark-pi -n ${NAMESPACE}
-#   helm uninstall spark -n ${NAMESPACE}
-#   helm uninstall spark-operator -n ${NAMESPACE}
-#   kubectl delete ns ${NAMESPACE}
-#   kubectl delete crd scheduledsparkapplications.sparkoperator.k8s.io
-#   kubectl delete crd sparkapplications.sparkoperator.k8s.io
-# }
+function cleanup() {
+  kubectl delete clusterrole spark-pi
+  kubectl delete clusterrole spark-operator-clusterrole
+  kubectl delete clusterrolebinding spark-pi
+  kubectl delete clusterrolebinding spark-operator-clusterrolebinding
+  kubectl delete sparkapplication spark-pi -n ${NAMESPACE}
+  helm uninstall spark -n ${NAMESPACE}
+  helm uninstall spark-operator -n ${NAMESPACE}
+  kubectl delete ns ${NAMESPACE}
+  kubectl delete crd scheduledsparkapplications.sparkoperator.k8s.io
+  kubectl delete crd sparkapplications.sparkoperator.k8s.io
+}
 
-# trap cleanup EXIT
+trap cleanup EXIT
 
 # Apply the Kubernetes manifests
 apply_manifests
