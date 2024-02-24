@@ -1,4 +1,3 @@
 cgr.dev/chainguard/crossplane-xfn:latest
 cgr.dev/chainguard/crossplane-xfn:latest-dev
-cgr.dev/chainguard/pytorch:latest
-cgr.dev/chainguard/pytorch:latest-dev
+

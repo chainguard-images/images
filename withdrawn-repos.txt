@@ -5,3 +5,6 @@ kyverno-policy-reporter-reporter
 
 # Accidentally published in terraform migration
 spire
+
+# renamed to pytorch-cuda12. Will need removed when we do finally publish a non-cuda pytorch
+pytorch
