@@ -62,4 +62,19 @@ To run this script,
 ```bash
 docker run --rm -it -v /home/srishihegde/quick.py:/tmp/model_builder.py --gpus all cgr.dev/chainguard/pytorch-cuda12:latest python /tmp/model_builder.py
 ```
+
+### Using Helm charts
+
+As a place to get started, you may also use this Helm chart to get pytorch running
+```bash
+  helm install $installation \
+  --namespace $namespace --create-namespace  \
+  --set image.registry="${IMAGE_REGISTRY}" \
+  --set image.repository="${IMAGE_REPOSITORY}" \
+  --set image.tag=${IMAGE_TAG} \
+  --set containerSecurityContext.runAsUser=0 \
+  --set containerSecurityContext.runAsNonRoot=false \
+  --set containerSecurityContext.allowPrivilegeEscalation=true \
+  --wait oci://registry-1.docker.io/bitnamicharts/pytorch
+```
 <!--body:end-->
