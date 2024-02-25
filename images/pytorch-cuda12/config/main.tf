@@ -40,7 +40,7 @@ output "config" {
       "PATH" : "/usr/share/pytorch/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
     }, var.environment)
     entrypoint = {
-      command = ""
+      command = "/bin/bash -c"
     }
     archs = ["x86_64"]
   })
