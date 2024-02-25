@@ -31,7 +31,7 @@ docker pull cgr.dev/chainguard/pytorch-cuda12:latest
 ## Running pytorch-cuda12
 
 Pytorch has some pre-requisites which need to be configured in the environment
-prior to running. For examples, please refer to [TESTING.md](https://github.com/chainguard-images/images/blob/main/images/pytorch/TESTING.md).
+prior to running with GPUs. For examples, please refer to [TESTING.md](https://github.com/chainguard-images/images/blob/main/images/pytorch/TESTING.md).
 
 Additionally, please refer to the [upstream documentation](https://github.com/pytorch/pytorch)
 for more information on coniguring and using Pytorch.
@@ -44,5 +44,22 @@ docker run --rm -i -t \
     --privileged \
     --gpus all \
     cgr.dev/chainguard/pytorch:latest
+```
+
+If your environment has access to GPUs, you may provide access pytorch access to it by running 
+```bash
+docker run --rm -it --gpus all cgr.dev/chainguard/pytorch-cuda12:latest
+bash-5.2$ python
+Python 3.11.8 (main, Feb  7 2024, 00:46:15) [GCC 13.2.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import torch
+>>> print(torch.cuda.is_available())
+True
+```
+As a quick intro, we will pytorch to create a very simple deep learning model with two linear layers and an activation function. We’ll create an instance of it and ask it to report on its parameters. The script can be found in ```model_builder.py``` in this directory.
+
+To run this script, 
+```bash
+docker run --rm -it -v /home/srishihegde/quick.py:/tmp/model_builder.py --gpus all cgr.dev/chainguard/pytorch-cuda12:latest python /tmp/model_builder.py
 ```
 <!--body:end-->
