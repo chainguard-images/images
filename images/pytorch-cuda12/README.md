@@ -67,11 +67,11 @@ docker run --rm -it -v /home/srishihegde/quick.py:/tmp/model_builder.py --gpus a
 
 As a place to get started, you may also use this Helm chart to get pytorch running
 ```bash
-  helm install $installation \
-  --namespace $namespace --create-namespace  \
-  --set image.registry="${IMAGE_REGISTRY}" \
-  --set image.repository="${IMAGE_REPOSITORY}" \
-  --set image.tag=${IMAGE_TAG} \
+  helm install pytorch \
+  --namespace pytorch-space --create-namespace  \
+  --set image.registry="cgr.dev" \
+  --set image.repository="chainguard/pytorch-cuda12" \
+  --set image.tag=latest \
   --set containerSecurityContext.runAsUser=0 \
   --set containerSecurityContext.runAsNonRoot=false \
   --set containerSecurityContext.allowPrivilegeEscalation=true \
