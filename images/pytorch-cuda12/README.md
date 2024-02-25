@@ -31,7 +31,7 @@ docker pull cgr.dev/chainguard/pytorch-cuda12:latest
 ## Running pytorch-cuda12
 
 Pytorch has some pre-requisites which need to be configured in the environment
-prior to running with GPUs. For examples, please refer to [TESTING.md](https://github.com/chainguard-images/images/blob/main/images/pytorch/TESTING.md).
+prior to running with GPUs. For examples, please refer to [TESTING.md](https://github.com/chainguard-images/images/blob/main/images/pytorch-cuda12/TESTING.md).
 
 Additionally, please refer to the [upstream documentation](https://github.com/pytorch/pytorch)
 for more information on coniguring and using Pytorch.
