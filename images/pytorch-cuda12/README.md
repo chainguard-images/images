@@ -56,7 +56,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> print(torch.cuda.is_available())
 True
 ```
-As a quick intro, we will pytorch to create a very simple deep learning model with two linear layers and an activation function. We’ll create an instance of it and ask it to report on its parameters. The script can be found in ```model_builder.py``` in this directory.
+As a quick intro, we will use pytorch to create a very simple deep learning model with two linear layers and an activation function. We’ll create an instance of it and ask it to report on its parameters. The script can be found in ```model_builder.py``` in this directory.
 
 To run this script, 
 ```bash
