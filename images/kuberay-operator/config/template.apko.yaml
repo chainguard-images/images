@@ -1,6 +1,7 @@
 contents:
   packages:
     - kuberay-operator
+    - kuberay-operator-compat
 
 accounts:
   groups:

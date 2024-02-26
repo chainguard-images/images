@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install"
-  default     = ["kuberay-operator"]
+  default     = ["kuberay-operator", "kuberay-operator-compat"]
 }
 
 data "apko_config" "this" {
