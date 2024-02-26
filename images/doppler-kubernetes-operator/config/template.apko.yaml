@@ -1,7 +1,3 @@
-contents:
-  packages:
-    - doppler-kubernetes-operator
-
 accounts:
   groups:
     - groupname: nonroot
