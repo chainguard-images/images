@@ -53,8 +53,7 @@ resource "helm_release" "kuberay-operator" {
   values = [
     jsonencode({
       image = {
-        registry   = data.oci_string.ref.registry
-        repository = data.oci_string.ref.repo
+        repository = data.oci_string.ref.registry_repo
         tag        = data.oci_string.ref.pseudo_tag
       }
     }),
