@@ -70,6 +70,7 @@ TEST_validate_container_logs() {
 TEST_ipfs_functionality() {
  echo "Hello, IPFS!" > "${ipfs_staging}/test.txt"
  docker exec "${CONTAINER_NAME}" ipfs add "${ipfs_staging}/test.txt"
+ 
  FILE_HASH=$(docker exec "${CONTAINER_NAME}" ipfs add -r "/export/test.txt" | tail -n1 | awk '{print $2}')
  RETRIEVED_FILE=${docker exec "${CONTAINER_NAME}" ipfs cat "${FILE_HASH}"}
 
