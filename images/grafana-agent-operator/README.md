@@ -13,11 +13,11 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Grafana Agent Operator is a Kubernetes operator for the static mode of Grafana Agent. It makes it easier to deploy and configure static mode to collect telemetry data from Kubernetes resources.
+[Grafana Agent Operator](https://grafana.com/docs/agent/latest/operator/) is a Kubernetes operator for the static mode of Grafana Agent.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```
