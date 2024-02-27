@@ -7,7 +7,7 @@ terraform {
 variable "extra_packages" {
   description = "Additional packages to install."
   type        = list(string)
-  default     = ["pytorch-cuda12"]
+  default     = ["torchvision-cuda12"]
 }
 
 variable "extra_repositories" {
@@ -26,6 +26,7 @@ variable "environment" {
 
 module "accts" {
   source = "../../../tflib/accts"
+  run-as = 0
 }
 
 output "config" {
@@ -37,7 +38,7 @@ output "config" {
     }
     accounts = module.accts.block
     environment = merge({
-      "PATH" : "/usr/share/pytorch/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "PATH" : "/usr/share/torchvision/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
     }, var.environment)
     entrypoint = {
       command = "/bin/bash -c"
