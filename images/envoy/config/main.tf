@@ -7,7 +7,7 @@ terraform {
 variable "extra_packages" {
   description = "The additional packages to install (e.g. envoy vs envoy-fips...)"
   default = [
-    "envoy",
+    "envoy-1.29",
   ]
 }
 

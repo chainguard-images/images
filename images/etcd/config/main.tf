@@ -1,7 +1,7 @@
 variable "extra_packages" {
   description = "Additional packages to install."
   type        = list(string)
-  default     = ["etcd"]
+  default     = ["etcd-3.5"]
 }
 
 module "accts" { source = "../../../tflib/accts" }

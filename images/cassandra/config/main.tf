@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install."
-  default     = ["cassandra", "cassandra-compat", "openjdk-11-default-jvm"]
+  default     = ["cassandra-4.1", "cassandra-4.1-compat", "openjdk-11-default-jvm"]
 }
 
 variable "environment" {
