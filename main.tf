@@ -510,6 +510,11 @@ module "haproxy-ingress" {
   target_repository = "${var.target_repository}/haproxy-ingress"
 }
 
+module "hello-world-golang" {
+  source            = "./images/hello-world-golang"
+  target_repository = "${var.target_repository}/hello-world-golang"
+}
+
 module "helm" {
   source            = "./images/helm"
   target_repository = "${var.target_repository}/helm"

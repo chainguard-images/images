@@ -1,0 +1,11 @@
+name: hello-world-golang
+image: cgr.dev/chainguard/hello-world-golang
+logo: https://storage.googleapis.com/chainguard-academy/logos/hello-world-golang.svg
+endoflife: ""
+console_summary: ""
+short_description: A hello-world example for a golang application, that generates log output. This is intended as a learning resource.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/chainguard-dev/hello-world-golang
+keywords:
+  - application
