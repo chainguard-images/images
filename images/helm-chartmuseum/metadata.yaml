@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/helm-chartmuseum
 logo: https://storage.googleapis.com/chainguard-academy/logos/helm-chartmuseum.svg
 endoflife: ""
 console_summary: ""
-short_description: Minimal image with [chartmuseum](https://github.com/helm/chartmuseum) binary. **EXPERIMENTAL**
+short_description: Minimal image with [chartmuseum](https://github.com/helm/chartmuseum) binary.
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/helm/chartmuseum

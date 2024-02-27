@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with NATS. **EXPERIMENTAL**
+Minimal image with NATS.
 <!--overview:end-->
 
 <!--getting:start-->

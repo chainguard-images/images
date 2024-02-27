@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with Kafka. **EXPERIMENTAL**
+Minimal image with Kafka.
 <!--overview:end-->
 
 <!--getting:start-->

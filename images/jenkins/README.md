@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal [Jenkins](https://jenkins.io) container image. **Currently experimental.**
+Minimal [Jenkins](https://jenkins.io) container image.
 <!--overview:end-->
 
 <!--getting:start-->
@@ -27,8 +27,6 @@ docker pull cgr.dev/chainguard/jenkins:latest
 
 <!--body:start-->
 ## Use It
-
-This is an experimental image and subject to change.  We welcome all feedback.
 
 To test out the Chainguard Jenkins image, run the following command, which will create a volume to persist build and configuration data from the container's `$JENKINS_HOME`:
 

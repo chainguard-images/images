@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/nats
 logo: https://storage.googleapis.com/chainguard-academy/logos/nats.svg
 endoflife: ""
 console_summary: ""
-short_description: Minimal image with NATS. **EXPERIMENTAL**
+short_description: Minimal image with NATS.
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://nats.io/

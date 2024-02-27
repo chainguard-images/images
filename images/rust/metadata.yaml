@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/rust
 logo: https://storage.googleapis.com/chainguard-academy/logos/rust.svg
 endoflife: ""
 console_summary: ""
-short_description: Minimal Wolfi-based Rust image for building Rust applications. **EXPERIMENTAL**.
+short_description: Minimal Wolfi-based Rust image for building Rust applications..
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://www.rust-lang.org/
