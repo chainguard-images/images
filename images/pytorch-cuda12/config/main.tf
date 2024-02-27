@@ -41,7 +41,7 @@ output "config" {
       "PATH" : "/usr/share/torchvision/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
     }, var.environment)
     entrypoint = {
-      command = "/bin/bash -c"
+      command = "/bin/bash"
     }
     archs = ["x86_64"]
   })
