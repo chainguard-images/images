@@ -10,7 +10,7 @@ variable "target_repository" {
 
 module "config" {
   source         = "./config"
-  extra_packages = ["pytorch-cuda12", "busybox", "bash"]
+  extra_packages = ["torchvision-cuda12", "busybox", "bash"]
 }
 
 module "latest" {
