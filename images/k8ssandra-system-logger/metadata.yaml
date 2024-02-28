@@ -1,0 +1,12 @@
+name: k8ssandra-system-logger
+image: cgr.dev/chainguard/k8ssandra-system-logger
+logo: https://storage.googleapis.com/chainguard-academy/logos/k8ssandra-system-logger.svg
+endoflife: ""
+console_summary: ""
+short_description: Sidecar for DataStax Kubernetes Operator for Apache Cassandra
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/k8ssandra/cass-operator/blob/master/logger.Dockerfile
+keywords:
+  - tools
+  - logging

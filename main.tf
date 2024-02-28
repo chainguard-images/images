@@ -605,6 +605,11 @@ module "k8ssandra-operator" {
   target_repository = "${var.target_repository}/k8ssandra-operator"
 }
 
+module "k8ssandra-system-logger" {
+  source            = "./images/k8ssandra-system-logger"
+  target_repository = "${var.target_repository}/k8ssandra-system-logger"
+}
+
 module "kafka" {
   source            = "./images/kafka"
   target_repository = "${var.target_repository}/kafka"
