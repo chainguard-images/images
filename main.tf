@@ -347,6 +347,11 @@ module "dive" {
   target_repository = "${var.target_repository}/dive"
 }
 
+module "docker-selenium" {
+  source            = "./images/docker-selenium"
+  target_repository = "${var.target_repository}/docker-selenium"
+}
+
 module "dotnet" {
   source            = "./images/dotnet"
   target_repository = "${var.target_repository}/dotnet"
