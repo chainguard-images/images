@@ -8,7 +8,6 @@ variable "extra_packages" {
   description = "The additional packages to install (e.g. gops, cilium-operator-generic...)"
 
   default = [
-    "cilium-envoy",
     "cilium",
     "cilium-container-init-compat",
     "gops",
