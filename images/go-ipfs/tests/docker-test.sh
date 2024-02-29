@@ -84,11 +84,10 @@ TEST_validate_container_logs() {
 TEST_ipfs_functionality() {
 
  echo "Hello, IPFS!" > "/tmp/ipfs-test.txt"
-#  docker exec "${CONTAINER_NAME}" ipfs add /tmp/ipfs-test.txt
  docker cp /tmp/ipfs-test.txt ${CONTAINER_NAME}:/tmp/ipfs-test.txt
+ docker exec "${CONTAINER_NAME}" ipfs add /tmp/ipfs-test.txt
 
- FILE_HASH=$(docker exec "${CONTAINER_NAME}" ipfs add -r "/tmp/ipfs-test.txt" | tail -n1 | awk '{print $2}')
- RETRIEVED_FILE=${docker exec "${CONTAINER_NAME}" ipfs cat "${FILE_HASH}"}
+ RETRIEVED_FILE=${docker exec "${CONTAINER_NAME}" ipfs cat "/tmp/ipfs-test.txt"}
  LOCAL_FILE=$(cat /tmp/ipfs-test.txt)
 
  trap 'rm -rf /tmp/ipfs-test.txt' 
