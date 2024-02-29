@@ -10,7 +10,7 @@ variable "target_repository" {
 
 module "config" {
   source         = "./config"
-  extra_packages = ["torchvision-cuda12", "busybox", "bash"]
+  extra_packages = ["docker-selenium"]
 }
 
 module "latest" {
@@ -23,6 +23,7 @@ module "latest" {
 
 module "test" {
   source = "./tests"
+
   digest = module.latest.image_ref
 }
 

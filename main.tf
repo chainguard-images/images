@@ -347,6 +347,11 @@ module "dive" {
   target_repository = "${var.target_repository}/dive"
 }
 
+module "docker-selenium" {
+  source            = "./images/docker-selenium"
+  target_repository = "${var.target_repository}/docker-selenium"
+}
+
 module "dotnet" {
   source            = "./images/dotnet"
   target_repository = "${var.target_repository}/dotnet"
@@ -693,6 +698,11 @@ module "kubeflow-pipelines" {
 module "kubeflow-pipelines-visualization-server" {
   source            = "./images/kubeflow-pipelines-visualization-server"
   target_repository = "${var.target_repository}/kubeflow-pipelines-visualization-server"
+}
+
+module "kuberay-operator" {
+  source            = "./images/kuberay-operator"
+  target_repository = "${var.target_repository}/kuberay-operator"
 }
 
 module "kubernetes-csi-external-attacher" {
