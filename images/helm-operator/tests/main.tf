@@ -1,6 +1,6 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci  = { source = "chainguard-dev/oci" }
     helm = { source = "hashicorp/helm" }
   }
 }
@@ -12,13 +12,13 @@ variable "digest" {
 resource "random_pet" "suffix" {}
 
 resource "helm_release" "helm" {
-  name             = "helm-operator-${random_pet.suffix.id}"
-  chart            = "https://bsgrigorov.github.io/helm-operator/helm-operator-0.0.2.tgz"
+  name  = "helm-operator-${random_pet.suffix.id}"
+  chart = "https://bsgrigorov.github.io/helm-operator/helm-operator-0.0.2.tgz"
 
   values = [
     jsonencode({
       image = {
-        operator = "bsgrigorov/helm-operator"
+        operator   = "bsgrigorov/helm-operator"
         pullPolicy = "Always"
       }
     })
