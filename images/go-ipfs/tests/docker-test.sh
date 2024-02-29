@@ -47,7 +47,6 @@ TEST_start_container() {
   fi
 }
 
-
 # Validate the container is running and healthy by looking for known, good,
 # expected log entries.
 TEST_validate_container_logs() {
