@@ -16,4 +16,4 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command: TODO
+  command: helm-operator
