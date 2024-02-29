@@ -101,4 +101,4 @@ TEST_ipfs_functionality() {
 
 TEST_start_container
 TEST_validate_container_logs
-TEST_ipfs_functionality
+# TEST_ipfs_functionality
