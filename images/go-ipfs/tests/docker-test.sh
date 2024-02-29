@@ -87,13 +87,11 @@ TEST_ipfs_functionality() {
  docker cp /tmp/ipfs-test.txt ${CONTAINER_NAME}:/tmp/ipfs-test.txt
  docker exec "${CONTAINER_NAME}" ipfs add /tmp/ipfs-test.txt
 
- RETRIEVED_FILE=${docker exec "${CONTAINER_NAME}" ipfs cat "/tmp/ipfs-test.txt"}
- LOCAL_FILE=$(cat /tmp/ipfs-test.txt)
+ FILE_HASH=$(docker exec "${CONTAINER_NAME}" ipfs add -r "/tmp/ipfs-test.txt" | tail -n1 | awk '{print $2}')
 
- trap 'rm -rf /tmp/ipfs-test.txt' 
- exit 1
+ trap "rm -rf /tmp/ipfs-test.txt" EXIT
 
- if [ "${RETRIEVED_FILE}" != "${LOCAL_FILE}" ]; then
+ if ! docker exec "${CONTAINER_NAME}" ipfs cat "${FILE_HASH}" | diff - /tmp/ipfs-test.txt; then
     echo "Failed: Unable to retrieve file from IPFS."
     exit 1
  fi
