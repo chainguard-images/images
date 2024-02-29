@@ -4,9 +4,8 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 
 CONTAINER_NAME="ipfs-host-$(uuidgen)"
 CONTAINER_PORT=${FREE_PORT}
-REQUEST_RETRIES=1
+REQUEST_RETRIES=5
 RETRY_DELAY=15
-ipfs_staging=$(mktemp -d)
 
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
@@ -32,7 +31,7 @@ TEST_start_container() {
 
   container_id=$(docker run \
     -v ipfs-data:/home/nonroot/.ipfs \
-    -v $ipfs_staging:/export \
+    -v /tmp:/export \
     -d --rm \
     -p "${CONTAINER_PORT}:5001" \
     --name "${CONTAINER_NAME}" \
@@ -84,16 +83,18 @@ TEST_validate_container_logs() {
 # Validate the IPFS functionality by adding and retrieving a file
 TEST_ipfs_functionality() {
 
- echo "Hello, IPFS!" > "${ipfs_staging}/test.txt"
- docker exec "${CONTAINER_NAME}" ipfs add "/export/test.txt"
+ echo "Hello, IPFS!" > "/tmp/ipfs-test.txt"
+#  docker exec "${CONTAINER_NAME}" ipfs add /tmp/ipfs-test.txt
+ docker cp /tmp/ipfs-test.txt ${CONTAINER_NAME}:/tmp/ipfs-test.txt
 
- FILE_HASH=$(docker exec "${CONTAINER_NAME}" ipfs add -r "/export/test.txt" | tail -n1 | awk '{print $2}')
+ FILE_HASH=$(docker exec "${CONTAINER_NAME}" ipfs add -r "/tmp/ipfs-test.txt" | tail -n1 | awk '{print $2}')
  RETRIEVED_FILE=${docker exec "${CONTAINER_NAME}" ipfs cat "${FILE_HASH}"}
+ LOCAL_FILE=$(cat /tmp/ipfs-test.txt)
 
- trap 'rm -rf $ipfs_staging' 
+ trap 'rm -rf /tmp/ipfs-test.txt' 
  exit 1
 
- if [ "${RETRIEVED_FILE}" != "Hello, IPFS!" ]; then
+ if [ "${RETRIEVED_FILE}" != "${LOCAL_FILE}" ]; then
     echo "Failed: Unable to retrieve file from IPFS."
     exit 1
  fi
@@ -101,4 +102,4 @@ TEST_ipfs_functionality() {
 
 TEST_start_container
 TEST_validate_container_logs
-# TEST_ipfs_functionality
+TEST_ipfs_functionality
