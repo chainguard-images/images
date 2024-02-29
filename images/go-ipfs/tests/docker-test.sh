@@ -6,6 +6,11 @@ CONTAINER_NAME="ipfs-host-$(uuidgen)"
 CONTAINER_PORT=${FREE_PORT}
 REQUEST_RETRIES=5
 RETRY_DELAY=15
+IPFS_PATH=/data/ipfs
+user=ipfs
+repo="$IPFS_PATH"
+
+
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
@@ -15,13 +20,13 @@ expected_logs=(
 )
 
 missing_logs=()
-
+ 
 # Start up a new IPFS container
 TEST_start_container() {
   container_id=$(docker run \
-    -d --rm \
-    --name "${CONTAINER_NAME}" -p "${CONTAINER_PORT}:5001" \
-    ipfs/kubo:latest)
+    -d \
+    --name "${CONTAINER_NAME}" -e IPFS_PROFILE=server -p 4001:4001 -p 4001:4001/udp -p 127.0.0.1:8080:8080 -p "${CONTAINER_PORT}:5001" \
+    "${IMAGE_NAME}" log tail)
 
   trap "docker stop ${container_id}" EXIT
   sleep 15
@@ -32,11 +37,31 @@ TEST_start_container() {
   fi
 }
 
+# To initialize configuration files and generate a new keypair
+SET_ENV(){
+  if [ "$(id -u)" -eq 0 ]; then
+    echo "Changing user to $user"
+    # ensure folder is writable
+    gosu "$user" test -w "$repo" || chown -R -- "$user" "$repo"
+    # restart script with new privileges
+    exec gosu "$user" "$0" "$@"
+  fi
+
+  # 2nd invocation with regular user
+  ipfs version
+
+  if [ -e "$repo/config" ]; then
+    echo "Found IPFS fs-repo at $repo"
+  else
+    ipfs init ${IPFS_PROFILE:+"--profile=$IPFS_PROFILE"}
+  fi
+}
+
 # Validate the container is running and healthy by looking for known, good,
 # expected log entries.
 TEST_validate_container_logs() {
   for ((i=1; i<=${REQUEST_RETRIES}; i++)); do
-    local logs=$(docker logs "${container_id}" 2>&1)
+    local logs=$(docker logs "${CONTAINER_NAME}")
     local logs_found=true
 
     # Search the container logs for our expected log lines.
@@ -81,5 +106,6 @@ TEST_ipfs_functionality() {
 }
 
 TEST_start_container
+SET_ENV
 TEST_validate_container_logs
 TEST_ipfs_functionality
