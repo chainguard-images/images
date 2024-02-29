@@ -8,7 +8,7 @@ exit_code=1
 CONTAINER_NAME="nemo-test-container"
 
 run_scripts() {
-  docker run --rm -it -v "${my_d}/nemo_quickstart.py":/tmp/nemo_quickstart.py --name $CONTAINER_NAME $IMAGE_NAME -c "python /tmp/nemo_quickstart.py"
+  docker run --rm -d -v "${my_d}/nemo_quickstart.py":/tmp/nemo_quickstart.py --name $CONTAINER_NAME $IMAGE_NAME -c "python /tmp/nemo_quickstart.py"
   trap "docker logs $CONTAINER_NAME && docker rm -f $CONTAINER_NAME" EXIT
   exit_code=$?
   if [ $exit_code -eq 0 ]; then
