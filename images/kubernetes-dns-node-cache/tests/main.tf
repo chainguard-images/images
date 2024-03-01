@@ -1,7 +1,8 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    helm      = { source = "hashicorp/helm" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -13,22 +14,28 @@ data "oci_string" "ref" {
   input = var.digest
 }
 
-data "oci_exec_test" "runs" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --help"
+data "imagetest_inventory" "this" {}
+
+resource "imagetest_harness_k3s" "this" {
+  name      = "node-local-dns"
+  inventory = data.imagetest_inventory.this
+
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+  }
 }
 
-resource "random_id" "id" { byte_length = 4 }
-
-resource "helm_release" "node-local-dns" {
-  name             = "node-local-dns-${random_id.id.hex}"
-  namespace        = "node-local-dns-${random_id.id.hex}"
-  create_namespace = true
-
-  repository = "https://charts.deliveryhero.io/"
-  chart      = "node-local-dns"
-
-  values = [jsonencode({
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+  chart  = "node-local-dns"
+  repo   = "https://charts.deliveryhero.io/"
+  name   = "node-local-dns"
+  values = {
     image = {
       repository = data.oci_string.ref.registry_repo
       tag        = data.oci_string.ref.pseudo_tag
@@ -36,11 +43,22 @@ resource "helm_release" "node-local-dns" {
     config = {
       localDns = "0.0.0.0"
     }
-  })]
+  }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.node-local-dns.id
-  namespace = helm_release.node-local-dns.namespace
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the image."
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }

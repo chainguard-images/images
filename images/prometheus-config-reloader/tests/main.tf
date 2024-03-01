@@ -1,7 +1,8 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    helm      = { source = "hashicorp/helm" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -13,51 +14,53 @@ data "oci_string" "ref" {
   input = var.digest
 }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "kube-prometheus-stack" {
-  name       = "prometheus-config-reloader-${random_pet.suffix.id}"
-  repository = "https://prometheus-community.github.io/helm-charts"
-  chart      = "kube-prometheus-stack"
+resource "imagetest_harness_k3s" "this" {
+  name      = "prometheus-config-reloader"
+  inventory = data.imagetest_inventory.this
 
-  namespace        = "prometheus-config-reloader-${random_pet.suffix.id}"
-  create_namespace = true
-
-  set {
-    name  = "prometheusOperator.prometheusConfigReloader.image.registry"
-    value = data.oci_string.ref.registry
-  }
-  set {
-    name  = "prometheusOperator.prometheusConfigReloader.image.repository"
-    value = data.oci_string.ref.repo
-  }
-  set {
-    name  = "prometheusOperator.prometheusConfigReloader.image.tag"
-    value = data.oci_string.ref.pseudo_tag
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
   }
 }
 
-data "oci_exec_test" "helm_cleanup" {
-  depends_on = [resource.helm_release.kube-prometheus-stack]
-  digest     = var.digest
-  script     = <<EOF
-set -e
-
-if ! command -v flock; then
-  echo "flock not installed; please install it."
-  exit 1
-fi
-
-# Run with `flock` to ensure that only one cleanup process runs at a time.
-flock -e -w 1200 /tmp/prometheus-config-reloader ${path.module}/cleanup.sh
-EOF
-
-  env {
-    name  = "CHART_NAME"
-    value = helm_release.kube-prometheus-stack.name
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+  repo   = "https://prometheus-community.github.io/helm-charts"
+  chart  = "kube-prometheus-stack"
+  name   = "prometheus-config-reloader"
+  values = {
+    prometheusOperator = {
+      prometheusConfigReloader = {
+        image = {
+          registry   = data.oci_string.ref.registry
+          repository = data.oci_string.ref.repo
+          tag        = data.oci_string.ref.pseudo_tag
+        }
+      }
+    }
   }
-  env {
-    name  = "NAMESPACE"
-    value = helm_release.kube-prometheus-stack.namespace
+}
+
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the image."
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s"
   }
 }

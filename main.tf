@@ -352,6 +352,11 @@ module "doppler-kubernetes-operator" {
   target_repository = "${var.target_repository}/doppler-kubernetes-operator"
 }
 
+module "docker-selenium" {
+  source            = "./images/docker-selenium"
+  target_repository = "${var.target_repository}/docker-selenium"
+}
+
 module "dotnet" {
   source            = "./images/dotnet"
   target_repository = "${var.target_repository}/dotnet"
@@ -695,6 +700,11 @@ module "kubeflow-pipelines-visualization-server" {
   target_repository = "${var.target_repository}/kubeflow-pipelines-visualization-server"
 }
 
+module "kuberay-operator" {
+  source            = "./images/kuberay-operator"
+  target_repository = "${var.target_repository}/kuberay-operator"
+}
+
 module "kubernetes-csi-external-attacher" {
   source            = "./images/kubernetes-csi-external-attacher"
   target_repository = "${var.target_repository}/kubernetes-csi-external-attacher"
@@ -848,6 +858,11 @@ module "ml-metadata-store-server" {
 module "nats" {
   source            = "./images/nats"
   target_repository = "${var.target_repository}/nats"
+}
+
+module "nemo" {
+  source            = "./images/nemo"
+  target_repository = "${var.target_repository}/nemo"
 }
 
 module "netcat" {

@@ -5,12 +5,8 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. gops, hubble-relay...)"
-
-  default = [
-    "gops",
-    "cilium-hubble-relay"
-  ]
+  description = "The additional packages to install"
+  default     = ["kuberay-operator", "kuberay-operator-compat"]
 }
 
 data "apko_config" "this" {
