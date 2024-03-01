@@ -17,7 +17,7 @@ data "oci_string" "ref" {
 data "imagetest_inventory" "this" {}
 
 resource "imagetest_harness_k3s" "this" {
-  name      = "logstash-output-opensearch"
+  name      = "node-local-dns"
   inventory = data.imagetest_inventory.this
 
   sandbox = {
@@ -49,7 +49,7 @@ module "helm" {
 resource "imagetest_feature" "basic" {
   harness     = imagetest_harness_k3s.this
   name        = "Basic"
-  description = "Basic functionality of the logstash image."
+  description = "Basic functionality of the image."
 
   steps = [
     {
