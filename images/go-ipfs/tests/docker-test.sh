@@ -8,8 +8,6 @@ REQUEST_RETRIES=5
 RETRY_DELAY=15
 
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-
 # Log entries which we expect to be present when the service is running healthy.
 expected_logs=(
   "Daemon is ready"
