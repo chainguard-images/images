@@ -855,6 +855,11 @@ module "nats" {
   target_repository = "${var.target_repository}/nats"
 }
 
+module "nemo" {
+  source            = "./images/nemo"
+  target_repository = "${var.target_repository}/nemo"
+}
+
 module "netcat" {
   source            = "./images/netcat"
   target_repository = "${var.target_repository}/netcat"
