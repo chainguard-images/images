@@ -347,6 +347,11 @@ module "dive" {
   target_repository = "${var.target_repository}/dive"
 }
 
+module "doppler-kubernetes-operator" {
+  source            = "./images/doppler-kubernetes-operator"
+  target_repository = "${var.target_repository}/doppler-kubernetes-operator"
+}
+
 module "docker-selenium" {
   source            = "./images/docker-selenium"
   target_repository = "${var.target_repository}/docker-selenium"

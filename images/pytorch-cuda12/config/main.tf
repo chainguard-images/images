@@ -7,6 +7,7 @@ terraform {
 variable "extra_packages" {
   description = "Additional packages to install."
   type        = list(string)
+
   # torchvision is currently built on top of torch and should include all the packages we expect from it
   default = ["torchvision-cuda12"]
 }
