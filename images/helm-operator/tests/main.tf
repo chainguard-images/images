@@ -19,14 +19,6 @@ resource "imagetest_harness_k3s" "this" {
   name      = "helm-operator"
   inventory = data.imagetest_inventory.this
 
-  sandbox = {
-    mounts = [
-      {
-        source      = path.module
-        destination = "/tests"
-      }
-    ]
-  }
 }
 
 module "helm" {
