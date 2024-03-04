@@ -36,7 +36,7 @@ module "helm" {
   name   = "helm-operator"
   values = {
     image = {
-      operator = "data.oci_string.ref.registry_repo:data.oci_string.ref.pseudo_tag"
+      operator = "${data.oci_string.ref.registry_repo}:${data.oci_string.ref.pseudo_tag}"
     }
   }
 }
