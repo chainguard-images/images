@@ -37,10 +37,10 @@ resource "imagetest_harness_k3s" "this" {
 }
 
 module "helm_logstash" {
-  source       = "../../../tflib/imagetest/helm"
-  chart        = "logstash"
-  repo         = "https://helm.elastic.co"
-  name         = "logstash"
+  source = "../../../tflib/imagetest/helm"
+  chart  = "logstash"
+  repo   = "https://helm.elastic.co"
+  name   = "logstash"
   # values_files = ["/tests/values/logstash.values.yaml"]
   values = {
     image           = data.oci_string.ref.registry_repo
