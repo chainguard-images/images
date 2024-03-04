@@ -1,6 +1,8 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    helm      = { source = "hashicorp/helm" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -8,56 +10,70 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-resource "random_pet" "suffix" {
-  length = 1
+data "oci_string" "ref" {
+  input = var.digest
 }
 
-data "oci_string" "ref" { input = var.digest }
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "cert-manager" {
-  name             = "cert-manager-${random_pet.suffix.id}"
-  namespace        = "cert-manager"
-  repository       = "https://charts.jetstack.io" // TODO
-  chart            = "cert-manager"               // TODO
-  create_namespace = true
+resource "imagetest_harness_k3s" "this" {
+  name      = "prometheus-config-reloader"
+  inventory = data.imagetest_inventory.this
 
-  set {
-    name  = "installCRDs"
-    value = "true"
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
   }
 }
 
-resource "helm_release" "helm" {
-  // We use a shortened name to avoid hitting the 63 character limit for cert-manager names.
-  name             = "k8ss-op-${random_pet.suffix.id}"
-  namespace        = "k8ss-op-${random_pet.suffix.id}"
-  repository       = "https://helm.k8ssandra.io/stable" // TODO
-  chart            = "k8ssandra-operator"               // TODO
-  create_namespace = true
+module "helm_cert_manager" {
+  source = "../../../tflib/imagetest/helm"
+  name   = "cert-manager"
+  repo   = "https://charts.jetstack.io"
+  chart  = "cert-manager"
 
-  // Requires cert-manager to be installed first.
-  depends_on = [helm_release.cert-manager]
+  values = {
+    installCRDs = "true"
+  }
+}
 
-  values = [jsonencode({
+module "helm_k8ssandra" {
+  source = "../../../tflib/imagetest/helm"
+  name   = "k8ssandra"
+  repo   = "https://helm.k8ssandra.io/stable"
+  chart  = "k8ssandra-operator"
+
+  values = {
     image = {
       registry   = data.oci_string.ref.registry
       repository = data.oci_string.ref.repo
       tag        = data.oci_string.ref.pseudo_tag
     }
-  })]
+  }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.helm.id
-  namespace = helm_release.helm.namespace
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the image."
+
+  steps = [
+    {
+      name = "Helm install cert-manager"
+      cmd  = module.helm_cert_manager.install_cmd
+    },
+    {
+      name = "Helm install k8ssandra"
+      cmd  = module.helm_k8ssandra.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }
 
-module "helm_cleanup_cert_manager" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.cert-manager.id
-  namespace = helm_release.cert-manager.namespace
-
-  // Uninstall in reverse order so we don't clean this up prematurely.
-  depends_on = [module.helm_cleanup]
-}
