@@ -20,7 +20,7 @@ Minimalist Wolfi-based image for `go-ipfs`.
 ## Download this Image
 The image is available on `cgr.dev`:
 
-```bash
+```
 docker pull cgr.dev/chainguard/go-ipfs:latest
 ```
 <!--getting:end-->
