@@ -530,6 +530,11 @@ module "helm-chartmuseum" {
   target_repository = "${var.target_repository}/helm-chartmuseum"
 }
 
+module "helm-operator" {
+  source            = "./images/helm-operator"
+  target_repository = "${var.target_repository}/helm-operator"
+}
+
 module "http-echo" {
   source            = "./images/http-echo"
   target_repository = "${var.target_repository}/http-echo"
