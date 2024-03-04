@@ -18,8 +18,7 @@ resource "helm_release" "helm" {
   values = [
     jsonencode({
       image = {
-        operator   = "data.oci_string.ref.registry_repo"
-        tag        = "data.oci_string.ref.pseudo_tag"
+        operator   = "data.oci_string.ref.registry_repo:data.oci_string.ref.pseudo_tag"
         pullPolicy = "Always"
       }
     })
