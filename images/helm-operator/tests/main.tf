@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    helm      = { source = "hashicorp/helm" }
     imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
@@ -35,9 +35,9 @@ module "helm" {
   chart  = "https://bsgrigorov.github.io/helm-operator/helm-operator-0.0.2.tgz"
   name   = "helm-operator"
   values = {
-        image = {
-          operator   = "data.oci_string.ref.registry_repo:data.oci_string.ref.pseudo_tag"
-        }
+    image = {
+      operator = "data.oci_string.ref.registry_repo:data.oci_string.ref.pseudo_tag"
+    }
   }
 }
 
