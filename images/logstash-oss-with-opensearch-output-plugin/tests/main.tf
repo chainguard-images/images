@@ -15,7 +15,9 @@ data "oci_string" "ref" {
 }
 
 resource "random_password" "random" {
-  length = 100
+  length           = 64
+  special          = true
+  override_special = "!#_"
 }
 
 data "imagetest_inventory" "this" {}
