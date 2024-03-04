@@ -20,17 +20,53 @@ Minimalist Wolfi-based image for `go-ipfs`.
 ## Download this Image
 The image is available on `cgr.dev`:
 
-```
+```bash
 docker pull cgr.dev/chainguard/go-ipfs:latest
 ```
 <!--getting:end-->
 
 <!--body:start-->
-kubo (previously named go-ipfs) is the first IPFS implementation and is the most widely used one today. Implementing the Interplanetary Filesystem - the Web3 standard for content-addressing, interoperable with HTTP. Thus powered by IPLD's data models and the libp2p for network communication. Kubo is written in Go.
+
+kubo (also referred to a go-ipfs) is a widely used implementation of the [The InterPlanetary File System (IPFS)](https://docs.ipfs.io/) protocol. \
+
+This kubo image has the following features:
+* An IPFS daemon server
+* An HTTP RPC API for controlling the node
+* An HTTP Gateway for serving content to HTTP browsers
 
 ## Usage
 
-To start using IPFS, you must first initialize IPFS's config files on your system, this is done with ipfs init. See ipfs init --help for information on the optional arguments it takes. After initialization is complete, you can use ipfs mount, ipfs add and any of the other commands to explore!
+To start using IPFS, you must first initialize IPFS's config files on your system using the `ipfs init` command.
+See `ipfs init --help` for information on the optional arguments it takes. After initialization is complete, you can use `ipfs mount`, `ipfs add` and any of the other built in commands.
+
+The following set of commands demonstrate how to initialize and run the `ipfs` image.
+
+First, create a volume for the IPFS files and set the owner to `nonroot`:
+```bash
+docker run \
+    --rm -t \
+    -v ipfs-data:/home/nonroot/.ipfs \
+    cgr.dev/chainguard/bash \
+    'chown nonroot:nonroot /home/nonroot/.ipfs'
+```
+
+Next run `ipfs init` with the volume:
+
+```bash
+docker run --rm -t -v ipfs-data:/home/nonroot/.ipfs cgr.dev/chainguard/go-ipfs:latest init
+```
+
+Finally, run an IPFS container with the volume mounted:
+
+```bash
+docker run \
+    -v ipfs-data:/home/nonroot/.ipfs \
+    -d --rm \
+    -p "5001:5001" \
+    --name "ipfs" \
+    cgr.dev/chainguard/go-ipfs:latest daemon --migrate=true
+```
+
 
 ```bash
 docker run cgr.dev/chainguard/go-ipfs:latest help
