@@ -7,9 +7,8 @@ terraform {
 variable "extra_packages" {
   description = "Additional packages to install."
   type        = list(string)
-
   # torchvision is currently built on top of torch and should include all the packages we expect from it
-  default = ["torchvision-cuda12"]
+  default = ["nemo", "torchvision-cuda12", "bash", "busybox"]
 }
 
 variable "extra_repositories" {
@@ -39,7 +38,7 @@ output "config" {
     }
     accounts = module.accts.block
     environment = merge({
-      "PATH" : "/usr/share/torchvision/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "PATH" : "/usr/share/nemo/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
     }, var.environment)
     entrypoint = {
       command = "/bin/bash"

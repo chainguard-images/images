@@ -1,6 +1,3 @@
-contents:
-  packages:
-
 accounts:
   groups:
     - groupname: nonroot
@@ -10,5 +7,6 @@ accounts:
       uid: 65532
       gid: 65532
   run-as: 65532
+
 entrypoint:
-  command:  workflow-controller
+  command: manager

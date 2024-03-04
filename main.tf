@@ -347,6 +347,11 @@ module "dive" {
   target_repository = "${var.target_repository}/dive"
 }
 
+module "doppler-kubernetes-operator" {
+  source            = "./images/doppler-kubernetes-operator"
+  target_repository = "${var.target_repository}/doppler-kubernetes-operator"
+}
+
 module "docker-selenium" {
   source            = "./images/docker-selenium"
   target_repository = "${var.target_repository}/docker-selenium"
@@ -858,6 +863,11 @@ module "ml-metadata-store-server" {
 module "nats" {
   source            = "./images/nats"
   target_repository = "${var.target_repository}/nats"
+}
+
+module "nemo" {
+  source            = "./images/nemo"
+  target_repository = "${var.target_repository}/nemo"
 }
 
 module "netcat" {

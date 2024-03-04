@@ -5,12 +5,8 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. gops, hubble-relay...)"
-
-  default = [
-    "gops",
-    "cilium-hubble-relay"
-  ]
+  description = "The additional packages to install"
+  default     = ["doppler-kubernetes-operator"]
 }
 
 data "apko_config" "this" {
