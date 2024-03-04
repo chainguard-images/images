@@ -17,7 +17,7 @@ data "oci_string" "ref" {
 resource "random_password" "random" {
   length           = 64
   special          = true
-  override_special = "!#_"
+  override_special = "_"
 }
 
 data "imagetest_inventory" "this" {}
@@ -41,11 +41,34 @@ module "helm_logstash" {
   chart        = "logstash"
   repo         = "https://helm.elastic.co"
   name         = "logstash"
-  values_files = ["/tests/values/logstash.values.yaml"]
+  # values_files = ["/tests/values/logstash.values.yaml"]
   values = {
     image           = data.oci_string.ref.registry_repo
     imageTag        = data.oci_string.ref.pseudo_tag
     imagePullPolicy = "Always"
+    logstashConfig = {
+      "logstash.yml" = <<eof
+         http.host: 0.0.0.0
+       eof
+    }
+    logstashPipeline = {
+      "logstash.conf" = <<eof
+         input {
+           heartbeat { }
+         }
+
+         output {
+           opensearch {
+             hosts  => ["https://opensearch-cluster-master-headless:9200"]
+             user => 'admin'
+             password => '${random_password.random.result}'
+             ssl_certificate_verification => false
+             index => "heartbeats_cg"
+             action => "create"
+           }
+         }
+       eof
+    }
   }
 }
 
