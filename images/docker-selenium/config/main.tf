@@ -76,6 +76,7 @@ output "config" {
       "SE_OTEL_JAVA_GLOBAL_AUTOCONFIGURE_ENABLED" : "true"
       "SE_OTEL_TRACES_EXPORTER" : "otlp"
       "SE_OTEL_SERVICE_NAME" : "selenium-node-chrome"
+      "CHROMIUM_USER_FLAGS" : "--headless --disable-gpu --no-sandbox"
     }, var.environment)
     entrypoint = {
       command = "/opt/bin/entry_point.sh"
