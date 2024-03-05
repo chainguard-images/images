@@ -1,0 +1,49 @@
+<!--monopod:start-->
+# chromium
+| | |
+| - | - |
+| **OCI Reference** | `cgr.dev/chainguard/chromium` |
+
+
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/chromium/overview/)
+* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
+* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
+---
+<!--monopod:end-->
+
+<!--overview:start-->
+Minimal [Chromium](https://chromium.googlesource.com/chromium/src/) container image.
+<!--overview:end-->
+
+<!--getting:start-->
+## Download this Image
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/chromium:latest
+```
+<!--getting:end-->
+
+<!--body:start-->
+## Usage
+
+Running Chromium doesn't require passing any addition parameters to Docker:
+
+```bash
+docker run cgr.dev/chainguard/chromium:latest
+```
+
+Please note that Chromium is ran in a headless state with the sandbox with GPU access disabled with the flags:
+
+```
+--headless --no-sandbox --disable-gpu
+```
+
+Chromium is ran headless with GPU access disabled as the container does not have GPU access.
+
+Chromium's sandbox has been disabled as the container is sandboxed from the host environment.
+
+This can be overriden via the environment variable `CHROMIUM_USER_FLAGS` though this is unsupported.
+
+<!--body:end-->
