@@ -1,7 +1,8 @@
 contents:
   packages:
-    - busybox
+    - busybox # TODO: busybox should be removed from this image.
     - nghttp2
+    - dumb-init
     # Node comes via var.extra_packages
 
 # By convention, Node apps run in an /app directory, which should be owned by
