@@ -237,6 +237,11 @@ module "cfssl" {
   target_repository = "${var.target_repository}/cfssl"
 }
 
+module "chromium" {
+  source            = "./images/chromium"
+  target_repository = "${var.target_repository}/chromium"
+}
+
 module "cilium" {
   source            = "./images/cilium"
   target_repository = "${var.target_repository}/cilium"
