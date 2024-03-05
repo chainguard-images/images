@@ -18,15 +18,6 @@ data "imagetest_inventory" "this" {}
 resource "imagetest_harness_k3s" "this" {
   name      = "prometheus-config-reloader"
   inventory = data.imagetest_inventory.this
-
-  sandbox = {
-    mounts = [
-      {
-        source      = path.module
-        destination = "/tests"
-      }
-    ]
-  }
 }
 
 module "helm_cert_manager" {
