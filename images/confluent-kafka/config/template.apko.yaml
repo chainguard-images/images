@@ -1,0 +1,79 @@
+contents:
+  packages:
+
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+
+paths:
+  - path: /usr/lib/kafka
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+    recursive: true
+  - path: /var/lib/kafka/data
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+    recursive: true
+  - path: /etc/kafka
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+    recursive: true
+  - path: /etc/kafka/secrets
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+    recursive: true
+  - path: /var/log
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+    recursive: true
+  - path: /var/log/kafka
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+    recursive: true
+  - path: /usr/lib/zookeeper
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+    recursive: true
+  - path: /etc/zookeeper
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+    recursive: true
+  - path: /var/log/confluent
+    type: directory
+    permissions: 0o777
+    uid: 65532
+    gid: 65532
+    recursive: true
+
+environment:
+  COMPONENT: kafka
+  LANG: C.UTF-8
+  PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  CUB_CLASSPATH: \""/usr/share/java/kafka/*:/usr/share/java/cp-base-new/*:/usr/share/java/zookeeper/*:/usr/share/java/confluent-common-docker/*\""
+  KAFKA_ZOOKEEPER_CONNECT: ""
+  KAFKA_ADVERTISED_LISTENERS: ""
+  CLUSTER_ID: ""
+
+cmd: /etc/confluent/docker/run

@@ -277,6 +277,11 @@ module "configmap-reload" {
   target_repository = "${var.target_repository}/configmap-reload"
 }
 
+module "confluent-kafka" {
+  source            = "./images/confluent-kafka"
+  target_repository = "${var.target_repository}/confluent-kafka"
+}
+
 module "consul" {
   source            = "./images/consul"
   target_repository = "${var.target_repository}/consul"
