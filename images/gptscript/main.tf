@@ -10,7 +10,7 @@ variable "target_repository" {
 
 module "config" {
   source         = "./config"
-  extra_packages = ["gptscript"]
+  extra_packages = ["apk-tools", "busybox", "gptscript"]
 }
 
 module "latest" {
