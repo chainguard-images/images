@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -11,52 +11,57 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
+data "oci_exec_test" "version" {
+  digest = var.digest
+  script = "docker run --rm $IMAGE_NAME version"
+}
+
+data "imagetest_inventory" "this" {}
+
+resource "imagetest_harness_k3s" "this" {
+  name      = "atlantis"
+  inventory = data.imagetest_inventory.this
+}
+
 resource "random_pet" "suffix" {}
 
-resource "helm_release" "atlantis" {
-  name             = "runatlantis-${random_pet.suffix.id}"
-  namespace        = "runatlantis-system-${random_pet.suffix.id}"
-  repository       = "https://runatlantis.github.io/helm-charts"
-  chart            = "atlantis"
-  create_namespace = true
-  timeout          = 600
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-  values = [jsonencode({
+  name      = "runatlantis-${random_pet.suffix.id}"
+  namespace = "runatlantis-system-${random_pet.suffix.id}"
+  repo      = "https://runatlantis.github.io/helm-charts"
+  chart     = "atlantis"
+  timeout   = "600s"
+
+  values = {
     image = {
       repository = data.oci_string.ref.registry_repo
       tag        = data.oci_string.ref.pseudo_tag
       pullPolicy = "Always"
     }
-  })]
-
-  set {
-    name  = "github.user"
-    value = "not_used_tacocat_user"
-  }
-
-  set {
-    name  = "github.token"
-    value = "not_used_tacocat_token"
-  }
-
-  set {
-    name  = "github.secret"
-    value = "not_used_tacocat_shhhh"
-  }
-
-  set {
-    name  = "orgAllowlist"
-    value = "not_used_tacocat_user"
+    github = {
+      user   = "not_used_tacocat_user"
+      token  = "not_used_tacocat_token"
+      secret = "not_used_tacocat_shhhh"
+    }
+    orgAllowlist = "not_used_tacocat_user"
   }
 }
 
-module "helm_cleanup_atlantis" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.atlantis.id
-  namespace = helm_release.atlantis.namespace
-}
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "basic"
+  description = "Basic functionality of Atlantis installed in a Kubernetes cluster"
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME version"
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
+    }
+  ]
+
+  labels = {
+    type = "k8s",
+  }
 }
