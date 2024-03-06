@@ -490,6 +490,11 @@ module "google-cloud-sdk" {
   target_repository = "${var.target_repository}/google-cloud-sdk"
 }
 
+module "gptscript" {
+  source            = "./images/gptscript"
+  target_repository = "${var.target_repository}/gptscript"
+}
+
 module "graalvm-native" {
   source            = "./images/graalvm-native"
   target_repository = "${var.target_repository}/graalvm-native"
