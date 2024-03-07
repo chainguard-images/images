@@ -15,7 +15,7 @@ variable "environment" {
 
 module "accts" {
   source = "../../../tflib/accts"
-  run-as = 65532
+  run-as = 0
   uid    = 65532
   gid    = 65532
   name   = "nonroot"
