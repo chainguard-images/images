@@ -1,7 +1,6 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci = { source = "chainguard-dev/oci" }
   }
 }
 
