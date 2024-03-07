@@ -18,6 +18,15 @@ Minimal images for .NET and the .NET Tools.
 
 <!--getting:start-->
 ## Download this Image
+The image is available on `cgr.dev`:
+
+```
+docker pull cgr.dev/chainguard/dotnet:latest
+```
+<!--getting:end-->
+
+<!--compatibility:start-->
+## Compatibility Notes
 
 The Chainguard .NET images are available on `cgr.dev` as two variants: `dotnet-sdk` and `dotnet-runtime`. The SDK variant contains additional tooling to facilitate development and building, while the runtime variant contains only the runtime to execute .NET applications.
 
@@ -29,9 +38,8 @@ docker pull cgr.dev/chainguard/dotnet-sdk:latest
 ### Runtime
 ```
 docker pull cgr.dev/chainguard/dotnet-runtime:latest
-```
 
-<!--getting:end-->
+<!--compatibility:end-->
 
 <!--body:start-->
 <!--body:end-->
