@@ -10,18 +10,18 @@ module "laravel" {
 }
 
 module "test-laravel" {
-  source    = "./tests"
-  digest    = module.laravel.image_ref
-  check-fpm = true
+  source        = "./tests"
+  digest        = module.laravel.image_ref
+  check-fpm     = true
   check-laravel = true
 }
 
 module "test-laravel-dev" {
-  source    = "./tests"
-  check-fpm = true
-  check-dev = true
+  source        = "./tests"
+  check-fpm     = true
+  check-dev     = true
   check-laravel = true # Check for Laravel extra packages.
-  digest    = module.laravel.dev_ref
+  digest        = module.laravel.dev_ref
 }
 
 resource "oci_tag" "latest-laravel" {
