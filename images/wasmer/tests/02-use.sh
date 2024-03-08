@@ -9,6 +9,8 @@ function cleanup() {
 }
 trap cleanup EXIT
 
+chmod -R 777 "${TMPDIR}"
+
 cp helloworld.go "${TMPDIR}"
 docker run --rm -v "${TMPDIR}:/work" \
   -w /work \
