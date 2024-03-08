@@ -1,6 +1,5 @@
 contents:
   packages:
-    - cadvisor
 
 accounts:
   groups:
