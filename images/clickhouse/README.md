@@ -75,7 +75,7 @@ This `docker-compose.yaml` sets up a Clickhouse database with a default database
 version: "3.7"
 services:
   clickhouse:
-    image: ttl.sh/steve/clickhouse@sha256:8717f81f80aa851d53dcf3355e1eb728e84932dd59d42333e6b42b0b9f354fc3
+    image: cgr.dev/chainguard/clickhouse:latest
     restart: unless-stopped
     entrypoint: /usr/bin/clickhouse-server -- --listen_host 0.0.0.0
     working_dir: /home/clickhouse
