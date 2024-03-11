@@ -28,11 +28,8 @@ docker pull cgr.dev/chainguard/jenkins:latest
 <!--body:start-->
 ## Use It
 
-The following command launches a new Jenkins controller using docker, mounting
-a local directory to the jenkins_home directory, to persist data:
-
-Run a local, development instance of Jenkins, specifying a local volume as
-the jenkins_home for data persistence:
+The following example runs a local instance of Jenkins, specifying a local
+volume as the jenkins_home for data persistence:
 
 ```bash
 docker run --rm -v jenkins_home:/var/jenkins_home \
