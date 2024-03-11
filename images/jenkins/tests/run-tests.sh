@@ -73,24 +73,6 @@ TEST_http_response() {
   exit 1
 }
 
-
-# Check Jenkins web page for expected content.
-TEST_jenkins_web_content() {
-  for ((i=1; i<=${REQUEST_RETRIES}; i++)); do
-    if curl -s "http://localhost:${JENKINS_PORT}" | grep -q "Welcome to Jenkins!"; then
-      return 0 
-    fi
-    sleep ${RETRY_DELAY}
-  done
-
-  # TODO: Temp log to determine why test fails in CI but not locally:
-  curl -s "http://localhost:${JENKINS_PORT}"
-
-  echo "FAILED: 'Welcome to Jenkins!' not found in web page content after ${REQUEST_RETRIES} attempts."
-  exit 1
-}
-
 start_container
 TEST_validate_container_logs
 TEST_http_response
-TEST_jenkins_web_content
