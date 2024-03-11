@@ -1,6 +1,6 @@
 contents:
   packages:
-    # jenkins and JDK provided by extra_packages
+    # jenkins and openjdk provided by extra_packages
 
 accounts:
   groups:

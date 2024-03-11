@@ -6,18 +6,13 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install."
-  default     = ["jenkins", "openjdk-17-jre", "openjdk-17-default-jvm"]
+  default     = ["jenkins", "openjdk-17-default-jvm"]
 }
 
 variable "environment" {
   description = "Additional environment variables to set"
   default     = {}
   type        = map(string)
-}
-
-variable "extra_args" {
-  description = "Additional java arguments to pass when invoking the jar."
-  default     = [""]
 }
 
 locals {
@@ -27,9 +22,10 @@ locals {
 data "apko_config" "this" {
   config_contents = yamlencode(merge(
     local.apko_config,
-    {
-      environment = merge(local.apko_config.environment, var.environment),
-    }
+      {
+        # Append additional environment variables.
+        environment = merge(local.apko_config.environment, var.environment),
+      }
   ))
   extra_packages = var.extra_packages
 }
