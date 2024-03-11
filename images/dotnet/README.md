@@ -1,6 +1,3 @@
-# dotnet
-We have two images regarding dotnet. We have a dotnet-sdk and a dotnet-runtime image. Public images are restricted to the latest available LTS dotnet version.
-
 <!--monopod:start-->
 # dotnet sdk
 | | |
@@ -9,6 +6,17 @@ We have two images regarding dotnet. We have a dotnet-sdk and a dotnet-runtime i
 
 
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/dotnet-sdk/overview/)
+* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
+* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+
+---
+# dotnet runtime
+| | |
+| - | - |
+| **OCI Reference** | `cgr.dev/chainguard/dotnet-runtime` |
+
+
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/dotne-runtime/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
@@ -25,58 +33,21 @@ The image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/dotnet-sdk:latest
+docker pull cgr.dev/chainguard/dotnet-runtime:latest
 ```
 <!--getting:end-->
 
 <!--body:start-->
 ## Variants
 
-We have two images available: a `dotnet-sdk:latest-dev` variant that contains `dotnet` and a shell.
+We have two images for both sdk and runtime available: a `dotnet-sdk:latest-dev` and a `dotnet-runtime:latest-dev` variant that contains `dotnet` and a shell.
 
 These images are available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/chainguard/dotnet-sdk:latest
 docker pull cgr.dev/chainguard/dotnet-sdk:latest-dev
-```
-<!--body:end-->
 
-
-<!--monopod:start-->
-# dotnet runtime
-| | |
-| - | - |
-| **OCI Reference** | `cgr.dev/chainguard/dotnet-runtime` |
-
-
-* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/dotne-runtime/overview/)
-* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
-* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
-
----
-<!--monopod:end-->
-
-<!--overview:start-->
-Minimal image for .NET runtime environment.
-<!--overview:end-->
-
-<!--getting:start-->
-## Get It!
-The image is available on `cgr.dev`:
-
-```
-docker pull cgr.dev/chainguard/dotnet:latest
-```
-<!--getting:end-->
-
-<!--body:start-->
-## Variants
-
-We have two images available: a `dotnet-runtime:latest-dev` variant that contains the dotnet runtime environment and a shell.
-
-These images are available on `cgr.dev`:
-
-```
 docker pull cgr.dev/chainguard/dotnet-runtime:latest
 docker pull cgr.dev/chainguard/dotnet-runtime:latest-dev
 ```
