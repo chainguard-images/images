@@ -81,4 +81,14 @@ ENTRYPOINT ["dotnet", "Release/dotnet.dll"]
 ```
 
 This will build your application using the SDK image and then copy the built application over to the Runtime image which will then start.
+
+You can run and publish a local image with the following command
+```
+docker compose up -d --build
+```
+
+You can also remove the container using the following
+```
+docker compose down
+```
 <!--body:end-->
