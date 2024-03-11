@@ -30,11 +30,10 @@ jobs:
     - uses: opentofu/setup-opentofu@da3271e0a2f8b8552a91e37cf85d03622c328ab7 # v1.0.2
       with:
           tofu_version: 1.6.2
-          tofu_wrapper: false
     - run: |
-          alias terraform="tofu"
           make init # Initialize modules.
-    - run: terraform fmt -check -recursive -diff
+    - run: |
+          tofu fmt -check -recursive -diff
     - run: ./lint.sh
     - name: Enforce YAML formatting
       uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:70b855a7ec9cc1fabd1dfc1a7c41eea9bc7bfd402d7574e87cc80e7bb36a64bf
@@ -118,8 +117,9 @@ jobs:
     - uses: opentofu/setup-opentofu@da3271e0a2f8b8552a91e37cf85d03622c328ab7 # v1.0.2
       with:
           tofu_version: 1.6.2
-          tofu_wrapper: false
-
+    - run: |
+         alias terraform="tofu"
+         tofu version
     # Make cosign/crane CLI available to the tests
     - uses: sigstore/cosign-installer@e1523de7571e31dbe865fd2e80c5c7c23ae71eb4 # v3.4.0
     - uses: imjasonh/setup-crane@00c9e93efa4e1138c9a7a5c594acd6c75a2fbf0c # v0.3
@@ -159,15 +159,12 @@ jobs:
     - name: Build
       timeout-minutes: 60
       run: |
-        set -eo pipefail
-        alias terraform="tofu"
-        terraform --version
         make init
         targets=""
         for image in ${{ matrix.shard.images }}; do
           targets+=' -target='module."${image}"''
         done
-        terraform apply ${targets} -auto-approve --parallelism=$(nproc) -json | tee /tmp/mega-module.tf.json | jq -r '.["@message"]'
+        tofu apply ${targets} -auto-approve --parallelism=$(nproc) -json | tee /tmp/mega-module.tf.json | jq -r '.["@message"]'
 
     - name: Collect TF diagnostics
       if: ${{ always() }}
