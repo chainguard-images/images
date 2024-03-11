@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-A minimal, wolf-based container image for Jenkins - an open-source CI/CD server that enables developers to build, test, and deploy their software
+A minimal, wolf-based container image for Jenkins - an open-source CI/CD server that enables developers to build, test, and deploy their software.
 <!--overview:end-->
 
 <!--getting:start-->
@@ -44,9 +44,6 @@ In the console output, the initial admin password will be logged. Use this to
 login to the Jenkins UI:
 
 - [http://localhost:8080/](http://localhost:8080/)
-
-
-If you want to backup your Jenkins data, create a local directory for the files and mount it along with the `jenkins_home` volume. You can then start a Jenkins container and copy the files out:
 
 Refer to the [upstream documentation](https://github.com/jenkinsci/docker/blob/master/README.md)
 for full instructions on running and configuring Jenkins.
