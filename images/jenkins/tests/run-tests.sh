@@ -83,6 +83,9 @@ TEST_jenkins_web_content() {
     sleep ${RETRY_DELAY}
   done
 
+  # TODO: Temp log to determine why test fails in CI but not locally:
+  curl -s "http://localhost:${JENKINS_PORT}"
+
   echo "FAILED: 'Welcome to Jenkins!' not found in web page content after ${REQUEST_RETRIES} attempts."
   exit 1
 }
