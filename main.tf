@@ -510,6 +510,11 @@ module "grafana" {
   target_repository = "${var.target_repository}/grafana"
 }
 
+module "grafana-agent-operator" {
+  source            = "./images/grafana-agent-operator"
+  target_repository = "${var.target_repository}/grafana-agent-operator"
+}
+
 module "grype" {
   source            = "./images/grype"
   target_repository = "${var.target_repository}/grype"
