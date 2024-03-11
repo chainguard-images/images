@@ -1,11 +1,6 @@
 contents:
   packages:
-    - glibc-locale-en
-    - bash
-    - coreutils
-    - busybox
-    - tzdata
-    # jenkins and openjdk provided by extra_packages
+    # jenkins and JDK provided by extra_packages
 
 accounts:
   groups:
@@ -19,7 +14,7 @@ accounts:
 work-dir: /app
 
 entrypoint:
-  command: /usr/bin/java -Duser.home=/var/jenkins_home -jar /usr/share/java/jenkins/jenkins.war
+  command: jenkins.sh
 
 environment:
   LANG: en_US.UTF-8
