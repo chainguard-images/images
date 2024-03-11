@@ -22,10 +22,10 @@ locals {
 data "apko_config" "this" {
   config_contents = yamlencode(merge(
     local.apko_config,
-      {
-        # Append additional environment variables.
-        environment = merge(local.apko_config.environment, var.environment),
-      }
+    {
+      # Append additional environment variables.
+      environment = merge(local.apko_config.environment, var.environment),
+    }
   ))
   extra_packages = var.extra_packages
 }
