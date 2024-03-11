@@ -27,7 +27,7 @@ data "apko_config" "this" {
       environment = merge(local.apko_config.environment, var.environment),
     }
   ))
-  extra_packages = var.extra_packages
+  extra_packages = concat(var.extra_packages, ["jenkins-compat"])
 }
 
 output "config" {
