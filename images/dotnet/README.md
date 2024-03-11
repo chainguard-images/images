@@ -2,7 +2,7 @@
 # dotnet
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/dotnet`|
+| **OCI Reference** | `cgr.dev/chainguard/dotnet` |
 
 
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/dotnet/overview/)
@@ -13,7 +13,6 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image for .NET and the .NET Tools.
 <!--overview:end-->
 
 <!--getting:start-->
