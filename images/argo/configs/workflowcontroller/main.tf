@@ -8,7 +8,9 @@ variable "extra_packages" {
   description = "The additional packages to install "
 
   default = [
-    "argo-workflows-known-hosts"
+    "argo-workflows-known-hosts",
+    "argo-workflow-controller",
+    "argo-workflow-controller-compat"
   ]
 }
 

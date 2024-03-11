@@ -15,6 +15,12 @@ variable "digests" {
   })
 }
 
+variable "chart_version" {
+  description = "The version of the Cilium to install. This chooses the Helm chart"
+  type        = string
+  default     = "1.14.6"
+}
+
 data "oci_exec_test" "operator-version" {
   script = "docker run --rm $IMAGE_NAME --version"
   digest = var.digests.operator
@@ -39,5 +45,8 @@ data "oci_exec_test" "cilium-install" {
     }, {
     name  = "OPERATOR_IMAGE"
     value = var.digests.operator
+    }, {
+    name  = "CHART_VERSION"
+    value = var.chart_version
   }]
 }

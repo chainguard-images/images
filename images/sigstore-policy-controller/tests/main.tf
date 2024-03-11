@@ -19,7 +19,7 @@ resource "helm_release" "policy-controller" {
   repository = "https://sigstore.github.io/helm-charts"
   chart      = "policy-controller"
 
-  namespace        = "policy-controller"
+  namespace        = "pc-${random_pet.suffix.id}"
   create_namespace = true
 
   set {

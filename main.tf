@@ -347,6 +347,16 @@ module "dive" {
   target_repository = "${var.target_repository}/dive"
 }
 
+module "doppler-kubernetes-operator" {
+  source            = "./images/doppler-kubernetes-operator"
+  target_repository = "${var.target_repository}/doppler-kubernetes-operator"
+}
+
+module "docker-selenium" {
+  source            = "./images/docker-selenium"
+  target_repository = "${var.target_repository}/docker-selenium"
+}
+
 module "dotnet" {
   source            = "./images/dotnet"
   target_repository = "${var.target_repository}/dotnet"
@@ -470,9 +480,19 @@ module "go" {
   target_repository = "${var.target_repository}/go"
 }
 
+module "go-ipfs" {
+  source            = "./images/go-ipfs"
+  target_repository = "${var.target_repository}/go-ipfs"
+}
+
 module "google-cloud-sdk" {
   source            = "./images/google-cloud-sdk"
   target_repository = "${var.target_repository}/google-cloud-sdk"
+}
+
+module "gptscript" {
+  source            = "./images/gptscript"
+  target_repository = "${var.target_repository}/gptscript"
 }
 
 module "graalvm-native" {
@@ -523,6 +543,11 @@ module "helm" {
 module "helm-chartmuseum" {
   source            = "./images/helm-chartmuseum"
   target_repository = "${var.target_repository}/helm-chartmuseum"
+}
+
+module "helm-operator" {
+  source            = "./images/helm-operator"
+  target_repository = "${var.target_repository}/helm-operator"
 }
 
 module "http-echo" {
@@ -853,6 +878,11 @@ module "ml-metadata-store-server" {
 module "nats" {
   source            = "./images/nats"
   target_repository = "${var.target_repository}/nats"
+}
+
+module "nemo" {
+  source            = "./images/nemo"
+  target_repository = "${var.target_repository}/nemo"
 }
 
 module "netcat" {
