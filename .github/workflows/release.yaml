@@ -81,6 +81,10 @@ jobs:
       contents: read
       actions: read
     steps:
+      - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          egress-policy: audit
+          
       # In some cases, we run out of disk space during tests, so this hack frees up approx 25G.
       # See the following issue for more info: https://github.com/actions/runner-images/issues/2840#issuecomment-1284059930
       - name: Free up runner disk space
