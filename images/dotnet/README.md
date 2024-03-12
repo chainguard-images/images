@@ -13,6 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
+Minimal image for .NET and the .NET Tools.
 <!--overview:end-->
 
 <!--getting:start-->
@@ -20,14 +21,12 @@
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/dotnet-sdk:latest
-docker pull cgr.dev/chainguard/dotnet-runtime:latest
+docker pull cgr.dev/chainguard/dotnet:latest
 ```
 <!--getting:end-->
 
 <!--body:start-->
 ## Variants
-
 We have two images for both sdk and runtime available: a `dotnet-sdk:latest-dev` and a `dotnet-runtime:latest-dev` variant that contains `dotnet` and a shell.
 
 These images are available on `cgr.dev`:
