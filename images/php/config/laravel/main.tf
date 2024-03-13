@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install (e.g. php-fpm)."
-  default     = ["php", "php-fpm", "php-ctype", "php-xml", "php-dom", "php-simplexml", "php-fileinfo"]
+  default     = ["curl", "ca-certificates", "php", "php-fpm", "php-ctype", "php-curl", "php-dom", "php-fileinfo", "php-iconv", "php-mbstring", "php-mysqlnd", "php-openssl", "php-phar", "php-pdo", "php-pdo_sqlite", "php-pdo_mysql", "php-sodium", "php-simplexml", "php-xml"]
 }
 
 data "apko_config" "this" {
