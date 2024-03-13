@@ -28,14 +28,14 @@ docker pull cgr.dev/chainguard/nemo:latest
 <!--body:start-->
 Documentation on how to use NeMo Framework is discussed in detail in [NVIDIA documentation](https://docs.nvidia.com/nemo-framework/user-guide/latest/index.html)
 
-As a starting off point, to run Wolfi-based NeMo image,
+As a starting off point, to run a Wolfi-based NeMo image,
 ``` bash 
 docker run --gpus all -it --rm --shm-size=8g -p 8888:8888 -p 6006:6006 --ulimit memlock=-1 --ulimit stack=67108864 cgr.dev/chainguard/nemo:latest
 ```
 
 To simply run a sample script to familiarize yourself with NeMo framework, [NVIDIA documentation](https://docs.nvidia.com/deeplearning/nemo/user-guide/docs/en/main/starthere/intro.html) is a good place to start.
 
-To explore NeMo’s ASR, LLM and TTS functionality you may run this Audia Translation tutorial; the `nemo_quickstart.py` script to run this turorial is available [here](https://docs.nvidia.com/deeplearning/nemo/user-guide/docs/en/main/starthere/intro.html#quick-start-guide)
+To explore NeMo’s ASR, LLM and TTS functionality you may run this Audio Translation tutorial; the `nemo_quickstart.py` script to run this turorial is available [here](https://docs.nvidia.com/deeplearning/nemo/user-guide/docs/en/main/starthere/intro.html#quick-start-guide)
 
 ```bash
   docker run --rm -it -v "${my_d}/nemo_quickstart.py":/tmp/nemo_quickstart.py --name nemo-starter cgr.dev/chainguard/nemo:latest -c "python /tmp/nemo_quickstart.py"
