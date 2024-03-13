@@ -26,19 +26,6 @@ docker pull cgr.dev/chainguard/dotnet:latest
 <!--getting:end-->
 
 <!--body:start-->
-## Variants
-We have two images for both sdk and runtime available: a `dotnet-sdk:latest-dev` and a `dotnet-runtime:latest-dev` variant that contains `dotnet` and a shell.
-
-These images are available on `cgr.dev`:
-
-```
-docker pull cgr.dev/chainguard/dotnet-sdk:latest
-docker pull cgr.dev/chainguard/dotnet-sdk:latest-dev
-
-docker pull cgr.dev/chainguard/dotnet-runtime:latest
-docker pull cgr.dev/chainguard/dotnet-runtime:latest-dev
-```
-
 ## Usage
 
 The dotnet-sdk image can be used directly for simple cases, or with a multi-stage build using the dotnet-sdk as the builder and dotnet-runtime as the final target container.
