@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-A minimal, wolf-based container image for Jenkins - an open-source CI/CD server that enables developers to build, test, and deploy their software.
+A minimal, Wolfi-based container image for Jenkins - an open-source CI/CD server that enables developers to build, test, and deploy their software.
 <!--overview:end-->
 
 <!--getting:start-->

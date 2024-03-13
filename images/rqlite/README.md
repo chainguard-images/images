@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with rqlite. **EXPERIMENTAL**
+Minimal image with rqlite.
 <!--overview:end-->
 
 <!--getting:start-->

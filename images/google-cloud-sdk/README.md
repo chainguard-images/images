@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with the [Google Cloud SDK](https://cloud.google.com/sdk/). **EXPERIMENTAL**
+Minimal image with the [Google Cloud SDK](https://cloud.google.com/sdk/).
 <!--overview:end-->
 
 <!--getting:start-->

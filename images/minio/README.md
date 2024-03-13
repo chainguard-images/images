@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with Minio. **EXPERIMENTAL**
+Minimal image with Minio.
 <!--overview:end-->
 
 <!--getting:start-->

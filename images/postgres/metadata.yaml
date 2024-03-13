@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/postgres
 logo: https://storage.googleapis.com/chainguard-academy/logos/postgres.svg
 endoflife: ""
 console_summary: ""
-short_description: Minimal PostgreSQL image. **EXPERIMENTAL**
+short_description: Minimal PostgreSQL image.
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://www.postgresql.org/

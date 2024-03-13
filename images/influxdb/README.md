@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with influxdb. **EXPERIMENTAL**
+Minimal image with influxdb.
 <!--overview:end-->
 
 <!--getting:start-->

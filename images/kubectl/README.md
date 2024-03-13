@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with kubectl binary. **EXPERIMENTAL**
+Minimal image with kubectl binary.
 <!--overview:end-->
 
 <!--getting:start-->
