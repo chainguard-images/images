@@ -26,18 +26,13 @@ docker pull cgr.dev/chainguard/php:latest
 <!--getting:end-->
 
 <!--body:start-->
-
-- [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/php)
-- [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/php/getting-started-php/)
-- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/php/provenance_info/)
-
 ## Image Variants
 
-Our `latest` tags use the most recent build of the [Wolfi PHP](https://github.com/wolfi-dev/os/blob/main/php.yaml) package. The following tagged variants are available without authentication:
+Our `latest` tags use the most recent build of the [Wolfi PHP](https://github.com/wolfi-dev/os/blob/main/php.yaml) package. All variants have `-dev` versions that include Composer and other utilities that are suitable for developing and building PHP applications. Check the [Tags](https://edu.chainguard.dev/chainguard/chainguard-images/reference/php/tags_history/) page for more details on available tags, and the [Details]() page for information about included packages per variant.
 
-- `latest`: This is a distroless image for running command-line PHP applications. It does not include Composer or busybox, so no shell will be available.
-- `latest-dev`: This is a development / builder image that includes Composer, apk-tools, and busybox. This variant allows you to customize your final image with additional Wolfi packages.
+- `latest`: This is a distroless image for running command-line PHP applications.
 - `latest-fpm`: This is the distroless `php-fpm` image variant, designed to be used together with our [Nginx](https://edu.chainguard.dev/chainguard/chainguard-images/reference/nginx) image.
+- `latest-laravel`: This is an experimental image designed to develop and run [Laravel](https://laravel.com) applications, including all required extensions.
 
 ### PHP Version
 This will automatically pull the image to your local system and execute the command `php --version`:
