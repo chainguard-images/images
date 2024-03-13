@@ -68,7 +68,7 @@ WORKDIR /source
 
 RUN dotnet publish --use-current-runtime --self-contained false -o Release
 
-# If you are running an ASPNET project, you can instead pull our 
+# If you are running an ASPNET project, you can instead pull our ASPNET image cgr.dev/chainguard/aspnet-runtime:latest
 FROM cgr.dev/chainguard/dotnet-runtime:latest AS final
 WORKDIR /
 
