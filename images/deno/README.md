@@ -39,7 +39,7 @@ cd example/
 
 The Dockerfile is based on [Deno's webserver tutorial](https://deno.land/manual@v1.28.3/examples/http_server), but packages it up into a Chainguard deno image.
 
-Build the application on the deno base image.
+uild the application on the deno base image.
 
 ```
 docker build \
