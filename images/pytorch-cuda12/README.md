@@ -60,6 +60,7 @@ As a quick intro, we will use pytorch to create a very simple deep learning mode
 
 To run this script, 
 ```bash
+
 docker run --rm -it -v /home/srishihegde/quick.py:/tmp/model_builder.py --gpus all cgr.dev/chainguard/pytorch-cuda12:latest -c "python /tmp/model_builder.py"
 ```
 A quickstart tutorial as outlined [here](https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html) can also be run using the tests/quickstart.py script similar to the above run 

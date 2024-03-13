@@ -2,7 +2,7 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-kubectl -n argo-workflows apply -f - <<EOF
+cat <<EOF | kubectl --namespace argo-workflows apply --filename -
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
@@ -17,9 +17,9 @@ spec:
       args: [ "hello world" ]
 EOF
 
-sleep 3
+kubectl wait --for=condition=Completed workflows/hello \
+  --namespace argo-workflows \
+  --timeout 2m
 
-kubectl -n argo-workflows wait workflows/hello --for condition=Completed --timeout 2m
-
-kubectl logs -n argo-workflows pod/hello
-trap "kubectl -n argo-workflows delete workflows/hello" EXIT
+kubectl logs --namespace argo-workflows pod/hello
+trap "kubectl --namespace argo-workflows delete workflows/hello" EXIT

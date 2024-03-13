@@ -9,9 +9,25 @@ variable "extra_packages" {
   default     = ["jenkins", "openjdk-17-default-jvm"]
 }
 
+variable "environment" {
+  description = "Additional environment variables to set"
+  default     = {}
+  type        = map(string)
+}
+
+locals {
+  apko_config = yamldecode(file("${path.module}/template.apko.yaml"))
+}
+
 data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
+  config_contents = yamlencode(merge(
+    local.apko_config,
+    {
+      # Append additional environment variables.
+      environment = merge(local.apko_config.environment, var.environment),
+    }
+  ))
+  extra_packages = concat(var.extra_packages, ["jenkins-compat"])
 }
 
 output "config" {

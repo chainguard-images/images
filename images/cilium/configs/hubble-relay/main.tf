@@ -9,7 +9,7 @@ variable "extra_packages" {
 
   default = [
     "gops",
-    "hubble-relay"
+    "cilium-hubble-relay"
   ]
 }
 

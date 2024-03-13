@@ -2,4 +2,10 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-docker run --rm -v "${PWD}/images/clang:/work" $IMAGE_NAME examples/hello/main.c -o hello
+# Run inside the images/clang/ directory
+workdir="$(realpath "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../")"
+
+docker run --rm \
+    -v "${workdir}:/work" \
+    -w /work/examples/hello \
+    $IMAGE_NAME main.c -o hello

@@ -28,6 +28,15 @@ locals {
       uid : 1337
       gid : 1337
       recursive : true
+      },
+      {
+        # Writes to /home/nonroot/.sigstore for verifying things like rekor public keys (/home/nonroot/.sigstore)
+        path : "/home/nonroot/.sigstore"
+        type : "directory"
+        permissions : 511 // 0o777 (HCL explicitly does not support octal literals)
+        uid : 1337
+        gid : 1337
+        recursive : true
     }]
   }
   # Upstream charts deploy with fsGroup: 1337 by default.

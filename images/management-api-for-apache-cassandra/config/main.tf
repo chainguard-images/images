@@ -21,12 +21,19 @@ variable "extra_packages" {
   "openjdk-11-default-jvm"]
 }
 
+variable "extra_paths" {
+  description = "Additional paths to configure in the image."
+  default     = []
+}
+
 locals { decoded = yamldecode(file("${path.module}/template.apko.yaml")) }
 
 data "apko_config" "this" {
   config_contents = yamlencode(merge(
     local.decoded,
-    { environment = merge(local.decoded.environment, var.environment) },
+    { environment = merge(local.decoded.environment, var.environment)
+      paths       = concat(local.decoded.paths, var.extra_paths)
+    }
   ))
   extra_packages = var.extra_packages
 }

@@ -20,6 +20,10 @@ jobs:
   shard:
     runs-on: ubuntu-latest
     steps:
+    - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+      with:
+        egress-policy: audit
+
     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       with:
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -28,7 +32,7 @@ jobs:
     - run: terraform fmt -check -recursive -diff
     - run: ./lint.sh
     - name: Enforce YAML formatting
-      uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:4a467536971f7766d3319358e75ddeeebce2dcc776583acbd10e58e75d9cf423
+      uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:b3a4de40b0aed7663bb4cc19f644eead1d22d9fddf4fabc329a57efb6b080bdf
       with:
         entrypoint: wolfictl
         args: lint yam images/
@@ -102,6 +106,10 @@ jobs:
         shard: ${{ fromJson(needs.shard.outputs.shard_matrix) }}
 
     steps:
+    - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+      with:
+        egress-policy: audit
+
     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       with:
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -121,7 +129,7 @@ jobs:
 
     - uses: chainguard-dev/actions/setup-k3d@main
       with:
-        k3s-image: cgr.dev/chainguard/k3s:latest@sha256:cb07f771be251367d407175bd6217001ecf1b1d3ce831d1e1a1f28e3cc39025b
+        k3s-image: cgr.dev/chainguard/k3s:latest@sha256:2cce22ae3d776f2b924de7735bb10647320b1563dbca4ab1082a1eedae3b81c5
 
     - name: Configure imagetest provider
       run: |
@@ -188,6 +196,10 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
+      - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          egress-policy: audit
+
       - uses: technote-space/workflow-conclusion-action@45ce8e0eb155657ab8ccf346ade734257fd196a5 # v3.0.3
 
       - if: ${{ env.WORKFLOW_CONCLUSION == 'success' }}
