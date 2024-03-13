@@ -25,6 +25,23 @@ docker pull cgr.dev/chainguard/dotnet:latest
 ```
 <!--getting:end-->
 
+<!--compatibility:start-->
+## Compatibility Notes
+
+The Chainguard .NET images are available on `cgr.dev` as two variants: `dotnet-sdk` and `dotnet-runtime`. The SDK variant contains additional tooling to facilitate development and building, while the runtime variant contains only the runtime to execute .NET applications. Both the `sdk` and `runtime` images also have `latest-dev` version that contain a shell and various other tools for development.
+
+### SDK
+```
+docker pull cgr.dev/chainguard/dotnet-sdk:latest
+```
+
+### Runtime
+```
+docker pull cgr.dev/chainguard/dotnet-runtime:latest
+```
+
+<!--compatibility:end-->
+
 <!--body:start-->
 ## Usage
 
