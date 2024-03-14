@@ -32,7 +32,7 @@ jobs:
     - run: terraform fmt -check -recursive -diff
     - run: ./lint.sh
     - name: Enforce YAML formatting
-      uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:b3a4de40b0aed7663bb4cc19f644eead1d22d9fddf4fabc329a57efb6b080bdf
+      uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:75ca2f564bf3c5993720fc9b5b0ecf7e5b8912627ba9199a053567507c4c474b
       with:
         entrypoint: wolfictl
         args: lint yam images/
