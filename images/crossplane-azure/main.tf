@@ -40,6 +40,7 @@ module "latest" {
   name              = basename(path.module)
   target_repository = local.repositories[each.key]
   config            = module.config[each.key].config
+  build-dev         = true
 }
 
 module "test-latest" {
