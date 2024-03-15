@@ -1,7 +1,6 @@
 contents:
   packages:
     - kubectl-latest
-    - helm
 
 accounts:
   groups:
