@@ -1224,6 +1224,11 @@ module "rqlite" {
   target_repository = "${var.target_repository}/rqlite"
 }
 
+module "rstudio" {
+  source            = "./images/rstudio"
+  target_repository = "${var.target_repository}/rstudio"
+}
+
 module "ruby" {
   source            = "./images/ruby"
   target_repository = "${var.target_repository}/ruby"
