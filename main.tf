@@ -595,6 +595,11 @@ module "jdk-lts" {
   target_repository = "${var.target_repository}/jdk-lts"
 }
 
+module "jellyfin" {
+  source            = "./images/jellyfin"
+  target_repository = "${var.target_repository}/jellyfin"
+}
+
 module "jenkins" {
   source            = "./images/jenkins"
   target_repository = "${var.target_repository}/jenkins"
