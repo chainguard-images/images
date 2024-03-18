@@ -1,0 +1,10 @@
+name: step-ca
+image: cgr.dev/chainguard/step-ca
+logo: https://storage.googleapis.com/chainguard-academy/logos/step-ca.svg
+endoflife: ""
+console_summary: ""
+short_description: 
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: 
+keywords: []
