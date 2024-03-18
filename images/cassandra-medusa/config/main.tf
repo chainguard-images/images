@@ -9,6 +9,7 @@ variable "extra_packages" {
   default = [
     "py3-cassandra-medusa",
     "py3-cassandra-medusa-compat",
+    "python-3.11",
   ]
 }
 
