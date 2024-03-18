@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -14,48 +15,80 @@ data "oci_string" "ref" {
 
 resource "random_pet" "suffix" {}
 
-resource "helm_release" "spark" {
-  name             = "spark"
-  repository       = "oci://registry-1.docker.io/bitnamicharts"
-  chart            = "spark"
-  namespace        = "spark-${random_pet.suffix.id}"
-  create_namespace = true
+data "imagetest_inventory" "this" {}
 
-  values = [jsonencode({
+resource "imagetest_harness_k3s" "k3s" {
+  name      = "spark-operator"
+  inventory = data.imagetest_inventory.this
+
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+
+    envs = {
+      "NAMESPACE" : "spark"
+      "IMAGE" : "${data.oci_string.ref.registry_repo}:${data.oci_string.ref.pseudo_tag}"
+    }
+  }
+}
+
+module "helm-spark" {
+  source = "../../../tflib/imagetest/helm"
+
+  name      = "spark"
+  chart     = "oci://registry-1.docker.io/bitnamicharts/spark"
+  namespace = "spark"
+
+  values = {
     worker = {
       replicaCount = 1
     }
-  })]
+  }
 }
 
-resource "helm_release" "operator" {
-  depends_on       = [resource.helm_release.spark]
-  name             = "spark-operator"
-  repository       = "https://googlecloudplatform.github.io/spark-on-k8s-operator"
-  chart            = "spark-operator"
-  namespace        = resource.helm_release.spark.namespace
-  create_namespace = true
-  values = [jsonencode({
+module "helm-spark-operator" {
+  source = "../../../tflib/imagetest/helm"
+
+  name      = "spark-operator"
+  repo      = "https://kubeflow.github.io/spark-operator"
+  chart     = "spark-operator"
+  namespace = "spark"
+
+  values = {
     image = {
       registry   = ""
-      repository = data.oci_string.ref.registry_repo,
+      repository = data.oci_string.ref.registry_repo
       tag        = data.oci_string.ref.pseudo_tag
     },
-  })]
+  }
 }
 
-data "oci_exec_test" "run-tests" {
-  depends_on  = [resource.helm_release.operator]
-  digest      = var.digest
-  script      = "./test-spark.sh"
-  working_dir = path.module
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation test for spark-operator"
+  harness     = imagetest_harness_k3s.k3s
 
-  env {
-    name  = "NAMESPACE"
-    value = resource.helm_release.spark.namespace
-  }
-  env {
-    name  = "IMAGE"
-    value = "${data.oci_string.ref.registry_repo}:${data.oci_string.ref.pseudo_tag}"
+  steps = [
+    {
+      name = "Install helm-spark"
+      cmd  = module.helm-spark.install_cmd
+    },
+    {
+      name = "Install helm-spark-operator"
+      cmd  = module.helm-spark-operator.install_cmd
+    },
+    {
+      name    = "Run real test"
+      workdir = "/tests"
+      cmd     = "./test-spark.sh"
+    }
+  ]
+
+  labels = {
+    type = "k8s"
   }
 }
