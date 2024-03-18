@@ -31,7 +31,7 @@ resource "helm_release" "spark" {
 resource "helm_release" "operator" {
   depends_on       = [resource.helm_release.spark]
   name             = "spark-operator"
-  repository       = "https://googlecloudplatform.github.io/spark-on-k8s-operator"
+  repository       = "https://kubeflow.github.io/spark-operator"
   chart            = "spark-operator"
   namespace        = resource.helm_release.spark.namespace
   create_namespace = true
