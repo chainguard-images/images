@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with [helm](https://helm.sh) binary. **EXPERIMENTAL**
+Minimal image with [helm](https://helm.sh) binary.
 <!--overview:end-->
 
 <!--getting:start-->

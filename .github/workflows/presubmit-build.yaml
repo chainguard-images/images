@@ -24,7 +24,7 @@ jobs:
       with:
         egress-policy: audit
 
-    - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+    - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
       with:
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
@@ -32,7 +32,7 @@ jobs:
     - run: terraform fmt -check -recursive -diff
     - run: ./lint.sh
     - name: Enforce YAML formatting
-      uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:70b855a7ec9cc1fabd1dfc1a7c41eea9bc7bfd402d7574e87cc80e7bb36a64bf
+      uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:afad17b9d533bba348407f9022d5a6c27ebcd3af7e516039191d3c901b0b899c
       with:
         entrypoint: wolfictl
         args: lint yam images/
@@ -106,7 +106,11 @@ jobs:
         shard: ${{ fromJson(needs.shard.outputs.shard_matrix) }}
 
     steps:
-    - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+    - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+      with:
+        egress-policy: audit
+
+    - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
       with:
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
 

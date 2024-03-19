@@ -237,6 +237,11 @@ module "cfssl" {
   target_repository = "${var.target_repository}/cfssl"
 }
 
+module "chromium" {
+  source            = "./images/chromium"
+  target_repository = "${var.target_repository}/chromium"
+}
+
 module "cilium" {
   source            = "./images/cilium"
   target_repository = "${var.target_repository}/cilium"
@@ -510,6 +515,11 @@ module "grafana" {
   target_repository = "${var.target_repository}/grafana"
 }
 
+module "grafana-agent-operator" {
+  source            = "./images/grafana-agent-operator"
+  target_repository = "${var.target_repository}/grafana-agent-operator"
+}
+
 module "grype" {
   source            = "./images/grype"
   target_repository = "${var.target_repository}/grype"
@@ -583,6 +593,11 @@ module "jdk" {
 module "jdk-lts" {
   source            = "./images/jdk-lts"
   target_repository = "${var.target_repository}/jdk-lts"
+}
+
+module "jellyfin" {
+  source            = "./images/jellyfin"
+  target_repository = "${var.target_repository}/jellyfin"
 }
 
 module "jenkins" {

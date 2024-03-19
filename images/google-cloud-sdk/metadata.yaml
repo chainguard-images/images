@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/google-cloud-sdk
 logo: https://storage.googleapis.com/chainguard-academy/logos/google-cloud-sdk.svg
 endoflife: ""
 console_summary: ""
-short_description: Minimal image with the [Google Cloud SDK](https://cloud.google.com/sdk/). **EXPERIMENTAL**
+short_description: Minimal image with the [Google Cloud SDK](https://cloud.google.com/sdk/).
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://cloud.google.com/sdk/

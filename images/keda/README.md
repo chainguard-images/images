@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with the Keda binary. **EXPERIMENTAL**
+Minimal image with the Keda binary.
 <!--overview:end-->
 
 <!--getting:start-->

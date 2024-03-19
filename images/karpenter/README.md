@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with Karpenter. **EXPERIMENTAL**
+Minimal image with Karpenter.
 <!--overview:end-->
 
 <!--getting:start-->
