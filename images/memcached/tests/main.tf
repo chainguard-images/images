@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -15,22 +16,41 @@ data "oci_exec_test" "version" {
 
 data "oci_string" "ref" { input = var.digest }
 
-resource "helm_release" "memcached" {
-  name       = "memcached"
-  repository = "oci://registry-1.docker.io/bitnamicharts"
-  chart      = "memcached"
+data "imagetest_inventory" "this" {}
 
-  values = [jsonencode({
+resource "imagetest_harness_k3s" "k3s" {
+  name      = "k3s"
+  inventory = data.imagetest_inventory.this
+}
+
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  name  = "memcached"
+  chart = "oci://registry-1.docker.io/bitnamicharts/memcached"
+
+  values = {
     image = {
       registry   = data.oci_string.ref.registry
       repository = data.oci_string.ref.repo
       digest     = data.oci_string.ref.digest
     }
-  })]
+  }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.memcached.id
-  namespace = helm_release.memcached.namespace
+resource "imagetest_feature" "basic" {
+  name        = "Basic"
+  description = "Basic helm install test"
+  harness     = imagetest_harness_k3s.k3s
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
+    }
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }
