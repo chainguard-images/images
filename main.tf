@@ -237,6 +237,11 @@ module "cfssl" {
   target_repository = "${var.target_repository}/cfssl"
 }
 
+module "chromium" {
+  source            = "./images/chromium"
+  target_repository = "${var.target_repository}/chromium"
+}
+
 module "cilium" {
   source            = "./images/cilium"
   target_repository = "${var.target_repository}/cilium"
@@ -490,6 +495,11 @@ module "google-cloud-sdk" {
   target_repository = "${var.target_repository}/google-cloud-sdk"
 }
 
+module "gptscript" {
+  source            = "./images/gptscript"
+  target_repository = "${var.target_repository}/gptscript"
+}
+
 module "graalvm-native" {
   source            = "./images/graalvm-native"
   target_repository = "${var.target_repository}/graalvm-native"
@@ -503,6 +513,11 @@ module "gradle" {
 module "grafana" {
   source            = "./images/grafana"
   target_repository = "${var.target_repository}/grafana"
+}
+
+module "grafana-agent-operator" {
+  source            = "./images/grafana-agent-operator"
+  target_repository = "${var.target_repository}/grafana-agent-operator"
 }
 
 module "grype" {
@@ -578,6 +593,11 @@ module "jdk" {
 module "jdk-lts" {
   source            = "./images/jdk-lts"
   target_repository = "${var.target_repository}/jdk-lts"
+}
+
+module "jellyfin" {
+  source            = "./images/jellyfin"
+  target_repository = "${var.target_repository}/jellyfin"
 }
 
 module "jenkins" {

@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with [Gradle](https://gradle.org/) build system. **EXPERIMENTAL**
+Minimal image with [Gradle](https://gradle.org/) build system.
 <!--overview:end-->
 
 <!--getting:start-->

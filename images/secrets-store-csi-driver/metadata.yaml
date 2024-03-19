@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/secrets-store-csi-driver
 logo: https://storage.googleapis.com/chainguard-academy/logos/secrets-store-csi-driver.svg
 endoflife: ""
 console_summary: ""
-short_description: Minimal image with Kubernetes Secrets Store CSI Driver. **EXPERIMENTAL**
+short_description: Minimal image with Kubernetes Secrets Store CSI Driver.
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://secrets-store-csi-driver.sigs.k8s.io/

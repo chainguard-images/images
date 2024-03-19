@@ -1,0 +1,1 @@
+../../wasmer/tests/helloworld.go

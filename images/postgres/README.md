@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal PostgreSQL image. **EXPERIMENTAL**
+Minimal PostgreSQL image.
 <!--overview:end-->
 
 <!--getting:start-->
