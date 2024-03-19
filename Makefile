@@ -1,5 +1,5 @@
 cfg?=images/static/configs/wolfi.apko.yaml
-TERRAFORM ?= $(shell command -v terraform)
+TERRAFORM ?= $(shell command -v tofu)
 
 .PHONY: apko-build
 apko-build:
