@@ -1,8 +1,8 @@
 terraform {
   required_providers {
-    oci    = { source = "chainguard-dev/oci" }
-    helm   = { source = "hashicorp/helm" }
-    random = { source = "hashicorp/random" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
+    random    = { source = "hashicorp/random" }
   }
 }
 
@@ -14,48 +14,57 @@ data "oci_string" "ref" { input = var.digest }
 
 resource "random_id" "id" { byte_length = 4 }
 
-resource "helm_release" "doppler-kubernetes-operator" {
-  name             = "doppler-kubernetes-operator-${random_id.id.hex}"
-  namespace        = "doppler-kubernetes-operator"
-  repository       = "https://helm.doppler.com"
-  chart            = "doppler-kubernetes-operator"
-  create_namespace = true
+data "imagetest_inventory" "this" {}
 
-  values = [
-    jsonencode({
-      image = {
-        registry   = data.oci_string.ref.registry
-        repository = data.oci_string.ref.repo
-        tag        = data.oci_string.ref.pseudo_tag
+resource "imagetest_harness_k3s" "this" {
+  name      = "crossplane-aws"
+  inventory = data.imagetest_inventory.this
+
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
       }
-    }),
-  ]
-}
-
-data "oci_exec_test" "smoke" {
-  digest      = var.digest
-  script      = "./smoke_test.sh"
-  working_dir = path.module
-  env = [
-    {
-      name  = "RELEASE_ID"
-      value = random_id.id.hex
-    },
-    {
-      name  = "RELEASE_NAME"
-      value = helm_release.doppler-kubernetes-operator.name
-    },
-    {
-      name  = "RELEASE_NAMESPACE"
-      value = helm_release.doppler-kubernetes-operator.namespace
+    ]
+    envs = {
+      "RELEASE_ID"        = random_id.id.hex
+      "RELEASE_NAME"      = "doppler-kubernetes-operator-${random_id.id.hex}"
+      "RELEASE_NAMESPACE" = "doppler-kubernetes-operator"
     }
-  ]
-  depends_on = [helm_release.doppler-kubernetes-operator]
+  }
 }
 
-module "helm_cleanup" {
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.doppler-kubernetes-operator.id
-  namespace  = helm_release.doppler-kubernetes-operator.namespace
-  depends_on = [data.oci_exec_test.smoke]
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  name      = "doppler-kubernetes-operator-${random_id.id.hex}"
+  namespace = "doppler-kubernetes-operator"
+  repo      = "https://helm.doppler.com"
+  chart     = "doppler-kubernetes-operator"
+
+  values = {
+    image = {
+      registry   = data.oci_string.ref.registry
+      repository = data.oci_string.ref.repo
+      tag        = data.oci_string.ref.pseudo_tag
+    }
+  }
+}
+
+resource "imagetest_feature" "basic" {
+  name        = "Basic"
+  description = "Basic dask-gateway Helm install test"
+  harness     = imagetest_harness_k3s.this
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s",
+  }
 }
