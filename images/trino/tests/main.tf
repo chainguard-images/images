@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -16,17 +16,23 @@ data "oci_exec_test" "help" {
   script = "${path.module}/container-test.sh"
 }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "trino" {
-  repository       = "https://trinodb.github.io/charts/"
-  name             = "trino-${random_pet.suffix.id}"
-  chart            = "trino"
-  namespace        = "trino-${random_pet.suffix.id}"
-  create_namespace = true
-  timeout          = 900
+resource "imagetest_harness_k3s" "k3s" {
+  name      = "k3s"
+  inventory = data.imagetest_inventory.this
+}
 
-  values = [jsonencode({
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  repo      = "https://trinodb.github.io/charts/"
+  name      = "trino"
+  chart     = "trino"
+  namespace = "trino"
+  timeout   = "900s"
+
+  values = {
     image = {
       repository = data.oci_string.ref.registry_repo
       tag        = data.oci_string.ref.pseudo_tag
@@ -34,11 +40,18 @@ resource "helm_release" "trino" {
     server = {
       workers = 1
     }
-  })]
+  }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.trino.id
-  namespace = helm_release.trino.namespace
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation of the Trino chart"
+  harness     = imagetest_harness_k3s.k3s
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
+    }
+  ]
 }
