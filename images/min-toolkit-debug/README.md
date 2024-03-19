@@ -1,11 +1,11 @@
 <!--monopod:start-->
-# min-debug-toolkit
+# min-toolkit-debug
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/min-debug-toolkit` |
+| **OCI Reference** | `cgr.dev/chainguard/min-toolkit-debug` |
 
 
-* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/min-debug-toolkit/overview/)
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/min-toolkit-debug/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
@@ -21,7 +21,7 @@ Wolfi container image with some debugging utilies included. Suitable for using a
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/min-debug-toolkit:latest
+docker pull cgr.dev/chainguard/min-toolkit-debug:latest
 ```
 <!--getting:end-->
 

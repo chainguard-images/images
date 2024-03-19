@@ -1239,9 +1239,9 @@ module "skaffold" {
   target_repository = "${var.target_repository}/skaffold"
 }
 
-module "min-debug-toolkit" {
-  source            = "./images/min-debug-toolkit"
-  target_repository = "${var.target_repository}/min-debug-toolkit"
+module "min-toolkit-debug" {
+  source            = "./images/min-toolkit-debug"
+  target_repository = "${var.target_repository}/min-toolkit-debug"
 }
 
 module "smarter-device-manager" {
