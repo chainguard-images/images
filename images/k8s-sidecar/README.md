@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with the k8s-sidecar app. **EXPERIMENTAL**
+Minimal image with the k8s-sidecar app.
 <!--overview:end-->
 
 <!--getting:start-->

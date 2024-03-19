@@ -237,6 +237,11 @@ module "cfssl" {
   target_repository = "${var.target_repository}/cfssl"
 }
 
+module "chromium" {
+  source            = "./images/chromium"
+  target_repository = "${var.target_repository}/chromium"
+}
+
 module "cilium" {
   source            = "./images/cilium"
   target_repository = "${var.target_repository}/cilium"
@@ -588,6 +593,11 @@ module "jdk" {
 module "jdk-lts" {
   source            = "./images/jdk-lts"
   target_repository = "${var.target_repository}/jdk-lts"
+}
+
+module "jellyfin" {
+  source            = "./images/jellyfin"
+  target_repository = "${var.target_repository}/jellyfin"
 }
 
 module "jenkins" {

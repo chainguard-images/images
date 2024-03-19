@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -18,16 +18,22 @@ data "oci_exec_test" "version" {
 
 resource "random_pet" "suffix" {}
 
-resource "helm_release" "fluent-bit" {
-  name = "fluent-bit-${random_pet.suffix.id}"
+data "imagetest_inventory" "this" {}
 
-  repository = "https://fluent.github.io/helm-charts"
-  chart      = "fluent-bit"
+resource "imagetest_harness_k3s" "this" {
+  name      = "fluent-bit"
+  inventory = data.imagetest_inventory.this
+}
 
-  namespace        = "fluent-bit-${random_pet.suffix.id}"
-  create_namespace = true
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-  values = [jsonencode({
+  name      = "fluent-bit-${random_pet.suffix.id}"
+  repo      = "https://fluent.github.io/helm-charts"
+  chart     = "fluent-bit"
+  namespace = "fluent-bit-${random_pet.suffix.id}"
+
+  values = {
     image = {
       repository = data.oci_string.ref.registry_repo
       tag        = data.oci_string.ref.pseudo_tag
@@ -35,11 +41,22 @@ resource "helm_release" "fluent-bit" {
 
     # the helm chart rewrites the entrypoint to /fluent-bit/bin/fluent-bit so we explicitly set it to the path in our image
     command = ["/usr/bin/fluent-bit"]
-  })]
+  }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.fluent-bit.id
-  namespace = helm_release.fluent-bit.namespace
+resource "imagetest_feature" "basic" {
+  name        = "Basic"
+  description = "Basic fluent-bit Helm install test"
+  harness     = imagetest_harness_k3s.this
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s",
+  }
 }

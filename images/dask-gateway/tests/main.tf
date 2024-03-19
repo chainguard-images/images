@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -18,41 +18,56 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
-resource "helm_release" "dask-gateway" {
-  name = "dask-gateway"
+data "imagetest_inventory" "this" {}
 
-  repository = "https://helm.dask.org"
-  chart      = "dask-gateway"
-
-  namespace        = "dask-gateway"
-  create_namespace = true
-
-  values = [
-    jsonencode({
-      gateway = {
-        image = {
-          tag  = data.oci_string.ref["dask-gateway-server"].pseudo_tag
-          name = data.oci_string.ref["dask-gateway-server"].registry_repo
-        }
-        backend = {
-          image = {
-            tag  = data.oci_string.ref["dask-gateway"].pseudo_tag
-            name = data.oci_string.ref["dask-gateway"].registry_repo
-          }
-        }
-      }
-      controller = {
-        image = {
-          tag  = data.oci_string.ref["dask-gateway-server"].pseudo_tag
-          name = data.oci_string.ref["dask-gateway-server"].registry_repo
-        }
-      }
-    }),
-  ]
+resource "imagetest_harness_k3s" "this" {
+  name      = "crossplane-aws"
+  inventory = data.imagetest_inventory.this
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.dask-gateway.id
-  namespace = helm_release.dask-gateway.namespace
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  name      = "dask-gateway"
+  repo      = "https://helm.dask.org"
+  chart     = "dask-gateway"
+  namespace = "dask-gateway"
+
+  values = {
+    gateway = {
+      image = {
+        tag  = data.oci_string.ref["dask-gateway-server"].pseudo_tag
+        name = data.oci_string.ref["dask-gateway-server"].registry_repo
+      }
+      backend = {
+        image = {
+          tag  = data.oci_string.ref["dask-gateway"].pseudo_tag
+          name = data.oci_string.ref["dask-gateway"].registry_repo
+        }
+      }
+    }
+    controller = {
+      image = {
+        tag  = data.oci_string.ref["dask-gateway-server"].pseudo_tag
+        name = data.oci_string.ref["dask-gateway-server"].registry_repo
+      }
+    }
+  }
+}
+
+resource "imagetest_feature" "basic" {
+  name        = "Basic"
+  description = "Basic dask-gateway Helm install test"
+  harness     = imagetest_harness_k3s.this
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s",
+  }
 }

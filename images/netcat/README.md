@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image for Debian port of OpenBSD's netcat. **EXPERIMENTAL**
+Minimal image for Debian port of OpenBSD's netcat.
 <!--overview:end-->
 
 <!--getting:start-->

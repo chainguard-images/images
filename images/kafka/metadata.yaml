@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/kafka
 logo: https://storage.googleapis.com/chainguard-academy/logos/kafka.svg
 endoflife: ""
 console_summary: ""
-short_description: Minimal image with Kafka. **EXPERIMENTAL**
+short_description: Minimal image with Kafka.
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://kafka.apache.org/

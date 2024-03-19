@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with [zot](https://github.com/project-zot/zot) binary. **EXPERIMENTAL**
+Minimal image with [zot](https://github.com/project-zot/zot) binary.
 <!--overview:end-->
 
 <!--getting:start-->

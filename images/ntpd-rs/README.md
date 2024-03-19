@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with [ntpd-rs](https://github.com/pendulum-project/ntpd-rs). **EXPERIMENTAL**
+Minimal image with [ntpd-rs](https://github.com/pendulum-project/ntpd-rs).
 <!--overview:end-->
 
 <!--getting:start-->

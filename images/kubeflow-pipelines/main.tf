@@ -41,14 +41,6 @@ module "latest" {
   main_package      = each.value
 }
 
-module "version-tags" {
-  for_each = local.components
-  source   = "../../tflib/version-tags"
-
-  package = each.value
-  config  = module.latest[each.key].config
-}
-
 module "test-latest" {
   source = "./tests"
 
