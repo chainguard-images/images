@@ -1,6 +1,6 @@
-name: slim-toolkit-debug
-image: cgr.dev/chainguard/slim-toolkit-debug
-logo: https://storage.googleapis.com/chainguard-academy/logos/slim-toolkit-debug.svg
+name: min-debug-toolkit
+image: cgr.dev/chainguard/min-debug-toolkit
+logo: https://storage.googleapis.com/chainguard-academy/logos/min-debug-toolkit.svg
 endoflife: ""
 console_summary: ""
 short_description: Wolfi container image with some debugging utilies included. Suitable for using as a debugging tool.
