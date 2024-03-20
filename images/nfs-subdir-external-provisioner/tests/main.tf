@@ -25,7 +25,7 @@ data "oci_exec_test" "test_help_cmd" {
 
 data "oci_string" "ref" {
   input = var.digest
-}
+} 
 
 resource "random_pet" "suffix" {}
 
