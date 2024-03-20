@@ -10,7 +10,7 @@ variable "target_repository" {
 
 module "config" {
   source         = "./config"
-  extra_packages = ["bazel-6", "openjdk-17", "openjdk-17-default-jvm"]
+  extra_packages = ["bazel-7", "openjdk-21", "openjdk-21-default-jvm"]
 }
 
 module "latest" {
