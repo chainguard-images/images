@@ -185,6 +185,7 @@ locals {
     server:
       args:
         signer: memory
+        creds: "dummycredentials" # TODO: priyawadhwa: the upstream chart requires this, priya to remove the requirement upstream
       image:
         registry: ${data.oci_string.images["tsa-server"].registry}
         repository: ${data.oci_string.images["tsa-server"].repo}

@@ -13,11 +13,11 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with influxdb. **EXPERIMENTAL**
+Minimal image with influxdb.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

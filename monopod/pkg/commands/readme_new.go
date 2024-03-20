@@ -15,8 +15,8 @@ import (
 )
 
 type newReadmeImpl struct {
-	Readme      completeReadme
-	renderedHCl *bytes.Buffer
+	Readme       completeReadme
+	renderedYaml *bytes.Buffer
 }
 
 func NewReadme() *cobra.Command {
@@ -29,8 +29,8 @@ monopod readme new --image postgresql
 `,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			impl := &newReadmeImpl{
-				Readme:      completeReadme{Name: ro.Image},
-				renderedHCl: new(bytes.Buffer),
+				Readme:       completeReadme{Name: ro.Image},
+				renderedYaml: new(bytes.Buffer),
 			}
 			return impl.Do()
 		},
@@ -44,7 +44,7 @@ func (n *newReadmeImpl) Do() error {
 	if n.Readme.Name == "" {
 		return fmt.Errorf("missing --image argument")
 	}
-	if err := n.checkExistingHCL(); err != nil {
+	if err := n.checkExistingMetadata(); err != nil {
 		return fmt.Errorf("%v", err)
 	}
 	if err := n.collectFormInput(""); err != nil {
@@ -59,9 +59,9 @@ func (n *newReadmeImpl) Do() error {
 	return nil
 }
 
-func (n *newReadmeImpl) checkExistingHCL() error {
+func (n *newReadmeImpl) checkExistingMetadata() error {
 	img := n.Readme.Name
-	imagePath := fmt.Sprintf("images/%s/metadata.hcl", img)
+	imagePath := fmt.Sprintf("images/%s/%s", img, metadataYamlFilename)
 	f, _ := os.Stat(imagePath)
 	if f != nil {
 		return fmt.Errorf("%s already exists, edit it and run `monopod readme render --image %s`", imagePath, img)
@@ -71,16 +71,16 @@ func (n *newReadmeImpl) checkExistingHCL() error {
 
 func (n *newReadmeImpl) render() error {
 	return templates.ExecuteTemplate(
-		n.renderedHCl,
-		"metadata.hcl.tpl",
+		n.renderedYaml,
+		fmt.Sprintf("%s.tpl", metadataYamlFilename),
 		n.Readme,
 	)
 }
 
 func (n *newReadmeImpl) write() error {
-	filename := path.Join(constants.ImagesDirName, n.Readme.Name, "metadata.hcl")
+	filename := path.Join(constants.ImagesDirName, n.Readme.Name, metadataYamlFilename)
 	log.Println("writing file", filename)
-	err := os.WriteFile(filename, n.renderedHCl.Bytes(), 0o644)
+	err := os.WriteFile(filename, n.renderedYaml.Bytes(), 0o644)
 	if err != nil {
 		return err
 	}

@@ -17,7 +17,7 @@ Minimal Image for [Bank Vaults](https://bank-vaults.dev/), a CLI tool to init, u
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

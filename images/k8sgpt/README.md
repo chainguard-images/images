@@ -17,7 +17,7 @@ Minimal [k8sgpt](https://k8sgpt.ai/) container image.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

@@ -2,11 +2,11 @@ terraform {
   required_providers {
     cosign = {
       source  = "chainguard-dev/cosign"
-      version = "0.0.17"
+      version = "0.0.19"
     }
     apko = {
       source  = "chainguard-dev/apko"
-      version = "0.13.1"
+      version = "0.15.2"
     }
     oci = {
       source  = "chainguard-dev/oci"
@@ -45,6 +45,12 @@ variable "build-dev" {
   type        = bool
   default     = false
   description = "If true, build a dev variant of the image. If extra_dev_packages is non-empty, then build-dev is implicitly true."
+}
+
+variable "update-repo" {
+  type        = bool
+  default     = true
+  description = "Whether to update the Chainguard image repo resource."
 }
 
 variable "check-sbom" {
@@ -110,6 +116,7 @@ module "this-dev" {
     "bash",
     "busybox",
     "git",
+    "wget",
   ], var.extra_dev_packages)
 
   check_sbom   = var.check-sbom

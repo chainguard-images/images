@@ -1,10 +1,7 @@
 contents:
   packages:
-    - python3
     - busybox
     - bash
-    - cassandra
-    - cassandra-compat
 
 accounts:
   groups:

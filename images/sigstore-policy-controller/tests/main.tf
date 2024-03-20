@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -12,42 +13,57 @@ data "oci_string" "digest" {
   input = var.digest
 }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "policy-controller" {
-  name       = "pc-${random_pet.suffix.id}"
-  repository = "https://sigstore.github.io/helm-charts"
-  chart      = "policy-controller"
+resource "imagetest_harness_k3s" "k3s" {
+  name      = "k3s"
+  inventory = data.imagetest_inventory.this
+  sandbox = {
+    envs = {
+      "TEST_NAMESPACE" : "pc-test"
+    }
 
-  namespace        = "policy-controller"
-  create_namespace = true
-
-  set {
-    name  = "webhook.image.repository"
-    value = data.oci_string.digest.registry_repo
-  }
-  set {
-    name  = "webhook.image.version"
-    value = data.oci_string.digest.digest
-  }
-}
-
-data "oci_exec_test" "upstream-cosigned-tests" {
-  depends_on = [helm_release.policy-controller]
-
-  digest      = var.digest
-  script      = "./e2e_test.sh"
-  working_dir = path.module
-
-  env {
-    name  = "TEST_NAMESPACE"
-    value = "pc-test-${random_pet.suffix.id}"
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
   }
 }
 
-module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.upstream-cosigned-tests]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.policy-controller.id
-  namespace  = helm_release.policy-controller.namespace
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  name      = "pc"
+  repo      = "https://sigstore.github.io/helm-charts"
+  chart     = "policy-controller"
+  namespace = "pc"
+
+  values = {
+    webhook = {
+      image = {
+        repository = data.oci_string.digest.registry_repo
+        version    = data.oci_string.digest.digest
+      }
+    }
+  }
+}
+
+resource "imagetest_feature" "e2e" {
+  name        = "e2e"
+  description = "e2e testing with the Helm chart"
+  harness     = imagetest_harness_k3s.k3s
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
+    },
+    {
+      name    = "Upstream e2e tests"
+      workdir = "/tests"
+      cmd     = "./e2e_test.sh"
+    }
+  ]
 }

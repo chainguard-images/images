@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -17,21 +18,38 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
-data "oci_exec_test" "test" {
-  for_each = { for k, v in var.digests : k => v }
-  digest   = each.value
-  script   = "${path.module}/full-test.sh"
+data "imagetest_inventory" "this" {}
 
-  env {
-    name  = "APP"
-    value = each.key
-  }
-  env {
-    name  = "IMAGE_REGISTRY_REPO"
-    value = data.oci_string.ref[each.key].registry_repo
-  }
-  env {
-    name  = "IMAGE_TAG"
-    value = data.oci_string.ref[each.key].pseudo_tag
+resource "imagetest_harness_k3s" "this" {
+  name      = "kubeflow"
+  inventory = data.imagetest_inventory.this
+}
+
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the kubeflow installation."
+
+  steps = [
+    {
+      name = "Test",
+      cmd = templatefile("${path.module}/test.sh.tpl",
+        {
+          jupyter_registry_repo = data.oci_string.ref["jupyter-web-app"].registry_repo,
+          jupyter_tag           = data.oci_string.ref["jupyter-web-app"].pseudo_tag,
+          volumes_registry_repo = data.oci_string.ref["volumes-web-app"].registry_repo,
+          volumes_tag           = data.oci_string.ref["volumes-web-app"].pseudo_tag,
+        }
+      )
+    },
+    {
+      name  = "Wait for Kubeflow to be ready",
+      cmd   = "kubectl wait --for=condition=Ready --timeout=300s -n kubeflow --all pods"
+      retry = { attempts = 4, delay = "5s", factor = 2 }
+    },
+  ]
+
+  labels = {
+    type = "k8s"
   }
 }

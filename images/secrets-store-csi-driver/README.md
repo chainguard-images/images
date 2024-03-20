@@ -13,11 +13,11 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with Kubernetes Secrets Store CSI Driver. **EXPERIMENTAL**
+Minimal image with Kubernetes Secrets Store CSI Driver.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

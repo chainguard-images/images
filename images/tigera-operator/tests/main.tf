@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -11,29 +11,50 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-resource "random_id" "hex" { byte_length = 4 }
+data "imagetest_inventory" "this" {}
 
-data "oci_exec_test" "helm" {
-  digest      = var.digest // Not used, but required by the resource.
-  script      = <<EOF
-set -e
+resource "imagetest_harness_k3s" "this" {
+  name      = "tigera-operator"
+  inventory = data.imagetest_inventory.this
+}
 
-rand=${random_id.hex.hex}
+module "helm" {
+  # Use a separate module because this chart is re-used by the calico tests
+  source = "./helm"
 
-if ! command -v flock; then
-  echo "flock not installed; use \`brew install flock\`"
-  exit 1
-fi
+  values = {
+    tigeraOperator = {
+      registry = data.oci_string.ref.registry
+      image    = data.oci_string.ref.repo
+      version  = data.oci_string.ref.pseudo_tag
+    }
+  }
+}
 
-cat > /tmp/values-$${rand}.yaml <<EOV
-tigeraOperator:
-  version: ${data.oci_string.ref.pseudo_tag}
-  image: ${data.oci_string.ref.repo}
-  registry: ${data.oci_string.ref.registry}
-EOV
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "basic"
+  description = "Basic functionality of calico as a cni"
 
-# Run with `flock` to ensure that only one test runs at a time.
-flock -e -w 1200 /tmp/spire ./helm.sh $${rand}
-EOF
-  working_dir = path.module
+  steps = [
+    {
+      name = "Install tigera-operator with the helm chart"
+      cmd  = module.helm.install_cmd
+    },
+    {
+      name = "Ensure we can install calico with the operator"
+      cmd  = <<EOF
+kubectl apply -f - <<EOm
+apiVersion: operator.tigera.io/v1
+kind: Installation
+metadata:
+  name: default
+spec:
+  variant: Calico
+EOm
+
+kubectl wait --for=condition=Ready --timeout=5m installation default
+      EOF
+    },
+  ]
 }

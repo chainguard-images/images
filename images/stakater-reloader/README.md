@@ -13,11 +13,11 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with Keda, a Kubernetes-based Event Driven Autoscaler. **EXPERIMENTAL**
+Minimal image with Keda, a Kubernetes-based Event Driven Autoscaler.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

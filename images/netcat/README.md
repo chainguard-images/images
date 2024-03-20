@@ -13,11 +13,11 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image for Debian port of OpenBSD's netcat. **EXPERIMENTAL**
+Minimal image for Debian port of OpenBSD's netcat.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

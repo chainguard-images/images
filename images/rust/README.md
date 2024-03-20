@@ -13,11 +13,11 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal Wolfi-based Rust image for building Rust applications. **EXPERIMENTAL**.
+Minimal Wolfi-based Rust image for building Rust applications.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

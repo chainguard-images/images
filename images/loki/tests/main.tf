@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -11,13 +11,21 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-resource "helm_release" "loki" {
-  name = "loki"
+data "imagetest_inventory" "this" {}
 
-  repository = "https://grafana.github.io/helm-charts"
-  chart      = "loki"
+resource "imagetest_harness_k3s" "this" {
+  name      = "loki"
+  inventory = data.imagetest_inventory.this
+}
 
-  values = [jsonencode({
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  namespace = "loki-system"
+  chart     = "loki"
+  repo      = "https://grafana.github.io/helm-charts"
+
+  values = {
     loki = {
       commonConfig = {
         replication_factor = 1
@@ -31,16 +39,41 @@ resource "helm_release" "loki" {
         type = "filesystem"
       }
     }
+    backend = {
+      persistence = {
+        size = "1Gi"
+      }
+    }
     singleBinary = {
-      replicas   = 1
+      replicas = 1
+      persistence = {
+        size = "1Gi"
+      }
       registry   = data.oci_string.ref.registry
       repository = data.oci_string.ref.repo
       tag        = data.oci_string.ref.pseudo_tag
     }
-  })]
+    write = {
+      persistence = {
+        size = "1Gi"
+      }
+    }
+  }
 }
 
-module "helm_cleanup" {
-  source = "../../../tflib/helm-cleanup"
-  name   = helm_release.loki.id
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the loki helm chart."
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }

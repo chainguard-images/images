@@ -32,6 +32,7 @@ resource "helm_release" "test" {
   name       = "keycloak-${random_pet.suffix.id}"
   repository = "oci://registry-1.docker.io/bitnamicharts"
   chart      = "keycloak"
+  version    = "19.1.0"
   values = [jsonencode({
     image = {
       registry   = ""

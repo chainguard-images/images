@@ -1,8 +1,8 @@
 terraform {
   required_providers {
     oci        = { source = "chainguard-dev/oci" }
-    helm       = { source = "hashicorp/helm" }
     kubernetes = { source = "hashicorp/kubernetes" }
+    imagetest  = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -12,20 +12,34 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-resource "helm_release" "open-telemetry-deploy" {
-  name = "otelc"
+data "imagetest_inventory" "this" {}
 
-  repository       = "https://open-telemetry.github.io/opentelemetry-helm-charts"
-  chart            = "opentelemetry-collector"
-  namespace        = "otelc-deploy"
-  create_namespace = true
+resource "imagetest_harness_k3s" "this" {
+  name      = "opentelemetry-collector-contrib"
+  inventory = data.imagetest_inventory.this
 
-  // After https://github.com/open-telemetry/opentelemetry-helm-charts/pull/892 we
-  // fail to install because of unrecognized exporters.
-  version = "0.69.0"
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+  }
+}
 
-  values = [jsonencode({
+module "helm-otelc-deploy" {
+  source = "../../../tflib/imagetest/helm"
+
+  repo      = "https://open-telemetry.github.io/opentelemetry-helm-charts"
+  chart     = "opentelemetry-collector"
+  namespace = "otelc-deploy"
+
+  values = {
     mode = "deployment"
+    configMap = {
+      create : false
+    }
     image = {
       digest     = data.oci_string.ref.digest
       repository = data.oci_string.ref.registry_repo
@@ -41,41 +55,42 @@ resource "helm_release" "open-telemetry-deploy" {
         includeCollectorLogs = true
       }
     }
-  })]
-}
-
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.open-telemetry-deploy.id
-  namespace = helm_release.open-telemetry-deploy.namespace
-}
-
-resource "kubernetes_namespace" "open-telemetry-custom-config" {
-  metadata {
-    name = "otelc-daemonset"
+    command = {
+      extraArgs = [
+        "--config=/conf/custom-config.yaml"
+      ]
+    }
+    extraVolumeMounts : [
+      {
+        name : "custom-vm",
+        mountPath : "/conf"
+      }
+    ]
+    extraVolumes : [
+      {
+        name : "custom-vm",
+        configMap : {
+          name : "otelc-deploy"
+          items : [
+            {
+              key : "custom-deploy-config.yaml"
+              path : "custom-config.yaml"
+            }
+          ]
+        }
+      }
+    ]
   }
 }
 
-resource "kubernetes_config_map" "open-telemetry-custom-config" {
-  metadata {
-    name      = "otelc-daemonset-custom-config"
-    namespace = kubernetes_namespace.open-telemetry-custom-config.metadata[0].name
-  }
+module "helm-otelc-daemonset" {
+  source = "../../../tflib/imagetest/helm"
 
-  data = {
-    "custom-config.yaml" = file("${path.module}/custom-config.yaml")
-  }
-}
+  repo      = "https://open-telemetry.github.io/opentelemetry-helm-charts"
+  chart     = "opentelemetry-collector"
+  namespace = "otelc-daemonset"
 
-resource "helm_release" "open-telemetry-custom-config" {
-  name = "otelc-daemonset"
-
-  repository       = "https://open-telemetry.github.io/opentelemetry-helm-charts"
-  chart            = "opentelemetry-collector"
-  namespace        = kubernetes_namespace.open-telemetry-custom-config.metadata[0].name
-  create_namespace = false
-
-  values = [jsonencode({
+  values = {
     mode = "daemonset"
     configMap = {
       create : false
@@ -105,15 +120,52 @@ resource "helm_release" "open-telemetry-custom-config" {
       {
         name : "custom-vm",
         configMap : {
-          name : kubernetes_config_map.open-telemetry-custom-config.metadata[0].name
+          name : "otelc-daemonset"
+          items : [
+            {
+              key : "custom-deploy-config.yaml"
+              path : "custom-config.yaml"
+            }
+          ]
         }
       }
     ]
-  })]
+  }
 }
 
-module "custom_helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.open-telemetry-custom-config.id
-  namespace = helm_release.open-telemetry-custom-config.namespace
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the otel-collector-contrib helm chart."
+
+  steps = [
+    {
+      name = "Create namespace and configmap with custom configuration for the deployment"
+      cmd  = <<EOF
+        NAMESPACE=otelc-deploy
+        kubectl create namespace $NAMESPACE
+        kubectl create configmap $NAMESPACE --namespace $NAMESPACE --from-file=/tests/custom-deploy-config.yaml
+      EOF
+    },
+    {
+      name = "Helm deploy opentelemetry-collector-contrib as a deployment"
+      cmd  = module.helm-otelc-deploy.install_cmd
+    },
+    {
+      name = "Create namespace and configmap with custom configuration for the daemonset"
+      cmd  = <<EOF
+        NAMESPACE=otelc-daemonset
+        kubectl create namespace $NAMESPACE
+        kubectl create configmap $NAMESPACE --namespace $NAMESPACE --from-file=/tests/custom-ds-config.yaml
+      EOF
+    },
+    {
+      name = "Helm deploy opentelemetry-collector-contrib as a daemonset"
+      cmd  = module.helm-otelc-daemonset.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }

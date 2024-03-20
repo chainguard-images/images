@@ -7,7 +7,7 @@ terraform {
 variable "extra_packages" {
   description = "Additional packages to install."
   type        = list(string)
-  default     = ["aws-for-fluent-bit", "aws-for-fluent-bit-compat", "libpq-11"]
+  default     = ["aws-for-fluent-bit", "aws-for-fluent-bit-compat", "libpq"]
 }
 
 data "apko_config" "this" {

@@ -17,7 +17,7 @@ Minimalist Wolfi-based Prometheus Node Exporter image for exporting node metrics
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

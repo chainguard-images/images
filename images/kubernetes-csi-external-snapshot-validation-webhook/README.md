@@ -17,7 +17,7 @@ A minimal image for Kubernetes CSI external-snapshot-validation-webhook.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

@@ -17,7 +17,7 @@ Minimalist Wolfi-based [Keycloak](https://www.keycloak.org/) image for identity 
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```
@@ -44,7 +44,7 @@ The Keycloak UI can be accessed via:
 
 To launch a production instance of Keycloak, refer to the examples in the
 [following documentation](https://github.com/keycloak/keycloak/blob/main/docs/guides/server/containers.adoc),
-as this is dependent on environment-specific settings and customizatons.
+as this is dependent on environment-specific settings and customizations.
 
 ### Helm
 
@@ -64,7 +64,7 @@ documentation for more detail.
 
 ### Customizing the image
 
-Keyclock provides a mechanism to configure and customize the image. This process
+Keycloak provides a mechanism to configure and customize the image. This process
 is outlined in the [Keycloak image documentation](https://github.com/keycloak/keycloak/blob/main/docs/guides/server/containers.adoc).
 
 There are subtle differences in the executable paths used in the Chainguard

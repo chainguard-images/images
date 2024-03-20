@@ -13,11 +13,11 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with [Gradle](https://gradle.org/) build system. **EXPERIMENTAL**
+Minimal image with [Gradle](https://gradle.org/) build system.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

@@ -4,6 +4,12 @@ variable "extra_packages" {
   default     = ["etcd"]
 }
 
+variable "environment" {
+  description = "Additional environment variables to set in the image."
+  type        = map(string)
+  default     = {}
+}
+
 module "accts" { source = "../../../tflib/accts" }
 
 output "config" {
@@ -22,8 +28,8 @@ output "config" {
       gid         = 65532
       permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
     }]
-    environment = {
-      "ETCD_DATA_DIR" = "/var/lib/etcd"
-    }
+    environment = merge(var.environment, {
+      "ETCD_DATA_DIR" : "/var/lib/etcd",
+    })
   })
 }

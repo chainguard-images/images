@@ -13,11 +13,11 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with [zot](https://github.com/project-zot/zot) binary. **EXPERIMENTAL**
+Minimal image with [zot](https://github.com/project-zot/zot) binary.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

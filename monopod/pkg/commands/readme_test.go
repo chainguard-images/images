@@ -12,7 +12,7 @@ func TestReadme(t *testing.T) {
 	readme := &renderReadmeImpl{
 		Image:      "apko",
 		Readme:     &completeReadme{},
-		hclFile:    "metadata.hcl",
+		yamlFile:   metadataYamlFilename,
 		mdFile:     "README.md",
 		rawMD:      "",
 		renderedMD: &bytes.Buffer{},
@@ -29,15 +29,16 @@ func TestReadme(t *testing.T) {
 		CompatNotes:    "",
 		URL:            "https://github.com/chainguard-dev/apko",
 		Body:           "\nTest body here.\n",
+		Keywords:       []string{"application", "tools"},
 	}
 
 	t.Run("render readme", func(t *testing.T) {
 		r := newReadmeRenderer(readme.Image, nil)
-		if err := r.decodeHcl(); err != nil {
-			t.Fatalf("Error decoding %s: %s\n", r.hclFile, err)
+		if err := r.decodeYaml(); err != nil {
+			t.Fatalf("Error decoding %s: %s\n", r.yamlFile, err)
 		}
 		if err := r.validate(); err != nil {
-			t.Fatalf("Error validating %s: %s\n", r.hclFile, err)
+			t.Fatalf("Error validating %s: %s\n", r.yamlFile, err)
 		}
 		if err := r.read(); err != nil {
 			t.Fatalf("Error reading %s: %s\n", r.mdFile, err)

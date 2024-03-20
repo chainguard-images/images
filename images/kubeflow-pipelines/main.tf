@@ -5,47 +5,17 @@ terraform {
 }
 
 locals {
-  components = toset([
-    "api-server",
-    "cache-server",
-    "metadata-envoy",
-    "metadata-writer",
-    "persistenceagent",
-    "scheduledworkflow",
-    "viewer-crd-controller",
-    "cache-deployer",
-    "frontend",
-  ])
-
-  packages = merge(
-    { for k in local.components : k => k },
-    {
-      "api-server"            = "kubeflow-pipelines-apiserver"
-      "cache-server"          = "kubeflow-pipelines-cache_server"
-      "metadata-envoy"        = "kubeflow-pipelines-metadata-envoy-config"
-      "metadata-writer"       = "kubeflow-pipelines-metadata-writer"
-      "persistenceagent"      = "kubeflow-pipelines-persistence_agent"
-      "scheduledworkflow"     = "kubeflow-pipelines-scheduledworkflow"
-      "viewer-crd-controller" = "kubeflow-pipelines-viewer-crd-controller"
-      "cache-deployer"        = "kubeflow-pipelines-cache-deployer"
-      "frontend"              = "kubeflow-pipelines-frontend"
-    },
-  )
-
-  repositories = merge(
-    { for k in local.components : k => k },
-    {
-      "api-server"            = "${var.target_repository}-api-server"
-      "cache-server"          = "${var.target_repository}-cache-server"
-      "metadata-envoy"        = "${var.target_repository}-metadata-envoy"
-      "metadata-writer"       = "${var.target_repository}-metadata-writer"
-      "persistenceagent"      = "${var.target_repository}-persistenceagent"
-      "scheduledworkflow"     = "${var.target_repository}-scheduledworkflow"
-      "viewer-crd-controller" = "${var.target_repository}-viewer-crd-controller"
-      "cache-deployer"        = "${var.target_repository}-cache-deployer"
-      "frontend"              = "${var.target_repository}-frontend"
-    },
-  )
+  components = {
+    "api-server"            = "kubeflow-pipelines-apiserver",
+    "cache-server"          = "kubeflow-pipelines-cache_server",
+    "metadata-envoy"        = "kubeflow-pipelines-metadata-envoy-config",
+    "metadata-writer"       = "kubeflow-pipelines-metadata-writer",
+    "persistenceagent"      = "kubeflow-pipelines-persistence_agent",
+    "scheduledworkflow"     = "kubeflow-pipelines-scheduledworkflow",
+    "viewer-crd-controller" = "kubeflow-pipelines-viewer-crd-controller",
+    "cache-deployer"        = "kubeflow-pipelines-cache-deployer",
+    "frontend"              = "kubeflow-pipelines-frontend",
+  }
 }
 
 variable "target_repository" {
@@ -53,31 +23,27 @@ variable "target_repository" {
 }
 
 module "config" {
-  for_each       = local.components
-  source         = "./configs"
+  for_each = local.components
+  source   = "./configs"
+
   name           = each.key
-  extra_packages = [local.packages[each.key]]
+  extra_packages = [each.value]
 }
 
 module "latest" {
-  for_each          = local.repositories
-  source            = "../../tflib/publisher"
+  for_each = local.components
+  source   = "../../tflib/publisher"
+
   name              = basename(path.module)
-  target_repository = each.value
+  target_repository = "${var.target_repository}-${each.key}"
   config            = module.config[each.key].config
   build-dev         = true
-  main_package      = local.packages[each.key]
-}
-
-module "version-tags" {
-  for_each = local.packages
-  source   = "../../tflib/version-tags"
-  package  = each.value
-  config   = module.latest[each.key].config
+  main_package      = each.value
 }
 
 module "test-latest" {
-  source  = "./tests"
+  source = "./tests"
+
   digests = { for k, v in module.latest : k => v.image_ref }
 }
 

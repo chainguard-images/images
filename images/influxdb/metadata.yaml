@@ -1,0 +1,12 @@
+name: influxdb
+image: cgr.dev/chainguard/influxdb
+logo: https://storage.googleapis.com/chainguard-academy/logos/influxdb.svg
+endoflife: ""
+console_summary: ""
+short_description: Minimal image with influxdb.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/influxdata/influxdb
+keywords:
+  - application
+  - databases

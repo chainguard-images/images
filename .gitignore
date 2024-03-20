@@ -6,6 +6,7 @@ generated/
 gha-creds-*.json
 
 .terraform*
+!.terraform.lock.hcl
 terraform.tfstate*
 plan.out*
 

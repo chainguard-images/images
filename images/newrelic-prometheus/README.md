@@ -17,7 +17,7 @@ Minimal [newrelic-prometheus](https://github.com/newrelic/nri-prometheus) contai
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

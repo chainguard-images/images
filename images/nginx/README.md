@@ -17,7 +17,7 @@ Minimal Wolfi-based nginx HTTP, reverse proxy, mail proxy, and a generic TCP/UDP
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```
@@ -62,7 +62,7 @@ Following that, navigate to `localhost:8080` in your web browser. There, you wil
 You can also use the nginx Image to serve your own custom content. As an example, create a file named `index.html` with the following command:
 
 ```sh
-cat > idex.html <<EOF
+cat > index.html <<EOF
 <!doctype html>
 <html lang="en">
 <head>

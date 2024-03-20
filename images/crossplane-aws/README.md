@@ -17,7 +17,7 @@ Crossplane lets you build a control plane with Kubernetes-style declarative and 
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

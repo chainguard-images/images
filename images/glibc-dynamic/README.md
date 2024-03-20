@@ -17,7 +17,7 @@ Base image with just enough to run arbitrary glibc binaries.
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```

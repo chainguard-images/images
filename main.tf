@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    apko = { source = "chainguard-dev/apko" }
+    apko      = { source = "chainguard-dev/apko" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 
   # We don't take advantage of terraform.tfstate, so we don't need to save state anywhere.
@@ -11,6 +12,8 @@ terraform {
   # Consider removing this if that's ever fixed and/or if we want to use tfstate.
   backend "inmem" {}
 }
+
+provider "imagetest" {}
 
 variable "target_repository" {
   type        = string
@@ -229,17 +232,14 @@ module "cert-manager" {
   target_repository = "${var.target_repository}/cert-manager"
 }
 
-// This isn't intended to be run in production, but it's useful for testing
-// that the cert-manager test module can be run by multiple modules. To test this, run:
-// terraform apply -target=module.cert-manager -target=module.cert-manager-again-for-testing -auto-approve
-module "cert-manager-again-for-testing" {
-  source            = "./images/cert-manager"
-  target_repository = "${var.target_repository}/cert-manager"
-}
-
 module "cfssl" {
   source            = "./images/cfssl"
   target_repository = "${var.target_repository}/cfssl"
+}
+
+module "chromium" {
+  source            = "./images/chromium"
+  target_repository = "${var.target_repository}/chromium"
 }
 
 module "cilium" {
@@ -250,6 +250,11 @@ module "cilium" {
 module "clang" {
   source            = "./images/clang"
   target_repository = "${var.target_repository}/clang"
+}
+
+module "clickhouse" {
+  source            = "./images/clickhouse/"
+  target_repository = "${var.target_repository}/clickhouse"
 }
 
 module "cluster-autoscaler" {
@@ -347,6 +352,16 @@ module "dive" {
   target_repository = "${var.target_repository}/dive"
 }
 
+module "doppler-kubernetes-operator" {
+  source            = "./images/doppler-kubernetes-operator"
+  target_repository = "${var.target_repository}/doppler-kubernetes-operator"
+}
+
+module "docker-selenium" {
+  source            = "./images/docker-selenium"
+  target_repository = "${var.target_repository}/docker-selenium"
+}
+
 module "dotnet" {
   source            = "./images/dotnet"
   target_repository = "${var.target_repository}/dotnet"
@@ -397,9 +412,19 @@ module "falcoctl" {
   target_repository = "${var.target_repository}/falcoctl"
 }
 
+module "falcosidekick" {
+  source            = "./images/falcosidekick"
+  target_repository = "${var.target_repository}/falcosidekick"
+}
+
 module "ffmpeg" {
   source            = "./images/ffmpeg"
   target_repository = "${var.target_repository}/ffmpeg"
+}
+
+module "filebeat" {
+  source            = "./images/filebeat"
+  target_repository = "${var.target_repository}/filebeat"
 }
 
 module "fluent-bit" {
@@ -460,9 +485,19 @@ module "go" {
   target_repository = "${var.target_repository}/go"
 }
 
+module "go-ipfs" {
+  source            = "./images/go-ipfs"
+  target_repository = "${var.target_repository}/go-ipfs"
+}
+
 module "google-cloud-sdk" {
   source            = "./images/google-cloud-sdk"
   target_repository = "${var.target_repository}/google-cloud-sdk"
+}
+
+module "gptscript" {
+  source            = "./images/gptscript"
+  target_repository = "${var.target_repository}/gptscript"
 }
 
 module "graalvm-native" {
@@ -478,6 +513,11 @@ module "gradle" {
 module "grafana" {
   source            = "./images/grafana"
   target_repository = "${var.target_repository}/grafana"
+}
+
+module "grafana-agent-operator" {
+  source            = "./images/grafana-agent-operator"
+  target_repository = "${var.target_repository}/grafana-agent-operator"
 }
 
 module "grype" {
@@ -508,6 +548,11 @@ module "helm" {
 module "helm-chartmuseum" {
   source            = "./images/helm-chartmuseum"
   target_repository = "${var.target_repository}/helm-chartmuseum"
+}
+
+module "helm-operator" {
+  source            = "./images/helm-operator"
+  target_repository = "${var.target_repository}/helm-operator"
 }
 
 module "http-echo" {
@@ -548,6 +593,11 @@ module "jdk" {
 module "jdk-lts" {
   source            = "./images/jdk-lts"
   target_repository = "${var.target_repository}/jdk-lts"
+}
+
+module "jellyfin" {
+  source            = "./images/jellyfin"
+  target_repository = "${var.target_repository}/jellyfin"
 }
 
 module "jenkins" {
@@ -680,6 +730,11 @@ module "kubeflow-pipelines-visualization-server" {
   target_repository = "${var.target_repository}/kubeflow-pipelines-visualization-server"
 }
 
+module "kuberay-operator" {
+  source            = "./images/kuberay-operator"
+  target_repository = "${var.target_repository}/kuberay-operator"
+}
+
 module "kubernetes-csi-external-attacher" {
   source            = "./images/kubernetes-csi-external-attacher"
   target_repository = "${var.target_repository}/kubernetes-csi-external-attacher"
@@ -755,9 +810,19 @@ module "kyverno-policy-reporter" {
   target_repository = "${var.target_repository}/kyverno-policy-reporter"
 }
 
+module "logstash-oss-with-opensearch-output-plugin" {
+  source            = "./images/logstash-oss-with-opensearch-output-plugin"
+  target_repository = "${var.target_repository}/logstash-oss-with-opensearch-output-plugin"
+}
+
 module "loki" {
   source            = "./images/loki"
   target_repository = "${var.target_repository}/loki"
+}
+
+module "management-api-for-apache-cassandra" {
+  source            = "./images/management-api-for-apache-cassandra"
+  target_repository = "${var.target_repository}/management-api-for-apache-cassandra"
 }
 
 module "mariadb" {
@@ -823,6 +888,11 @@ module "ml-metadata-store-server" {
 module "nats" {
   source            = "./images/nats"
   target_repository = "${var.target_repository}/nats"
+}
+
+module "nemo" {
+  source            = "./images/nemo"
+  target_repository = "${var.target_repository}/nemo"
 }
 
 module "netcat" {
@@ -932,6 +1002,11 @@ module "opensearch" {
   target_repository = "${var.target_repository}/opensearch"
 }
 
+module "opensearch-dashboards" {
+  source            = "./images/opensearch-dashboards"
+  target_repository = "${var.target_repository}/opensearch-dashboards"
+}
+
 module "opentelemetry-collector-contrib" {
   source            = "./images/opentelemetry-collector-contrib"
   target_repository = "${var.target_repository}/opentelemetry-collector-contrib"
@@ -1007,6 +1082,11 @@ module "prometheus-elasticsearch-exporter" {
   target_repository = "${var.target_repository}/prometheus-elasticsearch-exporter"
 }
 
+module "prometheus-logstash-exporter" {
+  source            = "./images/prometheus-logstash-exporter"
+  target_repository = "${var.target_repository}/prometheus-logstash-exporter"
+}
+
 module "prometheus-mongodb-exporter" {
   source            = "./images/prometheus-mongodb-exporter"
   target_repository = "${var.target_repository}/prometheus-mongodb-exporter"
@@ -1056,6 +1136,11 @@ module "proxysql" {
 module "pulumi" {
   source            = "./images/pulumi"
   target_repository = "${var.target_repository}/pulumi"
+}
+
+module "pytorch-cuda12" {
+  source            = "./images/pytorch-cuda12"
+  target_repository = "${var.target_repository}/pytorch-cuda12"
 }
 
 module "python" {
@@ -1154,9 +1239,9 @@ module "skaffold" {
   target_repository = "${var.target_repository}/skaffold"
 }
 
-module "slim-toolkit-debug" {
-  source            = "./images/slim-toolkit-debug"
-  target_repository = "${var.target_repository}/slim-toolkit-debug"
+module "min-toolkit-debug" {
+  source            = "./images/min-toolkit-debug"
+  target_repository = "${var.target_repository}/min-toolkit-debug"
 }
 
 module "smarter-device-manager" {

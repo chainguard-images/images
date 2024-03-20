@@ -17,7 +17,7 @@ Minimal image to configure external DNS servers (AWS Route53, Google CloudDNS an
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```
