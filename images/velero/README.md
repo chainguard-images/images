@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimalist Wolfi-based image for `velero`.
+Backup and migrate Kubernetes applications and their persistent volumes
 <!--overview:end-->
 
 <!--getting:start-->
