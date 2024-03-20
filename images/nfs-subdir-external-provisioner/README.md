@@ -26,7 +26,7 @@ docker pull cgr.dev/chainguard/nfs-subdir-external-provisioner:latest
 <!--getting:end-->
 
 <!--body:start-->
-## Testing
+## Deploying
 
 The NFS subdir external provisioner is an automatic provisioner for Kubernetes that uses your already configured NFS server, automatically creating Persistent Volumes.
 
