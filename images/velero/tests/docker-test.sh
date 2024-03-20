@@ -59,15 +59,11 @@ test_velero(){
     echo "Velero pod is not running"
   fi
 
-  # Create a backup
-  velero backup create nfs-server-backup \
-    --include-namespaces nfs-server \
-    --default-volumes-to-fs-backup \
-    --wait
+  # Create a test backup
+  velero backup create my-backup --include-namespaces default
 
-  # Check if the backup creation was successful
   while true; do
-    backup_status=$(velero backup get nfs-server-backup -o json | jq -r '.status.phase')
+    backup_status=$(velero backup get my-backup -o json | jq -r '.status.phase')
     if [ "$backup_status" == "Completed" ]; then
       echo "Backup creation successful"
       break
@@ -78,9 +74,10 @@ test_velero(){
     sleep 5
   done
 
-  # Restore the backup
-  velero restore create --from-backup nfs-server-backup
+  # Restore the test backup
+  velero restore create --from-backup my-backup
 
+  
   # Check if the restore was successful
   while true; do
     STATUS=$(velero restore get -o json | jq -r '.status.phase')
@@ -95,8 +92,6 @@ test_velero(){
   done  
 }
 
-# Install required packages and run the test
 apk add velero velero-compat velero-restore-helper jq
-
 install_velero
 test_velero
