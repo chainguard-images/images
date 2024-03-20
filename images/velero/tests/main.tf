@@ -32,10 +32,6 @@ resource "imagetest_harness_k3s" "this" {
   }
 }
 
-module "helm_crossplane" {
-  source = "../../crossplane/tests/install"
-}
-
 resource "imagetest_feature" "basic" {
   harness     = imagetest_harness_k3s.this
   name        = "Basic"
