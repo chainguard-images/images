@@ -8,17 +8,20 @@ install_velero(){
                --no-default-backup-location \
                --use-volume-snapshots=false \
                --no-secret \
-               --image ${IMAGE_NAME}
+               --image ${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}
 }
 
 test_velero(){
-  # docker exec "${CONTAINER_NAME}" /velero backup create my-backup --include-namespace default
+  
+  CONTAINER_NAME = $(docker ps --format "{{.Names}}" | grep "velero" | head -n 1)
+  
+  docker exec ${CONTAINER_NAME} /velero backup create my-backup --include-namespace default
 
-  # docker exec "${CONTAINER_NAME}" /velero restore create --from-backup my-backup
+  docker exec ${CONTAINER_NAME} /velero restore create --from-backup my-backup
 
-  # docker exec "${CONTAINER_NAME}" /velero restore get
+  docker exec ${CONTAINER_NAME} /velero restore get
 }
 
+apk add velero velero-compat velero-restore-helper
 install_velero
-
-test_velero
+# test_velero

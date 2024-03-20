@@ -1,26 +1,60 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
 variable "digest" {
-  description = "The image digest to run tests over."
+  description = "The image digests to run tests over."
 }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --help"
+data "oci_string" "ref" { input = var.digest }
+
+data "imagetest_inventory" "this" {}
+
+resource "imagetest_harness_k3s" "this" {
+  name      = "velero"
+  inventory = data.imagetest_inventory.this
+
+  sandbox = {
+    envs = {
+      "IMAGE_REGISTRY"   = data.oci_string.ref.registry
+      "IMAGE_REPOSITORY" = data.oci_string.ref.repo
+      "IMAGE_TAG"        = data.oci_string.ref.pseudo_tag
+    }
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+  }
 }
 
-data "oci_exec_test" "docker-test" {
-  digest      = var.digest
-  script      = "./docker-test.sh"
-  working_dir = path.module
+module "helm_crossplane" {
+  source = "../../crossplane/tests/install"
 }
 
-data "oci_string" "ref" {
-  input = var.digest
-}
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the velero helm chart."
 
-resource "random_pet" "suffix" {}
+  steps = [
+    {
+      name = "Basic smoke test that providers install"
+      cmd  = "/tests/docker-test.sh"
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
+
+  timeouts = {
+    # This can take a while since we're working in serial to avoid disk
+    # pressure
+    create = "15m"
+  }
+}
