@@ -3,10 +3,11 @@
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 
-
+# Function to install Velero using Minio as the backup storage
 install_velero(){
   kubectl apply -f https://raw.githubusercontent.com/vmware-tanzu/velero/main/examples/minio/00-minio-deployment.yaml
 
+  # Create a credentials file for Minio
   cat <<EOF > credentials-velero
   [default]
   aws_access_key_id = minio
@@ -22,6 +23,7 @@ EOF
                  --image ${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}
 }
 
+# Function to wait for a pod with a specific label to be running
 wait_for_pod() {
   local label=$1
   local namespace=$2
@@ -43,6 +45,7 @@ wait_for_pod() {
   done
 }
 
+# Function to test Velero by creating a backup and restoring it
 test_velero(){
 
   wait_for_pod "component=velero" "velero" 300
@@ -56,11 +59,15 @@ test_velero(){
     echo "Velero pod is not running"
   fi
 
-  # Create a test backup
-  velero backup create my-backup --include-namespaces default
+  # Create a backup
+  velero backup create nfs-server-backup \
+    --include-namespaces nfs-server \
+    --default-volumes-to-fs-backup \
+    --wait
 
+  # Check if the backup creation was successful
   while true; do
-    backup_status=$(velero backup get my-backup -o json | jq -r '.status.phase')
+    backup_status=$(velero backup get nfs-server-backup -o json | jq -r '.status.phase')
     if [ "$backup_status" == "Completed" ]; then
       echo "Backup creation successful"
       break
@@ -71,9 +78,10 @@ test_velero(){
     sleep 5
   done
 
-  # Restore the test backup
-  velero restore create --from-backup my-backup
+  # Restore the backup
+  velero restore create --from-backup nfs-server-backup
 
+  # Check if the restore was successful
   while true; do
     STATUS=$(velero restore get -o json | jq -r '.status.phase')
     if [ "$STATUS" == "Completed" ]; then
@@ -87,6 +95,8 @@ test_velero(){
   done  
 }
 
+# Install required packages and run the test
 apk add velero velero-compat velero-restore-helper jq
+
 install_velero
 test_velero

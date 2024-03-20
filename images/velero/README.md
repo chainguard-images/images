@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Backup and migrate Kubernetes applications and their persistent volumes
+Minimalist Wolfi-based image for `velero`.
 <!--overview:end-->
 
 <!--getting:start-->
@@ -41,23 +41,46 @@ To install Velero, you can use the following command:
 apk add velero velero-compat velero-restore-helper
 ```
 
-Then, you can install Velero into your Kubernetes cluster using the velero install command:
+Then, you can install Velero into your Kubernetes cluster using the follwing steps:
+
+1. Deploy Minio for Velero's backup storage:
 
 ```bash
-velero install --namespace velero \
-               --no-default-backup-location \
-               --use-volume-snapshots=false \
-               --no-secret \
-               --image ${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}
+kubectl apply -f https://raw.githubusercontent.com/vmware-tanzu/velero/main/examples/minio/00-minio-deployment.yaml
+```
+
+2. Create a credentials file for Minio:
+
+```bash
+cat <<EOF > credentials-velero
+  [default]
+  aws_access_key_id = minio
+  aws_secret_access_key = minio123
+EOF
+```
+
+3. Use velero install command with necessary flags.
+```bash
+velero install --bucket velero \
+                 --secret-file ./credentials-velero \
+                 --use-volume-snapshots=false \
+                 --backup-location-config region=minio,s3ForcePathStyle="true",s3Url=http://minio.velero.svc:9000 \
+                 --provider aws \
+                 --plugins velero/velero-plugin-for-aws:v1.9.1 \
+                 --image ${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}
 ```
 
 Once Velero is installed, you can start using it to create backups and restore them:
+
 ```bash
-velero backup create my-backup --include-namespaces default
+velero backup create nfs-server-backup \
+    --include-namespaces nfs-server \
+    --default-volumes-to-fs-backup \
+    --wait
 
-velero restore create --from-backup my-backup
+velero restore create --from-backup nfs-server-backup
 
-velero restore get my-backup
+velero restore get nfs-server-backup
 ```
 
 
