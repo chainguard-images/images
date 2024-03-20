@@ -38,7 +38,7 @@ jobs:
         args: lint yam images/
 
     - id: changed
-      uses: tj-actions/changed-files@v42
+      uses: tj-actions/changed-files@77af4bed286740ef1a6387dc4e4e4dec39f96054 # v43.0.0
       with:
         dir_names: "true"
         # Truncates (not ignores) the path of changed files to 2 (ie: images/flux/tests/main.tf -> images/flux)
@@ -127,7 +127,7 @@ jobs:
     - uses: sigstore/cosign-installer@e1523de7571e31dbe865fd2e80c5c7c23ae71eb4 # v3.4.0
     - uses: imjasonh/setup-crane@00c9e93efa4e1138c9a7a5c594acd6c75a2fbf0c # v0.3
 
-    - uses: chainguard-dev/actions/setup-k3d@main
+    - uses: chainguard-dev/actions/setup-k3d@538d1927b846546b620784754c33e2a1db86e217 # main
       with:
         k3s-image: cgr.dev/chainguard/k3s:latest@sha256:2cce22ae3d776f2b924de7735bb10647320b1563dbca4ab1082a1eedae3b81c5
 
@@ -173,7 +173,7 @@ jobs:
 
     - name: Collect TF diagnostics
       if: ${{ always() }}
-      uses: chainguard-dev/actions/terraform-diag@main
+      uses: chainguard-dev/actions/terraform-diag@538d1927b846546b620784754c33e2a1db86e217 # main
       with:
         json-file: /tmp/mega-module.tf.json
 
@@ -186,7 +186,7 @@ jobs:
 
     - name: Collect diagnostics and upload
       if: ${{ failure() }}
-      uses: chainguard-dev/actions/k8s-diag@main
+      uses: chainguard-dev/actions/k8s-diag@538d1927b846546b620784754c33e2a1db86e217 # main
       with:
         cluster-type: k3d
         namespace-resources: deploy,ds,sts,pods
