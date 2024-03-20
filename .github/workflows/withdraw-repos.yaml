@@ -9,7 +9,6 @@ on:
 permissions:
   contents: read
 
-
 jobs:
   withdraw:
     runs-on: ubuntu-latest
