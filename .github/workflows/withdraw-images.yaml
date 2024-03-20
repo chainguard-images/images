@@ -6,6 +6,9 @@ on:
         default: 'true'
         description: If true, just log
 
+permissions:
+  contents: read
+
 jobs:
   withdraw:
     runs-on: ubuntu-latest
@@ -18,7 +21,7 @@ jobs:
           egress-policy: audit
 
       - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4
-      - uses: chainguard-dev/actions/setup-chainctl@main
+      - uses: chainguard-dev/actions/setup-chainctl@538d1927b846546b620784754c33e2a1db86e217 # main
         with:
           identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
       - uses: imjasonh/setup-crane@00c9e93efa4e1138c9a7a5c594acd6c75a2fbf0c # v0.3
