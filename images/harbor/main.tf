@@ -11,12 +11,14 @@ variable "target_repository" {
 locals {
   components = toset([
     "core",
+    "jobservice",
     "registry",
     "registryctl",
   ])
 
   commands = {
     "core" : "/harbor/harbor_core",
+    "jobservice" : "/harbor/harbor_jobservice -c /etc/jobservice/config.yml",
     "registry" : "/usr/bin/registry_DO_NOT_USE_GC serve /etc/registry/config.yml"
     "registryctl" : "/harbor/harbor_registryctl -c /etc/registryctl/config.yml",
   }

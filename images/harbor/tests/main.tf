@@ -33,6 +33,12 @@ resource "helm_release" "harbor" {
     #tag        = data.oci_string.ref["core"].pseudo_tag
     #}
     #}
+    jobservice = {
+      image = {
+        repository = data.oci_string.ref["jobservice"].registry_repo
+        tag        = data.oci_string.ref["jobservice"].pseudo_tag
+      }
+    }
     registry = {
       registry = {
         image = {

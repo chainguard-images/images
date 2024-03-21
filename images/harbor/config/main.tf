@@ -81,6 +81,13 @@ output "config" {
       gid         = module.accts.block.run-as
       permissions = 493
       recursive   = true
+      }, {
+      path        = "/var/log/jobs" // jobservice
+      type        = "directory"
+      uid         = module.accts.block.run-as
+      gid         = module.accts.block.run-as
+      permissions = 493
+      recursive   = true
     }]
   })
 }
