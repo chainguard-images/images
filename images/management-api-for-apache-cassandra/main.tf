@@ -8,7 +8,12 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "config" { source = "./config" }
+module "config" {
+  source = "./config"
+  environment = {
+    "CASSANDRA_VERSION" : "4.1.3"
+  }
+}
 
 module "latest" {
   source            = "../../tflib/publisher"
