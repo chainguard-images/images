@@ -10,12 +10,12 @@ variable "digest" {
 
 variable "nfs_server" {
   description = "The IP Address of the NFS server"
-  default = "192.168.64.2"
+  default     = "192.168.64.2"
 }
 
 variable "nfs_path" {
   description = "The path of the nfs share"
-  default = "/nfs"
+  default     = "/nfs"
 }
 
 data "oci_exec_test" "test_help_cmd" {
@@ -25,7 +25,7 @@ data "oci_exec_test" "test_help_cmd" {
 
 data "oci_string" "ref" {
   input = var.digest
-} 
+}
 
 resource "random_pet" "suffix" {}
 
@@ -35,7 +35,7 @@ resource "helm_release" "test_helm_deploy" {
   chart            = "nfs-subdir-external-provisioner"
   namespace        = "nfs-subdir-external-provisioner-${random_pet.suffix.id}"
   create_namespace = true
-  
+
   values = [jsonencode({
     image = {
       repository = data.oci_string.ref.registry_repo
@@ -43,7 +43,7 @@ resource "helm_release" "test_helm_deploy" {
     },
     nfs = {
       server = var.nfs_server
-      path = var.nfs_path
+      path   = var.nfs_path
     }
 
   })]
@@ -57,7 +57,7 @@ data "oci_exec_test" "test_validate_logs" {
 
   env {
     name  = "K8S_NAME"
-    value = "${helm_release.test_helm_deploy.id}"
+    value = helm_release.test_helm_deploy.id
   }
   env {
     name  = "K8S_NAMESPACE"
