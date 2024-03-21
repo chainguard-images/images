@@ -352,14 +352,14 @@ module "dive" {
   target_repository = "${var.target_repository}/dive"
 }
 
-module "doppler-kubernetes-operator" {
-  source            = "./images/doppler-kubernetes-operator"
-  target_repository = "${var.target_repository}/doppler-kubernetes-operator"
-}
-
 module "docker-selenium" {
   source            = "./images/docker-selenium"
   target_repository = "${var.target_repository}/docker-selenium"
+}
+
+module "doppler-kubernetes-operator" {
+  source            = "./images/doppler-kubernetes-operator"
+  target_repository = "${var.target_repository}/doppler-kubernetes-operator"
 }
 
 module "dotnet" {
@@ -1138,14 +1138,14 @@ module "pulumi" {
   target_repository = "${var.target_repository}/pulumi"
 }
 
-module "pytorch-cuda12" {
-  source            = "./images/pytorch-cuda12"
-  target_repository = "${var.target_repository}/pytorch-cuda12"
-}
-
 module "python" {
   source            = "./images/python"
   target_repository = "${var.target_repository}/python"
+}
+
+module "pytorch-cuda12" {
+  source            = "./images/pytorch-cuda12"
+  target_repository = "${var.target_repository}/pytorch-cuda12"
 }
 
 module "qdrant" {
@@ -1401,6 +1401,11 @@ module "vector" {
 module "vela-cli" {
   source            = "./images/vela-cli"
   target_repository = "${var.target_repository}/vela-cli"
+}
+
+module "velero" {
+  source            = "./images/velero"
+  target_repository = "${var.target_repository}/velero"
 }
 
 module "vertical-pod-autoscaler" {
