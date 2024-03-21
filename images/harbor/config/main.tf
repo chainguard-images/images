@@ -40,28 +40,42 @@ output "config" {
       command = var.command
     }
     paths = [{
-      path        = "/etc/pki/tls/certs"
+      path        = "/etc/pki/tls/certs" // all
       type        = "directory"
       uid         = module.accts.block.run-as
       gid         = module.accts.block.run-as
       permissions = 493
       recursive   = true
       }, {
-      path        = "/etc/registry"
+      path        = "/etc/registry" // registry, registryctl
       type        = "directory"
       uid         = module.accts.block.run-as
       gid         = module.accts.block.run-as
       permissions = 493
       recursive   = true
       }, {
-      path        = "/harbor"
+      path        = "/etc/registryctl" // registryctl
       type        = "directory"
       uid         = module.accts.block.run-as
       gid         = module.accts.block.run-as
       permissions = 493
       recursive   = true
       }, {
-      path        = "/storage"
+      path        = "/harbor" // all
+      type        = "directory"
+      uid         = module.accts.block.run-as
+      gid         = module.accts.block.run-as
+      permissions = 493
+      recursive   = true
+      }, {
+      path        = "/storage" // registry
+      type        = "directory"
+      uid         = module.accts.block.run-as
+      gid         = module.accts.block.run-as
+      permissions = 493
+      recursive   = true
+      }, {
+      path        = "/var/lib/registry" // registryctl
       type        = "directory"
       uid         = module.accts.block.run-as
       gid         = module.accts.block.run-as

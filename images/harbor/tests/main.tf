@@ -40,6 +40,12 @@ resource "helm_release" "harbor" {
           tag        = data.oci_string.ref["registry"].pseudo_tag
         }
       }
+      registryctl = {
+        image = {
+          repository = data.oci_string.ref["registryctl"].registry_repo
+          tag        = data.oci_string.ref["registryctl"].pseudo_tag
+        }
+      }
     }
   })]
 }

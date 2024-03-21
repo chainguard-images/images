@@ -12,11 +12,13 @@ locals {
   components = toset([
     "core",
     "registry",
+    "registryctl",
   ])
 
   commands = {
     "core" : "/harbor/harbor_core",
     "registry" : "/usr/bin/registry_DO_NOT_USE_GC serve /etc/registry/config.yml"
+    "registryctl" : "/harbor/harbor_registryctl -c /etc/registryctl/config.yml",
   }
 
   packages = merge({
