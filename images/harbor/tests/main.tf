@@ -7,8 +7,10 @@ terraform {
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
-    core     = string
-    registry = string
+    core        = string
+    jobservice  = string
+    registry    = string
+    registryctl = string
   })
 }
 
