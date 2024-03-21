@@ -9,6 +9,7 @@ variable "digests" {
   type = object({
     core        = string
     jobservice  = string
+    portal      = string
     registry    = string
     registryctl = string
   })
@@ -39,6 +40,12 @@ resource "helm_release" "harbor" {
       image = {
         repository = data.oci_string.ref["jobservice"].registry_repo
         tag        = data.oci_string.ref["jobservice"].pseudo_tag
+      }
+    }
+    portal = {
+      image = {
+        repository = data.oci_string.ref["portal"].registry_repo
+        tag        = data.oci_string.ref["portal"].pseudo_tag
       }
     }
     registry = {

@@ -12,6 +12,7 @@ locals {
   components = toset([
     "core",
     "jobservice",
+    "portal",
     "registry",
     "registryctl",
   ])
@@ -28,7 +29,7 @@ locals {
 module "latest-config" {
   for_each       = local.components
   source         = "./config"
-  component = each.key
+  component      = each.key
   extra_packages = [local.packages[each.key], "busybox"]
 }
 
