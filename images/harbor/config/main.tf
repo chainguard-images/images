@@ -4,8 +4,17 @@ terraform {
   }
 }
 
-variable "command" {
+variable "component" {
   default = {}
+}
+
+locals {
+  commands = {
+    "core" : "/harbor/harbor_core",
+    "jobservice" : "/harbor/harbor_jobservice -c /etc/jobservice/config.yml",
+    "registry" : "/usr/bin/registry_DO_NOT_USE_GC serve /etc/registry/config.yml"
+    "registryctl" : "/harbor/harbor_registryctl -c /etc/registryctl/config.yml",
+  }
 }
 
 variable "extra_packages" {
@@ -37,7 +46,7 @@ output "config" {
       "PWD" : "/harbor"
     }, var.environment)
     entrypoint = {
-      command = var.command
+      command = local.commands[var.component]
     }
     paths = [{
       path        = "/etc/pki/tls/certs" // all

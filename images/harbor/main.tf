@@ -16,13 +16,6 @@ locals {
     "registryctl",
   ])
 
-  commands = {
-    "core" : "/harbor/harbor_core",
-    "jobservice" : "/harbor/harbor_jobservice -c /etc/jobservice/config.yml",
-    "registry" : "/usr/bin/registry_DO_NOT_USE_GC serve /etc/registry/config.yml"
-    "registryctl" : "/harbor/harbor_registryctl -c /etc/registryctl/config.yml",
-  }
-
   packages = merge({
     for k, v in local.components : k => "harbor-${k}"
   })
@@ -35,7 +28,7 @@ locals {
 module "latest-config" {
   for_each       = local.components
   source         = "./config"
-  command        = local.commands[each.key]
+  component = each.key
   extra_packages = [local.packages[each.key], "busybox"]
 }
 
