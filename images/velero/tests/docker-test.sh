@@ -64,76 +64,22 @@ test_velero(){
 
 
   # Create a test backup
-  velero backup create nginx-backup --selector app=nginx
-
-  while true; do
-    backup_status=$(velero backup get nginx-backup -o json | jq -r '.status.phase')
-    if [ "$backup_status" == "Completed" ]; then
-      echo "Backup creation successful"
-      break
-    elif [ "$backup_status" == "Failed" ]; then
-      echo "Backup creation failed"
-      exit 1
-    fi
-    sleep 5
-  done
+  velero backup create nginx-backup --selector app=nginx -w
 
   # Simulate a disaster
   kubectl delete namespace nginx-example
 
   # Restore from backup
-  velero restore create --from-backup nginx-backup
+  velero restore create --from-backup nginx-backup -w
   
-  while true; do
-    restore_status=$(velero restore get -o json | jq -r '.status.phase')
-    if [ "$restore_status" == "Completed" ]; then
-      echo "Backup creation successful"
-      break
-    elif [ "$restore_status" == "Failed" ]; then
-      echo "Backup creation failed"
-      exit 1
-    fi
-    sleep 5
-  done
-
-  # Cleanup
-  velero backup delete BACKUP_NAME
-  kubectl delete namespace/velero clusterrolebinding/velero
-  kubectl delete crds -l component=velero
-  kubectl delete -f https://github.com/vmware-tanzu/velero/blob/main/examples/nginx-app/base.yaml
-
-
-  # # Create a test backup
-  # velero backup create my-backup --include-namespaces default
-
-  # while true; do
-  #   backup_status=$(velero backup get my-backup -o json | jq -r '.status.phase')
-  #   if [ "$backup_status" == "Completed" ]; then
-  #     echo "Backup creation successful"
-  #     break
-  #   elif [ "$backup_status" == "Failed" ]; then
-  #     echo "Backup creation failed"
-  #     exit 1
-  #   fi
-  #   sleep 5
-  # done
-
-  # # Restore the test backup
-  # velero restore create --from-backup my-backup
-
-  
-  # # Check if the restore was successful
-  # while true; do
-  #   STATUS=$(velero restore get -o json | jq -r '.status.phase')
-  #   if [ "$STATUS" == "Completed" ]; then
-  #     break
-  #   elif [ "$STATUS" == "Failed" ]; then
-  #     echo "Restore failed"
-  #     exit 1
-  #   else
-  #     sleep 5
-  #   fi
-  # done  
+  restore_status=$(velero restore get -o json | jq -r '.status.phase')
+  if [ "$restore_status" == "Completed" ]; then
+    echo "Backup creation successful"
+    break
+  elif [ "$restore_status" == "Failed" ]; then
+    echo "Backup creation failed"
+    exit 1
+  fi
 }
 
 apk add velero velero-compat velero-restore-helper jq
