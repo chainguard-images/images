@@ -550,9 +550,9 @@ module "haproxy-ingress" {
   target_repository = "${var.target_repository}/haproxy-ingress"
 }
 
-module "harbor-core" {
-  source            = "./images/harbor-core"
-  target_repository = "${var.target_repository}/harbor-core"
+module "harbor" {
+  source            = "./images/harbor"
+  target_repository = "${var.target_repository}/harbor"
 }
 
 module "helm" {

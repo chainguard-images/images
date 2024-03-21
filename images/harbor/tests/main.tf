@@ -1,0 +1,51 @@
+terraform {
+  required_providers {
+    oci = { source = "chainguard-dev/oci" }
+  }
+}
+
+variable "digests" {
+  description = "The image digests to run tests over."
+  type = object({
+    core     = string
+    registry = string
+  })
+}
+
+data "oci_string" "ref" {
+  for_each = var.digests
+  input    = each.value
+}
+
+resource "random_pet" "suffix" {}
+
+resource "helm_release" "harbor" {
+  name             = "harbor-${random_pet.suffix.id}"
+  namespace        = "harbor-core-${random_pet.suffix.id}"
+  repository       = "https://helm.goharbor.io"
+  chart            = "harbor"
+  create_namespace = true
+
+  values = [jsonencode({
+    #core = {
+    #image = {
+    #repository = data.oci_string.ref["core"].registry_repo
+    #tag        = data.oci_string.ref["core"].pseudo_tag
+    #}
+    #}
+    registry = {
+      registry = {
+        image = {
+          repository = data.oci_string.ref["registry"].registry_repo
+          tag        = data.oci_string.ref["registry"].pseudo_tag
+        }
+      }
+    }
+  })]
+}
+
+module "helm-cleanup" {
+  source    = "../../../tflib/helm-cleanup"
+  name      = helm_release.harbor.id
+  namespace = helm_release.harbor.namespace
+}

@@ -1,11 +1,11 @@
 <!--monopod:start-->
-# harbor-core
+# harbor
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/harbor-core` |
+| **OCI Reference** | `cgr.dev/chainguard/harbor` |
 
 
-* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/harbor-core/overview/)
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/harbor/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with harbor-core.
+Minimal harbor images.
 <!--overview:end-->
 
 <!--getting:start-->
@@ -21,7 +21,7 @@ Minimal image with harbor-core.
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/harbor-core:latest
+docker pull cgr.dev/chainguard/harbor:latest
 ```
 <!--getting:end-->
 

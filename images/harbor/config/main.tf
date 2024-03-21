@@ -4,20 +4,14 @@ terraform {
   }
 }
 
+variable "command" {
+  default = {}
+}
+
 variable "extra_packages" {
   description = "The additional packages to install."
   type        = list(string)
-  default = [
-    "bash",
-    "busybox",
-    "ca-certificates",
-    "ca-certificates-bundle",
-    "libnspr",
-    "curl",
-    "sqlite-libs",
-    "openssl",
-    "harbor-core",
-  ]
+  default     = []
 }
 
 variable "environment" {
@@ -26,7 +20,7 @@ variable "environment" {
 
 module "accts" {
   source = "../../../tflib/accts"
-  run-as = 0
+  run-as = 65532
   uid    = 65532
   gid    = 65532
   name   = "harbor"
@@ -43,10 +37,17 @@ output "config" {
       "PWD" : "/harbor"
     }, var.environment)
     entrypoint = {
-      command = "/harbor/harbor_core"
+      command = var.command
     }
     paths = [{
-      path        = "//etc/pki/tls/certs"
+      path        = "/etc/pki/tls/certs"
+      type        = "directory"
+      uid         = module.accts.block.run-as
+      gid         = module.accts.block.run-as
+      permissions = 493
+      recursive   = true
+      }, {
+      path        = "/etc/registry"
       type        = "directory"
       uid         = module.accts.block.run-as
       gid         = module.accts.block.run-as
@@ -54,6 +55,13 @@ output "config" {
       recursive   = true
       }, {
       path        = "/harbor"
+      type        = "directory"
+      uid         = module.accts.block.run-as
+      gid         = module.accts.block.run-as
+      permissions = 493
+      recursive   = true
+      }, {
+      path        = "/storage"
       type        = "directory"
       uid         = module.accts.block.run-as
       gid         = module.accts.block.run-as
