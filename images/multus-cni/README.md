@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-
+A CNI meta-plugin for multi-homed pods in Kubernetes
 <!--overview:end-->
 
 <!--getting:start-->
