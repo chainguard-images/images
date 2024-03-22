@@ -24,18 +24,18 @@ resource "random_pet" "suffix" {}
 
 resource "helm_release" "harbor" {
   name             = "harbor-${random_pet.suffix.id}"
-  namespace        = "harbor-core-${random_pet.suffix.id}"
+  namespace        = "harbor-helm-${random_pet.suffix.id}"
   repository       = "https://helm.goharbor.io"
   chart            = "harbor"
   create_namespace = true
 
   values = [jsonencode({
-    #core = {
-    #image = {
-    #repository = data.oci_string.ref["core"].registry_repo
-    #tag        = data.oci_string.ref["core"].pseudo_tag
-    #}
-    #}
+    core = {
+      image = {
+        repository = data.oci_string.ref["core"].registry_repo
+        tag        = data.oci_string.ref["core"].pseudo_tag
+      }
+    }
     jobservice = {
       image = {
         repository = data.oci_string.ref["jobservice"].registry_repo
