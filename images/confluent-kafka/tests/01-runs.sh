@@ -37,7 +37,7 @@ function dump_logs_and_exit {
   echo "Kafka logs:"
   docker exec "${CONTAINER_NAME}" cat /usr/lib/kafka/logs/kafka.err || true
   docker exec "${CONTAINER_NAME}" cat /usr/lib/kafka/logs/kafka.out || true
-  docer exec "${CONTAINER_NAME}" cat /usr/lib/kafka/logs/controller.log || true
+  docker exec "${CONTAINER_NAME}" cat /usr/lib/kafka/logs/controller.log || true
   exit 1
 }
 
@@ -54,7 +54,36 @@ function assert_kafka_kraft {
   echo "Kafka Kraft is up and running!"
 }
 
+function test_produce_consume {
+  TOPIC_NAME="test-topic-$(uuidgen)"
+  PARTITIONS=1
+  REPLICATION_FACTOR=1
+
+  # Create a Kafka topic
+  docker exec "${CONTAINER_NAME}" kafka-topics --create --topic "${TOPIC_NAME}" --partitions "${PARTITIONS}" --replication-factor "${REPLICATION_FACTOR}" --if-not-exists --bootstrap-server localhost:"${KAFKA_PORT}"
+
+  # Produce a test message
+  echo "Hello Kafka" | docker exec -i "${CONTAINER_NAME}" kafka-console-producer --broker-list localhost:"${KAFKA_PORT}" --topic "${TOPIC_NAME}"
+
+  # Consume the message
+  consumed_message=$(docker exec "${CONTAINER_NAME}" timeout 10 kafka-console-consumer --bootstrap-server localhost:"${KAFKA_PORT}" --topic "${TOPIC_NAME}" --from-beginning --max-messages 1)
+
+  # Verify the message
+  if [[ "${consumed_message}" == "Hello Kafka" ]]; then
+    echo "Successfully produced and consumed a test message."
+  else
+    echo "Failed to verify the consumed message."
+    dump_logs_and_exit
+  fi
+
+  # Clean up the test topic (optional)
+  docker exec "${CONTAINER_NAME}" kafka-topics --delete --topic "${TOPIC_NAME}" --bootstrap-server localhost:"${KAFKA_PORT}"
+}
+
 assert_kafka
 assert_kafka_kraft
+
+# Perform the produce-consume test
+test_produce_consume
 
 echo "All tests passed!"
