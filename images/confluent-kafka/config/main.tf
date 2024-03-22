@@ -97,6 +97,13 @@ output "config" {
       permissions = 511
       recursive   = true
       }, {
+      path        = "/etc/confluent"
+      type        = "directory"
+      uid         = module.accts.uid
+      gid         = module.accts.gid
+      permissions = 511
+      recursive   = true
+      }, {
       path        = "/var/log/confluent"
       type        = "directory"
       uid         = module.accts.uid
