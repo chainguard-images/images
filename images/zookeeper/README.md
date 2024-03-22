@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with Apache Zookeeper. **EXPERIMENTAL**
+Minimal image with Apache Zookeeper.
 <!--overview:end-->
 
 <!--getting:start-->

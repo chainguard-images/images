@@ -1,7 +1,5 @@
 contents:
   packages:
-    - argo-workflow-controller
-    - argo-workflow-controller-compat
 
 accounts:
   groups:

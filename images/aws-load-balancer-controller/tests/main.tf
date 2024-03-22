@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -16,22 +16,23 @@ variable "chart_version" {
 
 data "oci_string" "ref" { input = var.digest }
 
-/*
-TODO: Re-enable when AWS webhook cleans up after itself more reliably.
+data "imagetest_inventory" "this" {}
 
-resource "random_pet" "suffix" {}
+resource "imagetest_harness_k3s" "this" {
+  name      = "aws-load-balancer-controller"
+  inventory = data.imagetest_inventory.this
+}
 
-resource "helm_release" "aws-load-balancer-controller" {
-  name = "aws-load-balancer-controller-${random_pet.suffix.id}"
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-  repository = "https://aws.github.io/eks-charts"
-  chart      = "aws-load-balancer-controller"
-  version    = var.chart_version
+  name          = "aws-load-balancer-controller"
+  namespace     = "aws-lbc"
+  repo          = "https://aws.github.io/eks-charts"
+  chart         = "aws-load-balancer-controller"
+  chart_version = var.chart_version
 
-  namespace        = "aws-lbc-${random_pet.suffix.id}"
-  create_namespace = true
-
-  values = [jsonencode({
+  values = {
     image = {
       tag        = data.oci_string.ref.pseudo_tag
       repository = data.oci_string.ref.registry_repo
@@ -43,12 +44,22 @@ resource "helm_release" "aws-load-balancer-controller" {
     region          = "local"
     vpcId           = "local"
     awsApiEndpoints = "ec2=http://amazon-ec2-metadata-mock-service.default"
-  })]
+  }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.aws-load-balancer-controller.id
-  namespace = helm_release.aws-load-balancer-controller.namespace
+resource "imagetest_feature" "basic" {
+  name        = "Basic"
+  description = "Test a basic installation of the AWS LB controller"
+  harness     = imagetest_harness_k3s.this
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
+    }
+  ]
+
+  labels = {
+    type = "k8s",
+  }
 }
-*/

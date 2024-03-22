@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/keda
 logo: https://storage.googleapis.com/chainguard-academy/logos/keda.svg
 endoflife: ""
 console_summary: ""
-short_description: Minimal image with the Keda binary. **EXPERIMENTAL**
+short_description: Minimal image with the Keda binary.
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://keda.sh/

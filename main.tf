@@ -237,6 +237,11 @@ module "cfssl" {
   target_repository = "${var.target_repository}/cfssl"
 }
 
+module "chromium" {
+  source            = "./images/chromium"
+  target_repository = "${var.target_repository}/chromium"
+}
+
 module "cilium" {
   source            = "./images/cilium"
   target_repository = "${var.target_repository}/cilium"
@@ -245,6 +250,11 @@ module "cilium" {
 module "clang" {
   source            = "./images/clang"
   target_repository = "${var.target_repository}/clang"
+}
+
+module "clickhouse" {
+  source            = "./images/clickhouse/"
+  target_repository = "${var.target_repository}/clickhouse"
 }
 
 module "cluster-autoscaler" {
@@ -340,6 +350,16 @@ module "dex" {
 module "dive" {
   source            = "./images/dive"
   target_repository = "${var.target_repository}/dive"
+}
+
+module "docker-selenium" {
+  source            = "./images/docker-selenium"
+  target_repository = "${var.target_repository}/docker-selenium"
+}
+
+module "doppler-kubernetes-operator" {
+  source            = "./images/doppler-kubernetes-operator"
+  target_repository = "${var.target_repository}/doppler-kubernetes-operator"
 }
 
 module "dotnet" {
@@ -465,9 +485,19 @@ module "go" {
   target_repository = "${var.target_repository}/go"
 }
 
+module "go-ipfs" {
+  source            = "./images/go-ipfs"
+  target_repository = "${var.target_repository}/go-ipfs"
+}
+
 module "google-cloud-sdk" {
   source            = "./images/google-cloud-sdk"
   target_repository = "${var.target_repository}/google-cloud-sdk"
+}
+
+module "gptscript" {
+  source            = "./images/gptscript"
+  target_repository = "${var.target_repository}/gptscript"
 }
 
 module "graalvm-native" {
@@ -483,6 +513,11 @@ module "gradle" {
 module "grafana" {
   source            = "./images/grafana"
   target_repository = "${var.target_repository}/grafana"
+}
+
+module "grafana-agent-operator" {
+  source            = "./images/grafana-agent-operator"
+  target_repository = "${var.target_repository}/grafana-agent-operator"
 }
 
 module "grype" {
@@ -513,6 +548,11 @@ module "helm" {
 module "helm-chartmuseum" {
   source            = "./images/helm-chartmuseum"
   target_repository = "${var.target_repository}/helm-chartmuseum"
+}
+
+module "helm-operator" {
+  source            = "./images/helm-operator"
+  target_repository = "${var.target_repository}/helm-operator"
 }
 
 module "http-echo" {
@@ -553,6 +593,11 @@ module "jdk" {
 module "jdk-lts" {
   source            = "./images/jdk-lts"
   target_repository = "${var.target_repository}/jdk-lts"
+}
+
+module "jellyfin" {
+  source            = "./images/jellyfin"
+  target_repository = "${var.target_repository}/jellyfin"
 }
 
 module "jenkins" {
@@ -683,6 +728,11 @@ module "kubeflow-pipelines" {
 module "kubeflow-pipelines-visualization-server" {
   source            = "./images/kubeflow-pipelines-visualization-server"
   target_repository = "${var.target_repository}/kubeflow-pipelines-visualization-server"
+}
+
+module "kuberay-operator" {
+  source            = "./images/kuberay-operator"
+  target_repository = "${var.target_repository}/kuberay-operator"
 }
 
 module "kubernetes-csi-external-attacher" {
@@ -845,6 +895,11 @@ module "nats" {
   target_repository = "${var.target_repository}/nats"
 }
 
+module "nemo" {
+  source            = "./images/nemo"
+  target_repository = "${var.target_repository}/nemo"
+}
+
 module "netcat" {
   source            = "./images/netcat"
   target_repository = "${var.target_repository}/netcat"
@@ -950,6 +1005,11 @@ module "openai" {
 module "opensearch" {
   source            = "./images/opensearch"
   target_repository = "${var.target_repository}/opensearch"
+}
+
+module "opensearch-dashboards" {
+  source            = "./images/opensearch-dashboards"
+  target_repository = "${var.target_repository}/opensearch-dashboards"
 }
 
 module "opentelemetry-collector-contrib" {
@@ -1088,6 +1148,11 @@ module "python" {
   target_repository = "${var.target_repository}/python"
 }
 
+module "pytorch-cuda12" {
+  source            = "./images/pytorch-cuda12"
+  target_repository = "${var.target_repository}/pytorch-cuda12"
+}
+
 module "qdrant" {
   source            = "./images/qdrant"
   target_repository = "${var.target_repository}/qdrant"
@@ -1179,9 +1244,9 @@ module "skaffold" {
   target_repository = "${var.target_repository}/skaffold"
 }
 
-module "slim-toolkit-debug" {
-  source            = "./images/slim-toolkit-debug"
-  target_repository = "${var.target_repository}/slim-toolkit-debug"
+module "min-toolkit-debug" {
+  source            = "./images/min-toolkit-debug"
+  target_repository = "${var.target_repository}/min-toolkit-debug"
 }
 
 module "smarter-device-manager" {
@@ -1341,6 +1406,11 @@ module "vector" {
 module "vela-cli" {
   source            = "./images/vela-cli"
   target_repository = "${var.target_repository}/vela-cli"
+}
+
+module "velero" {
+  source            = "./images/velero"
+  target_repository = "${var.target_repository}/velero"
 }
 
 module "vertical-pod-autoscaler" {

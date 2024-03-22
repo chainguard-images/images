@@ -4,7 +4,9 @@ variable "extra_packages" {
   default     = ["policy-controller"]
 }
 
-module "accts" { source = "../../../tflib/accts" }
+module "accts" {
+  source = "../../../tflib/accts"
+}
 
 output "config" {
   value = jsonencode({

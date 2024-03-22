@@ -19,8 +19,9 @@ module "latest" {
 }
 
 module "test-latest" {
-  source = "./tests"
-  digest = module.latest.image_ref
+  source        = "./tests"
+  digest        = module.latest.image_ref
+  chart_version = "1.7.1"
 }
 
 resource "oci_tag" "latest" {

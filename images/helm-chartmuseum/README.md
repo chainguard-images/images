@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with [chartmuseum](https://github.com/helm/chartmuseum) binary. **EXPERIMENTAL**
+Minimal image with [chartmuseum](https://github.com/helm/chartmuseum) binary.
 <!--overview:end-->
 
 <!--getting:start-->

@@ -22,11 +22,18 @@ env:
   TOTAL_SHARDS: 4
   TF_VAR_target_repository: cgr.dev/chainguard
 
+permissions:
+  contents: read
+
 jobs:
   shard:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
 
 
       - id: shard
@@ -77,36 +84,36 @@ jobs:
       contents: read
       actions: read
     steps:
-      # In some cases, we runs out of disk space during tests, so this hack frees up approx 10G.
+      - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          egress-policy: audit
+          
+      # In some cases, we run out of disk space during tests, so this hack frees up approx 25G.
       # See the following issue for more info: https://github.com/actions/runner-images/issues/2840#issuecomment-1284059930
       - name: Free up runner disk space
-        shell: bash
-        run: |
-          set -x
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+        uses: ublue-os/remove-unwanted-software@e3843c85f5f9b73626845de0f5d44fb78ce22e12 # v6
 
       - uses: hashicorp/setup-terraform@a1502cd9e758c50496cc9ac5308c4843bcd56d36 # v3
         with:
           terraform_version: '1.5.7'
           terraform_wrapper: false
 
-      - uses: chainguard-dev/actions/setup-chainctl@main
+      - uses: chainguard-dev/actions/setup-chainctl@538d1927b846546b620784754c33e2a1db86e217 # main
         with:
           # This allows chainguard-images/images-private to publish images to cgr.dev/chainguard-private
           # We maintain this identity here:
           # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
           identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
 
-      - uses: chainguard-dev/actions/setup-k3d@main
+      - uses: chainguard-dev/actions/setup-k3d@538d1927b846546b620784754c33e2a1db86e217 # main
         with:
-          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:cb07f771be251367d407175bd6217001ecf1b1d3ce831d1e1a1f28e3cc39025b
+          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:2cce22ae3d776f2b924de7735bb10647320b1563dbca4ab1082a1eedae3b81c5
 
       # Make cosign/crane CLI available to the tests
       - uses: sigstore/cosign-installer@e1523de7571e31dbe865fd2e80c5c7c23ae71eb4 # v3.4.0
       - uses: imjasonh/setup-crane@00c9e93efa4e1138c9a7a5c594acd6c75a2fbf0c # v0.3
 
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
 
       - name: Terraform apply
         timeout-minutes: 60
@@ -124,13 +131,13 @@ jobs:
       - name: Collect TF diagnostics
         if: ${{ always() }}
         id: tf-diag
-        uses: chainguard-dev/actions/terraform-diag@main
+        uses: chainguard-dev/actions/terraform-diag@538d1927b846546b620784754c33e2a1db86e217 # main
         with:
           json-file: /tmp/mega-module.tf.json
 
       - name: Collect K8s diagnostics and upload
         if: ${{ failure() }}
-        uses: chainguard-dev/actions/k8s-diag@main
+        uses: chainguard-dev/actions/k8s-diag@538d1927b846546b620784754c33e2a1db86e217 # main
         with:
           artifact-name: "k8s-test-harness-${{ matrix.shard.index }}-logs"
           cluster-type: k3d
@@ -143,7 +150,7 @@ jobs:
           name: "mega-module-${{ matrix.shard.index }}.tf.json"
           path: /tmp/mega-module.tf.json
 
-      - uses: rtCamp/action-slack-notify@b24d75fe0e728a4bf9fc42ee217caa686d141ee8 # v2.2.1
+      - uses: rtCamp/action-slack-notify@4e5fb42d249be6a45a298f3c9543b111b02f7907 # v2.3.0
         if: ${{ failure() && github.event_name == 'schedule' }}
         env:
           SLACK_ICON: http://github.com/chainguard-dev.png?size=48
@@ -166,8 +173,12 @@ jobs:
     needs: build
 
     steps:
+      - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          egress-policy: audit
+
       - name: "Download shard logs"
-        uses: actions/download-artifact@eaceaf801fd36c7dee90939fad912460b18a1ffe # v4.1.2
+        uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427 # v4.1.4
         with:
           path: /tmp/shard-logs
           pattern: mega-module-*

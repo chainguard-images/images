@@ -35,6 +35,14 @@ module "helm_opensearch" {
       repository = data.oci_string.ref.registry_repo
       tag        = data.oci_string.ref.pseudo_tag
     }
+    config = {
+      "opensearch.yml" = <<EOF
+      # values for testing only
+      plugins.security.ssl.http.enabled: false
+      plugins.security.disabled: true
+      network.host: 0.0.0.0
+      EOF
+    }
   }
 }
 
@@ -47,7 +55,7 @@ resource "imagetest_feature" "basic" {
     {
       name = "Helm install Opensearch"
       cmd  = module.helm_opensearch.install_cmd
-    },
+    }
   ]
 
   labels = {

@@ -8,11 +8,11 @@ require (
 	chainguard.dev/apko v0.13.3
 	github.com/dprotaso/go-yit v0.0.0-20220510233725-9ba8df137936
 	github.com/hashicorp/go-multierror v1.1.1
-	github.com/hashicorp/hcl/v2 v2.19.1
+	github.com/hashicorp/hcl/v2 v2.20.0
 	github.com/rivo/tview v0.0.0-20231206124440-5f078138442e
 	github.com/spf13/cobra v1.8.0
-	github.com/stretchr/testify v1.8.4
-	github.com/zclconf/go-cty v1.14.2
+	github.com/stretchr/testify v1.9.0
+	github.com/zclconf/go-cty v1.14.4
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d
 	golang.org/x/text v0.14.0
 	gopkg.in/yaml.v3 v3.0.1

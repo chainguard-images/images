@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with Opensearch. **EXPERIMENTAL**
+Minimal image with Opensearch.
 <!--overview:end-->
 
 <!--getting:start-->

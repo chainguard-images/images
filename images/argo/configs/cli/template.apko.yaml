@@ -1,6 +1,5 @@
 contents:
   packages:
-    - argo-workflow-cli
 
 accounts:
   groups:

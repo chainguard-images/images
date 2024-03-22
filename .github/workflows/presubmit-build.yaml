@@ -20,7 +20,11 @@ jobs:
   shard:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+    - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+      with:
+        egress-policy: audit
+
+    - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
       with:
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
@@ -28,13 +32,13 @@ jobs:
     - run: terraform fmt -check -recursive -diff
     - run: ./lint.sh
     - name: Enforce YAML formatting
-      uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:4a467536971f7766d3319358e75ddeeebce2dcc776583acbd10e58e75d9cf423
+      uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:afad17b9d533bba348407f9022d5a6c27ebcd3af7e516039191d3c901b0b899c
       with:
         entrypoint: wolfictl
         args: lint yam images/
 
     - id: changed
-      uses: tj-actions/changed-files@v42
+      uses: tj-actions/changed-files@20576b4b9ed46d41e2d45a2256e5e2316dde6834 # v43.0.1
       with:
         dir_names: "true"
         # Truncates (not ignores) the path of changed files to 2 (ie: images/flux/tests/main.tf -> images/flux)
@@ -102,9 +106,18 @@ jobs:
         shard: ${{ fromJson(needs.shard.outputs.shard_matrix) }}
 
     steps:
-    - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+    - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+      with:
+        egress-policy: audit
+
+    - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
       with:
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+    # In some cases, we run out of disk space during tests, so this hack frees up approx 25G.
+    # See the following issue for more info: https://github.com/actions/runner-images/issues/2840#issuecomment-1284059930
+    - name: Free up runner disk space
+      uses: ublue-os/remove-unwanted-software@e3843c85f5f9b73626845de0f5d44fb78ce22e12 # v6
 
     - uses: hashicorp/setup-terraform@a1502cd9e758c50496cc9ac5308c4843bcd56d36 # v3
       with:
@@ -114,9 +127,9 @@ jobs:
     - uses: sigstore/cosign-installer@e1523de7571e31dbe865fd2e80c5c7c23ae71eb4 # v3.4.0
     - uses: imjasonh/setup-crane@00c9e93efa4e1138c9a7a5c594acd6c75a2fbf0c # v0.3
 
-    - uses: chainguard-dev/actions/setup-k3d@main
+    - uses: chainguard-dev/actions/setup-k3d@538d1927b846546b620784754c33e2a1db86e217 # main
       with:
-        k3s-image: cgr.dev/chainguard/k3s:latest@sha256:cb07f771be251367d407175bd6217001ecf1b1d3ce831d1e1a1f28e3cc39025b
+        k3s-image: cgr.dev/chainguard/k3s:latest@sha256:2cce22ae3d776f2b924de7735bb10647320b1563dbca4ab1082a1eedae3b81c5
 
     - name: Configure imagetest provider
       run: |
@@ -160,7 +173,7 @@ jobs:
 
     - name: Collect TF diagnostics
       if: ${{ always() }}
-      uses: chainguard-dev/actions/terraform-diag@main
+      uses: chainguard-dev/actions/terraform-diag@538d1927b846546b620784754c33e2a1db86e217 # main
       with:
         json-file: /tmp/mega-module.tf.json
 
@@ -173,7 +186,7 @@ jobs:
 
     - name: Collect diagnostics and upload
       if: ${{ failure() }}
-      uses: chainguard-dev/actions/k8s-diag@main
+      uses: chainguard-dev/actions/k8s-diag@538d1927b846546b620784754c33e2a1db86e217 # main
       with:
         cluster-type: k3d
         namespace-resources: deploy,ds,sts,pods
@@ -183,6 +196,10 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
+      - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          egress-policy: audit
+
       - uses: technote-space/workflow-conclusion-action@45ce8e0eb155657ab8ccf346ade734257fd196a5 # v3.0.3
 
       - if: ${{ env.WORKFLOW_CONCLUSION == 'success' }}

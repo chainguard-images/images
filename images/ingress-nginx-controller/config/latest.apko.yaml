@@ -28,6 +28,12 @@ paths:
     permissions: 0o755
     uid: 101
     gid: 101
+  - path: /etc/ingress-controller/geoip
+    type: directory
+    permissions: 0o755
+    uid: 101
+    gid: 101
+    recursive: true
   - path: /etc/ingress-controller/ssl
     type: directory
     permissions: 0o755

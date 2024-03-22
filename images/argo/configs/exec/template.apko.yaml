@@ -1,7 +1,5 @@
 contents:
   packages:
-    - argo-workflow-executor
-    - argo-workflow-executor-compat
 
 accounts:
   groups:
