@@ -15,23 +15,23 @@ module "confluent-kafka" {
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.config.config
-  build-dev         = false
+  build-dev         = true
   main_package      = "confluent-kafka"
 }
 
-# module "test" {
-#   source = "./tests"
-#   digest = module.confluent-kafka.image_ref
-# }
+module "test" {
+  source = "./tests"
+  digest = module.confluent-kafka.image_ref
+}
 
 resource "oci_tag" "latest" {
-  # depends_on = [module.test]
+  depends_on = [module.test]
   digest_ref = module.confluent-kafka.image_ref
   tag        = "latest"
 }
 
-# resource "oci_tag" "latest-dev" {
-#   depends_on = [module.test]
-#   digest_ref = module.confluent-kafka.dev_ref
-#   tag        = "latest-dev"
-# }
+resource "oci_tag" "latest-dev" {
+  depends_on = [module.test]
+  digest_ref = module.confluent-kafka.dev_ref
+  tag        = "latest-dev"
+}
