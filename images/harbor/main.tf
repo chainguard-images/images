@@ -17,13 +17,13 @@ locals {
     "registryctl",
   ])
 
-  packages = merge({
+  packages = {
     for k, v in local.components : k => "harbor-${k}"
-  })
+  }
 
-  repositories = merge({
+  repositories = {
     for k, v in local.components : k => "${var.target_repository}-${k}"
-  })
+  }
 }
 
 module "latest-config" {
