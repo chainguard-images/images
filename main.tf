@@ -870,6 +870,11 @@ module "metacontroller" {
   target_repository = "${var.target_repository}/metacontroller"
 }
 
+module "metallb" {
+  source            = "./images/metallb"
+  target_repository = "${var.target_repository}/metallb"
+}
+
 module "metrics-server" {
   source            = "./images/metrics-server"
   target_repository = "${var.target_repository}/metrics-server"
