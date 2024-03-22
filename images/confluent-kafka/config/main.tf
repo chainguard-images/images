@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install"
-  default     = ["confluent-kafka", "openjdk-17-default-jvm"]
+  default     = ["confluent-kafka", "confluent-kafka-images-kafka", "openjdk-17-default-jvm"]
 }
 
 data "apko_config" "this" {
