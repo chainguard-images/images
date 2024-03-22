@@ -133,6 +133,14 @@ locals {
       local.registry_conf_path,
     ]
   }
+
+  work-dirs = {
+    "core" : "/harbor",
+    "jobservice" : "/harbor",
+    "portal" : "/",
+    "registry" : "/",
+    "registryctl" : "/",
+  }
 }
 
 variable "extra_packages" {
@@ -158,11 +166,12 @@ output "config" {
     contents = {
       packages = var.extra_packages
     }
-    accounts    = module.accts.block
-    environment = var.environment
     entrypoint = {
       command = local.commands[var.component]
     }
-    paths = local.paths[var.component]
+    accounts    = module.accts.block
+    environment = var.environment
+    paths       = local.paths[var.component]
+    work-dir    = local.work-dirs[var.component]
   })
 }
