@@ -16,7 +16,6 @@ module "confluent-kafka" {
   target_repository = var.target_repository
   config            = module.config.config
   build-dev         = true
-  main_package      = "confluent-kafka"
 }
 
 module "test" {
