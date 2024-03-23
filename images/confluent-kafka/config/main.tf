@@ -7,7 +7,7 @@ terraform {
 variable "extra_packages" {
   description = "Additional packages to install."
   type        = list(string)
-  default     = ["busybox", "confluent-kafka"]
+  default     = ["busybox", "confluent-kafka", "openjdk-17-default-jvm"]
 }
 
 variable "environment" {
