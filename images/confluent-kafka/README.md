@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-A Wolfi-based container image for the Community Edition of Confluent Kafka, which extends Apache Kafka with additional features.
+A Wolfi-based container image for the Community Edition of Confluent Kafka (cp-kafka), which extends Apache Kafka with additional features.
 <!--overview:end-->
 
 <!--getting:start-->
