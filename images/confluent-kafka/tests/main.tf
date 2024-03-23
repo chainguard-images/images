@@ -10,6 +10,6 @@ variable "digest" {
 
 data "oci_exec_test" "manifest" {
   digest      = var.digest
-  script      = "./01-runs.sh"
+  script      = "./run-tests.sh"
   working_dir = path.module
 }

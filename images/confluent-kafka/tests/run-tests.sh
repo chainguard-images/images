@@ -13,6 +13,8 @@ REQUEST_RETRIES=10
 RETRY_DELAY=15
 
 declare -a expected_logs=(
+  "Awaiting socket connections"
+  "Transition from STARTING to STARTED"
   "Kafka Server started"
 )
 declare -a missing_logs=()
@@ -39,7 +41,6 @@ start_container() {
     -e KAFKA_CONTROLLER_LISTENER_NAMES='CONTROLLER' \
     -e CLUSTER_ID='MkU3OEVBNTcwNTJENDM2Qk' \
     "${IMAGE_NAME}")
-
   trap "docker stop ${container_id}" EXIT
 }
 
