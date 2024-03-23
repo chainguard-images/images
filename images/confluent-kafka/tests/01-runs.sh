@@ -6,7 +6,7 @@ CONTAINER_NAME="confluent-kafka-$(uuidgen)"
 KAFKA_PORT="${FREE_PORT}"
 
 docker run \
-  -d --rm \
+  --rm \
   --name "${CONTAINER_NAME}" \
   -h kafka-kraft \
   -p "${KAFKA_PORT}":9092 \
