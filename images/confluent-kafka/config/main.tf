@@ -16,9 +16,9 @@ variable "environment" {
 
 module "accts" {
   source = "../../../tflib/accts"
-  run-as = 65532
-  uid    = 65532
-  gid    = 65532
+  run-as = 1000
+  uid    = 1000
+  gid    = 1000
   name   = "nonroot"
 }
 
@@ -43,78 +43,78 @@ output "config" {
     paths = [{
       path        = "/usr/lib/kafka"
       type        = "directory"
-      uid         = 1000
-      gid         = 1000
+      uid         = module.accts.uid
+      gid         = module.accts.gid
       permissions = 511
       recursive   = true
       }, {
       path        = "/var/lib/kafka/data"
       type        = "directory"
-      uid         = 1000
-      gid         = 1000
+      uid         = module.accts.uid
+      gid         = module.accts.gid
       permissions = 511
       recursive   = true
       }, {
       path        = "/etc/kafka"
       type        = "directory"
-      uid         = 1000
-      gid         = 1000
+      uid         = module.accts.uid
+      gid         = module.accts.gid
       permissions = 511
       recursive   = true
       }, {
       path        = "/etc/kafka/secrets"
       type        = "directory"
-      uid         = 1000
-      gid         = 1000
+      uid         = module.accts.uid
+      gid         = module.accts.gid
       permissions = 511
       recursive   = true
       }, {
       path        = "/var/log"
       type        = "directory"
-      uid         = 1000
-      gid         = 1000
+      uid         = module.accts.uid
+      gid         = module.accts.gid
       permissions = 511
       recursive   = true
       }, {
       path        = "/var/log/kafka"
       type        = "directory"
-      uid         = 1000
-      gid         = 1000
+      uid         = module.accts.uid
+      gid         = module.accts.gid
       permissions = 511
       recursive   = true
       }, {
       path        = "/usr/lib/zookeeper"
       type        = "directory"
-      uid         = 1000
-      gid         = 1000
+      uid         = module.accts.uid
+      gid         = module.accts.gid
       permissions = 511
       recursive   = true
       }, {
       path        = "/etc/zookeeper"
       type        = "directory"
-      uid         = 1000
-      gid         = 1000
+      uid         = module.accts.uid
+      gid         = module.accts.gid
       permissions = 511
       recursive   = true
       }, {
       path        = "/etc/confluent"
       type        = "directory"
-      uid         = 1000
-      gid         = 1000
+      uid         = module.accts.uid
+      gid         = module.accts.gid
       permissions = 511
       recursive   = true
       }, {
       path        = "/var/log/confluent"
       type        = "directory"
-      uid         = 1000
-      gid         = 1000
+      uid         = module.accts.uid
+      gid         = module.accts.gid
       permissions = 511
       recursive   = true
       }, {
       path        = "/usr/logs"
       type        = "directory"
-      uid         = 1000
-      gid         = 1000
+      uid         = module.accts.uid
+      gid         = module.accts.gid
       permissions = 511
       recursive   = true
     }]
