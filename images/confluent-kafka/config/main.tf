@@ -43,78 +43,78 @@ output "config" {
     paths = [{
       path        = "/usr/lib/kafka"
       type        = "directory"
-      uid         = module.accts.uid
-      gid         = module.accts.gid
+      uid         = 1000
+      gid         = 1000
       permissions = 511
       recursive   = true
       }, {
       path        = "/var/lib/kafka/data"
       type        = "directory"
-      uid         = module.accts.uid
-      gid         = module.accts.gid
+      uid         = 1000
+      gid         = 1000
       permissions = 511
       recursive   = true
       }, {
       path        = "/etc/kafka"
       type        = "directory"
-      uid         = module.accts.uid
-      gid         = module.accts.gid
+      uid         = 1000
+      gid         = 1000
       permissions = 511
       recursive   = true
       }, {
       path        = "/etc/kafka/secrets"
       type        = "directory"
-      uid         = module.accts.uid
-      gid         = module.accts.gid
+      uid         = 1000
+      gid         = 1000
       permissions = 511
       recursive   = true
       }, {
       path        = "/var/log"
       type        = "directory"
-      uid         = module.accts.uid
-      gid         = module.accts.gid
+      uid         = 1000
+      gid         = 1000
       permissions = 511
       recursive   = true
       }, {
       path        = "/var/log/kafka"
       type        = "directory"
-      uid         = module.accts.uid
-      gid         = module.accts.gid
+      uid         = 1000
+      gid         = 1000
       permissions = 511
       recursive   = true
       }, {
       path        = "/usr/lib/zookeeper"
       type        = "directory"
-      uid         = module.accts.uid
-      gid         = module.accts.gid
+      uid         = 1000
+      gid         = 1000
       permissions = 511
       recursive   = true
       }, {
       path        = "/etc/zookeeper"
       type        = "directory"
-      uid         = module.accts.uid
-      gid         = module.accts.gid
+      uid         = 1000
+      gid         = 1000
       permissions = 511
       recursive   = true
       }, {
       path        = "/etc/confluent"
       type        = "directory"
-      uid         = module.accts.uid
-      gid         = module.accts.gid
+      uid         = 1000
+      gid         = 1000
       permissions = 511
       recursive   = true
       }, {
       path        = "/var/log/confluent"
       type        = "directory"
-      uid         = module.accts.uid
-      gid         = module.accts.gid
+      uid         = 1000
+      gid         = 1000
       permissions = 511
       recursive   = true
       }, {
       path        = "/usr/logs"
       type        = "directory"
-      uid         = module.accts.uid
-      gid         = module.accts.gid
+      uid         = 1000
+      gid         = 1000
       permissions = 511
       recursive   = true
     }]

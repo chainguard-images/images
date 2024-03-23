@@ -6,5 +6,6 @@ console_summary: ""
 short_description: A Wolfi-based container image for the Community Edition of Confluent Kafka, which extends Apache Kafka with additional features.
 compatibility_notes: ""
 readme_file: README.md
-upstream_url: 
-keywords: []
+upstream_url: https://github.com/confluentinc/kafka
+keywords:
+  - application
