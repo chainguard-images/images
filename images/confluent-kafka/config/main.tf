@@ -110,6 +110,13 @@ output "config" {
       gid         = module.accts.gid
       permissions = 511
       recursive   = true
+      }, {
+      path        = "/usr/logs"
+      type        = "directory"
+      uid         = module.accts.uid
+      gid         = module.accts.gid
+      permissions = 511
+      recursive   = true
     }]
   })
 }
