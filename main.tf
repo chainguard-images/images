@@ -885,6 +885,11 @@ module "metrics-server" {
   target_repository = "${var.target_repository}/metrics-server"
 }
 
+module "min-toolkit-debug" {
+  source            = "./images/min-toolkit-debug"
+  target_repository = "${var.target_repository}/min-toolkit-debug"
+}
+
 module "minio" {
   source            = "./images/minio"
   target_repository = "${var.target_repository}/minio"
@@ -1077,6 +1082,11 @@ module "prometheus-alertmanager" {
   target_repository = "${var.target_repository}/prometheus-alertmanager"
 }
 
+module "prometheus-blackbox-exporter" {
+  source            = "./images/prometheus-blackbox-exporter"
+  target_repository = "${var.target_repository}/prometheus-blackbox-exporter"
+}
+
 module "prometheus-cloudwatch-exporter" {
   source            = "./images/prometheus-cloudwatch-exporter"
   target_repository = "${var.target_repository}/prometheus-cloudwatch-exporter"
@@ -1247,11 +1257,6 @@ module "sigstore-scaffolding" {
 module "skaffold" {
   source            = "./images/skaffold"
   target_repository = "${var.target_repository}/skaffold"
-}
-
-module "min-toolkit-debug" {
-  source            = "./images/min-toolkit-debug"
-  target_repository = "${var.target_repository}/min-toolkit-debug"
 }
 
 module "smarter-device-manager" {
