@@ -372,6 +372,11 @@ module "dotnet" {
   target_repository = "${var.target_repository}/dotnet"
 }
 
+module "dragonfly" {
+  source            = "./images/dragonfly"
+  target_repository = "${var.target_repository}/dragonfly"
+}
+
 module "dynamic-localpv-provisioner" {
   source            = "./images/dynamic-localpv-provisioner"
   target_repository = "${var.target_repository}/dynamic-localpv-provisioner"
