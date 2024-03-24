@@ -41,13 +41,6 @@ output "config" {
       command = "/etc/confluent/docker/run"
     }
     paths = [{
-      path        = "/usr/lib/kafka"
-      type        = "directory"
-      uid         = module.accts.uid
-      gid         = module.accts.gid
-      permissions = 511
-      recursive   = true
-      }, {
       path        = "/var/lib/kafka/data"
       type        = "directory"
       uid         = module.accts.uid
