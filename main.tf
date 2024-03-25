@@ -277,6 +277,11 @@ module "configmap-reload" {
   target_repository = "${var.target_repository}/configmap-reload"
 }
 
+module "confluent-kafka" {
+  source            = "./images/confluent-kafka"
+  target_repository = "${var.target_repository}/confluent-kafka"
+}
+
 module "consul" {
   source            = "./images/consul"
   target_repository = "${var.target_repository}/consul"
@@ -365,6 +370,11 @@ module "doppler-kubernetes-operator" {
 module "dotnet" {
   source            = "./images/dotnet"
   target_repository = "${var.target_repository}/dotnet"
+}
+
+module "dragonfly" {
+  source            = "./images/dragonfly"
+  target_repository = "${var.target_repository}/dragonfly"
 }
 
 module "dynamic-localpv-provisioner" {
@@ -870,9 +880,19 @@ module "metacontroller" {
   target_repository = "${var.target_repository}/metacontroller"
 }
 
+module "metallb" {
+  source            = "./images/metallb"
+  target_repository = "${var.target_repository}/metallb"
+}
+
 module "metrics-server" {
   source            = "./images/metrics-server"
   target_repository = "${var.target_repository}/metrics-server"
+}
+
+module "min-toolkit-debug" {
+  source            = "./images/min-toolkit-debug"
+  target_repository = "${var.target_repository}/min-toolkit-debug"
 }
 
 module "minio" {
@@ -1072,6 +1092,11 @@ module "prometheus-alertmanager" {
   target_repository = "${var.target_repository}/prometheus-alertmanager"
 }
 
+module "prometheus-blackbox-exporter" {
+  source            = "./images/prometheus-blackbox-exporter"
+  target_repository = "${var.target_repository}/prometheus-blackbox-exporter"
+}
+
 module "prometheus-cloudwatch-exporter" {
   source            = "./images/prometheus-cloudwatch-exporter"
   target_repository = "${var.target_repository}/prometheus-cloudwatch-exporter"
@@ -1242,11 +1267,6 @@ module "sigstore-scaffolding" {
 module "skaffold" {
   source            = "./images/skaffold"
   target_repository = "${var.target_repository}/skaffold"
-}
-
-module "min-toolkit-debug" {
-  source            = "./images/min-toolkit-debug"
-  target_repository = "${var.target_repository}/min-toolkit-debug"
 }
 
 module "smarter-device-manager" {
