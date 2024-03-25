@@ -29,8 +29,8 @@ resource "helm_release" "helm" {
 }
 
 module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.helm.id
-  namespace = helm_release.helm.namespace
-  depends_on = [ helm_release.helm ]
+  source     = "../../../tflib/helm-cleanup"
+  name       = helm_release.helm.id
+  namespace  = helm_release.helm.namespace
+  depends_on = [helm_release.helm]
 }
