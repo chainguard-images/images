@@ -57,8 +57,9 @@ resource "imagetest_feature" "basic" {
 
   steps = [
     {
-      name = "Install Tekton"
-      cmd  = "/tests/test.sh"
+      name  = "Install Tekton"
+      cmd   = "/tests/test.sh"
+      retry = { attempts = 5, delay = "10s" }
     },
     {
       name  = "Wait for Tekton"
@@ -70,8 +71,8 @@ kubectl wait --for=condition=Ready pods --all -n tekton-chains --timeout=300s
       retry = { attempts = 5, delay = "10s" }
     },
     {
-      name = "Run a sample TaskRun"
-      cmd  = <<EOF
+      name  = "Run a sample TaskRun"
+      cmd   = <<EOF
 cat <<EOtask | kubectl create -f -
 apiVersion: tekton.dev/v1beta1
 kind: TaskRun
@@ -86,6 +87,7 @@ EOtask
 
 kubectl wait --for=condition=succeeded taskrun test-taskrun --timeout=120s
       EOF
+      retry = { attempts = 5, delay = "10s" }
     },
   ]
 
