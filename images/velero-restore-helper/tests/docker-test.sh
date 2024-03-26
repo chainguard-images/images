@@ -87,7 +87,7 @@ test_velero(){
 EOF
 
 
-  mkdir restore
+  mkdir /restore
 
   # Create a backup
   velero backup create my-backup --include-namespaces velero -w
@@ -115,6 +115,7 @@ EOF
     echo "Files exist in the /restore directory"
   else
     echo "No files found in the /restore directory"
+    exit 1
   fi
 
 }

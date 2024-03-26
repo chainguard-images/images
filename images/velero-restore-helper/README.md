@@ -26,7 +26,7 @@ docker pull cgr.dev/chainguard/velero-restore-helper:latest
 <!--getting:end-->
 
 <!--body:start-->
-Velero uses a helper init container when performing a FSB restore. By default, the image for this container is velero/velero-restore-helper:<VERSION>, where VERSION matches the version/tag of the main Velero image. You can customize the image that is used for this helper by creating a ConfigMap in the Velero namespace with the alternate image.
+Velero uses a helper init container when performing a filesystem restore (FSB in Velero's terminology). To use this image as the helper follow the [File System Backup](https://velero.io/docs/main/file-system-backup/#customize-restore-helper-container) documentation, and edit the provided `ConfigMap` to use `cgr.dev/chainguard/velero-restore-helper`.
 
 ## Installation and Usage
 
