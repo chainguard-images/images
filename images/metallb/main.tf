@@ -13,9 +13,10 @@ variable "target_repository" {
 }
 
 module "config" {
-  for_each     = local.components
-  source       = "./config"
-  main_package = "metallb-${each.key}"
+  for_each   = local.components
+  source     = "./config"
+  name       = "metallb-${each.key}"
+  entrypoint = "/usr/bin/metallb-${each.key}"
 }
 
 module "latest" {
@@ -27,6 +28,7 @@ module "latest" {
   target_repository = "${var.target_repository}-${each.key}"
   config            = module.config[each.key].config
   build-dev         = true
+  main_package      = "metallb-${each.key}"
 }
 
 module "test-latest" {
