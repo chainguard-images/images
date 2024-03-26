@@ -10,3 +10,4 @@ upstream_url: https://github.com/fluxcd/flux2
 keywords:
   - application
   - cicd
+

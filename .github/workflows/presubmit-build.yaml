@@ -171,6 +171,11 @@ jobs:
         done
         terraform apply ${targets} -auto-approve --parallelism=$(nproc) -json | tee /tmp/mega-module.tf.json | jq -r '.["@message"]'
 
+    - name: Check images pushed to registry
+      if: ${{ always() }}
+      run: |
+        ./hack/what-was-pushed.sh
+
     - name: Collect TF diagnostics
       if: ${{ always() }}
       uses: chainguard-dev/actions/terraform-diag@538d1927b846546b620784754c33e2a1db86e217 # main
