@@ -110,7 +110,7 @@ EOF
     sleep 10
   done
 
-  # List the contents of the /restore directory and check if any output is produced
+  # List the contents of the /restore directory
   if ls -1 | grep -q .; then
     echo "Files exist in the /restore directory"
   else
