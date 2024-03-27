@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-A CNI meta-plugin for multi-homed pods in Kubernetes
+[Multus CNI](https://github.com/k8snetworkplumbingwg/multus-cni) is a container network interface (CNI) plugin for Kubernetes that enables attaching multiple network interfaces to pods. 
 <!--overview:end-->
 
 <!--getting:start-->
@@ -25,4 +25,14 @@ docker pull cgr.dev/chainguard/multus-cni:latest
 ```
 <!--getting:end-->
 
-<!--body:start--><!--body:end-->
+<!--body:start-->
+## Usage
+
+```shell
+helm repo add startechnica https://startechnica.github.io/apps
+helm repo update
+helm install my-release startechnica/multus --namespace my-release --create-namespace \
+    --set image.repository=cgr.dev/chainguard/multus-cni \
+    --set image.tag=latest
+```
+<!--body:end-->

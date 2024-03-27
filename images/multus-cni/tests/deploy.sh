@@ -35,7 +35,7 @@ spec:
   serviceAccountName: multus
   containers:
   - name: multus-test-container
-    image: busybox
+    image: $IMAGE_NAME
     command:
       - sleep
       - "3600"
