@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-[Multus CNI](https://github.com/k8snetworkplumbingwg/multus-cni) is a container network interface (CNI) plugin for Kubernetes that enables attaching multiple network interfaces to pods. 
+A CNI meta-plugin for multi-homed pods in Kubernetes
 <!--overview:end-->
 
 <!--getting:start-->
