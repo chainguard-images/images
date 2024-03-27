@@ -25,7 +25,6 @@ resource "helm_release" "helm" {
   create_namespace = true
 
   values = [file("${path.module}/values.yaml")]
-
 }
 
 module "helm_cleanup" {

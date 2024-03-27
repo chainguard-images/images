@@ -30,7 +30,7 @@ spec:
       containers:
       - name: kube-multus
         # crio support requires multus:latest for now. support 3.3 or later.
-        image: ghcr.io/k8snetworkplumbingwg/multus-cni:latest
+        image: "${data.oci_string.ref}"
         command: ["/entrypoint.sh"]
         args:
         - "--cni-version=0.3.1"
@@ -53,9 +53,9 @@ spec:
           mountPropagation: HostToContainer
         - name: cni
           mountPath: /host/etc/cni/net.d
-        - name: cnibin   # Define el volumen cnibin
+        - name: cnibin
           mountPath: /host/usr/libexec/cni
-        - name: multus-cfg   # Define el volumen multus-cfg
+        - name: multus-cfg
           mountPath: /tmp/multus-conf
       terminationGracePeriodSeconds: 10
       volumes:
@@ -65,10 +65,10 @@ spec:
         - name: cni
           hostPath:
             path: /etc/cni
-        - name: cnibin   # Define el volumen cnibin
+        - name: cnibin
           hostPath:
             path: /usr/libexec/cni
-        - name: multus-cfg   # Define el volumen multus-cfg
+        - name: multus-cfg
           configMap:
             name: multus-cni-config
             items:
