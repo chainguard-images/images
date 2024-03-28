@@ -32,7 +32,7 @@ jobs:
     - run: terraform fmt -check -recursive -diff
     - run: ./lint.sh
     - name: Enforce YAML formatting
-      uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:afad17b9d533bba348407f9022d5a6c27ebcd3af7e516039191d3c901b0b899c
+      uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:7cfc448e82b71384203ed5d66ce87f89e04f3edd9cec8762b6b1805e0da86ba5
       with:
         entrypoint: wolfictl
         args: lint yam images/
@@ -129,7 +129,7 @@ jobs:
 
     - uses: chainguard-dev/actions/setup-k3d@538d1927b846546b620784754c33e2a1db86e217 # main
       with:
-        k3s-image: cgr.dev/chainguard/k3s:latest@sha256:2cce22ae3d776f2b924de7735bb10647320b1563dbca4ab1082a1eedae3b81c5
+        k3s-image: cgr.dev/chainguard/k3s:latest@sha256:055bf8db29bff169a5a22043f09b46a6bdfb02c42ed86b8d47dfad57fb9ad4f9
 
     - name: Configure imagetest provider
       run: |
