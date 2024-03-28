@@ -104,6 +104,11 @@ module "aws-cli" {
   target_repository = "${var.target_repository}/aws-cli"
 }
 
+module "aws-cli-v2" {
+  source            = "./images/aws-cli-v2"
+  target_repository = "${var.target_repository}/aws-cli-v2"
+}
+
 module "aws-ebs-csi-driver" {
   source            = "./images/aws-ebs-csi-driver"
   target_repository = "${var.target_repository}/aws-ebs-csi-driver"
