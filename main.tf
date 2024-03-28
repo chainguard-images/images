@@ -1443,6 +1443,11 @@ module "velero-restore-helper" {
   target_repository = "${var.target_repository}/velero-restore-helper"
 }
 
+module "velero-plugin-for-aws" {
+  source            = "./images/velero-plugin-for-aws"
+  target_repository = "${var.target_repository}/velero-plugin-for-aws"
+}
+
 module "vertical-pod-autoscaler" {
   source            = "./images/vertical-pod-autoscaler"
   target_repository = "${var.target_repository}/vertical-pod-autoscaler"
