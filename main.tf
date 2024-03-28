@@ -905,6 +905,11 @@ module "ml-metadata-store-server" {
   target_repository = "${var.target_repository}/ml-metadata-store-server"
 }
 
+module "multus-cni" {
+  source            = "./images/multus-cni"
+  target_repository = "${var.target_repository}/multus-cni"
+}
+
 module "nats" {
   source            = "./images/nats"
   target_repository = "${var.target_repository}/nats"
