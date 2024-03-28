@@ -28,6 +28,8 @@ docker pull cgr.dev/chainguard/multus-cni:latest
 <!--body:start-->
 ## Usage
 
+Example below on how to install multus-cni in a cluster with helm, replacing with the chainguard image:
+
 ```shell
 helm repo add startechnica https://startechnica.github.io/apps
 helm repo update
@@ -35,4 +37,7 @@ helm install my-release startechnica/multus --namespace my-release --create-name
     --set image.repository=cgr.dev/chainguard/multus-cni \
     --set image.tag=latest
 ```
+
+For more information, refer to the [upstream documentation](https://github.com/k8snetworkplumbingwg/multus-cni), as well as the documentation for the [helm chart](https://artifacthub.io/packages/helm/startechnica/multus)
+
 <!--body:end-->
