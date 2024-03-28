@@ -3,7 +3,7 @@ contents:
     - busybox
     - build-base
     - git
-    - openssh
+    - openssh-client
     # Go comes via var.extra_packages
 
 accounts:
