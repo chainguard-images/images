@@ -2,10 +2,10 @@
 # aws-cli-v2
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/aws-cli` |
+| **OCI Reference** | `cgr.dev/chainguard/aws-cli-v2` |
 
 
-* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/aws-cli/overview/)
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/aws-cli-v2/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal [aws-cli](https://github.com/aws/aws-cli) container image.
+Command Line Interface for Amazon Web Services
 <!--overview:end-->
 
 <!--getting:start-->
@@ -21,7 +21,7 @@ Minimal [aws-cli](https://github.com/aws/aws-cli) container image.
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/aws-cli:latest
+docker pull cgr.dev/chainguard/aws-cli-v2:latest
 ```
 <!--getting:end-->
 
