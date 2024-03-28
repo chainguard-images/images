@@ -10,7 +10,7 @@ variable "target_repository" {
 
 module "latest-config" {
   source         = "../node/config"
-  extra_packages = ["nodejs-lts"]
+  extra_packages = ["nodejs-lts", "npm"]
 }
 
 module "latest" {
