@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install"
-  default = ["aws-cli-v2"]
+  default     = ["aws-cli-v2"]
 }
 
 data "apko_config" "this" {
