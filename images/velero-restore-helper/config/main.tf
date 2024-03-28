@@ -5,12 +5,16 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. nodejs, nodejs-lts, nodejs-18)."
-  default     = ["nodejs", "npm"]
+  description = "The additional packages to install"
+  default = [
+    "velero",
+    "velero-restore-helper",
+    "velero-compat"
+  ]
 }
 
 data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
+  config_contents = file("${path.module}/latest.apko.yaml")
   extra_packages  = var.extra_packages
 }
 

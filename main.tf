@@ -1229,6 +1229,11 @@ module "rqlite" {
   target_repository = "${var.target_repository}/rqlite"
 }
 
+module "rstudio" {
+  source            = "./images/rstudio"
+  target_repository = "${var.target_repository}/rstudio"
+}
+
 module "ruby" {
   source            = "./images/ruby"
   target_repository = "${var.target_repository}/ruby"
@@ -1431,6 +1436,11 @@ module "vela-cli" {
 module "velero" {
   source            = "./images/velero"
   target_repository = "${var.target_repository}/velero"
+}
+
+module "velero-restore-helper" {
+  source            = "./images/velero-restore-helper"
+  target_repository = "${var.target_repository}/velero-restore-helper"
 }
 
 module "vertical-pod-autoscaler" {

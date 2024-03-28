@@ -1,0 +1,12 @@
+name: rstudio
+image: cgr.dev/chainguard/rstudio
+logo: https://storage.googleapis.com/chainguard-academy/logos/rstudio.svg
+endoflife: ""
+console_summary: ""
+short_description: Minimal [RStudio](https://github.com/rstudio/rstudio) container image.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/rstudio/rstudio
+keywords:
+  - application
+  - ide
