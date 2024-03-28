@@ -1259,6 +1259,11 @@ module "semgrep" {
   target_repository = "${var.target_repository}/semgrep"
 }
 
+module "shadowsocks-rust" {
+  source            = "./images/shadowsocks-rust"
+  target_repository = "${var.target_repository}/shadowsocks-rust"
+}
+
 module "sigstore-policy-controller" {
   source            = "./images/sigstore-policy-controller"
   target_repository = "${var.target_repository}/sigstore-policy-controller"

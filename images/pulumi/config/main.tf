@@ -35,6 +35,7 @@ output "config" {
         # for Pulumi Node.js support
         "pulumi-language-nodejs",
         "nodejs",
+        "npm",
         "nghttp2",
         # for Pulumi Java support
         "pulumi-language-java",
