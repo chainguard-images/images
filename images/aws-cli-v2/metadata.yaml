@@ -1,0 +1,12 @@
+name: aws-cli-v2
+image: cgr.dev/chainguard/aws-cli-v2
+logo: https://storage.googleapis.com/chainguard-academy/logos/aws-cli-v2.svg
+endoflife: ""
+console_summary: ""
+short_description: "Command Line Interface for Amazon Web Services"
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/aws/aws-cli
+keywords:
+  - application
+  - tools
