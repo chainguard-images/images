@@ -13,6 +13,11 @@ variable "digests" {
   })
 }
 
+variable "init_container_name" {
+  description = "Init container name to override"
+  default     = "testing-velero-plugin-for-aws:unused"
+}
+
 data "oci_string" "ref" {
   for_each = var.digests
   input    = each.value
@@ -33,6 +38,8 @@ resource "imagetest_harness_k3s" "this" {
       "VELERO_IMAGE_REGISTRY"   = data.oci_string.ref["velero"].registry
       "VELERO_IMAGE_REPOSITORY" = data.oci_string.ref["velero"].repo
       "VELERO_IMAGE_TAG"        = data.oci_string.ref["velero"].pseudo_tag
+
+      "INIT_CONTAINER_NAME" = var.init_container_name
     }
     mounts = [
       {
