@@ -2,6 +2,8 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
+# Image using an init-container to 
+INIT_CONTAINER_NAME=${INIT_CONTAINER_NAME:-testing-velero-plugin-for-aws:unused}
 
 # Function to install Velero using Minio as the backup storage
 install_velero(){
@@ -21,11 +23,11 @@ EOF
                  --provider aws \
                  --plugins ${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG} \
                  --image ${VELERO_IMAGE_REGISTRY}/${VELERO_IMAGE_REPOSITORY}:${VELERO_IMAGE_TAG} --dry-run -oyaml > velero-install.yaml
-              
+
   awk '
   BEGIN {change=0}
   /initContainers:/ {inInit=1}
-  inInit && /name: testing-velero-plugin-for-aws:unused/ && !change {print "          name: velero-plugin-for-aws"; change=1; next}
+  inInit && /name: '$INIT_CONTAINER_NAME'/ && !change {print "          name: velero-plugin-for-aws"; change=1; next}
   {print}
   ' velero-install.yaml > updated-velero-install.yaml
 
