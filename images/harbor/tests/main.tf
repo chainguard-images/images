@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -20,61 +21,31 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
-data "oci_exec_test" "docker-compose" {
-  digest = var.digests["core"]
-  script = "${path.module}/docker-compose.sh"
-  env {
-    name  = "CORE_IMAGE"
-    value = data.oci_string.ref["core"].registry_repo
-  }
-  env {
-    name  = "CORE_TAG"
-    value = data.oci_string.ref["core"].pseudo_tag
-  }
-  env {
-    name  = "JOBSERVICE_IMAGE"
-    value = data.oci_string.ref["jobservice"].registry_repo
-  }
-  env {
-    name  = "JOBSERVICE_TAG"
-    value = data.oci_string.ref["jobservice"].pseudo_tag
-  }
-  env {
-    name  = "PORTAL_IMAGE"
-    value = data.oci_string.ref["portal"].registry_repo
-  }
-  env {
-    name  = "PORTAL_TAG"
-    value = data.oci_string.ref["portal"].pseudo_tag
-  }
-  env {
-    name  = "REGISTRY_IMAGE"
-    value = data.oci_string.ref["registry"].registry_repo
-  }
-  env {
-    name  = "REGISTRY_TAG"
-    value = data.oci_string.ref["registry"].pseudo_tag
-  }
-  env {
-    name  = "REGISTRYCTL_IMAGE"
-    value = data.oci_string.ref["registryctl"].registry_repo
-  }
-  env {
-    name  = "REGISTRYCTL_TAG"
-    value = data.oci_string.ref["registryctl"].pseudo_tag
+data "imagetest_inventory" "this" {}
+
+resource "imagetest_harness_k3s" "this" {
+  name      = "harbor"
+  inventory = data.imagetest_inventory.this
+
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
   }
 }
 
-resource "random_pet" "suffix" {}
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-resource "helm_release" "harbor" {
-  name             = "harbor-${random_pet.suffix.id}"
-  namespace        = "harbor-helm-${random_pet.suffix.id}"
-  repository       = "https://helm.goharbor.io"
-  chart            = "harbor"
-  create_namespace = true
+  name      = "harbor"
+  namespace = "harbor"
+  repo      = "https://helm.goharbor.io"
+  chart     = "harbor"
 
-  values = [jsonencode({
+  values = {
     core = {
       image = {
         repository = data.oci_string.ref["core"].registry_repo
@@ -107,11 +78,29 @@ resource "helm_release" "harbor" {
         }
       }
     }
-  })]
+  }
 }
 
-module "helm-cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.harbor.id
-  namespace = helm_release.harbor.namespace
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the Harbor Helm chart."
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
+    },
+    {
+      name    = "Harbor Helm tests"
+      workdir = "/tests"
+      cmd     = <<EOF
+        ./check-harbor.sh
+      EOF
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }
