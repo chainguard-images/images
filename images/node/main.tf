@@ -16,9 +16,9 @@ module "latest" {
   target_repository = var.target_repository
   config            = module.latest-config.config
   extra_dev_packages = [
-    "yarn",
     "build-base",
-    "python-3.11",
+    "npm",
+    "yarn",
   ]
 }
 
