@@ -149,6 +149,11 @@ module "bazel" {
   target_repository = "${var.target_repository}/bazel"
 }
 
+module "bincapz" {
+  source            = "./images/bincapz"
+  target_repository = "${var.target_repository}/bincapz"
+}
+
 module "boring-registry" {
   source            = "./images/boring-registry"
   target_repository = "${var.target_repository}/boring-registry"
