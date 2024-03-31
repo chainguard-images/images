@@ -75,7 +75,7 @@ For more information on deploying Harbor via Helm, see the official documentatio
 
 ## Deploying Harbor with Docker Compose
 
-Harbor provides an online installer that can be retrieved from their releases on GitHub [here]().
+Harbor provides an online installer that can be retrieved from their releases on GitHub [here](https://github.com/goharbor/harbor/releases).
 
 Follow all of their [steps for installation](https://goharbor.io/docs/1.10/install-config/download-installer/) up until you've successfully generated your `docker-compose.yml`. At this point, you can swap the upstream images out for Chainguard's.
 
@@ -99,7 +99,7 @@ Now you're up and running with Harbor powered by Chainguard images!
 
 ## Usage
 
-Now that you've deployed Harbor, the portal should be accessible on whatever host you've opted to use. For example, if configured to use `localhost`, it will be accessible at [localhost:80](http://localhost).
+Now that you've deployed Harbor, the portal should be accessible on whatever host you've opted to use. For example, if configured to use `localhost`, the portal will be accessible at [localhost:80](http://localhost) via HTTP or [localhost:443](https://localhost) via HTTPS, if setup.
 
 You may now login with the username and password you've set or via the default username and password, `admin` and `Harbor12345`. You'll be presented with several options, including the ability to create a new project in the registry.
 
