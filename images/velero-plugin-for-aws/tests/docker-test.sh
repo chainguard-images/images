@@ -3,7 +3,7 @@
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 # Image using an init-container to 
-INIT_CONTAINER_NAME=${INIT_CONTAINER_NAME:-testing-velero-plugin-for-aws:unused}
+INIT_CONTAINER_NAME=${INIT_CONTAINER_NAME:-testing-velero-plugin-for-aws}
 
 # Function to install Velero using Minio as the backup storage
 install_velero(){
