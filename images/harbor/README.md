@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal Harbor images.
+A Wolf-based image for Harbor - an open-source container registry with policies and RBAC, vulnerability scans, and provides trusted image signing.
 <!--overview:end-->
 
 <!--getting:start-->
@@ -39,7 +39,7 @@ helm repo add harbor https://helm.goharbor.io
 Now that we've added the repository, we can deploy Harbor!:
 
 ```bash
-harbor install harbor harbor/harbor \
+helm install harbor harbor/harbor \
   --set core.image.repository=cgr.dev/chainguard/harbor-core,core.image.tag=latest \
   --set jobservice.image.repository=cgr.dev/chainguard/harbor-jobservice,jobservice.image.tag=latest \
   --set portal.image.repository=cgr.dev/chainguard/harbor-portal,portal.image.tag=latest \
