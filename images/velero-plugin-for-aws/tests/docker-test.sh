@@ -3,7 +3,7 @@
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 # Image using an init-container to 
-INIT_CONTAINER_NAME=${INIT_CONTAINER_NAME:-testing-velero-plugin-for-aws}
+INIT_CONTAINER_NAME=${INIT_CONTAINER_NAME:-"testing-velero-plugin-for-aws"}
 
 # Function to install Velero using Minio as the backup storage
 install_velero(){
@@ -31,14 +31,19 @@ EOF
   {print}
   ' velero-install.yaml > updated-velero-install.yaml
 
-  cat updated-velero-install.yaml
+  awk '
+  BEGIN {change=0}
+  /initContainers:/ {inInit=1}
+  inInit && /name: chainguard-velero-plugin-for-aws:unused/ && !change {print "          name: velero-plugin-for-aws"; change=1; next}
+  {print}
+  ' updated-velero-install.yaml > updated-velero-install2.yaml
 
   # this is a workaround to fix the issue with the CRD not being created
   set +e
-  kubectl apply -f updated-velero-install.yaml
+  kubectl apply -f updated-velero-install2.yaml
   sleep 10
   set -e
-  kubectl apply -f updated-velero-install.yaml
+  kubectl apply -f updated-velero-install2.yaml
 }
 
 # Function to wait for a pod with a specific label to be running
