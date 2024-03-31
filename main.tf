@@ -242,6 +242,11 @@ module "cert-manager" {
   target_repository = "${var.target_repository}/cert-manager"
 }
 
+module "cert-manager-webhook-pdns" {
+  source            = "./images/cert-manager-webhook-pdns"
+  target_repository = "${var.target_repository}/cert-manager-webhook-pdns"
+}
+
 module "cfssl" {
   source            = "./images/cfssl"
   target_repository = "${var.target_repository}/cfssl"
