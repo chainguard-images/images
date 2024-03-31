@@ -1508,6 +1508,11 @@ module "wolfi-base" {
   target_repository = "${var.target_repository}/wolfi-base"
 }
 
+module "yara" {
+  source            = "./images/yara"
+  target_repository = "${var.target_repository}/yara"
+}
+
 module "zig" {
   source            = "./images/zig"
   target_repository = "${var.target_repository}/zig"

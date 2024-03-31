@@ -1,0 +1,13 @@
+name: yara
+image: cgr.dev/chainguard/yara
+logo: https://github.com/VirusTotal.png
+endoflife: ""
+console_summary: ""
+short_description: The pattern matching swiss knife.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/VirusTotal/yara
+keywords:
+  - security
+  - yara
+  - malware
