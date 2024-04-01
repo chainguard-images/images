@@ -17,9 +17,11 @@ locals {
     "registryctl",
   ])
 
-  packages = {
+  packages = merge({
     for k, v in local.components : k => "harbor-${k}"
-  }
+    }, {
+    "core" : "harbor"
+  })
 
   repositories = {
     for k, v in local.components : k => "${var.target_repository}-${k}"
