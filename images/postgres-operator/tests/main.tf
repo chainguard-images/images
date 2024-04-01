@@ -36,6 +36,17 @@ data "oci_exec_test" "smoke" {
   script      = "./smoke-test.sh"
   working_dir = path.module
   depends_on  = [helm_release.postgres-operator]
+
+  env = [
+    {
+      name  = "NAMESPACE"
+      value = helm_release.postgres-operator.namespace
+    },
+    {
+      name  = "NAME"
+      value = helm_release.postgres-operator.name
+    }
+  ]
 }
 
 module "helm_cleanup" {

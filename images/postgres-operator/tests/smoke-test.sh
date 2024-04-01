@@ -3,16 +3,16 @@
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 TMPDIR="$(mktemp -d)"
-# NS="tomcat-${FREE_PORT}"
 
 function cleanup() {
-    kubectl describe deployment -n ${NS} -A
-    kubectl logs -n ${NAMESPACE} -l application=spilo -L spilo-role
+    kubectl logs -n ${NAMESPACE} -l application=spilo 
     kubectl delete -f ${TMPDIR}/minimal-postgres-manifest.yaml -n ${NAMESPACE}
     rm -rf "$TMPDIR"
 }
 
 trap cleanup EXIT
+
+sleep 30 
 
 # ref from here: https://raw.githubusercontent.com/zalando/postgres-operator/master/manifests/minimal-postgres-manifest.yaml
 cat <<EOF > "${TMPDIR}/minimal-postgres-manifest.yaml"
@@ -40,30 +40,6 @@ EOF
 
 kubectl create -f "${TMPDIR}/minimal-postgres-manifest.yaml" -n ${NAMESPACE}
 
-sleep 30
+sleep 120
 
-# check the deployed cluster
-kubectl get postgresql
-
-# check created database pods
-kubectl get pods -l application=spilo -L spilo-role
-
-# check created service resources
-kubectl get svc -l application=spilo -L spilo-role
-
-
-kubectl get pods -l application=spilo -l cluster-name=acid-minimal-cluster
-
-kubectl port-forward svc/acid-minimal-cluster ${FREE_PORT}:5432
-
-
-
-pid=$!
-echo "Port-forward PID: $pid"
-trap "echo 'Killing port-forward'; kill $pid" EXIT
-
-sleep 10
-
-export PGPASSWORD=$(kubectl get secret postgres.acid-minimal-cluster.credentials.postgresql.acid.zalan.do -o 'jsonpath={.data.password}' | base64 -d)
-export PGSSLMODE=require
-psql -U postgres
+kubectl logs -n ${NAMESPACE} deployment.apps/${NAME} | grep "cluster has been created"
