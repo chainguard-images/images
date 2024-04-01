@@ -1087,6 +1087,11 @@ module "postgres-helm-compat" {
   target_repository = "${var.target_repository}/postgres-helm-compat"
 }
 
+module "postgres-operator" {
+  source            = "./images/postgres-operator"
+  target_repository = "${var.target_repository}/postgres-operator"
+}
+
 module "powershell" {
   source            = "./images/powershell"
   target_repository = "${var.target_repository}/powershell"
@@ -1458,14 +1463,14 @@ module "velero" {
   target_repository = "${var.target_repository}/velero"
 }
 
-module "velero-restore-helper" {
-  source            = "./images/velero-restore-helper"
-  target_repository = "${var.target_repository}/velero-restore-helper"
-}
-
 module "velero-plugin-for-aws" {
   source            = "./images/velero-plugin-for-aws"
   target_repository = "${var.target_repository}/velero-plugin-for-aws"
+}
+
+module "velero-restore-helper" {
+  source            = "./images/velero-restore-helper"
+  target_repository = "${var.target_repository}/velero-restore-helper"
 }
 
 module "vertical-pod-autoscaler" {
