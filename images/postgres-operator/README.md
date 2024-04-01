@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-TODO
+Creates and manages PostgreSQL clusters running in Kubernetes.
 <!--overview:end-->
 
 <!--getting:start-->
@@ -29,8 +29,7 @@ docker pull cgr.dev/chainguard/postgres-operator:latest
 ## Usage
 
 The operator can be installed by using the provided
-[Helm](https://helm.sh/) chart which saves you the manual steps. The charts
-for both the Postgres Operator and its UI are hosted via the `gh-pages` branch.
+[Helm](https://opensource.zalando.com/postgres-operator/docs/quickstart.html#deployment-options) chart which saves you the manual steps. The charts for both the Postgres Operator and its UI are hosted via the `gh-pages` branch.
 They only work only with Helm v3. Helm v2 support was dropped with v1.8.0.
 
 ```bash
@@ -121,33 +120,22 @@ kubectl get svc -l application=spilo -L spilo-role
 
 ### Connect to the Postgres cluster via psql
 
-You can create a port-forward on a database pod to connect to Postgres. See the
-[user guide](user.md#connect-to-postgresql) for instructions. With minikube it's
-also easy to retrieve the connections string from the K8s service that is
-pointing to the master pod:
-
 ```bash
-export HOST_PORT=$(minikube service acid-minimal-cluster --url | sed 's,.*/,,')
-export PGHOST=$(echo $HOST_PORT | cut -d: -f 1)
-export PGPORT=$(echo $HOST_PORT | cut -d: -f 2)
+# get name of master pod of acid-minimal-cluster
+export PGMASTER=$(kubectl get pods -o jsonpath={.items..metadata.name} -l application=spilo,cluster-name=acid-minimal-cluster,spilo-role=master -n default)
+
+# set up port forward
+kubectl port-forward $PGMASTER 6432:5432 -n default
 ```
 
-Retrieve the password from the K8s Secret that is created in your cluster.
-Non-encrypted connections are rejected by default, so set the SSL mode to
-require:
+Open another CLI and connect to the database using e.g. the psql client.
+When connecting with a manifest role like `foo_user` user, read its password
+from the K8s secret which was generated when creating `acid-minimal-cluster`.
+As non-encrypted connections are rejected by default set SSL mode to `require`:
 
 ```bash
 export PGPASSWORD=$(kubectl get secret postgres.acid-minimal-cluster.credentials.postgresql.acid.zalan.do -o 'jsonpath={.data.password}' | base64 -d)
 export PGSSLMODE=require
-psql -U postgres
+psql -U postgres -h localhost -p 6432
 ```
-
-### Delete a Postgres cluster
-
-To delete a Postgres cluster simply delete the `postgresql` custom resource.
-
-```bash
-kubectl delete postgresql acid-minimal-cluster
-```
-
 <!--body:end-->
