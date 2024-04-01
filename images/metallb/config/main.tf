@@ -1,8 +1,3 @@
-locals {
-  # the controller doesn't need anything, but speaker and its containers rely on the extras here
-  extra_packages = var.name != "metallb-controller" ? ["busybox", "bash", "python3", "metallb-frr-compat", "tini"] : []
-}
-
 variable "name" {
   description = "Package name"
 }
@@ -31,7 +26,7 @@ module "accts" {
 output "config" {
   value = jsonencode({
     contents = {
-      packages = concat(["${var.name}${var.suffix}"], local.extra_packages, var.extra_packages)
+      packages = concat(["${var.name}${var.suffix}"], var.extra_packages)
     }
     accounts = module.accts.block
     entrypoint = {

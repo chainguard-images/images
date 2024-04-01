@@ -104,6 +104,11 @@ module "aws-cli" {
   target_repository = "${var.target_repository}/aws-cli"
 }
 
+module "aws-cli-v2" {
+  source            = "./images/aws-cli-v2"
+  target_repository = "${var.target_repository}/aws-cli-v2"
+}
+
 module "aws-ebs-csi-driver" {
   source            = "./images/aws-ebs-csi-driver"
   target_repository = "${var.target_repository}/aws-ebs-csi-driver"
@@ -142,6 +147,11 @@ module "bash" {
 module "bazel" {
   source            = "./images/bazel"
   target_repository = "${var.target_repository}/bazel"
+}
+
+module "bincapz" {
+  source            = "./images/bincapz"
+  target_repository = "${var.target_repository}/bincapz"
 }
 
 module "boring-registry" {
@@ -550,6 +560,11 @@ module "haproxy-ingress" {
   target_repository = "${var.target_repository}/haproxy-ingress"
 }
 
+module "harbor" {
+  source            = "./images/harbor"
+  target_repository = "${var.target_repository}/harbor"
+}
+
 module "helm" {
   source            = "./images/helm"
   target_repository = "${var.target_repository}/helm"
@@ -903,6 +918,11 @@ module "minio" {
 module "ml-metadata-store-server" {
   source            = "./images/ml-metadata-store-server"
   target_repository = "${var.target_repository}/ml-metadata-store-server"
+}
+
+module "multus-cni" {
+  source            = "./images/multus-cni"
+  target_repository = "${var.target_repository}/multus-cni"
 }
 
 module "nats" {
@@ -1443,6 +1463,11 @@ module "velero-restore-helper" {
   target_repository = "${var.target_repository}/velero-restore-helper"
 }
 
+module "velero-plugin-for-aws" {
+  source            = "./images/velero-plugin-for-aws"
+  target_repository = "${var.target_repository}/velero-plugin-for-aws"
+}
+
 module "vertical-pod-autoscaler" {
   source            = "./images/vertical-pod-autoscaler"
   target_repository = "${var.target_repository}/vertical-pod-autoscaler"
@@ -1486,6 +1511,11 @@ module "weaviate" {
 module "wolfi-base" {
   source            = "./images/wolfi-base"
   target_repository = "${var.target_repository}/wolfi-base"
+}
+
+module "yara" {
+  source            = "./images/yara"
+  target_repository = "${var.target_repository}/yara"
 }
 
 module "zig" {
