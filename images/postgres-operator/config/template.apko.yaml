@@ -12,4 +12,4 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command: "postgres-operator"
+  command: "/postgres-operator"

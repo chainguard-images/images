@@ -8,6 +8,7 @@ variable "extra_packages" {
   description = "The additional packages to install"
   default = [
     "postgres-operator",
+    "postgres-operator-compat",
   ]
 }
 
