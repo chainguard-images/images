@@ -1370,6 +1370,11 @@ module "telegraf" {
   target_repository = "${var.target_repository}/telegraf"
 }
 
+module "tempo" {
+  source            = "./images/tempo"
+  target_repository = "${var.target_repository}/tempo"
+}
+
 module "temporal-admin-tools" {
   source            = "./images/temporal-admin-tools"
   target_repository = "${var.target_repository}/temporal-admin-tools"
