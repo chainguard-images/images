@@ -725,6 +725,11 @@ module "kube-state-metrics" {
   target_repository = "${var.target_repository}/kube-state-metrics"
 }
 
+module "kube-webhook-certgen" {
+  source            = "./images/kube-webhook-certgen"
+  target_repository = "${var.target_repository}/kube-webhook-certgen"
+}
+
 module "kubectl" {
   source            = "./images/kubectl"
   target_repository = "${var.target_repository}/kubectl"
