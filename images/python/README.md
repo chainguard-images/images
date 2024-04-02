@@ -38,6 +38,12 @@ docker pull cgr.dev/chainguard/python:latest
 docker pull cgr.dev/chainguard/python:latest-dev
 ```
 
+Note that in order to access the shell in the `python:latest-dev` image, you'll need to include an `--entrypoint` option, as in the following example.
+
+```sh
+docker run -it --entrypoint bin/bash chainguard/python:latest-dev
+```
+
 ## Usage
 
 The python image can be used directly for simple cases, or with a multi-stage build using python-dev as the build container.
