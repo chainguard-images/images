@@ -35,4 +35,3 @@ resource "oci_tag" "latest-dev" {
   digest_ref = module.kube-webhook-certgen.dev_ref
   tag        = "latest-dev"
 }
-
