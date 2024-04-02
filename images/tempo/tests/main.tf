@@ -56,6 +56,3 @@ resource "imagetest_feature" "basic" {
     type = "k8s",
   }
 }
-
-
-

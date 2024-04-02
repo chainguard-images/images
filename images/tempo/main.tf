@@ -44,4 +44,3 @@ resource "oci_tag" "latest-dev" {
   digest_ref = each.value
   tag        = "latest-dev"
 }
-
