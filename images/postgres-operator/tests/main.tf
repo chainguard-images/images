@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -13,45 +13,61 @@ data "oci_string" "ref" { input = var.digest }
 
 resource "random_pet" "suffix" {}
 
-resource "helm_release" "postgres-operator" {
-  name             = "postgres-operator-${random_pet.suffix.id}"
-  namespace        = "postgres-operator"
-  repository       = "https://opensource.zalando.com/postgres-operator/charts/postgres-operator"
-  chart            = "postgres-operator"
-  create_namespace = true
+data "imagetest_inventory" "this" {}
 
-  values = [
-    jsonencode({
-      image = {
-        registry   = data.oci_string.ref.registry
-        repository = data.oci_string.ref.repo
-        tag        = data.oci_string.ref.pseudo_tag
+resource "imagetest_harness_k3s" "this" {
+  name      = "postgres-operator"
+  inventory = data.imagetest_inventory.this
+
+  sandbox = {
+
+    envs = {
+      "NAMESPACE" : "postgres-operator"
+      "NAME" : "postgres-operator-${random_pet.suffix.id}"
+    }
+
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
       }
-    }),
-  ]
+    ]
+  }
 }
 
-data "oci_exec_test" "smoke" {
-  digest      = var.digest
-  script      = "./smoke-test.sh"
-  working_dir = path.module
-  depends_on  = [helm_release.postgres-operator]
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-  env = [
+  name      = "postgres-operator-${random_pet.suffix.id}"
+  namespace = "postgres-operator"
+  repo      = "https://opensource.zalando.com/postgres-operator/charts/postgres-operator"
+  chart     = "postgres-operator"
+  values = {
+    image = {
+      registry   = data.oci_string.ref.registry
+      repository = data.oci_string.ref.repo
+      tag        = data.oci_string.ref.pseudo_tag
+    }
+  }
+}
+
+
+resource "imagetest_feature" "basic" {
+  name        = "Basic"
+  description = "Basic Helm install for postgres-operator"
+  harness     = imagetest_harness_k3s.this
+
+  steps = [
     {
-      name  = "NAMESPACE"
-      value = helm_release.postgres-operator.namespace
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
     },
     {
-      name  = "NAME"
-      value = helm_release.postgres-operator.name
+      name    = "Run full test"
+      workdir = "/tests"
+      cmd     = <<EOm
+        ./smoke-test.sh
+      EOm
     }
   ]
-}
-
-module "helm_cleanup" {
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.postgres-operator.id
-  namespace  = helm_release.postgres-operator.namespace
-  depends_on = [data.oci_exec_test.smoke]
 }
