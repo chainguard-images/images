@@ -40,8 +40,8 @@ data "oci_ref" "velero-plugin-for-aws" {
 module "test" {
   source = "./tests"
   digests = {
-    velero                = "${data.oci_ref.velero.ref}@${data.oci_ref.velero.digest}"
-    velero-plugin-for-aws = "${data.oci_ref.velero-plugin-for-aws.ref}@${data.oci_ref.velero-plugin-for-aws.digest}"
+    velero                = data.oci_ref.velero.id
+    velero-plugin-for-aws = data.oci_ref.velero-plugin-for-aws.id
     velero-plugin-for-csi = module.velero-plugin-for-csi["velero-plugin-for-csi"].image_ref
   }
 }

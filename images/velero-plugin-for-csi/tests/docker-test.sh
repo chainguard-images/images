@@ -54,24 +54,16 @@ EOF
                  --use-volume-snapshots=true \
                  --backup-location-config region=minio,s3ForcePathStyle="true",s3Url=http://minio.velero.svc:9000 \
                  --provider aws \
-                 --plugins ${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG},${AWS_IMAGE_REGISTRY}/${AWS_IMAGE_REPOSITORY}:${AWS_IMAGE_TAG} \
-                 --image ${VELERO_IMAGE_REGISTRY}/${VELERO_IMAGE_REPOSITORY}:${VELERO_IMAGE_TAG} --dry-run -oyaml \
-                 --features=EnableCSI > velero-install.yaml
+                 --plugins velero/velero-plugin-for-csi,velero/velero-plugin-for-aws \
+                 --image ${VELERO_IMAGE_REGISTRY}/${VELERO_IMAGE_REPOSITORY}:${VELERO_IMAGE_TAG} \
+                 --features=EnableCSI
 
- awk '
- BEGIN {inInit=0; changed1=0; changed2=0}
- /initContainers:/ {inInit=1}
- inInit && /name: '$CSI_INIT_CONTAINER_NAME'/ && !changed1 {print "          name: velero-plugin-for-csi"; changed1=1; next}
- inInit && /name: '$AWS_INIT_CONTAINER_NAME'/ && !changed2 {print "          name: velero-plugin-for-aws"; changed2=1; next}
- {print}
- ' velero-install.yaml > updated-velero-install.yaml
-
-  # this is a workaround to fix the issue with the CRD not being created
-  set +e
-  kubectl apply -f updated-velero-install.yaml
-  sleep 10
   set -e
-  kubectl apply -f updated-velero-install.yaml
+  kubectl patch -n velero deployment velero --type='json' \
+    -p="[{\"op\": \"replace\", \"path\": \"/spec/template/spec/initContainers/0/image\", \"value\":\"${IMAGE_REGISTRY}/${IMAGE_REPOSITORY}:${IMAGE_TAG}\"}]"
+
+  kubectl patch -n velero deployment velero --type='json' \
+    -p="[{\"op\": \"replace\", \"path\": \"/spec/template/spec/initContainers/1/image\", \"value\": \"${AWS_IMAGE_REGISTRY}/${AWS_IMAGE_REPOSITORY}:${AWS_IMAGE_TAG}\"}]"
 }
 
 # Function to wait for a pod with a specific label to be running
