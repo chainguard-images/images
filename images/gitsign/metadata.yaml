@@ -1,0 +1,14 @@
+name: gitsign
+image: cgr.dev/chainguard/gitsign
+logo: ""
+endoflife: ""
+console_summary: ""
+short_description:
+  Minimalist Wolfi-based Gitsign images for signing and verifying Git commits
+  using Sigstore.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/sigstore/gitsign
+keywords:
+  - application
+  - tools

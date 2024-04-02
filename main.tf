@@ -500,6 +500,11 @@ module "gitness" {
   target_repository = "${var.target_repository}/gitness"
 }
 
+module "gitsign" {
+  source            = "./images/gitsign"
+  target_repository = "${var.target_repository}/gitsign"
+}
+
 module "glibc-dynamic" {
   source            = "./images/glibc-dynamic"
   target_repository = "${var.target_repository}/glibc-dynamic"
