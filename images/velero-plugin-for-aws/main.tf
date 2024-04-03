@@ -36,7 +36,7 @@ data "oci_ref" "velero" {
 module "test" {
   source = "./tests"
   digests = {
-    velero                = "cgr.dev/chainguard/velero:latest@${data.oci_ref.velero.digest}"
+    velero                = data.oci_ref.velero.id
     velero-plugin-for-aws = module.velero-plugin-for-aws["velero-plugin-for-aws"].image_ref
   }
 }
