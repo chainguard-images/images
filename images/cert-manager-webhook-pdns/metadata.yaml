@@ -10,4 +10,5 @@ upstream_url: https://github.com/zachomedia/cert-manager-webhook-pdns
 keywords:
   - application
   - kubernetes
-  - cert-manager
+  - certmanager
+  - powerdns
