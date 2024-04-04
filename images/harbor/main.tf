@@ -19,11 +19,11 @@ locals {
   ])
 
   packages = merge({
-    for k, v in local.components : k => ["harbor-${k}", "busybox"]
+    for k, v in local.components : k => ["harbor-${k}"]
     }, {
-    "core" : ["harbor", "busybox"]
+    "core" : ["harbor"]
     }, {
-    "trivy-adapter" : ["harbor-scanner-trivy", "trivy", "busybox"]
+    "trivy-adapter" : ["harbor-scanner-trivy", "trivy"]
   })
 
   repositories = {
