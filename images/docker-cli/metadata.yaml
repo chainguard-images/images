@@ -3,8 +3,13 @@ image: cgr.dev/chainguard/docker-cli
 logo: https://storage.googleapis.com/chainguard-academy/logos/docker-cli.svg
 endoflife: ""
 console_summary: ""
-short_description: 
+short_description: |
+  Minimal [Docker CLI](https://github.com/docker/cli) container image.
+
+  This image contains solely the Docker CLI.
 compatibility_notes: ""
 readme_file: README.md
-upstream_url: 
-keywords: []
+upstream_url: https://github.com/docker/cli
+keywords:
+  - application
+  - tools
