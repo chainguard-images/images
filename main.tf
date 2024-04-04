@@ -372,6 +372,11 @@ module "dive" {
   target_repository = "${var.target_repository}/dive"
 }
 
+module "docker-cli" {
+  source            = "./images/docker-cli"
+  target_repository = "${var.target_repository}/docker-cli"
+}
+
 module "docker-selenium" {
   source            = "./images/docker-selenium"
   target_repository = "${var.target_repository}/docker-selenium"
@@ -1478,11 +1483,6 @@ module "velero" {
   target_repository = "${var.target_repository}/velero"
 }
 
-module "velero-restore-helper" {
-  source            = "./images/velero-restore-helper"
-  target_repository = "${var.target_repository}/velero-restore-helper"
-}
-
 module "velero-plugin-for-aws" {
   source            = "./images/velero-plugin-for-aws"
   target_repository = "${var.target_repository}/velero-plugin-for-aws"
@@ -1491,6 +1491,11 @@ module "velero-plugin-for-aws" {
 module "velero-plugin-for-csi" {
   source            = "./images/velero-plugin-for-csi"
   target_repository = "${var.target_repository}/velero-plugin-for-csi"
+}
+
+module "velero-restore-helper" {
+  source            = "./images/velero-restore-helper"
+  target_repository = "${var.target_repository}/velero-restore-helper"
 }
 
 module "vertical-pod-autoscaler" {
