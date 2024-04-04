@@ -242,6 +242,11 @@ module "cert-manager" {
   target_repository = "${var.target_repository}/cert-manager"
 }
 
+module "cert-manager-webhook-pdns" {
+  source            = "./images/cert-manager-webhook-pdns"
+  target_repository = "${var.target_repository}/cert-manager-webhook-pdns"
+}
+
 module "cfssl" {
   source            = "./images/cfssl"
   target_repository = "${var.target_repository}/cfssl"
@@ -730,6 +735,11 @@ module "kube-state-metrics" {
   target_repository = "${var.target_repository}/kube-state-metrics"
 }
 
+module "kube-webhook-certgen" {
+  source            = "./images/kube-webhook-certgen"
+  target_repository = "${var.target_repository}/kube-webhook-certgen"
+}
+
 module "kubectl" {
   source            = "./images/kubectl"
   target_repository = "${var.target_repository}/kubectl"
@@ -1092,6 +1102,11 @@ module "postgres-helm-compat" {
   target_repository = "${var.target_repository}/postgres-helm-compat"
 }
 
+module "postgres-operator" {
+  source            = "./images/postgres-operator"
+  target_repository = "${var.target_repository}/postgres-operator"
+}
+
 module "powershell" {
   source            = "./images/powershell"
   target_repository = "${var.target_repository}/powershell"
@@ -1365,6 +1380,11 @@ module "telegraf" {
   target_repository = "${var.target_repository}/telegraf"
 }
 
+module "tempo" {
+  source            = "./images/tempo"
+  target_repository = "${var.target_repository}/tempo"
+}
+
 module "temporal-admin-tools" {
   source            = "./images/temporal-admin-tools"
   target_repository = "${var.target_repository}/temporal-admin-tools"
@@ -1468,9 +1488,15 @@ module "velero-plugin-for-aws" {
   target_repository = "${var.target_repository}/velero-plugin-for-aws"
 }
 
+
 module "velero-restore-helper" {
   source            = "./images/velero-restore-helper"
   target_repository = "${var.target_repository}/velero-restore-helper"
+}
+
+module "velero-plugin-for-csi" {
+  source            = "./images/velero-plugin-for-csi"
+  target_repository = "${var.target_repository}/velero-plugin-for-csi"
 }
 
 module "vertical-pod-autoscaler" {

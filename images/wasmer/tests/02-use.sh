@@ -14,8 +14,10 @@ chmod -R 777 "${TMPDIR}"
 cp helloworld.go "${TMPDIR}"
 docker run --rm -v "${TMPDIR}:/work" \
   -w /work \
-  tinygo/tinygo:0.31.1 \
-    tinygo build -o wasmtest -target wasi helloworld.go
+  --env GOARCH=wasm \
+  --env GOOS=wasip1 \
+  cgr.dev/chainguard/go:latest \
+    build -o wasmtest helloworld.go
 
 echo "${IMAGE_NAME}"
 
