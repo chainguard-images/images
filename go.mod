@@ -17,7 +17,7 @@ require (
 	golang.org/x/text v0.14.0
 	gopkg.in/yaml.v3 v3.0.1
 	k8s.io/apimachinery v0.29.1
-	sigs.k8s.io/release-utils v0.7.7
+	sigs.k8s.io/release-utils v0.8.0
 )
 
 require (
