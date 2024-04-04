@@ -15,12 +15,15 @@ locals {
     "portal",
     "registry",
     "registryctl",
+    "trivy-adapter",
   ])
 
   packages = merge({
-    for k, v in local.components : k => "harbor-${k}"
+    for k, v in local.components : k => ["harbor-${k}", "busybox"]
     }, {
-    "core" : "harbor"
+    "core" : ["harbor", "busybox"]
+    }, {
+    "trivy-adapter" : ["harbor-scanner-trivy", "trivy", "busybox"]
   })
 
   repositories = {
@@ -32,7 +35,7 @@ module "latest-config" {
   for_each       = local.components
   source         = "./config"
   component      = each.key
-  extra_packages = [local.packages[each.key], "busybox"]
+  extra_packages = local.packages[each.key]
 }
 
 module "latest" {

@@ -44,7 +44,8 @@ helm install harbor harbor/harbor \
   --set jobservice.image.repository=cgr.dev/chainguard/harbor-jobservice,jobservice.image.tag=latest \
   --set portal.image.repository=cgr.dev/chainguard/harbor-portal,portal.image.tag=latest \
   --set registry.registry.image.repository=cgr.dev/chainguard/harbor-registry,registry.registry.image.tag=latest \
-  --set registry.registryctl.image.repository=cgr.dev/chainguard/harbor-registryctl,registry.registryctl.image.tag=latest
+  --set registry.registryctl.image.repository=cgr.dev/chainguard/harbor-registryctl,registry.registryctl.image.tag=latest \
+  --set trivy.image.repository=cgr.dev/chainguard/harbor-trivy-adapter,trivy.image.tag=latest
 ```
 
 You will need to override the `image` and `tag` values for each image like we've done here to point to Chainguard's Harbor images and tags.
