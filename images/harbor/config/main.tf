@@ -15,6 +15,7 @@ locals {
     "portal" : "nginx -g 'daemon off;'"
     "registry" : "/usr/bin/registry_DO_NOT_USE_GC serve /etc/registry/config.yml"
     "registryctl" : "/harbor/harbor_registryctl -c /etc/registryctl/config.yml",
+    "trivy-adapter" : "/usr/bin/scanner-trivy",
   }
 
   certs_path = {
@@ -139,6 +140,18 @@ locals {
       local.harbor_path,
       local.registry_conf_path,
     ]
+    "trivy-adapter" : [
+      local.certs_path,
+    ]
+  }
+
+  users = {
+    "core" : "harbor",
+    "jobservice" : "harbor",
+    "portal" : "nginx",
+    "registry" : "harbor",
+    "registryctl" : "harbor",
+    "trivy-adapter" : "scanner",
   }
 
   work-dirs = {
@@ -147,6 +160,7 @@ locals {
     "portal" : "/",
     "registry" : "/",
     "registryctl" : "/",
+    "trivy-adapter" : "/",
   }
 }
 
@@ -165,7 +179,7 @@ module "accts" {
   run-as = 65532
   uid    = 65532
   gid    = 65532
-  name   = var.component == "portal" ? "nginx" : "harbor"
+  name   = local.users[var.component]
 }
 
 output "config" {
