@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-[Cortex](https://cortexmetrics.io/) provides horizontally scalable, highly available, multi-tenant, long term storage for Prometheus.
+Cortex provides horizontally scalable, highly available, multi-tenant, long term storage for Prometheus.
 <!--overview:end-->
 
 <!--getting:start-->
