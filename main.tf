@@ -307,6 +307,11 @@ module "coredns" {
   target_repository = "${var.target_repository}/coredns"
 }
 
+module "cortex" {
+  source            = "./images/cortex"
+  target_repository = "${var.target_repository}/cortex"
+}
+
 module "cosign" {
   source            = "./images/cosign"
   target_repository = "${var.target_repository}/cosign"
