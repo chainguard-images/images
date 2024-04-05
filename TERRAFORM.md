@@ -104,6 +104,9 @@ See [Assigning Values to Root Module Variables](https://developer.hashicorp.com/
 
 The `[]`s are required here; omitting them results in an error saying `Variables may not be used here.`
 
+> [!NOTE]
+> The paths must be absolute, and can't include `~` for the home directory.
+
 ### More `make image` target options
 
 The following `make` options are valid for `make image`:

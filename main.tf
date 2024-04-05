@@ -1503,6 +1503,11 @@ module "velero-restore-helper" {
   target_repository = "${var.target_repository}/velero-restore-helper"
 }
 
+module "velero-plugin-for-csi" {
+  source            = "./images/velero-plugin-for-csi"
+  target_repository = "${var.target_repository}/velero-plugin-for-csi"
+}
+
 module "vertical-pod-autoscaler" {
   source            = "./images/vertical-pod-autoscaler"
   target_repository = "${var.target_repository}/vertical-pod-autoscaler"

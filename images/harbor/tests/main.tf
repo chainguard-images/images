@@ -8,11 +8,12 @@ terraform {
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
-    core        = string
-    jobservice  = string
-    portal      = string
-    registry    = string
-    registryctl = string
+    core          = string
+    jobservice    = string
+    portal        = string
+    registry      = string
+    registryctl   = string
+    trivy-adapter = string
   })
 }
 
@@ -75,6 +76,12 @@ module "helm" {
         image = {
           repository = data.oci_string.ref["registryctl"].registry_repo
           tag        = data.oci_string.ref["registryctl"].pseudo_tag
+        }
+      }
+      trivy = {
+        image = {
+          repository = data.oci_string.ref["trivy-adapter"].registry_repo
+          tag        = data.oci_string.ref["trivy-adapter"].pseudo_tag
         }
       }
     }
