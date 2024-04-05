@@ -26,4 +26,4 @@ paths:
     recursive: true
 
 entrypoint:
-  command: "/usr/bin/entrypoint.sh"
+  command: "/usr/sbin/squid -N"

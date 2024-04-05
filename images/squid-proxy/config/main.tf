@@ -8,10 +8,6 @@ variable "extra_packages" {
   description = "The additional packages to install"
   default = [
     "squid",
-    "squid-oci-entrypoint",
-    # "curl",
-    # needed to start the entrypoint
-    "bash",
   ]
 }
 
