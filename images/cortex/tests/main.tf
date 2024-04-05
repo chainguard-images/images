@@ -1,6 +1,6 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
     imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
@@ -11,23 +11,12 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-# // Invoke a script with the test.
-# // $IMAGE_NAME is populated with the image name by digest.
-# // TODO: Update or remove this test as appropriate.
-# data "oci_exec_test" "manifest" {
-#   digest      = var.digest
-#   script      = "./EXAMPLE_TEST.sh"
-#   working_dir = path.module
-# }
-
-# resource "random_pet" "suffix" {}
-
 data "imagetest_inventory" "this" {}
 
 resource "imagetest_harness_k3s" "this" {
   name      = "cortex"
   inventory = data.imagetest_inventory.this
-    sandbox = {
+  sandbox = {
     mounts = [
       {
         source      = path.module
@@ -40,10 +29,10 @@ resource "imagetest_harness_k3s" "this" {
 module "helm" {
   source = "../../../tflib/imagetest/helm"
 
-  name          = "cortex"
-  namespace     = "cortex"
-  repo          = "https://cortexproject.github.io/cortex-helm-chart"
-  chart         = "cortex"
+  name      = "cortex"
+  namespace = "cortex"
+  repo      = "https://cortexproject.github.io/cortex-helm-chart"
+  chart     = "cortex"
 
   values = {
     image = {
@@ -51,7 +40,7 @@ module "helm" {
       repository = data.oci_string.ref.registry_repo
     },
     config = {
-      blocks_storage= {
+      blocks_storage = {
         backend = "filesystem"
         filesystem = {
           dir = "/data/tsdb"

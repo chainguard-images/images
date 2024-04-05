@@ -3,8 +3,10 @@ image: cgr.dev/chainguard/cortex
 logo: https://storage.googleapis.com/chainguard-academy/logos/cortex.svg
 endoflife: ""
 console_summary: ""
-short_description: 
+short_description: "Cortex provides horizontally scalable, highly available, multi-tenant, long term storage for Prometheus."
 compatibility_notes: ""
 readme_file: README.md
-upstream_url: 
-keywords: []
+upstream_url: https://cortexmetrics.io/
+keywords: 
+  - analytics
+  - application
