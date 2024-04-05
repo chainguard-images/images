@@ -1347,6 +1347,11 @@ module "sqlpad" {
   target_repository = "${var.target_repository}/sqlpad"
 }
 
+module "squid-proxy" {
+  source            = "./images/squid-proxy"
+  target_repository = "${var.target_repository}/squid-proxy"
+}
+
 module "stakater-reloader" {
   source            = "./images/stakater-reloader"
   target_repository = "${var.target_repository}/stakater-reloader"
