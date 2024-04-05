@@ -15,7 +15,7 @@ module "cortex" {
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.config.config
-  build-dev = true
+  build-dev         = true
 
 }
 
