@@ -33,6 +33,9 @@ if ! helm install ${local.name} ${var.chart} \
   printf "\\n\\nEvents:\\n\\n"
   kubectl get events --field-selector type!=Normal --sort-by=.metadata.creationTimestamp -o wide -n ${var.namespace} || true
 
+  printf "\\n\\nLogs:\\n\\n"
+  kubectl logs -n ${var.namespace} -l app.kubernetes.io/instance=${local.name} || true
+
   exit 1
 fi
   EOinstall
