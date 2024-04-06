@@ -89,6 +89,11 @@ module "argocd" {
   target_repository = "${var.target_repository}/argocd"
 }
 
+module "argocd-extension-installer" {
+  source            = "./images/argocd-extension-installer"
+  target_repository = "${var.target_repository}/argocd-extension-installer"
+}
+
 module "aspnet-runtime" {
   source            = "./images/aspnet-runtime"
   target_repository = "${var.target_repository}/aspnet-runtime"
