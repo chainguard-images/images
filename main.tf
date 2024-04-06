@@ -965,6 +965,11 @@ module "netcat" {
   target_repository = "${var.target_repository}/netcat"
 }
 
+module "neuvector-prometheus-exporter" {
+  source            = "./images/neuvector-prometheus-exporter"
+  target_repository = "${var.target_repository}/neuvector-prometheus-exporter"
+}
+
 module "newrelic-fluent-bit-output" {
   source            = "./images/newrelic-fluent-bit-output"
   target_repository = "${var.target_repository}/newrelic-fluent-bit-output"
