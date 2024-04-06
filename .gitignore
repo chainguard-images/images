@@ -9,6 +9,7 @@ gha-creds-*.json
 !.terraform.lock.hcl
 terraform.tfstate*
 plan.out*
+main_override.tf
 
 # Files added by running `apko build` directly
 sbom-*.json

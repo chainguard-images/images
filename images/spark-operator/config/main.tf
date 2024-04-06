@@ -1,23 +1,21 @@
 variable "extra_packages" {
   description = "Additional packages to install."
   type        = list(string)
-  default     = ["spark", "spark-operator"]
+  default     = ["spark-3.5", "spark-operator"]
 }
 
 module "accts" {
   source = "../../../tflib/accts"
 }
 
-# TODO: procps should be moved to a runtime dependency of the spark-operator
-# package. At the time of writing, encountering issues loading runtime deps into
-# images.
 output "config" {
   value = jsonencode({
     contents = {
       packages = concat([
         "busybox",
         "spark-compat",
-        "spark-operator-oci-entrypoint"
+        "spark-operator-oci-entrypoint",
+        "openjdk-17-default-jvm"
         ],
       var.extra_packages)
     }
@@ -25,6 +23,7 @@ output "config" {
 
     environment = {
       SPARK_HOME = "/opt/spark"
+      JAVA_HOME  = "/usr/lib/jvm/default-jvm"
     }
 
     entrypoint = {
