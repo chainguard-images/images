@@ -2,6 +2,8 @@ contents:
   packages:
     - busybox
     - tini
+    # curl is required for compatibility with the Helm Charts: https://github.com/temporalio/helm-charts/blob/b2d81e53499de77b10428a64a6cfc7c87f86bb70/charts/temporal/templates/server-job.yaml#L385-L397
+    - curl
 
 accounts:
   groups:
