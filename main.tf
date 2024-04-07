@@ -1000,6 +1000,12 @@ module "newrelic-kubernetes" {
   license_key       = var.newrelic_license_key
 }
 
+module "newrelic-nri-statsd" {
+  source            = "./images/newrelic-nri-statsd"
+  target_repository = "${var.target_repository}/newrelic-nri-statsd"
+  license_key       = var.newrelic_license_key
+}
+
 module "newrelic-prometheus" {
   source            = "./images/newrelic-prometheus"
   target_repository = "${var.target_repository}/newrelic-prometheus"
