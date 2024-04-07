@@ -7,4 +7,9 @@ short_description: "[step-ca](https://smallstep.com/docs/step-ca) is an online C
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/smallstep/certificates
-keywords: []
+keywords:
+  - application
+  - developer
+  - kubernetes
+  - security
+  - tools

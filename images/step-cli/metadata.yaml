@@ -7,4 +7,9 @@ short_description: "[step-cli](https://smallstep.com/docs/step-cli) is an easy-t
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/smallstep/cli
-keywords: []
+keywords:
+  - application
+  - developer
+  - kubernetes
+  - security
+  - tools

@@ -15,9 +15,7 @@ module "step-ca" {
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.config.config
-
-  build-dev      = true
-  extra_packages = ["step"]
+  build-dev         = true
 }
 
 module "test" {

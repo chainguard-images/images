@@ -36,6 +36,24 @@ resource "imagetest_harness_k3s" "this" {
   }
 }
 
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  name      = "step-ca"
+  namespace = "step-ca"
+  repo      = "https://smallstep.github.io/helm-charts"
+  chart     = "step-certificates"
+
+  values = {
+    command = ["/usr/bin/step-ca"]
+    image = {
+      repository = data.oci_string.ref.registry_repo
+      tag        = data.oci_string.ref.pseudo_tag
+    }
+  }
+
+}
+
 resource "imagetest_feature" "helm-install" {
   name    = "step-ca"
   harness = imagetest_harness_k3s.this
@@ -44,13 +62,12 @@ resource "imagetest_feature" "helm-install" {
 
   steps = [
     {
+      name = "Install the helm chart"
+      cmd  = module.helm.install_cmd
+    },
+    {
       name = "Test the image deployment"
       cmd  = "/tests/k8s-test.sh"
     }
   ]
-
-  timeouts = {
-    # Bump the default, cassandra is stupid big.
-    create = "3m"
-  }
 }
