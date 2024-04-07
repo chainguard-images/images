@@ -10,5 +10,5 @@ variable "digest" {
 
 data "oci_exec_test" "generate_otp" {
   digest = var.digest
-  script = "docker run --rm -v $PWD/step:/home/step $IMAGE_NAME crypto otp generate --issuer smallstep.com --account name@smallstep.com --qr /home/step/smallstep.png"
+  script = "docker run --rm $IMAGE_NAME crypto otp generate --issuer smallstep.com --account name@smallstep.com --qr /home/nonroot/smallstep.png"
 }
