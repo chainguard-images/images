@@ -8,20 +8,22 @@ mkdir -p ${TMPDIR}/helm-charts
 
 # Chart version must match software version
 # Make sure that this is the same when the package gets version bumped
-git clone https://github.com/temporalio/helm-charts.git --branch v1.22.4 ${TMPDIR}/helm-charts
-pushd ${TMPDIR}/helm-charts/
+git clone https://github.com/temporalio/helm-charts.git --branch temporal-0.36.0 ${TMPDIR}/helm-charts
+pushd ${TMPDIR}/helm-charts/charts/temporal
 
 # Will work only when we use updated version postgresql in upstream charts
 helm dependencies update
 
 helm install \
-    --set server.replicaCount=1 \
     --namespace temporaltest \
     --create-namespace \
-    --set cassandra.config.cluster_size=1 \
+    --set server.replicaCount=1 \
     --set prometheus.enabled=false \
     --set grafana.enabled=false \
-    --set elasticsearch.enabled=false \
+    --set elasticsearch.replicas=1 \
+    --set cassandra.config.cluster_size=1 \
+    --set admintools.image.repository=cgr.dev/chainguard/temporal-admin-tools \
+    --set admintools.image.tag=latest-dev \
     --set server.image.repository=$IMAGE_REGISTRY_REPO \
     --set server.image.tag=$IMAGE_TAG \
     temporaltest .
