@@ -11,7 +11,7 @@ locals {
 resource "random_pet" "name" {}
 
 variable "print_logs" {
-  type = string
+  type    = string
   default = ""
 }
 
