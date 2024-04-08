@@ -2,17 +2,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-# # Function to install step-ca
-# install_step_ca() {
-#     helm repo add smallstep https://smallstep.github.io/helm-charts/
-#     helm repo update
-#     helm install --create-namespace -n step-ca \
-#         --set image.repository=${IMAGE_REGISTRY}/${IMAGE_REPOSITORY} --set image.tag=${IMAGE_TAG} \
-#         --set command="{/usr/bin/step-ca}" \
-#         step-certificates smallstep/step-certificates
-#     # step-certificates smallstep/step-certificates \
-# }
-
 declare -a expected_logs=(
     "Building new tls configuration using step-ca x509 Signer Interface"
     "Starting Smallstep CA"
