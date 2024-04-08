@@ -42,7 +42,7 @@ if ! helm install ${local.name} ${var.chart} \
     printf "\\n\\nLogs:\\n\\n"
     for name in $(kubectl get pods --namespace ${var.namespace} --selector app.kubernetes.io/instance=${local.name} --output name); do
       printf "Printing logs for pod %s...\\n\\n" $name
-      kubectl logs --namespace ${var.namespace} $name || true
+      kubectl logs --namespace ${var.namespace} $name
     done
   fi
 
