@@ -30,6 +30,7 @@ resource "helm_release" "pytorch" {
     }
     containerSecurityContext = {
       runAsUser                = 0
+      runAsGroup               = 0
       runAsNonRoot             = false
       allowPrivilegeEscalation = true
       readOnlyRootFilesystem   = false
