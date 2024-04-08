@@ -10,6 +10,11 @@ locals {
 
 resource "random_pet" "name" {}
 
+variable "print_logs" {
+  type = string
+  default = ""
+}
+
 locals {
   install_cmd = <<-EOinstall
 apk add helm
@@ -33,8 +38,13 @@ if ! helm install ${local.name} ${var.chart} \
   printf "\\n\\nEvents:\\n\\n"
   kubectl get events --field-selector type!=Normal --sort-by=.metadata.creationTimestamp -o wide -n ${var.namespace} || true
 
-  printf "\\n\\nLogs:\\n\\n"
-  kubectl logs -n ${var.namespace} -l app.kubernetes.io/instance=${local.name} || true
+  if [ -z "${var.print_logs}" ]; then
+    printf "\\n\\nLogs:\\n\\n"
+    for name in $(kubectl get pods --namespace ${var.namespace} --selector app.kubernetes.io/instance=${local.name} --output name); do
+      printf "Printing logs for pod %s...\\n\\n" $name
+      kubectl logs --namespace ${var.namespace} $name || true
+    done
+  fi
 
   exit 1
 fi
