@@ -32,6 +32,7 @@ resource "helm_release" "pytorch" {
       runAsUser                = 0
       runAsNonRoot             = false
       allowPrivilegeEscalation = true
+      readOnlyRootFilesystem   = false
     }
     persistence = {
       size = "1Gi"
