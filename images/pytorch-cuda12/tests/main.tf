@@ -36,7 +36,7 @@ resource "helm_release" "pytorch" {
       readOnlyRootFilesystem   = false
     }
     persistence = {
-      size = "1Gi"
+      size = "2Gi"
     }
   })]
 }
