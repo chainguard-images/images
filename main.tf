@@ -1391,6 +1391,16 @@ module "statsd" {
   target_repository = "${var.target_repository}/statsd"
 }
 
+module "step-ca" {
+  source            = "./images/step-ca"
+  target_repository = "${var.target_repository}/step-ca"
+}
+
+module "step-cli" {
+  source            = "./images/step-cli"
+  target_repository = "${var.target_repository}/step-cli"
+}
+
 module "stunnel" {
   source            = "./images/stunnel"
   target_repository = "${var.target_repository}/stunnel"
