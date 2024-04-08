@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -11,17 +11,31 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "pytorch" {
-  name             = "pytorch-${random_pet.suffix.id}"
-  namespace        = "pytorch"
-  create_namespace = true
-  repository       = "oci://registry-1.docker.io/bitnamicharts"
-  chart            = "pytorch"
-  timeout          = 600
+resource "imagetest_harness_k3s" "this" {
+  name      = "pytorch"
+  inventory = data.imagetest_inventory.this
 
-  values = [jsonencode({
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+  }
+}
+
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  name      = "pytorch"
+  namespace = "pytorch"
+  repo      = "https://charts.bitnami.com/bitnami"
+  chart     = "pytorch"
+
+  values = {
     containerName = "pytorch"
     image = {
       registry   = data.oci_string.ref.registry
@@ -42,29 +56,29 @@ resource "helm_release" "pytorch" {
     persistence = {
       size = "2Gi"
     }
-  })]
+  }
 }
 
-data "oci_exec_test" "helm-install" {
-  depends_on = [resource.helm_release.pytorch]
-  digest     = var.digest
-  script     = "${path.module}/pytorch-helm-install.sh"
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the Pytorch Helm chart."
 
-  env = [
+  steps = [
     {
-      name  = "RELEASE_NAME"
-      value = helm_release.pytorch.name
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
     },
     {
-      name  = "RELEASE_NAMESPACE"
-      value = helm_release.pytorch.namespace
-    }
+      name    = "Pytorch Helm tests"
+      workdir = "/tests"
+      cmd     = <<EOF
+        ./check-pytorch.sh
+      EOF
+    },
   ]
-}
 
-module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.helm-install]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.pytorch.id
-  namespace  = helm_release.pytorch.namespace
+  labels = {
+    type = "k8s"
+  }
 }
