@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -10,49 +11,60 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "filebeat" {
-  name             = "elastic"
-  namespace        = "filebeat-${random_pet.suffix.id}"
-  repository       = "https://helm.elastic.co"
-  chart            = "filebeat"
-  create_namespace = true
+resource "imagetest_harness_k3s" "this" {
+  name      = "filebeat"
+  inventory = data.imagetest_inventory.this
+
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+  }
+}
+
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+  name   = "filebeat"
+  repo   = "https://helm.elastic.co"
+  chart  = "filebeat"
 
 
-  values = [
-    "${file("${path.module}/values.yaml")}"
+  values_files = [
+    "/tests/values.yaml",
   ]
 
-  set {
-    name  = "image"
-    value = data.oci_string.ref.registry_repo
-  }
-
-  set {
-    name  = "imageTag"
-    value = data.oci_string.ref.pseudo_tag
+  values = {
+    image    = data.oci_string.ref.registry_repo
+    imageTag = data.oci_string.ref.pseudo_tag
   }
 }
 
-data "oci_exec_test" "check-filebeat" {
-  digest      = var.digest
-  script      = "./check-filebeat.sh"
-  working_dir = path.module
-  depends_on  = [helm_release.filebeat]
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the image."
 
-  env = [{
-    name  = "FB_NAMESPACE"
-    value = helm_release.filebeat.namespace
-  }, ]
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
+    },
+    {
+      name  = "Test filebeat"
+      cmd   = <<EOF
+            export FB_NAMESPACE=default
+            /tests/check-filebeat.sh
+      EOF
+      retry = { attempts = 10, delay = "10s" }
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }
-
-
-module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.check-filebeat]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.filebeat.id
-  namespace  = helm_release.filebeat.namespace
-}
-
-
