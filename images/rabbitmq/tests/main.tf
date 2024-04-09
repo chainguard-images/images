@@ -21,7 +21,7 @@ data "oci_exec_test" "perf" {
   digest = var.digest
   script = "${path.module}/02-perf.sh"
   env {
-    name  = "NETWORK_NAME"
-    value = "rmq-${random_pet.suffix.id}"
+    name  = "RANDOM_NAME"
+    value = random_pet.suffix.id
   }
 }

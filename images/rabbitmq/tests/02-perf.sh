@@ -17,9 +17,10 @@ loopback_users.guest = false
 log.console = true
 EOF
 
+NETWORK_NAME="rmq-${RANDOM_NAME}"
 docker network create "$NETWORK_NAME"
 
-docker run -d --rm --network "$NETWORK_NAME" --name rabbitmq \
+docker run -d --rm --network "$NETWORK_NAME" --name "$RANDOM_NAME" \
 	-v $(pwd)/dev.conf:/etc/rabbitmq/conf.d/10-defaults.conf \
 	-p 15672:15672 $IMAGE_NAME
 
@@ -43,3 +44,9 @@ sleep 1
 
 # dump the server logs
 docker logs rabbitmq
+
+function cleanup {
+  docker kill "$RANDOM_NAME"
+  docker network rm "$NETWORK_NAME"
+}
+trap cleanup EXIT
