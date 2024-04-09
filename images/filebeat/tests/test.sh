@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO: Convert this to run with imagetest_harness_container when available
+
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 container_name="filebeat-${RANDOM}"
