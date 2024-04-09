@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -12,6 +13,7 @@ data "oci_string" "ref" {
   input = var.digest
 }
 
+# TODO: Convert this to imagetest_harness_container when ready
 data "oci_exec_test" "version" {
   digest = var.digest
   script = <<EOF
@@ -20,18 +22,28 @@ data "oci_exec_test" "version" {
   EOF
 }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "external-secrets" {
-  name = "external-secrets-${random_pet.suffix.id}"
+resource "imagetest_harness_k3s" "this" {
+  name      = "external-secrets"
+  inventory = data.imagetest_inventory.this
 
-  repository = "https://charts.external-secrets.io"
-  chart      = "external-secrets"
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+  }
+}
 
-  namespace        = "external-secrets-${random_pet.suffix.id}"
-  create_namespace = true
-
-  values = [jsonencode({
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+  repo   = "https://charts.external-secrets.io"
+  chart  = "external-secrets"
+  name   = "external-secrets"
+  values = {
     installCRDs = true
 
     image = {
@@ -52,19 +64,35 @@ resource "helm_release" "external-secrets" {
         tag        = data.oci_string.ref.pseudo_tag
       }
     }
-  })]
+  }
 }
 
-data "oci_exec_test" "check-external-secrets" {
-  digest      = var.digest
-  script      = "./check-external-secrets.sh"
-  working_dir = path.module
-  depends_on  = [helm_release.external-secrets]
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the image."
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
+    },
+    {
+      name  = "Check"
+      cmd   = <<EOF
+        kubectl apply -f /tests/secret-store.yaml
+        kubectl apply -f /tests/external-secret.yaml
+
+        sleep 5
+
+        kubectl get secrets secret-to-be-created -n default -o jsonpath="{.data.foo_bar}" | base64 -d | grep HELLO1
+        EOF
+      retry = { attempts = 10, delay = "10s" }
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }
 
-module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.check-external-secrets]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.external-secrets.id
-  namespace  = helm_release.external-secrets.namespace
-}
