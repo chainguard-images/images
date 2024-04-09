@@ -16,6 +16,7 @@ data "oci_exec_test" "version" {
   script = "docker run --rm --entrypoint rabbitmqctl $IMAGE_NAME version"
 }
 
+# TODO: Convert to imagetest_harness_container when ready
 data "oci_exec_test" "perf" {
   digest = var.digest
   script = "${path.module}/02-perf.sh"
