@@ -27,23 +27,23 @@ docker run -d --rm --network "$NETWORK_NAME" --name "$RANDOM_NAME" \
 sleep 10
 
 # vary publishing rate
-docker run --rm --network "$NETWORK_NAME" pivotalrabbitmq/perf-test:latest --uri amqp://rabbitmq -z 20 --variable-rate 10:5 --variable-rate 1000:10 --variable-rate 500:5 --shutdown-timeout 0
+docker run --rm --network "$NETWORK_NAME" pivotalrabbitmq/perf-test:latest --uri amqp://"$RANDOM_NAME" -z 20 --variable-rate 10:5 --variable-rate 1000:10 --variable-rate 500:5 --shutdown-timeout 0
 sleep 1
 
 # vary message size
-docker run --rm --network "$NETWORK_NAME" pivotalrabbitmq/perf-test:latest --uri amqp://rabbitmq -z 15 --variable-size 1000:5 --variable-size 10000:5 --variable-size 5000:5 --shutdown-timeout 0
+docker run --rm --network "$NETWORK_NAME" pivotalrabbitmq/perf-test:latest --uri amqp://"$RANDOM_NAME" -z 15 --variable-size 1000:5 --variable-size 10000:5 --variable-size 5000:5 --shutdown-timeout 0
 sleep 1
 
 # try a json body
-docker run --rm --network "$NETWORK_NAME" pivotalrabbitmq/perf-test:latest --uri amqp://rabbitmq -z 15 --json-body --size 16000 --shutdown-timeout 0
+docker run --rm --network "$NETWORK_NAME" pivotalrabbitmq/perf-test:latest --uri amqp://"$RANDOM_NAME" -z 15 --json-body --size 16000 --shutdown-timeout 0
 sleep 1
 
 # vary consumer latency
-docker run --rm --network "$NETWORK_NAME" pivotalrabbitmq/perf-test:latest --uri amqp://rabbitmq -z 30 --variable-latency 1000:15 --variable-latency 1000000:15 --shutdown-timeout 0
+docker run --rm --network "$NETWORK_NAME" pivotalrabbitmq/perf-test:latest --uri amqp://"$RANDOM_NAME" -z 30 --variable-latency 1000:15 --variable-latency 1000000:15 --shutdown-timeout 0
 sleep 1
 
 # dump the server logs
-docker logs rabbitmq
+docker logs "$RANDOM_NAME"
 
 function cleanup {
   docker kill "$RANDOM_NAME"
