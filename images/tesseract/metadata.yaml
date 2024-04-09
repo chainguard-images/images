@@ -1,0 +1,12 @@
+name: tesseract
+image: cgr.dev/chainguard/tesseract
+logo: https://storage.googleapis.com/chainguard-academy/logos/tesseract.svg
+endoflife: ""
+console_summary: ""
+short_description: Minimal image that contains tesseract
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://tesseract-ocr.github.io/
+keywords:
+  - application
+  - tools
