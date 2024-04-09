@@ -3,7 +3,7 @@ terraform {
     oci = { source = "chainguard-dev/oci" }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "~> 2.27.0"
+      version = "~> 2.28.0"
     }
   }
 }
