@@ -1,6 +1,8 @@
 contents:
   packages:
     # jenkins and openjdk provided by extra_packages
+    - git
+    - openssh-client
 
 accounts:
   groups:
