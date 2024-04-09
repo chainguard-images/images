@@ -51,7 +51,7 @@ module "helm" {
 resource "imagetest_feature" "basic" {
   harness     = imagetest_harness_k3s.this
   name        = "Basic"
-  description = "Basic functionality of the logstash image."
+  description = "Basic functionality of the image."
 
   steps = [
     {
