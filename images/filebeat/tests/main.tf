@@ -56,10 +56,7 @@ resource "imagetest_feature" "basic" {
     },
     {
       name  = "Test filebeat"
-      cmd   = <<EOF
-            export FB_NAMESPACE=default
-            /tests/check-filebeat.sh
-      EOF
+      cmd   = "/tests/check-filebeat.sh"
       retry = { attempts = 10, delay = "10s" }
     },
   ]

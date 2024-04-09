@@ -8,7 +8,7 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 TEST_container_starts_ok() {
 
     # Check if the container is running
-    if ! kubectl get pods -n ${FB_NAMESPACE} | grep 'filebeat-'; then
+    if ! kubectl get pods -n "${FB_NAMESPACE:-default}" | grep 'filebeat-'; then
         echo "FAILED: Pod  is not running."
         exit 1
     else
