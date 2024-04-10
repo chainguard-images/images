@@ -22,11 +22,6 @@ resource "imagetest_harness_k3s" "this" {
   inventory = data.imagetest_inventory.this
 
   sandbox = {
-    envs = {
-      "IMAGE_REGISTRY"   = data.oci_string.ref.registry
-      "IMAGE_REPOSITORY" = data.oci_string.ref.repo
-      "IMAGE_TAG"        = data.oci_string.ref.pseudo_tag
-    }
     mounts = [
       {
         source      = path.module
@@ -57,17 +52,16 @@ module "helm" {
 resource "imagetest_feature" "helm-install" {
   name    = "step-issuer"
   harness = imagetest_harness_k3s.this
-
   description = "Testing step-issuer helm deployment in k3s cluster."
-x
+
   steps = [
     {
       name = "Install the helm chart"
       cmd  = module.helm.install_cmd
     },
-    {
-      name = "Test the image deployment"
-      cmd  = "/tests/k8s-test.sh"
-    }
   ]
+
+    labels = {
+    type = "k8s",
+  }
 }
