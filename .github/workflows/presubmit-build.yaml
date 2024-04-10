@@ -200,12 +200,7 @@ jobs:
         with:
           egress-policy: audit
 
-      - uses: technote-space/workflow-conclusion-action@45ce8e0eb155657ab8ccf346ade734257fd196a5 # v3.0.3
-
-      - if: ${{ env.WORKFLOW_CONCLUSION == 'success' }}
-        working-directory: /tmp
-        run: echo ${{ env.WORKFLOW_CONCLUSION }} && exit 0
-
-      - if: ${{ env.WORKFLOW_CONCLUSION == 'failure' }}
-        working-directory: /tmp
-        run: echo ${{ env.WORKFLOW_CONCLUSION }} && exit 1
+      - name: Fail if any previous job failed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: exit $(gh run view -R chainguard-images/images ${{github.run_id}} --json jobs | jq | tee /dev/stderr | jq -r '.jobs[0,-2].conclusion' | grep failure | wc -c)
