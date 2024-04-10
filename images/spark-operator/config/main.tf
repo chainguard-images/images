@@ -1,7 +1,7 @@
 variable "extra_packages" {
   description = "Additional packages to install."
   type        = list(string)
-  default     = ["spark-3.5", "spark-operator"]
+  default     = ["openjdk-17-default-jvm", "spark-3.5", "spark-operator"]
 }
 
 module "accts" {
@@ -14,8 +14,7 @@ output "config" {
       packages = concat([
         "busybox",
         "spark-compat",
-        "spark-operator-oci-entrypoint",
-        "openjdk-17-default-jvm"
+        "spark-operator-oci-entrypoint"
         ],
       var.extra_packages)
     }
