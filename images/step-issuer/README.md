@@ -13,11 +13,11 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-
+[step-issuer](https://smallstep.com/docs/step-issuer) is a certificate issuer for cert-manager using step certificates CA
 <!--overview:end-->
 
 <!--getting:start-->
-## Get It!
+## Download this Image
 The image is available on `cgr.dev`:
 
 ```
