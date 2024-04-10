@@ -203,4 +203,4 @@ jobs:
       - name: Fail if any previous job failed
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh run view -R chainguard-images/images ${{github.run_id}} --json jobs | jq | tee /dev/stderr | jq -r '.jobs[].steps[].conclusion'
+        run: gh run view -R chainguard-images/images ${{github.run_id}} --json jobs | jq | tee /dev/stderr | jq -r '.jobs[].conclusion' | grep failure && exit 1
