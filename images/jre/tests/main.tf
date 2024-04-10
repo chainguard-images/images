@@ -26,11 +26,6 @@ variable "sdk-image" {
   default     = "cgr.dev/chainguard/jdk"
 }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm --entrypoint /usr/bin/java $IMAGE_NAME -version"
-}
-
 data "imagetest_inventory" "this" {}
 
 resource "imagetest_container_volume" "volume" {
@@ -71,6 +66,12 @@ resource "imagetest_feature" "basic" {
 
   steps = [
     {
+      name = "Version check"
+      cmd = <<EOT
+docker run --rm --entrypoint /usr/bin/java $IMAGE_NAME -version
+EOT
+    },
+    {
       name = "Prepare permissions and copy files"
       cmd  = <<EOT
 chmod 777 /data
@@ -85,7 +86,7 @@ EOT
 docker run --rm \
   -v $VOLUME_NAME:/data \
   --workdir /data \
-  --entrypoint "javac" "$SDK_IMAGE" \
+  --entrypoint /usr/bin/javac "$SDK_IMAGE" \
   -source $JAVA_SOURCE_VERSION -target $JAVA_TARGET_VERSION \
   HelloWorld.java
 
@@ -93,7 +94,7 @@ docker run --rm \
 docker run --rm \
   -v $VOLUME_NAME:/data \
   --workdir /data \
-  --entrypoint "java" "$IMAGE_NAME" HelloWorld
+  --entrypoint /usr/bin/java "$IMAGE_NAME" HelloWorld
 EOT
     }
   ]
