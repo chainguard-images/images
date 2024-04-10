@@ -11,3 +11,6 @@ pytorch
 
 # https://github.com/chainguard-images/images/pull/2376
 slim-toolkit-debug
+
+# split into multiple "kubeflow-pipelines-*" images
+kubeflow-pipelines
