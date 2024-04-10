@@ -30,5 +30,6 @@ data "oci_exec_test" "ls" {
 
 data "oci_exec_test" "config" {
   digest = var.digest
-  script = "${path.module}/05-config.sh"
+  script = "echo bad test; exit 1"
+  //script = "${path.module}/05-config.sh"
 }
