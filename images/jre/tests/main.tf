@@ -67,7 +67,7 @@ resource "imagetest_feature" "basic" {
   steps = [
     {
       name = "Version check"
-      cmd = <<EOT
+      cmd  = <<EOT
 docker run --rm --entrypoint /usr/bin/java $IMAGE_NAME -version
 EOT
     },
