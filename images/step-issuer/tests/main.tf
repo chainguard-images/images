@@ -50,8 +50,8 @@ module "helm" {
 }
 
 resource "imagetest_feature" "helm-install" {
-  name    = "step-issuer"
-  harness = imagetest_harness_k3s.this
+  name        = "step-issuer"
+  harness     = imagetest_harness_k3s.this
   description = "Testing step-issuer helm deployment in k3s cluster."
 
   steps = [
@@ -61,7 +61,7 @@ resource "imagetest_feature" "helm-install" {
     },
   ]
 
-    labels = {
+  labels = {
     type = "k8s",
   }
 }
