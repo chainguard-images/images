@@ -10,7 +10,7 @@ variable "digest" {
 
 data "oci_exec_test" "version" {
   digest = var.digest
-  script = "echo test failed && exit 1"
+  script = "docker run --rm $IMAGE_NAME version"
 }
 
 data "oci_exec_test" "manifest" {
