@@ -200,6 +200,7 @@ jobs:
         with:
           egress-policy: audit
 
-      - env:
+      - name: Fail if any previous job failed
+        env:
           GH_TOKEN: ${{ github.token }}
-        run: gh run view -R chainguard-images/images ${{github.run_id}} --exit-status
+        run: gh run view -R chainguard-images/images 8632154288 --json jobs --jq '.jobs[].conclusion' | grep failure && false
