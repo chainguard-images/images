@@ -1,6 +1,5 @@
 contents:
   packages:
-    - busybox
     - boring-registry
 
 accounts:
