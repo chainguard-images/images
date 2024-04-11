@@ -1446,6 +1446,11 @@ module "terraform" {
   target_repository = "${var.target_repository}/terraform"
 }
 
+module "tesseract" {
+  source            = "./images/tesseract"
+  target_repository = "${var.target_repository}/tesseract"
+}
+
 module "thanos" {
   source            = "./images/thanos"
   target_repository = "${var.target_repository}/thanos"
