@@ -74,6 +74,7 @@ module "helm_istiod" {
     revision = local.namespace
     pilot = {
       image = data.oci_string.ref["pilot"].registry_repo
+      tag = data.oci_string.ref["pilot"].pseudo_tag
     }
     global = {
       istioNamespace = local.namespace

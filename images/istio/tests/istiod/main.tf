@@ -11,6 +11,7 @@ variable "values" {
     revision = "istio-system"
     pilot = {
       image = "cgr.dev/chainguard/istio-pilot"
+      tag = "latest"
     }
     global = {
       istioNamespace = "istio-system"
