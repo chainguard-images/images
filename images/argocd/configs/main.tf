@@ -28,7 +28,7 @@ variable "extra_packages" {
 
 data "apko_config" "this" {
   config_contents = file("${path.module}/template.${var.name}.apko.yaml")
-  extra_packages  = concat(["busybox", local.packages[var.name], "argo-cd${var.suffix}-compat"], var.extra_packages)
+  extra_packages  = concat([local.packages[var.name], "argo-cd${var.suffix}-compat"], var.extra_packages)
 }
 
 output "config" {
