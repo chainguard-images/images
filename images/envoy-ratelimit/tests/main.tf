@@ -19,8 +19,62 @@ data "oci_exec_test" "runs" {
 
 data "imagetest_inventory" "this" {}
 
+resource "imagetest_container_volume" "volume" {
+  name      = "scratch-volume"
+  inventory = data.imagetest_inventory.this
+}
+
+resource "imagetest_harness_docker" "this" {
+  name      = "envoy-ratelimit-container"
+  inventory = data.imagetest_inventory.this
+
+  mounts = [
+    {
+      source      = path.module
+      destination = "/tests"
+    }
+  ]
+
+  volumes = [
+    {
+      source      = imagetest_container_volume.volume
+      destination = "/data"
+    }
+  ]
+
+  envs = {
+    VOLUME_NAME : imagetest_container_volume.volume.id
+    IMAGE_NAME : var.digest
+  }
+}
+
+resource "imagetest_feature" "container_runs" {
+  name        = "container runs"
+  description = "verifies that the envoy-ratelimit container runs"
+  harness     = imagetest_harness_docker.this
+
+  steps = [
+    {
+      name = "Prepare folders"
+      cmd  = <<EOT
+cp -r /tests /data
+EOT
+    },
+    {
+      name = "Run test"
+      cmd  = <<EOT
+docker run --rm -v $VOLUME_NAME:/data $IMAGE_NAME 2>&1 | grep "creating redis connection error"
+EOT
+    }
+  ]
+
+  labels = {
+    type = "container"
+  }
+}
+
 resource "imagetest_harness_k3s" "this" {
-  name      = "envoy-ratelimit"
+  name      = "envoy-ratelimit-k3s"
   inventory = data.imagetest_inventory.this
 
   sandbox = {
