@@ -24,6 +24,21 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
+data "oci_exec_test" "proxy-version" {
+  digest = var.digests.proxy
+  script = "docker run --rm $IMAGE_NAME --version"
+}
+
+data "oci_exec_test" "pilot-version" {
+  digest = var.digests.pilot
+  script = "docker run --rm $IMAGE_NAME --version"
+}
+
+data "oci_exec_test" "operator-version" {
+  digest = var.digests.operator
+  script = "docker run --rm $IMAGE_NAME version"
+}
+
 data "imagetest_inventory" "this" {}
 
 resource "imagetest_harness_k3s" "this" {
@@ -74,7 +89,7 @@ module "helm_istiod" {
     revision = local.namespace
     pilot = {
       image = data.oci_string.ref["pilot"].registry_repo
-      tag = data.oci_string.ref["pilot"].pseudo_tag
+      tag   = data.oci_string.ref["pilot"].pseudo_tag
     }
     global = {
       istioNamespace = local.namespace
