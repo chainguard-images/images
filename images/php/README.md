@@ -145,7 +145,7 @@ For more detailed information on how to use these images, check the [Getting Sta
 To obtain information about available modules, you can run:
 
 ```shell
-docker run --rm --entrypoint php cgr.dev/chainguard/laravel-latest -m
+docker run --rm --entrypoint php cgr.dev/chainguard/laravel -m
 ```
 
 To obtain detailed information about the environment, you can run a `php --info` command on any of the image tags and use `grep` to look for a specific module or extension.
