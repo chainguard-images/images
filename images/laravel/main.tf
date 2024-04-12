@@ -26,7 +26,7 @@ module "test-latest" {
 module "test-latest-dev" {
   source    = "./tests"
   check-dev = true
-  digest    = module.latest.image_ref
+  digest    = module.latest.dev_ref
 }
 
 resource "oci_tag" "latest" {
