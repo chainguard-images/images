@@ -1,5 +1,5 @@
-echo -e "Sleeping for 10 seconds"
-sleep 10
+echo -e "Sleeping for 60 seconds"
+sleep 60
 
 cpu=`kubectl get no -o json | jq '.items[].metadata.labels' | grep 'feature.node.kubernetes.io/cpu-'`
 kernel=`kubectl get no -o json | jq '.items[].metadata.labels' | grep 'feature.node.kubernetes.io/kernel-'`
