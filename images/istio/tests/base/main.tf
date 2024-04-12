@@ -8,7 +8,10 @@ terraform {
 variable "values" {
   type = any
   default = {
-    name = "istio-system-base"
+    name             = "istio-system-base"
+    namespace        = "istio-system"
+    create_namespace = true
+
     global = {
       istioNamespace = "istio-system"
     }
@@ -18,6 +21,8 @@ variable "values" {
 
 module "helm" {
   source = "../../../../tflib/imagetest/helm"
+
+  namespace = var.values.namespace
 
   chart = "base"
   repo  = "https://istio-release.storage.googleapis.com/charts/"

@@ -8,13 +8,15 @@ terraform {
 variable "values" {
   type = any
   default = {
+    name             = "operator"
+    namespace        = "istio-system"
+    create_namespace = true
+
     image = {
       repository = "cgr.dev/chainguard/istio-operator"
       tag        = "latest"
     }
-    namespace = "istio-system"
   }
-
 }
 
 module "helm" {

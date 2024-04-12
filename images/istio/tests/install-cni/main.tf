@@ -11,6 +11,7 @@ variable "values" {
     name      = "istio-system-cni"
     namespace = "istio-system"
     revision  = "istio-system"
+
     cni = {
       image      = "cgr.dev/chainguard/istio-install-cni"
       tag        = "latest"
@@ -22,7 +23,6 @@ variable "values" {
       tag = "latest"
     }
     version = "1.19.0"
-
   }
 }
 
@@ -30,9 +30,9 @@ module "helm" {
   source = "../../../../tflib/imagetest/helm"
 
   namespace = var.values.namespace
-  name      = "istio-cni"
-  repo      = "https://istio-release.storage.googleapis.com/charts/"
-  chart     = "cni"
+
+  repo  = "https://istio-release.storage.googleapis.com/charts/"
+  chart = "cni"
 
   values = var.values
 }

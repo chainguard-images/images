@@ -8,9 +8,11 @@ terraform {
 variable "values" {
   type = any
   default = {
-    name      = "istio-system-istiod"
-    namespace = "istio-system"
-    revision  = "istio-system"
+    name             = "istio-system-istiod"
+    namespace        = "istio-system"
+    create_namespace = true
+    revision         = "istio-system"
+
     pilot = {
       image = "cgr.dev/chainguard/istio-pilot"
       tag   = "latest"
@@ -35,8 +37,9 @@ module "helm" {
   source = "../../../../tflib/imagetest/helm"
 
   namespace = var.values.namespace
-  repo      = "https://istio-release.storage.googleapis.com/charts/"
-  chart     = "istiod"
+
+  repo  = "https://istio-release.storage.googleapis.com/charts/"
+  chart = "istiod"
 
   values = var.values
 }

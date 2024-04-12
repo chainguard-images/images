@@ -45,7 +45,10 @@ resource "imagetest_harness_k3s" "this" {
 module "helm_base" {
   source = "./base"
   values = {
-    name = "${local.namespace}-base"
+    name             = "${local.namespace}-base"
+    namespace        = local.namespace
+    create_namespace = true
+
     global = {
       istioNamespace = local.namespace
     }
@@ -58,7 +61,9 @@ module "helm_base" {
 module "helm_operator" {
   source = "./operator"
   values = {
-    namespace = local.namespace
+    name             = "operator"
+    namespace        = local.namespace
+    create_namespace = true
 
     image = {
       repository = data.oci_string.ref["operator"].registry_repo
@@ -71,8 +76,9 @@ module "helm_istiod" {
   source = "./istiod"
 
   values = {
-    name      = "${local.namespace}-istiod"
-    namespace = local.namespace
+    name             = "${local.namespace}-istiod"
+    namespace        = local.namespace
+    create_namespace = true
 
     # Set the revision so that only namespace with istio.io/rev=local.namespace
     # will be managed.
@@ -104,8 +110,9 @@ module "helm_istiod" {
 module "helm_gateway" {
   source = "./gateway"
   values = {
-    name      = "${local.namespace}-gateway"
-    namespace = local.namespace
+    name             = "${local.namespace}-gateway"
+    namespace        = local.namespace
+    create_namespace = true
 
     # Set the revision so that only namespace with istio.io/rev=local.namespace
     # will be managed.
@@ -169,13 +176,6 @@ resource "imagetest_feature" "this" {
   description = "Test istio functionality of the various istio helm charts."
 
   steps = [
-    {
-      name = "Create istio-system namespace"
-      cmd  = <<EOF
-          kubectl create ns ${local.namespace}
-          kubectl create ns ${local.namespace}-users
-        EOF
-    },
     {
       name = "Install base",
       cmd  = module.helm_base.install_cmd

@@ -8,8 +8,10 @@ terraform {
 variable "values" {
   type = any
   default = {
-    name     = "istio-system-gateway"
-    revision = "istio-system"
+    name      = "istio-system-gateway"
+    namespace = "istio-system"
+    revision  = "istio-system"
+
     service = {
       type = "ClusterIP"
     }
@@ -24,8 +26,7 @@ variable "values" {
       }
       tag = "latest"
     }
-    version   = "1.19.0"
-    namespace = "istio-system"
+    version = "1.19.0"
   }
 }
 
@@ -33,8 +34,9 @@ module "helm" {
   source = "../../../../tflib/imagetest/helm"
 
   namespace = var.values.namespace
-  repo      = "https://istio-release.storage.googleapis.com/charts/"
-  chart     = "gateway"
+
+  repo  = "https://istio-release.storage.googleapis.com/charts/"
+  chart = "gateway"
 
   values = var.values
 }
