@@ -54,8 +54,8 @@ To install application dependencies from your host machine, you can use the `lat
 
 ```shell
 docker run --rm -v ${PWD}:/work --entrypoint composer --user root \
-    cgr.dev/chainguard/php-dev \
-    create-project laravel/laravel demo-laravel --working-dir=/work
+    cgr.dev/chainguard/php:latest-dev \
+    install --working-dir=/work
 ```
 
 ## Application Setup for End Users
@@ -145,7 +145,7 @@ For more detailed information on how to use these images, check the [Getting Sta
 To obtain information about available modules, you can run:
 
 ```shell
-docker run --rm --entrypoint php cgr.dev/chainguard/laravel -m
+docker run --rm --entrypoint php cgr.dev/chainguard/php:latest -m
 ```
 
 To obtain detailed information about the environment, you can run a `php --info` command on any of the image tags and use `grep` to look for a specific module or extension.
