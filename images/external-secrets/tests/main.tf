@@ -13,34 +13,19 @@ data "oci_string" "ref" {
   input = var.digest
 }
 
+# TODO: Convert this to imagetest_harness_container when ready
+data "oci_exec_test" "version" {
+  digest = var.digest
+  script = <<EOF
+    # We expect the command to fail, but want its output anyway.
+    ( docker run --rm $IMAGE_NAME --help 2>&1 || true ) | grep external-secrets
+  EOF
+}
+
 data "imagetest_inventory" "this" {}
 
-resource "imagetest_harness_docker" "this" {
-  name      = "external-secrets-container"
-  inventory = data.imagetest_inventory.this
-
-  envs = {
-    IMAGE_NAME : var.digest
-  }
-}
-
-resource "imagetest_feature" "this" {
-  harness     = imagetest_harness_docker.this
-  name        = "basic container test"
-  description = "basic container test to verify that things run as expected"
-
-  steps = [
-    {
-      name = "Run container"
-      cmd  = <<EOT
-docker run --rm $IMAGE_NAME --help 2>&1
-EOT
-    }
-  ]
-}
-
 resource "imagetest_harness_k3s" "this" {
-  name      = "external-secrets-k3s"
+  name      = "external-secrets"
   inventory = data.imagetest_inventory.this
 
   sandbox = {

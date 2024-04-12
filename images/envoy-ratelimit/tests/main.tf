@@ -11,45 +11,16 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
+# TODO: Convert this to imagetest_harness_container when ready
+data "oci_exec_test" "runs" {
+  digest = var.digest
+  script = "${path.module}/runs.sh"
+}
+
 data "imagetest_inventory" "this" {}
 
-resource "imagetest_harness_docker" "this" {
-  name      = "envoy-ratelimit-container"
-  inventory = data.imagetest_inventory.this
-
-  mounts = [
-    {
-      source      = path.module
-      destination = "/tests"
-    }
-  ]
-
-  envs = {
-    IMAGE_NAME : var.digest
-  }
-}
-
-resource "imagetest_feature" "container_runs" {
-  name        = "container runs"
-  description = "verifies that the envoy-ratelimit container runs"
-  harness     = imagetest_harness_docker.this
-
-  steps = [
-    {
-      name = "Run test"
-      cmd  = <<EOT
-docker run --rm $IMAGE_NAME 2>&1 | grep "creating redis connection error"
-EOT
-    }
-  ]
-
-  labels = {
-    type = "container"
-  }
-}
-
 resource "imagetest_harness_k3s" "this" {
-  name      = "envoy-ratelimit-k3s"
+  name      = "envoy-ratelimit"
   inventory = data.imagetest_inventory.this
 
   sandbox = {
