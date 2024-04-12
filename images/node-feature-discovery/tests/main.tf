@@ -1,6 +1,8 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    helm      = { source = "hashicorp/helm" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -12,84 +14,56 @@ data "oci_string" "ref" {
   input = var.digest
 }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "test_helm_deploy" {
-  name             = "node-feature-discovery-${random_pet.suffix.id}"
-  repository       = "https://kubernetes-sigs.github.io/node-feature-discovery/charts"
-  chart            = "node-feature-discovery"
-  namespace        = "node-feature-discovery-${random_pet.suffix.id}"
-  create_namespace = true
+resource "imagetest_harness_k3s" "this" {
+  name      = "node-feature-discovery"
+  inventory = data.imagetest_inventory.this
 
-  values = [jsonencode({
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+  }
+}
+
+module "helm_node-feature-discovery" {
+  source = "../../../tflib/imagetest/helm"
+  chart  = "node-feature-discovery"
+  repo = "https://kubernetes-sigs.github.io/node-feature-discovery/charts"
+  name   = "node-feature-discovery"
+  values = {
     image = {
       repository = data.oci_string.ref.registry_repo
       tag        = data.oci_string.ref.pseudo_tag
+      pullPolicy = "Always"
     }
-  })]
+  }
 }
 
-data "oci_exec_test" "test_validate_logs_gc" {
-  depends_on  = [helm_release.test_helm_deploy]
-  digest      = var.digest
-  working_dir = path.module
-  script      = "./test-pod-logs-gc.sh"
+resource "imagetest_feature" "test_labels" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Test Labels"
+  description = "Basic functionality of the node-feature-discovery helm chart."
 
-  env {
-    name  = "K8S_NAME"
-    value = "${helm_release.test_helm_deploy.id}-gc"
+  steps = [
+    {
+      name = "Helm install node-feature-discovery"
+      cmd  = module.helm_node-feature-discovery.install_cmd
+    },
+    {
+      name = "Ensure it has the necessary labels For CPU, Kernel and Storage"
+      cmd  = <<EOF
+apk add jq bash
+bash /tests/test-labels.sh
+      EOF
+    }
+  ]
+
+  labels = {
+    type = "k8s"
   }
-  env {
-    name  = "K8S_NAMESPACE"
-    value = helm_release.test_helm_deploy.namespace
-  }
-
-}
-
-data "oci_exec_test" "test_validate_logs_master" {
-  depends_on  = [helm_release.test_helm_deploy]
-  digest      = var.digest
-  working_dir = path.module
-  script      = "./test-pod-logs-master.sh"
-
-  env {
-    name  = "K8S_NAME"
-    value = "${helm_release.test_helm_deploy.id}-master"
-  }
-  env {
-    name  = "K8S_NAMESPACE"
-    value = helm_release.test_helm_deploy.namespace
-  }
-
-}
-
-data "oci_exec_test" "test_validate_logs_worker" {
-  depends_on  = [helm_release.test_helm_deploy]
-  digest      = var.digest
-  working_dir = path.module
-  script      = "./test-pod-logs-worker.sh"
-
-  env {
-    name  = "K8S_NAME"
-    value = "${helm_release.test_helm_deploy.id}-worker"
-  }
-  env {
-    name  = "K8S_NAMESPACE"
-    value = helm_release.test_helm_deploy.namespace
-  }
-
-}
-
-data "oci_exec_test" "test_validate_node_labels" {
-  depends_on  = [helm_release.test_helm_deploy]
-  digest      = var.digest
-  working_dir = path.module
-  script      = "./test-labels.sh"
-}
-
-module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.test_validate_logs_gc, data.oci_exec_test.test_validate_logs_master, data.oci_exec_test.test_validate_logs_worker, data.oci_exec_test.test_validate_node_labels]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.test_helm_deploy.id
-  namespace  = helm_release.test_helm_deploy.namespace
 }
