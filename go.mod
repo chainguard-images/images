@@ -1,11 +1,12 @@
 module github.com/chainguard-images/images
 
-go 1.21
+go 1.21.2
 
-toolchain go1.21.6
+toolchain go1.22.1
 
 require (
 	chainguard.dev/apko v0.13.3
+	github.com/chainguard-dev/clog v1.3.1
 	github.com/dprotaso/go-yit v0.0.0-20220510233725-9ba8df137936
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/hashicorp/hcl/v2 v2.20.1
