@@ -6,6 +6,7 @@ provider "registry.terraform.io/chainguard-dev/apko" {
   constraints = "0.15.2"
   hashes = [
     "h1:ZAxVcQUI8ZRDiYDd599YQPAyPhb/9Mj28EUjsmEL0oc=",
+    "h1:pDYdU+HO6RchUNnGKiCVsp+3XFFS35Bfqre5mwTZ0Vg=",
     "zh:29d2d68a8c49c216e3f29070bdb2bc259420b6b4074f3c9300540b2add567573",
     "zh:35b3c7cc68a2a91572c1974660cf5dbf6a1acf907f1468650e256e6c18f193b5",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
@@ -33,6 +34,7 @@ provider "registry.terraform.io/chainguard-dev/cosign" {
   constraints = "0.0.19"
   hashes = [
     "h1:/xbCBMArDl5mF7x/fQ3N0VQiDcp3sdjp4yAFLyGIyY0=",
+    "h1:lc7Ntu9n7T79q6vHfPNqqowMHKaaBYxlijFq0CvSVVc=",
     "zh:1f8c0baefd758e839c0cf9ce31636c6dd6a0f95390bb4fda7a14ca1dfd9286fa",
     "zh:740a45bd4b7119c63251f54f23a6c0de368556edb43ff9c7846c6f3d73ae0b5d",
     "zh:847816c3ef27b8a8c22759fe02e2ccc8a14e13784e65a0704a93d1257a906320",
@@ -44,6 +46,7 @@ provider "registry.terraform.io/chainguard-dev/cosign" {
 provider "registry.terraform.io/chainguard-dev/imagetest" {
   version = "0.0.15"
   hashes = [
+    "h1:E9QPnLxpK2eBYTcq98mOsYzQk6DesMFl85pOPKLqbCU=",
     "h1:l14VgkvJfRLbbE7CEOnNoy88i2g+pkYUa8nkeJOujYU=",
     "zh:6c0f636a35d39b38a9a3043cb79c98a1b6500624ec6acc266368b6b46e13e511",
     "zh:76d75433235e6a84d65df7476386b766efd67ae74a7dea487c14365859c68d99",
@@ -70,6 +73,7 @@ provider "registry.terraform.io/chainguard-dev/oci" {
 provider "registry.terraform.io/hashicorp/helm" {
   version = "2.13.0"
   hashes = [
+    "h1:hQIozFWLJk67bKslnNIZPHYb037+6uO86sHVkntPjXY=",
     "h1:jGANeRsj81e6I6LYTV7s+7bOfeb6wtVssAOnbu+ZUWg=",
     "zh:016e42bea1c9145b0856bfcf1e5faf657e40e9a94e4d80bee9e0b8742eb9f5fd",
     "zh:0a325cfcb62d4c611a9a7854d2ca26ee8cbd27a1cae40f607c0966e36a858358",
