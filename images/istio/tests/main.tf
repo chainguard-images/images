@@ -73,7 +73,7 @@ module "helm_istiod" {
     # will be managed.
     revision = local.namespace
     pilot = {
-      hub = dirname(data.oci_string.ref["pilot"].registry_repo)
+      hub   = dirname(data.oci_string.ref["pilot"].registry_repo)
       image = basename(data.oci_string.ref["pilot"].registry_repo)
       tag   = data.oci_string.ref["pilot"].pseudo_tag
     }
@@ -142,7 +142,7 @@ module "helm_install-cni" {
       tag = data.oci_string.ref["install-cni"].registry_repo
     }
     cni = {
-      hub = dirname(data.oci_string.ref["install-cni"].registry_repo)
+      hub   = dirname(data.oci_string.ref["install-cni"].registry_repo)
       image = basename(data.oci_string.ref["install-cni"].registry_repo)
       tag   = data.oci_string.ref["install-cni"].pseudo_tag
 
@@ -198,7 +198,7 @@ resource "imagetest_feature" "this" {
     },
     {
       name = "Install curl",
-      cmd = "apk add curl"
+      cmd  = "apk add curl"
     },
     {
       name = "Test injection",
