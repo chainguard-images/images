@@ -46,7 +46,6 @@ provider "registry.terraform.io/chainguard-dev/cosign" {
 provider "registry.terraform.io/chainguard-dev/imagetest" {
   version = "0.0.15"
   hashes = [
-    "h1:E9QPnLxpK2eBYTcq98mOsYzQk6DesMFl85pOPKLqbCU=",
     "h1:l14VgkvJfRLbbE7CEOnNoy88i2g+pkYUa8nkeJOujYU=",
     "zh:6c0f636a35d39b38a9a3043cb79c98a1b6500624ec6acc266368b6b46e13e511",
     "zh:76d75433235e6a84d65df7476386b766efd67ae74a7dea487c14365859c68d99",
