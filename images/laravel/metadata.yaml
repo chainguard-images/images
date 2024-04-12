@@ -1,0 +1,13 @@
+name: laravel
+image: cgr.dev/chainguard/laravel
+logo: https://storage.googleapis.com/chainguard-academy/logos/laravel/logo.svg
+endoflife: ""
+console_summary: ""
+short_description: Minimalist Wolfi-based Laravel images for building and running Laravel applications.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://www.laravel.com/
+keywords:
+  - base
+  - languages
+  - frameworks
