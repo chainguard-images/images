@@ -8,7 +8,9 @@ terraform {
 variable "values" {
   type = any
   default = {
-    revision = "istio-system"
+    name      = "istio-system-cni"
+    namespace = "istio-system"
+    revision  = "istio-system"
     cni = {
       image      = "cgr.dev/chainguard/istio-install-cni"
       tag        = "latest"
@@ -19,8 +21,8 @@ variable "values" {
       hub = "cgr.dev/chainguard/istio-install-cni"
       tag = "latest"
     }
-    version   = "1.19.0"
-    namespace = "istio-system"
+    version = "1.19.0"
+
   }
 }
 

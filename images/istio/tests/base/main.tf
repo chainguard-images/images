@@ -8,6 +8,7 @@ terraform {
 variable "values" {
   type = any
   default = {
+    name = "istio-system-base"
     global = {
       istioNamespace = "istio-system"
     }

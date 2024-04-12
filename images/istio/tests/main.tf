@@ -30,6 +30,9 @@ resource "imagetest_harness_k3s" "this" {
   name      = "istio-system"
   inventory = data.imagetest_inventory.this
   sandbox = {
+    envs = {
+      "ISTIO_NAMESPACE" = local.namespace
+    }
     mounts = [
       {
         source      = path.module
@@ -42,6 +45,7 @@ resource "imagetest_harness_k3s" "this" {
 module "helm_base" {
   source = "./base"
   values = {
+    name = "${local.namespace}-base"
     global = {
       istioNamespace = local.namespace
     }
@@ -67,6 +71,7 @@ module "helm_istiod" {
   source = "./istiod"
 
   values = {
+    name      = "${local.namespace}-istiod"
     namespace = local.namespace
 
     # Set the revision so that only namespace with istio.io/rev=local.namespace
@@ -99,6 +104,7 @@ module "helm_istiod" {
 module "helm_gateway" {
   source = "./gateway"
   values = {
+    name      = "${local.namespace}-gateway"
     namespace = local.namespace
 
     # Set the revision so that only namespace with istio.io/rev=local.namespace
@@ -130,6 +136,7 @@ module "helm_gateway" {
 module "helm_install-cni" {
   source = "./install-cni"
   values = {
+    name      = "${local.namespace}-cni"
     namespace = local.namespace
 
     global = {

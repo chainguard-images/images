@@ -8,7 +8,9 @@ terraform {
 variable "values" {
   type = any
   default = {
-    revision = "istio-system"
+    name      = "istio-system-istiod"
+    namespace = "istio-system"
+    revision  = "istio-system"
     pilot = {
       image = "cgr.dev/chainguard/istio-pilot"
       tag   = "latest"
@@ -24,8 +26,8 @@ variable "values" {
       }
       tag = "latest"
     }
-    version   = "1.19.0"
-    namespace = "istio-system"
+    version = "1.19.0"
+
   }
 }
 

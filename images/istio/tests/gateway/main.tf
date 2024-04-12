@@ -8,6 +8,7 @@ terraform {
 variable "values" {
   type = any
   default = {
+    name     = "istio-system-gateway"
     revision = "istio-system"
     service = {
       type = "ClusterIP"
