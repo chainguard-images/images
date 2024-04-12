@@ -1,11 +1,11 @@
 <!--monopod:start-->
-# grafana
+# node-feature-directory
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/grafana` |
+| **OCI Reference** | `cgr.dev/chainguard/node-feature-directory` |
 
 
-* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/grafana/overview/)
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/node-feature-directory/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
@@ -21,20 +21,20 @@ A minimal wolfi-based image for node-feature-discovery, Node feature discovery f
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/node-feature-discovery:latest
+docker pull cgr.dev/chainguard/node-feature-directory:latest
 ```
 <!--getting:end-->
 
 <!--body:start-->
 ## Upstream documentation
-For more information on grafana, refer to the [grafana documentation](https://kubernetes-sigs.github.io/node-feature-discovery/stable/get-started/index.html).
-Additionally the grafana GitHub reposiory can be [found here](https://github.com/kubernetes-sigs/node-feature-discovery).
+For more information on grafana, refer to the [node-feature-discovery documentation](https://kubernetes-sigs.github.io/node-feature-discovery/stable/get-started/index.html).
+Additionally the node-feature-discovery GitHub reposiory can be [found here](https://github.com/kubernetes-sigs/node-feature-discovery).
 
 ## Helm
 Node-feature-discovery can be deployed using the following helm chart:
 - [https://artifacthub.io/packages/helm/node-feature-discovery/node-feature-discovery](https://artifacthub.io/packages/helm/node-feature-discovery/node-feature-discovery)
 
-Follow the instructions in the link above to deploy grafana using helm. Note you
+Follow the instructions in the link above to deploy node-feature-discovery using helm. Note you
 will need to override the default image and tag used, replacing with the
 chainguard image, example:
 
