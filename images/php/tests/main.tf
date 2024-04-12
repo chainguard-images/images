@@ -18,11 +18,6 @@ variable "check-fpm" {
   description = "Whether to check for php-fpm extensions"
 }
 
-variable "check-laravel" {
-  default     = false
-  description = "Whether to check for Laravel framework extensions"
-}
-
 data "oci_exec_test" "version" {
   digest = var.digest
   script = "docker run --entrypoint php --rm $IMAGE_NAME --version"
@@ -44,10 +39,4 @@ data "oci_exec_test" "fpm-shutdown" {
   count  = var.check-fpm ? 1 : 0
   digest = var.digest
   script = "${path.module}/02-shutdown.sh"
-}
-
-data "oci_exec_test" "laravel-extensions" {
-  count  = var.check-laravel ? 1 : 0
-  digest = var.digest
-  script = "docker run --rm --entrypoint php $IMAGE_NAME -m | grep fileinfo"
 }
