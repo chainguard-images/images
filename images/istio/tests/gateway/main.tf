@@ -8,7 +8,7 @@ terraform {
 variable "values" {
   type = any
   default = {
-    revision = "istio"
+    revision = "istio-system"
     service = {
       type = "ClusterIP"
     }

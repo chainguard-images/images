@@ -24,21 +24,6 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
-data "oci_exec_test" "proxy-version" {
-  digest = var.digests.proxy
-  script = "docker run --rm $IMAGE_NAME --version"
-}
-
-data "oci_exec_test" "pilot-version" {
-  digest = var.digests.pilot
-  script = "docker run --rm $IMAGE_NAME --version"
-}
-
-data "oci_exec_test" "operator-version" {
-  digest = var.digests.operator
-  script = "docker run --rm $IMAGE_NAME version"
-}
-
 data "imagetest_inventory" "this" {}
 
 resource "imagetest_harness_k3s" "this" {
@@ -88,7 +73,8 @@ module "helm_istiod" {
     # will be managed.
     revision = local.namespace
     pilot = {
-      image = data.oci_string.ref["pilot"].registry_repo
+      hub = dirname(data.oci_string.ref["pilot"].registry_repo)
+      image = basename(data.oci_string.ref["pilot"].registry_repo)
       tag   = data.oci_string.ref["pilot"].pseudo_tag
     }
     global = {
@@ -121,6 +107,7 @@ module "helm_gateway" {
     service = {
       type = "ClusterIP"
     }
+    # this isn't part of the gateway chart, is it used?
     global = {
       istioNamespace = local.namespace
       # These Helm charts do not like slashes in the image param.
@@ -155,7 +142,8 @@ module "helm_install-cni" {
       tag = data.oci_string.ref["install-cni"].registry_repo
     }
     cni = {
-      image = data.oci_string.ref["install-cni"].registry_repo
+      hub = dirname(data.oci_string.ref["install-cni"].registry_repo)
+      image = basename(data.oci_string.ref["install-cni"].registry_repo)
       tag   = data.oci_string.ref["install-cni"].pseudo_tag
 
       # These two settings are highly dependent on the K8s cluster setup.
@@ -178,6 +166,7 @@ resource "imagetest_feature" "this" {
       name = "Create istio-system namespace"
       cmd  = <<EOF
           kubectl create ns ${local.namespace}
+          kubectl create ns ${local.namespace}-users
         EOF
     },
     {
@@ -206,6 +195,10 @@ resource "imagetest_feature" "this" {
         kubectl rollout status daemonset -n ${local.namespace} istio-cni-node --timeout 60s
       EOF
       retry = { attempts = 5, delay = "10s" }
+    },
+    {
+      name = "Install curl",
+      cmd = "apk add curl"
     },
     {
       name = "Test injection",

@@ -8,7 +8,7 @@ terraform {
 variable "values" {
   type = any
   default = {
-    revision = "istio"
+    revision = "istio-system"
     cni = {
       image      = "cgr.dev/chainguard/istio-install-cni"
       tag        = "latest"
