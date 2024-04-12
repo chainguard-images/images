@@ -5,7 +5,7 @@ terraform {
 }
 
 locals {
-  jdks = toset(["11", "17", "21"])
+  jdks = toset(["11", "17", "21", "22"])
 }
 
 variable "target_repository" {
@@ -49,7 +49,10 @@ module "tagger" {
     "openjdk-21" : module.maven["21"].image_ref
     "openjdk-21-dev" : module.maven["21"].dev_ref
 
-    "latest" : module.maven["21"].image_ref
-    "latest-dev" : module.maven["21"].dev_ref
+    "openjdk-22" : module.maven["22"].image_ref
+    "openjdk-22-dev" : module.maven["22"].dev_ref
+
+    "latest" : module.maven["22"].image_ref
+    "latest-dev" : module.maven["22"].dev_ref
   }
 }
