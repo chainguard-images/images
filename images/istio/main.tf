@@ -8,8 +8,6 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-resource "random_pet" "suffix" {}
-
 module "test-latest" {
   source = "./tests"
   digests = {
@@ -18,7 +16,6 @@ module "test-latest" {
     pilot       = module.pilot.image_ref
     operator    = module.operator.image_ref
   }
-  namespace = "istio-system-${random_pet.suffix.id}"
 }
 
 resource "oci_tag" "latest" {

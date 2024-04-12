@@ -20,13 +20,13 @@ EOF
 sed "s/ISTIO_NAMESPACE/$ISTIO_NAMESPACE/g" $SCRIPT_DIR/virtualservice.yaml \
   | kubectl apply -f- -n $NAMESPACE
 
-kubectl port-forward -n $ISTIO_NAMESPACE svc/$ISTIO_NAMESPACE-gateway "${FREE_PORT}:80" &
+kubectl port-forward -n $ISTIO_NAMESPACE svc/$ISTIO_NAMESPACE-gateway "8080:80" &
 pid=$!
 trap "kill -9 $pid" EXIT
 
 set +o errexit
 for i in {1..10}; do
-    curl --retry 10 localhost:$FREE_PORT -H "Host: ingress.test.foo" && s=0 && break
+    curl --retry 10 localhost:8080 -H "Host: ingress.test.foo" && s=0 && break
     s=$?
     sleep 15
 done
