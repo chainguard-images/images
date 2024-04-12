@@ -33,7 +33,7 @@ resource "imagetest_harness_k3s" "this" {
 module "helm_node-feature-discovery" {
   source = "../../../tflib/imagetest/helm"
   chart  = "node-feature-discovery"
-  repo = "https://kubernetes-sigs.github.io/node-feature-discovery/charts"
+  repo   = "https://kubernetes-sigs.github.io/node-feature-discovery/charts"
   name   = "node-feature-discovery"
   values = {
     image = {
