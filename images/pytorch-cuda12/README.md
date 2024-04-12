@@ -19,6 +19,7 @@ A minimal, [wolfi](https://github.com/wolfi-dev)-based image for pytorch, a Pyth
 
 <!--getting:start-->
 ## Download this Image
+
 The image is available on `cgr.dev`:
 
 ```
@@ -46,24 +47,35 @@ docker run --rm -i -t \
     cgr.dev/chainguard/pytorch:latest
 ```
 
-If your environment has access to GPUs, you may provide PyTorch access to it by running 
+## Testing GPU Access
+
+If your environment has connected GPUs, you can check that PyTorch has access with the following:
+
 ```bash
 docker run --rm -it --gpus all cgr.dev/chainguard/pytorch-cuda12:latest
 bash-5.2$ python
-Python 3.11.8 (main, Feb  7 2024, 00:46:15) [GCC 13.2.0] on linux
+Python 3.11.9 (main, Apr  2 2024, 15:40:32) [GCC 13.2.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import torch
->>> print(torch.cuda.is_available())
+>>> torch.cuda.is_available()
 True
+>>> torch.cuda.device_count()
+1
+>>> torch.cuda.get_device_name(0)
+'Tesla V100-SXM2-16GB'
 ```
-As a quick intro, we will use PyTorch to create a very simple deep learning model with two linear layers and an activation function. We’ll create an instance of it and ask it to report on its parameters. The script can be found in ```model_builder.py``` in this directory.
 
-To run this script, 
+## Testing PyTorch
+
+As a quick intro, we will use PyTorch to create a very simple deep learning model with two linear layers and an activation function. We’ll create an instance of it and ask it to report on its parameters. Running the below will fetch a [model_builder.py](https://github.com/chainguard-images/images/blob/main/images/pytorch-cuda12/model_builder.py) script from the Chainguard Images repository, place it in a folder on your host machine, and run the script in a pytorch-cuda12 container from a volume.
+
 ```bash
-
-docker run --rm -it -v /home/srishihegde/quick.py:/tmp/model_builder.py --gpus all cgr.dev/chainguard/pytorch-cuda12:latest -c "python /tmp/model_builder.py"
+mkdir pytorch-test &&\
+ curl https://raw.githubusercontent.com/chainguard-images/images/main/images/pytorch-cuda12/model_builder.py > pytorch-test/model_builder.py &&\
+ docker run --rm -it -v "$PWD/pytorch-test:/tmp/pytorch-test" --gpus all cgr.dev/chainguard/pytorch-cuda12:latest -c "python /tmp/pytorch-test/model_builder.py"
 ```
-A quickstart tutorial as outlined [here](https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html) can also be run using the tests/quickstart.py script similar to the above run 
+
+You may also consider running this [quickstart script](https://github.com/chainguard-images/images/blob/main/images/pytorch-cuda12/tests/quickstart.py) based on the [official PyTorch quickstart tutorial](https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html) using the same approach as above.
 
 ### Using Helm charts
 
