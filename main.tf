@@ -860,6 +860,11 @@ module "kyverno-policy-reporter" {
   target_repository = "${var.target_repository}/kyverno-policy-reporter"
 }
 
+module "laravel" {
+  source            = "./images/laravel"
+  target_repository = "${var.target_repository}/laravel"
+}
+
 module "logstash-oss-with-opensearch-output-plugin" {
   source            = "./images/logstash-oss-with-opensearch-output-plugin"
   target_repository = "${var.target_repository}/logstash-oss-with-opensearch-output-plugin"
