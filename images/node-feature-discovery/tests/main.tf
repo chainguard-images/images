@@ -88,7 +88,7 @@ data "oci_exec_test" "test_validate_node_labels" {
 }
 
 module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.test_validate_logs_gc, data.oci_exec_test.test_validate_logs_master, data.oci_exec_test.test_validate_logs_worker,data.oci_exec_test.test_validate_node_labels]
+  depends_on = [data.oci_exec_test.test_validate_logs_gc, data.oci_exec_test.test_validate_logs_master, data.oci_exec_test.test_validate_logs_worker, data.oci_exec_test.test_validate_node_labels]
   source     = "../../../tflib/helm-cleanup"
   name       = helm_release.test_helm_deploy.id
   namespace  = helm_release.test_helm_deploy.namespace
