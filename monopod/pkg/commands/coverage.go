@@ -94,10 +94,15 @@ type coverageImpl struct {
 
 // moduleContext is the parsing context for an individual terraform module.
 type moduleContext struct {
-	Module      string           `json:"module"`
-	p           *hclparse.Parser `json:"-"`
-	HasTest     bool             `json:"has_test"`
-	IsImagetest bool             `json:"is_imagetest"`
+	// p is the parser to accumulate and parse terraform files
+	p *hclparse.Parser `json:"-"`
+
+	Module            string `json:"module"`
+	HasTest           bool   `json:"has_test"`
+	IsImagetest       bool   `json:"is_imagetest"`
+	UsingPublicModule bool   `json:"using_public_module"`
+	UsingPublicTests  bool   `json:"using_public_tests"`
+	UsingLocalTests   bool   `json:"using_local_tests"`
 }
 
 func (i *coverageImpl) Do(ctx context.Context) error {
@@ -124,13 +129,13 @@ func (i *coverageImpl) generateCoverageReport(ctx context.Context) error {
 			p:      hclparse.NewParser(),
 		}
 
-        if err := c.hunt(ctx, mainTf); err != nil {
-            return fmt.Errorf("hunting terraform files: %w", err)
-        }
+		if err := c.huntFiles(ctx, mainTf); err != nil {
+			return fmt.Errorf("hunting terraform files: %w", err)
+		}
 
-        if err := c.huntTest(ctx); err != nil {
-            return fmt.Errorf("hunting terraform files: %w", err)
-        }
+		if err := c.parseFiles(ctx); err != nil {
+			return fmt.Errorf("parsing terraform files: %w", err)
+		}
 
 		i.modules = append(i.modules, &c)
 	}
@@ -145,7 +150,7 @@ func (i *coverageImpl) generateCoverageReport(ctx context.Context) error {
 	return nil
 }
 
-// hunt hunts for terraform files used by the top level module. It simply
+// huntFiles hunts for terraform files used by the top level module. It simply
 // parses the files and looks for more. The hclparse.Parser saves a map of
 // all files it has parsed so we are just preprocessing and collecting all
 // files here.
@@ -153,7 +158,7 @@ func (i *coverageImpl) generateCoverageReport(ctx context.Context) error {
 // It ignores tf files in tflib right now. There is no strict standard on module
 // names so we instead we ignore modules coming from a common source (rather
 // than trying to regex all `publisher/latest/etc` module names)
-func (c *moduleContext) hunt(ctx context.Context, file string) error {
+func (c *moduleContext) huntFiles(ctx context.Context, file string) error {
 	// log := clog.FromContext(ctx)
 	f, diags := c.p.ParseHCLFile(file)
 	if diags != nil {
@@ -201,20 +206,22 @@ func (c *moduleContext) hunt(ctx context.Context, file string) error {
 			}
 
 			for _, tfFile := range files {
-				c.hunt(ctx, tfFile)
+				c.huntFiles(ctx, tfFile)
 			}
 		}
 	}
 	return nil
 }
 
-func (c *moduleContext) huntTest(ctx context.Context) error {
+func (c *moduleContext) parseFiles(ctx context.Context) error {
 	log := clog.FromContext(ctx)
 
 	c.HasTest = false
 
 	for filename, tfFile := range c.p.Files() {
 		log.Infof("|-- %s", filename)
+		c.UsingPublicModule = c.UsingPublicModule || strings.Contains(filename, "public/")
+
 		content, diags := tfFile.Body.Content(configFileSchema)
 		if diags != nil {
 			return fmt.Errorf("%v", diags)
@@ -225,16 +232,18 @@ func (c *moduleContext) huntTest(ctx context.Context) error {
 			for _, l := range b.Labels {
 				log.Infof("|------ %s", l)
 				for _, key := range []string{
-					"oci_exec_test",
 					"imagetest_inventory",
 					"imagetest_harness_",
 					"imagetest_feature",
+					"oci_exec_test",
 					"helm_release",
 					"helm-cleanup",
 				} {
 					if strings.Contains(l, key) {
 						c.HasTest = true
-						return nil
+						c.IsImagetest = c.IsImagetest || strings.Contains(key, "imagetest")
+						c.UsingPublicTests = c.UsingPublicTests || strings.Contains(filename, "public/")
+						c.UsingLocalTests = c.UsingLocalTests || !strings.Contains(filename, "public/")
 					}
 				}
 			}
