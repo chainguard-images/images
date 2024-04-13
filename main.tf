@@ -525,6 +525,11 @@ module "go" {
   target_repository = "${var.target_repository}/go"
 }
 
+module "gomplate" {
+  source            = "./images/gomplate"
+  target_repository = "${var.target_repository}/gomplate"
+}
+
 module "go-ipfs" {
   source            = "./images/go-ipfs"
   target_repository = "${var.target_repository}/go-ipfs"

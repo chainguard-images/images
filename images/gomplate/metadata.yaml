@@ -1,0 +1,12 @@
+name: gomplate
+image: cgr.dev/chainguard/gomplate
+logo: https://storage.googleapis.com/chainguard-academy/logos/gomplate.svg
+endoflife: ""
+console_summary: ""
+short_description: Minimalist Wolfi-based gomplate image for template rendering.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/hairyhenderson/gomplate
+keywords:
+  - application
+  - tools
