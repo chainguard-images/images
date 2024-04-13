@@ -20,9 +20,7 @@ module "latest" {
 
 module "test-latest" {
   source = "./tests"
-  digests = {
-    controller = module.latest.image_ref
-  }
+  digest = module.latest.image_ref
 }
 
 resource "oci_tag" "latest" {

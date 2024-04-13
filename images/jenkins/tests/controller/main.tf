@@ -1,14 +1,14 @@
-
-
 // default values - these get overridden when the resource is called
 variable "values" {
   type = any
   default = {
+    namespace        = "jenkins"
     fullnameOverride = "jenkins"
+    nameOverride     = "jenkins"
+    create_namespace = true
 
-    nameOverride = "jenkins"
     controller = {
-      javaOpts    = "-Djenkins.security.FIPS140.COMPLIANCE=true"
+      javaOpts    = ""
       jenkinsOpts = ""
       admin = {
         createSecret = false

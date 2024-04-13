@@ -9,17 +9,11 @@ locals {
   namespace = "jenkins"
 }
 
-variable "digests" {
+variable "digest" {
   description = "The image digest to run tests over."
-  type = object({
-    controller = string
-  })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+data "oci_string" "ref" { input = var.digest }
 
 data "imagetest_inventory" "this" {}
 
@@ -28,9 +22,6 @@ resource "imagetest_harness_k3s" "this" {
   inventory = data.imagetest_inventory.this
 
   sandbox = {
-    envs = {
-      "UNUSED_NAMESPACE" = local.namespace
-    }
     mounts = [
       {
         source      = path.module
@@ -44,12 +35,12 @@ module "helm_controller" {
   source = "./controller"
   values = {
     namespace        = local.namespace
-    create_namespace = true
     fullnameOverride = local.namespace
     nameOverride     = local.namespace
+    create_namespace = true
 
     controller = {
-      javaOpts       = "-Djenkins.security.FIPS140.COMPLIANCE=true"
+      javaOpts       = ""
       jenkinsOpts    = ""
       installPlugins = false
       admin = {
@@ -61,9 +52,9 @@ module "helm_controller" {
         }
       }
       image = {
-        registry   = data.oci_string.ref["controller"].registry
-        repository = data.oci_string.ref["controller"].repo
-        tag        = data.oci_string.ref["controller"].pseudo_tag
+        registry   = data.oci_string.ref.registry
+        repository = data.oci_string.ref.repo
+        tag        = data.oci_string.ref.pseudo_tag
       }
     }
   }
