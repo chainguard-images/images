@@ -14,7 +14,8 @@ module "accts" {
 output "config" {
   value = jsonencode({
     contents = {
-      packages = var.extra_packages
+      # gcc has been added to provide libstdc++.so.6 required to load plugin library
+      packages = concat(["falcoctl", "gcc"], var.extra_packages)
     }
     accounts = module.accts.block
     entrypoint = {
