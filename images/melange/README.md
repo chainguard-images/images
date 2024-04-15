@@ -26,7 +26,7 @@ docker pull cgr.dev/chainguard/melange:latest
 <!--getting:end-->
 
 <!--body:start-->
-To build the melange workflow in [examples](tests/minimal.yaml):
+To build the melange workflow in [examples](https://github.com/chainguard-images/images/blob/main/images/melange/tests/minimal.yaml):
 
 ```
 docker run --privileged -v "$PWD":/work cgr.dev/chainguard/melange build /work/tests/minimal.yaml
