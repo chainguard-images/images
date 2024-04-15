@@ -785,6 +785,11 @@ module "kuberay-operator" {
   target_repository = "${var.target_repository}/kuberay-operator"
 }
 
+module "kubernetes-autoscaler-addon-resizer" {
+  source            = "./images/kubernetes-autoscaler-addon-resizer"
+  target_repository = "${var.target_repository}/kubernetes-autoscaler-addon-resizer"
+}
+
 module "kubernetes-csi-external-attacher" {
   source            = "./images/kubernetes-csi-external-attacher"
   target_repository = "${var.target_repository}/kubernetes-csi-external-attacher"
