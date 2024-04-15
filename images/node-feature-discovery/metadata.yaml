@@ -1,0 +1,13 @@
+name: node-feature-directory
+image: cgr.dev/chainguard/node-feature-directory
+logo: https://storage.googleapis.com/chainguard-academy/logos/node-feature-discovery.svg
+endoflife: ""
+console_summary: ""
+short_description: A minimal wolfi-based image for node-feature-discovery, Node feature discovery for Kubernetes
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/kubernetes-sigs/node-feature-discovery
+keywords:
+  - kubernetes
+  - application
+  - hardware

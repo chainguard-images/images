@@ -1043,6 +1043,11 @@ module "node" {
   target_repository = "${var.target_repository}/node"
 }
 
+module "node-feature-discovery" {
+  source            = "./images/node-feature-discovery"
+  target_repository = "${var.target_repository}/node-feature-discovery"
+}
+
 module "node-lts" {
   source            = "./images/node-lts"
   target_repository = "${var.target_repository}/node-lts"
