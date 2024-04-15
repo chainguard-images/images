@@ -11,6 +11,7 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
+
 variable "target_repository" {
   description = "The docker repo name"
 }
@@ -33,10 +34,20 @@ resource "imagetest_harness_k3s" "this" {
 
 module "helm" {
   source    = "../../../tflib/imagetest/helm"
+
   name      = "step-issuer"
   namespace = "step-issuer"
   repo      = "https://smallstep.github.io/helm-charts"
   chart     = "step-issuer"
+
+  values = {
+    entrypoint = ["/usr/bin/step-issuer"]
+    image = {
+      repository = data.oci_string.ref.registry_repo
+      tag        = data.oci_string.ref.pseudo_tag
+    }
+  }
+
 }
 
 resource "imagetest_feature" "helm-install" {
@@ -47,7 +58,18 @@ resource "imagetest_feature" "helm-install" {
   steps = [
     {
       name = "Install the helm chart"
-      cmd  = module.helm.install_cmd
+      cmd  = <<EOF
+        apk add helm
+        helm repo add smallstep https://smallstep.github.io/helm-charts
+        helm repo update
+        helm install step-issuer smallstep/step-issuer
+      EOF
+    },
+    {
+      name = "Test the image deployment"
+      cmd  = <<EOF
+        helm test step-issuer
+      EOF
     }
   ]
 }
