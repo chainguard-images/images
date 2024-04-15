@@ -27,7 +27,7 @@ docker pull cgr.dev/chainguard/node-feature-directory:latest
 
 <!--body:start-->
 ## Upstream documentation
-For more information on grafana, refer to the [node-feature-discovery documentation](https://kubernetes-sigs.github.io/node-feature-discovery/stable/get-started/index.html).
+For more information on node-feature-discovery, refer to the [node-feature-discovery documentation](https://kubernetes-sigs.github.io/node-feature-discovery/stable/get-started/index.html).
 Additionally the node-feature-discovery GitHub reposiory can be [found here](https://github.com/kubernetes-sigs/node-feature-discovery).
 
 ## Helm
