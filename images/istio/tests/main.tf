@@ -1,8 +1,12 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
+}
+
+locals {
+  namespace = "istio-system"
 }
 
 variable "digests" {
@@ -15,92 +19,74 @@ variable "digests" {
   })
 }
 
-variable "namespace" {
-  description = "The namespace to install Istio in."
+data "oci_string" "ref" {
+  for_each = var.digests
+  input    = each.value
 }
 
-variable "helm-chart-version" {
-  description = "The version of the Helm chart."
-  default     = "1.19.0"
-}
+data "imagetest_inventory" "this" {}
 
-data "oci_exec_test" "proxy-version" {
-  digest = var.digests.proxy
-  script = "docker run --rm $IMAGE_NAME --version"
-}
-
-data "oci_exec_test" "pilot-version" {
-  digest = var.digests.pilot
-  script = "docker run --rm $IMAGE_NAME --version"
-}
-
-data "oci_exec_test" "operator-version" {
-  digest = var.digests.operator
-  script = "docker run --rm $IMAGE_NAME version"
-}
-
-data "oci_string" "operator-ref" { input = var.digests.operator }
-data "oci_string" "proxy-ref" { input = var.digests.proxy }
-data "oci_string" "install-cni-ref" { input = var.digests.install-cni }
-resource "helm_release" "operator" {
-  name             = "operator"
-  namespace        = local.namespace
-  create_namespace = true
-  # there's no official helm chart for the istio operator
-  repository = "https://stevehipwell.github.io/helm-charts/"
-  chart      = "istio-operator"
-  values = [jsonencode({
-    image = {
-      repository = data.oci_string.operator-ref.registry_repo
-      tag        = data.oci_string.operator-ref.pseudo_tag
+resource "imagetest_harness_k3s" "this" {
+  name      = "istio-system"
+  inventory = data.imagetest_inventory.this
+  sandbox = {
+    envs = {
+      "ISTIO_NAMESPACE" = local.namespace
     }
-  })]
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+  }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.operator.id
-  namespace = helm_release.operator.namespace
-}
+module "helm_base" {
+  source = "./base"
+  values = {
+    name             = "${local.namespace}-base"
+    namespace        = local.namespace
+    create_namespace = true
 
-resource "random_pet" "suffix" {}
-
-locals {
-  namespace = "istio-system-${random_pet.suffix.id}"
-}
-
-resource "helm_release" "base" {
-  name             = "${local.namespace}-base"
-  namespace        = local.namespace
-  create_namespace = true
-  repository       = "https://istio-release.storage.googleapis.com/charts/"
-  chart            = "base"
-  version          = var.helm-chart-version
-  replace          = true # Allow reinstallation - as CRDs are not reinstalled anyway.
-  values = [jsonencode({
     global = {
       istioNamespace = local.namespace
     }
     # Disable the CRD validation webhook to avoid contention w/ tests of other versions,
     # as this is a cluster-wide resource that we can't customize the name.
     defaultRevision = ""
-  })]
+  }
 }
 
-resource "helm_release" "istiod" {
-  depends_on       = [helm_release.base]
-  name             = "${local.namespace}-istiod"
-  namespace        = local.namespace
-  create_namespace = true
-  repository       = "https://istio-release.storage.googleapis.com/charts/"
-  chart            = "istiod"
-  version          = var.helm-chart-version
-  values = [jsonencode({
+module "helm_operator" {
+  source = "./operator"
+  values = {
+    name             = "operator"
+    namespace        = local.namespace
+    create_namespace = true
+
+    image = {
+      repository = data.oci_string.ref["operator"].registry_repo
+      tag        = data.oci_string.ref["operator"].pseudo_tag
+    }
+  }
+}
+
+module "helm_istiod" {
+  source = "./istiod"
+
+  values = {
+    name             = "${local.namespace}-istiod"
+    namespace        = local.namespace
+    create_namespace = true
+
     # Set the revision so that only namespace with istio.io/rev=local.namespace
     # will be managed.
     revision = local.namespace
     pilot = {
-      image = var.digests.pilot
+      hub   = dirname(data.oci_string.ref["pilot"].registry_repo)
+      image = basename(data.oci_string.ref["pilot"].registry_repo)
+      tag   = data.oci_string.ref["pilot"].pseudo_tag
     }
     global = {
       istioNamespace = local.namespace
@@ -109,36 +95,32 @@ resource "helm_release" "istiod" {
       # If the registry_repo is gcr.io/my/repo/istio-proxy, we need to set
       #   hub   = gcr.io/my/repo
       #   image = istio-proxy
-      hub = dirname(data.oci_string.proxy-ref.registry_repo)
+      hub = dirname(data.oci_string.ref["proxy"].registry_repo)
       proxy = {
-        image = basename(data.oci_string.proxy-ref.registry_repo)
+        image = basename(data.oci_string.ref["proxy"].registry_repo)
       }
       proxy-init = {
-        image = basename(data.oci_string.proxy-ref.registry_repo)
+        image = basename(data.oci_string.ref["proxy"].registry_repo)
       }
-      tag = data.oci_string.proxy-ref.pseudo_tag
+      tag = data.oci_string.ref["proxy"].pseudo_tag
     }
-  })]
+  }
 }
 
-resource "helm_release" "gateway" {
-  # Technically this should only depend on `istiod` installation, but
-  # we block this until `install-cni` is done to make sure the CNI plugin
-  # installation did not break Pod sandbox creation.
-  depends_on       = [helm_release.istiod, helm_release.install-cni]
-  name             = "${local.namespace}-gateway"
-  namespace        = local.namespace
-  create_namespace = true
-  repository       = "https://istio-release.storage.googleapis.com/charts/"
-  chart            = "gateway"
-  version          = var.helm-chart-version
-  values = [jsonencode({
+module "helm_gateway" {
+  source = "./gateway"
+  values = {
+    name             = "${local.namespace}-gateway"
+    namespace        = local.namespace
+    create_namespace = true
+
     # Set the revision so that only namespace with istio.io/rev=local.namespace
     # will be managed.
     revision = local.namespace
     service = {
       type = "ClusterIP"
     }
+    # this isn't part of the gateway chart, is it used?
     global = {
       istioNamespace = local.namespace
       # These Helm charts do not like slashes in the image param.
@@ -146,37 +128,37 @@ resource "helm_release" "gateway" {
       # If the registry_repo is gcr.io/my/repo/istio-proxy, we need to set
       #   hub   = gcr.io/my/repo
       #   image = istio-proxy
-      hub = dirname(data.oci_string.proxy-ref.registry_repo)
+      hub = dirname(data.oci_string.ref["proxy"].registry_repo)
       proxy = {
-        image = basename(data.oci_string.proxy-ref.registry_repo)
+        image = basename(data.oci_string.ref["proxy"].registry_repo)
       }
       proxy-init = {
-        image = basename(data.oci_string.proxy-ref.registry_repo)
+        image = basename(data.oci_string.ref["proxy"].registry_repo)
       }
-      tag = data.oci_string.proxy-ref.pseudo_tag
+      tag = data.oci_string.ref["proxy"].pseudo_tag
     }
-  })]
+  }
 }
 
-resource "helm_release" "install-cni" {
-  depends_on = [helm_release.base]
-  name       = "${local.namespace}-cni"
-  namespace  = local.namespace
-  repository = "https://istio-release.storage.googleapis.com/charts/"
-  chart      = "cni"
-  version    = var.helm-chart-version
-  values = [jsonencode({
+module "helm_install-cni" {
+  source = "./install-cni"
+  values = {
+    name      = "${local.namespace}-cni"
+    namespace = local.namespace
+
     global = {
       # These Helm charts do not like slashes in the image param.
       #
       # If the registry_repo is gcr.io/my/repo/istio-install-cni, we need to set
       #   hub   = gcr.io/my/repo
       #   image = istio-install-cni
-      hub = dirname(data.oci_string.install-cni-ref.registry_repo)
-      tag = data.oci_string.install-cni-ref.pseudo_tag
+      hub = dirname(data.oci_string.ref["install-cni"].registry_repo)
+      tag = data.oci_string.ref["install-cni"].registry_repo
     }
     cni = {
-      image = basename(data.oci_string.install-cni-ref.registry_repo)
+      hub   = dirname(data.oci_string.ref["install-cni"].registry_repo)
+      image = basename(data.oci_string.ref["install-cni"].registry_repo)
+      tag   = data.oci_string.ref["install-cni"].pseudo_tag
 
       # These two settings are highly dependent on the K8s cluster setup.
       cniBinDir  = "/var/lib/rancher/k3s/data/current/bin" # Special thanks to Wolf
@@ -185,59 +167,57 @@ resource "helm_release" "install-cni" {
     # Set the revision so that only namespace with istio.io/rev=local.namespace
     # will be managed.
     revision = local.namespace
-  })]
-}
-
-# Wait for the CNI daemonset to come up
-data "oci_exec_test" "install-cni-daemonset-up" {
-  depends_on = [helm_release.install-cni]
-  digest     = var.digests.proxy
-  script     = "kubectl rollout status daemonset -n ${local.namespace} istio-cni-node --timeout 60s"
-}
-
-# Test the sidecar injection.
-data "oci_exec_test" "sidecar-injection-works" {
-  depends_on = [helm_release.istiod]
-
-  script = "${path.module}/test-injection.sh"
-  digest = var.digests.proxy
-
-  env {
-    name  = "ISTIO_NAMESPACE"
-    value = local.namespace
   }
 }
 
-# Test that simple VirtualService/Gateway is working.
-data "oci_exec_test" "gateway" {
-  depends_on = [helm_release.gateway]
+resource "imagetest_feature" "this" {
+  harness     = imagetest_harness_k3s.this
+  name        = "istio"
+  description = "Test istio functionality of the various istio helm charts."
 
-  script = "${path.module}/test-gateway.sh"
-  digest = var.digests.proxy
+  steps = [
+    {
+      name = "Install base",
+      cmd  = module.helm_base.install_cmd
+    },
+    {
+      name = "Install operator",
+      cmd  = module.helm_operator.install_cmd
+    },
+    {
+      name = "Install istiod",
+      cmd  = module.helm_istiod.install_cmd
+    },
+    {
+      name = "Install gateway",
+      cmd  = module.helm_gateway.install_cmd
+    },
+    {
+      name = "Install CNI",
+      cmd  = module.helm_install-cni.install_cmd
+    },
+    {
+      name  = "Check install CNI worked",
+      cmd   = <<EOF
+        kubectl rollout status daemonset -n ${local.namespace} istio-cni-node --timeout 60s
+      EOF
+      retry = { attempts = 5, delay = "10s" }
+    },
+    {
+      name = "Install curl",
+      cmd  = "apk add curl"
+    },
+    {
+      name = "Test injection",
+      cmd  = "/tests/test-injection.sh"
+    },
+    {
+      name = "Test Gateway",
+      cmd  = "/tests/test-gateway.sh"
+    },
+  ]
 
-  env {
-    name  = "ISTIO_NAMESPACE"
-    value = local.namespace
+  labels = {
+    type = "k8s"
   }
-}
-
-module "helm_cleanup-gateway" {
-  depends_on = [data.oci_exec_test.gateway]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.gateway.id
-  namespace  = helm_release.gateway.namespace
-}
-
-module "helm_cleanup-istiod" {
-  depends_on = [data.oci_exec_test.sidecar-injection-works, data.oci_exec_test.gateway]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.istiod.id
-  namespace  = helm_release.istiod.namespace
-}
-
-module "helm_cleanup-base" {
-  depends_on = [module.helm_cleanup-gateway, module.helm_cleanup-istiod]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.base.id
-  namespace  = helm_release.base.namespace
 }

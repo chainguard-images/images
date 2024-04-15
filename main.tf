@@ -785,6 +785,11 @@ module "kuberay-operator" {
   target_repository = "${var.target_repository}/kuberay-operator"
 }
 
+module "kubernetes-autoscaler-addon-resizer" {
+  source            = "./images/kubernetes-autoscaler-addon-resizer"
+  target_repository = "${var.target_repository}/kubernetes-autoscaler-addon-resizer"
+}
+
 module "kubernetes-csi-external-attacher" {
   source            = "./images/kubernetes-csi-external-attacher"
   target_repository = "${var.target_repository}/kubernetes-csi-external-attacher"
@@ -858,6 +863,11 @@ module "kyverno" {
 module "kyverno-policy-reporter" {
   source            = "./images/kyverno-policy-reporter"
   target_repository = "${var.target_repository}/kyverno-policy-reporter"
+}
+
+module "laravel" {
+  source            = "./images/laravel"
+  target_repository = "${var.target_repository}/laravel"
 }
 
 module "logstash-oss-with-opensearch-output-plugin" {
@@ -1031,6 +1041,11 @@ module "nginx" {
 module "node" {
   source            = "./images/node"
   target_repository = "${var.target_repository}/node"
+}
+
+module "node-feature-discovery" {
+  source            = "./images/node-feature-discovery"
+  target_repository = "${var.target_repository}/node-feature-discovery"
 }
 
 module "node-lts" {

@@ -50,6 +50,15 @@ module "spire" {
         repository = data.oci_string.ref["server"].repo
         tag        = data.oci_string.ref["server"].pseudo_tag
       }
+      tools = {
+        kubectl = {
+          image = {
+            registry   = "cgr.dev"
+            repository = "chainguard/kubectl"
+            tag        = "latest"
+          }
+        }
+      }
     }
     spire-agent = {
       enabled = true
@@ -57,6 +66,15 @@ module "spire" {
         registry   = data.oci_string.ref["agent"].registry
         repository = data.oci_string.ref["agent"].repo
         tag        = data.oci_string.ref["agent"].pseudo_tag
+      }
+      tools = {
+        kubectl = {
+          image = {
+            registry   = "cgr.dev"
+            repository = "chainguard/kubectl"
+            tag        = "latest"
+          }
+        }
       }
     }
     spiffe-oidc-discovery-provider = {
@@ -69,6 +87,23 @@ module "spire" {
       config = {
         acme = {
           tosAccepted = true
+        }
+      }
+      tools = {
+        kubectl = {
+          image = {
+            registry   = "cgr.dev"
+            repository = "chainguard/kubectl"
+            tag        = "latest"
+          }
+        }
+      }
+      tests = {
+        toolkit = {
+          image = {
+            repository = "chainguard/min-toolkit-debug"
+            tag        = "latest"
+          }
         }
       }
     }

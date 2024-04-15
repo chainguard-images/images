@@ -8,21 +8,25 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "config" { source = "./config" }
+module "latest-config" { source = "./config" }
 
 module "latest" {
-  source = "../../tflib/publisher"
-
-  name = basename(path.module)
-
-  target_repository = var.target_repository
-  config            = module.config.config
-  build-dev         = true
+  source             = "../../tflib/publisher"
+  name               = basename(path.module)
+  target_repository  = var.target_repository
+  config             = module.latest-config.config
+  extra_dev_packages = ["composer", "php-xmlwriter"]
 }
 
 module "test-latest" {
   source = "./tests"
   digest = module.latest.image_ref
+}
+
+module "test-latest-dev" {
+  source    = "./tests"
+  check-dev = true
+  digest    = module.latest.dev_ref
 }
 
 resource "oci_tag" "latest" {
@@ -32,7 +36,7 @@ resource "oci_tag" "latest" {
 }
 
 resource "oci_tag" "latest-dev" {
-  depends_on = [module.test-latest]
+  depends_on = [module.test-latest-dev]
   digest_ref = module.latest.dev_ref
   tag        = "latest-dev"
 }

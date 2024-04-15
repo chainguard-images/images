@@ -1,3 +1,5 @@
+cgr.dev/chainguard/php:latest-laravel
+cgr.dev/chainguard/php:latest-laravel-dev
 cgr.dev/chainguard/crossplane-xfn:latest
 cgr.dev/chainguard/crossplane-xfn:latest-dev
 

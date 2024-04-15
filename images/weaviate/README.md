@@ -89,4 +89,18 @@ Connector config & MQTT config:
 Help Options:
   -h, --help               Show this help message
 ```
+
+## Helm Deployment
+
+This image is a drop-in replacement for the upstream `weaviate` image, and can be used in the [standard Helm charts](https://github.com/weaviate/weaviate-helm).
+To deploy in that helm chart, you can use:
+
+```
+$ helm repo add weaviate https://weaviate.github.io/weaviate-helm
+$ helm install my-weaviate weaviate/weaviate \
+    --set image.registry=cgr.dev \
+    --set image.repo=chainguard/weaviate \
+    --set image.tag=latest
+```
+
 <!--body:end-->

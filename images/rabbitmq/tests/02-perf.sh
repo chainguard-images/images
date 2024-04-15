@@ -22,7 +22,7 @@ docker network create "$NETWORK_NAME"
 
 docker run -d --rm --network "$NETWORK_NAME" --name "$RANDOM_NAME" \
 	-v $(pwd)/dev.conf:/etc/rabbitmq/conf.d/10-defaults.conf \
-	-p 15672:15672 $IMAGE_NAME
+	-p "$FREE_PORT":15672 $IMAGE_NAME
 
 sleep 10
 
