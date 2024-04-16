@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.caddy.image_ref
         "config" = module.caddy.config
-        "tags"   = module.caddy.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

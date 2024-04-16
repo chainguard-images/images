@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.confluent-kafka.image_ref
         "config" = module.confluent-kafka.config
-        "tags"   = module.confluent-kafka.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

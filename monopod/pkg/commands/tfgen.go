@@ -1,10 +1,14 @@
 package commands
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"path"
+	"reflect"
 	"slices"
+	"sort"
+	"strings"
 
 	"github.com/chainguard-images/images/monopod/pkg/tfgen/pkg/constants"
 	"github.com/chainguard-images/images/monopod/pkg/tfgen/pkg/generator"
@@ -14,8 +18,20 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var knownGeneratorsImage = map[string]generator.Generator{
+	"Image01Outputs":          &image.GeneratorImage01Outputs{},
+	"Image01OutputsVersioned": &image.GeneratorImage01OutputsVersioned{},
+}
+
+var knownGeneratorsTopLevel = map[string]generator.Generator{
+	"Toplevel01Modules": &toplevel.GeneratorToplevel01Modules{},
+	"Toplevel02Outputs": &toplevel.GeneratorToplevel02Outputs{},
+}
+
+var allKnownGenerators = append(sortedMapKeys(knownGeneratorsImage), sortedMapKeys(knownGeneratorsTopLevel)...)
+
 func TFGen() *cobra.Command {
-	var skip, only []string
+	var skip, only, generators []string
 	cmd := &cobra.Command{
 		Use:               "tfgen",
 		DisableAutoGenTag: true,
@@ -25,6 +41,20 @@ func TFGen() *cobra.Command {
 		Short:             "Generate Terraform files",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			repoRootDir := args[0]
+
+			// Validate incoming generators
+			if len(generators) == 0 {
+				return fmt.Errorf("please provided comma-separated list of generators. Possible values: %s",
+					strings.Join(allKnownGenerators, ","))
+			}
+			for _, gen := range generators {
+				_, validImageGen := knownGeneratorsImage[gen]
+				_, validTopLevelGen := knownGeneratorsTopLevel[gen]
+				if !validImageGen && !validTopLevelGen {
+					return fmt.Errorf("unknown generator: \"%s\". Possible values: %s",
+						gen, strings.Join(allKnownGenerators, ","))
+				}
+			}
 
 			// First generate for all of the image subdirectories
 			imagesDirname := path.Join(repoRootDir, constants.ImagesDirname)
@@ -48,7 +78,7 @@ func TFGen() *cobra.Command {
 				}
 
 				subdir := path.Join(imagesDirname, name)
-				isEmpty, b, err := generateForImageSubdir(subdir, skip, only)
+				isEmpty, b, err := generateForImageSubdir(subdir, skip, only, generators)
 				if err != nil {
 					log.Fatal(subdir, err)
 				}
@@ -65,7 +95,7 @@ func TFGen() *cobra.Command {
 			}
 
 			// Then do for the repo top-level
-			isEmpty, b, err := generateForToplevel(repoRootDir, skip, only)
+			isEmpty, b, err := generateForToplevel(repoRootDir, skip, only, generators)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -84,20 +114,28 @@ func TFGen() *cobra.Command {
 	}
 	cmd.Flags().StringSliceVar(&skip, "skip", nil, "Skip generating for the specified image subdirectories")
 	cmd.Flags().StringSliceVar(&only, "only", nil, "Only generate for the specified image subdirectories")
+	cmd.Flags().StringSliceVar(&generators, "generators", nil, "Run the provided generators")
 	return cmd
 }
 
-func generateForImageSubdir(subdir string, skip, only []string) (bool, []byte, error) {
-	return generate(subdir, skip, only, []generator.Generator{
-		&image.GeneratorImage01Outputs{},
-	})
+func generateForImageSubdir(subdir string, skip, only, generators []string) (bool, []byte, error) {
+	gens := []generator.Generator{}
+	for _, k := range generators {
+		if gen, ok := knownGeneratorsImage[k]; ok {
+			gens = append(gens, gen)
+		}
+	}
+	return generate(subdir, skip, only, gens)
 }
 
-func generateForToplevel(root string, skip, only []string) (bool, []byte, error) {
-	return generate(root, skip, only, []generator.Generator{
-		&toplevel.GeneratorToplevel01Modules{},
-		&toplevel.GeneratorToplevel02Outputs{},
-	})
+func generateForToplevel(root string, skip, only, generators []string) (bool, []byte, error) {
+	gens := []generator.Generator{}
+	for _, k := range generators {
+		if gen, ok := knownGeneratorsTopLevel[k]; ok {
+			gens = append(gens, gen)
+		}
+	}
+	return generate(root, skip, only, gens)
 }
 
 func generate(dir string, skip, only []string, generators []generator.Generator) (bool, []byte, error) {
@@ -108,4 +146,14 @@ func generate(dir string, skip, only []string, generators []generator.Generator)
 		}
 	}
 	return len(data.Body.Blocks) == 0, util.TerraformFileToBytes(data), nil
+}
+
+// From https://stackoverflow.com/a/35366762
+func sortedMapKeys(m interface{}) (keyList []string) {
+	keys := reflect.ValueOf(m).MapKeys()
+	for _, key := range keys {
+		keyList = append(keyList, key.Interface().(string))
+	}
+	sort.Strings(keyList)
+	return
 }

@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.newrelic-infrastructure-bundle.image_ref
         "config" = module.newrelic-infrastructure-bundle.config
-        "tags"   = module.newrelic-infrastructure-bundle.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

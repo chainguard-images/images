@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.filebeat.image_ref
         "config" = module.filebeat.config
-        "tags"   = module.filebeat.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

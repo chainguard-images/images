@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.nemo.image_ref
         "config" = module.nemo.config
-        "tags"   = module.nemo.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

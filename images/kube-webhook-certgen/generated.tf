@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.kube-webhook-certgen.image_ref
         "config" = module.kube-webhook-certgen.config
-        "tags"   = module.kube-webhook-certgen.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

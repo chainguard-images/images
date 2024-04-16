@@ -6,14 +6,14 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.latest.image_ref
         "config" = module.latest.config
-        "tags"   = module.latest.tag_list
+        "tags"   = ["latest"]
       }
     },
     {
       basename(path.module) = {
         "ref"    = module.latest-splunk.image_ref
         "config" = module.latest-splunk.config
-        "tags"   = module.latest-splunk.tag_list
+        "tags"   = ["latest-splunk"]
       }
   })
 }

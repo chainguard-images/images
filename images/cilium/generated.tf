@@ -6,35 +6,35 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.agent.image_ref
         "config" = module.agent.config
-        "tags"   = module.agent.tag_list
+        "tags"   = ["latest"]
       }
     },
     {
       basename(path.module) = {
         "ref"    = module.hubble-relay.image_ref
         "config" = module.hubble-relay.config
-        "tags"   = module.hubble-relay.tag_list
+        "tags"   = ["latest"]
       }
     },
     {
       basename(path.module) = {
         "ref"    = module.hubble-ui.image_ref
         "config" = module.hubble-ui.config
-        "tags"   = module.hubble-ui.tag_list
+        "tags"   = ["latest"]
       }
     },
     {
       basename(path.module) = {
         "ref"    = module.hubble-ui-backend.image_ref
         "config" = module.hubble-ui-backend.config
-        "tags"   = module.hubble-ui-backend.tag_list
+        "tags"   = ["latest"]
       }
     },
     {
       basename(path.module) = {
         "ref"    = module.operator.image_ref
         "config" = module.operator.config
-        "tags"   = module.operator.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

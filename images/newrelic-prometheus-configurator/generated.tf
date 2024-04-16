@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.newrelic-prometheus-configurator.image_ref
         "config" = module.newrelic-prometheus-configurator.config
-        "tags"   = module.newrelic-prometheus-configurator.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

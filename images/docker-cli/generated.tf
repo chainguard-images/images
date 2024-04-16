@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.docker-cli.image_ref
         "config" = module.docker-cli.config
-        "tags"   = module.docker-cli.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

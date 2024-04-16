@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.cassandra-reaper.image_ref
         "config" = module.cassandra-reaper.config
-        "tags"   = module.cassandra-reaper.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

@@ -6,7 +6,7 @@ output "summary" {
       "buildkit" = {
         "ref"    = module.latest-root.image_ref
         "config" = module.latest-root.config
-        "tags"   = module.latest-root.tag_list
+        "tags"   = ["latest-root"]
       }
   })
 }

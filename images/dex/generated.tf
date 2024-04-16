@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.dex.image_ref
         "config" = module.dex.config
-        "tags"   = module.dex.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

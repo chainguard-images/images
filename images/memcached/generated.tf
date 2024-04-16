@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.memcached.image_ref
         "config" = module.memcached.config
-        "tags"   = module.memcached.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

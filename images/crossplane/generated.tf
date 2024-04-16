@@ -6,7 +6,7 @@ output "summary" {
       for k, v in module.latest : k => {
         "ref"    = v.image_ref
         "config" = v.config
-        "tags"   = v.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.qdrant.image_ref
         "config" = module.qdrant.config
-        "tags"   = module.qdrant.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

@@ -74,6 +74,9 @@ provider "helm" {
 
 variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
 
+# The images below here do not work properly with tfgen and are skipped
+# (See TFGEN_SKIP in the Makefile)
+
 module "busybox" {
   source            = "./images/busybox"
   target_repository = "${var.target_repository}/busybox"
@@ -82,12 +85,62 @@ module "busybox" {
   }
 }
 
+module "calico" {
+  source            = "./images/calico"
+  target_repository = "${var.target_repository}/calico"
+}
+
 module "git" {
   source            = "./images/git"
   target_repository = "${var.target_repository}/git"
   providers = {
     apko.alpine = apko.alpine
   }
+}
+
+module "graalvm-native" {
+  source            = "./images/graalvm-native"
+  target_repository = "${var.target_repository}/graalvm-native"
+}
+
+module "harbor" {
+  source            = "./images/harbor"
+  target_repository = "${var.target_repository}/harbor"
+}
+
+module "k3s" {
+  source            = "./images/k3s"
+  target_repository = "${var.target_repository}/k3s"
+}
+
+module "keda" {
+  source            = "./images/keda"
+  target_repository = "${var.target_repository}/keda"
+}
+
+module "kubeflow" {
+  source            = "./images/kubeflow"
+  target_repository = "${var.target_repository}/kubeflow"
+}
+
+module "kubeflow-katib" {
+  source            = "./images/kubeflow-katib"
+  target_repository = "${var.target_repository}/kubeflow-katib"
+}
+
+module "maven" {
+  source            = "./images/maven"
+  target_repository = "${var.target_repository}/maven"
+}
+
+module "powershell" {
+  source            = "./images/powershell"
+  target_repository = "${var.target_repository}/powershell"
+}
+
+module "prometheus" {
+  source            = "./images/prometheus"
+  target_repository = "${var.target_repository}/prometheus"
 }
 
 module "static" {

@@ -6,28 +6,28 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.install-cni.image_ref
         "config" = module.install-cni.config
-        "tags"   = module.install-cni.tag_list
+        "tags"   = ["latest"]
       }
     },
     {
       basename(path.module) = {
         "ref"    = module.operator.image_ref
         "config" = module.operator.config
-        "tags"   = module.operator.tag_list
+        "tags"   = ["latest"]
       }
     },
     {
       basename(path.module) = {
         "ref"    = module.pilot.image_ref
         "config" = module.pilot.config
-        "tags"   = module.pilot.tag_list
+        "tags"   = ["latest"]
       }
     },
     {
       basename(path.module) = {
         "ref"    = module.proxy.image_ref
         "config" = module.proxy.config
-        "tags"   = module.proxy.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

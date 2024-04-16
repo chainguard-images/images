@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.argocd-extension-installer.image_ref
         "config" = module.argocd-extension-installer.config
-        "tags"   = module.argocd-extension-installer.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.logstash-oss-with-opensearch-output-plugin.image_ref
         "config" = module.logstash-oss-with-opensearch-output-plugin.config
-        "tags"   = module.logstash-oss-with-opensearch-output-plugin.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

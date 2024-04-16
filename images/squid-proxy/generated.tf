@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.squid-proxy.image_ref
         "config" = module.squid-proxy.config
-        "tags"   = module.squid-proxy.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

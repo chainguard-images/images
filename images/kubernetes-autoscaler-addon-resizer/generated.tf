@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.kubernetes-autoscaler-addon-resizer.image_ref
         "config" = module.kubernetes-autoscaler-addon-resizer.config
-        "tags"   = module.kubernetes-autoscaler-addon-resizer.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

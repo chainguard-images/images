@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.ml-metadata-store-server.image_ref
         "config" = module.ml-metadata-store-server.config
-        "tags"   = module.ml-metadata-store-server.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

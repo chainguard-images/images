@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.falcosidekick.image_ref
         "config" = module.falcosidekick.config
-        "tags"   = module.falcosidekick.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

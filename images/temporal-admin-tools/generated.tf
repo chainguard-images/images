@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.temporal-admin-tools.image_ref
         "config" = module.temporal-admin-tools.config
-        "tags"   = module.temporal-admin-tools.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

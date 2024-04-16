@@ -1,6 +1,13 @@
 cfg?=images/static/configs/wolfi.apko.yaml
 TERRAFORM ?= $(shell command -v terraform)
 
+# These images either do something with Alpine,
+# or are somehow incompatible with tfgen (still using tagger etc.)
+TFGEN_SKIP ?= busybox,calico,git,graalvm-native,harbor,k3s,keda,kubeflow,kubeflow-katib,maven,powershell,prometheus,static
+
+# These are the tfgen generators applied to this repo (in order)
+TFGEN_GENERATORS ?= Image01Outputs,Toplevel01Modules,Toplevel02Outputs
+
 .PHONY: apko-build
 apko-build:
 	apko build $(cfg) apko.local image.tar \
@@ -69,11 +76,11 @@ k3d-clean:
 # Run the tfgen used in CI check, regenerate all generated.tf files)
 .PHONY: tfgen
 tfgen:
-	(w="$(shell pwd)" && go run ./monopod tfgen "$${w}" --skip=busybox,git,static)
+	(w="$(shell pwd)" && go run ./monopod tfgen "$${w}" --skip=$(TFGEN_SKIP) --generators=$(TFGEN_GENERATORS))
 
 # Run tfgen for just one or more images (e.g. "make tfgen/img1,img2,img3")
 tfgen/%:
-	(w="$(shell pwd)" && go run ./monopod tfgen "$${w}" --skip=busybox,git,static --only=$*)
+	(w="$(shell pwd)" && go run ./monopod tfgen "$${w}" --skip=$(TFGEN_SKIP) --generators=$(TFGEN_GENERATORS) --only=$*)
 
 # Clean up all generated.tf files created by tfgen
 .PHONY: tfgen-clean

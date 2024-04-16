@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.helm-operator.image_ref
         "config" = module.helm-operator.config
-        "tags"   = module.helm-operator.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.tempo.image_ref
         "config" = module.tempo.config
-        "tags"   = module.tempo.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

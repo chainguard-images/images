@@ -115,11 +115,6 @@ module "cadvisor" {
   target_repository = "${var.target_repository}/cadvisor"
 }
 
-module "calico" {
-  source            = "./images/calico"
-  target_repository = "${var.target_repository}/calico"
-}
-
 module "cass-config-builder" {
   source            = "./images/cass-config-builder"
   target_repository = "${var.target_repository}/cass-config-builder"
@@ -450,11 +445,6 @@ module "gptscript" {
   target_repository = "${var.target_repository}/gptscript"
 }
 
-module "graalvm-native" {
-  source            = "./images/graalvm-native"
-  target_repository = "${var.target_repository}/graalvm-native"
-}
-
 module "gradle" {
   source            = "./images/gradle"
   target_repository = "${var.target_repository}/gradle"
@@ -488,11 +478,6 @@ module "haproxy" {
 module "haproxy-ingress" {
   source            = "./images/haproxy-ingress"
   target_repository = "${var.target_repository}/haproxy-ingress"
-}
-
-module "harbor" {
-  source            = "./images/harbor"
-  target_repository = "${var.target_repository}/harbor"
 }
 
 module "helm" {
@@ -570,11 +555,6 @@ module "jre-lts" {
   target_repository = "${var.target_repository}/jre-lts"
 }
 
-module "k3s" {
-  source            = "./images/k3s"
-  target_repository = "${var.target_repository}/k3s"
-}
-
 module "k8s-sidecar" {
   source            = "./images/k8s-sidecar"
   target_repository = "${var.target_repository}/k8s-sidecar"
@@ -603,11 +583,6 @@ module "kafka" {
 module "karpenter" {
   source            = "./images/karpenter"
   target_repository = "${var.target_repository}/karpenter"
-}
-
-module "keda" {
-  source            = "./images/keda"
-  target_repository = "${var.target_repository}/keda"
 }
 
 module "keycloak" {
@@ -665,19 +640,9 @@ module "kubectl" {
   target_repository = "${var.target_repository}/kubectl"
 }
 
-module "kubeflow" {
-  source            = "./images/kubeflow"
-  target_repository = "${var.target_repository}/kubeflow"
-}
-
 module "kubeflow-centraldashboard" {
   source            = "./images/kubeflow-centraldashboard"
   target_repository = "${var.target_repository}/kubeflow-centraldashboard"
-}
-
-module "kubeflow-katib" {
-  source            = "./images/kubeflow-katib"
-  target_repository = "${var.target_repository}/kubeflow-katib"
 }
 
 module "kubeflow-pipelines" {
@@ -798,11 +763,6 @@ module "management-api-for-apache-cassandra" {
 module "mariadb" {
   source            = "./images/mariadb"
   target_repository = "${var.target_repository}/mariadb"
-}
-
-module "maven" {
-  source            = "./images/maven"
-  target_repository = "${var.target_repository}/maven"
 }
 
 module "mdbook" {
@@ -1051,16 +1011,6 @@ module "postgres-helm-compat" {
 module "postgres-operator" {
   source            = "./images/postgres-operator"
   target_repository = "${var.target_repository}/postgres-operator"
-}
-
-module "powershell" {
-  source            = "./images/powershell"
-  target_repository = "${var.target_repository}/powershell"
-}
-
-module "prometheus" {
-  source            = "./images/prometheus"
-  target_repository = "${var.target_repository}/prometheus"
 }
 
 module "prometheus-adapter" {
@@ -1595,10 +1545,6 @@ output "summary_cadvisor" {
   value = module.cadvisor.summary
 }
 
-output "summary_calico" {
-  value = module.calico.summary
-}
-
 output "summary_cass-config-builder" {
   value = module.cass-config-builder.summary
 }
@@ -1863,10 +1809,6 @@ output "summary_gptscript" {
   value = module.gptscript.summary
 }
 
-output "summary_graalvm-native" {
-  value = module.graalvm-native.summary
-}
-
 output "summary_gradle" {
   value = module.gradle.summary
 }
@@ -1893,10 +1835,6 @@ output "summary_haproxy" {
 
 output "summary_haproxy-ingress" {
   value = module.haproxy-ingress.summary
-}
-
-output "summary_harbor" {
-  value = module.harbor.summary
 }
 
 output "summary_helm" {
@@ -1959,10 +1897,6 @@ output "summary_jre-lts" {
   value = module.jre-lts.summary
 }
 
-output "summary_k3s" {
-  value = module.k3s.summary
-}
-
 output "summary_k8s-sidecar" {
   value = module.k8s-sidecar.summary
 }
@@ -1985,10 +1919,6 @@ output "summary_kafka" {
 
 output "summary_karpenter" {
   value = module.karpenter.summary
-}
-
-output "summary_keda" {
-  value = module.keda.summary
 }
 
 output "summary_keycloak" {
@@ -2035,16 +1965,8 @@ output "summary_kubectl" {
   value = module.kubectl.summary
 }
 
-output "summary_kubeflow" {
-  value = module.kubeflow.summary
-}
-
 output "summary_kubeflow-centraldashboard" {
   value = module.kubeflow-centraldashboard.summary
-}
-
-output "summary_kubeflow-katib" {
-  value = module.kubeflow-katib.summary
 }
 
 output "summary_kubeflow-pipelines" {
@@ -2141,10 +2063,6 @@ output "summary_management-api-for-apache-cassandra" {
 
 output "summary_mariadb" {
   value = module.mariadb.summary
-}
-
-output "summary_maven" {
-  value = module.maven.summary
 }
 
 output "summary_mdbook" {
@@ -2337,14 +2255,6 @@ output "summary_postgres-helm-compat" {
 
 output "summary_postgres-operator" {
   value = module.postgres-operator.summary
-}
-
-output "summary_powershell" {
-  value = module.powershell.summary
-}
-
-output "summary_prometheus" {
-  value = module.prometheus.summary
 }
 
 output "summary_prometheus-adapter" {

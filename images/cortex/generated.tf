@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.cortex.image_ref
         "config" = module.cortex.config
-        "tags"   = module.cortex.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

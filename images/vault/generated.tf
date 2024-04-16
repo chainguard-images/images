@@ -6,14 +6,14 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.vault.image_ref
         "config" = module.vault.config
-        "tags"   = module.vault.tag_list
+        "tags"   = ["latest"]
       }
     },
     {
       basename(path.module) = {
         "ref"    = module.vault-k8s.image_ref
         "config" = module.vault-k8s.config
-        "tags"   = module.vault-k8s.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.statsd.image_ref
         "config" = module.statsd.config
-        "tags"   = module.statsd.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.doppler-kubernetes-operator.image_ref
         "config" = module.doppler-kubernetes-operator.config
-        "tags"   = module.doppler-kubernetes-operator.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

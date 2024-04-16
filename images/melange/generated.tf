@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.melange.image_ref
         "config" = module.melange.config
-        "tags"   = module.melange.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

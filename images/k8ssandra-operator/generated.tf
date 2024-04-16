@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.k8ssandra-operator.image_ref
         "config" = module.k8ssandra-operator.config
-        "tags"   = module.k8ssandra-operator.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

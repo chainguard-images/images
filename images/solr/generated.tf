@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.solr.image_ref
         "config" = module.solr.config
-        "tags"   = module.solr.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

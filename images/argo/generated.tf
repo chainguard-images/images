@@ -6,21 +6,21 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.cli.image_ref
         "config" = module.cli.config
-        "tags"   = module.cli.tag_list
+        "tags"   = ["latest"]
       }
     },
     {
       basename(path.module) = {
         "ref"    = module.exec.image_ref
         "config" = module.exec.config
-        "tags"   = module.exec.tag_list
+        "tags"   = ["latest"]
       }
     },
     {
       basename(path.module) = {
         "ref"    = module.workflowcontroller.image_ref
         "config" = module.workflowcontroller.config
-        "tags"   = module.workflowcontroller.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

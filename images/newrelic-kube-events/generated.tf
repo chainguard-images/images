@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.newrelic-kube-events.image_ref
         "config" = module.newrelic-kube-events.config
-        "tags"   = module.newrelic-kube-events.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

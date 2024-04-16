@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.rust.image_ref
         "config" = module.rust.config
-        "tags"   = module.rust.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

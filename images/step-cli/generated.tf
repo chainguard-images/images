@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.step-cli.image_ref
         "config" = module.step-cli.config
-        "tags"   = module.step-cli.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

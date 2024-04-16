@@ -6,14 +6,14 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.runtime.image_ref
         "config" = module.runtime.config
-        "tags"   = module.runtime.tag_list
+        "tags"   = ["latest"]
       }
     },
     {
       basename(path.module) = {
         "ref"    = module.sdk.image_ref
         "config" = module.sdk.config
-        "tags"   = module.sdk.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

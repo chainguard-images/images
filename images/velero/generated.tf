@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.velero.image_ref
         "config" = module.velero.config
-        "tags"   = module.velero.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

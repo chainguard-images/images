@@ -6,7 +6,7 @@ output "summary" {
       for k, v in module.velero-plugin-for-aws : k => {
         "ref"    = v.image_ref
         "config" = v.config
-        "tags"   = v.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

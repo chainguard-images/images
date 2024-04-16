@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.step-ca.image_ref
         "config" = module.step-ca.config
-        "tags"   = module.step-ca.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

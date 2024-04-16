@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.dependency-track.image_ref
         "config" = module.dependency-track.config
-        "tags"   = module.dependency-track.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

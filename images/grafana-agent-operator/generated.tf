@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.grafana-agent-operator.image_ref
         "config" = module.grafana-agent-operator.config
-        "tags"   = module.grafana-agent-operator.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

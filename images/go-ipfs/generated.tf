@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.go-ipfs.image_ref
         "config" = module.go-ipfs.config
-        "tags"   = module.go-ipfs.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

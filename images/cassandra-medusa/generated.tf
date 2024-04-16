@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.cassandra-medusa.image_ref
         "config" = module.cassandra-medusa.config
-        "tags"   = module.cassandra-medusa.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

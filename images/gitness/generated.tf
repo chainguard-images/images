@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.gitness.image_ref
         "config" = module.gitness.config
-        "tags"   = module.gitness.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

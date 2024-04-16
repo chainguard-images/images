@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.newrelic-nri-statsd.image_ref
         "config" = module.newrelic-nri-statsd.config
-        "tags"   = module.newrelic-nri-statsd.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

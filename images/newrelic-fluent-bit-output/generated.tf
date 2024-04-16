@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.newrelic-fluent-bit-output.image_ref
         "config" = module.newrelic-fluent-bit-output.config
-        "tags"   = module.newrelic-fluent-bit-output.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

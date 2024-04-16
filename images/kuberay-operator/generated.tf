@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.kuberay-operator.image_ref
         "config" = module.kuberay-operator.config
-        "tags"   = module.kuberay-operator.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

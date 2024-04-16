@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.neuvector-prometheus-exporter.image_ref
         "config" = module.neuvector-prometheus-exporter.config
-        "tags"   = module.neuvector-prometheus-exporter.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

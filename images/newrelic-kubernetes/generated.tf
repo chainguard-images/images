@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.newrelic-kubernetes.image_ref
         "config" = module.newrelic-kubernetes.config
-        "tags"   = module.newrelic-kubernetes.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

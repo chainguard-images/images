@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.cert-manager-webhook-pdns.image_ref
         "config" = module.cert-manager-webhook-pdns.config
-        "tags"   = module.cert-manager-webhook-pdns.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

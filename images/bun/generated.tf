@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.bun.image_ref
         "config" = module.bun.config
-        "tags"   = module.bun.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

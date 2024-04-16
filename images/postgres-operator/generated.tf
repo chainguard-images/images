@@ -6,7 +6,7 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.postgres-operator.image_ref
         "config" = module.postgres-operator.config
-        "tags"   = module.postgres-operator.tag_list
+        "tags"   = ["latest"]
       }
   })
 }
