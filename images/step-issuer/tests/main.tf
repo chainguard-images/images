@@ -36,7 +36,7 @@ module "helm" {
   source = "../../../tflib/imagetest/helm"
 
   name      = "step-issuer"
-  namespace = "step-issuer"
+  namespace = "step-issuer-system"
   repo      = "https://smallstep.github.io/helm-charts"
   chart     = "step-issuer"
 
@@ -55,21 +55,15 @@ resource "imagetest_feature" "helm-install" {
   harness     = imagetest_harness_k3s.this
   description = "Testing step-issuer helm deployment in k3s cluster."
 
+
   steps = [
     {
       name = "Install the helm chart"
-      cmd  = <<EOF
-        apk add helm
-        helm repo add smallstep https://smallstep.github.io/helm-charts
-        helm repo update
-        helm install step-issuer smallstep/step-issuer
-      EOF
+      cmd  = module.helm.install_cmd
     },
     {
       name = "Test the image deployment"
-      cmd  = <<EOF
-        helm test step-issuer
-      EOF
+      cmd  = "/tests/k8s-test.sh"
     }
   ]
 }
