@@ -37,6 +37,7 @@ image/%: check-env-tf init
 
 init:
 	$(TERRAFORM) init -upgrade
+	$(TERRAFORM) providers lock -platform=darwin_arm64 -platform=linux_amd64
 
 LOCAL_REGISTRY_NAME := k3d.localhost
 LOCAL_REGISTRY_PORT := 5005
