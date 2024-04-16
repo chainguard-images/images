@@ -46,6 +46,7 @@ provider "registry.terraform.io/chainguard-dev/cosign" {
 provider "registry.terraform.io/chainguard-dev/imagetest" {
   version = "0.0.17"
   hashes = [
+    "h1:6EC6sbpL7o3wf9+ESoLW0HDRnnOvdPZg0hWiJkTHgLM=",
     "h1:aXTRL1h2L6kLguLSBJu0aDyEKzp5HuiNVdu6lL5RfIQ=",
     "zh:149b7ff3b364b22c5b1fa05ccdc1fc7012d3785d6afd4fbda705112b308308ed",
     "zh:62123e2ae325d7a7a73f3664104ce9adfe43a77fe0656c41b10ff6c3b0c4380f",
@@ -133,6 +134,7 @@ provider "registry.terraform.io/hashicorp/null" {
 provider "registry.terraform.io/hashicorp/random" {
   version = "3.6.1"
   hashes = [
+    "h1:1OlP753r4lOKlBprL0HdZGWerm5DCabD5Mli8k8lWAg=",
     "h1:a+Goawwh6Qtg4/bRWzfDtIdrEFfPlnVy0y4LdUQY3nI=",
     "zh:2a0ec154e39911f19c8214acd6241e469157489fc56b6c739f45fbed5896a176",
     "zh:57f4e553224a5e849c99131f5e5294be3a7adcabe2d867d8a4fef8d0976e0e52",
