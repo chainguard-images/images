@@ -14,3 +14,6 @@ slim-toolkit-debug
 
 # split into multiple "kubeflow-pipelines-*" images
 kubeflow-pipelines
+
+# remove the sdk to avoid daily scanning and CVE triage actions
+sdk
