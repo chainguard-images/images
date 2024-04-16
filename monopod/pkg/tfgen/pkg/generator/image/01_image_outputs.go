@@ -150,6 +150,12 @@ func getTagsPushedByPublisher(tfFiles map[string]*tq.TerraformFile, n string) []
 				continue
 			}
 
+			// Ensure that the tag value is a string (starts with double quote)
+			tag := block.Attributes[constants.AttributeTag]
+			if !strings.HasPrefix(tag, `"`) {
+				continue
+			}
+
 			match := fmt.Sprintf("%s.%s.%s", constants.TfTypeModule, n, constants.OutputNameImageRef)
 			matchForEach := fmt.Sprintf("%s.%s[%s].%s", constants.TfTypeModule, n, constants.TfEachKey, constants.OutputNameImageRef)
 
@@ -158,7 +164,7 @@ func getTagsPushedByPublisher(tfFiles map[string]*tq.TerraformFile, n string) []
 			customForEachMapHasMatch := strings.Contains(block.Attributes[constants.AttributeForEach], match)
 
 			if ref == match || ref == matchForEach || customForEachMapHasMatch {
-				tags = append(tags, util.UnquoteTQString(block.Attributes[constants.AttributeTag]))
+				tags = append(tags, util.UnquoteTQString(tag))
 			}
 		}
 	}

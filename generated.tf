@@ -1293,11 +1293,6 @@ module "temporal-ui-server" {
   target_repository = "${var.target_repository}/temporal-ui-server"
 }
 
-module "terraform" {
-  source            = "./images/terraform"
-  target_repository = "${var.target_repository}/terraform"
-}
-
 module "tesseract" {
   source            = "./images/tesseract"
   target_repository = "${var.target_repository}/tesseract"
@@ -2479,10 +2474,6 @@ output "summary_temporal-server" {
 
 output "summary_temporal-ui-server" {
   value = module.temporal-ui-server.summary
-}
-
-output "summary_terraform" {
-  value = module.terraform.summary
 }
 
 output "summary_tesseract" {

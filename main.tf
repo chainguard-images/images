@@ -150,3 +150,8 @@ module "static" {
     apko.alpine = apko.alpine
   }
 }
+
+module "terraform" {
+  source            = "./images/terraform"
+  target_repository = "${var.target_repository}/terraform"
+}
