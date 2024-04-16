@@ -32,7 +32,7 @@ module "helm" {
   source    = "../../../tflib/imagetest/helm"
   name      = "kfo"
   namespace = "kfo"
-  chart     = "https://github.com/vmware/kube-fluentd-operator/releases/download/v1.17.4/log-router-0.4.0.tgz"
+  chart     = "https://github.com/vmware/kube-fluentd-operator/releases/download/v1.18.1/log-router-0.4.0.tgz"
   values = {
     rbac = {
       create = true
