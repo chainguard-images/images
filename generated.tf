@@ -2453,6 +2453,10 @@ output "summary_step-cli" {
   value = module.step-cli.summary
 }
 
+output "summary_step-issuer" {
+  value = module.step-issuer.summary
+}
+
 output "summary_stunnel" {
   value = module.stunnel.summary
 }
