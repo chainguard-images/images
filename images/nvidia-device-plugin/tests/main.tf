@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -8,21 +9,45 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "run" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --version"
+data "oci_string" "ref" { input = var.digest }
+
+data "imagetest_inventory" "this" {}
+
+resource "imagetest_harness_k3s" "this" {
+  name      = "nvidia-device-plugin"
+  inventory = data.imagetest_inventory.this
+
+  sandbox = {
+    envs = {
+      "IMAGE_REGISTRY"   = data.oci_string.ref.registry
+      "IMAGE_REPOSITORY" = data.oci_string.ref.repo
+      "IMAGE_TAG"        = data.oci_string.ref.pseudo_tag
+    }
+
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+  }
+
+
 }
 
-data "oci_exec_test" "helm" {
-  digest      = data.oci_exec_test.run.tested_ref
-  script      = "./helm.sh"
-  working_dir = path.module
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the nvidia-device-plugin Helm chart."
 
-  # Split the digest ref into repository and digest. The helm chart expects a
-  # tag, but it just appends it to the repository again, so we just specify a
-  # dummy tag and the digest to test.
-  env {
-    name  = "IMAGE_TAG"
-    value = "unused@${element(split("@", var.digest), 1)}"
+  steps = [
+    {
+      name = "Run Test"
+      cmd  = "/tests/helm.sh"
+    },
+  ]
+
+  labels = {
+    type = "k8s"
   }
 }
