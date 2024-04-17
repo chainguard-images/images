@@ -51,7 +51,7 @@ module "helm" {
       tag        = data.oci_string.ref.pseudo_tag
     }
     deployment = {
-      
+
     }
   }
 }
