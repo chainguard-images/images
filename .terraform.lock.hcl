@@ -20,6 +20,7 @@ provider "registry.terraform.io/chainguard-dev/chainguard" {
   constraints = "0.1.7"
   hashes = [
     "h1:itwNxYgaV3Sc02N6TVHiEYuZeX4rrq4aatEoNo9xD90=",
+    "h1:v+AtUw47Aafaq0BUhExpjRqkfd7neC1RSq2BSPsbD8o=",
     "zh:0100680dbefabbc7dd0004f4e956116ef49353da9ceff168e7c61837919f204c",
     "zh:0c382f809d0cb715573b51f7a4378e4046e5f0c15db6b9e99015faf4ae047920",
     "zh:ab14699ff58f53fbe152b5b4a6bceb9649e20b76684f084ae66fc09bd48ce128",
@@ -59,6 +60,7 @@ provider "registry.terraform.io/chainguard-dev/oci" {
   version     = "0.0.12"
   constraints = "0.0.12"
   hashes = [
+    "h1:pOOi4TbOzOXYU8eNxYFBjv9DB1MnSlPncKTtUzAAnb0=",
     "h1:vvRcY6V6rPs0fanN+3ABaymyF5tKT4rnZ/ee2v3jh1k=",
     "zh:1a822b18b521582ae60c77f884556124c72a2b33be03ad2ab77a8613ea53f58f",
     "zh:7c997407e1eee960589d53c7bd34940f8c9d801006ceea7d074e23c6283a3064",
