@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install"
-  default     = ["step-issuer"]
+  default     = ["step-issuer-compat"]
 }
 
 data "apko_config" "this" {

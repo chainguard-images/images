@@ -12,5 +12,4 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command: /usr/bin/step-issuer
-cmd: --help
+  command: /manager

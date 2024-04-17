@@ -43,10 +43,9 @@ module "helm" {
   name      = "step-issuer"
   namespace = "step-issuer-system"
   repo      = "https://smallstep.github.io/helm-charts"
-  chart     = "smallstep/step-issuer"
+  chart     = "step-issuer"
 
   values = {
-    command = ["usr/bin/step-issuer"]
     image = {
       repository = data.oci_string.ref.registry_repo
       tag        = data.oci_string.ref.pseudo_tag
