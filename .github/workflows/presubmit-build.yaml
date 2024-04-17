@@ -28,9 +28,17 @@ jobs:
       with:
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
+    - name: Ensure no diff on tfgen
+      run: |
+        set -x
+        make tfgen
+        if ! git diff-index --quiet HEAD --; then
+          echo "Error: Please re-run \"make tfgen\" and commit the result."
+          exit 1
+        fi
+
     - run: make init # Initialize modules.
     - run: terraform fmt -check -recursive -diff
-    - run: ./lint.sh
     - name: Enforce YAML formatting
       uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:afad17b9d533bba348407f9022d5a6c27ebcd3af7e516039191d3c901b0b899c
       with:
@@ -121,7 +129,7 @@ jobs:
 
     - uses: hashicorp/setup-terraform@a1502cd9e758c50496cc9ac5308c4843bcd56d36 # v3
       with:
-        terraform_version: '1.5.7'
+        terraform_version: '1.6.*'
         terraform_wrapper: false
     # Make cosign/crane CLI available to the tests
     - uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 # v3.5.0
