@@ -7,7 +7,6 @@ import (
 	"path"
 	"slices"
 	"strings"
-	"time"
 
 	"github.com/chainguard-images/images/monopod/pkg/commands/options"
 	"github.com/chainguard-images/images/monopod/pkg/tfgen/pkg/constants"
@@ -80,9 +79,7 @@ monopod export ./images/zot ./zot-custom
 			if err := os.MkdirAll(opts.Destination, 0755); err != nil {
 				return err
 			}
-			header := fmt.Sprintf("# exported by monopod at %s", time.Now().UTC())
-			b := []byte(fmt.Sprintf("%s\n\n%s\n", header, data))
-			if err := os.WriteFile(dstMainTf, b, 0644); err != nil {
+			if err := os.WriteFile(dstMainTf, []byte(data.String()), 0644); err != nil {
 				return err
 			}
 
