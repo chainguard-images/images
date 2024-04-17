@@ -121,7 +121,7 @@ jobs:
 
     - uses: hashicorp/setup-terraform@a1502cd9e758c50496cc9ac5308c4843bcd56d36 # v3
       with:
-        terraform_version: '1.5.7'
+        terraform_version: '1.6.*'
         terraform_wrapper: false
     # Make cosign/crane CLI available to the tests
     - uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 # v3.5.0
