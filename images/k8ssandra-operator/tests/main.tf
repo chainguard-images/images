@@ -9,6 +9,10 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "extra_feature_steps" {
+  default = []
+}
+
 data "oci_string" "ref" {
   input = var.digest
 }
@@ -51,7 +55,7 @@ resource "imagetest_feature" "basic" {
   name        = "Basic"
   description = "Basic functionality of the image."
 
-  steps = [
+  steps = concat([
     {
       name = "Helm install cert-manager"
       cmd  = module.helm_cert_manager.install_cmd
@@ -60,7 +64,7 @@ resource "imagetest_feature" "basic" {
       name = "Helm install k8ssandra"
       cmd  = module.helm_k8ssandra.install_cmd
     },
-  ]
+  ], var.extra_feature_steps)
 
   labels = {
     type = "k8s"
