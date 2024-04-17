@@ -1258,6 +1258,11 @@ module "step-cli" {
   target_repository = "${var.target_repository}/step-cli"
 }
 
+module "step-issuer" {
+  source            = "./images/step-issuer"
+  target_repository = "${var.target_repository}/step-issuer"
+}
+
 module "stunnel" {
   source            = "./images/stunnel"
   target_repository = "${var.target_repository}/stunnel"
