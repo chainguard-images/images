@@ -21,6 +21,7 @@ import (
 const (
 	Mutate01VersionedPublisher = "Mutate01VersionedPublisher"
 	Mutate02PrefixSourcePaths  = "Mutate02PrefixSourcePaths"
+	Mutate03OciTagToTagger     = "Mutate03OciTagToTagger"
 
 	defaultSourcePathPrefixParentDir = "../../public/images/"
 )
@@ -28,6 +29,7 @@ const (
 var defaultExportGenerators = []string{
 	Mutate01VersionedPublisher,
 	Mutate02PrefixSourcePaths,
+	Mutate03OciTagToTagger,
 }
 
 var knownGeneratorsExport = map[string]generator.Generator{
@@ -37,6 +39,7 @@ var knownGeneratorsExport = map[string]generator.Generator{
 	Mutate02PrefixSourcePaths: &mutate.GeneratorMutate02PrefixSourcePaths{
 		SourcePathPrefix: "",
 	},
+	Mutate03OciTagToTagger: &mutate.GeneratorMutate03OciTagToTagger{},
 }
 
 var allKnownGeneratorsExport = sortedMapKeys(knownGeneratorsExport)
@@ -65,7 +68,7 @@ monopod export ./images/zot ./zot-custom
 			if err != nil {
 				return err
 			}
-			data := util.CombinedNoGenerated(tfFiles)
+			data := util.CombineNoGenerated(tfFiles)
 
 			for _, k := range opts.Generators {
 				log.Printf("Running generator: %s", k)
@@ -105,7 +108,8 @@ func validateExportGenerators(opts *options.ExportOptions) error {
 	// resetting generators where necessary with with proper args set
 	if slices.Contains(opts.Generators, Mutate01VersionedPublisher) {
 		if opts.MainPackage == "" {
-			return fmt.Errorf("must supply --main-package when using %s generator", Mutate01VersionedPublisher)
+			// Guess that the main_package is just the name of the image dir
+			opts.MainPackage = path.Base(opts.Source)
 		}
 
 		knownGeneratorsExport[Mutate01VersionedPublisher] = &mutate.GeneratorMutate01VersionedPublisher{

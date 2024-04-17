@@ -20,7 +20,7 @@ func EmptyTerraformFile() *tq.TerraformFile {
 	}
 }
 
-func CombinedNoGenerated(tfFiles map[string]*tq.TerraformFile) *tq.TerraformFile {
+func CombineNoGenerated(tfFiles map[string]*tq.TerraformFile) *tq.TerraformFile {
 	data := EmptyTerraformFile()
 	// If main.tf exists, use first
 	if tfFile, ok := tfFiles[constants.MainTfFilename]; ok {
@@ -79,4 +79,15 @@ func UnquoteTQString(s string) string {
 
 func QuoteTQString(s string) string {
 	return strconv.Quote(s)
+}
+
+// These come the form: source = "../../tflib/publisher"
+// Just check source ends with "/publisher"
+func IsPublisherBlock(block tq.TerraformFileBlock) bool {
+	return strings.HasSuffix(UnquoteTQString(block.Attributes[constants.AttributeSource]), fmt.Sprintf("/%s", constants.AttributePublisher))
+}
+
+// Checking for resouce "oci_tag"
+func IsOciTagBlock(block tq.TerraformFileBlock) bool {
+	return block.Type == constants.TfTypeResource && len(block.Labels) > 0 && block.Labels[0] == constants.ResourceOciTag
 }

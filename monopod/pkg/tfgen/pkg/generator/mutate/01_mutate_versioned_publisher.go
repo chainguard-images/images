@@ -1,9 +1,6 @@
 package mutate
 
 import (
-	"fmt"
-	"strings"
-
 	"github.com/chainguard-images/images/monopod/pkg/tfgen/pkg/constants"
 	"github.com/chainguard-images/images/monopod/pkg/tfgen/pkg/util"
 	"github.com/jdolitsky/tq/pkg/tq"
@@ -18,7 +15,7 @@ type GeneratorMutate01VersionedPublisher struct {
 
 func (g *GeneratorMutate01VersionedPublisher) Generate(dir string, _, _ []string, data *tq.TerraformFile) error {
 	for _, block := range data.Body.Blocks {
-		if strings.HasSuffix(util.UnquoteTQString(block.Attributes[constants.AttributeSource]), fmt.Sprintf("/%s", constants.AttributePublisher)) {
+		if util.IsPublisherBlock(block) {
 			block.Attributes[constants.AttributeMainPackage] = util.QuoteTQString(g.MainPackage)
 		}
 	}
