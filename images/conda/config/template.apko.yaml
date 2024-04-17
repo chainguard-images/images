@@ -1,9 +1,6 @@
 contents:
   packages:
     - busybox
-    - conda
-    - conda-base
-    - conda-wrapper
 
 accounts:
   run-as: 0

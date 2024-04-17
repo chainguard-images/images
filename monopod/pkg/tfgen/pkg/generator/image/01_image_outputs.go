@@ -55,39 +55,16 @@ func generate(versioned bool, dir string, skip, only []string, data *tq.Terrafor
 	// Get all invocations of the "publisher" tflib
 	for _, tfFile := range tfFiles {
 		for _, block := range tfFile.Body.Blocks {
-			if block.Type != constants.TfTypeModule {
-				continue
-			}
-
-			if len(block.Labels) == 0 {
+			if !util.IsPublisherBlock(block) {
 				continue
 			}
 			n := block.Labels[0]
-
-			source, hasSourceAttr := block.Attributes[constants.AttributeSource]
-			if !hasSourceAttr {
-				continue
-			}
-
-			// These come the form: source = "../../tflib/publisher"
-			// Just check source ends with "/publisher"
-			if !strings.HasSuffix(util.UnquoteTQString(source), fmt.Sprintf("/%s", constants.AttributePublisher)) {
-				continue
-			}
-
-			nameAttr, hasNameAttr := block.Attributes[constants.AttributeName]
-			if !hasNameAttr {
-				log.Printf("WARN [image:%s] no %s attribute on publisher %s, skipping\n", filepath.Base(dir), constants.AttributeName, n)
-				continue
-			}
-
 			tags := []string{}
 			if !versioned {
 				tags = getTagsPushedByPublisher(tfFiles, n)
 			}
-
 			publish[n] = publisher{
-				NameAttr:    nameAttr,
+				NameAttr:    block.Attributes[constants.AttributeName],
 				ForEachAttr: block.Attributes[constants.AttributeForEach],
 				Tags:        tags,
 			}
@@ -136,13 +113,7 @@ func getTagsPushedByPublisher(tfFiles map[string]*tq.TerraformFile, n string) []
 	tags := []string{}
 	for _, tfFile := range tfFiles {
 		for _, block := range tfFile.Body.Blocks {
-			if block.Type != constants.TfTypeResource {
-				continue
-			}
-			if len(block.Labels) == 0 {
-				continue
-			}
-			if block.Labels[0] != constants.ResourceOciTag {
+			if !util.IsOciTagBlock(block) {
 				continue
 			}
 			ref, hasDigestRefAttr := block.Attributes[constants.AttributeDigestRef]

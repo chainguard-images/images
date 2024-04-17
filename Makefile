@@ -87,3 +87,7 @@ tfgen/%:
 .PHONY: tfgen-clean
 tfgen-clean:
 	rm -f generated.tf images/**/generated.tf
+
+.PHONY: monopod
+monopod:
+	(cd monopod && go install .) && which monopod && monopod version

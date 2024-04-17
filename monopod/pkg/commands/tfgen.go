@@ -18,17 +18,24 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const (
+	Image01Outputs          = "Image01Outputs"
+	Image01OutputsVersioned = "Image01OutputsVersioned"
+	Toplevel01Modules       = "Toplevel01Modules"
+	Toplevel02Outputs       = "Toplevel02Outputs"
+)
+
 var knownGeneratorsImage = map[string]generator.Generator{
-	"Image01Outputs":          &image.GeneratorImage01Outputs{},
-	"Image01OutputsVersioned": &image.GeneratorImage01OutputsVersioned{},
+	Image01Outputs:          &image.GeneratorImage01Outputs{},
+	Image01OutputsVersioned: &image.GeneratorImage01OutputsVersioned{},
 }
 
 var knownGeneratorsTopLevel = map[string]generator.Generator{
-	"Toplevel01Modules": &toplevel.GeneratorToplevel01Modules{},
-	"Toplevel02Outputs": &toplevel.GeneratorToplevel02Outputs{},
+	Toplevel01Modules: &toplevel.GeneratorToplevel01Modules{},
+	Toplevel02Outputs: &toplevel.GeneratorToplevel02Outputs{},
 }
 
-var allKnownGenerators = append(sortedMapKeys(knownGeneratorsImage), sortedMapKeys(knownGeneratorsTopLevel)...)
+var allKnownGeneratorsTfgen = append(sortedMapKeys(knownGeneratorsImage), sortedMapKeys(knownGeneratorsTopLevel)...)
 
 func TFGen() *cobra.Command {
 	var skip, only, generators []string
@@ -45,14 +52,12 @@ func TFGen() *cobra.Command {
 			// Validate incoming generators
 			if len(generators) == 0 {
 				return fmt.Errorf("please provided comma-separated list of generators. Possible values: %s",
-					strings.Join(allKnownGenerators, ","))
+					strings.Join(allKnownGeneratorsTfgen, ","))
 			}
 			for _, gen := range generators {
-				_, validImageGen := knownGeneratorsImage[gen]
-				_, validTopLevelGen := knownGeneratorsTopLevel[gen]
-				if !validImageGen && !validTopLevelGen {
+				if !slices.Contains(allKnownGeneratorsTfgen, gen) {
 					return fmt.Errorf("unknown generator: \"%s\". Possible values: %s",
-						gen, strings.Join(allKnownGenerators, ","))
+						gen, strings.Join(allKnownGeneratorsTfgen, ","))
 				}
 			}
 
