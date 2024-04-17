@@ -27,8 +27,10 @@ const (
 	AttributeName             = "name"
 	AttributeDigestRef        = "digest_ref"
 	AttributeTag              = "tag"
+	AttributeMainPackage      = "main_package"
 	ResourceOciTag            = "oci_tag"
 	NewRelicImagePrefix       = "newrelic-"
 	ScannerTestImageName      = "scanner-test"
 	CustomImagePrefix         = "request-"
+	DetectTfLib               = "/tflib/"
 )
