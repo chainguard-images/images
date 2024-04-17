@@ -2,13 +2,13 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-NAMESPACE=cadvisor
+apk add jq curl
 
 function manifests() {
-  # if image tag is latest then find the latest version of the git release
-  LATEST=$(curl -s "https://api.github.com/repos/google/cadvisor/releases/latest" | jq -r '.tag_name')
+	# if image tag is latest then find the latest version of the git release
+	LATEST=$(curl -s "https://api.github.com/repos/google/cadvisor/releases/latest" | jq -r '.tag_name')
 
-  cat <<EOF > kustomization.yaml
+	cat <<EOF >kustomization.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
@@ -25,5 +25,3 @@ manifests
 
 kubectl create namespace ${NAMESPACE}
 kubectl apply -k .
-
-kubectl wait --for=condition=ready pod --selector app=cadvisor --namespace ${NAMESPACE}
