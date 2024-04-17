@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-
+The MongoDB Database image
 <!--overview:end-->
 
 <!--getting:start-->
