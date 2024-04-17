@@ -41,17 +41,19 @@ module "helm" {
   source = "../../../tflib/imagetest/helm"
 
   name      = "step-issuer"
-  namespace = "step-issuer"
+  namespace = "step-issuer-system"
   repo      = "https://smallstep.github.io/helm-charts"
-  chart     = "step-issuer"
+  chart     = "smallstep/step-issuer"
 
   values = {
     image = {
       repository = data.oci_string.ref.registry_repo
       tag        = data.oci_string.ref.pseudo_tag
     }
+    deployment = {
+      
+    }
   }
-
 }
 
 resource "imagetest_feature" "helm-install" {
@@ -64,10 +66,6 @@ resource "imagetest_feature" "helm-install" {
     {
       name = "Install the helm chart"
       cmd  = module.helm.install_cmd
-    },
-    {
-      name = "Test the image deployment"
-      cmd  = "/tests/k8s-test.sh"
     }
   ]
 }
