@@ -95,7 +95,7 @@ jobs:
 
       - uses: hashicorp/setup-terraform@a1502cd9e758c50496cc9ac5308c4843bcd56d36 # v3
         with:
-          terraform_version: '1.5.7'
+          terraform_version: '1.6.*'
           terraform_wrapper: false
 
       - uses: chainguard-dev/actions/setup-chainctl@538d1927b846546b620784754c33e2a1db86e217 # main
