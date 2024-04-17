@@ -23,6 +23,11 @@ resource "imagetest_harness_k3s" "this" {
   inventory = data.imagetest_inventory.this
 
   sandbox = {
+    envs = {
+      "IMAGE_REGISTRY"   = data.oci_string.ref.registry
+      "IMAGE_REPOSITORY" = data.oci_string.ref.repo
+      "IMAGE_TAG"        = data.oci_string.ref.pseudo_tag
+    }
     mounts = [
       {
         source      = path.module
@@ -36,12 +41,11 @@ module "helm" {
   source = "../../../tflib/imagetest/helm"
 
   name      = "step-issuer"
-  namespace = "step-issuer-system"
+  namespace = "step-issuer"
   repo      = "https://smallstep.github.io/helm-charts"
   chart     = "step-issuer"
 
   values = {
-    entrypoint = ["/usr/bin/step-issuer"]
     image = {
       repository = data.oci_string.ref.registry_repo
       tag        = data.oci_string.ref.pseudo_tag
