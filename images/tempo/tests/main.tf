@@ -5,17 +5,12 @@ terraform {
   }
 }
 
-variable "digests" {
+variable "digest" {
   description = "The image digest to run tests over."
-  type = object({
-    tempo = string
-  })
+  type        = string
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+data "oci_string" "ref" { input = var.digest }
 
 data "imagetest_inventory" "this" {}
 
@@ -34,8 +29,8 @@ module "helm" {
 
   values = {
     tempo = {
-      repository = data.oci_string.ref["tempo"].registry_repo
-      tag        = data.oci_string.ref["tempo"].pseudo_tag
+      repository = data.oci_string.ref.registry_repo
+      tag        = data.oci_string.ref.pseudo_tag
     }
   }
 }
