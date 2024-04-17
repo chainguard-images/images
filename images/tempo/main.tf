@@ -20,27 +20,19 @@ module "tempo" {
 
 module "test" {
   source = "./tests"
-  digests = {
-    tempo = module.tempo.image_ref
-  }
+  digest = module.tempo.image_ref
 }
 
 resource "oci_tag" "latest" {
-  for_each = {
-    tempo = module.tempo.image_ref
-  }
   depends_on = [module.test]
 
-  digest_ref = each.value
+  digest_ref = module.tempo.image_ref
   tag        = "latest"
 }
 
 resource "oci_tag" "latest-dev" {
-  for_each = {
-    tempo = module.tempo.dev_ref
-  }
   depends_on = [module.test]
 
-  digest_ref = each.value
+  digest_ref = module.tempo.dev_ref
   tag        = "latest-dev"
 }
