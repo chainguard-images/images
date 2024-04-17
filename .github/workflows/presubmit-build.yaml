@@ -28,9 +28,17 @@ jobs:
       with:
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
+    - name: Ensure no diff on tfgen
+      run: |
+        set -x
+        make tfgen
+        if ! git diff-index --quiet HEAD --; then
+          echo "Error: Please re-run \"make tfgen\" and commit the result."
+          exit 1
+        fi
+
     - run: make init # Initialize modules.
     - run: terraform fmt -check -recursive -diff
-    - run: ./lint.sh
     - name: Enforce YAML formatting
       uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:afad17b9d533bba348407f9022d5a6c27ebcd3af7e516039191d3c901b0b899c
       with:
