@@ -36,6 +36,9 @@ image/%: check-env-tf init
 	$(TERRAFORM) apply $(TF_VARS) -target=module.$*
 
 init:
+	$(TERRAFORM) init -lockfile=readonly
+
+init-upgrade:
 	$(TERRAFORM) init -upgrade
 	$(TERRAFORM) providers lock -platform=darwin_arm64 -platform=linux_amd64
 
