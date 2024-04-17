@@ -460,6 +460,11 @@ module "grafana-agent-operator" {
   target_repository = "${var.target_repository}/grafana-agent-operator"
 }
 
+module "grafana-operator" {
+  source            = "./images/grafana-operator"
+  target_repository = "${var.target_repository}/grafana-operator"
+}
+
 module "grype" {
   source            = "./images/grype"
   target_repository = "${var.target_repository}/grype"
@@ -1814,6 +1819,10 @@ output "summary_grafana" {
 
 output "summary_grafana-agent-operator" {
   value = module.grafana-agent-operator.summary
+}
+
+output "summary_grafana-operator" {
+  value = module.grafana-operator.summary
 }
 
 output "summary_grype" {
