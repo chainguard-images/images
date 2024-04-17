@@ -46,12 +46,10 @@ module "helm" {
   chart     = "smallstep/step-issuer"
 
   values = {
+    command = ["usr/bin/step-issuer"]
     image = {
       repository = data.oci_string.ref.registry_repo
       tag        = data.oci_string.ref.pseudo_tag
-    }
-    deployment = {
-
     }
   }
 }
