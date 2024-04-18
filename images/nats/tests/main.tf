@@ -37,10 +37,5 @@ resource "imagetest_feature" "basic" {
       workdir = "/tests"
       cmd     = "./healthy.sh"
     },
-    # {
-    #   name    = "works"
-    #   workdir = "/tests"
-    #   cmd     = "./smoke.sh"
-    # },
   ]
 }
