@@ -1268,6 +1268,11 @@ module "step-cli" {
   target_repository = "${var.target_repository}/step-cli"
 }
 
+module "step-issuer" {
+  source            = "./images/step-issuer"
+  target_repository = "${var.target_repository}/step-issuer"
+}
+
 module "stunnel" {
   source            = "./images/stunnel"
   target_repository = "${var.target_repository}/stunnel"
@@ -2464,6 +2469,10 @@ output "summary_step-ca" {
 
 output "summary_step-cli" {
   value = module.step-cli.summary
+}
+
+output "summary_step-issuer" {
+  value = module.step-issuer.summary
 }
 
 output "summary_stunnel" {
