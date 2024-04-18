@@ -28,7 +28,7 @@ docker pull cgr.dev/chainguard/mongodb:latest
 <!--body:start-->
 ## Using MongoDB
 ```shell
-$ docker run cgr.dev/chainguard/minio
+$ docker run cgr.dev/chainguard/mongodb
 ```
 
 Connect to the MongoDB Deployment with mongosh and confirm your MongoDB instance is running by inserting a new document
