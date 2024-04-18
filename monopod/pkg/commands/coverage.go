@@ -97,12 +97,13 @@ type moduleContext struct {
 	// p is the parser to accumulate and parse terraform files
 	p *hclparse.Parser `json:"-"`
 
-	Module            string `json:"module"`
-	HasTest           bool   `json:"has_test"`
-	IsImagetest       bool   `json:"is_imagetest"`
-	UsingPublicModule bool   `json:"using_public_module"`
-	UsingPublicTests  bool   `json:"using_public_tests"`
-	UsingLocalTests   bool   `json:"using_local_tests"`
+	Module            string         `json:"module"`
+	HasTest           bool           `json:"has_test"`
+	IsImagetest       bool           `json:"is_imagetest"`
+	UsingPublicModule bool           `json:"using_public_module"`
+	UsingPublicTests  bool           `json:"using_public_tests"`
+	UsingLocalTests   bool           `json:"using_local_tests"`
+	TestBlocks        map[string]int `json:"test_blocks"`
 }
 
 func (i *coverageImpl) Do(ctx context.Context) error {
@@ -128,6 +129,7 @@ func (i *coverageImpl) generateCoverageReport(ctx context.Context) error {
 			Module: img.ImageName,
 			p:      hclparse.NewParser(),
 		}
+		c.TestBlocks = make(map[string]int)
 
 		if err := c.huntFiles(ctx, mainTf); err != nil {
 			return fmt.Errorf("hunting terraform files: %w", err)
@@ -233,8 +235,10 @@ func (c *moduleContext) parseFiles(ctx context.Context) error {
 				log.Infof("|------ %s", l)
 				for _, key := range []string{
 					"imagetest_inventory",
-					"imagetest_harness_",
 					"imagetest_feature",
+					"imagetest_harness_docker",
+					"imagetest_harness_k3s",
+					"imagetest_container_volume",
 					"oci_exec_test",
 					"helm_release",
 					"helm-cleanup",
@@ -244,18 +248,14 @@ func (c *moduleContext) parseFiles(ctx context.Context) error {
 						c.IsImagetest = c.IsImagetest || strings.Contains(key, "imagetest")
 						c.UsingPublicTests = c.UsingPublicTests || strings.Contains(filename, "public/")
 						c.UsingLocalTests = c.UsingLocalTests || !strings.Contains(filename, "public/")
+						if _, ok := c.TestBlocks[l]; !ok {
+							c.TestBlocks[l] = 0
+						}
+						c.TestBlocks[l] += 1
 					}
 				}
 			}
 		}
 	}
 	return nil
-}
-
-func (c *moduleContext) String() string {
-	b, err := json.Marshal(c)
-	if err != nil {
-		panic(err)
-	}
-	return string(b)
 }
