@@ -410,6 +410,11 @@ module "gcc-glibc" {
   target_repository = "${var.target_repository}/gcc-glibc"
 }
 
+module "gha-runner-scale-set-controller" {
+  source            = "./images/gha-runner-scale-set-controller"
+  target_repository = "${var.target_repository}/gha-runner-scale-set-controller"
+}
+
 module "gitlab" {
   source            = "./images/gitlab"
   target_repository = "${var.target_repository}/gitlab"
@@ -1789,6 +1794,10 @@ output "summary_gatekeeper" {
 
 output "summary_gcc-glibc" {
   value = module.gcc-glibc.summary
+}
+
+output "summary_gha-runner-scale-set-controller" {
+  value = module.gha-runner-scale-set-controller.summary
 }
 
 output "summary_gitlab" {
