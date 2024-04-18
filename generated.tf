@@ -750,6 +750,11 @@ module "laravel" {
   target_repository = "${var.target_repository}/laravel"
 }
 
+module "litestream" {
+  source            = "./images/litestream"
+  target_repository = "${var.target_repository}/litestream"
+}
+
 module "logstash-oss-with-opensearch-output-plugin" {
   source            = "./images/logstash-oss-with-opensearch-output-plugin"
   target_repository = "${var.target_repository}/logstash-oss-with-opensearch-output-plugin"
@@ -2051,6 +2056,10 @@ output "summary_kyverno-policy-reporter" {
 
 output "summary_laravel" {
   value = module.laravel.summary
+}
+
+output "summary_litestream" {
+  value = module.litestream.summary
 }
 
 output "summary_logstash-oss-with-opensearch-output-plugin" {
