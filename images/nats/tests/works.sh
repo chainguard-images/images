@@ -13,7 +13,7 @@ sleep 5
 docker run --rm cgr.dev/chainguard/nats:latest-dev --version
 
 # Start subscribing in the background, and expect a message with our pseudo-random port number
-( docker run --rm --link $CONTAINER_NAME --entrypoint=nats cgr.dev/chainguard/nats:latest-dev sub --server $CONTAINER_NAME foo --count=1 | grep test-message-${FREE_PORT} ) &
+(docker run --rm --link $CONTAINER_NAME --entrypoint=nats cgr.dev/chainguard/nats:latest-dev sub --server $CONTAINER_NAME foo --count=1 | grep test-message-${FREE_PORT}) &
 pid=$!
 
 # Give that a moment to block, and then send a message on that topic matching the text it expects.
