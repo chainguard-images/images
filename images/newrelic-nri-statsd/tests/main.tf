@@ -9,19 +9,39 @@ variable "digest" {
   description = "The image digests to run tests over."
 }
 
-data "oci_string" "ref" {
-  input = var.digest
-}
-
 variable "license_key" {}
 
-data "oci_exec_test" "smoke" {
-  digest      = var.digest
-  script      = "./smoke.sh"
-  working_dir = path.module
+data "imagetest_inventory" "this" {}
 
-  env = [{
-    name  = "NR_API_KEY"
-    value = var.license_key
-  }]
+resource "imagetest_harness_docker" "this" {
+  name      = "newrelic-nri-statsd"
+  inventory = data.imagetest_inventory.this
+
+  mounts = [
+    {
+      source      = path.module
+      destination = "/tests"
+    }
+  ]
+
+  envs = {
+    NR_API_KEY = var.license_key
+    IMAGE_NAME = var.digest
+  }
+}
+
+resource "imagetest_feature" "basic" {
+  name    = "basic test"
+  harness = imagetest_harness_docker.this
+
+  steps = [
+    {
+      name = "Version check"
+      cmd  = "/tests/smoke.sh"
+    },
+  ]
+
+  timeouts = {
+    create = "3m"
+  }
 }

@@ -1,15 +1,15 @@
 module github.com/chainguard-images/images
 
-go 1.21.2
-
-toolchain go1.22.1
+go 1.22.1
 
 require (
 	chainguard.dev/apko v0.13.3
 	github.com/chainguard-dev/clog v1.3.1
 	github.com/dprotaso/go-yit v0.0.0-20220510233725-9ba8df137936
+	github.com/google/go-cmp v0.6.0
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/hashicorp/hcl/v2 v2.20.1
+	github.com/jdolitsky/tq v0.3.0
 	github.com/rivo/tview v0.0.0-20231206124440-5f078138442e
 	github.com/spf13/cobra v1.8.0
 	github.com/stretchr/testify v1.9.0
@@ -40,7 +40,6 @@ require (
 	github.com/go-git/go-git/v5 v5.11.0 // indirect
 	github.com/go-test/deep v1.1.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
-	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/go-containerregistry v0.16.1 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect

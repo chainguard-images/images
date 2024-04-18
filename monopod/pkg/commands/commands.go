@@ -18,7 +18,7 @@ func New() *cobra.Command {
 		"Root of commands.")
 
 	// Add sub-commands.
-	cmd.AddCommand(Matrix(), Readme(), Lint(), Scaffold(), Coverage(), version.Version())
+	cmd.AddCommand(Matrix(), Readme(), Lint(), Scaffold(), version.Version(), TFGen(), Export(), Coverage())
 
 	return cmd
 }
