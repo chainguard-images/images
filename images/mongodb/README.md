@@ -25,4 +25,23 @@ docker pull cgr.dev/chainguard/mongodb:latest
 ```
 <!--getting:end-->
 
-<!--body:start--><!--body:end-->
+<!--body:start-->
+## Using MongoDB
+```shell
+$ docker run cgr.dev/chainguard/minio
+```
+
+Connect to the MongoDB Deployment with mongosh and confirm your MongoDB instance is running by inserting a new document
+
+```shell
+$ mongosh --port 27017
+$test> db.products.insert( { item: "card", qty: 15 } )
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('662141e9a1519b8bd2ac3fc4') }
+}
+$test> show collections
+products
+
+```
+<!--body:end-->
