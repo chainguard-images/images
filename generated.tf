@@ -460,6 +460,11 @@ module "grafana-agent-operator" {
   target_repository = "${var.target_repository}/grafana-agent-operator"
 }
 
+module "grafana-operator" {
+  source            = "./images/grafana-operator"
+  target_repository = "${var.target_repository}/grafana-operator"
+}
+
 module "grype" {
   source            = "./images/grype"
   target_repository = "${var.target_repository}/grype"
@@ -743,6 +748,11 @@ module "kyverno-policy-reporter" {
 module "laravel" {
   source            = "./images/laravel"
   target_repository = "${var.target_repository}/laravel"
+}
+
+module "litestream" {
+  source            = "./images/litestream"
+  target_repository = "${var.target_repository}/litestream"
 }
 
 module "logstash-oss-with-opensearch-output-plugin" {
@@ -1821,6 +1831,10 @@ output "summary_grafana-agent-operator" {
   value = module.grafana-agent-operator.summary
 }
 
+output "summary_grafana-operator" {
+  value = module.grafana-operator.summary
+}
+
 output "summary_grype" {
   value = module.grype.summary
 }
@@ -2047,6 +2061,10 @@ output "summary_kyverno-policy-reporter" {
 
 output "summary_laravel" {
   value = module.laravel.summary
+}
+
+output "summary_litestream" {
+  value = module.litestream.summary
 }
 
 output "summary_logstash-oss-with-opensearch-output-plugin" {
