@@ -33,7 +33,7 @@ monopod coverage
 	return cmd
 }
 
-// nabbed from https://github.com/hashicorp/terraform/blob/d1761f436b636da959ad5865591d53edbe9df8b3/internal/configs/parser_config.go#L273
+// nabbed from https://github.com/opentofu/opentofu/blob/d39b076cf034597a87f2e8b4895982be33c7ed26/internal/configs/parser_config.go#L263
 var configFileSchema = &hcl.BodySchema{
 	Blocks: []hcl.BlockHeaderSchema{
 		{
@@ -76,14 +76,14 @@ var configFileSchema = &hcl.BodySchema{
 			Type: "moved",
 		},
 		{
-			Type: "removed",
-		},
-		{
 			Type: "import",
 		},
 		{
 			Type:       "check",
 			LabelNames: []string{"name"},
+		},
+		{
+			Type: "removed",
 		},
 	},
 }
