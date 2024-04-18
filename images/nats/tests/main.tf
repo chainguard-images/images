@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -8,17 +9,38 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --version"
+data "imagetest_inventory" "this" {}
+
+resource "imagetest_harness_docker" "this" {
+  name      = "nats"
+  inventory = data.imagetest_inventory.this
+
+  mounts = [
+    {
+      source      = path.module
+      destination = "/tests"
+    }
+  ]
+
+  envs = {
+    IMAGE_NAME = var.digest
+  }
 }
 
-data "oci_exec_test" "healthy" {
-  digest = var.digest
-  script = "${path.module}/healthy.sh"
-}
+resource "imagetest_feature" "basic" {
+  name    = "basic test"
+  harness = imagetest_harness_docker.this
 
-data "oci_exec_test" "works" {
-  digest = var.digest
-  script = "${path.module}/works.sh"
+  steps = [
+    {
+      name    = "healthy"
+      workdir = "/tests"
+      cmd     = "./healthy.sh"
+    },
+    # {
+    #   name    = "works"
+    #   workdir = "/tests"
+    #   cmd     = "./smoke.sh"
+    # },
+  ]
 }

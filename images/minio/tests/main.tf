@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -22,24 +23,40 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
-data "oci_exec_test" "version" {
-  for_each = var.digests
-  digest   = each.value
+data "imagetest_inventory" "this" {}
 
-  script = "docker run --rm $IMAGE_NAME --version"
+resource "imagetest_harness_k3s" "this" {
+  name      = "crossplane-aws"
+  inventory = data.imagetest_inventory.this
+
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+    envs = {
+      "MINIO_IMAGE" = var.digests["minio"]
+      "MC_IMAGE"    = var.digests["minio-client"]
+    }
+  }
 }
 
-data "oci_exec_test" "test" {
-  count  = var.check-dev ? 1 : 0
-  digest = var.digests["minio"]
-  script = "${path.module}/test.sh"
-  env {
-    name  = "MINIO_IMAGE"
-    value = var.digests["minio"]
-  }
+resource "imagetest_feature" "basic" {
+  name        = "Basic"
+  description = "Basic minio k8s installation"
+  harness     = imagetest_harness_k3s.this
 
-  env {
-    name  = "MC_IMAGE"
-    value = var.digests["minio-client"]
+  steps = [
+    {
+      name    = "Helm install"
+      workdir = "/tests"
+      cmd     = "./test.sh"
+    },
+  ]
+
+  labels = {
+    type = "k8s",
   }
 }
