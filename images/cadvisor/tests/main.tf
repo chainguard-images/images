@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -10,25 +11,48 @@ variable "digest" {
 
 data "oci_string" "ref" { input = var.digest }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --version"
+data "imagetest_inventory" "this" {}
+
+resource "imagetest_harness_k3s" "this" {
+  name      = "cadvisor"
+  inventory = data.imagetest_inventory.this
+
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+    envs = {
+      "NAMESPACE"        = "cadvisor"
+      "IMAGE_REGISTRY"   = data.oci_string.ref.registry
+      "IMAGE_REPOSITORY" = data.oci_string.ref.repo
+      "IMAGE_TAG"        = data.oci_string.ref.pseudo_tag
+    }
+  }
 }
 
-data "oci_exec_test" "runs" {
-  digest = var.digest
-  script = "${path.module}/01-runs.sh"
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of cadvisor."
 
-  env {
-    name  = "IMAGE_REGISTRY"
-    value = data.oci_string.ref.registry
-  }
-  env {
-    name  = "IMAGE_REPOSITORY"
-    value = data.oci_string.ref.repo
-  }
-  env {
-    name  = "IMAGE_TAG"
-    value = data.oci_string.ref.pseudo_tag
+  steps = [
+    {
+      name = "Test"
+      cmd  = "/tests/runs.sh"
+    },
+    {
+      name  = "Check"
+      cmd   = <<EOF
+kubectl wait --for=condition=ready pod --selector app=cadvisor --namespace $NAMESPACE
+      EOF
+      retry = { attempts = 10, delay = "5s" }
+    },
+  ]
+
+  labels = {
+    type = "k8s"
   }
 }

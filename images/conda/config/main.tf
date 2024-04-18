@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install (e.g. conda)."
-  default     = ["conda"]
+  default     = ["conda", "conda-base", "conda-wrapper"]
 }
 
 data "apko_config" "this" {

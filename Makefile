@@ -1,6 +1,13 @@
 cfg?=images/static/configs/wolfi.apko.yaml
 TERRAFORM ?= $(shell command -v terraform)
 
+# These images either do something with Alpine,
+# or are somehow incompatible with tfgen (still using tagger etc.)
+TFGEN_SKIP ?= busybox,calico,git,graalvm-native,harbor,k3s,keda,kubeflow,kubeflow-katib,maven,powershell,prometheus,static,terraform
+
+# These are the tfgen generators applied to this repo (in order)
+TFGEN_GENERATORS ?= Image01Outputs,Toplevel01Modules,Toplevel02Outputs
+
 .PHONY: apko-build
 apko-build:
 	apko build $(cfg) apko.local image.tar \
@@ -36,11 +43,15 @@ image/%: check-env-tf init
 	$(TERRAFORM) apply $(TF_VARS) -target=module.$*
 
 init:
+	$(TERRAFORM) init -lockfile=readonly
+
+init-upgrade:
 	$(TERRAFORM) init -upgrade
+	$(TERRAFORM) providers lock -platform=darwin_arm64 -platform=linux_amd64
 
 LOCAL_REGISTRY_NAME := k3d.localhost
 LOCAL_REGISTRY_PORT := 5005
-K3S_IMAGE := cgr.dev/chainguard/k3s:latest@sha256:2cce22ae3d776f2b924de7735bb10647320b1563dbca4ab1082a1eedae3b81c5 
+K3S_IMAGE := cgr.dev/chainguard/k3s:latest@sha256:2cce22ae3d776f2b924de7735bb10647320b1563dbca4ab1082a1eedae3b81c5
 
 k3d-registry:
 	@# Create a local registry managed by k3d only if it doesn't exist
@@ -65,3 +76,21 @@ k3d: k3d-registry
 k3d-clean:
 	@# Destroy the k3d cluster, but keep the registry around since it can safely persist across clusters
 	k3d cluster delete
+
+# Run the tfgen used in CI check, regenerate all generated.tf files)
+.PHONY: tfgen
+tfgen:
+	(w="$(shell pwd)" && go run ./monopod tfgen "$${w}" --skip=$(TFGEN_SKIP) --generators=$(TFGEN_GENERATORS))
+
+# Run tfgen for just one or more images (e.g. "make tfgen/img1,img2,img3")
+tfgen/%:
+	(w="$(shell pwd)" && go run ./monopod tfgen "$${w}" --skip=$(TFGEN_SKIP) --generators=$(TFGEN_GENERATORS) --only=$*)
+
+# Clean up all generated.tf files created by tfgen
+.PHONY: tfgen-clean
+tfgen-clean:
+	rm -f generated.tf images/**/generated.tf
+
+.PHONY: monopod
+monopod:
+	(cd monopod && go install .) && which monopod && monopod version

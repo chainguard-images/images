@@ -1,0 +1,11 @@
+name: litestream
+image: cgr.dev/chainguard/litestream
+logo: https://storage.googleapis.com/chainguard-academy/logos/litestream.svg
+endoflife: ""
+console_summary: ""
+short_description: "Container image for [litestream](https://litestream.io), to replicate SQLite databases."
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://litestream.io
+keywords:
+- databases
