@@ -28,12 +28,6 @@ resource "imagetest_harness_k3s" "this" {
       "IMAGE_REPOSITORY" = data.oci_string.ref.repo
       "IMAGE_TAG"        = data.oci_string.ref.pseudo_tag
     }
-    mounts = [
-      {
-        source      = path.module
-        destination = "/tests"
-      }
-    ]
   }
 }
 
