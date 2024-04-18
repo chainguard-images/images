@@ -25,4 +25,7 @@ docker pull cgr.dev/chainguard/step-issuer:latest
 ```
 <!--getting:end-->
 
-<!--body:start--><!--body:end-->
+<!--body:start-->
+To configure your step-issuer image, follow the instructions from the [step-issuer getting started guide](https://github.com/smallstep/step-issuer/blob/master/README.md) starting from step 3.
+
+<!--body:end-->
