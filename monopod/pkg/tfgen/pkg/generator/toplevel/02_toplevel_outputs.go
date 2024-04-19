@@ -29,7 +29,7 @@ func (g *GeneratorToplevel02Outputs) Generate(dir string, skip, only []string, d
 
 	for _, entry := range entries {
 		submoduleName := entry.Name()
-		if !entry.IsDir() || submoduleName == constants.TemplateDirname {
+		if submoduleName == constants.TemplateDirname {
 			continue
 		}
 
