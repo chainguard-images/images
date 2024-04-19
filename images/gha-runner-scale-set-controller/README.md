@@ -88,8 +88,8 @@ helm install "${INSTALLATION_NAME}" \
 
 Once you did that you can create and run a workflow that uses runner scale sets like the following:
 
-> 🤖 You can see the self-hosted runner that you registered within the project's runners tab:
-> https://github.com/<your_enterprise/org/repo>/actions/runners?tab=self-hosted
+> 🤖 You can see the self-hosted runner that you registered within the project's runners tab.
+> To get more detail about using self-hosted runners in workflow, [here](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-self-hosted-runners-in-a-workflow) is the official documentation you can refer to.
 
 ```yaml
 name: Actions Runner Controller Demo
