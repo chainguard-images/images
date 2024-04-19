@@ -9,7 +9,7 @@ variable "extra_packages" {
   // TODO: Add any other packages here you want to conditionally include,
   // or update this default to [] if this isn't a version stream image.
   default = [
-    "mongod-7.3",
+    "mongod-7.3", "jstestshell"
   ]
 }
 
