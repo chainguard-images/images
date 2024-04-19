@@ -8,9 +8,8 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "manifest" {
-  digest      = var.digest
-  script      = "test.sh"
-  working_dir = path.module
+data "oci_exec_test" "check" {
+  digest = var.digest
+  script = "${path.module}/test.sh"
 }
 
