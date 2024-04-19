@@ -1,4 +1,3 @@
-
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -10,7 +9,7 @@ variable "extra_packages" {
   // TODO: Add any other packages here you want to conditionally include,
   // or update this default to [] if this isn't a version stream image.
   default = [
-    "mongodb-7.3",
+    "mongod-7.3",
   ]
 }
 
@@ -30,7 +29,6 @@ data "apko_config" "this" {
   config_contents = yamlencode(merge(
     local.base_config,
     {
-      // Allow injecting extra repositories and keyrings.
       contents = {
         repositories = var.extra_repositories
         keyring      = var.extra_keyring
