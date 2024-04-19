@@ -840,6 +840,11 @@ module "ml-metadata-store-server" {
   target_repository = "${var.target_repository}/ml-metadata-store-server"
 }
 
+module "mongodb" {
+  source            = "./images/mongodb"
+  target_repository = "${var.target_repository}/mongodb"
+}
+
 module "multus-cni" {
   source            = "./images/multus-cni"
   target_repository = "${var.target_repository}/multus-cni"
@@ -2138,6 +2143,10 @@ output "summary_minio" {
 
 output "summary_ml-metadata-store-server" {
   value = module.ml-metadata-store-server.summary
+}
+
+output "summary_mongodb" {
+  value = module.mongodb.summary
 }
 
 output "summary_multus-cni" {

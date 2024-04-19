@@ -1,0 +1,12 @@
+name: mongodb
+image: cgr.dev/chainguard/mongodb
+logo: https://storage.googleapis.com/chainguard-academy/logos/mongodb.svg
+endoflife: ""
+console_summary: ""
+short_description: The MongoDB Database image
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/mongodb/mongo
+keywords:
+  - application
+  - database
