@@ -27,15 +27,15 @@ module "versioned" {
   update-repo       = each.value.is_latest
 }
 
-#module "test" {
-#  for_each = module.versions.versions
-#  source   = "./tests"
-#  digest   = module.versioned[each.key].image_ref
-#}
+module "test" {
+  for_each = module.versions.versions
+  source   = "./tests"
+  digest   = module.versioned[each.key].image_ref
+}
 
 module "tagger" {
-  source = "../../tflib/tagger"
-  #depends_on = [module.test]
+  source     = "../../tflib/tagger"
+  depends_on = [module.test]
   tags = merge(
     [for v in module.versioned : v.latest_tag_map]...
   )
