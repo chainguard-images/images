@@ -55,7 +55,7 @@ variable "update-repo" {
 
 variable "check-sbom" {
   type        = bool
-  default     = false
+  default     = true
   description = "Whether to run the NTIA conformance checker over the images we produce prior to attesting the SBOMs."
 }
 
@@ -90,8 +90,12 @@ locals {
 }
 
 module "this" {
+  /*
   source  = "chainguard-dev/apko/publisher"
   version = "0.0.11"
+*/
+  source = "git@github.com:imjasonh/terraform-publisher-apko.git?ref=spdx-check"
+  //source = "/Users/jason/git/terraform-publisher-apko"
 
   target_repository = var.target_repository
   config            = yamlencode(local.updated_config)
