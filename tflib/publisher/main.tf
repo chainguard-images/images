@@ -94,7 +94,7 @@ module "this" {
   source  = "chainguard-dev/apko/publisher"
   version = "0.0.11"
 */
-  source = "git@github.com:imjasonh/terraform-publisher-apko.git?ref=spdx-check"
+  source = "https://github.com/imjasonh/terraform-publisher-apko.git?ref=spdx-check"
   //source = "/Users/jason/git/terraform-publisher-apko"
 
   target_repository = var.target_repository
