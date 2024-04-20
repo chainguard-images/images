@@ -53,9 +53,10 @@ To launch a development instance of keycloak in k8s using the following
 
 ```bash
 helm install keycloak oci://registry-1.docker.io/bitnamicharts/keycloak \
-  --set image.repository=cgr.dev/chainguard/keycloak \
+  --set image.registry=cgr.dev \
+  --set image.repository=chainguard/keycloak \
   --set image.tag=latest \
-  --set "args[0]=start-dev"
+  --set "args={start-dev}"
 ```
 
 Refer to the [keycloak](https://github.com/keycloak/keycloak/blob/main/docs/guides/server/containers.adoc)
