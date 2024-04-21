@@ -770,6 +770,11 @@ module "loki" {
   target_repository = "${var.target_repository}/loki"
 }
 
+module "mage" {
+  source            = "./images/mage"
+  target_repository = "${var.target_repository}/mage"
+}
+
 module "management-api-for-apache-cassandra" {
   source            = "./images/management-api-for-apache-cassandra"
   target_repository = "${var.target_repository}/management-api-for-apache-cassandra"
@@ -2087,6 +2092,10 @@ output "summary_logstash-oss-with-opensearch-output-plugin" {
 
 output "summary_loki" {
   value = module.loki.summary
+}
+
+output "summary_mage" {
+  value = module.mage.summary
 }
 
 output "summary_management-api-for-apache-cassandra" {

@@ -1,0 +1,11 @@
+name: mage
+image: cgr.dev/chainguard/mage
+logo: https://storage.googleapis.com/chainguard-academy/logos/mage.svg
+endoflife: ""
+console_summary: ""
+short_description: '[Mage](https://magefile.org) is a Makefile alternative written in Go.'
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/magefile/mage
+keywords:
+  - tools
