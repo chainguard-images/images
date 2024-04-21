@@ -770,6 +770,11 @@ module "loki" {
   target_repository = "${var.target_repository}/loki"
 }
 
+module "mage" {
+  source            = "./images/mage"
+  target_repository = "${var.target_repository}/mage"
+}
+
 module "management-api-for-apache-cassandra" {
   source            = "./images/management-api-for-apache-cassandra"
   target_repository = "${var.target_repository}/management-api-for-apache-cassandra"
@@ -1371,6 +1376,11 @@ module "trino" {
 module "trust-manager" {
   source            = "./images/trust-manager"
   target_repository = "${var.target_repository}/trust-manager"
+}
+
+module "valkey" {
+  source            = "./images/valkey"
+  target_repository = "${var.target_repository}/valkey"
 }
 
 module "vault" {
@@ -2089,6 +2099,10 @@ output "summary_loki" {
   value = module.loki.summary
 }
 
+output "summary_mage" {
+  value = module.mage.summary
+}
+
 output "summary_management-api-for-apache-cassandra" {
   value = module.management-api-for-apache-cassandra.summary
 }
@@ -2563,6 +2577,10 @@ output "summary_trino" {
 
 output "summary_trust-manager" {
   value = module.trust-manager.summary
+}
+
+output "summary_valkey" {
+  value = module.valkey.summary
 }
 
 output "summary_vault" {
