@@ -1378,6 +1378,11 @@ module "trust-manager" {
   target_repository = "${var.target_repository}/trust-manager"
 }
 
+module "valkey" {
+  source            = "./images/valkey"
+  target_repository = "${var.target_repository}/valkey"
+}
+
 module "vault" {
   source            = "./images/vault"
   target_repository = "${var.target_repository}/vault"
@@ -2572,6 +2577,10 @@ output "summary_trino" {
 
 output "summary_trust-manager" {
   value = module.trust-manager.summary
+}
+
+output "summary_valkey" {
+  value = module.valkey.summary
 }
 
 output "summary_vault" {
