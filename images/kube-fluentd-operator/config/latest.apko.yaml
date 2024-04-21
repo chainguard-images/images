@@ -11,9 +11,9 @@ entrypoint:
 environment:
   FLUENTD_CONF: fluent.conf
   LD_PRELOAD: /usr/lib/libjemalloc.so.2
-  GEM_PATH: /usr/lib/gem/home
+  GEM_PATH: /usr/lib/ruby/gems/3.2.0:/usr/lib/gem/home
   GEM_HOME: /usr/lib/gem/home
-  PATH: /usr/lib/gem/home/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  PATH: /usr/lib/gem/home/bin:usr/local/bundle/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 accounts:
   groups:
