@@ -1,23 +1,39 @@
 # Testing the PyTorch-CUDA Image
 
-While some functionality in PyTorch will run on CPU, full testing of this image requires an environment with connected GPUs. Previous testing has used a [Google Cloud deep learning instance](https://cloud.google.com/deep-learning-vm) with connected GPU, CUDA toolkit, and required NVIDIA drivers.
+While some functionality in PyTorch will run on CPU, full testing of
+this image requires an environment with connected GPUs. Previous
+testing has used a [Google Cloud deep learning
+instance](https://cloud.google.com/deep-learning-vm) with connected
+GPU, CUDA toolkit, and required NVIDIA drivers.
 
 ## Creating a Deep Learning VM
 
-1.  If you haven't already, install the [gcloud CLI](https://cloud.google.com/sdk/docs/install).
-2.  In GCP, create a project and grab the project ID or find the ID of your existing project. The ID is a descriptive string, not a number.
-3.  Run \`gcloud init\` in the terminal to authenticate to GCP. You may want to add the ID above at this step. You can set the project later with \`gcloud config set project <project-id>\`.
-4.  Once you're authenticated, review and set these environment variables as below. . GPU aren't available in all zones and this changes. You can [review availability using gcloud cli](https://cloud.google.com/compute/docs/gpus/gpu-regions-zones), or you can [sneak a look at the GCP docs on creating an instance to see what their current default is](https://cloud.google.com/deep-learning-vm/docs/pytorch_start_instance) since it's pretty likely to work. You can also set the pytorch-cuda version if needed (see the above GCP docs) and name the instance.
+1. If you haven't already, install the [gcloud CLI](https://cloud.google.com/sdk/docs/install).
+2. In GCP, create a project and grab the project ID or find the ID of
+   your existing project. The ID is a descriptive string, not a
+   number.
+3. Run `gcloud init` in the terminal to authenticate to GCP. You may
+   want to add the ID above at this step. You can set the project
+   later with `gcloud config set project <project-id>`.
+4. Once you're authenticated, review and set these environment
+   variables as below. . GPU aren't available in all zones and this
+   changes. You can [review availability using gcloud
+   cli](https://cloud.google.com/compute/docs/gpus/gpu-regions-zones),
+   or you can [sneak a look at the GCP docs on creating an instance to
+   see what their current default
+   is](https://cloud.google.com/deep-learning-vm/docs/pytorch_start_instance)
+   since it's pretty likely to work. You can also set the pytorch-cuda
+   version if needed (see the above GCP docs) and name the instance.
 
-	```bash
-	export IMAGE_FAMILY="pytorch-latest-gpu"
-	export ZONE="us-west1-b"
-	export INSTANCE_NAME="<name-of-instance>" 
-	```
+    ```bash
+    export IMAGE_FAMILY="pytorch-latest-gpu"
+    export ZONE="us-west1-b"
+    export INSTANCE_NAME="<name-of-instance>"
+    ```
 
-1.  Run the following to create the instance:
+5. Run the following to create the instance:
 
-	```bash
+    ```bash
     gcloud compute instances create $INSTANCE_NAME \
       --zone=$ZONE \
       --image-family=$IMAGE_FAMILY \
@@ -29,9 +45,13 @@ While some functionality in PyTorch will run on CPU, full testing of this image 
 
 Some notes:
 
--   If the above instructions aren't working, [check the GCP docs for an update](https://cloud.google.com/deep-learning-vm/docs/pytorch_start_instance).
--   Using the above instructions, the CUDA drivers should be installed during image creation (that's the metadata tag).
--   The maintenance policy needs to be set because GPU instances can't be moved live. If the realm changes or other maintenance occurs, the image will be shut down.
+- If the above instructions aren't working, [check the GCP docs for an
+  update](https://cloud.google.com/deep-learning-vm/docs/pytorch_start_instance).
+- Using the above instructions, the CUDA drivers should be installed
+  during image creation (that's the metadata tag).
+- The maintenance policy needs to be set because GPU instances can't
+  be moved live. If the realm changes or other maintenance occurs, the
+  image will be shut down.
 
 ## Check CUDA and GPU Availability
 
@@ -68,9 +88,10 @@ Run the image:
 docker run --rm -i -t \
     --gpus all \
     cgr.dev/chainguard/pytorch:latest
-```	
+```
 
 ## Documentation and Resources
 
--   [Deep learning vm docs](https://cloud.google.com/deep-learning-vm/docs?_gl=1*2hwanx*_ga*MjUwMTMwMjA5LjE3MTE5OTYxNTU.*_ga_WH2QY8WWF5*MTcxMjg0MzE4OS40LjEuMTcxMjg0NzI3NS4wLjAuMA..&_ga=2.149113461.-250130209.1711996155)
--   [PyTorch-specific instruction](https://cloud.google.com/deep-learning-vm/docs/pytorch_start_instance) (TF on same page)
+- [ Deep Learning VM  Docs](https://cloud.google.com/deep-learning-vm/docs?_gl=1*2hwanx*_ga*MjUwMTMwMjA5LjE3MTE5OTYxNTU.*_ga_WH2QY8WWF5*MTcxMjg0MzE4OS40LjEuMTcxMjg0NzI3NS4wLjAuMA..&_ga=2.149113461.-250130209.1711996155)
+- [PyTorch-Specific instructions](https://cloud.google.com/deep-learning-vm/docs/pytorch_start_instance)
+  (TF on same page)
