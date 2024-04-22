@@ -19,19 +19,19 @@ module "latest" {
   extra_dev_packages = ["kustomize"]
 }
 
-# module "test-latest" {
-#   source = "./tests"
-#   digest = module.latest.image_ref
-# }
+module "test-latest" {
+  source = "./tests"
+  digest = module.latest.image_ref
+}
 
 resource "oci_tag" "latest" {
-  # depends_on = [module.test-latest]
+  depends_on = [module.test-latest]
   digest_ref = module.latest.image_ref
   tag        = "latest"
 }
 
 resource "oci_tag" "latest-dev" {
-  # depends_on = [module.test-latest]
+  depends_on = [module.test-latest]
   digest_ref = module.latest.dev_ref
   tag        = "latest-dev"
 }
