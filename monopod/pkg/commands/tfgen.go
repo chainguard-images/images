@@ -10,15 +10,18 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/chainguard-images/images/monopod/pkg/commands/options"
 	"github.com/chainguard-images/images/monopod/pkg/tfgen/pkg/constants"
 	"github.com/chainguard-images/images/monopod/pkg/tfgen/pkg/generator"
 	"github.com/chainguard-images/images/monopod/pkg/tfgen/pkg/generator/image"
 	"github.com/chainguard-images/images/monopod/pkg/tfgen/pkg/generator/toplevel"
 	"github.com/chainguard-images/images/monopod/pkg/tfgen/pkg/util"
+
 	"github.com/spf13/cobra"
 )
 
 const (
+	Image00PublicCopy       = "Image00PublicCopy"
 	Image01Outputs          = "Image01Outputs"
 	Image01OutputsVersioned = "Image01OutputsVersioned"
 	Toplevel01Modules       = "Toplevel01Modules"
@@ -26,6 +29,9 @@ const (
 )
 
 var knownGeneratorsImage = map[string]generator.Generator{
+	Image00PublicCopy: &image.GeneratorImage00PublicCopy{
+		SourcePathPrefix: "",
+	},
 	Image01Outputs:          &image.GeneratorImage01Outputs{},
 	Image01OutputsVersioned: &image.GeneratorImage01OutputsVersioned{},
 }
@@ -38,7 +44,7 @@ var knownGeneratorsTopLevel = map[string]generator.Generator{
 var allKnownGeneratorsTfgen = append(sortedMapKeys(knownGeneratorsImage), sortedMapKeys(knownGeneratorsTopLevel)...)
 
 func TFGen() *cobra.Command {
-	var skip, only, generators []string
+	opts := &options.TFGenOptions{}
 	cmd := &cobra.Command{
 		Use:               "tfgen",
 		DisableAutoGenTag: true,
@@ -49,16 +55,8 @@ func TFGen() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			repoRootDir := args[0]
 
-			// Validate incoming generators
-			if len(generators) == 0 {
-				return fmt.Errorf("please provided comma-separated list of generators. Possible values: %s",
-					strings.Join(allKnownGeneratorsTfgen, ","))
-			}
-			for _, gen := range generators {
-				if !slices.Contains(allKnownGeneratorsTfgen, gen) {
-					return fmt.Errorf("unknown generator: \"%s\". Possible values: %s",
-						gen, strings.Join(allKnownGeneratorsTfgen, ","))
-				}
+			if err := validateTFGenGenerators(opts); err != nil {
+				return err
 			}
 
 			// First generate for all of the image subdirectories
@@ -73,17 +71,17 @@ func TFGen() *cobra.Command {
 				}
 				name := entry.Name()
 
-				if slices.Contains(skip, name) {
+				if slices.Contains(opts.Skip, name) {
 					log.Println("SKIPPING", name)
 					continue
 				}
-				if len(only) > 0 && !slices.Contains(only, name) {
+				if len(opts.Only) > 0 && !slices.Contains(opts.Only, name) {
 					log.Println("SKIPPING", name)
 					continue
 				}
 
 				subdir := path.Join(imagesDirname, name)
-				isEmpty, b, err := generateForImageSubdir(subdir, skip, only, generators)
+				isEmpty, b, err := generateForImageSubdir(subdir, opts.Skip, opts.Only, opts.Generators)
 				if err != nil {
 					log.Fatal(subdir, err)
 				}
@@ -100,7 +98,7 @@ func TFGen() *cobra.Command {
 			}
 
 			// Then do for the repo top-level
-			isEmpty, b, err := generateForToplevel(repoRootDir, skip, only, generators)
+			isEmpty, b, err := generateForToplevel(repoRootDir, opts.Skip, opts.Only, opts.Generators)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -117,9 +115,7 @@ func TFGen() *cobra.Command {
 			return nil
 		},
 	}
-	cmd.Flags().StringSliceVar(&skip, "skip", nil, "Skip generating for the specified image subdirectories")
-	cmd.Flags().StringSliceVar(&only, "only", nil, "Only generate for the specified image subdirectories")
-	cmd.Flags().StringSliceVar(&generators, "generators", nil, "Run the provided generators")
+	opts.AddFlags(cmd)
 	return cmd
 }
 
@@ -161,4 +157,30 @@ func sortedMapKeys(m interface{}) (keyList []string) {
 	}
 	sort.Strings(keyList)
 	return
+}
+
+func validateTFGenGenerators(opts *options.TFGenOptions) error {
+	if len(opts.Generators) == 0 {
+		return fmt.Errorf("please provided comma-separated list of generators. Possible values: %s",
+			strings.Join(allKnownGeneratorsTfgen, ","))
+	}
+	for _, gen := range opts.Generators {
+		if !slices.Contains(allKnownGeneratorsTfgen, gen) {
+			return fmt.Errorf("unknown generator: \"%s\". Possible values: %s",
+				gen, strings.Join(allKnownGeneratorsTfgen, ","))
+		}
+	}
+
+	// Require certain inputs using certain generators,
+	// resetting generators where necessary with with proper args set
+	if slices.Contains(opts.Generators, Image00PublicCopy) {
+		if opts.SourcePathPrefix == "" {
+			opts.SourcePathPrefix = defaultSourcePathPrefixParentDir
+		}
+		knownGeneratorsImage[Image00PublicCopy] = &image.GeneratorImage00PublicCopy{
+			SourcePathPrefix: opts.SourcePathPrefix,
+		}
+	}
+
+	return nil
 }

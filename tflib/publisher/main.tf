@@ -179,3 +179,17 @@ output "dev_ref" {
 output "config" {
   value = module.this.config
 }
+
+// A form of tag_map that includes "latest" tags.
+output "latest_tag_map" {
+  value = merge(
+    { "latest" : data.oci_structure_test.structure.tested_ref },
+    local.build-dev ? { "latest-dev" : module.this-dev[0].image_ref } : {},
+  )
+}
+
+# Just return "latest" and "latest-dev" to
+# plumb into the image summary
+output "tag_list" {
+  value = flatten(["latest", local.build-dev ? ["latest-dev"] : []])
+}
