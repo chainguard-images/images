@@ -21,6 +21,7 @@ const (
 	Mutate01VersionedPublisher = "Mutate01VersionedPublisher"
 	Mutate02PrefixSourcePaths  = "Mutate02PrefixSourcePaths"
 	Mutate03OciTagToTagger     = "Mutate03OciTagToTagger"
+	Mutate04PublicCopy         = "Mutate04PublicCopy"
 
 	defaultSourcePathPrefixParentDir = "../../public/images/"
 )
@@ -29,6 +30,7 @@ var defaultExportGenerators = []string{
 	Mutate01VersionedPublisher,
 	Mutate02PrefixSourcePaths,
 	Mutate03OciTagToTagger,
+	Mutate04PublicCopy,
 }
 
 var knownGeneratorsExport = map[string]generator.Generator{
@@ -39,6 +41,7 @@ var knownGeneratorsExport = map[string]generator.Generator{
 		SourcePathPrefix: "",
 	},
 	Mutate03OciTagToTagger: &mutate.GeneratorMutate03OciTagToTagger{},
+	Mutate04PublicCopy:     &mutate.GeneratorMutate04PublicCopy{},
 }
 
 var allKnownGeneratorsExport = sortedMapKeys(knownGeneratorsExport)
@@ -63,7 +66,7 @@ monopod export ./images/zot ./zot-custom
 			}
 
 			log.Printf("Reading from source: %s", opts.Source)
-			tfFiles, err := util.LoadAllTerraformFilesInDir(opts.Source)
+			tfFiles, err := util.LoadAllTerraformFilesInDirNoGenerated(opts.Source)
 			if err != nil {
 				return err
 			}

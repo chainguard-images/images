@@ -20,7 +20,7 @@ jobs:
         with:
           egress-policy: audit
 
-      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4
+      - uses: actions/checkout@1d96c772d19495a3b5c517cd2bc0cb401ea0529f # v4
       - uses: chainguard-dev/actions/setup-chainctl@538d1927b846546b620784754c33e2a1db86e217 # main
         with:
           identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
