@@ -1,77 +1,76 @@
-Since testing this image requires GPU's, CUDA toolkit and NVidia drivers, this document gives an high level overview of the setup needed to run/test this image. Google Cloud has been used for all our testing setup.
+# Testing the PyTorch-CUDA Image
 
-# Installation
-1. Create a VM with GPUs
+While some functionality in PyTorch will run on CPU, full testing of this image requires an environment with connected GPUs. Previous testing has used a [Google Cloud deep learning instance](https://cloud.google.com/deep-learning-vm) with connected GPU, CUDA toolkit, and required NVIDIA drivers.
 
-    
-    ```gcloud compute instances create pytorch-testing \
-    --zone=us-central1-a \
-    --machine-type=n1-standard-4 \
-    --accelerator="type=nvidia-tesla-t4,count=2" \
-    --boot-disk-size=200GB \
-    --boot-disk-type=pd-standard \
-    --image-family=ubuntu-2204-lts \
-    --image-project=ubuntu-os-cloud \
-    --maintenance-policy=TERMINATE \
-    --restart-on-failure```
-    
+## Creating a Deep Learning VM
 
-Verify that NVIDIA card is detected
-    ```lspci -vv | grep -i nvidia```
-    
-    a. Setup docker for future usage
-        https://docs.docker.com/engine/install/ubuntu/
+1.  If you haven't already, install the [gcloud CLI](https://cloud.google.com/sdk/docs/install).
+2.  In GCP, create a project and grab the project ID or find the ID of your existing project. The ID is a descriptive string, not a number.
+3.  Run \`gcloud init\` in the terminal to authenticate to GCP. You may want to add the ID above at this step. You can set the project later with \`gcloud config set project <project-id>\`.
+4.  Once you're authenticated, review and set these environment variables as below. . GPU aren't available in all zones and this changes. You can [review availability using gcloud cli](https://cloud.google.com/compute/docs/gpus/gpu-regions-zones), or you can [sneak a look at the GCP docs on creating an instance to see what their current default is](https://cloud.google.com/deep-learning-vm/docs/pytorch_start_instance) since it's pretty likely to work. You can also set the pytorch-cuda version if needed (see the above GCP docs) and name the instance.
 
+	```bash
+	export IMAGE_FAMILY="pytorch-latest-gpu"
+	export ZONE="us-west1-b"
+	export INSTANCE_NAME="<name-of-instance>" 
+	```
 
-2. Installing NVIDIA driver and toolkit
-Install the new cuda-keyring package:
+1.  Run the following to create the instance:
 
-    ```
-    wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
-    sudo dpkg -i cuda-keyring_1.1-1_all.deb
-    ```
+	```bash
+    gcloud compute instances create $INSTANCE_NAME \
+      --zone=$ZONE \
+      --image-family=$IMAGE_FAMILY \
+      --image-project=deeplearning-platform-release \
+      --maintenance-policy=TERMINATE \
+      --accelerator="type=nvidia-tesla-v100,count=1" \
+      --metadata="install-nvidia-driver=True"
+  ```
 
-    Enroll the new signing key manually:
+Some notes:
 
-    ```wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-archive-keyring.gpg
-    sudo mv cuda-archive-keyring.gpg /usr/share/keyrings/cuda-archive-keyring.gpg
-    ```
+-   If the above instructions aren't working, [check the GCP docs for an update](https://cloud.google.com/deep-learning-vm/docs/pytorch_start_instance).
+-   Using the above instructions, the CUDA drivers should be installed during image creation (that's the metadata tag).
+-   The maintenance policy needs to be set because GPU instances can't be moved live. If the realm changes or other maintenance occurs, the image will be shut down.
 
-    ```sudo apt-get update
-       sudo apt-get install cuda-12-3
-    ```
-    
+## Check CUDA and GPU Availability
 
-        Not needed, should be covered by the cuda-12-3 installation
-        ```
-        sudo apt-get install cuda-toolkit
-        sudo apt-get install nvidia-gds
-        ```
+```bash
+$ nvcc --version
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2023 NVIDIA Corporation
+Built on Mon_Apr__3_17:16:06_PDT_2023
+Cuda compilation tools, release 12.1, V12.1.105
+Build cuda_12.1.r12.1/compiler.32688072_0
+```
 
-    Reboot the system before proceeding 
+Check that CUDA is available as a device:
 
-    ```sudo reboot```
+```bash
+$ echo "import torch;print(torch.cuda.is_available())"| python
+True
+```
 
-    Update PATH
-    
-    ```export PATH=/usr/local/cuda/bin:$PATH``` 
+Check the specific connected GPU. If more than one is connected, this will show the first.
 
-3. Run Image
+```bash
+$ echo "import torch;print(torch.cuda.get_device_name(0))" | python
+Tesla V100-SXM2-16GB
+```
 
-    ```sudo docker run --gpus all -it --rm cgr.dev/chainguard/pytorch:latest```
+## Run Image
 
-4. Test scripts to run
-    ```
-    $ python
-    >>> import torch
-    >>> print(torch.cuda.is_available())
-    True
-    ```
+Install [Docker Engine](https://docs.docker.com/engine/install/ubuntu/).
 
-Reference:
-https://collabnix.com/introducing-new-docker-cli-api-support-for-nvidia-gpus-under-docker-engine-19-03-0-beta-release/
+Run the image:
 
-https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#ubuntu
+```
+docker run --rm -i -t \
+    --gpus all \
+    cgr.dev/chainguard/pytorch:latest
+```	
 
+## Documentation and Resources
 
-
+-   [Deep learning vm docs](https://cloud.google.com/deep-learning-vm/docs?_gl=1*2hwanx*_ga*MjUwMTMwMjA5LjE3MTE5OTYxNTU.*_ga_WH2QY8WWF5*MTcxMjg0MzE4OS40LjEuMTcxMjg0NzI3NS4wLjAuMA..&_ga=2.149113461.-250130209.1711996155)
+-   [PyTorch-specific instruction](https://cloud.google.com/deep-learning-vm/docs/pytorch_start_instance) (TF on same page)
