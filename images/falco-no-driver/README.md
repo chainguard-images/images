@@ -82,10 +82,13 @@ To install falco-no-driver image supporting modern bpf probe,
 
     helm install falco \
     --namespace falco --create-namespace  \
-    --set image.registry=cgr \
+    --set image.registry=cgr.dev \
     --set image.repository=chainguard/falco-no-driver \
     --set image.tag=latest \
     --set driver.kind=modern-bpf \
+    --set falcoctl.image.registry=cgr.dev \
+    --set falcoctl.image.repository=chainguard/falcoctl \
+    --set falcoctl.image.tag=latest \
     --wait falcosecurity/falco
 ```
 <!--body:end-->
