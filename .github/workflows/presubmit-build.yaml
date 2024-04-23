@@ -24,7 +24,7 @@ jobs:
       with:
         egress-policy: audit
 
-    - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
+    - uses: actions/checkout@1d96c772d19495a3b5c517cd2bc0cb401ea0529f # v4.1.3
       with:
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
@@ -46,7 +46,7 @@ jobs:
         args: lint yam images/
 
     - id: changed
-      uses: tj-actions/changed-files@635f118699dd888d737c15018cd30aff2e0274f8 # v44.0.1
+      uses: tj-actions/changed-files@0874344d6ebbaa00a27da73276ae7162fadcaf69 # v44.3.0
       with:
         dir_names: "true"
         # Truncates (not ignores) the path of changed files to 2 (ie: images/flux/tests/main.tf -> images/flux)
@@ -118,7 +118,7 @@ jobs:
       with:
         egress-policy: audit
 
-    - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
+    - uses: actions/checkout@1d96c772d19495a3b5c517cd2bc0cb401ea0529f # v4.1.3
       with:
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
@@ -187,7 +187,7 @@ jobs:
 
     - name: Upload terraform logs
       if: always()
-      uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v3
+      uses: actions/upload-artifact@1746f4ab65b179e0ea60a494b83293b640dd5bba # v3
       with:
         name: "mega-module-${{ matrix.shard.index }}.tf.json"
         path: /tmp/mega-module.tf.json

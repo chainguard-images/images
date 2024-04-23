@@ -18,6 +18,11 @@ type GeneratorMutate02PrefixSourcePaths struct {
 }
 
 func (g *GeneratorMutate02PrefixSourcePaths) Generate(_ string, _, _ []string, data *tq.TerraformFile) error {
+	// Do nothing if there is a call to "versions" tflib, use "public-copy" instead
+	if util.HasVersionsBlock(data) {
+		return nil
+	}
+
 	for _, block := range data.Body.Blocks {
 		v := block.Attributes[constants.AttributeSource]
 		if v == "" {

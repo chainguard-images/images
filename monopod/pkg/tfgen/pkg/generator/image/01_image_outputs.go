@@ -3,7 +3,6 @@ package image
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"path/filepath"
 	"slices"
 	"sort"
@@ -44,7 +43,7 @@ func generate(versioned bool, dir string, skip, only []string, data *tq.Terrafor
 		return nil
 	}
 
-	tfFiles, err := util.LoadAllTerraformFilesInDir(dir)
+	tfFiles, err := util.LoadAllTerraformFilesInDirNoGenerated(dir)
 	if err != nil {
 		return nil
 	}
@@ -74,7 +73,6 @@ func generate(versioned bool, dir string, skip, only []string, data *tq.Terrafor
 
 	numPublishers := len(publisherNames)
 	if numPublishers == 0 {
-		log.Printf("WARN [image:%s] no usage of publisher, skipping\n", filepath.Base(dir))
 		return nil
 	}
 

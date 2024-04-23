@@ -410,6 +410,11 @@ module "gcc-glibc" {
   target_repository = "${var.target_repository}/gcc-glibc"
 }
 
+module "gha-runner-scale-set-controller" {
+  source            = "./images/gha-runner-scale-set-controller"
+  target_repository = "${var.target_repository}/gha-runner-scale-set-controller"
+}
+
 module "gitlab" {
   source            = "./images/gitlab"
   target_repository = "${var.target_repository}/gitlab"
@@ -833,6 +838,11 @@ module "minio" {
 module "ml-metadata-store-server" {
   source            = "./images/ml-metadata-store-server"
   target_repository = "${var.target_repository}/ml-metadata-store-server"
+}
+
+module "mongodb" {
+  source            = "./images/mongodb"
+  target_repository = "${var.target_repository}/mongodb"
 }
 
 module "multus-cni" {
@@ -1363,6 +1373,11 @@ module "trust-manager" {
   target_repository = "${var.target_repository}/trust-manager"
 }
 
+module "valkey" {
+  source            = "./images/valkey"
+  target_repository = "${var.target_repository}/valkey"
+}
+
 module "vault" {
   source            = "./images/vault"
   target_repository = "${var.target_repository}/vault"
@@ -1791,6 +1806,10 @@ output "summary_gcc-glibc" {
   value = module.gcc-glibc.summary
 }
 
+output "summary_gha-runner-scale-set-controller" {
+  value = module.gha-runner-scale-set-controller.summary
+}
+
 output "summary_gitlab" {
   value = module.gitlab.summary
 }
@@ -2129,6 +2148,10 @@ output "summary_minio" {
 
 output "summary_ml-metadata-store-server" {
   value = module.ml-metadata-store-server.summary
+}
+
+output "summary_mongodb" {
+  value = module.mongodb.summary
 }
 
 output "summary_multus-cni" {
@@ -2545,6 +2568,10 @@ output "summary_trino" {
 
 output "summary_trust-manager" {
   value = module.trust-manager.summary
+}
+
+output "summary_valkey" {
+  value = module.valkey.summary
 }
 
 output "summary_vault" {
