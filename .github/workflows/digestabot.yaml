@@ -23,7 +23,7 @@ jobs:
       with:
         egress-policy: audit
 
-    - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
+    - uses: actions/checkout@1d96c772d19495a3b5c517cd2bc0cb401ea0529f # v4.1.3
 
     - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
       id: octo-sts
