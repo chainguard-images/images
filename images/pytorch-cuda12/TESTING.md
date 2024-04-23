@@ -33,15 +33,15 @@ GPU, CUDA toolkit, and required NVIDIA drivers.
 
 5. Run the following to create the instance:
 
-    ```bash
-    gcloud compute instances create $INSTANCE_NAME \
-      --zone=$ZONE \
-      --image-family=$IMAGE_FAMILY \
-      --image-project=deeplearning-platform-release \
-      --maintenance-policy=TERMINATE \
-      --accelerator="type=nvidia-tesla-v100,count=1" \
-      --metadata="install-nvidia-driver=True"
-  ```
+``` bash
+gcloud compute instances create $INSTANCE_NAME \
+  --zone=$ZONE \
+  --image-family=$IMAGE_FAMILY \
+  --image-project=deeplearning-platform-release \
+  --maintenance-policy=TERMINATE \
+  --accelerator="type=nvidia-tesla-v100,count=1" \
+  --metadata="install-nvidia-driver=True"
+```
 
 Some notes:
 
@@ -84,14 +84,14 @@ Install [Docker Engine](https://docs.docker.com/engine/install/ubuntu/).
 
 Run the image:
 
-```
+```bash
 docker run --rm -i -t \
     --gpus all \
-    cgr.dev/chainguard/pytorch:latest
+    cgr.dev/chainguard/pytorch-cuda12:latest
 ```
 
 ## Documentation and Resources
 
-- [ Deep Learning VM  Docs](https://cloud.google.com/deep-learning-vm/docs?_gl=1*2hwanx*_ga*MjUwMTMwMjA5LjE3MTE5OTYxNTU.*_ga_WH2QY8WWF5*MTcxMjg0MzE4OS40LjEuMTcxMjg0NzI3NS4wLjAuMA..&_ga=2.149113461.-250130209.1711996155)
+- [Deep Learning VM Docs](https://cloud.google.com/deep-learning-vm/docs)
 - [PyTorch-Specific instructions](https://cloud.google.com/deep-learning-vm/docs/pytorch_start_instance)
   (TF on same page)
