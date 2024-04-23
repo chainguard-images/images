@@ -16,7 +16,7 @@ GPU, CUDA toolkit, and required NVIDIA drivers.
    want to add the ID above at this step. You can set the project
    later with `gcloud config set project <project-id>`.
 4. Once you're authenticated, review and set these environment
-   variables as below. . GPU aren't available in all zones and this
+   variables as below. GPU aren't available in all zones and this
    changes. You can [review availability using gcloud
    cli](https://cloud.google.com/compute/docs/gpus/gpu-regions-zones),
    or you can [sneak a look at the GCP docs on creating an instance to
