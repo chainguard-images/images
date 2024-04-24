@@ -35,6 +35,14 @@ module "helm_opensearch" {
       repository = "cgr.dev/chainguard/opensearch"
       tag        = "latest"
     }
+    config = {
+      "opensearch.yml" = <<EOF
+      # values for testing only
+      plugins.security.ssl.http.enabled: false
+      plugins.security.disabled: true
+      network.host: 0.0.0.0
+      EOF
+    }
   }
 }
 
