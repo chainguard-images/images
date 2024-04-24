@@ -1,0 +1,10 @@
+name: neuvector-scanner
+image: cgr.dev/chainguard/neuvector-scanner
+logo: https://storage.googleapis.com/chainguard-academy/logos/neuvector-scanner.svg
+endoflife: ""
+console_summary: ""
+short_description: 
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: 
+keywords: []

@@ -74,9 +74,6 @@ provider "helm" {
 
 variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
 
-# The images below here do not work properly with tfgen and are skipped
-# (See TFGEN_SKIP in the Makefile)
-
 module "busybox" {
   source            = "./images/busybox"
   target_repository = "${var.target_repository}/busybox"
@@ -131,6 +128,11 @@ module "kubeflow-katib" {
 module "maven" {
   source            = "./images/maven"
   target_repository = "${var.target_repository}/maven"
+}
+
+module "neuvector-scanner" {
+  source            = "./images/neuvector-scanner"
+  target_repository = "${var.target_repository}/neuvector-scanner"
 }
 
 module "powershell" {
