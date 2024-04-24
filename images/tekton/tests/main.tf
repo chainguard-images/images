@@ -57,8 +57,9 @@ resource "imagetest_feature" "basic" {
 
   steps = [
     {
-      name = "Install Tekton"
-      cmd  = "/tests/test.sh"
+      name  = "Install Tekton"
+      cmd   = "/tests/test.sh"
+      retry = { attempts = 5, delay = "10s" }
     },
     {
       name  = "Wait for Tekton"

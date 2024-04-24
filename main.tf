@@ -13,7 +13,20 @@ terraform {
   backend "inmem" {}
 }
 
-provider "imagetest" {}
+provider "imagetest" {
+  harnesses = {
+    k3s = {
+      sandbox = {
+        image = module.imagetest_k3s_sandbox_image.image_ref
+      }
+    }
+  }
+}
+
+module "imagetest_k3s_sandbox_image" {
+  source            = "./tflib/imagetest/k3s-sandbox-image"
+  target_repository = "${var.target_repository}/imagetest"
+}
 
 variable "target_repository" {
   type        = string
