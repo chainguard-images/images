@@ -4,11 +4,22 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 
 apk add helm
 
-# we have to install cert-manager first
-
+# cert-manager is required as a dependency.
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
-helm install cert-manager jetstack/cert-manager --namespace ${NAMESPACE} --create-namespace --set installCRDs=true
+helm install \
+  cert-manager jetstack/cert-manager \
+    --namespace ${NAMESPACE} \
+    --create-namespace \
+    --set image.repository=cgr.dev/chainguard/cert-manager-controller \
+    --set image.tag=latest \
+    --set cainjector.image.repository=cgr.dev/chainguard/cert-manager-cainjector \
+    --set cainjector.image.tag=latest \
+    --set acmesolver.image.repository=cgr.dev/chainguard/cert-manager-acmesolver \
+    --set acmesolver.image.tag=latest \
+    --set webhook.image.repository=cgr.dev/chainguard/cert-manager-webhook \
+    --set webhook.image.tag=latest \
+    --set installCRDs=true
 
 # wait for cert-manager to be ready
 kubectl wait --for=condition=ready pod --selector app.kubernetes.io/instance=cert-manager --namespace ${NAMESPACE}
@@ -16,8 +27,12 @@ kubectl wait --for=condition=ready pod --selector app.kubernetes.io/instance=cer
 # install k8ssandra-operator
 helm repo add k8ssandra https://helm.k8ssandra.io/stable
 helm repo update
-
-helm install k8ssandra-operator k8ssandra/k8ssandra-operator -n ${NAMESPACE} --create-namespace
+helm install k8ssandra-operator k8ssandra/k8ssandra-operator \
+  --namespace ${NAMESPACE} \
+  --create-namespace \
+  --set image.registry=cgr.dev \
+  --set image.repository=chainguard/k8ssandra-operator \
+  --set image.tag=latest
 sleep 30
 
 # create a secret, needed for medusa
@@ -82,21 +97,50 @@ spec:
 EOF
 
 # NOTE: There is usually a delay (up to 60 seconds), before the mesuda pod is
-# created by the operator. So we can't simply use `kubectl wait`, as it'll fail
-# if no pod exists.
+# created by the operator. So we can't immediately run `kubectl wait`, as it'll
+# fail if no pod exists.
 for ((i = 0; i < 10; i++)); do
 	if kubectl get pod -l app=${NAME}-cassandra-medusa-medusa-standalone -n ${NAMESPACE} &>/dev/null; then
-		echo "pod found!"
-		exit 0
-	else
-		echo "pod not found..."
-		sleep 15
+		echo "medusa-standalone pod exists, checking readiness..."
+        # Wait for pod to be ready before exiting the loop
+        if kubectl wait --for=condition=Ready pod -l app=${NAME}-cassandra-medusa-medusa-standalone -n ${NAMESPACE} --timeout=3m; then
+            echo "medusa-standalone pod is ready."
+            break
+        else
+            echo "medusa-standalone pod is not ready yet."
+        fi
 	fi
+	sleep 15
 done
-echo "Pod did not exist after ${RETRY_COUNT} attempts."
-exit 1
 
-kubectl wait --for=condition=ready pod -l app=${NAME}-cassandra-medusa-medusa-standalone -n ${NAMESPACE} --timeout=2m
+if [ $i -eq 10 ]; then
+    echo "medusa-standalone pod was not ready after ${i} attempts."
+    exit 1
+fi
+
+# Similarly, the stateful set may take a while to be created, so we need to
+# first check for it's presence, before checking that the statefulset is ready.
+for ((i = 0; i < 20; i++)); do
+  if kubectl get statefulset ${NAME}-cassandra-medusa-default-sts -n ${NAMESPACE} &>/dev/null; then
+    echo "cassandra-medusa statefulset exists, checking readiness..."
+    if ready_statefulset=$(kubectl get statefulset ${NAME}-cassandra-medusa-default-sts -n ${NAMESPACE} --no-headers -o custom-columns=READY:.status.readyReplicas); then
+        if [ "$ready_statefulset" -ge 1 ]; then
+            echo "cassandra-medusa statefulset is ready."
+            break
+        else
+            echo "cassandra-medusa statefulset is not ready yet."
+        fi
+    else
+        echo "Error fetching the status of the statefulset."
+    fi
+  fi
+	sleep 30
+done
+
+if [ $i -eq 10 ]; then
+    echo "cassandra-medusa statefulset was not ready after ${i} attempts."
+    exit 1
+fi
 
 # check if medusa grpc server started
 sleep 5
@@ -117,9 +161,17 @@ EOF
 # Check if the MedusaBackup resource was created. Note medusa only supports
 # Cloud storage backends, so all we can do at this point is check the backup
 # job was created.
-if kubectl get medusabackup "${NAME}-backup" -n ${NAMESPACE}; then
-    echo "MedusaBackup resource was successfully created."
-else
-    echo "Failed to create MedusaBackup resource."
+for ((i = 0; i < 10; i++)); do
+    output=$(kubectl get medusabackup -n ${NAMESPACE} 2>&1)
+    if echo "$output" | grep -q "cassandra-medusa-backup"; then
+        echo "medusa backup task was successfully created."
+        break
+    else
+        sleep 15
+    fi
+done
+
+if [ $i -eq 10 ]; then
+    echo "Failed to find medusa backup task after 10 attempts."
     exit 1
 fi
