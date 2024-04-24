@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install"
-  default     = ["datadog-agent"]
+  default     = ["datadog-agent", "datadog-agent-oci-compat"]
 }
 
 data "apko_config" "this" {
