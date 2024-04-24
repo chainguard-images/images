@@ -2,42 +2,6 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-# The CRDs which are left behind by the helm charts.
-crds=(
-	"cassandradatacenters.cassandra.datastax.com"
-	"cassandratasks.control.k8ssandra.io"
-	"clientconfigs.config.k8ssandra.io"
-	"k8ssandraclusters.k8ssandra.io"
-	"k8ssandratasks.control.k8ssandra.io"
-	"medusabackupjobs.medusa.k8ssandra.io"
-	"medusabackups.medusa.k8ssandra.io"
-	"medusabackupschedules.medusa.k8ssandra.io"
-	"medusarestorejobs.medusa.k8ssandra.io"
-	"medusatasks.medusa.k8ssandra.io"
-	"reapers.reaper.k8ssandra.io"
-	"replicatedsecrets.replication.k8ssandra.io"
-	"stargates.stargate.k8ssandra.io"
-)
-
-# Delete all resources created by the test.
-function cleanup() {
-	helm uninstall k8ssandra-operator -n ${NAMESPACE}
-	helm uninstall cert-manager -n ${NAMESPACE}
-	kubectl patch replicatedsecrets.replication.k8ssandra.io ${NAME} -n ${NAMESPACE} -p '{"metadata":{"finalizers":[]}}' --type=merge || true
-	kubectl patch k8ssandraclusters.k8ssandra.io ${NAME} -n ${NAMESPACE} -p '{"metadata":{"finalizers":[]}}' --type=merge || true
-	kubectl patch cassandradatacenters.cassandra.datastax.com ${NAME} -n ${NAMESPACE} -p '{"metadata":{"finalizers":[]}}' --type=merge || true
-	kubectl delete replicatedsecrets.replication.k8ssandra.io ${NAME} -n ${NAMESPACE} || true
-	kubectl delete k8ssandraclusters.k8ssandra.io ${NAME} -n ${NAMESPACE} || true
-	kubectl delete cassandradatacenters.cassandra.datastax.com ${NAME} -n ${NAMESPACE} || true
-	kubectl delete ns ${NAMESPACE} --wait=true
-
-	for crd in "${crds[@]}"; do
-		kubectl delete crd $crd
-	done
-}
-
-trap cleanup EXIT
-
 apk add helm
 
 # we have to install cert-manager first
@@ -87,7 +51,7 @@ spec:
         size: 1
         storageConfig:
           cassandraDataVolumeClaimSpec:
-            storageClassName: standard
+            storageClassName: local-path
             accessModes:
               - ReadWriteOnce
             resources:
@@ -137,3 +101,25 @@ kubectl wait --for=condition=ready pod -l app=${NAME}-cassandra-medusa-medusa-st
 # check if medusa grpc server started
 sleep 5
 kubectl logs -l app=${NAME}-cassandra-medusa-medusa-standalone --tail -1 -n ${NAMESPACE} | grep "Starting server. Listening on port 50051"
+
+# Create Medusa Backup
+cat <<EOF | kubectl apply -n ${NAMESPACE} -f -
+apiVersion: medusa.k8ssandra.io/v1alpha1
+kind: MedusaBackup
+metadata:
+  name: "${NAME}-backup"
+  namespace: "${NAMESPACE}"
+spec:
+  backupType: full
+  cassandraDatacenter: "${NAME}"
+EOF
+
+# Check if the MedusaBackup resource was created. Note medusa only supports
+# Cloud storage backends, so all we can do at this point is check the backup
+# job was created.
+if kubectl get medusabackup "${NAME}-backup" -n ${NAMESPACE}; then
+    echo "MedusaBackup resource was successfully created."
+else
+    echo "Failed to create MedusaBackup resource."
+    exit 1
+fi
