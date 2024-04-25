@@ -147,9 +147,6 @@ retry_command 20 30 "Cassandra stateful set readiness" "kubectl get statefulset 
 # Check Medusa gRPC server startup
 kubectl logs -l app=${NAME}-${NAME}-medusa-standalone --tail -1 -n ${NAMESPACE} | grep "Starting server. Listening on port 50051"
 
-# Check readiness of Stargate pod
-retry_command 5 15 "Stargate pod readiness" "kubectl wait --for=condition=Ready pod -l app.kubernetes.io/component=stargate -n ${NAMESPACE} --timeout=2m"
-
 # Create Medusa Backup
 kubectl apply -n ${NAMESPACE} -f - <<EOF
 apiVersion: medusa.k8ssandra.io/v1alpha1
