@@ -16,15 +16,6 @@ data "imagetest_inventory" "this" {}
 resource "imagetest_harness_k3s" "this" {
   name      = "local-volume-provisioner"
   inventory = data.imagetest_inventory.this
-
-  sandbox = {
-    mounts = [
-      {
-        source      = path.module
-        destination = "/tests"
-      }
-    ]
-  }
 }
 
 resource "imagetest_feature" "basic" {
@@ -33,10 +24,6 @@ resource "imagetest_feature" "basic" {
   harness     = imagetest_harness_k3s.this
 
   steps = [
-    {
-      name = "Install shell dependencies"
-      cmd  = "apk add --no-cache k3d jq"
-    },
     {
       name = "Deploy the local-static-provisioner"
       cmd  = <<EOF
@@ -50,14 +37,7 @@ resource "imagetest_feature" "basic" {
       cmd  = <<EOF
       kubectl rollout status daemonset/local-volume-provisioner --timeout=120s
       EOF
-    },
-    # {
-    #   name    = "Smoke test"
-    #   workdir = "/tests"
-    #   cmd     = <<EOF
-    #     ./smoke.sh
-    #   EOF
-    # },
+    }
   ]
 
   labels = {

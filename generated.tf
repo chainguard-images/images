@@ -760,6 +760,11 @@ module "litestream" {
   target_repository = "${var.target_repository}/litestream"
 }
 
+module "local-volume-node-cleanup" {
+  source            = "./images/local-volume-node-cleanup"
+  target_repository = "${var.target_repository}/local-volume-node-cleanup"
+}
+
 module "local-volume-provisioner" {
   source            = "./images/local-volume-provisioner"
   target_repository = "${var.target_repository}/local-volume-provisioner"
@@ -2089,6 +2094,10 @@ output "summary_laravel" {
 
 output "summary_litestream" {
   value = module.litestream.summary
+}
+
+output "summary_local-volume-node-cleanup" {
+  value = module.local-volume-node-cleanup.summary
 }
 
 output "summary_local-volume-provisioner" {
