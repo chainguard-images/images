@@ -130,11 +130,6 @@ module "maven" {
   target_repository = "${var.target_repository}/maven"
 }
 
-module "neuvector-scanner" {
-  source            = "./images/neuvector-scanner"
-  target_repository = "${var.target_repository}/neuvector-scanner"
-}
-
 module "powershell" {
   source            = "./images/powershell"
   target_repository = "${var.target_repository}/powershell"
