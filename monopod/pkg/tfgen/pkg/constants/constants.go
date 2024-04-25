@@ -12,6 +12,7 @@ const (
 	TfTypeModule              = "module"
 	TfTypeResource            = "resource"
 	TfLibTagger               = "../../tflib/tagger"
+	TfLibPublicCopy           = "../../tflib/public-copy"
 	TfEachKey                 = "each.key"
 	TfEachValue               = "each.value"
 	OutputNameSummary         = "summary"
@@ -20,6 +21,9 @@ const (
 	OutputNameLatestTagMap    = "latest_tag_map"
 	AttributeSource           = "source"
 	AttributePublisher        = "publisher"
+	AttributePublicCopy       = "public-copy"
+	AttributeVersions         = "versions"
+	AttributeImage            = "image"
 	AttributeForEach          = "for_each"
 	AttributeValue            = "value"
 	AttributeProviders        = "providers"
@@ -36,4 +40,5 @@ const (
 	ScannerTestImageName      = "scanner-test"
 	CustomImagePrefix         = "request-"
 	DetectTfLib               = "/tflib/"
+	PublicImagesRoot          = "../public/images"
 )

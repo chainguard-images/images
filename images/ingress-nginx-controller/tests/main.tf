@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -16,57 +16,70 @@ variable "ingress_class" {
 
 data "oci_string" "ref" { input = var.digest }
 
-resource "helm_release" "ingress-nginx-controller" {
-  name = "ingress-${var.ingress_class}"
+data "imagetest_inventory" "this" {}
 
-  repository = "https://kubernetes.github.io/ingress-nginx"
-  chart      = "ingress-nginx"
+resource "imagetest_harness_k3s" "this" {
+  name      = "ingress-nginx-controller"
+  inventory = data.imagetest_inventory.this
 
-  namespace        = "ingress-${var.ingress_class}"
-  create_namespace = true
-  timeout          = 600
-  values = [
-    jsonencode({
-      controller = {
-        image = {
-          image    = data.oci_string.ref.repo
-          registry = data.oci_string.ref.registry
-          digest   = data.oci_string.ref.digest
-        }
-        ingressClass = var.ingress_class
-        ingressClassResource = {
-          name            = var.ingress_class
-          controllerValue = "k8s.io/ingress-${var.ingress_class}"
-        }
-        service = {
-          type = "NodePort"
-        }
-        admissionWebhooks = {
-          failurePolicy = "Ignore"
-          namespaceSelector = {
-            matchLabels = {
-              controllerNamespace = "ingress-${var.ingress_class}"
-            }
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+  }
+}
+
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  name = "ingress-nginx"
+
+  repo  = "https://kubernetes.github.io/ingress-nginx"
+  chart = "ingress-nginx"
+
+  namespace = "ingress-nginx"
+  values = {
+    controller = {
+      image = {
+        image    = data.oci_string.ref.repo
+        registry = data.oci_string.ref.registry
+        digest   = data.oci_string.ref.digest
+      }
+      ingressClass = var.ingress_class
+      ingressClassResource = {
+        name            = var.ingress_class
+        controllerValue = "k8s.io/ingress-nginx"
+      }
+      service = {
+        type = "NodePort"
+      }
+      admissionWebhooks = {
+        failurePolicy = "Ignore"
+        namespaceSelector = {
+          matchLabels = {
+            controllerNamespace = "ingress-nginx"
           }
         }
       }
-    })
-  ]
-}
-
-data "oci_exec_test" "can-expose-a-backend" {
-  digest     = var.digest
-  depends_on = [helm_release.ingress-nginx-controller]
-  env {
-    name  = "INGRESS_CLASS"
-    value = var.ingress_class
+    }
   }
-  script = "${path.module}/backend.sh"
 }
 
-module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.can-expose-a-backend]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.ingress-nginx-controller.id
-  namespace  = helm_release.ingress-nginx-controller.namespace
+resource "imagetest_feature" "basic" {
+  name    = "k3s test"
+  harness = imagetest_harness_k3s.this
+
+  steps = [
+    {
+      name = "Install helm chart"
+      cmd  = module.helm.install_cmd
+    },
+    {
+      name = "test backend"
+      cmd  = "/tests/backend.sh"
+    }
+  ]
 }

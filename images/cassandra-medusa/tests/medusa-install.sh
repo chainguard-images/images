@@ -2,92 +2,104 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-# The CRDs which are left behind by the helm charts.
-crds=(
-	"cassandradatacenters.cassandra.datastax.com"
-	"cassandratasks.control.k8ssandra.io"
-	"clientconfigs.config.k8ssandra.io"
-	"k8ssandraclusters.k8ssandra.io"
-	"k8ssandratasks.control.k8ssandra.io"
-	"medusabackupjobs.medusa.k8ssandra.io"
-	"medusabackups.medusa.k8ssandra.io"
-	"medusabackupschedules.medusa.k8ssandra.io"
-	"medusarestorejobs.medusa.k8ssandra.io"
-	"medusatasks.medusa.k8ssandra.io"
-	"reapers.reaper.k8ssandra.io"
-	"replicatedsecrets.replication.k8ssandra.io"
-	"stargates.stargate.k8ssandra.io"
-)
-
-# Delete all resources created by the test.
-function cleanup() {
-	helm uninstall k8ssandra-operator -n ${NAMESPACE}
-	helm uninstall cert-manager -n ${NAMESPACE}
-	kubectl patch replicatedsecrets.replication.k8ssandra.io ${NAME} -n ${NAMESPACE} -p '{"metadata":{"finalizers":[]}}' --type=merge || true
-	kubectl patch k8ssandraclusters.k8ssandra.io ${NAME} -n ${NAMESPACE} -p '{"metadata":{"finalizers":[]}}' --type=merge || true
-	kubectl patch cassandradatacenters.cassandra.datastax.com ${NAME} -n ${NAMESPACE} -p '{"metadata":{"finalizers":[]}}' --type=merge || true
-	kubectl delete replicatedsecrets.replication.k8ssandra.io ${NAME} -n ${NAMESPACE} || true
-	kubectl delete k8ssandraclusters.k8ssandra.io ${NAME} -n ${NAMESPACE} || true
-	kubectl delete cassandradatacenters.cassandra.datastax.com ${NAME} -n ${NAMESPACE} || true
-	kubectl delete ns ${NAMESPACE} --wait=true
-
-	for crd in "${crds[@]}"; do
-		kubectl delete crd $crd
-	done
-}
-
-trap cleanup EXIT
-
 apk add helm
 
-# we have to install cert-manager first
+# Function to retry a command until it succeeds or reaches max attempts
+# Arguments:
+#   $1: max_attempts
+#   $2: interval (seconds)
+#   $3: description of the operation
+#   ${@:4}: command to execute
+retry_command() {
+    local max_attempts=$1
+    local interval=$2
+    local description=$3
+    local cmd="${@:4}"
+    local attempt=1
 
+    echo "Retrying: $description"
+    while [ $attempt -le $max_attempts ]; do
+        echo "Attempt $attempt: $cmd"
+        if eval $cmd; then
+            echo "Success on attempt $attempt for: $description"
+            return 0
+        else
+            echo "Failure on attempt $attempt for: $description"
+            sleep $interval
+        fi
+        ((attempt++))
+    done
+
+    # In the event we fail, print out the status of resources in the cluster.
+    kubectl get all --all-namespaces
+
+    echo "Error: Failed after $max_attempts attempts for: $description"
+    return 1
+}
+
+
+# Install cert-manager
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
-helm install cert-manager jetstack/cert-manager --namespace ${NAMESPACE} --create-namespace --set installCRDs=true
+helm install cert-manager jetstack/cert-manager --namespace ${NAMESPACE} --create-namespace \
+    --set image.repository=cgr.dev/chainguard/cert-manager-controller \
+    --set image.tag=latest \
+    --set cainjector.image.repository=cgr.dev/chainguard/cert-manager-cainjector \
+    --set cainjector.image.tag=latest \
+    --set acmesolver.image.repository=cgr.dev/chainguard/cert-manager-acmesolver \
+    --set acmesolver.image.tag=latest \
+    --set webhook.image.repository=cgr.dev/chainguard/cert-manager-webhook \
+    --set webhook.image.tag=latest \
+    --set installCRDs=true
 
-# wait for cert-manager to be ready
-kubectl wait --for=condition=ready pod --selector app.kubernetes.io/instance=cert-manager --namespace ${NAMESPACE}
+# Check readiness of cert-manager pods
+retry_command 5 15 "cert-manager pod readiness" "kubectl wait --for=condition=ready pod --selector app.kubernetes.io/instance=cert-manager --namespace ${NAMESPACE} --timeout=1m"
 
-# install k8ssandra-operator
+# Install k8ssandra-operator
 helm repo add k8ssandra https://helm.k8ssandra.io/stable
 helm repo update
+helm install k8ssandra-operator k8ssandra/k8ssandra-operator \
+  --namespace ${NAMESPACE} \
+  --create-namespace \
+  --set image.registry=cgr.dev \
+  --set image.repository=chainguard/k8ssandra-operator \
+  --set image.tag=latest
 
-helm install k8ssandra-operator k8ssandra/k8ssandra-operator -n ${NAMESPACE} --create-namespace
-sleep 30
+# Check readiness of k8sandra-operator
+retry_command 5 15 "k8ssandra-operator pod readiness" "kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=k8ssandra-operator --namespace ${NAMESPACE} --timeout=1m"
 
-# create a secret, needed for medusa
-cat <<EOF | kubectl apply -f -
+# Create secret for Medusa
+kubectl apply -f - <<EOF
 apiVersion: v1
 kind: Secret
 metadata:
- name: medusa-bucket-key
- namespace: "${NAMESPACE}"
+  name: medusa-bucket-key
+  namespace: ${NAMESPACE}
 type: Opaque
 stringData:
- # Note that this currently has to be set to credentials!
- credentials: |-
-   [default]
-   aws_access_key_id = k8ssandra
-   aws_secret_access_key = k8ssandra
+  credentials: |-
+    [default]
+    aws_access_key_id = k8ssandra
+    aws_secret_access_key = k8ssandra
 EOF
 
-cat <<EOF | kubectl apply -n ${NAMESPACE} -f -
+# Create K8ssandraCluster
+kubectl apply -n ${NAMESPACE} -f - <<EOF
 apiVersion: k8ssandra.io/v1alpha1
 kind: K8ssandraCluster
 metadata:
-  name: "${NAME}"
-  namespace: "${NAMESPACE}"
+  name: ${NAME}
+  namespace: ${NAMESPACE}
 spec:
   cassandra:
     serverVersion: "4.0.1"
     datacenters:
       - metadata:
-          name: "${NAME}"
+          name: ${NAME}
         size: 1
         storageConfig:
           cassandraDataVolumeClaimSpec:
-            storageClassName: standard
+            storageClassName: local-path
             accessModes:
               - ReadWriteOnce
             resources:
@@ -99,6 +111,15 @@ spec:
         stargate:
           size: 1
           heapSize: 256M
+          affinity:
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 1
+                  podAffinityTerm:
+                    labelSelector:
+                      matchLabels:
+                        "app.kubernetes.io/name": "stargate"
+                    topologyKey: "kubernetes.io/hostname"
   medusa:
     containerImage:
       registry: ${IMAGE_REGISTRY}
@@ -117,23 +138,26 @@ spec:
       secure: false
 EOF
 
-# NOTE: There is usually a delay (up to 60 seconds), before the mesuda pod is
-# created by the operator. So we can't simply use `kubectl wait`, as it'll fail
-# if no pod exists.
-for ((i = 0; i < 10; i++)); do
-	if kubectl get pod -l app=${NAME}-cassandra-medusa-medusa-standalone -n ${NAMESPACE} &>/dev/null; then
-		echo "pod found!"
-		exit 0
-	else
-		echo "pod not found..."
-		sleep 15
-	fi
-done
-echo "Pod did not exist after ${RETRY_COUNT} attempts."
-exit 1
+# Check readiness of the Cassandra Medusa pod
+retry_command 5 15 "Cassandra Medusa pod readiness" "kubectl wait --for=condition=Ready pod -l app=${NAME}-${NAME}-medusa-standalone -n ${NAMESPACE} --timeout=2m"
 
-kubectl wait --for=condition=ready pod -l app=${NAME}-cassandra-medusa-medusa-standalone -n ${NAMESPACE} --timeout=2m
+# Check readiness of the Cassandra stateful set
+retry_command 20 30 "Cassandra stateful set readiness" "kubectl get statefulset ${NAME}-${NAME}-default-sts -n ${NAMESPACE} --no-headers -o custom-columns=READY:.status.readyReplicas | grep -q '1'"
 
-# check if medusa grpc server started
-sleep 5
-kubectl logs -l app=${NAME}-cassandra-medusa-medusa-standalone --tail -1 -n ${NAMESPACE} | grep "Starting server. Listening on port 50051"
+# Check Medusa gRPC server startup
+kubectl logs -l app=${NAME}-${NAME}-medusa-standalone --tail -1 -n ${NAMESPACE} | grep "Starting server. Listening on port 50051"
+
+# Create Medusa Backup
+kubectl apply -n ${NAMESPACE} -f - <<EOF
+apiVersion: medusa.k8ssandra.io/v1alpha1
+kind: MedusaBackup
+metadata:
+  name: ${NAME}-backup
+  namespace: ${NAMESPACE}
+spec:
+  backupType: full
+  cassandraDatacenter: ${NAME}
+EOF
+
+# Verify creation of the MedusaBackup resource
+retry_command 5 15 "MedusaBackup resource creation" "kubectl get medusabackup -n ${NAMESPACE} 2>&1 | grep -q '${NAME}-backup'"

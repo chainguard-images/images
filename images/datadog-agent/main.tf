@@ -8,31 +8,30 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "latest-config" { source = "./config" }
-
-module "latest" {
-  source            = "../../tflib/publisher"
-  name              = basename(path.module)
-  target_repository = var.target_repository
-  config            = module.latest-config.config
-
-  build-dev = true
-
-}
-
 module "test-latest" {
   source = "./tests"
-  digest = module.latest.image_ref
+  digests = {
+    "agent"         = module.agent.image_ref
+    "cluster-agent" = module.cluster-agent.image_ref
+  }
 }
 
 resource "oci_tag" "latest" {
   depends_on = [module.test-latest]
-  digest_ref = module.latest.image_ref
+  for_each = {
+    "agent" : module.agent.image_ref
+    "cluster-agent" : module.cluster-agent.image_ref
+  }
+  digest_ref = each.value
   tag        = "latest"
 }
 
 resource "oci_tag" "latest-dev" {
   depends_on = [module.test-latest]
-  digest_ref = module.latest.dev_ref
+  for_each = {
+    "agent" : module.agent.dev_ref
+    "cluster-agent" : module.cluster-agent.dev_ref
+  }
+  digest_ref = each.value
   tag        = "latest-dev"
 }

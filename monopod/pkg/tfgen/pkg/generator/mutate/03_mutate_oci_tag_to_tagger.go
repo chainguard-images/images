@@ -15,6 +15,11 @@ import (
 type GeneratorMutate03OciTagToTagger struct{}
 
 func (g *GeneratorMutate03OciTagToTagger) Generate(_ string, _, _ []string, data *tq.TerraformFile) error {
+	// Do nothing if there is a call to "versions" tflib, use "public-copy" instead
+	if util.HasVersionsBlock(data) {
+		return nil
+	}
+
 	dependsOn := ""
 	publisherModuleName := ""
 	tmp := []tq.TerraformFileBlock{}

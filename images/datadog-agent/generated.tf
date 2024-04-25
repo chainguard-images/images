@@ -4,8 +4,15 @@ output "summary" {
   value = merge(
     {
       basename(path.module) = {
-        "ref"    = module.latest.image_ref
-        "config" = module.latest.config
+        "ref"    = module.agent.image_ref
+        "config" = module.agent.config
+        "tags"   = ["latest"]
+      }
+    },
+    {
+      basename(path.module) = {
+        "ref"    = module.cluster-agent.image_ref
+        "config" = module.cluster-agent.config
         "tags"   = ["latest"]
       }
   })
