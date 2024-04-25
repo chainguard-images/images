@@ -10,6 +10,8 @@ variable "extra_packages" {
   // or update this default to [] if this isn't a version stream image.
   default = [
     "step-ca",
+    "step",
+    "step-kms-plugin"
   ]
 }
 
