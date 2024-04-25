@@ -26,6 +26,7 @@ module "helm" {
   repo      = "https://grafana.github.io/helm-charts"
 
   values = {
+    deploymentMode = "SingleBinary"
     loki = {
       commonConfig = {
         replication_factor = 1
@@ -38,10 +39,19 @@ module "helm" {
       storage = {
         type = "filesystem"
       }
-    }
-    backend = {
-      persistence = {
-        size = "1Gi"
+      schemaConfig = {
+        configs = [
+          {
+            from  = "2024-01-01"
+            store = "tsdb"
+            index = {
+              prefix = "loki_index_"
+              period = "24h"
+            }
+            object_store = "filesystem"
+            schema       = "v13"
+          }
+        ]
       }
     }
     singleBinary = {
@@ -53,10 +63,41 @@ module "helm" {
       repository = data.oci_string.ref.repo
       tag        = data.oci_string.ref.pseudo_tag
     }
+    backend = {
+      replicas = 0
+    }
+    read = {
+      replicas = 0
+    }
     write = {
-      persistence = {
-        size = "1Gi"
-      }
+      replicas = 0
+    }
+    ingester = {
+      replicas = 0
+    }
+    querier = {
+      replicas = 0
+    }
+    queryFrontend = {
+      replicas = 0
+    }
+    queryScheduler = {
+      replicas = 0
+    }
+    distributor = {
+      replicas = 0
+    }
+    compactor = {
+      replicas = 0
+    }
+    indexGateway = {
+      replicas = 0
+    }
+    bloomCompactor = {
+      replicas = 0
+    }
+    bloomGateway = {
+      replicas = 0
     }
   }
 }
