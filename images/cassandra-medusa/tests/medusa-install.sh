@@ -107,6 +107,15 @@ spec:
         stargate:
           size: 1
           heapSize: 256M
+          affinity:
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 1
+                  podAffinityTerm:
+                    labelSelector:
+                      matchLabels:
+                        "app.kubernetes.io/name": "stargate"
+                    topologyKey: "kubernetes.io/hostname"
   medusa:
     containerImage:
       registry: ${IMAGE_REGISTRY}
@@ -132,8 +141,10 @@ retry_command 5 15 "Cassandra Medusa pod readiness" "kubectl wait --for=conditio
 retry_command 20 30 "Cassandra stateful set readiness" "kubectl get statefulset ${NAME}-cassandra-medusa-default-sts -n ${NAMESPACE} --no-headers -o custom-columns=READY:.status.readyReplicas | grep -q '1'"
 
 # Check Medusa gRPC server startup
-sleep 5
 kubectl logs -l app=${NAME}-cassandra-medusa-medusa-standalone --tail -1 -n ${NAMESPACE} | grep "Starting server. Listening on port 50051"
+
+# Check readiness of Stargate pod
+retry_command 5 15 "Stargate pod readiness" "kubectl wait --for=condition=Ready pod -l app.kubernetes.io/component=stargate -n ${NAMESPACE} --timeout=2m"
 
 # Create Medusa Backup
 kubectl apply -n ${NAMESPACE} -f - <<EOF
