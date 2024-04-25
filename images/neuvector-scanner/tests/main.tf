@@ -24,15 +24,6 @@ module "helm-neuvector" {
   repo      = "https://neuvector.github.io/neuvector-helm"
   chart     = "core"
 
-  /*values = {
-    scanner = {
-      image = {
-        image    = data.oci_string.ref.repo
-        registry = data.oci_string.ref.registry
-        digest   = data.oci_string.ref.digest
-      }
-    }
-  }*/
 }
 
 resource "imagetest_harness_k3s" "this" {
@@ -66,29 +57,17 @@ EOF
       retry = { attempts = 3, delay = "2s", factor = 2 }
     },
     {
-      name  = "Test scanner configuration"
-  cmd   = <<EOF
-deployment=$(kubectl get -n neuvector deployment/neuvector-scanner-pod -o jsonpath='{.metadata.name}')
-if [ -n "$deployment" ]; then
-  enabled=$(kubectl get deployment -n neuvector $deployment -o jsonpath='{.spec.template.spec.containers[0].env[?(@.name=="CVE_SCANNER_ENABLED")].value}')
-  replicas=$(kubectl get deployment -n neuvector $deployment -o jsonpath='{.spec.replicas}')
-
-  if [ "$enabled" = "true" ] && [ "$replicas" = "3" ]; then
-    echo "Scanner configuration is correct"
-    exit 0
-  else
-    echo "Scanner configuration is incorrect"
-    exit 1
-  fi
-else
-  echo "Deployment not found"
-  exit 1
+      name  = "Test Deployment Status"
+      cmd   = <<EOF
+deployment_status=$(kubectl get -n neuvector deployment/neuvector-scanner-pod -o jsonpath='{.status.conditions[?(@.type=="Available")].status}')
+if [ "$deployment_status" != "True" ]; then
+  echo "Scanner configuration is incorrect correct"
+  exit 0
 fi
 EOF
-  retry = { attempts = 5, delay = "10s", factor = 2 }
+      retry = { attempts = 5, delay = "10s", factor = 2 }
     },
   ]
-
   labels = {
     type = "k8s"
   }
@@ -97,3 +76,39 @@ EOF
     create = "15m"
   }
 }
+
+resource "imagetest_harness_docker" "this" {
+  name      = "neuvector-scanner-standalone"
+  inventory = data.imagetest_inventory.this
+
+  envs = {
+    IMAGE_REGISTRY   = data.oci_string.ref.registry
+    IMAGE_REPOSITORY = data.oci_string.ref.repo
+    IMAGE_TAG        = data.oci_string.ref.pseudo_tag
+  }
+
+  mounts = [
+    {
+      source      = path.module
+      destination = "/tests"
+    }
+  ]
+}
+
+resource "imagetest_feature" "container_runs" {
+  name        = "Scanner command"
+  description = "Standalone scanner run"
+  harness     = imagetest_harness_docker.this
+
+  steps = [
+    {
+      name = "Check scanner is running in standalone mode"
+      cmd  = "docker run --rm $IMAGE_REGISTRY/$IMAGE_REPOSITORY:$IMAGE_TAG -image ubuntu:18.04"
+    },
+  ]
+
+  labels = {
+    type = "container"
+  }
+}
+

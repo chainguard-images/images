@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install"
-  default = ["neuvector-scanner"]
+  default     = ["neuvector-scanner", "neuvector-scanner-monitor"]
 }
 
 data "apko_config" "this" {
