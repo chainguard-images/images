@@ -41,6 +41,7 @@ Now that we've added the repository, we can deploy Harbor!:
 ```bash
 helm install harbor harbor/harbor \
   --set core.image.repository=cgr.dev/chainguard/harbor-core,core.image.tag=latest \
+  --set database.internal.image.repository=cgr.dev/chainguard/harbor-db,database.internal.image.tag=latest \
   --set jobservice.image.repository=cgr.dev/chainguard/harbor-jobservice,jobservice.image.tag=latest \
   --set portal.image.repository=cgr.dev/chainguard/harbor-portal,portal.image.tag=latest \
   --set registry.registry.image.repository=cgr.dev/chainguard/harbor-registry,registry.registry.image.tag=latest \
@@ -49,6 +50,8 @@ helm install harbor harbor/harbor \
 ```
 
 You will need to override the `image` and `tag` values for each image like we've done here to point to Chainguard's Harbor images and tags.
+
+Also, please note that in a production environment, you'll likely want to use an external database instead of the one provided with Harbor. Additional information on how to configure an external database may be found in Harbor's Helm documentation found [here](https://goharbor.io/docs/2.10.0/install-config/harbor-ha-helm/).
 
 Additionally, you may fetch Harbor's Helm chart after adding the repository and edit values directly without overriding them on installation:
 
