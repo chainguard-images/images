@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install (e.g. nodejs, nodejs-lts, nodejs-18)."
-  default     = ["nodejs", "npm"]
+  default     = []
 }
 
 data "apko_config" "this" {
