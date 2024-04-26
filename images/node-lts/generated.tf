@@ -10,10 +10,10 @@ output "summary" {
       }
     },
     {
-      for k, v in module.versioned : k => {
-        "ref"    = v.image_ref
-        "config" = v.config
-        "tags"   = v.tag_list
+      basename(path.module) = {
+        "ref"    = module.versioned.image_ref
+        "config" = module.versioned.config
+        "tags"   = module.versioned.tag_list
       }
   })
 }
