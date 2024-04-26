@@ -24,8 +24,9 @@ output "config" {
   value = jsonencode({
     contents = {
       packages = concat([
-        "glibc-locale-en", # required for initdb entrypoint
-        "busybox",         # required for initdb entrypoint
+        "posix-libc-utils", # Needed to fetch locale
+        "glibc-locale-en",  # required for initdb entrypoint
+        "busybox",          # required for initdb entrypoint
       ], var.extra_packages)
     }
     accounts = module.accts.block
