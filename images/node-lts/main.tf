@@ -30,7 +30,7 @@ module "versioned" {
   target_repository = var.target_repository
   config            = module.config.config
   build-dev         = true
-  main_package      = "nodejs-lts"
+  main_package      = "nodejs-20"
   update-repo       = true
   extra_dev_packages = [
     "yarn",
