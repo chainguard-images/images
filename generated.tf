@@ -1448,6 +1448,11 @@ module "wasmtime" {
   target_repository = "${var.target_repository}/wasmtime"
 }
 
+module "wave" {
+  source            = "./images/wave"
+  target_repository = "${var.target_repository}/wave"
+}
+
 module "wavefront-proxy" {
   source            = "./images/wavefront-proxy"
   target_repository = "${var.target_repository}/wavefront-proxy"
@@ -2638,6 +2643,10 @@ output "summary_wasmer" {
 
 output "summary_wasmtime" {
   value = module.wasmtime.summary
+}
+
+output "summary_wave" {
+  value = module.wave.summary
 }
 
 output "summary_wavefront-proxy" {
