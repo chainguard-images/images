@@ -4,9 +4,16 @@ output "summary" {
   value = merge(
     {
       basename(path.module) = {
-        "ref"    = module.latest.image_ref
-        "config" = module.latest.config
-        "tags"   = ["latest"]
+        "ref"    = module.next.image_ref
+        "config" = module.next.config
+        "tags"   = module.next.tag_list
+      }
+    },
+    {
+      basename(path.module) = {
+        "ref"    = module.versioned.image_ref
+        "config" = module.versioned.config
+        "tags"   = module.versioned.tag_list
       }
   })
 }

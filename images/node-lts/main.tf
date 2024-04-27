@@ -8,16 +8,30 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "latest-config" {
-  source         = "../node/config"
-  extra_packages = ["nodejs-lts", "npm"]
+module "config" {
+  source = "../node/config"
+  extra_packages = [
+    "nodejs-lts",
+    "busybox",
+    "npm"
+  ]
 }
 
-module "latest" {
+module "config-next" {
+  source = "../node/config"
+  extra_packages = [
+    "nodejs-lts"
+  ]
+}
+
+module "versioned" {
   source            = "../../tflib/publisher"
   name              = basename(path.module)
   target_repository = var.target_repository
-  config            = module.latest-config.config
+  config            = module.config.config
+  build-dev         = true
+  main_package      = "nodejs-20"
+  update-repo       = true
   extra_dev_packages = [
     "yarn",
     "build-base",
@@ -25,19 +39,41 @@ module "latest" {
   ]
 }
 
-module "test-latest" {
+module "next" {
+  source            = "../../tflib/publisher"
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  config            = module.config-next.config
+  build-dev         = true
+  update-repo       = false
+  main_package      = ""
+  extra_dev_packages = [
+    "yarn",
+    "build-base",
+    "python-3.11",
+    "npm",
+    "busybox",
+  ]
+}
+
+module "test-versioned" {
   source = "../node/tests"
-  digest = module.latest.image_ref
+  digest = module.versioned.image_ref
 }
 
-resource "oci_tag" "latest" {
-  depends_on = [module.test-latest]
-  digest_ref = module.latest.image_ref
-  tag        = "latest"
+module "test-next" {
+  source = "../node/tests"
+  digest = module.next.image_ref
 }
 
-resource "oci_tag" "latest-dev" {
-  depends_on = [module.test-latest]
-  digest_ref = module.latest.dev_ref
-  tag        = "latest-dev"
+module "tagger" {
+  source     = "../../tflib/tagger"
+  depends_on = [module.test-versioned, module.test-next]
+  tags = merge(
+    {
+      "next"     = module.next.image_ref,
+      "next-dev" = module.next.dev_ref,
+    },
+    module.versioned.latest_tag_map
+  )
 }

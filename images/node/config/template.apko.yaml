@@ -1,6 +1,5 @@
 contents:
   packages:
-    - busybox # TODO: busybox should be removed from this image.
     - nghttp2
     - dumb-init
     # Node comes via var.extra_packages

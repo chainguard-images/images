@@ -760,6 +760,16 @@ module "litestream" {
   target_repository = "${var.target_repository}/litestream"
 }
 
+module "local-volume-node-cleanup" {
+  source            = "./images/local-volume-node-cleanup"
+  target_repository = "${var.target_repository}/local-volume-node-cleanup"
+}
+
+module "local-volume-provisioner" {
+  source            = "./images/local-volume-provisioner"
+  target_repository = "${var.target_repository}/local-volume-provisioner"
+}
+
 module "logstash-oss-with-opensearch-output-plugin" {
   source            = "./images/logstash-oss-with-opensearch-output-plugin"
   target_repository = "${var.target_repository}/logstash-oss-with-opensearch-output-plugin"
@@ -2089,6 +2099,14 @@ output "summary_laravel" {
 
 output "summary_litestream" {
   value = module.litestream.summary
+}
+
+output "summary_local-volume-node-cleanup" {
+  value = module.local-volume-node-cleanup.summary
+}
+
+output "summary_local-volume-provisioner" {
+  value = module.local-volume-provisioner.summary
 }
 
 output "summary_logstash-oss-with-opensearch-output-plugin" {
