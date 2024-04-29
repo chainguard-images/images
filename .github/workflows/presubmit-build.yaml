@@ -187,7 +187,7 @@ jobs:
 
     - name: Upload terraform logs
       if: always()
-      uses: actions/upload-artifact@1746f4ab65b179e0ea60a494b83293b640dd5bba # v3
+      uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v3
       with:
         name: "mega-module-${{ matrix.shard.index }}.tf.json"
         path: /tmp/mega-module.tf.json
