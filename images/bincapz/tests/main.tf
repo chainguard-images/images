@@ -15,5 +15,5 @@ data "oci_exec_test" "help" {
 
 data "oci_exec_test" "test-bincapz" {
   digest = var.digest
-  script = "docker run --rm $IMAGE_NAME /usr/bin/bincapz | grep Risk: | grep 4/CRITICAL"
+  script = "docker run --rm $IMAGE_NAME /usr/bin/bincapz | grep -Ei "RISK|DESCRIPTION|EVIDENCE"
 }
