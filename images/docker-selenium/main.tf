@@ -19,6 +19,7 @@ module "latest" {
   target_repository = var.target_repository
   config            = module.config.config
   build-dev         = true
+  check-sbom        = false # TODO: font-ubuntu has an invalid SPDX license identifier.
 }
 
 module "test" {

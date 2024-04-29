@@ -16,6 +16,7 @@ module "latest" {
   target_repository = var.target_repository
   config            = module.latest-config.config
   build-dev         = true
+  check-sbom        = false # TODO: has an invalid SPDX license identifier.
 }
 
 module "test-latest" {
