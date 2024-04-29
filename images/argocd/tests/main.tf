@@ -13,6 +13,10 @@ variable "digests" {
   })
 }
 
+variable "name" {
+  default = "argocd"
+}
+
 data "oci_string" "ref" {
   for_each = var.digests
   input    = each.value
@@ -21,7 +25,7 @@ data "oci_string" "ref" {
 data "imagetest_inventory" "this" {}
 
 resource "imagetest_harness_k3s" "this" {
-  name      = "cert-manager"
+  name      = var.name
   inventory = data.imagetest_inventory.this
 }
 
