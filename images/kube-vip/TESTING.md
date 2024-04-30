@@ -66,10 +66,10 @@ range.
 ## Step 3: Deploy!
 
 ```bash
-alias kube-vip="docker run --network host --rm cgr.dev/chainguard/kube-vip:latest"
+alias kube-vip="docker run --network host --rm ghcr.io/kube-vip/kube-vip:latest"
 kube-vip manifest daemonset \
     --interface eth0 \
-    --vip UPDATE-ME-UNUSED-IP-FROM-STEP-2 \
+    --vip 172.18.0.20 \
     --inCluster \
     --arp \
     --leaderElection \
@@ -109,11 +109,35 @@ kubectl apply -f https://k8s.io/examples/application/deployment.yaml
 kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer --name=nginx
 ```
 
-The nginx svc should have been assigned an external IP:
+This will create a deployment and expose a service of type LoadBalancer. The
+service will not have an `External-IP` assigned, stuck in 'pending'.
+
+In order for kube-vpn to assign an IP, it expects annotations to be present on
+the service. See [relevant section of docs](https://kube-vip.io/docs/usage/kubernetes-services).
+
+We can simulate this by manually annotating - note you'll need another available
+IP:
 
 ```bash
-kubectl get svc
-NAME         TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)        AGE
-kubernetes   ClusterIP      10.96.0.1       <none>          443/TCP        74m
-nginx        LoadBalancer   10.96.196.235   172.18.100.11   80:31236/TCP   6s
+kubectl annotate service nginx kube-vip.io/loadbalancerIPs="172.18.0.30"
+```
+
+Now if you re-check the service, kube-vpn should have assigned the external IP:
+
+```bash
+% k get svc
+NAME         TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)        AGE
+kubernetes   ClusterIP      10.96.0.1     <none>        443/TCP        4m15s
+nginx        LoadBalancer   10.96.79.63   172.18.0.30   80:32678/TCP   95s
+```
+
+Finally, validate the kube-vips logs, you'll see the VIP configuration and IP
+are assigned:
+
+```bash
+k logs kube-vip-ds-4r866 -n kube-system
+time="2024-04-30T22:36:10Z" level=info msg="(svcs) adding VIP [172.18.0.30] via eth0 for [default/nginx]"
+time="2024-04-30T22:36:10Z" level=info msg="[service] synchronised in 16ms"
+time="2024-04-30T22:36:10Z" level=warning msg="(svcs) already found existing address [172.18.0.30] on adapter [eth0]"
+time="2024-04-30T22:36:13Z" level=warning msg="Re-applying the VIP configuration [172.18.0.30] to the interface [eth0]"
 ```
