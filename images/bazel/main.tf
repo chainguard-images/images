@@ -1,7 +1,13 @@
-terraform {
-  required_providers {
-    oci = { source = "chainguard-dev/oci" }
-  }
+locals {
+  extra_packages = [
+    "openjdk-21",
+    "openjdk-21-default-jvm"
+  ]
+}
+
+module "versions" {
+  package = "bazel"
+  source  = "../../tflib/versions"
 }
 
 variable "target_repository" {
@@ -9,26 +15,32 @@ variable "target_repository" {
 }
 
 module "config" {
+  for_each       = module.versions.versions
   source         = "./config"
-  extra_packages = ["bazel-7", "openjdk-21", "openjdk-21-default-jvm"]
+  extra_packages = concat([each.key], local.extra_packages)
 }
 
-module "latest" {
-  source = "../../tflib/publisher"
-
-  name = basename(path.module)
-
+module "versioned" {
+  for_each          = module.versions.versions
+  source            = "../../tflib/publisher"
+  name              = basename(path.module)
   target_repository = var.target_repository
-  config            = module.config.config
+  config            = module.config[each.key].config
+  build-dev         = true
+  main_package      = each.value.main
+  update-repo       = each.value.is_latest
 }
 
-module "test-latest" {
-  source = "./tests"
-  digest = module.latest.image_ref
+module "test-versioned" {
+  for_each = module.versions.versions
+  source   = "./tests"
+  digest   = module.versioned[each.key].image_ref
 }
 
-resource "oci_tag" "latest" {
-  depends_on = [module.test-latest]
-  digest_ref = module.latest.image_ref
-  tag        = "latest"
+module "tagger" {
+  source     = "../../tflib/tagger"
+  depends_on = [module.test-versioned]
+  tags = merge(
+    [for v in module.versioned : v.latest_tag_map]...
+  )
 }
