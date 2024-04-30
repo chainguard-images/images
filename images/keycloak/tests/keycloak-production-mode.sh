@@ -10,7 +10,9 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 KEYCLOAK_HOSTNAME="localhost"
 KEYCLOAK_PORT=$FREE_PORT
 KEYCLOAK_URL="https://$KEYCLOAK_HOSTNAME:$KEYCLOAK_PORT"
-KEYSTORE_PATH="/tmp/server.keystore"
+KEYSTORE_D=$(mktemp -d)
+chmod 777 "$KEYSTORE_D" # has to be writable by docker user.
+KEYSTORE_PATH="$KEYSTORE_D/server.keystore"
 KEYSTORE_PASSWORD="placeholder"
 
 # Define log entries we are looking for in the keycloak logs here.
@@ -22,8 +24,12 @@ declare -a terms=(
 declare -a missing_terms=()
 
 create_keystore() {  
-  rm -rf "$KEYSTORE_PATH"
-  keytool -v -keystore $KEYSTORE_PATH \
+  docker run --rm \
+    -v "$KEYSTORE_D:$KEYSTORE_D" \
+    --entrypoint=keytool \
+    --name local-keytool \
+    "${IMAGE_NAME}" \
+    -v -keystore "$KEYSTORE_PATH" \
     -alias $KEYCLOAK_HOSTNAME \
     -genkeypair -sigalg SHA512withRSA -keyalg RSA \
     -dname CN=$KEYCLOAK_HOSTNAME \
@@ -85,7 +91,7 @@ TEST_container_starts_ok() {
     # Create Keystore and launch Keycloak
     create_keystore
     local -r container_id=$(start_container)
-    trap "docker stop ${container_id} && rm -rf ${KEYSTORE_PATH}" EXIT
+    trap "docker stop ${container_id} && rm -rf ${KEYSTORE_D}" EXIT
 
     # Check if the container is running
     if ! docker ps --filter "name=local-keycloak" --format '{{.Names}}' | grep -q "^local-keycloak$"; then
