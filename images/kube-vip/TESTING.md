@@ -66,10 +66,10 @@ range.
 ## Step 3: Deploy!
 
 ```bash
-alias kube-vip="docker run --network host --rm ghcr.io/kube-vip/kube-vip:latest"
+alias kube-vip="docker run --network host --rm cgr.dev/chainguard/kube-vip:latest"
 kube-vip manifest daemonset \
     --interface eth0 \
-    --vip 172.18.0.20 \
+    --vip UPDATE-ME-IP-ADDRESS-FROM-STEP-2 \
     --inCluster \
     --arp \
     --leaderElection \
