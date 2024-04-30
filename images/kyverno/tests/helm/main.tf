@@ -1,3 +1,7 @@
+// WARNING: This has the potential to be flaky for tests using this module. If
+// the upstream helm chart introduces a breaking change we'll need to build and
+// publish the kyverno images before dependent modules will be able to use the
+// updated images and pass tests.
 variable "values" {
   type = any
   default = {
