@@ -35,7 +35,7 @@ kube-vip has [documentation](https://kube-vip.io/docs/installation) covering
 deployments. They don't make any reference to helm charts, although there seems
 to be one published separately (see section below).
 
-The deploy instructions differ depending on your k9s environment. Refer to
+The deploy instructions differ depending on your k8s environment. Refer to
 the upstream docs](https://kube-vip.io/docs/installation) for the correct set
 of instructions. Be sure to replace the image reference in any manifests to the
 Chainguard image.
