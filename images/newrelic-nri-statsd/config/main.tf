@@ -6,12 +6,8 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install"
-  // TODO: Add any other packages here you want to conditionally include,
-  // or update this default to [] if this isn't a version stream image.
   default = [
     "newrelic-nri-statsd",
-    # "newrelic-nri-statsd-compat",
-    "busybox",
   ]
 }
 module "accts" {
@@ -21,7 +17,9 @@ module "accts" {
 output "config" {
   value = jsonencode({
     contents = {
-      packages = var.extra_packages
+      packages = concat(var.extra_packages, [
+        "busybox",
+      ])
     }
     accounts = module.accts.block
     entrypoint = {
