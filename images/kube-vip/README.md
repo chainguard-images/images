@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-kube-vip is a Kubernetes control plane VIP and load balancer, offering high availability and network management for both Kubernetes services and control plane components.
+Kubernetes Control Plane Virtual IP and Load-Balancer
 <!--overview:end-->
 
 <!--getting:start-->
@@ -26,7 +26,6 @@ docker pull cgr.dev/chainguard/kube-vip:latest
 <!--getting:end-->
 
 <!--body:start-->
-
 ## Usage
 
 ## Deployment
@@ -69,3 +68,4 @@ helm install my-kube-vip kube-vip/kube-vip -f my-custom-values.yaml
 > much success getting a successful deployment. On occasions, our local k8s
 > cluster to become unresponsive. If you are referring to this chart, we would
 > advise you to test out in a non-production environment first.
+<!--body:end-->
