@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Kubernetes Control Plane Virtual IP and Load-Balancer
+kube-vip is a Kubernetes control plane VIP and load balancer, offering high availability and network management for both Kubernetes services and control plane components.
 <!--overview:end-->
 
 <!--getting:start-->
@@ -29,96 +29,43 @@ docker pull cgr.dev/chainguard/kube-vip:latest
 
 ## Usage
 
-You can test the kube-vip in several ways. Here is an example of how to deploy the kube-vip controller into KinD (Kubernetes in Docker) cluster:
+## Deployment
 
-Find Address Pool for kube-vip:
+kube-vip has [documentation](https://kube-vip.io/docs/installation) covering
+deployments. They don't make any reference to helm charts, although there seems
+to be one published separately (see section below).
 
-```bash
-docker network inspect kind -f '{{ range $i, $a := .IPAM.Config }}{{ println .Subnet }}{{ end }}'
-```
+The deploy instructions differ depending on your k9s environment. Refer to
+the upstream docs](https://kube-vip.io/docs/installation) for the correct set
+of instructions. Be sure to replace the image reference in any manifests to the
+Chainguard image.
 
-This will return a CIDR range such as `172.18.0.0/16` which you can use as the `range-global` for the kube-vip ConfigMap.
+For reference, [here are some steps](https://github.com/chainguard-images/images/blob/main/images/doppler-kube-vip/TESTING.md)
+we followed to setup a local test environment using a local k3d cluster.
 
-Deploy the kube-vip Cloud Controller:
+### Helm
 
-```bash
-kubectl apply -f https://raw.githubusercontent.com/kube-vip/kube-vip-cloud-provider/main/manifest/kube-vip-cloud-controller.yaml
-```
-
-Create RBAC settings:
-
-```bash
-kubectl apply -f https://kube-vip.io/manifests/rbac.yaml
-```
-
-Deploy kube-vip as a DaemonSet:
-
-alias kube-vip="docker run --network host --rm cgr.dev/chainguard/kube-vip:latest"
-
-> Note: We noticed that there must be a bug in this command since it didn't create the DaemonSet from the image what we expected so we recommend to use the following command instead:
+kube-vip publishes a [helm chart](https://artifacthub.io/packages/helm/kube-vip/kube-vip)
+for deploying the image. **However**, they have commented out 'tag' in the
+[values.yaml](https://github.com/kube-vip/helm-charts/blob/5f24093899db53f7c103bd95b0e41a112bbfb72b/charts/kube-vip/values.yaml#L8):
 
 ```bash
-kube-vip manifest daemonset --services --inCluster --arp --interface eth0 | kubectl apply -f -
-
-# change the DaemonSet image to the one you want to test
-kubectl set image -n kube-system daemonset/kube-vip-ds kube-vip="cgr.dev/chainguard/kube-vip:latest"
+image:
+  repository: ghcr.io/kube-vip/kube-vip
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  # tag: "v0.7.0"
 ```
 
-Check the kube-vip DaemonSet:
+If you wish to use this helm chart, you'll need to provide a custom values.yaml
+file, which is updated to use the chainguard image and latest tag:
 
 ```bash
-kubectl get daemonset kube-vip-ds -n kube-system
+helm repo add kube-vip https://kube-vip.github.io/helm-charts/
+helm install my-kube-vip kube-vip/kube-vip -f my-custom-values.yaml
 ```
 
-Once the DaemonSet is running, now you can test the kube-vip by creating a LoadBalancer service:
-
-```bash
-kubectl apply -f https://k8s.io/examples/application/deployment.yaml
-kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer --name=nginx
-```
-
-Then you should be able to see the LoadBalancer service IP address:
-
-```bash
-kubectl get svc
-NAME         TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)        AGE
-kubernetes   ClusterIP      10.96.0.1       <none>          443/TCP        74m
-nginx        LoadBalancer   10.96.196.235   172.18.100.11   80:31236/TCP   6s
-```
-
-That's it. You have kube-vip running and managing the LoadBalancer service on your cluster.
-
-To verify that you could acess the LoadBalancer service, you can use the following command:
-
-```bash
-$ docker run -it --net container:kind-control-plane nicolaka/netshoot
-# kind-control-plane  ~  curl 172.18.100.11:80
-# <!DOCTYPE html>
-# <html>
-# <head>
-# <title>Welcome to nginx!</title>
-# <style>
-#     body {
-#         width: 35em;
-#         margin: 0 auto;
-#         font-family: Tahoma, Verdana, Arial, sans-serif;
-#     }
-# </style>
-# </head>
-# <body>
-# <h1>Welcome to nginx!</h1>
-# <p>If you see this page, the nginx web server is successfully installed and
-# working. Further configuration is required.</p>
-# 
-# <p>For online documentation and support please refer to
-# <a href="http://nginx.org/">nginx.org</a>.<br/>
-# Commercial support is available at
-# <a href="http://nginx.com/">nginx.com</a>.</p>
-# 
-# <p><em>Thank you for using nginx.</em></p>
-# </body>
-# </html>
-```
-Great! You have kube-vip running and managing the LoadBalancer service on your cluster.
-
-<!--body:end-->
+> Note, during testing with the original (non-chainguard) image, we did not have
+> much success getting a successful deployment. On occasions, our local k8s
+> cluster to become unresponsive. If you are referring to this chart, we would
+> advise you to test out in a non-production environment first.
