@@ -1,7 +1,9 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-set -o errexit -o nounset -o errtrace -o pipefail -x
+# Set up error handling and debug output
+set -o errexit -o nounset -o pipefail -x
 
+# Apply the necessary RBAC settings for kube-vip
 kubectl apply -f - <<EOF
 apiVersion: v1
 kind: ServiceAccount
@@ -46,30 +48,32 @@ subjects:
   namespace: kube-system
 EOF
 
-kubectl get nodes -o wide
-
 # Get the IP address and remove whitespace
 NODE_IP=$(kubectl get nodes -o wide | awk '/k3d-k3s-default-server-0/ {print $6}' | tr -d '[:space:]')
 
 # Split the IP address into an array
 IFS='.' read -r ip1 ip2 ip3 ip4 <<< "$NODE_IP"
 
-# Add 50 to the last octet
-last_octet=$((ip4 + 10))
+# Calculate the new IP addresses
+last_octet_first_ip=$((ip4 + 10))
+last_octet_second_ip=$((ip4 + 20)) # Additional 10 for the second IP
 
-# Handle the case where the last octet exceeds 255
-if [ $last_octet -gt 255 ]; then
+# Handle the case where the last octets exceed 255
+if [ $last_octet_first_ip -gt 255 ] || [ $last_octet_second_ip -gt 255 ]; then
   echo "Error: IP address increment leads to an invalid address"
   exit 1
 fi
 
-# Reassemble the IP address
-NEW_IP_ADDRESS="${ip1}.${ip2}.${ip3}.$last_octet"
-echo $NEW_IP_ADDRESS
+# Reassemble the IP addresses
+NEW_IP_ADDRESS1="${ip1}.${ip2}.${ip3}.$last_octet_first_ip"
+NEW_IP_ADDRESS2="${ip1}.${ip2}.${ip3}.$last_octet_second_ip"
+echo "First new IP: $NEW_IP_ADDRESS1"
+echo "Second new IP: $NEW_IP_ADDRESS2"
 
+# Run kube-vip as a docker container and apply its manifest
 docker run --network host --rm $IMAGE_NAME manifest daemonset \
     --interface eth0 \
-    --vip $NEW_IP_ADDRESS \
+    --vip $NEW_IP_ADDRESS1 \
     --inCluster \
     --taint \
     --arp \
@@ -77,8 +81,7 @@ docker run --network host --rm $IMAGE_NAME manifest daemonset \
     --services \
     --controlplane | kubectl apply -f -
 
-# set the image
-# there is a bug in the kube-vip command
+# Set the image (assuming there's a known bug with the original command)
 kubectl set image -n kube-system daemonset/kube-vip-ds kube-vip="$IMAGE_NAME"
 
 # Wait for the kube-vip daemonset to be ready
@@ -86,3 +89,30 @@ kubectl rollout status -n kube-system daemonset/kube-vip-ds --timeout=5m
 
 # Check if the kube-vip daemonset is ready
 kubectl logs -n kube-system -l app.kubernetes.io/name=kube-vip-ds | grep -q "Starting Kube-vip Manager with the ARP engine"
+
+# Create a deployment and expose it as a service
+kubectl apply -f https://k8s.io/examples/application/deployment.yaml
+kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer --name=nginx
+
+# Annotate the nginx service for kube-vip management
+kubectl annotate service nginx kube-vip.io/loadbalancerIPs="$NEW_IP_ADDRESS2"
+
+# Check if IP was assigned as the external IP
+max_retries=15
+retry_interval=10
+
+for ((i = 0; i < max_retries; i++)); do
+    actual_external_ip=$(kubectl get svc nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    annotated_ip=$(kubectl get svc nginx -o jsonpath='{.metadata.annotations.kube-vip\.io/loadbalancerIPs}')
+
+    if [[ -n "$actual_external_ip" && "$actual_external_ip" == "$annotated_ip" ]]; then
+        echo "Success: The annotated IP matches the actual external IP."
+        break
+    elif [[ i -eq $((max_retries - 1)) ]]; then
+        echo "Error: Reached maximum retry attempts without success."
+        exit 1
+    else
+        echo "Attempt $((i + 1)): External IP not ready or does not match. Retrying in $retry_interval seconds..."
+        sleep $retry_interval
+    fi
+done
