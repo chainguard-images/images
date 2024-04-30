@@ -9,6 +9,10 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "name" {
+  default = "k8ssandra-operator"
+}
+
 data "oci_string" "ref" {
   input = var.digest
 }
@@ -16,7 +20,7 @@ data "oci_string" "ref" {
 data "imagetest_inventory" "this" {}
 
 resource "imagetest_harness_k3s" "this" {
-  name      = "prometheus-config-reloader"
+  name      = var.name
   inventory = data.imagetest_inventory.this
 }
 
