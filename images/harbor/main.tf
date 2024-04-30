@@ -11,7 +11,6 @@ variable "target_repository" {
 locals {
   components = toset([
     "core",
-    "db",
     "jobservice",
     "portal",
     "registry",
@@ -30,17 +29,13 @@ locals {
   repositories = {
     for k, v in local.components : k => "${var.target_repository}-${k}"
   }
-
-  // Update this when PostgreSQL versions for the latest Harbor DB release change
-  postgres_versions = ["13", "14"]
 }
 
 module "latest-config" {
-  for_each          = local.components
-  source            = "./config"
-  component         = each.key
-  postgres_versions = local.postgres_versions
-  extra_packages    = local.packages[each.key]
+  for_each       = local.components
+  source         = "./config"
+  component      = each.key
+  extra_packages = local.packages[each.key]
 }
 
 module "latest" {

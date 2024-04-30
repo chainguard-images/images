@@ -9,7 +9,6 @@ variable "digests" {
   description = "The image digests to run tests over."
   type = object({
     core          = string
-    db            = string
     jobservice    = string
     portal        = string
     registry      = string
@@ -52,14 +51,6 @@ module "helm" {
       image = {
         repository = data.oci_string.ref["core"].registry_repo
         tag        = data.oci_string.ref["core"].pseudo_tag
-      }
-    }
-    database = {
-      internal = {
-        image = {
-          repository = data.oci_string.ref["db"].registry_repo
-          tag        = data.oci_string.ref["db"].pseudo_tag
-        }
       }
     }
     jobservice = {
