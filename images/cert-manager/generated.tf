@@ -3,10 +3,10 @@
 output "summary" {
   value = merge(
     {
-      for k, v in module.latest : k => {
+      for k, v in module.versioned : k => {
         "ref"    = v.image_ref
         "config" = v.config
-        "tags"   = ["latest"]
+        "tags"   = v.tag_list
       }
   })
 }
