@@ -17,6 +17,7 @@ module "latest" {
 
   target_repository = var.target_repository
   config            = module.config.config
+  build-dev         = true
 }
 
 module "test-latest" {
@@ -28,4 +29,10 @@ resource "oci_tag" "latest" {
   depends_on = [module.test-latest]
   digest_ref = module.latest.image_ref
   tag        = "latest"
+}
+
+resource "oci_tag" "latest-dev" {
+  depends_on = [module.test-latest]
+  digest_ref = module.latest.dev_ref
+  tag        = "latest-dev"
 }
