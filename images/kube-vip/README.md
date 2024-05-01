@@ -39,7 +39,7 @@ the upstream docs](https://kube-vip.io/docs/installation) for the correct set
 of instructions. Be sure to replace the image reference in any manifests to the
 Chainguard image.
 
-For reference, [here are some steps](https://github.com/chainguard-images/images/blob/main/images/doppler-kube-vip/TESTING.md)
+For reference, [here are some steps](https://github.com/chainguard-images/images/blob/main/images/kube-vip/TESTING.md)
 we followed to setup a local test environment using a local k3d cluster.
 
 ### Helm
