@@ -32,9 +32,11 @@ func (g *GeneratorImage00PublicCopy) Generate(dir string, skip, only []string, d
 	}
 	combined := util.CombineNoGenerated(tfFiles)
 	publicImageToCopy := ""
+	variant := ""
 	for _, block := range combined.Body.Blocks {
 		if util.IsPublicCopyBlock(block) {
 			publicImageToCopy = util.UnquoteTQString(block.Attributes[constants.AttributeImage])
+			variant = util.UnquoteTQString(block.Attributes[constants.AttributeVariant])
 			break
 		}
 	}
@@ -56,6 +58,13 @@ func (g *GeneratorImage00PublicCopy) Generate(dir string, skip, only []string, d
 			source := util.QuoteTQString(path.Join(g.SourcePathPrefix, publicImageToCopy, util.UnquoteTQString(v)))
 			block.Attributes[constants.AttributeSource] = source
 		}
+
+		// If the versions lib invocation passed a "variant" attribute,
+		// plumb it through to public-copy
+		if util.IsVersionsBlock(block) && variant != "" {
+			block.Attributes[constants.AttributeVariant] = util.QuoteTQString(variant)
+		}
+
 		// Copy over every block from the public image to copy
 		data.Body.Blocks = append(data.Body.Blocks, block)
 	}

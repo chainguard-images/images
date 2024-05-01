@@ -7,6 +7,11 @@ variable "eol-grace-months" {
   default = 0
 }
 
+// Note: unused
+variable "variant" {
+  default = ""
+}
+
 output "versions" {
   value = {
     "${var.package}" = {
