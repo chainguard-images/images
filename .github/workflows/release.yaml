@@ -121,11 +121,11 @@ jobs:
           set -exo pipefail
           env | grep '^TF_VAR_'
 
+          make init-upgrade
           targets=""
           for image in ${{ matrix.shard.images }}; do
             targets+=' -target='module."${image}"''
           done
-          terraform init
           terraform apply ${targets} -auto-approve --parallelism=$(nproc) -json | tee /tmp/mega-module.tf.json | jq -r '.["@message"]'
 
       - name: Collect TF diagnostics
