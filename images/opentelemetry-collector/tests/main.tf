@@ -123,7 +123,7 @@ module "helm-otelc-daemonset" {
           name : "otelc-daemonset"
           items : [
             {
-              key : "custom-deploy-config.yaml"
+              key : "custom-ds-config.yaml"
               path : "custom-config.yaml"
             }
           ]

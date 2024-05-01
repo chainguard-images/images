@@ -3,7 +3,6 @@ contents:
     # Package "opentelemetry-collector" comes in via var.extra_packages
     - ca-certificates
     - opentelemetry-collector-compat
-    - busybox
 
 accounts:
   groups:
@@ -19,7 +18,7 @@ environment:
   PORT: 8080
 
 entrypoint:
-  command: /usr/bin/otelcorecol
+  command: /usr/bin/otelcol
 
 paths:
   - path: /conf

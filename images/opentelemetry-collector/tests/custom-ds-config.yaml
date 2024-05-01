@@ -51,11 +51,6 @@ exporters:
     endpoint: "http://zipkin-all-in-one:9411/api/v2/spans"
     format: proto
 
-  # datadog:
-  #   api:
-  #     site: us5.datadoghq.com
-  #     key: ${DD_KEY}
-
 processors:
   batch:
     send_batch_max_size: 100
@@ -101,7 +96,6 @@ service:
       exporters:
         - debug
         - prometheus
-        # - datadog
 
     traces:
       receivers:
@@ -113,7 +107,6 @@ service:
       exporters:
         - debug
         - zipkin # fails (with warning) without zipkin deployed
-        # - datadog
 
     logs:
       receivers:
@@ -124,5 +117,3 @@ service:
         - batch
       exporters:
         - debug
-        # - datadog
-
