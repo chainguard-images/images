@@ -1003,6 +1003,11 @@ module "opensearch-dashboards" {
   target_repository = "${var.target_repository}/opensearch-dashboards"
 }
 
+module "opentelemetry-collector" {
+  source            = "./images/opentelemetry-collector"
+  target_repository = "${var.target_repository}/opentelemetry-collector"
+}
+
 module "opentelemetry-collector-contrib" {
   source            = "./images/opentelemetry-collector-contrib"
   target_repository = "${var.target_repository}/opentelemetry-collector-contrib"
@@ -2292,6 +2297,10 @@ output "summary_opensearch" {
 
 output "summary_opensearch-dashboards" {
   value = module.opensearch-dashboards.summary
+}
+
+output "summary_opentelemetry-collector" {
+  value = module.opentelemetry-collector.summary
 }
 
 output "summary_opentelemetry-collector-contrib" {
