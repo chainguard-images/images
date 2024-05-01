@@ -640,6 +640,11 @@ module "kube-state-metrics" {
   target_repository = "${var.target_repository}/kube-state-metrics"
 }
 
+module "kube-vip" {
+  source            = "./images/kube-vip"
+  target_repository = "${var.target_repository}/kube-vip"
+}
+
 module "kube-webhook-certgen" {
   source            = "./images/kube-webhook-certgen"
   target_repository = "${var.target_repository}/kube-webhook-certgen"
@@ -2008,6 +2013,10 @@ output "summary_kube-logging-operator-fluentd" {
 
 output "summary_kube-state-metrics" {
   value = module.kube-state-metrics.summary
+}
+
+output "summary_kube-vip" {
+  value = module.kube-vip.summary
 }
 
 output "summary_kube-webhook-certgen" {
