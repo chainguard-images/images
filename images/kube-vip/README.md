@@ -64,7 +64,8 @@ helm repo add kube-vip https://kube-vip.github.io/helm-charts/
 helm install my-kube-vip kube-vip/kube-vip -f my-custom-values.yaml
 ```
 
-> Note, during testing with the original (non-chainguard) image, we did not have
+> [!WARNING]
+> During testing with the original (non-chainguard) image, we did not have
 > much success getting a successful deployment. On occasions, our local k8s
 > cluster to become unresponsive. If you are referring to this chart, we would
 > advise you to test out in a non-production environment first.
