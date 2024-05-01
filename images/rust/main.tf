@@ -1,44 +1,49 @@
-terraform {
-  required_providers {
-    oci = { source = "chainguard-dev/oci" }
-  }
-}
-
 variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "config" { source = "./config" }
+module "versions" {
+  source  = "../../tflib/versions"
+  package = "rust"
+}
 
-module "rust" {
-  source             = "../../tflib/publisher"
-  name               = basename(path.module)
-  target_repository  = var.target_repository
-  config             = module.config.config
-  build-dev          = true
+module "config" {
+  for_each       = module.versions.versions
+  source         = "./config"
+  extra_packages = ["rust"]
+}
+
+module "versioned" {
+  for_each          = module.versions.versions
+  source            = "../../tflib/publisher"
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  config            = module.config[each.key].config
+  build-dev         = true
+  main_package      = each.value.main
+  update-repo       = each.value.is_latest
+  # Note that rustup / rust versions do not match up.
   extra_dev_packages = ["rustup"]
 }
 
-module "test" {
-  source = "./tests"
-  digest = module.rust.image_ref
+module "test-versioned" {
+  for_each = module.versions.versions
+  source   = "./tests"
+  digest   = module.versioned[each.key].image_ref
 }
 
-module "test-dev" {
+module "test-versioned-dev" {
+  for_each  = module.versions.versions
   source    = "./tests"
-  digest    = module.rust.dev_ref
+  digest    = module.versioned[each.key].dev_ref
   check-dev = true
 }
 
-resource "oci_tag" "latest" {
-  depends_on = [module.test]
-  digest_ref = module.rust.image_ref
-  tag        = "latest"
-}
-
-resource "oci_tag" "latest-dev" {
-  depends_on = [module.test-dev]
-  digest_ref = module.rust.dev_ref
-  tag        = "latest-dev"
+module "tagger" {
+  source     = "../../tflib/tagger"
+  depends_on = [module.test-versioned, module.test-versioned-dev]
+  tags = merge(
+    [for v in module.versioned : v.latest_tag_map]...
+  )
 }
 
