@@ -37,7 +37,7 @@ jobs:
           exit 1
         fi
 
-    - run: make init # Initialize modules.
+    - run: make init-upgrade # Initialize modules.
     - run: terraform fmt -check -recursive -diff
     - name: Enforce YAML formatting
       uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:afad17b9d533bba348407f9022d5a6c27ebcd3af7e516039191d3c901b0b899c
@@ -172,7 +172,7 @@ jobs:
       run: |
         set -eo pipefail
 
-        make init
+        make init-upgrade
         targets=""
         for image in ${{ matrix.shard.images }}; do
           targets+=' -target='module."${image}"''
