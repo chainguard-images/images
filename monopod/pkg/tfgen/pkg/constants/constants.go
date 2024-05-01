@@ -24,6 +24,7 @@ const (
 	AttributePublicCopy       = "public-copy"
 	AttributeVersions         = "versions"
 	AttributeImage            = "image"
+	AttributeVariant          = "variant"
 	AttributeForEach          = "for_each"
 	AttributeValue            = "value"
 	AttributeProviders        = "providers"
