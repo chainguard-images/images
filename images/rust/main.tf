@@ -8,8 +8,9 @@ module "versions" {
 }
 
 module "config" {
-  for_each = module.versions.versions
-  source   = "./config"
+  for_each       = module.versions.versions
+  source         = "./config"
+  extra_packages = ["rust"]
 }
 
 module "versioned" {
@@ -17,7 +18,7 @@ module "versioned" {
   source            = "../../tflib/publisher"
   name              = basename(path.module)
   target_repository = var.target_repository
-  config            = module.config.config
+  config            = module.config[each.key].config
   build-dev         = true
   main_package      = each.value.main
   update-repo       = each.value.is_latest
