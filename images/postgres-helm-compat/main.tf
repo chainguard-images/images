@@ -8,21 +8,16 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-locals {
-  # TODO: Define a virtual postgres package
-  version = "15"
-}
-
 module "latest-config" {
   source = "./config"
 
   extra_packages = [
-    "postgresql-${local.version}",
-    "postgresql-${local.version}-client",
-    "postgresql-${local.version}-oci-entrypoint",
-    "postgresql-${local.version}-contrib",
-    "postgresql-${local.version}-bitnami-compat",
-    "libpq-${local.version}",
+    "postgresql",
+    "postgresql-client",
+    "postgresql-oci-entrypoint",
+    "postgresql-contrib",
+    "postgresql-bitnami-compat",
+    "libpq",
   ]
 }
 
