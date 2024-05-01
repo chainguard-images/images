@@ -63,9 +63,9 @@ rustc 1.67.1 (d5a82bbd2 2023-02-07) (built from a source tarball)
 
 For runtime, you can use a multi-stage Dockerfile or similar technique to run your compiled binaries on
 an even more slimmed down image.
-The exact image will depend on your application, but `static`, `glibc-dynamic`, or `cc` should work.
+The exact image will depend on your application, but `static` or `glibc-dynamic` should work.
 
-This sample Dockerfile shows how to get a basic build up and running on `cc`.
+This sample Dockerfile shows how to get a basic build up and running on `glibc-dynamic`.
 There's one build argument, `PACKAGE`, that needs to be replaced with the name of your rust package.
 
 ```Dockerfile
@@ -76,7 +76,7 @@ WORKDIR /app
 COPY . .
 RUN cargo build --release
 
-FROM cgr.dev/chainguard/cc
+FROM cgr.dev/chainguard/glibc-dynamic
 COPY --from=build --chown=nonroot:nonroot /app/target/release/${PACKAGE} /usr/local/bin/${PACKAGE}
 CMD ["/usr/local/bin/${PACKAGE}"]
 ```
@@ -88,11 +88,11 @@ $ docker build -t foo --build-arg PACKAGE=shop .
  => => transferring dockerfile: 291B                                                                                                                                                                                                         0.0s
  => [internal] load .dockerignore                                                                                                                                                                                                            0.0s
  => => transferring context: 2B                                                                                                                                                                                                              0.0s
- => [internal] load metadata for cgr.dev/chainguard/cc:latest                                                                                                                                                                                0.0s
+ => [internal] load metadata for cgr.dev/chainguard/glibc-dynamic:latest                                                                                                                                                                                0.0s
  => [internal] load metadata for cgr.dev/chainguard/rust:latest                                                                                                                                                                              0.0s
  => [internal] load build context                                                                                                                                                                                                            0.0s
  => => transferring context: 6.21kB                                                                                                                                                                                                          0.0s
- => [stage-1 1/2] FROM cgr.dev/chainguard/cc                                                                                                                                                                                                 0.0s
+ => [stage-1 1/2] FROM cgr.dev/chainguard/glibc-dynamic                                                                                                                                                                                                 0.0s
  => [build 1/4] FROM cgr.dev/chainguard/rust                                                                                                                                                                                                 0.0s
  => CACHED [build 2/4] WORKDIR /app                                                                                                                                                                                                          0.0s
  => [build 3/4] COPY . .                                                                                                                                                                                                                     0.0s
