@@ -20,7 +20,7 @@ module "versioned" {
 
   name = basename(path.module)
 
-  main_package      = each.value.main
+  main_package      = replace(each.value.main, "rabbitmq", "rabbitmq-server")
   update-repo       = each.value.is_latest
   target_repository = var.target_repository
   config            = module.config[each.key].config
