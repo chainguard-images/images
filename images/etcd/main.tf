@@ -11,6 +11,9 @@ module "config" {
   for_each       = module.versions.versions
   source         = "./config"
   extra_packages = [each.key]
+  environment = endswith(each.key, "-3.4") ? {
+    "ETCD_UNSUPPORTED_ARCH" : "arm64"
+  } : {}
 }
 
 module "versioned" {
