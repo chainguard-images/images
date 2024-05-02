@@ -10,7 +10,7 @@ module "versions" {
 module "config" {
   for_each       = module.versions.versions
   source         = "./config"
-  extra_packages = ["rust"]
+  extra_packages = [each.key]
 }
 
 module "versioned" {
