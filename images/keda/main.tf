@@ -1,25 +1,16 @@
 locals {
   components = toset([
-    "controller",
-    "adapter",
-    "webhooks",
+    "keda",
+    "keda-adapter",
+    "keda-admission-webhooks",
   ])
-
-  packages = merge(
-    { for k in local.components : k => k },
-    {
-      "controller" = "keda"
-      "adapter"    = "keda-adapter"
-      "webhooks"   = "keda-admission-webhooks"
-    },
-  )
 
   repositories = merge(
     { for k in local.components : k => k },
     {
-      "controller" = var.target_repository
-      "adapter"    = "${var.target_repository}-adapter"
-      "webhooks"   = "${var.target_repository}-admission-webhooks"
+      "keda"                    = var.target_repository
+      "keda-adapter"            = "${var.target_repository}-adapter"
+      "keda-admission-webhooks" = "${var.target_repository}-admission-webhooks"
     },
   )
 }
@@ -28,13 +19,28 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
+module "config" {
+  for_each = local.components
+  source   = "./config"
+  name     = each.value
+}
+
+module "versions" {
+  for_each = local.components
+  source   = "../../tflib/versions"
+  package  = each.value
+}
+
 module "latest" {
-  for_each          = local.repositories
+  for_each          = local.components
   source            = "../../tflib/publisher"
   name              = basename(path.module)
-  target_repository = each.value
-  config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
+  target_repository = local.repositories[each.value]
+  config            = module.config[each.value].config
   build-dev         = true
+
+  main_package = module.versions[each.value].versions[each.value].main
+  update-repo  = module.versions[each.value].versions[each.value].is_latest
 }
 
 module "test-latest" {
@@ -49,7 +55,7 @@ module "tagger" {
   depends_on = [module.test-latest]
 
   tags = {
-    "latest"     = module.latest[each.key].image_ref
-    "latest-dev" = module.latest[each.key].dev_ref
+    "latest"     = module.latest[each.value].image_ref
+    "latest-dev" = module.latest[each.value].dev_ref
   }
 }

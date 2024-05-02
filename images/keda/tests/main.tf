@@ -1,27 +1,21 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
-    controller = string
-    adapter    = string
-    webhooks   = string
+    keda                    = string
+    keda-adapter            = string
+    keda-admission-webhooks = string
   })
 }
 
-variable "skip_crds" {
-  description = "Used to deconflict between multiple installations within the same cluster."
-  default     = false
-}
-
-variable "chart-version" {
-  description = "The version of the Helm chart to install."
-  default     = "latest"
+variable "name" {
+  default = "keda"
 }
 
 data "oci_string" "ref" {
@@ -29,45 +23,68 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
-resource "helm_release" "keda" {
-  name             = "keda"
-  namespace        = "keda"
-  repository       = "https://kedacore.github.io/charts"
-  chart            = "keda"
-  create_namespace = true
-  timeout          = 600
+data "imagetest_inventory" "this" {}
 
-  version = var.chart-version == "latest" ? null : var.chart-version
+resource "imagetest_harness_k3s" "this" {
+  name      = var.name
+  inventory = data.imagetest_inventory.this
+  sandbox = {
+    envs = {
+      "SCRIPT_DIR" = "/tests"
+    }
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+  }
+}
 
-  values = [
-    <<EOF
-image:
-  keda:
-    repository: "${data.oci_string.ref["controller"].registry_repo}"
-    tag: "${data.oci_string.ref["controller"].pseudo_tag}"
-  metricsApiServer:
-    repository: "${data.oci_string.ref["adapter"].registry_repo}"
-    tag: "${data.oci_string.ref["adapter"].pseudo_tag}"
-  webhooks:
-    repository: "${data.oci_string.ref["webhooks"].registry_repo}"
-    tag: "${data.oci_string.ref["webhooks"].pseudo_tag}"
-EOF
+module "install" {
+  source = "../../../tflib/imagetest/helm"
+
+  name  = "keda"
+  repo  = "https://kedacore.github.io/charts"
+  chart = "keda"
+
+  values = {
+    image = {
+      keda = {
+        repository = data.oci_string.ref["keda"].registry_repo
+        tag        = data.oci_string.ref["keda"].pseudo_tag
+      }
+      metricsApiServer = {
+        repository = data.oci_string.ref["keda-adapter"].registry_repo
+        tag        = data.oci_string.ref["keda-adapter"].pseudo_tag
+      }
+      webhooks = {
+        repository = data.oci_string.ref["keda-admission-webhooks"].registry_repo
+        tag        = data.oci_string.ref["keda-admission-webhooks"].pseudo_tag
+      }
+    }
+  }
+}
+
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the ${var.name} helm chart."
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.install.install_cmd
+    },
+    {
+      name = "Smoke test"
+      cmd  = <<EOF
+            bash /tests/smoke-test.sh
+      EOF
+    },
   ]
-}
 
-data "oci_exec_test" "smoke" {
-  digest = var.digests.controller # This doesn't actually matter here, just pass it something valid
-
-  # This script calls other files in the same relative directory
-  working_dir = path.module
-  script      = "./smoke-test.sh"
-
-  depends_on = [helm_release.keda]
-}
-
-module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.smoke]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.keda.id
-  namespace  = helm_release.keda.namespace
+  labels = {
+    type = "k8s"
+  }
 }
