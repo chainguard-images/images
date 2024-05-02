@@ -11,7 +11,7 @@ module "versions" {
 module "config" {
   for_each       = module.versions.versions
   source         = "./config"
-  extra_packages = replace(each.key, "rabbitmq", "rabbitmq-server")
+  extra_packages = [replace(each.key, "rabbitmq", "rabbitmq-server")]
 }
 
 module "versioned" {
