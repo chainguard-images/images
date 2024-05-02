@@ -6,7 +6,14 @@ output "summary" {
       basename(path.module) = {
         "ref"    = module.latest.image_ref
         "config" = module.latest.config
-        "tags"   = ["latest"]
+        "tags"   = module.latest.tag_list
+      }
+    },
+    {
+      for k, v in module.versioned : k => {
+        "ref"    = v.image_ref
+        "config" = v.config
+        "tags"   = v.tag_list
       }
   })
 }
