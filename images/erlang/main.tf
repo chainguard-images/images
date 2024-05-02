@@ -31,9 +31,9 @@ module "test-versioned" {
 }
 
 module "test-versioned-dev" {
-  for_each  = module.versions.versions
-  source    = "./tests"
-  digest    = module.versioned[each.key].dev_ref
+  for_each = module.versions.versions
+  source   = "./tests"
+  digest   = module.versioned[each.key].dev_ref
 }
 
 module "tagger" {
