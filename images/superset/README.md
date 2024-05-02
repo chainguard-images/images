@@ -1,24 +1,27 @@
 <!--monopod:start-->
-# superset
+# apache-superset
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/superset` |
+| **OCI Reference** | `cgr.dev/chainguard/apache-superset` |
 
-* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/superset/overview/)
+
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/apache-superset/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
 ---
+<!--monopod:end-->
 
 <!--overview:start-->
-A Wolf-based image for Apache Superset - an open-source data exploration and visualization platform with features like dashboards, charts, and SQL IDE.
+A minimal, [wolfi](https://github.com/wolfi-dev)-based image for Apache Superset. [Apache Superset](https://github.com/apache/superset/tree/master)is a Data Visualization and Data Exploration Platform
 <!--overview:end-->
 
 <!--getting:start-->
 ## Download this Image
 The image is available on `cgr.dev`:
+
 ```
-docker pull cgr.dev/chainguard/superset:latest
+docker pull cgr.dev/chainguard/apache-superset:latest
 ```
 <!--getting:end-->
 
