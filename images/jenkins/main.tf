@@ -10,21 +10,21 @@ module "versions" {
 module "config" {
   for_each       = module.versions.versions
   source         = "./config"
-  extra_packages = [each.key, "openjdk-17-default-jvm", "jenkins-compat"]
+  extra_packages = [each.key, replace(each.key, "jenkins", "jenkins-compat"), "openjdk-17-default-jvm"]
 }
 
-module "latest" {
+module "versioned" {
   for_each          = module.versions.versions
   source            = "../../tflib/publisher"
   name              = basename(path.module)
   target_repository = var.target_repository
-  config            = module.config.config
+  config            = module.config[each.key].config
   build-dev         = true
   main_package      = each.value.main
   update-repo       = each.value.is_latest
 }
 
-module "test" {
+module "test-versioned" {
   for_each = module.versions.versions
   source   = "./tests"
   digest   = module.versioned[each.key].image_ref
@@ -32,7 +32,7 @@ module "test" {
 
 module "tagger" {
   source     = "../../tflib/tagger"
-  depends_on = [module.test]
+  depends_on = [module.test-versioned]
   tags = merge(
     [for v in module.versioned : v.latest_tag_map]...
   )
