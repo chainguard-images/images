@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install."
-  default     = ["haproxy"]
+  default     = ["haproxy-2.9"]
 }
 
 data "apko_config" "this" {
