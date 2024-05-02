@@ -978,6 +978,11 @@ module "ntpd-rs" {
   target_repository = "${var.target_repository}/ntpd-rs"
 }
 
+module "nvidia-container-toolkit" {
+  source            = "./images/nvidia-container-toolkit"
+  target_repository = "${var.target_repository}/nvidia-container-toolkit"
+}
+
 module "nvidia-device-plugin" {
   source            = "./images/nvidia-device-plugin"
   target_repository = "${var.target_repository}/nvidia-device-plugin"
@@ -2277,6 +2282,10 @@ output "summary_ntia-conformance-checker" {
 
 output "summary_ntpd-rs" {
   value = module.ntpd-rs.summary
+}
+
+output "summary_nvidia-container-toolkit" {
+  value = module.nvidia-container-toolkit.summary
 }
 
 output "summary_nvidia-device-plugin" {
