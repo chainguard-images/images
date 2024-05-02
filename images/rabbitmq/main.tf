@@ -11,7 +11,7 @@ module "versions" {
 module "config" {
   for_each       = module.versions.versions
   source         = "./config"
-  extra_packages = ["rabbitmq"]
+  extra_packages = [each.key]
 }
 
 module "versioned" {
@@ -34,7 +34,7 @@ module "test-versioned" {
 
 module "tagger" {
   source     = "../../tflib/tagger"
-  depends_on = [module.test-versioned, module.test-versioned-dev]
+  depends_on = [module.test-versioned]
   tags = merge(
     [for v in module.versioned : v.latest_tag_map]...
   )
