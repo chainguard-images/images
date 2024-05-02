@@ -1043,6 +1043,11 @@ module "postgres" {
   target_repository = "${var.target_repository}/postgres"
 }
 
+module "postgres-bitnami" {
+  source            = "./images/postgres-bitnami"
+  target_repository = "${var.target_repository}/postgres-bitnami"
+}
+
 module "postgres-helm-compat" {
   source            = "./images/postgres-helm-compat"
   target_repository = "${var.target_repository}/postgres-helm-compat"
@@ -2334,6 +2339,10 @@ output "summary_php-fpm_exporter" {
 
 output "summary_postgres" {
   value = module.postgres.summary
+}
+
+output "summary_postgres-bitnami" {
+  value = module.postgres-bitnami.summary
 }
 
 output "summary_postgres-helm-compat" {
