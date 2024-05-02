@@ -1,20 +1,20 @@
 #!/bin/bash
-set -o errexit -o nounset -o errtrace -o pipefail -x
+
 # Variables
-RELEASE_NAME="superset"
-NAMESPACE="superset"
-PORT=8088
-apk add curl
-# Wait for all pods to be up and running
-echo "Waiting for all pods to be up and running..."
-kubectl wait --for=condition=ready pod -l "app=superset-worker" -n $NAMESPACE --timeout=180s
+CONTAINER_NAME="superset"
+export SUPERSET_SECRET_KEY="$(openssl rand -base64 42)"
+PORT=8080
 
-worker=$(kubectl get pod -l "app=superset-worker" -n $NAMESPACE -o jsonpath="{.items[0].metadata.name}")
+echo "Starting Apache Superset container..."
+docker run -d -p $PORT:8088 -e "SUPERSET_SECRET_KEY=$UPERSET_SECRET_KEY" --name $CONTAINER_NAME $IMAGE_NAME
 
+# Wait for container to start properly
+echo "Waiting for container to start..."
+sleep 60  # Adjust this based on how long your container typically takes to become responsive
 
 # Create an admin user
 echo "Creating admin user..."
-kubectl exec -it $worker -n $NAMESPACE -- superset fab create-admin \
+docker exec -it $CONTAINER_NAME superset fab create-admin \
               --username admin \
               --firstname Superset \
               --lastname Admin \
@@ -23,20 +23,15 @@ kubectl exec -it $worker -n $NAMESPACE -- superset fab create-admin \
 
 # Perform database migration
 echo "Upgrading database..."
-kubectl exec -it $worker -n $NAMESPACE -- superset db upgrade
+docker exec -it $CONTAINER_NAME superset db upgrade
 
 # Load examples
 echo "Loading examples..."
-kubectl exec -it $worker -n $NAMESPACE -- superset load_examples
+docker exec -it $CONTAINER_NAME superset load_examples
 
 # Initialize Superset (this sets up roles and permissions)
 echo "Initializing Superset..."
-kubectl exec -it $worker -n $NAMESPACE -- superset init
-
-# Port-forward to access Superset locally
-echo "Port-forwarding to access Superset locally on port $PORT..."
-kubectl port-forward svc/$RELEASE_NAME 8088:$PORT -n $NAMESPACE &
-sleep 10 # Wait a bit for port-forwarding to establish
+docker exec -it $CONTAINER_NAME superset init
 
 # Check if Superset is up and running by hitting the login page
 echo "Checking if Superset is up and running by accessing the login page..."
@@ -48,8 +43,10 @@ else
     echo "Test Failed: Superset login page is not accessible. HTTP status code: $HTTP_RESPONSE"
 fi
 
-# Clean up port-forwarding
-kill %1
+# Optionally, you can clean up by stopping and removing the container
+# echo "Cleaning up: Stopping and removing container..."
+# docker stop $CONTAINER_NAME
+# docker rm $CONTAINER_NAME
 
 # Exit script
 exit 0
