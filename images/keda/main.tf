@@ -1,18 +1,24 @@
 locals {
+  // List of all components
   components = toset([
     "keda",
     "keda-adapter",
     "keda-admission-webhooks",
   ])
 
-  repositories = merge(
-    { for k in local.components : k => k },
-    {
-      "keda"                    = var.target_repository
-      "keda-adapter"            = "${var.target_repository}-adapter"
-      "keda-admission-webhooks" = "${var.target_repository}-admission-webhooks"
-    },
-  )
+  // Cross product of versions and components
+  component_versions = merge([
+    for component in local.components : merge([
+      for key, version_metadata in module.versions.versions : {
+        join("-", compact([key, substr(component, 5, 100)])) : {
+
+          is_latest = version_metadata.is_latest
+          component = component
+          main      = join("-", compact([key, substr(component, 5, 100)]))
+        }
+      }
+    ]...)
+  ]...)
 }
 
 variable "target_repository" {
@@ -20,9 +26,9 @@ variable "target_repository" {
 }
 
 module "config" {
-  for_each = local.components
+  for_each = local.component_versions
   source   = "./config"
-  name     = each.value
+  name     = each.value.component
 }
 
 module "versions" {
@@ -30,28 +36,28 @@ module "versions" {
   package = "keda"
 }
 
-module "latest" {
-  for_each          = local.components
+module "versioned" {
+  for_each          = local.component_versions
   source            = "../../tflib/publisher"
   name              = basename(path.module)
-  target_repository = local.repositories[each.value]
-  config            = module.config[each.value].config
+  target_repository = "${var.target_repository}/${each.value.component}"
+  config            = module.config[each.key].config
   build-dev         = true
 
-  main_package = ""
-  update-repo  = true
+  main_package = each.value.main
+  update-repo  = each.value.is_latest
 }
 
-module "test-latest" {
+module "test" {
   source  = "./tests"
-  digests = { for k, v in module.latest : k => v.image_ref }
+  digests = { for k, v in module.versioned : k => v.image_ref }
 }
 
 module "tagger" {
-  for_each = local.components
+  for_each = local.component_versions
   source   = "../../tflib/tagger"
 
-  depends_on = [module.test-latest]
+  depends_on = [module.test]
 
-  tags = module.latest[each.key].latest_tag_map
+  tags = module.versioned[each.key].latest_tag_map
 }
