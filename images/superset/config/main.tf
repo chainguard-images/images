@@ -20,7 +20,7 @@ output "config" {
     }
     accounts = module.accts.block
     environment = merge({
-      "PATH" : "/usr/share/superset/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "PATH" : "/usr/share/superset/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
       "LANG" : "C.UTF-8",
       "LC_ALL" : "C.UTF-8",
       "SUPERSET_ENV" : "production",
@@ -30,6 +30,5 @@ output "config" {
     entrypoint = {
       command = "/usr/bin/run-server.sh"
     }
-    archs = ["aarch64"]
   })
 }
