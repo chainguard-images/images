@@ -26,9 +26,8 @@ module "config" {
 }
 
 module "versions" {
-  for_each = local.components
-  source   = "../../tflib/versions"
-  package  = each.value
+  source  = "../../tflib/versions"
+  package = "keda"
 }
 
 module "latest" {
@@ -39,8 +38,8 @@ module "latest" {
   config            = module.config[each.value].config
   build-dev         = true
 
-  main_package = module.versions[each.value].versions[each.value].main
-  update-repo  = module.versions[each.value].versions[each.value].is_latest
+  main_package = ""
+  update-repo  = true
 }
 
 module "test-latest" {
@@ -54,8 +53,5 @@ module "tagger" {
 
   depends_on = [module.test-latest]
 
-  tags = {
-    "latest"     = module.latest[each.value].image_ref
-    "latest-dev" = module.latest[each.value].dev_ref
-  }
+  tags = module.latest[each.key].latest_tag_map
 }

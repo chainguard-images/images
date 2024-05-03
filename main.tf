@@ -110,11 +110,6 @@ module "k3s" {
   target_repository = "${var.target_repository}/k3s"
 }
 
-module "keda" {
-  source            = "./images/keda"
-  target_repository = "${var.target_repository}/keda"
-}
-
 module "kubeflow" {
   source            = "./images/kubeflow"
   target_repository = "${var.target_repository}/kubeflow"
