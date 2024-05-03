@@ -1,11 +1,11 @@
 <!--monopod:start-->
-# apache-superset
+# superset
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/apache-superset` |
+| **OCI Reference** | `cgr.dev/chainguard/superset` |
 
 
-* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/apache-superset/overview/)
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/superset/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
@@ -21,7 +21,7 @@ A minimal, [wolfi](https://github.com/wolfi-dev)-based image for Apache Superset
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/apache-superset:latest
+docker pull cgr.dev/chainguard/superset:latest
 ```
 <!--getting:end-->
 
@@ -61,24 +61,6 @@ helm install superset .
 
 For detailed instructions on deploying Apache Superset via Helm, consult the official Apache Superset Helm chart documentation.
 
-## Deploying Apache Superset with Docker Compose
-Superset also provides a Docker Compose setup, which can be customized to use Chainguard images. Start by downloading the official Superset Docker Compose configuration from their GitHub:
-
-```bash
-wget https://github.com/apache/superset/blob/master/docker-compose.yml
-```
-Modify the docker-compose.yml to use Chainguard's images:
-
-```
-services:
-  superset:
-    image: cgr.dev/chainguard/apache-superset:latest
-```
-Then, start your Superset instance:
-
-```
-docker-compose up
-```
 
 ## Usage
 With Apache Superset running, access the web interface by navigating to http://localhost:8088. Login with the default credentials or the ones you have configured.

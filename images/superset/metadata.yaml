@@ -1,4 +1,4 @@
-name: apache-superset
+name: superset
 image: cgr.dev/chainguard/superset
 logo: https://storage.googleapis.com/chainguard-academy/logos/superset.svg
 endoflife: ""
