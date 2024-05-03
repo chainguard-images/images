@@ -1,5 +1,9 @@
 variable "name" {
-  description = "Package name (e.g. keda, keda-adapter, keda-admission-webhooks)"
+  description = "Component name (e.g. keda, keda-adapter, keda-admission-webhooks)"
+}
+
+variable "package" {
+  description = "Package name (e.g. keda-2.14)"
 }
 
 variable "extra_packages" {
@@ -22,7 +26,7 @@ output "config" {
   value = jsonencode({
     contents = {
       packages = concat([
-        var.name, // keda, keda-adapter, keda-admission-webhooks
+        var.package, // keda, keda-adapter, keda-admission-webhooks
         "busybox",
         "keda-compat",
       ], var.extra_packages)
