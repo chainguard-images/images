@@ -38,6 +38,8 @@ variable "extra_packages" {
     "libnvidia-container",
     "nvidia-cuda-cudart-12",
     "nvidia-cuda-nvml-dev-12",
+    "bash",
+    "busybox",
   ]
 }
 
@@ -60,7 +62,30 @@ output "config" {
     },
     work-dir = "/work"
     entrypoint = {
-      command = "nvidia-toolkit"
+      command = "/work/nvidia-toolkit"
     }
-  })
+    paths = [{
+      path        = "/bin"
+      type        = "directory"
+      uid         = module.accts.uid
+      gid         = module.accts.gid
+      permissions = 493
+      recursive   = true
+      }, {
+      path        = "/run/nvidia"
+      type        = "directory"
+      uid         = module.accts.uid
+      gid         = module.accts.gid
+      permissions = 493
+      recursive   = true
+      }, {
+      path        = "/host"
+      type        = "directory"
+      uid         = module.accts.uid
+      gid         = module.accts.gid
+      permissions = 493
+      recursive   = true
+    }]
+    }
+  )
 }

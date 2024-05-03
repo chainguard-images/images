@@ -15,23 +15,22 @@ module "nvidia-container-toolkit" {
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.config.config
-  # build-dev         = true
+  build-dev         = true
 }
 
-# module "test" {
-#   source = "./tests"
-#   digest = module.nvidia-container-toolkit.image_ref
-# }
+module "test" {
+  source = "./tests"
+  digest = module.nvidia-container-toolkit.image_ref
+}
 
 resource "oci_tag" "latest" {
-  # depends_on = [module.test]
+  depends_on = [module.test]
   digest_ref = module.nvidia-container-toolkit.image_ref
   tag        = "latest"
 }
 
-# resource "oci_tag" "latest-dev" {
-#   depends_on = [module.test]
-#   digest_ref = module.nvidia-container-toolkit.dev_ref
-#   tag        = "latest-dev"
-# }
-
+resource "oci_tag" "latest-dev" {
+  depends_on = [module.test]
+  digest_ref = module.nvidia-container-toolkit.dev_ref
+  tag        = "latest-dev"
+}

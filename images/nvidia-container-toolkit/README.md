@@ -25,4 +25,29 @@ docker pull cgr.dev/chainguard/nvidia-container-toolkit:latest
 ```
 <!--getting:end-->
 
-<!--body:start--><!--body:end-->
+<!--body:start-->
+
+## Usage
+
+```sh
+helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
+helm upgrade --install gpu-operator nvidia/gpu-operator \
+    -n gpu-operator \
+    --create-namespace \
+    --set toolkit.repository=cgr.dev/chainguard \
+    --set toolkit.image=nvidia-container-toolkit \
+    --set toolkit.version=latest
+```
+
+* Refer to [values.yaml](https://github.com/NVIDIA/gpu-operator/blob/master/deployments/gpu-operator/values.yaml) file for more configuration options.
+
+> [!WARNING]
+> You'll want to make sure the `gpu-operator` chart is up-to-date and use the latest operator tag that's within the compatibility matrix.
+
+> [!IMPORTANT]
+> You need GPU nodes to run the operator as it will schedule Deployments and DaemonSets on nodes with GPUs.
+
+> [!NOTE]
+> If you want to learn more about how we are testing this image, please refer to the [TESTING.md](./TESTING.md) file.
+
+<!--body:end-->
