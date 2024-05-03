@@ -1308,6 +1308,11 @@ module "stunnel" {
   target_repository = "${var.target_repository}/stunnel"
 }
 
+module "superset" {
+  source            = "./images/superset"
+  target_repository = "${var.target_repository}/superset"
+}
+
 module "tekton" {
   source            = "./images/tekton"
   target_repository = "${var.target_repository}/tekton"
@@ -2541,6 +2546,10 @@ output "summary_step-issuer" {
 
 output "summary_stunnel" {
   value = module.stunnel.summary
+}
+
+output "summary_superset" {
+  value = module.superset.summary
 }
 
 output "summary_tekton" {
