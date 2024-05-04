@@ -16,6 +16,8 @@ module "latest" {
   target_repository = var.target_repository
   config            = module.latest-config.config
   build-dev         = true
+  # How does one make this so that 22 doesn't have to be hardcoded?
+  extra_dev_packages = ["openjdk-22-jmods"]
 }
 
 module "test-latest" {
