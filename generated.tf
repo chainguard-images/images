@@ -325,6 +325,11 @@ module "dynamic-localpv-provisioner" {
   target_repository = "${var.target_repository}/dynamic-localpv-provisioner"
 }
 
+module "eck-operator" {
+  source            = "./images/eck-operator"
+  target_repository = "${var.target_repository}/eck-operator"
+}
+
 module "envoy" {
   source            = "./images/envoy"
   target_repository = "${var.target_repository}/envoy"
@@ -1766,6 +1771,10 @@ output "summary_dragonfly" {
 
 output "summary_dynamic-localpv-provisioner" {
   value = module.dynamic-localpv-provisioner.summary
+}
+
+output "summary_eck-operator" {
+  value = module.eck-operator.summary
 }
 
 output "summary_envoy" {

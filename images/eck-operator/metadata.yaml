@@ -1,0 +1,14 @@
+name: eck-operator
+image: cgr.dev/chainguard/eck-operator
+logo: https://storage.googleapis.com/chainguard-academy/logos/eck-operator.svg
+endoflife: ""
+console_summary: ""
+short_description: Elastic Cloud on Kubernetes
+compatibility_notes: ""
+readme_file: README.md
+upstream_url:  https://github.com/elastic/cloud-on-k8s
+keywords:
+- eck
+- operator
+- elastic
+- kubernetes
