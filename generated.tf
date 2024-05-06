@@ -560,6 +560,11 @@ module "jenkins" {
   target_repository = "${var.target_repository}/jenkins"
 }
 
+module "jitsucom-bulker" {
+  source            = "./images/jitsucom-bulker"
+  target_repository = "${var.target_repository}/jitsucom-bulker"
+}
+
 module "jre" {
   source            = "./images/jre"
   target_repository = "${var.target_repository}/jre"
@@ -1969,6 +1974,10 @@ output "summary_jellyfin" {
 
 output "summary_jenkins" {
   value = module.jenkins.summary
+}
+
+output "summary_jitsucom-bulker" {
+  value = module.jitsucom-bulker.summary
 }
 
 output "summary_jre" {
