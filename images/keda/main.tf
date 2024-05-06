@@ -79,7 +79,7 @@ variable "target_repository" {
 # Versions module plugs into to the version metadata for the top-level package
 module "versions" {
   source  = "../../tflib/versions"
-  package = basename(path.module)
+  package = "keda"
 }
 
 # Need a config for every version of every component
