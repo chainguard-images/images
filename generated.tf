@@ -325,6 +325,11 @@ module "dynamic-localpv-provisioner" {
   target_repository = "${var.target_repository}/dynamic-localpv-provisioner"
 }
 
+module "eck-operator" {
+  source            = "./images/eck-operator"
+  target_repository = "${var.target_repository}/eck-operator"
+}
+
 module "envoy" {
   source            = "./images/envoy"
   target_repository = "${var.target_repository}/envoy"
@@ -983,6 +988,11 @@ module "ntpd-rs" {
   target_repository = "${var.target_repository}/ntpd-rs"
 }
 
+module "nvidia-container-toolkit" {
+  source            = "./images/nvidia-container-toolkit"
+  target_repository = "${var.target_repository}/nvidia-container-toolkit"
+}
+
 module "nvidia-device-plugin" {
   source            = "./images/nvidia-device-plugin"
   target_repository = "${var.target_repository}/nvidia-device-plugin"
@@ -1311,6 +1321,11 @@ module "step-issuer" {
 module "stunnel" {
   source            = "./images/stunnel"
   target_repository = "${var.target_repository}/stunnel"
+}
+
+module "superset" {
+  source            = "./images/superset"
+  target_repository = "${var.target_repository}/superset"
 }
 
 module "tekton" {
@@ -1766,6 +1781,10 @@ output "summary_dragonfly" {
 
 output "summary_dynamic-localpv-provisioner" {
   value = module.dynamic-localpv-provisioner.summary
+}
+
+output "summary_eck-operator" {
+  value = module.eck-operator.summary
 }
 
 output "summary_envoy" {
@@ -2288,6 +2307,10 @@ output "summary_ntpd-rs" {
   value = module.ntpd-rs.summary
 }
 
+output "summary_nvidia-container-toolkit" {
+  value = module.nvidia-container-toolkit.summary
+}
+
 output "summary_nvidia-device-plugin" {
   value = module.nvidia-device-plugin.summary
 }
@@ -2550,6 +2573,10 @@ output "summary_step-issuer" {
 
 output "summary_stunnel" {
   value = module.stunnel.summary
+}
+
+output "summary_superset" {
+  value = module.superset.summary
 }
 
 output "summary_tekton" {

@@ -10,7 +10,7 @@ function cleanup() {
 
 trap cleanup EXIT
 
-WAR_URL=${WAR_URL:-https://tomcat.apache.org/tomcat-10.0-doc/appdev/sample/sample.war}
+WAR_URL=${WAR_URL:-https://tomcat.apache.org/tomcat-10.1-doc/appdev/sample/sample.war}
 
 curl -sSL -o "${TMPDIR}/sample.war" ${WAR_URL}
 

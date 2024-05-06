@@ -3,10 +3,10 @@
 output "summary" {
   value = merge(
     {
-      for k, v in module.versioned : k => {
+      for k, v in module.eck-operator : k => {
         "ref"    = v.image_ref
         "config" = v.config
-        "tags"   = v.tag_list
+        "tags"   = ["latest"]
       }
   })
 }

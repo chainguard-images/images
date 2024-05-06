@@ -10,7 +10,7 @@ variable "digest" {
 
 variable "war_url" {
   description = "The URL to the WAR file to deploy."
-  default     = "https://tomcat.apache.org/tomcat-10.0-doc/appdev/sample/sample.war"
+  default     = "https://tomcat.apache.org/tomcat-10.1-doc/appdev/sample/sample.war"
 }
 
 data "oci_exec_test" "run" {
