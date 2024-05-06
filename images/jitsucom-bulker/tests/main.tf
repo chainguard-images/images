@@ -61,6 +61,11 @@ module "helm" {
         tag        = data.oci_string.ref["syncctl"].pseudo_tag
       }
     }
+    tokenGenerator = {
+      image = {
+        tag = "1.30.0" # Latest is not exist.
+      }
+    }
   }
 }
 
