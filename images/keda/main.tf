@@ -65,7 +65,7 @@ locals {
           # Strips off `keda` or `keda-` from the components and joins with the
           # version_metadata key which will be `keda` when version data does not
           # exist and `keda-$version` when version data exists
-          main = join("-", compact([key, substr(component, 5, 100)]))
+          main = join("-", compact([key, trimprefix(replace(component, "keda", ""), "-")]))
         }
       }
     ]...)
