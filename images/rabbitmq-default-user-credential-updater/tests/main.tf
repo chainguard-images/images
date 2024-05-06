@@ -99,8 +99,8 @@ kust
         kustomize build . | kubectl apply -f -
 
         kubectl apply -f /tests/rabbitmq.yaml -n ${local.namespace}
-        sleep 20
-        kubectl wait --for=condition=Ready pod/vault-default-user-server-0 -n ${local.namespace} --timeout 60s
+        sleep 30
+        kubectl wait --for=condition=Ready pod/vault-default-user-server-0 -n ${local.namespace} --timeout 180s
       EOF
     },
     {
