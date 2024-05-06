@@ -19,6 +19,10 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
+variable "namespace" {
+  default = "jitsucom-bulker"
+}
+
 data "imagetest_inventory" "this" {}
 
 resource "imagetest_harness_k3s" "this" {
@@ -32,6 +36,9 @@ resource "imagetest_harness_k3s" "this" {
         destination = "/tests"
       }
     ]
+    envs = {
+      "K8S_NAMESPACE" = var.namespace
+    }
   }
 }
 
@@ -39,7 +46,7 @@ module "helm" {
   source = "../../../tflib/imagetest/helm"
 
   name      = "jitsucom-bulker"
-  namespace = "jitsucom-bulker"
+  namespace = var.namespace
   chart     = "oci://registry-1.docker.io/stafftasticcharts/jitsu"
 
   values = {
@@ -78,7 +85,28 @@ resource "imagetest_feature" "basic" {
     {
       name = "Helm install"
       cmd  = module.helm.install_cmd
-    }
+    },
+    {
+      name  = "Test bulker"
+      cmd   = <<EOF
+ /tests/log-checker.sh "jitsucom-bulker-bulker" "[metrics_server] Starting metrics server|Starting http server|[topic-manager] Created topic: destination-messages"
+       EOF
+      retry = { attempts = 3, delay = "5s" }
+    },
+    {
+      name  = "Test ingest"
+      cmd   = <<EOF
+ /tests/log-checker.sh "jitsucom-bulker-ingest" "[metrics_server] Starting metrics server|Starting http server|[router] Data hosts"
+       EOF
+      retry = { attempts = 3, delay = "5s" }
+    },
+    {
+      name  = "Test syncctl"
+      cmd   = <<EOF
+ /tests/log-checker.sh "jitsucom-bulker-syncctl" "Starting http server|Generated instance id"
+       EOF
+      retry = { attempts = 3, delay = "5s" }
+    },
   ]
 
   labels = {

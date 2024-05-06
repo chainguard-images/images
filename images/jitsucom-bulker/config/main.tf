@@ -20,5 +20,13 @@ output "config" {
     entrypoint = {
       command = "/app/${var.main_package}"
     }
+    paths = [{
+      path        = "~/.${var.main_package}" # https://github.com/jitsucom/bulker/blob/315237cd54707f2d9395db087ec2d4b2ed1297f4/jitsubase/appbase/app_base.go#L33
+      type        = "directory"
+      uid         = module.accts.uid
+      gid         = module.accts.gid
+      permissions = 509
+      recursive   = true
+    }]
   })
 }
