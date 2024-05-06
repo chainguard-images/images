@@ -12,9 +12,9 @@ locals {
   components = toset(["bulker", "ingest", "syncctl"])
 
   // Normally the repository is named like "jitsucom-{component}".
-  repositories = merge(
-    { for k, v in local.components : k => "jitsucom-${k}" },
-  )
+  repositories = {
+    for k, v in local.components : k => "${var.target_repository}-${k}"
+  }
 }
 
 module "config" {
