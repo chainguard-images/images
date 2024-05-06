@@ -1,7 +1,7 @@
 variable "extra_packages" {
   description = "Additional packages to install."
   type        = list(string)
-  default     = [""]
+  default     = []
 }
 
 variable "main_package" {
