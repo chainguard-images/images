@@ -95,7 +95,7 @@ module "versioned" {
   for_each          = local.component_versions
   source            = "../../tflib/publisher"
   name              = basename(path.module)
-  target_repository = "${var.target_repository}/${each.value.component}"
+  target_repository = replace(var.target_repository, "/keda", "/${each.value.component}")
   config            = module.config[each.key].config
   build-dev         = true
 
