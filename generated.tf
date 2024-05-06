@@ -600,6 +600,11 @@ module "karpenter" {
   target_repository = "${var.target_repository}/karpenter"
 }
 
+module "keda" {
+  source            = "./images/keda"
+  target_repository = "${var.target_repository}/keda"
+}
+
 module "keycloak" {
   source            = "./images/keycloak"
   target_repository = "${var.target_repository}/keycloak"
@@ -1996,6 +2001,10 @@ output "summary_kafka" {
 
 output "summary_karpenter" {
   value = module.karpenter.summary
+}
+
+output "summary_keda" {
+  value = module.keda.summary
 }
 
 output "summary_keycloak" {
