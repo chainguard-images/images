@@ -19,10 +19,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "image" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -64,19 +61,19 @@ metadata:
 spec:
   images:
     - image: calico/node
-      digest: ${data.oci_string.image["node"].digest}
+      digest: ${local.parsed["node"].digest}
     - image: calico/cni
-      digest: ${data.oci_string.image["cni"].digest}
+      digest: ${local.parsed["cni"].digest}
     - image: calico/kube-controllers
-      digest: ${data.oci_string.image["kube-controllers"].digest}
+      digest: ${local.parsed["kube-controllers"].digest}
     - image: calico/pod2daemon-flexvol
-      digest: ${data.oci_string.image["pod2daemon"].digest}
+      digest: ${local.parsed["pod2daemon"].digest}
     - image: calico/csi
-      digest: ${data.oci_string.image["csi"].digest}
+      digest: ${local.parsed["csi"].digest}
     - image: calico/typha
-      digest: ${data.oci_string.image["typha"].digest}
+      digest: ${local.parsed["typha"].digest}
     - image: calico/node-driver-registrar
-      digest: ${data.oci_string.image["node-driver-registrar"].digest}
+      digest: ${local.parsed["node-driver-registrar"].digest}
 EOm
 
 kubectl apply -f - <<EOm
@@ -86,8 +83,8 @@ metadata:
   name: default
 spec:
   variant: Calico
-  registry: ${data.oci_string.image["node"].registry}
-  imagePath: ${split("/", data.oci_string.image["node"].repo)[0]}
+  registry: ${local.parsed["node"].registry}
+  imagePath: ${split("/", local.parsed["node"].repo)[0]}
   imagePrefix: calico-
 EOm
 

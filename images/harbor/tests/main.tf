@@ -17,10 +17,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -49,39 +46,39 @@ module "helm" {
   values = {
     core = {
       image = {
-        repository = data.oci_string.ref["core"].registry_repo
-        tag        = data.oci_string.ref["core"].pseudo_tag
+        repository = local.parsed["core"].registry_repo
+        tag        = local.parsed["core"].pseudo_tag
       }
     }
     jobservice = {
       image = {
-        repository = data.oci_string.ref["jobservice"].registry_repo
-        tag        = data.oci_string.ref["jobservice"].pseudo_tag
+        repository = local.parsed["jobservice"].registry_repo
+        tag        = local.parsed["jobservice"].pseudo_tag
       }
     }
     portal = {
       image = {
-        repository = data.oci_string.ref["portal"].registry_repo
-        tag        = data.oci_string.ref["portal"].pseudo_tag
+        repository = local.parsed["portal"].registry_repo
+        tag        = local.parsed["portal"].pseudo_tag
       }
     }
     registry = {
       registry = {
         image = {
-          repository = data.oci_string.ref["registry"].registry_repo
-          tag        = data.oci_string.ref["registry"].pseudo_tag
+          repository = local.parsed["registry"].registry_repo
+          tag        = local.parsed["registry"].pseudo_tag
         }
       }
       registryctl = {
         image = {
-          repository = data.oci_string.ref["registryctl"].registry_repo
-          tag        = data.oci_string.ref["registryctl"].pseudo_tag
+          repository = local.parsed["registryctl"].registry_repo
+          tag        = local.parsed["registryctl"].pseudo_tag
         }
       }
       trivy = {
         image = {
-          repository = data.oci_string.ref["trivy-adapter"].registry_repo
-          tag        = data.oci_string.ref["trivy-adapter"].pseudo_tag
+          repository = local.parsed["trivy-adapter"].registry_repo
+          tag        = local.parsed["trivy-adapter"].pseudo_tag
         }
       }
     }

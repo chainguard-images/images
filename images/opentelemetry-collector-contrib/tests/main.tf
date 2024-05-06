@@ -10,7 +10,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -41,8 +41,8 @@ module "helm-otelc-deploy" {
       create : false
     }
     image = {
-      digest     = data.oci_string.ref.digest
-      repository = data.oci_string.ref.registry_repo
+      digest     = local.parsed.digest
+      repository = local.parsed.registry_repo
     }
     # Enable everything testable for a deployment based install
     presets = {
@@ -102,8 +102,8 @@ module "helm-otelc-daemonset" {
       kubeletMetrics       = { enabled = true }
     }
     image = {
-      digest     = data.oci_string.ref.digest
-      repository = data.oci_string.ref.registry_repo
+      digest     = local.parsed.digest
+      repository = local.parsed.registry_repo
     }
     command = {
       extraArgs = [

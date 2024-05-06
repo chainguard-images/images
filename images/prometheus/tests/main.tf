@@ -15,10 +15,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "oci_exec_test" "version" {
   for_each = { for k, v in var.digests : k => v }
@@ -48,29 +45,29 @@ resource "helm_release" "kube-prometheus-stack" {
   // prometheus
   set {
     name  = "prometheus.prometheusSpec.image.registry"
-    value = data.oci_string.ref["core"].registry
+    value = local.parsed["core"].registry
   }
   set {
     name  = "prometheus.prometheusSpec.image.repository"
-    value = data.oci_string.ref["core"].repo
+    value = local.parsed["core"].repo
   }
   set {
     name  = "prometheus.prometheusSpec.image.sha"
-    value = trimprefix(data.oci_string.ref["core"].digest, "sha256:")
+    value = trimprefix(local.parsed["core"].digest, "sha256:")
   }
 
   // alertmanager
   set {
     name  = "alertmanager.alertmanagerSpec.image.registry"
-    value = data.oci_string.ref["alertmanager"].registry
+    value = local.parsed["alertmanager"].registry
   }
   set {
     name  = "alertmanager.alertmanagerSpec.image.repository"
-    value = data.oci_string.ref["alertmanager"].repo
+    value = local.parsed["alertmanager"].repo
   }
   set {
     name  = "alertmanager.alertmanagerSpec.image.sha"
-    value = trimprefix(data.oci_string.ref["alertmanager"].digest, "sha256:")
+    value = trimprefix(local.parsed["alertmanager"].digest, "sha256:")
   }
 
   // Test with our kube-state-metrics, even if its not a fresh build.
@@ -99,11 +96,11 @@ resource "helm_release" "pushgateway" {
 
   set {
     name  = "image.repository"
-    value = data.oci_string.ref["pushgateway"].registry_repo
+    value = local.parsed["pushgateway"].registry_repo
   }
   set {
     name  = "image.tag"
-    value = data.oci_string.ref["pushgateway"].pseudo_tag
+    value = local.parsed["pushgateway"].pseudo_tag
   }
 }
 

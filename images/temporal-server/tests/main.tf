@@ -9,7 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -25,8 +25,8 @@ resource "imagetest_harness_k3s" "this" {
       }
     ]
     envs = {
-      "IMAGE_REGISTRY_REPO" = data.oci_string.ref.registry_repo
-      "IMAGE_TAG"           = data.oci_string.ref.pseudo_tag
+      "IMAGE_REGISTRY_REPO" = local.parsed.registry_repo
+      "IMAGE_TAG"           = local.parsed.pseudo_tag
     }
   }
 }

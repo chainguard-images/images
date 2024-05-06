@@ -14,10 +14,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -49,23 +46,23 @@ module "helm" {
     }
     server = {
       image = {
-        registry   = join("", [data.oci_string.ref["cli"].registry, ""])
-        repository = data.oci_string.ref["cli"].repo
-        tag        = data.oci_string.ref["cli"].pseudo_tag
+        registry   = join("", [local.parsed["cli"].registry, ""])
+        repository = local.parsed["cli"].repo
+        tag        = local.parsed["cli"].pseudo_tag
 
       }
       executor = {
         image = {
-          registry   = join("", [data.oci_string.ref["exec"].registry, ""])
-          repository = data.oci_string.ref["exec"].repo
-          tag        = data.oci_string.ref["exec"].pseudo_tag
+          registry   = join("", [local.parsed["exec"].registry, ""])
+          repository = local.parsed["exec"].repo
+          tag        = local.parsed["exec"].pseudo_tag
         }
       }
       controller = {
         image = {
-          registry   = join("", [data.oci_string.ref["worfkflowcontroller"].registry, ""])
-          repository = data.oci_string.ref["worfkflowcontroller"].repo
-          tag        = data.oci_string.ref["worfkflowcontroller"].pseudo_tag
+          registry   = join("", [local.parsed["worfkflowcontroller"].registry, ""])
+          repository = local.parsed["worfkflowcontroller"].repo
+          tag        = local.parsed["worfkflowcontroller"].pseudo_tag
         }
       }
     }

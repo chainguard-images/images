@@ -15,10 +15,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -42,25 +39,25 @@ module "install" {
   values = {
     installCRDs = true
     image = {
-      repository = data.oci_string.ref["controller"].registry_repo
-      tag        = data.oci_string.ref["controller"].pseudo_tag
+      repository = local.parsed["controller"].registry_repo
+      tag        = local.parsed["controller"].pseudo_tag
     }
     acmesolver = {
       image = {
-        repository = data.oci_string.ref["acmesolver"].registry_repo
-        tag        = data.oci_string.ref["acmesolver"].pseudo_tag
+        repository = local.parsed["acmesolver"].registry_repo
+        tag        = local.parsed["acmesolver"].pseudo_tag
       }
     }
     cainjector = {
       image = {
-        repository = data.oci_string.ref["cainjector"].registry_repo
-        tag        = data.oci_string.ref["cainjector"].pseudo_tag
+        repository = local.parsed["cainjector"].registry_repo
+        tag        = local.parsed["cainjector"].pseudo_tag
       }
     }
     webhook = {
       image = {
-        repository = data.oci_string.ref["webhook"].registry_repo
-        tag        = data.oci_string.ref["webhook"].pseudo_tag
+        repository = local.parsed["webhook"].registry_repo
+        tag        = local.parsed["webhook"].pseudo_tag
       }
     }
   }

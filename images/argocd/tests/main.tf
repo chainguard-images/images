@@ -17,10 +17,7 @@ variable "name" {
   default = "argocd"
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -42,13 +39,13 @@ module "install" {
       }
     }
     image = {
-      tag        = data.oci_string.ref["server"].pseudo_tag
-      repository = data.oci_string.ref["server"].registry_repo
+      tag        = local.parsed["server"].pseudo_tag
+      repository = local.parsed["server"].registry_repo
     }
     repoServer = {
       image = {
-        tag        = data.oci_string.ref["repo-server"].pseudo_tag
-        repository = data.oci_string.ref["repo-server"].registry_repo
+        tag        = local.parsed["repo-server"].pseudo_tag
+        repository = local.parsed["repo-server"].registry_repo
       }
     }
   }

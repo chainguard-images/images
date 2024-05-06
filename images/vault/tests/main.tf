@@ -13,10 +13,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -36,18 +33,18 @@ module "helm" {
   values = {
     injector = {
       agentImage = {
-        repository = data.oci_string.ref["vault"].registry_repo
-        tag        = data.oci_string.ref["vault"].pseudo_tag
+        repository = local.parsed["vault"].registry_repo
+        tag        = local.parsed["vault"].pseudo_tag
       }
       image = {
-        repository = data.oci_string.ref["vault-k8s"].registry_repo
-        tag        = data.oci_string.ref["vault-k8s"].pseudo_tag
+        repository = local.parsed["vault-k8s"].registry_repo
+        tag        = local.parsed["vault-k8s"].pseudo_tag
       }
     }
     server = {
       image = {
-        repository = data.oci_string.ref["vault"].registry_repo
-        tag        = data.oci_string.ref["vault"].pseudo_tag
+        repository = local.parsed["vault"].registry_repo
+        tag        = local.parsed["vault"].pseudo_tag
       }
     }
   }

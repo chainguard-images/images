@@ -8,7 +8,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "oci_exec_test" "helm-install" {
   digest = var.digest
@@ -16,14 +16,14 @@ data "oci_exec_test" "helm-install" {
 
   env {
     name  = "IMAGE_REGISTRY"
-    value = data.oci_string.ref.registry
+    value = local.parsed.registry
   }
   env {
     name  = "IMAGE_REPOSITORY"
-    value = data.oci_string.ref.repo
+    value = local.parsed.repo
   }
   env {
     name  = "IMAGE_TAG"
-    value = data.oci_string.ref.pseudo_tag
+    value = local.parsed.pseudo_tag
   }
 }

@@ -8,7 +8,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 resource "random_pet" "suffix" {}
 
@@ -49,10 +49,10 @@ data "oci_exec_test" "check-logging-operator" {
     value = helm_release.log-generator.namespace
     }, {
     name  = "FLUENTD_REPOSITORY"
-    value = data.oci_string.ref.registry_repo
+    value = local.parsed.registry_repo
     }, {
     name  = "FLUENTD_TAG"
-    value = data.oci_string.ref.pseudo_tag
+    value = local.parsed.pseudo_tag
   }]
 }
 

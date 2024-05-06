@@ -8,9 +8,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" {
-  input = var.digest
-}
+locals { parsed = provider::oci::parse(var.digest) }
 
 resource "random_pet" "suffix" {}
 
@@ -33,8 +31,8 @@ resource "helm_release" "redis-ha" {
         enabled          = true
         hardAntiAffinity = false
         image = {
-          repository = data.oci_string.ref.registry_repo
-          tag        = data.oci_string.ref.pseudo_tag
+          repository = local.parsed.registry_repo
+          tag        = local.parsed.pseudo_tag
         }
         containerSecurityContext = {
           capabilities = { add = ["NET_BIND_SERVICE"] }

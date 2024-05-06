@@ -8,7 +8,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 // We rely on base image ("postgresql") tests and just just run the helm test here
 
@@ -25,15 +25,15 @@ resource "helm_release" "bitnami" {
   // Point the chart at our Postgres image
   set {
     name  = "image.registry"
-    value = data.oci_string.ref.registry
+    value = local.parsed.registry
   }
   set {
     name  = "image.repository"
-    value = data.oci_string.ref.repo
+    value = local.parsed.repo
   }
   set {
     name  = "image.digest"
-    value = data.oci_string.ref.digest
+    value = local.parsed.digest
   }
 
   set {
@@ -87,7 +87,7 @@ resource "kubernetes_job" "test_tls" {
         }
         container {
           name  = "client"
-          image = data.oci_string.ref.id
+          image = var.digest
           security_context {
             allow_privilege_escalation = false
             capabilities {

@@ -33,7 +33,7 @@ resource "kubernetes_job_v1" "check_rekor" {
         }
         container {
           name  = "check-rekor"
-          image = data.oci_string.images["rekor-cli"].id
+          image = local.fetched["rekor-cli"].full_ref
           args = [
             "upload",
             "--rekor_server=http://rekor-server.rekor-${random_pet.suffix.id}.svc",

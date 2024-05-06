@@ -14,7 +14,7 @@ data "oci_exec_test" "version" {
   script = "docker run --rm $IMAGE_NAME --version"
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -31,9 +31,9 @@ module "helm" {
 
   values = {
     image = {
-      registry   = data.oci_string.ref.registry
-      repository = data.oci_string.ref.repo
-      digest     = data.oci_string.ref.digest
+      registry   = local.parsed.registry
+      repository = local.parsed.repo
+      digest     = local.parsed.digest
     }
   }
 }

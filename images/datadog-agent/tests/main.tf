@@ -17,10 +17,7 @@ variable "namespace" {
   default = "datadog-agent-system"
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -49,15 +46,15 @@ module "helm" {
   values = {
     agents = {
       image = {
-        repository    = data.oci_string.ref["agent"].registry_repo
-        tag           = data.oci_string.ref["agent"].pseudo_tag
+        repository    = local.parsed["agent"].registry_repo
+        tag           = local.parsed["agent"].pseudo_tag
         doNotCheckTag = true # pseudo_tag
       }
     }
     clusterAgent = {
       image = {
-        repository    = data.oci_string.ref["cluster-agent"].registry_repo
-        tag           = data.oci_string.ref["cluster-agent"].pseudo_tag
+        repository    = local.parsed["cluster-agent"].registry_repo
+        tag           = local.parsed["cluster-agent"].pseudo_tag
         doNotCheckTag = true # pseudo_tag
       }
     }

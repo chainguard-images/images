@@ -18,10 +18,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 resource "helm_release" "flux" {
   name             = "flux"
@@ -33,32 +30,32 @@ resource "helm_release" "flux" {
   values = [
     jsonencode({
       cli = {
-        image = data.oci_string.ref["cli"].registry_repo
-        tag   = data.oci_string.ref["cli"].pseudo_tag
+        image = local.parsed["cli"].registry_repo
+        tag   = local.parsed["cli"].pseudo_tag
       }
       helmController = {
-        image = data.oci_string.ref["helm-controller"].registry_repo
-        tag   = data.oci_string.ref["helm-controller"].pseudo_tag
+        image = local.parsed["helm-controller"].registry_repo
+        tag   = local.parsed["helm-controller"].pseudo_tag
       }
       kustomizeController = {
-        image = data.oci_string.ref["kustomize-controller"].registry_repo
-        tag   = data.oci_string.ref["kustomize-controller"].pseudo_tag
+        image = local.parsed["kustomize-controller"].registry_repo
+        tag   = local.parsed["kustomize-controller"].pseudo_tag
       }
       notificationController = {
-        image = data.oci_string.ref["notification-controller"].registry_repo
-        tag   = data.oci_string.ref["notification-controller"].pseudo_tag
+        image = local.parsed["notification-controller"].registry_repo
+        tag   = local.parsed["notification-controller"].pseudo_tag
       }
       sourceController = {
-        image = data.oci_string.ref["source-controller"].registry_repo
-        tag   = data.oci_string.ref["source-controller"].pseudo_tag
+        image = local.parsed["source-controller"].registry_repo
+        tag   = local.parsed["source-controller"].pseudo_tag
       }
       imageAutomationController = {
-        image = data.oci_string.ref["image-automation-controller"].registry_repo
-        tag   = data.oci_string.ref["image-automation-controller"].pseudo_tag
+        image = local.parsed["image-automation-controller"].registry_repo
+        tag   = local.parsed["image-automation-controller"].pseudo_tag
       }
       imageReflectorController = {
-        image = data.oci_string.ref["image-reflector-controller"].registry_repo
-        tag   = data.oci_string.ref["image-reflector-controller"].pseudo_tag
+        image = local.parsed["image-reflector-controller"].registry_repo
+        tag   = local.parsed["image-reflector-controller"].pseudo_tag
       }
     })
   ]

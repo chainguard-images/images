@@ -9,7 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -43,8 +43,8 @@ resources:
 
 images:
 - name: rabbitmqoperator/messaging-topology-operator
-  newName: ${data.oci_string.ref.registry_repo}
-  newTag: ${data.oci_string.ref.pseudo_tag}
+  newName: ${local.parsed.registry_repo}
+  newTag: ${local.parsed.pseudo_tag}
 kust
 
 kustomize build . | kubectl apply -f -
