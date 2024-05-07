@@ -84,7 +84,7 @@ resource "imagetest_feature" "vault" {
         apk add kustomize
 cat > kustomization.yaml <<kust
 resources:
-- "https://github.com/rabbitmq/cluster-operator/releases/download/${local.latest}/cluster-operator.yml"
+- https://github.com/wolfi-dev/os/blob/main/rabbitmq-cluster-operator.yaml
 patches:
 - patch: |-
     - op: add
