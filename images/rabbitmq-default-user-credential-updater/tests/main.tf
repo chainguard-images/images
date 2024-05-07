@@ -29,6 +29,9 @@ resource "imagetest_harness_k3s" "this" {
 
 locals {
   namespace = "rabbitmq-system"
+  latest      = <<EOF
+      LATEST=$(curl -s "https://api.github.com/repos/rabbitmq/cluster-operator/releases/latest" | jq -r '.tag_name')
+  EOF
 }
 
 module "helm-vault" {
@@ -81,7 +84,7 @@ resource "imagetest_feature" "vault" {
         apk add kustomize
 cat > kustomization.yaml <<kust
 resources:
-- https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml
+- "https://github.com/rabbitmq/cluster-operator/releases/download/${local.latest}/cluster-operator.yml"
 patches:
 - patch: |-
     - op: add
