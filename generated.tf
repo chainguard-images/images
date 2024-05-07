@@ -390,6 +390,11 @@ module "fluent-bit" {
   target_repository = "${var.target_repository}/fluent-bit"
 }
 
+module "fluent-bit-plugin-loki" {
+  source            = "./images/fluent-bit-plugin-loki"
+  target_repository = "${var.target_repository}/fluent-bit-plugin-loki"
+}
+
 module "fluentd" {
   source            = "./images/fluentd"
   target_repository = "${var.target_repository}/fluentd"
@@ -1833,6 +1838,10 @@ output "summary_filebeat" {
 
 output "summary_fluent-bit" {
   value = module.fluent-bit.summary
+}
+
+output "summary_fluent-bit-plugin-loki" {
+  value = module.fluent-bit-plugin-loki.summary
 }
 
 output "summary_fluentd" {
