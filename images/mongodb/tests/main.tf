@@ -5,7 +5,7 @@ terraform {
 }
 
 variable "digest" {
-  description = "The image digest to run tests over."
+  description = "The image digest to run tests over.."
 }
 
 data "oci_exec_test" "check" {

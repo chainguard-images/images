@@ -2,6 +2,8 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
+# test
+
 TMPDIR="$(mktemp -d)"
 ID="$(uuidgen | tr '[[:upper:]]' '[[:lower:]]' | cut -d'-' -f1)"
 MONGOD_CONTAINER_NAME="mongod-${ID}"
