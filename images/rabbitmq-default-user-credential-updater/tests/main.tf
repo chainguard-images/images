@@ -29,7 +29,7 @@ resource "imagetest_harness_k3s" "this" {
 
 locals {
   namespace = "rabbitmq-system"
-  latest      = <<EOF
+  latest    = <<EOF
       LATEST=$(curl -s "https://api.github.com/repos/rabbitmq/cluster-operator/releases/latest" | jq -r '.tag_name')
   EOF
 }
