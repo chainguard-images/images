@@ -1,0 +1,12 @@
+name: gpu-feature-discovery
+image: cgr.dev/chainguard/gpu-feature-discovery
+logo: https://storage.googleapis.com/chainguard-academy/logos/gpu-feature-discovery.svg
+endoflife: ""
+console_summary: ""
+short_description: Minimal [gpu-feature-discovery](https://github.com/NVIDIA/gpu-feature-discovery) container image.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/NVIDIA/gpu-feature-discovery
+keywords: 
+  - application
+  - tools

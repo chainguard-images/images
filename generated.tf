@@ -455,6 +455,11 @@ module "gptscript" {
   target_repository = "${var.target_repository}/gptscript"
 }
 
+module "gpu-feature-discovery" {
+  source            = "./images/gpu-feature-discovery"
+  target_repository = "${var.target_repository}/gpu-feature-discovery"
+}
+
 module "gradle" {
   source            = "./images/gradle"
   target_repository = "${var.target_repository}/gradle"
@@ -1890,6 +1895,10 @@ output "summary_google-cloud-sdk" {
 
 output "summary_gptscript" {
   value = module.gptscript.summary
+}
+
+output "summary_gpu-feature-discovery" {
+  value = module.gpu-feature-discovery.summary
 }
 
 output "summary_gradle" {
