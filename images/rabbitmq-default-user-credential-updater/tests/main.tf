@@ -64,7 +64,7 @@ resource "imagetest_feature" "vault" {
     },
     {
       name = "Helm deploy Vault"
-      cmd  = module.helm-vault.install_cmd 
+      cmd  = module.helm-vault.install_cmd
     },
     {
       name = "Wait for deployment to finish, then run setup.sh script"
