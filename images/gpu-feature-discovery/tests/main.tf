@@ -41,7 +41,7 @@ module "helm" {
   values = {
     image = {
       repository = data.oci_string.ref.registry_repo
-      tag        = "unused@${element(split("@", var.digest), 1)}"
+      tag        = data.oci_string.ref.pseudo_tag
     }
   }
 }
@@ -55,18 +55,6 @@ resource "imagetest_feature" "basic" {
     {
       name = "Helm install"
       cmd  = module.helm.install_cmd
-    },
-    {
-      name  = "Helm install GPU Feature Discovery"
-      cmd   = <<EOF
-        helm repo add nvgfd https://nvidia.github.io/gpu-feature-discovery
-        helm repo update
-        helm upgrade -i nvgfd nvgfd/gpu-feature-discovery \
-          --version 0.8.2 \
-          --namespace gpu-feature-discovery \
-          --create-namespace
-      EOF
-      retry = { attempts = 3, delay = "10s" }
     },
     {
       name  = "Verify GPU Feature Discovery Daemonset"
