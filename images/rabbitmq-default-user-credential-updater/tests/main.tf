@@ -93,7 +93,7 @@ resource "imagetest_feature" "vault" {
         apk add kustomize
 cat > kustomization.yaml <<kust
 resources:
-- cgr.dev/chainguard/rabbitmq-cluster-operator
+- https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml
 patches:
 - patch: |-
     - op: add
