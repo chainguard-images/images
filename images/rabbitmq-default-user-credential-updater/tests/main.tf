@@ -41,11 +41,23 @@ module "helm-vault" {
 
   values = {
     server = {
+      image = {
+        repository = "cgr.dev/chainguard/vault"
+        tag        = "latest"
+      }
       dev      = { enabled = true }
       logLevel = "debug"
     }
     injector = {
       logLevel = "debug"
+      image = {
+        repository = "cgr.dev/chainguard/vault-k8s"
+        tag        = "latest"
+      }
+      agentImage = {
+        repository = "cgr.dev/chainguard/vault"
+        tag        = "latest"
+      }
     }
   }
 }
