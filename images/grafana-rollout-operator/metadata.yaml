@@ -1,0 +1,11 @@
+name: grafana-rollout-operator
+image: cgr.dev/chainguard/grafana-rollout-operator
+logo: https://storage.googleapis.com/chainguard-academy/logos/grafana.svg
+endoflife: ""
+console_summary: ""
+short_description: Kubernetes Rollout Operator
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/grafana/rollout-operator
+keywords:
+  - application
