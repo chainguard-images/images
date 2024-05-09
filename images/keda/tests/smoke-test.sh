@@ -4,12 +4,6 @@ set -o errexit -o nounset -o pipefail -x
 
 # Run a real test using Keda's CRON trigger to scale a deployment
 
-# Get the directory path of this script
-SCRIPT_DIR=$(
-	cd "$(dirname "$0")"
-	pwd
-)
-
 # Deploy a test deployment
 kubectl apply -f $SCRIPT_DIR/test-deployment.yaml -n default
 

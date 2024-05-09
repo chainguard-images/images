@@ -455,6 +455,11 @@ module "gptscript" {
   target_repository = "${var.target_repository}/gptscript"
 }
 
+module "gpu-feature-discovery" {
+  source            = "./images/gpu-feature-discovery"
+  target_repository = "${var.target_repository}/gpu-feature-discovery"
+}
+
 module "gradle" {
   source            = "./images/gradle"
   target_repository = "${var.target_repository}/gradle"
@@ -560,6 +565,11 @@ module "jenkins" {
   target_repository = "${var.target_repository}/jenkins"
 }
 
+module "jitsucom-bulker" {
+  source            = "./images/jitsucom-bulker"
+  target_repository = "${var.target_repository}/jitsucom-bulker"
+}
+
 module "jre" {
   source            = "./images/jre"
   target_repository = "${var.target_repository}/jre"
@@ -598,6 +608,11 @@ module "kafka" {
 module "karpenter" {
   source            = "./images/karpenter"
   target_repository = "${var.target_repository}/karpenter"
+}
+
+module "keda" {
+  source            = "./images/keda"
+  target_repository = "${var.target_repository}/keda"
 }
 
 module "keycloak" {
@@ -858,6 +873,11 @@ module "minio" {
 module "ml-metadata-store-server" {
   source            = "./images/ml-metadata-store-server"
   target_repository = "${var.target_repository}/ml-metadata-store-server"
+}
+
+module "mlflow" {
+  source            = "./images/mlflow"
+  target_repository = "${var.target_repository}/mlflow"
 }
 
 module "mongodb" {
@@ -1887,6 +1907,10 @@ output "summary_gptscript" {
   value = module.gptscript.summary
 }
 
+output "summary_gpu-feature-discovery" {
+  value = module.gpu-feature-discovery.summary
+}
+
 output "summary_gradle" {
   value = module.gradle.summary
 }
@@ -1971,6 +1995,10 @@ output "summary_jenkins" {
   value = module.jenkins.summary
 }
 
+output "summary_jitsucom-bulker" {
+  value = module.jitsucom-bulker.summary
+}
+
 output "summary_jre" {
   value = module.jre.summary
 }
@@ -2001,6 +2029,10 @@ output "summary_kafka" {
 
 output "summary_karpenter" {
   value = module.karpenter.summary
+}
+
+output "summary_keda" {
+  value = module.keda.summary
 }
 
 output "summary_keycloak" {
@@ -2209,6 +2241,10 @@ output "summary_minio" {
 
 output "summary_ml-metadata-store-server" {
   value = module.ml-metadata-store-server.summary
+}
+
+output "summary_mlflow" {
+  value = module.mlflow.summary
 }
 
 output "summary_mongodb" {
