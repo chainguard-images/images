@@ -12,9 +12,12 @@ variable "target_repository" {
 locals {
   components = toset(["bulker", "ingest", "syncctl"])
 
+  # Upstream images are named `jitsucom-{component}`.
+  mangled_repository = replace(var.target_repository, "/jitsucom-bulker", "/jitsucom")
+
   // Normally the repository is named like "jitsucom-{component}".
   repositories = {
-    for k, v in local.components : k => "${var.target_repository}-${k}"
+    for k, v in local.components : k => "${local.mangled_repository}-${k}"
   }
 }
 
