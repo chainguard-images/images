@@ -3,13 +3,18 @@
 # Set up error handling and debug output
 set -o errexit -o nounset -o pipefail -x
 
+namespace="kube-system-${RANDOM}"
+
+# Create a namespace for kube-vip
+kubectl create namespace "$namespace"
+
 # Apply the necessary RBAC settings for kube-vip
 kubectl apply -f - <<EOF
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: kube-vip
-  namespace: kube-system
+  namespace: $namespace
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -45,7 +50,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: kube-vip
-  namespace: kube-system
+  namespace: $namespace
 EOF
 
 # Get the IP address and remove whitespace
@@ -79,16 +84,22 @@ docker run --network host --rm $IMAGE_NAME manifest daemonset \
     --arp \
     --leaderElection \
     --services \
-    --controlplane | kubectl apply -f -
+    --controlplane | tee kube-vip.yaml
+
+awk '{gsub("kube-system","'"$namespace"'")}1' kube-vip.yaml > temp && mv temp kube-vip.yaml
+
+kubectl apply -f kube-vip.yaml
 
 # Set the image (assuming there's a known bug with the original command)
-kubectl set image -n kube-system daemonset/kube-vip-ds kube-vip="$IMAGE_NAME"
+kubectl set image -n $namespace daemonset/kube-vip-ds kube-vip="$IMAGE_NAME"
 
 # Wait for the kube-vip daemonset to be ready
-kubectl rollout status -n kube-system daemonset/kube-vip-ds --timeout=5m
+kubectl rollout status -n $namespace daemonset/kube-vip-ds --timeout=5m
 
 # Check if the kube-vip daemonset is ready
-kubectl logs -n kube-system -l app.kubernetes.io/name=kube-vip-ds | grep -q "Starting Kube-vip Manager with the ARP engine"
+POD_NAME=$(kubectl get pods -n $namespace -l app.kubernetes.io/name=kube-vip-ds -ojsonpath='{.items[*].metadata.name}')
+
+kubectl logs -n $namespace $POD_NAME | grep -i "Starting Kube-vip Manager with the ARP engine"
 
 # Create a deployment and expose it as a service
 kubectl apply -f https://k8s.io/examples/application/deployment.yaml
