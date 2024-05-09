@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Kubernetes Rollout Operator
+Kubernetes Rollout Operator coordinates the rollout of pods between different StatefulSets within a specific namespace, and can be used to manage multi-AZ deployments
 <!--overview:end-->
 
 <!--getting:start-->
