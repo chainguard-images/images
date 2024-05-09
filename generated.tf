@@ -875,6 +875,11 @@ module "ml-metadata-store-server" {
   target_repository = "${var.target_repository}/ml-metadata-store-server"
 }
 
+module "mlflow" {
+  source            = "./images/mlflow"
+  target_repository = "${var.target_repository}/mlflow"
+}
+
 module "mongodb" {
   source            = "./images/mongodb"
   target_repository = "${var.target_repository}/mongodb"
@@ -2231,6 +2236,10 @@ output "summary_minio" {
 
 output "summary_ml-metadata-store-server" {
   value = module.ml-metadata-store-server.summary
+}
+
+output "summary_mlflow" {
+  value = module.mlflow.summary
 }
 
 output "summary_mongodb" {
