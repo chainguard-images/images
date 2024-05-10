@@ -5,7 +5,7 @@
 apk add curl openjdk-21-jre-base
 
 export JAVA_HOME=/usr/lib/jvm/java-21-openjdk/
-
+kubectl get svc -A
 kubectl port-forward -n jenkins svc/jenkins 8080:8080&
 sleep 5 # wait for port-forward to settle
 curl -s -O "http://localhost:8080/jnlpJars/jenkins-cli.jar"
