@@ -86,9 +86,9 @@ docker run --network host --rm $IMAGE_NAME manifest daemonset \
     --services \
     --controlplane | tee kube-vip.yaml
 
-awk '{gsub("kube-system","'"$namespace"'")}1' kube-vip.yaml > temp && mv temp kube-vip.yaml
+awk '{gsub("kube-system","'"$namespace"'")}1' kube-vip.yaml > temp && mv temp kube-vip-$namespace.yaml
 
-kubectl apply -f kube-vip.yaml
+kubectl apply -f kube-vip-$namespace.yaml
 
 # Set the image (assuming there's a known bug with the original command)
 kubectl set image -n $namespace daemonset/kube-vip-ds kube-vip="$IMAGE_NAME"
@@ -102,19 +102,19 @@ POD_NAME=$(kubectl get pods -n $namespace -l app.kubernetes.io/name=kube-vip-ds 
 kubectl logs -n $namespace $POD_NAME | grep -i "Starting Kube-vip Manager with the ARP engine"
 
 # Create a deployment and expose it as a service
-kubectl apply -f https://k8s.io/examples/application/deployment.yaml
-kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer --name=nginx
+kubectl apply -f https://k8s.io/examples/application/deployment.yaml -n $namespace
+kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer --name=nginx -n $namespace
 
 # Annotate the nginx service for kube-vip management
-kubectl annotate service nginx kube-vip.io/loadbalancerIPs="$NEW_IP_ADDRESS2"
+kubectl annotate service nginx kube-vip.io/loadbalancerIPs="$NEW_IP_ADDRESS2" -n $namespace
 
 # Check if IP was assigned as the external IP
 max_retries=15
 retry_interval=10
 
 for ((i = 0; i < max_retries; i++)); do
-    actual_external_ip=$(kubectl get svc nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    annotated_ip=$(kubectl get svc nginx -o jsonpath='{.metadata.annotations.kube-vip\.io/loadbalancerIPs}')
+    actual_external_ip=$(kubectl get svc nginx -n $namespace -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    annotated_ip=$(kubectl get svc -n $namespace  nginx -o jsonpath='{.metadata.annotations.kube-vip\.io/loadbalancerIPs}')
 
     if [[ -n "$actual_external_ip" && "$actual_external_ip" == "$annotated_ip" ]]; then
         echo "Success: The annotated IP matches the actual external IP."
@@ -130,7 +130,7 @@ done
 
 # do a cleanup using trap function
 cleanup() {
-    kubectl delete -f kube-vip.yaml --force --grace-period 0 --ignore-not-found
+    kubectl delete -f kube-vip-$namespace.yaml --force --grace-period 0 --ignore-not-found
     kubectl delete namespace $namespace --force --grace-period 0 --ignore-not-found
 }
 
