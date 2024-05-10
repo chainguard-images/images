@@ -3,10 +3,9 @@
 # Set up error handling and debug output
 set -o errexit -o nounset -o pipefail -x
 
-namespace="kube-system-${RANDOM}"
+namespace="kube-system"
 
-# Create a namespace for kube-vip
-kubectl create namespace "$namespace"
+IMAGE_NAME="$IMAGE_REGISTRY/$IMAGE_REPOSITORY:$IMAGE_TAG"
 
 # Apply the necessary RBAC settings for kube-vip
 kubectl apply -f - <<EOF
@@ -54,7 +53,7 @@ subjects:
 EOF
 
 # Get the IP address and remove whitespace
-NODE_IP=$(kubectl get nodes -o wide | awk '/k3d-k3s-default-server-0/ {print $6}' | tr -d '[:space:]')
+NODE_IP=$(kubectl get nodes -o wide --no-headers | awk '{print $6}' | tr -d '[:space:]')
 
 # Split the IP address into an array
 IFS='.' read -r ip1 ip2 ip3 ip4 <<< "$NODE_IP"
@@ -76,19 +75,95 @@ echo "First new IP: $NEW_IP_ADDRESS1"
 echo "Second new IP: $NEW_IP_ADDRESS2"
 
 # Run kube-vip as a docker container and apply its manifest
-docker run --network host --rm $IMAGE_NAME manifest daemonset \
-    --interface eth0 \
-    --vip $NEW_IP_ADDRESS1 \
-    --inCluster \
-    --taint \
-    --arp \
-    --leaderElection \
-    --services \
-    --controlplane | tee kube-vip.yaml
-
-awk '{gsub("kube-system","'"$namespace"'")}1' kube-vip.yaml > temp && mv temp kube-vip-$namespace.yaml
-
-kubectl apply -f kube-vip-$namespace.yaml
+cat <<EOF | kubectl apply -f -
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/name: kube-vip-ds
+    app.kubernetes.io/version: 0.8.0
+  name: kube-vip-ds
+  namespace: $namespace
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kube-vip-ds
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/name: kube-vip-ds
+        app.kubernetes.io/version: 0.8.0
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/master
+                operator: Exists
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
+      containers:
+      - args:
+        - manager
+        env:
+        - name: vip_arp
+          value: "true"
+        - name: port
+          value: "6443"
+        - name: vip_nodename
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: vip_interface
+          value: eth0
+        - name: vip_cidr
+          value: "32"
+        - name: dns_mode
+          value: first
+        - name: cp_enable
+          value: "true"
+        - name: cp_namespace
+          value: kube-system
+        - name: svc_enable
+          value: "true"
+        - name: svc_leasename
+          value: plndr-svcs-lock
+        - name: vip_leaderelection
+          value: "true"
+        - name: vip_leasename
+          value: plndr-cp-lock
+        - name: vip_leaseduration
+          value: "5"
+        - name: vip_renewdeadline
+          value: "3"
+        - name: vip_retryperiod
+          value: "1"
+        - name: vip_address
+          value: 172.18.0.12
+        - name: prometheus_server
+          value: :2112
+        image: ghcr.io/kube-vip/kube-vip:0.8.0
+        imagePullPolicy: IfNotPresent
+        name: kube-vip
+        resources: {}
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+            - NET_RAW
+      hostNetwork: true
+      serviceAccountName: kube-vip
+      tolerations:
+      - effect: NoSchedule
+        operator: Exists
+      - effect: NoExecute
+        operator: Exists
+  updateStrategy: {}
+EOF
 
 # Set the image (assuming there's a known bug with the original command)
 kubectl set image -n $namespace daemonset/kube-vip-ds kube-vip="$IMAGE_NAME"
@@ -127,13 +202,5 @@ for ((i = 0; i < max_retries; i++)); do
         sleep $retry_interval
     fi
 done
-
-# do a cleanup using trap function
-cleanup() {
-    kubectl delete -f kube-vip-$namespace.yaml --force --grace-period 0 --ignore-not-found
-    kubectl delete namespace $namespace --force --grace-period 0 --ignore-not-found
-}
-
-trap cleanup EXIT
 
 echo "Test completed successfully."
