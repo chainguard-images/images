@@ -17,3 +17,8 @@ kubeflow-pipelines
 
 # remove the sdk to avoid daily scanning and CVE triage actions
 sdk
+
+# renamed to jitsucom-bulker, jitsucom-ingest, jistucom-syncctl
+jitsucom-bulker-bulker
+jitsucom-bulker-ingest
+jitsucom-bulker-syncctl
