@@ -127,3 +127,13 @@ for ((i = 0; i < max_retries; i++)); do
         sleep $retry_interval
     fi
 done
+
+# do a cleanup using trap function
+cleanup() {
+    kubectl delete -f kube-vip.yaml --force --grace-period 0 --ignore-not-found
+    kubectl delete namespace $namespace --force --grace-period 0 --ignore-not-found
+}
+
+trap cleanup EXIT
+
+echo "Test completed successfully."
