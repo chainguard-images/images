@@ -34,7 +34,7 @@ module "helm" {
   namespace = "pytorch"
   repo      = "https://charts.bitnami.com/bitnami"
   chart     = "pytorch"
-  timeout   = "30m"
+  timeout   = "60m"
 
   values = {
     containerName = "pytorch"
