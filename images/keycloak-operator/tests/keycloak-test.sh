@@ -12,21 +12,33 @@ function cleanup() {
     echo "Gathering logs from Keycloak Operator..."
     kubectl logs -l app.kubernetes.io/name=keycloak-operator -n ${NAMESPACE}
 
+    # Delete the Keycloak custom resource
+    echo "Deleting Keycloak custom resource..."
+    kubectl delete keycloak --all -n ${NAMESPACE} || true
+
+    # Delete the PostgreSQL StatefulSet and service
+    echo "Deleting PostgreSQL database resources..."
+    kubectl delete statefulset postgresql-db -n ${NAMESPACE} || true
+    kubectl delete service postgres-db -n ${NAMESPACE} || true
+
     # Delete the Keycloak operator deployment and associated resources
     echo "Deleting Keycloak operator deployment and associated resources..."
     kubectl delete -f "${TMPDIR}/minimal-keycloak-operator-manifest.yaml" -n ${NAMESPACE} || true
 
-    # Optionally, delete custom resources if any were created during testing
-    echo "Deleting any remaining Keycloak Custom Resources..."
-    kubectl delete keycloak --all -n ${NAMESPACE} || true
-    kubectl delete keycloakrealmimport --all -n ${NAMESPACE} || true
+    # Delete secrets created during setup
+    echo "Deleting created secrets..."
+    kubectl delete secret example-tls-secret -n ${NAMESPACE} || true
+    kubectl delete secret keycloak-db-secret -n ${NAMESPACE} || true
 
     # Optionally, clean up the Keycloak Operator Custom Resource Definitions (CRDs)
     echo "Deleting Keycloak Operator CRDs..."
     kubectl delete -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/24.0.4/kubernetes/keycloaks.k8s.keycloak.org-v1.yml || true
     kubectl delete -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/24.0.4/kubernetes/keycloakrealmimports.k8s.keycloak.org-v1.yml || true
 
-    kubectl delete ns ${NAMESPACE}
+    # Delete the namespace (only if you are sure it should be removed)
+    echo "Deleting namespace..."
+    kubectl delete ns ${NAMESPACE} --wait=false
+
     # Remove the temporary directory
     echo "Removing temporary directory..."
     rm -rf "$TMPDIR"
@@ -425,3 +437,106 @@ logs=$(kubectl logs -l app.kubernetes.io/name=keycloak-operator -n ${NAMESPACE})
 sleep 10
 
 echo "$logs" | grep "Listening on: http://0.0.0.0:8080"
+
+cat <<EOF > "${TMPDIR}/example-postgres.yaml"
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgresql-db
+  namespace: ${NAMESPACE}
+spec:
+  serviceName: postgresql-db-service
+  selector:
+    matchLabels:
+      app: postgresql-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: postgresql-db
+    spec:
+      containers:
+        - name: postgresql-db
+          image: postgres:15
+          volumeMounts:
+            - mountPath: /data
+              name: cache-volume
+          env:
+            - name: POSTGRES_USER
+              value: testuser
+            - name: POSTGRES_PASSWORD
+              value: testpassword
+            - name: PGDATA
+              value: /data/pgdata
+            - name: POSTGRES_DB
+              value: keycloak
+      volumes:
+        - name: cache-volume
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-db
+  namespace: ${NAMESPACE}
+spec:
+  selector:
+    app: postgresql-db
+  type: LoadBalancer
+  ports:
+  - port: 5432
+    targetPort: 5432
+EOF
+
+kubectl apply -f "${TMPDIR}"/example-postgres.yaml -n ${NAMESPACE}
+
+kubectl wait --for=condition=ready pod --selector statefulset.kubernetes.io/pod-name=postgresql-db-0 -n ${NAMESPACE} --timeout=5m
+
+chmod -R 777 "${TMPDIR}"
+
+openssl req -subj '/CN=test.keycloak.org/O=Test Keycloak./C=US' -newkey rsa:2048 -nodes -keyout "${TMPDIR}/key.pem" -x509 -days 365 -out "${TMPDIR}/certificate.pem"
+kubectl create secret tls example-tls-secret --cert "${TMPDIR}/certificate.pem" --key "${TMPDIR}/key.pem" -n ${NAMESPACE}
+
+kubectl create secret generic keycloak-db-secret -n ${NAMESPACE} \
+  --from-literal=username=testuser \
+  --from-literal=password=testpassword
+
+
+cat <<EOF > "${TMPDIR}/example-kc.yaml"
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: example-kc
+  namespace: ${NAMESPACE}
+spec:
+  instances: 1
+  db:
+    vendor: postgres
+    host: postgres-db
+    usernameSecret:
+      name: keycloak-db-secret
+      key: username
+    passwordSecret:
+      name: keycloak-db-secret
+      key: password
+  http:
+    tlsSecret: example-tls-secret
+  hostname:
+    hostname: test.keycloak.org
+  proxy:
+    headers: xforwarded # double check your reverse proxy sets and overwrites the X-Forwarded-* headers
+EOF
+
+kubectl apply -f "${TMPDIR}"/example-kc.yaml -n ${NAMESPACE}
+
+kubectl get keycloaks/example-kc -o go-template='{{range .status.conditions}}CONDITION: {{.type}}{{"\n"}}  STATUS: {{.status}}{{"\n"}}  MESSAGE: {{.message}}{{"\n"}}{{end}}' -n ${NAMESPACE}
+
+sleep 10
+
+kubectl wait --for=condition=ready pod --selector statefulset.kubernetes.io/pod-name=example-kc-0 -n ${NAMESPACE} --timeout=5m 
+
+klogs=$(kubectl logs -l app=keycloak -n ${NAMESPACE})
+
+sleep 10
+
+echo "$klogs" | grep "Listening on: https://0.0.0.0:8443"

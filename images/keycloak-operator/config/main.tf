@@ -6,12 +6,9 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install"
-  // TODO: Add any other packages here you want to conditionally include,
-  // or update this default to [] if this isn't a version stream image.
   default = [
     "keycloak-operator",
     "keycloak-operator-compat"
-    // Other packages your image needs
   ]
 }
 
