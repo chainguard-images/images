@@ -3,6 +3,28 @@
 # Set up error handling and debug output
 set -o errexit -o nounset -o pipefail -x
 
+get_nodes() {
+  max_attempts=5
+  sleep_duration=10  # in seconds
+  attempt=0
+  while [ $attempt -lt $max_attempts ]; do
+    # Get nodes and capture the output
+    output=$(kubectl get nodes)
+    # Check if any resources are retrieved
+    if echo "$output" | grep -q 'NAME'; then
+      echo "Successfully retrieved nodes."
+      echo "$output"
+      return 0
+    else
+      echo "Attempt $((attempt + 1)) failed. No nodes retrieved."
+    fi
+    attempt=$((attempt + 1))
+    sleep $sleep_duration
+  done
+  echo "Max attempts reached. Could not get nodes."
+  return 1
+}
+
 namespace="kube-system"
 
 IMAGE_NAME="$IMAGE_REGISTRY/$IMAGE_REPOSITORY:$IMAGE_TAG"
@@ -52,6 +74,7 @@ subjects:
   namespace: $namespace
 EOF
 
+get_nodes
 # Get the IP address and remove whitespace
 NODE_IP=$(kubectl get nodes -o wide --no-headers | awk '{print $6}' | tr -d '[:space:]')
 
