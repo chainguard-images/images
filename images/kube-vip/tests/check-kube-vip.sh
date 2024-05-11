@@ -14,6 +14,7 @@ get_nodes() {
     if echo "$output" | grep -q 'NAME'; then
       echo "Successfully retrieved nodes."
       echo "$output"
+      NODE_IP=$(kubectl get nodes -o wide --no-headers | awk '{print $6}' | tr -d '[:space:]')
       return 0
     else
       echo "Attempt $((attempt + 1)) failed. No nodes retrieved."
@@ -75,8 +76,6 @@ subjects:
 EOF
 
 get_nodes
-# Get the IP address and remove whitespace
-NODE_IP=$(kubectl get nodes -o wide --no-headers | awk '{print $6}' | tr -d '[:space:]')
 
 # Split the IP address into an array
 IFS='.' read -r ip1 ip2 ip3 ip4 <<< "$NODE_IP"
