@@ -154,7 +154,7 @@ jobs:
         uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v3
         with:
           name: "mega-module-${{ matrix.shard.index }}-imagetest-logs"
-          path: imagetest
+          path: imagetest-logs
 
       - uses: rtCamp/action-slack-notify@4e5fb42d249be6a45a298f3c9543b111b02f7907 # v2.3.0
         if: ${{ failure() && github.event_name == 'schedule' }}
