@@ -6,7 +6,7 @@ console_summary: ""
 short_description: Minimal Patroni Image
 compatibility_notes: ""
 readme_file: README.md
-upstream_url: https://patroni.readthedocs.io/en/latest/
+upstream_url: https://github.com/zalando/patroni
 keywords:
   - application
   - databases
