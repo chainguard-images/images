@@ -39,7 +39,6 @@ module "config" {
   source   = "./config"
   name     = each.value.component
   suffix   = each.value.suffix
-
 }
 
 module "versioned" {
