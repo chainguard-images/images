@@ -1018,6 +1018,11 @@ module "oauth2-proxy" {
   target_repository = "${var.target_repository}/oauth2-proxy"
 }
 
+module "octo-sts" {
+  source            = "./images/octo-sts"
+  target_repository = "${var.target_repository}/octo-sts"
+}
+
 module "openai" {
   source            = "./images/openai"
   target_repository = "${var.target_repository}/openai"
@@ -2344,6 +2349,10 @@ output "summary_nvidia-device-plugin" {
 
 output "summary_oauth2-proxy" {
   value = module.oauth2-proxy.summary
+}
+
+output "summary_octo-sts" {
+  value = module.octo-sts.summary
 }
 
 output "summary_openai" {
