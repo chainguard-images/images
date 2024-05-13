@@ -625,6 +625,11 @@ module "keycloak" {
   target_repository = "${var.target_repository}/keycloak"
 }
 
+module "keycloak-operator" {
+  source            = "./images/keycloak-operator"
+  target_repository = "${var.target_repository}/keycloak-operator"
+}
+
 module "ko" {
   source            = "./images/ko"
   target_repository = "${var.target_repository}/ko"
@@ -2046,6 +2051,10 @@ output "summary_keda" {
 
 output "summary_keycloak" {
   value = module.keycloak.summary
+}
+
+output "summary_keycloak-operator" {
+  value = module.keycloak-operator.summary
 }
 
 output "summary_ko" {
