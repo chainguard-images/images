@@ -475,6 +475,11 @@ module "grafana-agent-operator" {
   target_repository = "${var.target_repository}/grafana-agent-operator"
 }
 
+module "grafana-mimir" {
+  source            = "./images/grafana-mimir"
+  target_repository = "${var.target_repository}/grafana-mimir"
+}
+
 module "grafana-operator" {
   source            = "./images/grafana-operator"
   target_repository = "${var.target_repository}/grafana-operator"
@@ -1921,6 +1926,10 @@ output "summary_grafana" {
 
 output "summary_grafana-agent-operator" {
   value = module.grafana-agent-operator.summary
+}
+
+output "summary_grafana-mimir" {
+  value = module.grafana-mimir.summary
 }
 
 output "summary_grafana-operator" {
