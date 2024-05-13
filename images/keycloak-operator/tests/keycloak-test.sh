@@ -4,54 +4,23 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 
 TMPDIR="$(mktemp -d)"
 NAMESPACE="keycloak-test"
-
-function cleanup() {
-    echo "Starting cleanup process..."
-
-    # Log the Keycloak Operator's output before cleanup
-    echo "Gathering logs from Keycloak Operator..."
-    kubectl logs -l app.kubernetes.io/name=keycloak-operator -n ${NAMESPACE}
-
-    # Delete the Keycloak custom resource
-    echo "Deleting Keycloak custom resource..."
-    kubectl delete keycloak --all -n ${NAMESPACE} || true
-
-    # Delete the PostgreSQL StatefulSet and service
-    echo "Deleting PostgreSQL database resources..."
-    kubectl delete statefulset postgresql-db -n ${NAMESPACE} || true
-    kubectl delete service postgres-db -n ${NAMESPACE} || true
-
-    # Delete the Keycloak operator deployment and associated resources
-    echo "Deleting Keycloak operator deployment and associated resources..."
-    kubectl delete -f "${TMPDIR}/minimal-keycloak-operator-manifest.yaml" -n ${NAMESPACE} || true
-
-    # Delete secrets created during setup
-    echo "Deleting created secrets..."
-    kubectl delete secret example-tls-secret -n ${NAMESPACE} || true
-    kubectl delete secret keycloak-db-secret -n ${NAMESPACE} || true
-
-    # Optionally, clean up the Keycloak Operator Custom Resource Definitions (CRDs)
-    echo "Deleting Keycloak Operator CRDs..."
-    kubectl delete -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/24.0.4/kubernetes/keycloaks.k8s.keycloak.org-v1.yml || true
-    kubectl delete -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/24.0.4/kubernetes/keycloakrealmimports.k8s.keycloak.org-v1.yml || true
-
-    # Delete the namespace (only if you are sure it should be removed)
-    echo "Deleting namespace..."
-    kubectl delete ns ${NAMESPACE} --wait=false
-
-    # Remove the temporary directory
-    echo "Removing temporary directory..."
-    rm -rf "$TMPDIR"
-
-    echo "Cleanup process completed."
-}
-
-# Attach the cleanup function to the EXIT trap
-trap cleanup EXIT
-
+apk add openssl
 
 # Create Namespace and CRDs
-kubectl create ns $NAMESPACE 
+
+# Check if the namespace exists by searching for its name in the list of all namespaces
+if kubectl get ns | grep -qw $NAMESPACE; then
+    echo "Namespace $NAMESPACE already exists."
+else
+    echo "Namespace $NAMESPACE does not exist. Creating it now..."
+    kubectl create namespace $NAMESPACE
+    if [ $? -eq 0 ]; then
+        echo "Namespace $NAMESPACE created successfully."
+    else
+        echo "Failed to create namespace $NAMESPACE."
+    fi
+fi
+
 kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/24.0.4/kubernetes/keycloaks.k8s.keycloak.org-v1.yml
 kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/24.0.4/kubernetes/keycloakrealmimports.k8s.keycloak.org-v1.yml
 
@@ -430,6 +399,8 @@ spec:
 EOF
 kubectl create -f "${TMPDIR}/minimal-keycloak-operator-manifest.yaml" -n ${NAMESPACE}
 
+sleep 15
+
 kubectl wait --for=condition=ready pod --selector app.kubernetes.io/name=keycloak-operator --namespace  ${NAMESPACE} --timeout=5m
 
 logs=$(kubectl logs -l app.kubernetes.io/name=keycloak-operator -n ${NAMESPACE})
@@ -489,6 +460,8 @@ spec:
 EOF
 
 kubectl apply -f "${TMPDIR}"/example-postgres.yaml -n ${NAMESPACE}
+
+sleep 15
 
 kubectl wait --for=condition=ready pod --selector statefulset.kubernetes.io/pod-name=postgresql-db-0 -n ${NAMESPACE} --timeout=5m
 
