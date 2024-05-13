@@ -106,7 +106,7 @@ jobs:
 
       - uses: chainguard-dev/actions/setup-k3d@538d1927b846546b620784754c33e2a1db86e217 # main
         with:
-          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:2cce22ae3d776f2b924de7735bb10647320b1563dbca4ab1082a1eedae3b81c5
+          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:1dd18987ffa4b383cf969c20c534d4fcb667e6a0801d41917c99a2c34c192557
 
       # Make cosign/crane CLI available to the tests
       - uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 # v3.5.0
