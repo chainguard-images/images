@@ -1053,6 +1053,11 @@ module "paranoia" {
   target_repository = "${var.target_repository}/paranoia"
 }
 
+module "patroni" {
+  source            = "./images/patroni"
+  target_repository = "${var.target_repository}/patroni"
+}
+
 module "pgbouncer" {
   source            = "./images/pgbouncer"
   target_repository = "${var.target_repository}/pgbouncer"
@@ -2372,6 +2377,10 @@ output "summary_opentofu" {
 
 output "summary_paranoia" {
   value = module.paranoia.summary
+}
+
+output "summary_patroni" {
+  value = module.patroni.summary
 }
 
 output "summary_pgbouncer" {
