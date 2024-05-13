@@ -199,6 +199,13 @@ jobs:
         cluster-type: k3d
         namespace-resources: deploy,ds,sts,pods
 
+    - name: Upload imagetest logs
+      if: always()
+      uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v3
+      with:
+        name: "mega-module-${{ matrix.shard.index }}-imagetest-logs"
+        path: imagetest
+
   presubmit-roundup:
     needs: build-the-world
     runs-on: ubuntu-latest

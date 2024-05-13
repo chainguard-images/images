@@ -13,7 +13,13 @@ terraform {
   backend "inmem" {}
 }
 
-provider "imagetest" {}
+provider "imagetest" {
+  log = {
+    file = {
+      directory = "imagetest-logs"
+    }
+  }
+}
 
 variable "target_repository" {
   type        = string
