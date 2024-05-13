@@ -1,0 +1,13 @@
+name: patroni
+image: cgr.dev/chainguard/patroni
+logo: https://storage.googleapis.com/chainguard-academy/logos/patroni.svg
+endoflife: ""
+console_summary: ""
+short_description: Minimal Patroni Image
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://patroni.readthedocs.io/en/latest/
+keywords:
+  - application
+  - databases
+  - kubernetes

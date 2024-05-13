@@ -1,5 +1,5 @@
 <!--monopod:start-->
-# paranoia
+# patroni
 | | |
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/patroni` |
@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-This image contains the CLI for the [patroni](https://patroni.readthedocs.io/en/latest/) template for PostgreSQL.
+Minimal Patroni Image
 <!--overview:end-->
 
 <!--getting:start-->
@@ -26,4 +26,8 @@ docker pull cgr.dev/chainguard/patroni:latest
 <!--getting:end-->
 
 <!--body:start-->
+## Usage
+
+See the [official usage documentation](https://patroni.readthedocs.io/en/latest/) on patroni. 
+
 <!--body:end-->
