@@ -40,7 +40,7 @@ jobs:
     - run: make init-upgrade # Initialize modules.
     - run: terraform fmt -check -recursive -diff
     - name: Enforce YAML formatting
-      uses: docker://ghcr.io/wolfi-dev/wolfictl:latest@sha256:182914446ec4100a293853f6d99324755a454c1dd0b8e38c87251a608e79765c
+      uses: docker://ghcr.io/wolfi-dev/sdk:latest@sha256:294f01e5b23ddee9a6dd0d3569aee41e0f3ec8b2ce3ad726e6b05b1e0b493cc2
       with:
         entrypoint: wolfictl
         args: lint yam images/
