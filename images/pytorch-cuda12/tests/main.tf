@@ -34,7 +34,7 @@ module "helm" {
   namespace = "pytorch"
   repo      = "https://charts.bitnami.com/bitnami"
   chart     = "pytorch"
-  timeout   = "1200s"
+  timeout   = "20m"
 
   values = {
     containerName = "pytorch"
@@ -81,5 +81,10 @@ resource "imagetest_feature" "basic" {
 
   labels = {
     type = "k8s"
+  }
+
+  timeouts = {
+    // Set an upper limit for all other ops. This image is huge.
+    create = "30m"
   }
 }

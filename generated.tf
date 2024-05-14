@@ -460,6 +460,11 @@ module "gptscript" {
   target_repository = "${var.target_repository}/gptscript"
 }
 
+module "gpu-feature-discovery" {
+  source            = "./images/gpu-feature-discovery"
+  target_repository = "${var.target_repository}/gpu-feature-discovery"
+}
+
 module "gradle" {
   source            = "./images/gradle"
   target_repository = "${var.target_repository}/gradle"
@@ -475,9 +480,19 @@ module "grafana-agent-operator" {
   target_repository = "${var.target_repository}/grafana-agent-operator"
 }
 
+module "grafana-mimir" {
+  source            = "./images/grafana-mimir"
+  target_repository = "${var.target_repository}/grafana-mimir"
+}
+
 module "grafana-operator" {
   source            = "./images/grafana-operator"
   target_repository = "${var.target_repository}/grafana-operator"
+}
+
+module "grafana-rollout-operator" {
+  source            = "./images/grafana-rollout-operator"
+  target_repository = "${var.target_repository}/grafana-rollout-operator"
 }
 
 module "grype" {
@@ -565,6 +580,11 @@ module "jenkins" {
   target_repository = "${var.target_repository}/jenkins"
 }
 
+module "jitsucom-bulker" {
+  source            = "./images/jitsucom-bulker"
+  target_repository = "${var.target_repository}/jitsucom-bulker"
+}
+
 module "jre" {
   source            = "./images/jre"
   target_repository = "${var.target_repository}/jre"
@@ -613,6 +633,11 @@ module "keda" {
 module "keycloak" {
   source            = "./images/keycloak"
   target_repository = "${var.target_repository}/keycloak"
+}
+
+module "keycloak-operator" {
+  source            = "./images/keycloak-operator"
+  target_repository = "${var.target_repository}/keycloak-operator"
 }
 
 module "ko" {
@@ -870,6 +895,11 @@ module "ml-metadata-store-server" {
   target_repository = "${var.target_repository}/ml-metadata-store-server"
 }
 
+module "mlflow" {
+  source            = "./images/mlflow"
+  target_repository = "${var.target_repository}/mlflow"
+}
+
 module "mongodb" {
   source            = "./images/mongodb"
   target_repository = "${var.target_repository}/mongodb"
@@ -1006,6 +1036,11 @@ module "nvidia-device-plugin" {
 module "oauth2-proxy" {
   source            = "./images/oauth2-proxy"
   target_repository = "${var.target_repository}/oauth2-proxy"
+}
+
+module "octo-sts" {
+  source            = "./images/octo-sts"
+  target_repository = "${var.target_repository}/octo-sts"
 }
 
 module "openai" {
@@ -1896,6 +1931,10 @@ output "summary_gptscript" {
   value = module.gptscript.summary
 }
 
+output "summary_gpu-feature-discovery" {
+  value = module.gpu-feature-discovery.summary
+}
+
 output "summary_gradle" {
   value = module.gradle.summary
 }
@@ -1908,8 +1947,16 @@ output "summary_grafana-agent-operator" {
   value = module.grafana-agent-operator.summary
 }
 
+output "summary_grafana-mimir" {
+  value = module.grafana-mimir.summary
+}
+
 output "summary_grafana-operator" {
   value = module.grafana-operator.summary
+}
+
+output "summary_grafana-rollout-operator" {
+  value = module.grafana-rollout-operator.summary
 }
 
 output "summary_grype" {
@@ -1980,6 +2027,10 @@ output "summary_jenkins" {
   value = module.jenkins.summary
 }
 
+output "summary_jitsucom-bulker" {
+  value = module.jitsucom-bulker.summary
+}
+
 output "summary_jre" {
   value = module.jre.summary
 }
@@ -2018,6 +2069,10 @@ output "summary_keda" {
 
 output "summary_keycloak" {
   value = module.keycloak.summary
+}
+
+output "summary_keycloak-operator" {
+  value = module.keycloak-operator.summary
 }
 
 output "summary_ko" {
@@ -2224,6 +2279,10 @@ output "summary_ml-metadata-store-server" {
   value = module.ml-metadata-store-server.summary
 }
 
+output "summary_mlflow" {
+  value = module.mlflow.summary
+}
+
 output "summary_mongodb" {
   value = module.mongodb.summary
 }
@@ -2326,6 +2385,10 @@ output "summary_nvidia-device-plugin" {
 
 output "summary_oauth2-proxy" {
   value = module.oauth2-proxy.summary
+}
+
+output "summary_octo-sts" {
+  value = module.octo-sts.summary
 }
 
 output "summary_openai" {

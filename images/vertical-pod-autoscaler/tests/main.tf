@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -19,14 +19,22 @@ data "oci_string" "ref" {
   input    = each.value
 }
 
-resource "helm_release" "vertical-pod-autoscaler" {
-  name             = "vertical-pod-autoscaler"
-  namespace        = "vertical-pod-autoscaler"
-  repository       = "https://cowboysysop.github.io/charts"
-  chart            = "vertical-pod-autoscaler"
-  create_namespace = true
+data "imagetest_inventory" "this" {}
 
-  values = [jsonencode({
+resource "imagetest_harness_k3s" "this" {
+  name      = "vertical-pod-autoscaler"
+  inventory = data.imagetest_inventory.this
+}
+
+module "install" {
+  source = "../../../tflib/imagetest/helm"
+
+  name      = "vertical-pod-autoscaler"
+  namespace = "vertical-pod-autoscaler"
+  repo      = "https://cowboysysop.github.io/charts"
+  chart     = "vertical-pod-autoscaler"
+
+  values = {
     installCRDs = "true"
     admissionController = {
       image = {
@@ -57,11 +65,18 @@ resource "helm_release" "vertical-pod-autoscaler" {
         tag        = "latest"
       }
     }
-  })]
+  }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.vertical-pod-autoscaler.id
-  namespace = helm_release.vertical-pod-autoscaler.namespace
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the vertical-pod-autoscaler helm chart."
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.install.install_cmd
+    }
+  ]
 }

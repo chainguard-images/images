@@ -1182,3 +1182,6 @@ cgr.dev/chainguard/sdk:wolfi-20230101
 cgr.dev/chainguard/sdk:wolfi-20230102
 cgr.dev/chainguard/sdk:wolfi-20230103
 cgr.dev/chainguard/sdk:wolfi-20230104
+cgr.dev/chainguard/jitsucom-bulker-bulker
+cgr.dev/chainguard/jitsucom-bulker-ingest
+cgr.dev/chainguard/jitsucom-bulker-syncctl
