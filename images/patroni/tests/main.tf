@@ -48,6 +48,12 @@ resource "imagetest_feature" "basic" {
         kubectl apply -f /tests/patroni_k8s.yaml
       EOF
     },
+    {
+      name = "test patroni"
+      cmd  = <<EOF
+        kubectl get pods -L role
+      EOF
+    },
   ]
 
   labels = {
