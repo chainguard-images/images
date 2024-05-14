@@ -38,8 +38,7 @@ volumes:
   - /var/run/s6
   - /var/log/datadog
 
-entrypoint:
-  command: /bin/entrypoint.sh
+cmd: "/bin/entrypoint.sh"
 
 environment:
   # https://github.com/DataDog/datadog-agent/blob/main/Dockerfiles/agent/Dockerfile#L112
