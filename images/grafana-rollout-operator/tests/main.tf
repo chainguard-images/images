@@ -48,13 +48,13 @@ resource "imagetest_feature" "rollout-operator-tests" {
     },
     {
       name = "Replace grafana-rollout-operator image with built one"
-      cmd = <<EOF
+      cmd  = <<EOF
       kubectl set image -n mimir deployment/mimir-rollout-operator rollout-operator="${data.oci_string.ref.registry_repo}:${data.oci_string.ref.pseudo_tag}"
     EOF    
     },
     {
-      name  = "Ensure it comes up healthy"
-      cmd   = <<EOF
+      name = "Ensure it comes up healthy"
+      cmd  = <<EOF
         kubectl logs -n mimir --selector app=rollout-operator
         kubectl rollout status -n mimir deployment/mimir-rollout-operator --timeout=120s
       EOF
@@ -65,7 +65,7 @@ resource "imagetest_feature" "rollout-operator-tests" {
     },
     {
       name = "Setting Labels and annotations for ingestor-zones"
-      cmd = <<EOF
+      cmd  = <<EOF
         kubectl label sts mimir-ingester-zone-a grafana.com/min-time-between-zones-downscale=2m -n mimir
         kubectl label sts mimir-ingester-zone-a grafana.com/prepare-downscale=true -n mimir
         kubectl annotate sts mimir-ingester-zone-a grafana.com/prepare-downscale-http-path=ingester/prepare-shutdown -n mimir
