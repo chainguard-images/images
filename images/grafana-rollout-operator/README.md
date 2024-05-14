@@ -27,12 +27,14 @@ docker pull cgr.dev/chainguard/grafana-rollout-operator:latest
 
 <!--body:start-->
 
-How to install via Helm:
+How to install via Helm only rollout operator:
 
 ```bash
 helm repo add grafana https://grafana.github.io/helm-charts
 kubectl create ns grafana-rollout-operator
-helm install grafana-rollout-operator garafana/rollout-operator
+helm install grafana-rollout-operator garafana/rollout-operator \
+    --set image.repository=cgr.dev/chainguard/grafana-rollout-operator \
+    --set image.tag=latest
 ```
 
 Get Daemonset count
@@ -40,12 +42,42 @@ Get Daemonset count
 kubectl get deploy grafana-rollout-operator -n grafana-rollout-operator
 ```
 
-Trace the logs and look for occurences of
+This works in conjencture with [mimir-distributed](https://grafana.com/docs/helm-charts/mimir-distributed/latest/get-started-helm-charts/)
 
-1) informer caches are syncing
-2) informer caches have synced
-3) reconcile started
-4) reconcile done
+Add Labels and Annotations to ingester zones
+```bash
+kubectl label sts mimir-ingester-zone-a grafana.com/min-time-between-zones-downscale=2m -n mimir
+kubectl label sts mimir-ingester-zone-a grafana.com/prepare-downscale=true -n mimir
+kubectl annotate sts mimir-ingester-zone-a grafana.com/prepare-downscale-http-path=ingester/prepare-shutdown -n mimir
+kubectl annotate sts mimir-ingester-zone-a grafana.com/prepare-downscale-http-port=80 -n mimir
+
+kubectl label sts mimir-ingester-zone-b grafana.com/min-time-between-zones-downscale=2m -n mimir
+kubectl label sts mimir-ingester-zone-b grafana.com/prepare-downscale=true -n mimir
+kubectl annotate sts mimir-ingester-zone-b grafana.com/rollout-downscale-leader=mimir-ingester-zone-a -n mimir
+kubectl annotate sts mimir-ingester-zone-b grafana.com/prepare-downscale-http-path=ingester/prepare-shutdown -n mimir
+kubectl annotate sts mimir-ingester-zone-b grafana.com/prepare-downscale-http-port=80 -n mimir
+
+kubectl label sts mimir-ingester-zone-c grafana.com/min-time-between-zones-downscale=2m -n mimir
+kubectl label sts mimir-ingester-zone-c grafana.com/prepare-downscale=true -n mimir
+kubectl annotate sts mimir-ingester-zone-c grafana.com/rollout-downscale-leader=mimir-ingester-zone-b -n mimir
+kubectl annotate sts mimir-ingester-zone-c grafana.com/prepare-downscale-http-path=ingester/prepare-shutdown -n mimir
+kubectl annotate sts mimir-ingester-zone-c grafana.com/prepare-downscale-http-port=80 -n mimir
+```
+
+Check for logs
+```bash
+kubectl logs deployment/mimir-rollout-operator -n mimir
+```
+
+It should say something like
+```bash
+level=debug ts=2024-05-14T17:02:34.97299692Z msg="reconciling StatefulSet" statefulset=mimir-store-gateway-zone-a
+level=debug ts=2024-05-14T17:02:34.973309878Z msg="reconciling StatefulSet" statefulset=mimir-store-gateway-zone-b
+level=debug ts=2024-05-14T17:02:34.97338692Z msg="reconciling StatefulSet" statefulset=mimir-store-gateway-zone-c
+level=debug ts=2024-05-14T17:02:34.97363967Z msg="reconciling StatefulSet" statefulset=mimir-ingester-zone-a
+level=debug ts=2024-05-14T17:02:34.973721503Z msg="reconciling StatefulSet" statefulset=mimir-ingester-zone-b
+level=debug ts=2024-05-14T17:02:34.973819586Z msg="reconciling StatefulSet" statefulset=mimir-ingester-zone-c
+```
 
 
 <!--body:end-->

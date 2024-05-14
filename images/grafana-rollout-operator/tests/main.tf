@@ -14,7 +14,7 @@ data "oci_string" "ref" { input = var.digest }
 data "imagetest_inventory" "this" {}
 
 resource "imagetest_harness_k3s" "this" {
-  name      = "grafana-rollout-operator"
+  name      = "mimir"
   inventory = data.imagetest_inventory.this
 
   sandbox = {
@@ -28,22 +28,15 @@ resource "imagetest_harness_k3s" "this" {
 module "helm" {
   source = "../../../tflib/imagetest/helm"
 
-  name          = "grafana-rollout-operator"
-  namespace     = "grafana-rollout-operator"
+  name          = "mimir"
+  namespace     = "mimir"
   repo          = "https://grafana.github.io/helm-charts"
-  chart         = "rollout-operator"
-  chart_version = "0.15.0"
+  chart         = "mimir-distributed"
+  chart_version = "5.4.0-weekly.290"
 
-  values = {
-    image = {
-      tag        = data.oci_string.ref.pseudo_tag
-      repository = data.oci_string.ref.registry_repo
-    }
-  }
 }
 
-
-resource "imagetest_feature" "basic" {
+resource "imagetest_feature" "rollout-operator-tests" {
   harness     = imagetest_harness_k3s.this
   name        = "Basic"
   description = "Basic functionality of Grafana Operator."
@@ -54,15 +47,47 @@ resource "imagetest_feature" "basic" {
       cmd  = module.helm.install_cmd
     },
     {
-      name = "Grafana rollout operator test pods"
-      cmd  = <<EOF
-      kubectl wait pod -n grafana-rollout-operator --all --for=condition=Ready
-    EOF
+      name = "Replace grafana-rollout-operator image with built one"
+      cmd = <<EOF
+      kubectl set image -n mimir deployment/mimir-rollout-operator rollout-operator="${data.oci_string.ref.registry_repo}:${data.oci_string.ref.pseudo_tag}"
+    EOF    
+    },
+    {
+      name  = "Ensure it comes up healthy"
+      cmd   = <<EOF
+        kubectl logs -n mimir --selector app=rollout-operator
+        kubectl rollout status -n mimir deployment/mimir-rollout-operator --timeout=120s
+      EOF
     },
     {
       name = "Check logs for grafana-rollout-operator"
-      cmd  = "./tests/logs.sh"
-    }
+      cmd  = "/tests/logs.sh"
+    },
+    {
+      name = "Setting Labels and annotations for ingestor-zones"
+      cmd = <<EOF
+        kubectl label sts mimir-ingester-zone-a grafana.com/min-time-between-zones-downscale=2m -n mimir
+        kubectl label sts mimir-ingester-zone-a grafana.com/prepare-downscale=true -n mimir
+        kubectl annotate sts mimir-ingester-zone-a grafana.com/prepare-downscale-http-path=ingester/prepare-shutdown -n mimir
+        kubectl annotate sts mimir-ingester-zone-a grafana.com/prepare-downscale-http-port=80 -n mimir
+
+        kubectl label sts mimir-ingester-zone-b grafana.com/min-time-between-zones-downscale=2m -n mimir
+        kubectl label sts mimir-ingester-zone-b grafana.com/prepare-downscale=true -n mimir
+        kubectl annotate sts mimir-ingester-zone-b grafana.com/rollout-downscale-leader=mimir-ingester-zone-a -n mimir
+        kubectl annotate sts mimir-ingester-zone-b grafana.com/prepare-downscale-http-path=ingester/prepare-shutdown -n mimir
+        kubectl annotate sts mimir-ingester-zone-b grafana.com/prepare-downscale-http-port=80 -n mimir
+
+        kubectl label sts mimir-ingester-zone-c grafana.com/min-time-between-zones-downscale=2m -n mimir
+        kubectl label sts mimir-ingester-zone-c grafana.com/prepare-downscale=true -n mimir
+        kubectl annotate sts mimir-ingester-zone-c grafana.com/rollout-downscale-leader=mimir-ingester-zone-b -n mimir
+        kubectl annotate sts mimir-ingester-zone-c grafana.com/prepare-downscale-http-path=ingester/prepare-shutdown -n mimir
+        kubectl annotate sts mimir-ingester-zone-c grafana.com/prepare-downscale-http-port=80 -n mimir
+      EOF
+    },
+    {
+      name = "Check logs for grafana-rollout-operator after labels and annotations"
+      cmd  = "/tests/logs_functionality.sh"
+    },
   ]
 
   labels = {

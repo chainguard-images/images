@@ -12,7 +12,13 @@ declare -a terms=(
 	"informer caches are syncing"
 	"informer caches have synced"
     "reconcile started"
-    "reconcile done"
+	'"reconciling StatefulSet" statefulset=mimir-store-gateway-zone-a'
+	'"reconciling StatefulSet" statefulset=mimir-ingester-zone-b'
+	'"reconciling StatefulSet" statefulset=mimir-ingester-zone-c'
+	'"reconciling StatefulSet" statefulset=mimir-store-gateway-zone-a'
+	'"reconciling StatefulSet" statefulset=mimir-store-gateway-zone-b'
+	'"reconciling StatefulSet" statefulset=mimir-store-gateway-zone-c'
+	"reconcile done"
 )
 
 declare -a missing_terms=()
