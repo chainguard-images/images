@@ -19,9 +19,9 @@ fi
 kubectl exec -n ${NAMESPACE} ${NAME}-0 -- vault operator init \
 	-key-shares=1 \
 	-key-threshold=1 \
-	-format=json >cluster-keys.json
+	-format=json > ${NAMESPACE}-cluster-keys.json
 
-KEY=$(jq -r ".unseal_keys_b64[]" cluster-keys.json)
+KEY=$(jq -r ".unseal_keys_b64[]" ${NAMESPACE}-cluster-keys.json)
 kubectl exec -n ${NAMESPACE} ${NAME}-0 -- vault operator unseal $KEY
 
 kubectl wait --for=condition=ready -n ${NAMESPACE} --timeout=120s pod/${NAME}-0
