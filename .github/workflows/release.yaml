@@ -64,7 +64,7 @@ jobs:
           fi
 
       - name: Shard Results
-        run: echo ${{ steps.shard.outputs.matrix }}
+        run: echo '${{ steps.shard.outputs.matrix }}'
 
     outputs:
       # This is of the format [{"index": 0, "images": "a b c"}, {"index": 1, "images": "d e f"}, ...]
