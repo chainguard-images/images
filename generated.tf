@@ -485,6 +485,11 @@ module "grafana-operator" {
   target_repository = "${var.target_repository}/grafana-operator"
 }
 
+module "grafana-rollout-operator" {
+  source            = "./images/grafana-rollout-operator"
+  target_repository = "${var.target_repository}/grafana-rollout-operator"
+}
+
 module "grype" {
   source            = "./images/grype"
   target_repository = "${var.target_repository}/grype"
@@ -1939,6 +1944,10 @@ output "summary_grafana-mimir" {
 
 output "summary_grafana-operator" {
   value = module.grafana-operator.summary
+}
+
+output "summary_grafana-rollout-operator" {
+  value = module.grafana-rollout-operator.summary
 }
 
 output "summary_grype" {
