@@ -47,6 +47,7 @@ provider "registry.terraform.io/chainguard-dev/imagetest" {
   version = "0.0.19"
   hashes = [
     "h1:6UFZHE5Ga0Rp8qHfq5g7wMQgxdfa+j9xtDVx+aC4Aj0=",
+    "h1:NZQTQmLm4yEqR5cWb+QugKE4BxHDl/WMVrnykSOH5xI=",
     "zh:457d4e4b0ea763f14fdf59db4ff31481442a9f7788ecd141cb68d25bfb28d3f8",
     "zh:59bf259ecc4775699d7125dcacd8524330a7e2f3751991706d67888040789480",
     "zh:6a415fd6b4e2b587e1e1c67b150c7c690aa59ed7493c5828b7376dabfeb4cda6",
@@ -73,6 +74,7 @@ provider "registry.terraform.io/hashicorp/helm" {
   version = "2.13.2"
   hashes = [
     "h1:KHLdE3Xb4XbLCWwCSArYcXulYyBJKTFizaIzBiYVJxQ=",
+    "h1:nlSqCo0PajJzjSlx0lXNUq1YcOr8p9b3ahcUUYN2pEg=",
     "zh:06c0663031ef5aa19e238fe50be5d3cbf5fb00548d2b26e779c607dfd2dc69a7",
     "zh:1850b8f2e729553ba8b96d69dce035b814ce959c6805c25484f407c4e720c497",
     "zh:1ec76814a99461cd79ee4c879ed455ab338a3cb9e63fbe9308f91b5515e72e42",
