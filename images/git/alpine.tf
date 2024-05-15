@@ -1,3 +1,4 @@
+/*
 module "alpine" {
   for_each           = local.accounts
   source             = "./config"
@@ -30,3 +31,4 @@ module "test-latest-alpine-dev" {
   digest    = module.latest-alpine[each.key].dev_ref
   check-dev = true
 }
+*/
