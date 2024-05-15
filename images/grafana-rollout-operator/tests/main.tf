@@ -9,7 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -49,8 +49,8 @@ resource "imagetest_feature" "rollout-operator-tests" {
     {
       name = "Replace grafana-rollout-operator image with built one"
       cmd  = <<EOF
-      kubectl set image -n mimir deployment/mimir-rollout-operator rollout-operator="${data.oci_string.ref.registry_repo}:${data.oci_string.ref.pseudo_tag}"
-    EOF    
+      kubectl set image -n mimir deployment/mimir-rollout-operator rollout-operator="${local.parsed.registry_repo}:${local.parsed.pseudo_tag}"
+    EOF
     },
     {
       name = "Ensure it comes up healthy"
