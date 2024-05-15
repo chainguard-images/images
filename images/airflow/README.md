@@ -4,6 +4,7 @@
 | - | - |
 | **OCI Reference** | `cgr.dev/chainguard/airflow` |
 
+
 * [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/airflow/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
@@ -12,15 +13,15 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-A minimal, [wolfi](https://github.com/wolfi-dev)-based image for Apache Airflow. [Apache Airflow](https://github.com/apache/airflow) is a platform to programmatically author, schedule, and monitor workflows.
+A minimal, [wolfi](https://github.com/wolfi-dev)-based image for Apache Airflow.[Apache Airflow](https://github.com/apache/airflow) is a platform to programmatically author, schedule, and monitor workflows.
 <!--overview:end-->
 
 <!--getting:start-->
 ## Download this Image
 The image is available on `cgr.dev`:
 
-```bash
-docker pull chainguard/airflow:latest
+```
+docker pull cgr.dev/chainguard/airflow:latest
 ```
 <!--getting:end-->
 
@@ -68,4 +69,3 @@ With Apache Airflow running, access the web interface by navigating to http://lo
 You can now manage workflows, create DAGs, and monitor your tasks.
 
 <!--body:end-->
-
