@@ -13,17 +13,12 @@ variable "name" {
   default = "patroni"
 }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME version"
-}
-
 data "oci_string" "ref" { input = var.digest }
 
 data "imagetest_inventory" "this" {}
 
 resource "imagetest_harness_docker" "this" {
-  name      = "step-cli"
+  name      = "patroni"
   inventory = data.imagetest_inventory.this
 
   envs = {
