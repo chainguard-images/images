@@ -110,16 +110,8 @@ variable "cosign-cli" {
 
 locals {
   all-images = merge(var.scaffolding-images, var.support-images, var.rekor-images, var.trillian-images, { "ctlog-server" : var.ctlog-server }, { "fulcio-server" : var.fulcio-server }, { "cosign-cli" : var.cosign-cli }, { "tsa-server" : var.tsa-server })
-}
-
-data "oci_ref" "images" {
-  for_each = local.all-images
-  ref      = each.value
-}
-
-data "oci_string" "images" {
-  for_each = local.all-images
-  input    = length(regexall("[@]", each.value)) > 0 ? each.value : "${each.value}@${data.oci_ref.images[each.key].digest}"
+  fetched    = { for k, v in local.all-images : k => provider::oci::get(v) }
+  parsed     = { for k, v in local.fetched : k => provider::oci::parse(v.full_ref) }
 }
 
 resource "random_pet" "suffix" {}
@@ -254,7 +246,7 @@ resource "helm_release" "scaffold" {
 # from public registries.
 # data "oci_exec_test" "break" {
 #   depends_on = [helm_release.scaffold]
-#   digest     = data.oci_string.images["rekor-cli"].id
+#   digest     = local.fetched["rekor-cli"].digest
 #   script     = "exit 1"
 # }
 

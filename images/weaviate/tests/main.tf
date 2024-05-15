@@ -9,7 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "oci_exec_test" "help" {
   digest = var.digest
@@ -30,15 +30,15 @@ resource "helm_release" "weaviate" {
   # dummy tag and the digest to test.
   set {
     name  = "image.registry"
-    value = data.oci_string.ref.registry
+    value = local.parsed.registry
   }
   set {
     name  = "image.repo"
-    value = data.oci_string.ref.repo
+    value = local.parsed.repo
   }
   set {
     name  = "image.tag"
-    value = data.oci_string.ref.pseudo_tag
+    value = local.parsed.pseudo_tag
   }
 }
 

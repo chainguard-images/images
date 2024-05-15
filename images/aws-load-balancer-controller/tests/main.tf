@@ -14,7 +14,7 @@ variable "chart_version" {
   default     = "latest"
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -34,8 +34,8 @@ module "helm" {
 
   values = {
     image = {
-      tag        = data.oci_string.ref.pseudo_tag
-      repository = data.oci_string.ref.registry_repo
+      tag        = local.parsed.pseudo_tag
+      repository = local.parsed.registry_repo
     }
     clusterName = "k3d-k3s-default"
     serviceAccount = {

@@ -9,7 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -29,7 +29,7 @@ resource "imagetest_feature" "basic" {
       cmd  = <<EOF
       kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/sig-storage-local-static-provisioner/master/deployment/kubernetes/example/default_example_storageclass.yaml
       kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/sig-storage-local-static-provisioner/master/deployment/kubernetes/example/default_example_provisioner_generated.yaml
-      kubectl set image daemonset/local-volume-provisioner provisioner="${data.oci_string.ref.registry_repo}:${data.oci_string.ref.pseudo_tag}"
+      kubectl set image daemonset/local-volume-provisioner provisioner="${local.parsed.registry_repo}:${local.parsed.pseudo_tag}"
       EOF
     },
     {

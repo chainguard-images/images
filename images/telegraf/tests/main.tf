@@ -9,7 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 resource "random_pet" "suffix" {}
 
@@ -25,8 +25,8 @@ resource "helm_release" "telegraf" {
   values = [
     jsonencode({
       image = {
-        repo = data.oci_string.ref.registry_repo
-        tag  = data.oci_string.ref.pseudo_tag
+        repo = local.parsed.registry_repo
+        tag  = local.parsed.pseudo_tag
       }
     }),
   ]

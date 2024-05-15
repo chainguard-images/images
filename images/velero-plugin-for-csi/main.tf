@@ -29,19 +29,16 @@ module "velero-plugin-for-csi" {
   main_package = each.key
 }
 
-data "oci_ref" "velero" {
-  ref = "cgr.dev/chainguard/velero:latest"
-}
-
-data "oci_ref" "velero-plugin-for-aws" {
-  ref = "cgr.dev/chainguard/velero-plugin-for-aws:latest"
+locals {
+  velero                = provider::oci::get("cgr.dev/chainguard/velero:latest")
+  velero-plugin-for-aws = provider::oci::get("cgr.dev/chainguard/velero-plugin-for-aws:latest")
 }
 
 module "test" {
   source = "./tests"
   digests = {
-    velero                = data.oci_ref.velero.id
-    velero-plugin-for-aws = data.oci_ref.velero-plugin-for-aws.id
+    velero                = local.velero.full_ref
+    velero-plugin-for-aws = local.velero-plugin-for-aws.full_ref
     velero-plugin-for-csi = module.velero-plugin-for-csi["velero-plugin-for-csi"].image_ref
   }
 }

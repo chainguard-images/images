@@ -15,7 +15,7 @@ variable "digest" {
 #   working_dir = path.module
 # }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 resource "random_pet" "suffix" {}
 resource "helm_release" "bitnami" {
@@ -27,9 +27,9 @@ resource "helm_release" "bitnami" {
 
   values = [jsonencode({
     image = {
-      registry   = data.oci_string.ref.registry
-      repository = data.oci_string.ref.repo
-      digest     = data.oci_string.ref.digest
+      registry   = local.parsed.registry
+      repository = local.parsed.repo
+      digest     = local.parsed.digest
     }
     command = ["/opt/bitnami/scripts/zookeeper/entrypoint.sh"]
     args    = ["/opt/bitnami/scripts/zookeeper/run.sh"]

@@ -47,6 +47,7 @@ provider "registry.terraform.io/chainguard-dev/imagetest" {
   version = "0.0.19"
   hashes = [
     "h1:6UFZHE5Ga0Rp8qHfq5g7wMQgxdfa+j9xtDVx+aC4Aj0=",
+    "h1:NZQTQmLm4yEqR5cWb+QugKE4BxHDl/WMVrnykSOH5xI=",
     "zh:457d4e4b0ea763f14fdf59db4ff31481442a9f7788ecd141cb68d25bfb28d3f8",
     "zh:59bf259ecc4775699d7125dcacd8524330a7e2f3751991706d67888040789480",
     "zh:6a415fd6b4e2b587e1e1c67b150c7c690aa59ed7493c5828b7376dabfeb4cda6",
@@ -56,16 +57,16 @@ provider "registry.terraform.io/chainguard-dev/imagetest" {
 }
 
 provider "registry.terraform.io/chainguard-dev/oci" {
-  version     = "0.0.12"
-  constraints = "0.0.12"
+  version     = "0.0.13"
+  constraints = "0.0.13"
   hashes = [
-    "h1:pOOi4TbOzOXYU8eNxYFBjv9DB1MnSlPncKTtUzAAnb0=",
-    "h1:vvRcY6V6rPs0fanN+3ABaymyF5tKT4rnZ/ee2v3jh1k=",
-    "zh:1a822b18b521582ae60c77f884556124c72a2b33be03ad2ab77a8613ea53f58f",
-    "zh:7c997407e1eee960589d53c7bd34940f8c9d801006ceea7d074e23c6283a3064",
+    "h1:4TAkNspi8imVtrMGFAqeiIcRGFMa9M/PUT3xEzncB7A=",
+    "h1:naQlioU+M4cNrqUrd3jyF/jCXHKUDYUMwCcZFFkyFfk=",
+    "zh:17f7956ca9aaeea198e509bcd938eb78d0fcecf4617c919ad685cb65ce3e0a8e",
+    "zh:3315739ce41ce773d7a54d84017e9c7e9f8972185a45f4d49394fffe41f6f8f3",
+    "zh:7927c1b384c78c6ccf4eae5ac0496fe781db22880f9acb5f781c8e0f430f2852",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
-    "zh:ac5e272f5924dd236f4841cfcf6b0d946c22980721247ff6e7c9925f084388f1",
-    "zh:bbe4a0082c4889d9447731e84b353176725f3a88fa9e10a33ed3f67b94ec66ca",
+    "zh:d3e34b2474454dadd892a24978cae8ab3738d49fe3d5c45d0eba994e45d589a3",
   ]
 }
 
@@ -73,6 +74,7 @@ provider "registry.terraform.io/hashicorp/helm" {
   version = "2.13.2"
   hashes = [
     "h1:KHLdE3Xb4XbLCWwCSArYcXulYyBJKTFizaIzBiYVJxQ=",
+    "h1:nlSqCo0PajJzjSlx0lXNUq1YcOr8p9b3ahcUUYN2pEg=",
     "zh:06c0663031ef5aa19e238fe50be5d3cbf5fb00548d2b26e779c607dfd2dc69a7",
     "zh:1850b8f2e729553ba8b96d69dce035b814ce959c6805c25484f407c4e720c497",
     "zh:1ec76814a99461cd79ee4c879ed455ab338a3cb9e63fbe9308f91b5515e72e42",

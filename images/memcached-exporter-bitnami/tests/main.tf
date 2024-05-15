@@ -13,11 +13,9 @@ data "oci_exec_test" "version" {
   script = "docker run --rm $IMAGE_NAME --version"
 }
 
-data "oci_ref" "memcached" {
-  ref = "cgr.dev/chainguard/memcached:latest"
-}
+locals { memcached = provider::oci::get("cgr.dev/chainguard/memcached:latest") }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 resource "helm_release" "memcached-exporter-bitnami" {
   name       = "memcached-exporter"
@@ -28,14 +26,14 @@ resource "helm_release" "memcached-exporter-bitnami" {
     image = {
       registry   = "cgr.dev"
       repository = "chainguard/memcached"
-      digest     = data.oci_ref.memcached.digest
+      digest     = local.memcached.full_ref
     }
     metrics = {
       enabled = true
       image = {
-        registry   = data.oci_string.ref.registry
-        repository = data.oci_string.ref.repo
-        digest     = data.oci_string.ref.digest
+        registry   = local.parsed.registry
+        repository = local.parsed.repo
+        digest     = local.parsed.digest
       }
     }
   })]

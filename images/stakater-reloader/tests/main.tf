@@ -9,7 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 resource "random_pet" "suffix" {}
 
@@ -26,8 +26,8 @@ resource "helm_release" "stakater-reloader" {
     reloader = {
       deployment = {
         image = {
-          tag  = data.oci_string.ref.pseudo_tag
-          name = data.oci_string.ref.registry_repo
+          tag  = local.parsed.pseudo_tag
+          name = local.parsed.registry_repo
         }
       }
     }

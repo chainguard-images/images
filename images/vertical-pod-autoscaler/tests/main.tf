@@ -14,10 +14,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -38,23 +35,23 @@ module "install" {
     installCRDs = "true"
     admissionController = {
       image = {
-        registry   = data.oci_string.ref["admission-controller"].registry
-        repository = data.oci_string.ref["admission-controller"].repo
-        tag        = data.oci_string.ref["admission-controller"].pseudo_tag
+        registry   = local.parsed["admission-controller"].registry
+        repository = local.parsed["admission-controller"].repo
+        tag        = local.parsed["admission-controller"].pseudo_tag
       }
     }
     recommender = {
       image = {
-        registry   = data.oci_string.ref["recommender"].registry
-        repository = data.oci_string.ref["recommender"].repo
-        tag        = data.oci_string.ref["recommender"].pseudo_tag
+        registry   = local.parsed["recommender"].registry
+        repository = local.parsed["recommender"].repo
+        tag        = local.parsed["recommender"].pseudo_tag
       }
     }
     updater = {
       image = {
-        registry   = data.oci_string.ref["updater"].registry
-        repository = data.oci_string.ref["updater"].repo
-        tag        = data.oci_string.ref["updater"].pseudo_tag
+        registry   = local.parsed["updater"].registry
+        repository = local.parsed["updater"].repo
+        tag        = local.parsed["updater"].pseudo_tag
       }
     }
     // Also use our already-released kubectl image too.

@@ -13,10 +13,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 resource "helm_release" "kubernetes-dashboard" {
   name = "kubernetes-dashboard"
@@ -32,13 +29,13 @@ resource "helm_release" "kubernetes-dashboard" {
 
   values = [jsonencode({
     image = {
-      tag        = data.oci_string.ref["dashboard"].pseudo_tag
-      repository = data.oci_string.ref["dashboard"].registry_repo
+      tag        = local.parsed["dashboard"].pseudo_tag
+      repository = local.parsed["dashboard"].registry_repo
     }
     metricsScraper = {
       image = {
-        tag        = data.oci_string.ref["metrics-scraper"].pseudo_tag
-        repository = data.oci_string.ref["metrics-scraper"].registry_repo
+        tag        = local.parsed["metrics-scraper"].pseudo_tag
+        repository = local.parsed["metrics-scraper"].registry_repo
       }
       enabled = true
     }

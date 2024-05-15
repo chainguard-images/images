@@ -12,10 +12,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -29,8 +26,8 @@ module "helm_crossplane" {
 
   values = {
     image = {
-      repository = data.oci_string.ref["crossplane"].registry_repo
-      tag        = data.oci_string.ref["crossplane"].pseudo_tag
+      repository = local.parsed["crossplane"].registry_repo
+      tag        = local.parsed["crossplane"].pseudo_tag
     }
   }
 }

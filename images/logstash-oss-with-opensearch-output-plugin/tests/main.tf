@@ -10,9 +10,7 @@ variable "digest" {
   description = "The image digests to run tests over."
 }
 
-data "oci_string" "ref" {
-  input = var.digest
-}
+locals { parsed = provider::oci::parse(var.digest) }
 
 resource "random_password" "random" {
   length           = 64
@@ -42,8 +40,8 @@ module "helm_logstash" {
   repo   = "https://helm.elastic.co"
   name   = "logstash"
   values = {
-    image           = data.oci_string.ref.registry_repo
-    imageTag        = data.oci_string.ref.pseudo_tag
+    image           = local.parsed.registry_repo
+    imageTag        = local.parsed.pseudo_tag
     imagePullPolicy = "Always"
     logstashConfig = {
       "logstash.yml" = <<eof

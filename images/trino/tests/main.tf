@@ -9,7 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "oci_exec_test" "help" {
   digest = var.digest
@@ -34,8 +34,8 @@ module "helm" {
 
   values = {
     image = {
-      repository = data.oci_string.ref.registry_repo
-      tag        = data.oci_string.ref.pseudo_tag
+      repository = local.parsed.registry_repo
+      tag        = local.parsed.pseudo_tag
     }
     server = {
       workers = 1

@@ -19,9 +19,7 @@ variable "skip_crds" {
   default     = false
 }
 
-data "oci_string" "ref" {
-  input = var.digest
-}
+locals { parsed = provider::oci::parse(var.digest) }
 
 resource "random_pet" "suffix" {}
 
@@ -46,8 +44,8 @@ resource "helm_release" "gatekeeper" {
       }
     }
     image = {
-      repository = data.oci_string.ref.registry_repo
-      release    = data.oci_string.ref.pseudo_tag
+      repository = local.parsed.registry_repo
+      release    = local.parsed.pseudo_tag
     }
     validatingWebhookCheckIgnoreFailurePolicy = "Ignore"
   })]

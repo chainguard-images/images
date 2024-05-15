@@ -17,10 +17,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -37,43 +34,43 @@ module "helm" {
     admissionController = {
       container = {
         image = {
-          registry   = data.oci_string.ref["admission"].registry
-          repository = data.oci_string.ref["admission"].repo
-          tag        = data.oci_string.ref["admission"].pseudo_tag
+          registry   = local.parsed["admission"].registry
+          repository = local.parsed["admission"].repo
+          tag        = local.parsed["admission"].pseudo_tag
         }
       }
       initContainer = {
         image = {
-          registry   = data.oci_string.ref["init"].registry
-          repository = data.oci_string.ref["init"].repo
-          tag        = data.oci_string.ref["init"].pseudo_tag
+          registry   = local.parsed["init"].registry
+          repository = local.parsed["init"].repo
+          tag        = local.parsed["init"].pseudo_tag
         }
       }
     }
     backgroundController = {
       container = {
         image = {
-          registry = data.oci_string.ref["background"].registry
-          registry = data.oci_string.ref["background"].repo
-          tag      = data.oci_string.ref["background"].pseudo_tag
+          registry = local.parsed["background"].registry
+          registry = local.parsed["background"].repo
+          tag      = local.parsed["background"].pseudo_tag
         }
       }
     }
     cleanupController = {
       container = {
         image = {
-          registry = data.oci_string.ref["cleanup"].registry
-          registry = data.oci_string.ref["cleanup"].repo
-          tag      = data.oci_string.ref["cleanup"].pseudo_tag
+          registry = local.parsed["cleanup"].registry
+          registry = local.parsed["cleanup"].repo
+          tag      = local.parsed["cleanup"].pseudo_tag
         }
       }
     }
     reportsController = {
       container = {
         image = {
-          registry = data.oci_string.ref["reports"].registry
-          registry = data.oci_string.ref["reports"].repo
-          tag      = data.oci_string.ref["reports"].pseudo_tag
+          registry = local.parsed["reports"].registry
+          registry = local.parsed["reports"].repo
+          tag      = local.parsed["reports"].pseudo_tag
         }
       }
     }

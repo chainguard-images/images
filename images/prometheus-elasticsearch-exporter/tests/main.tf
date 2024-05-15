@@ -13,9 +13,7 @@ data "oci_exec_test" "version" {
   script = "docker run --rm $IMAGE_NAME --version"
 }
 
-data "oci_string" "ref" {
-  input = var.digest
-}
+locals { parsed = provider::oci::parse(var.digest) }
 
 resource "random_id" "hex" { byte_length = 4 }
 
@@ -29,8 +27,8 @@ resource "helm_release" "test" {
 
   values = [jsonencode({
     image = {
-      repository = data.oci_string.ref.registry_repo
-      tag        = data.oci_string.ref.pseudo_tag
+      repository = local.parsed.registry_repo
+      tag        = local.parsed.pseudo_tag
     }
   })]
 }
