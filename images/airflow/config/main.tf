@@ -39,13 +39,13 @@ output "config" {
       uid         = module.accts.block.run-as
       gid         = module.accts.block.run-as
       permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
-    },
-    {
-      path        = "/opt/airflow"
-      type        = "directory"
-      uid         = module.accts.block.run-as
-      gid         = module.accts.block.run-as
-      permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
+      },
+      {
+        path        = "/opt/airflow"
+        type        = "directory"
+        uid         = module.accts.block.run-as
+        gid         = module.accts.block.run-as
+        permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
     }]
 
   })
