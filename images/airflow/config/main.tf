@@ -1,7 +1,7 @@
 variable "extra_packages" {
   description = "Additional packages to install."
   type        = list(string)
-  default     = ["airflow", "bash", "busybox", "kubernetes"]
+  default     = ["airflow", "bash", "busybox", "findutils", "kubernetes", "dumb-init"]
 }
 
 variable "environment" {
@@ -27,7 +27,7 @@ output "config" {
       "LANGUAGE" : "C.UTF-8",
       "LANG" : "C.UTF-8",
       "LC_ALL" : "C.UTF-8",
-      "AIRFLOW_HOME" : "/home/airflow",
+      "AIRFLOW_HOME" : "/opt/airflow",
     }, var.environment)
     entrypoint = {
       command = "airflow standalone"
@@ -39,6 +39,14 @@ output "config" {
       uid         = module.accts.block.run-as
       gid         = module.accts.block.run-as
       permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
+    },
+    {
+      path        = "/opt/airflow"
+      type        = "directory"
+      uid         = module.accts.block.run-as
+      gid         = module.accts.block.run-as
+      permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
     }]
+
   })
 }

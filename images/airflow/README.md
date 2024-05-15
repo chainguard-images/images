@@ -1,11 +1,10 @@
 <!--monopod:start-->
-# falco-no-driver
+# airflow
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/falco-no-driver` |
+| **OCI Reference** | `cgr.dev/chainguard/airflow` |
 
-
-* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/falco-no-driver/overview/)
+* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/airflow/overview/)
 * [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
 
@@ -13,82 +12,60 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-A minimal, [wolfi](https://github.com/wolfi-dev)-based image for falco-no-driver. This streamlined variant of [Falco](https://github.com/falcosecurity/falco/tree/master) designed for real-time security monitoring on Linux, replaces the traditional kernel module with eBPF technology, thus enhancing portability in containerized environments.
+A minimal, [wolfi](https://github.com/wolfi-dev)-based image for Apache Airflow. [Apache Airflow](https://github.com/apache/airflow) is a platform to programmatically author, schedule, and monitor workflows.
 <!--overview:end-->
 
 <!--getting:start-->
 ## Download this Image
 The image is available on `cgr.dev`:
 
-```
-docker pull cgr.dev/chainguard/falco-no-driver:latest
+```bash
+docker pull chainguard/airflow:latest
 ```
 <!--getting:end-->
 
 <!--body:start-->
-## How does falco-no-driver differ over falco?
+## Deploying Apache Airflow with Helm
 
-The primary distinction between falco, and falco-no-driver (i.e this image),
-lies in their approach to monitoring system calls.
+Deploying Apache Airflow with Chainguard's images is straightforward using the official Airflow Helm chart.
 
-Falco requires a kernel-specific module to hook into the system an monitor
-system calls.
-
-In contrast, falco-no-driver does not depend on a kernel-specific module,
-instead leveraging eBPF (modern-bpf driver). This eliminates the need for
-loading sepatate kernel modules and makes the image more portable, between
-environments.
-
-When we talk about falco-no-driver, this means no kernel drivers.
-falco-no-driver is bundled with the modern-bpf driver itself. This can be
-confusing and is worth clarifying.
-
-## Disclaimer: falco doesn't run on macOS!
-
-If you are intending on testing this image locally, note that falco does not run
-on macOS. If you attempt to run the image it will fail to launch. See the
-[following falco documentation](https://falco.org/blog/falco-apple-silicon/),
-where they recommend setting up a linux VM.
-
-> Note: You can launch the image on mac by passing in the `--nodriver` argument
-> instead of `--modern-bpf`, but other than running the service, it'll not
-> collect anything, so shouldn't be used in place of a linux environment for testing.
-
-## Running falco-no-driver
-
-Please refer to the [upstream documentation](https://falco.org/docs/install-operate/running/)
-for instructions on how to configure and run falco-no-driver. The below examples
-are intended as demonstrating how to substitute with the chainguard image, and
-are not comprehensive.
-
-### Docker
+First, add the Airflow Helm repository:
 
 ```bash
-docker run --rm -i -t \
-    --privileged \
-    -v /var/run/docker.sock:/host/var/run/docker.sock \
-    -v /proc:/host/proc:ro \
-    cgr.dev/chainguard/falco:latest falco --modern-bpf
+helm repo add airflow-stable https://airflow-helm.github.io/charts
+```
+Deploy Airflow using:
+
+```bash
+helm install airflow airflow-stable/airflow \
+  --set env.AIRFLOW__CORE__FERNET_KEY="$(openssl rand -base64 32)" \
+  --set image.repository=cgr.dev/chainguard/airflow \
+  --set image.tag=latest
 ```
 
-### Helm chart
+You can also customize your Helm deployment by editing the values.yaml after fetching the chart:
 
-The deployment of Falco in a Kubernetes cluster is managed through a Helm chart. Documentation on this helm chart is available [here](https://github.com/falcosecurity/charts)
+```helm fetch airflow-stable/airflow --untar```
 
-To install falco-no-driver image supporting modern bpf probe,
+Then edit values.yaml to use Chainguard's images/tags:
+
+```bash 
+image:
+  repository: cgr.dev/chainguard/airflow
+  tag: latest
 ```
-    helm repo add falcosecurity https://falcosecurity.github.io/charts
-    helm repo update
 
-    helm install falco \
-    --namespace falco --create-namespace  \
-    --set image.registry=cgr.dev \
-    --set image.repository=chainguard/falco-no-driver \
-    --set image.tag=latest \
-    --set driver.kind=modern-bpf \
-    --set falcoctl.image.registry=cgr.dev \
-    --set falcoctl.image.repository=chainguard/falcoctl \
-    --set falcoctl.image.tag=latest \
-    --wait falcosecurity/falco
+Deploy your customized Helm chart:
+
+```bash
+helm install airflow .
 ```
+For detailed instructions on deploying Apache Airflow via Helm, consult the official Apache Airflow Helm chart documentation.
+
+Usage
+With Apache Airflow running, access the web interface by navigating to http://localhost:8080. Login with the default credentials or the ones you have configured.
+
+You can now manage workflows, create DAGs, and monitor your tasks.
+
 <!--body:end-->
+
