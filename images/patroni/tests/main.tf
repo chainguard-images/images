@@ -22,41 +22,23 @@ data "oci_string" "ref" { input = var.digest }
 
 data "imagetest_inventory" "this" {}
 
-resource "imagetest_harness_k3s" "this" {
-  name      = var.name
+resource "imagetest_harness_docker" "this" {
+  name      = "step-cli"
   inventory = data.imagetest_inventory.this
 
-  sandbox = {
-    mounts = [
-      {
-        source      = path.module
-        destination = "/tests"
-      }
-    ]
+  envs = {
+    IMAGE_NAME = var.digest
   }
 }
 
 resource "imagetest_feature" "basic" {
-  harness     = imagetest_harness_k3s.this
-  name        = "k8s test"
-  description = "Seeing if patroni runs in a k8s environment."
+  name    = "basic test"
+  harness = imagetest_harness_docker.this
 
   steps = [
     {
-      name = "Apply patroni_k8s"
-      cmd  = <<EOF
-        kubectl apply -f /tests/patroni_k8s.yaml
-      EOF
-    },
-    {
-      name = "test patroni"
-      cmd  = <<EOF
-        kubectl get pods -L role
-      EOF
-    },
+      name = "Version check"
+      cmd  = "docker run --rm $IMAGE_NAME version"
+    }
   ]
-
-  labels = {
-    type = "k8s"
-  }
 }
