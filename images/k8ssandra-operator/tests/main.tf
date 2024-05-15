@@ -13,9 +13,7 @@ variable "name" {
   default = "k8ssandra-operator"
 }
 
-data "oci_string" "ref" {
-  input = var.digest
-}
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -43,9 +41,9 @@ module "helm_k8ssandra" {
 
   values = {
     image = {
-      registry   = data.oci_string.ref.registry
-      repository = data.oci_string.ref.repo
-      tag        = data.oci_string.ref.pseudo_tag
+      registry   = local.parsed.registry
+      repository = local.parsed.repo
+      tag        = local.parsed.pseudo_tag
     }
   }
 }

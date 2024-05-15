@@ -14,7 +14,7 @@ variable "ingress_class" {
   default     = "nginx"
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -44,9 +44,9 @@ module "helm" {
   values = {
     controller = {
       image = {
-        image    = data.oci_string.ref.repo
-        registry = data.oci_string.ref.registry
-        digest   = data.oci_string.ref.digest
+        image    = local.parsed.repo
+        registry = local.parsed.registry
+        digest   = local.parsed.digest
       }
       ingressClass = var.ingress_class
       ingressClassResource = {

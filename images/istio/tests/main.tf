@@ -19,10 +19,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -66,8 +63,8 @@ module "helm_operator" {
     create_namespace = true
 
     image = {
-      repository = data.oci_string.ref["operator"].registry_repo
-      tag        = data.oci_string.ref["operator"].pseudo_tag
+      repository = local.parsed["operator"].registry_repo
+      tag        = local.parsed["operator"].pseudo_tag
     }
   }
 }
@@ -84,9 +81,9 @@ module "helm_istiod" {
     # will be managed.
     revision = local.namespace
     pilot = {
-      hub   = dirname(data.oci_string.ref["pilot"].registry_repo)
-      image = basename(data.oci_string.ref["pilot"].registry_repo)
-      tag   = data.oci_string.ref["pilot"].pseudo_tag
+      hub   = dirname(local.parsed["pilot"].registry_repo)
+      image = basename(local.parsed["pilot"].registry_repo)
+      tag   = local.parsed["pilot"].pseudo_tag
     }
     global = {
       istioNamespace = local.namespace
@@ -95,14 +92,14 @@ module "helm_istiod" {
       # If the registry_repo is gcr.io/my/repo/istio-proxy, we need to set
       #   hub   = gcr.io/my/repo
       #   image = istio-proxy
-      hub = dirname(data.oci_string.ref["proxy"].registry_repo)
+      hub = dirname(local.parsed["proxy"].registry_repo)
       proxy = {
-        image = basename(data.oci_string.ref["proxy"].registry_repo)
+        image = basename(local.parsed["proxy"].registry_repo)
       }
       proxy-init = {
-        image = basename(data.oci_string.ref["proxy"].registry_repo)
+        image = basename(local.parsed["proxy"].registry_repo)
       }
-      tag = data.oci_string.ref["proxy"].pseudo_tag
+      tag = local.parsed["proxy"].pseudo_tag
     }
   }
 }
@@ -128,14 +125,14 @@ module "helm_gateway" {
       # If the registry_repo is gcr.io/my/repo/istio-proxy, we need to set
       #   hub   = gcr.io/my/repo
       #   image = istio-proxy
-      hub = dirname(data.oci_string.ref["proxy"].registry_repo)
+      hub = dirname(local.parsed["proxy"].registry_repo)
       proxy = {
-        image = basename(data.oci_string.ref["proxy"].registry_repo)
+        image = basename(local.parsed["proxy"].registry_repo)
       }
       proxy-init = {
-        image = basename(data.oci_string.ref["proxy"].registry_repo)
+        image = basename(local.parsed["proxy"].registry_repo)
       }
-      tag = data.oci_string.ref["proxy"].pseudo_tag
+      tag = local.parsed["proxy"].pseudo_tag
     }
   }
 }
@@ -152,13 +149,13 @@ module "helm_install-cni" {
       # If the registry_repo is gcr.io/my/repo/istio-install-cni, we need to set
       #   hub   = gcr.io/my/repo
       #   image = istio-install-cni
-      hub = dirname(data.oci_string.ref["install-cni"].registry_repo)
-      tag = data.oci_string.ref["install-cni"].registry_repo
+      hub = dirname(local.parsed["install-cni"].registry_repo)
+      tag = local.parsed["install-cni"].registry_repo
     }
     cni = {
-      hub   = dirname(data.oci_string.ref["install-cni"].registry_repo)
-      image = basename(data.oci_string.ref["install-cni"].registry_repo)
-      tag   = data.oci_string.ref["install-cni"].pseudo_tag
+      hub   = dirname(local.parsed["install-cni"].registry_repo)
+      image = basename(local.parsed["install-cni"].registry_repo)
+      tag   = local.parsed["install-cni"].pseudo_tag
 
       # These two settings are highly dependent on the K8s cluster setup.
       cniBinDir  = "/var/lib/rancher/k3s/data/current/bin" # Special thanks to Wolf

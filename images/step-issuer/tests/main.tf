@@ -9,7 +9,7 @@ variable "digest" {
   description = "The digest of the image"
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 
 variable "target_repository" {
@@ -24,9 +24,9 @@ resource "imagetest_harness_k3s" "this" {
 
   sandbox = {
     envs = {
-      "IMAGE_REGISTRY"   = data.oci_string.ref.registry
-      "IMAGE_REPOSITORY" = data.oci_string.ref.repo
-      "IMAGE_TAG"        = data.oci_string.ref.pseudo_tag
+      "IMAGE_REGISTRY"   = local.parsed.registry
+      "IMAGE_REPOSITORY" = local.parsed.repo
+      "IMAGE_TAG"        = local.parsed.pseudo_tag
     }
   }
 }
@@ -41,8 +41,8 @@ module "helm" {
 
   values = {
     image = {
-      repository = data.oci_string.ref.registry_repo
-      tag        = data.oci_string.ref.pseudo_tag
+      repository = local.parsed.registry_repo
+      tag        = local.parsed.pseudo_tag
     }
   }
 }

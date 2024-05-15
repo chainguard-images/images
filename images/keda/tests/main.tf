@@ -18,10 +18,7 @@ variable "name" {
   default = "keda"
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -51,16 +48,16 @@ module "install" {
   values = {
     image = {
       keda = {
-        repository = data.oci_string.ref["keda"].registry_repo
-        tag        = data.oci_string.ref["keda"].pseudo_tag
+        repository = local.parsed["keda"].registry_repo
+        tag        = local.parsed["keda"].pseudo_tag
       }
       metricsApiServer = {
-        repository = data.oci_string.ref["keda-adapter"].registry_repo
-        tag        = data.oci_string.ref["keda-adapter"].pseudo_tag
+        repository = local.parsed["keda-adapter"].registry_repo
+        tag        = local.parsed["keda-adapter"].pseudo_tag
       }
       webhooks = {
-        repository = data.oci_string.ref["keda-admission-webhooks"].registry_repo
-        tag        = data.oci_string.ref["keda-admission-webhooks"].pseudo_tag
+        repository = local.parsed["keda-admission-webhooks"].registry_repo
+        tag        = local.parsed["keda-admission-webhooks"].pseudo_tag
       }
     }
   }

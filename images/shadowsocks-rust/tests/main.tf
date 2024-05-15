@@ -13,10 +13,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "oci_exec_test" "smoke" {
   digest = var.digests["ssserver"] # This doesn't actually matter here, just pass it something valid
@@ -24,11 +21,11 @@ data "oci_exec_test" "smoke" {
 
   env {
     name  = "SERVER_IMAGE_NAME"
-    value = "${data.oci_string.ref["ssserver"].registry_repo}:${data.oci_string.ref["ssserver"].pseudo_tag}"
+    value = "${local.parsed["ssserver"].registry_repo}:${local.parsed["ssserver"].pseudo_tag}"
   }
   env {
     name  = "LOCAL_IMAGE_NAME"
-    value = "${data.oci_string.ref["sslocal"].registry_repo}:${data.oci_string.ref["sslocal"].pseudo_tag}"
+    value = "${local.parsed["sslocal"].registry_repo}:${local.parsed["sslocal"].pseudo_tag}"
   }
 }
 
@@ -40,8 +37,8 @@ resource "imagetest_harness_k3s" "this" {
 
   sandbox = {
     envs = {
-      "IMAGE_NAME_SSLOCAL"  = "${data.oci_string.ref["sslocal"].registry_repo}:${data.oci_string.ref["sslocal"].pseudo_tag}"
-      "IMAGE_NAME_SSSERVER" = "${data.oci_string.ref["ssserver"].registry_repo}:${data.oci_string.ref["ssserver"].pseudo_tag}"
+      "IMAGE_NAME_SSLOCAL"  = "${local.parsed["sslocal"].registry_repo}:${local.parsed["sslocal"].pseudo_tag}"
+      "IMAGE_NAME_SSSERVER" = "${local.parsed["ssserver"].registry_repo}:${local.parsed["ssserver"].pseudo_tag}"
     }
   }
 }
@@ -56,7 +53,7 @@ resource "imagetest_feature" "basic" {
       name = "Deploy"
       cmd  = <<EOF
  kubectl apply -f https://raw.githubusercontent.com/shadowsocks/shadowsocks-rust/master/k8s/shadowsocks-rust.yaml
- kubectl set image deployment/shadowsocks-rust shadowsocks-rust="${data.oci_string.ref["ssserver"].registry_repo}:${data.oci_string.ref["ssserver"].pseudo_tag}"
+ kubectl set image deployment/shadowsocks-rust shadowsocks-rust="${local.parsed["ssserver"].registry_repo}:${local.parsed["ssserver"].pseudo_tag}"
        EOF
     },
     {

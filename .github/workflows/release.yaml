@@ -7,14 +7,14 @@ on:
       - withdrawn-images.txt
       - withdrawn-repos.txt
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
   workflow_dispatch:
     inputs:
       only:
-        description: 'Specific image name to build'
+        description: "Specific image name to build"
         type: string
         required: false
-        default: ''
+        default: ""
 
 concurrency: release
 
@@ -33,8 +33,7 @@ jobs:
         with:
           egress-policy: audit
 
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
-
+      - uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4.1.5
 
       - id: shard
         name: Shard
@@ -65,7 +64,7 @@ jobs:
           fi
 
       - name: Shard Results
-        run: echo ${{ steps.shard.outputs.matrix }}
+        run: echo '${{ steps.shard.outputs.matrix }}'
 
     outputs:
       # This is of the format [{"index": 0, "images": "a b c"}, {"index": 1, "images": "d e f"}, ...]
@@ -87,15 +86,15 @@ jobs:
       - uses: step-security/harden-runner@a4aa98b93cab29d9b1101a6143fb8bce00e2eac4 # v2.7.1
         with:
           egress-policy: audit
-          
+
       # In some cases, we run out of disk space during tests, so this hack frees up approx 25G.
       # See the following issue for more info: https://github.com/actions/runner-images/issues/2840#issuecomment-1284059930
       - name: Free up runner disk space
         uses: ublue-os/remove-unwanted-software@e3843c85f5f9b73626845de0f5d44fb78ce22e12 # v6
 
-      - uses: hashicorp/setup-terraform@97f030cf6dc0b4f5e0da352c7bca9cca34579800 # v3
+      - uses: hashicorp/setup-terraform@651471c36a6092792c552e8b1bef71e592b462d8 # v3
         with:
-          terraform_version: '1.6.*'
+          terraform_version: '1.8.*'
           terraform_wrapper: false
 
       - uses: chainguard-dev/actions/setup-chainctl@538d1927b846546b620784754c33e2a1db86e217 # main
@@ -107,13 +106,13 @@ jobs:
 
       - uses: chainguard-dev/actions/setup-k3d@538d1927b846546b620784754c33e2a1db86e217 # main
         with:
-          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:2cce22ae3d776f2b924de7735bb10647320b1563dbca4ab1082a1eedae3b81c5
+          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:1dd18987ffa4b383cf969c20c534d4fcb667e6a0801d41917c99a2c34c192557
 
       # Make cosign/crane CLI available to the tests
       - uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 # v3.5.0
       - uses: imjasonh/setup-crane@00c9e93efa4e1138c9a7a5c594acd6c75a2fbf0c # v0.3
 
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
+      - uses: actions/checkout@44c2b7a8a4ea60a981eaca3cf939b5f4305c123b # v4.1.5
 
       - name: Terraform apply
         timeout-minutes: 60
@@ -149,6 +148,13 @@ jobs:
         with:
           name: "mega-module-${{ matrix.shard.index }}.tf.json"
           path: /tmp/mega-module.tf.json
+
+      - name: Upload imagetest logs
+        if: always()
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v3
+        with:
+          name: "mega-module-${{ matrix.shard.index }}-imagetest-logs"
+          path: imagetest-logs
 
       - uses: rtCamp/action-slack-notify@4e5fb42d249be6a45a298f3c9543b111b02f7907 # v2.3.0
         if: ${{ failure() && github.event_name == 'schedule' }}

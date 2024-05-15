@@ -9,7 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -32,9 +32,9 @@ module "helm" {
         replication_factor = 1
       }
       image = {
-        registry   = data.oci_string.ref.registry
-        repository = data.oci_string.ref.repo
-        tag        = data.oci_string.ref.pseudo_tag
+        registry   = local.parsed.registry
+        repository = local.parsed.repo
+        tag        = local.parsed.pseudo_tag
       }
       storage = {
         type = "filesystem"
@@ -59,9 +59,9 @@ module "helm" {
       persistence = {
         size = "1Gi"
       }
-      registry   = data.oci_string.ref.registry
-      repository = data.oci_string.ref.repo
-      tag        = data.oci_string.ref.pseudo_tag
+      registry   = local.parsed.registry
+      repository = local.parsed.repo
+      tag        = local.parsed.pseudo_tag
     }
     backend = {
       replicas = 0

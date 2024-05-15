@@ -9,7 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "oci_exec_test" "run" {
   digest = var.digest
@@ -27,8 +27,8 @@ resource "helm_release" "metrics-server" {
 
   values = [jsonencode({
     image = {
-      tag        = data.oci_string.ref.pseudo_tag
-      repository = data.oci_string.ref.registry_repo
+      tag        = local.parsed.pseudo_tag
+      repository = local.parsed.registry_repo
     }
     args = ["--kubelet-insecure-tls"]
   })]

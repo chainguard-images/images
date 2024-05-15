@@ -9,7 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -34,14 +34,14 @@ module "helm" {
   namespace = "pytorch"
   repo      = "https://charts.bitnami.com/bitnami"
   chart     = "pytorch"
-  timeout   = "1200s"
+  timeout   = "20m"
 
   values = {
     containerName = "pytorch"
     image = {
-      registry   = data.oci_string.ref.registry
-      repository = data.oci_string.ref.repo
-      digest     = data.oci_string.ref.digest
+      registry   = local.parsed.registry
+      repository = local.parsed.repo
+      digest     = local.parsed.digest
     }
     containerSecurityContext = {
       runAsUser                = 0
@@ -81,5 +81,10 @@ resource "imagetest_feature" "basic" {
 
   labels = {
     type = "k8s"
+  }
+
+  timeouts = {
+    // Set an upper limit for all other ops. This image is huge.
+    create = "30m"
   }
 }

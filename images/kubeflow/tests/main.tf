@@ -13,10 +13,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -35,10 +32,10 @@ resource "imagetest_feature" "basic" {
       name = "Test",
       cmd = templatefile("${path.module}/test.sh.tpl",
         {
-          jupyter_registry_repo = data.oci_string.ref["jupyter-web-app"].registry_repo,
-          jupyter_tag           = data.oci_string.ref["jupyter-web-app"].pseudo_tag,
-          volumes_registry_repo = data.oci_string.ref["volumes-web-app"].registry_repo,
-          volumes_tag           = data.oci_string.ref["volumes-web-app"].pseudo_tag,
+          jupyter_registry_repo = local.parsed["jupyter-web-app"].registry_repo,
+          jupyter_tag           = local.parsed["jupyter-web-app"].pseudo_tag,
+          volumes_registry_repo = local.parsed["volumes-web-app"].registry_repo,
+          volumes_tag           = local.parsed["volumes-web-app"].pseudo_tag,
         }
       )
     },

@@ -9,7 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -62,7 +62,7 @@ resource "imagetest_feature" "basic" {
     {
       name = "Set image"
       cmd  = <<EOF
-kubectl set image -n neuvector deployment/neuvector-prometheus-exporter-pod neuvector-prometheus-exporter-pod="${data.oci_string.ref.registry_repo}:${data.oci_string.ref.pseudo_tag}"
+kubectl set image -n neuvector deployment/neuvector-prometheus-exporter-pod neuvector-prometheus-exporter-pod="${local.parsed.registry_repo}:${local.parsed.pseudo_tag}"
        EOF
     },
     {

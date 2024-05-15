@@ -25,11 +25,7 @@ variable "refs" {
   }
 }
 
-data "oci_ref" "refs" {
-  for_each = var.refs
-
-  ref = each.value
-}
+locals { fetched = { for k, v in var.refs : k => provider::oci::get(v) } }
 
 data "kubectl_file_documents" "docs" {
   for_each = toset([
@@ -38,11 +34,11 @@ data "kubectl_file_documents" "docs" {
   ])
 
   content = templatefile("${path.module}/manifests/${each.value}.yaml.tpl", {
-    CNI_IMAGE              = data.oci_ref.refs["cni"].ref
-    NODE_IMAGE             = data.oci_ref.refs["node"].ref
-    KUBE_CONTROLLERS_IMAGE = data.oci_ref.refs["kube_controllers"].ref
-    TYPHA_IMAGE            = data.oci_ref.refs["typha"].ref
-    CSI_IMAGE              = data.oci_ref.refs["csi"].ref
+    CNI_IMAGE              = local.fetched["cni"].full_ref
+    NODE_IMAGE             = local.fetched["node"].full_ref
+    KUBE_CONTROLLERS_IMAGE = local.fetched["kube_controllers"].full_ref
+    TYPHA_IMAGE            = local.fetched["typha"].full_ref
+    CSI_IMAGE              = local.fetched["csi"].full_ref
   })
 }
 

@@ -33,7 +33,7 @@ resource "kubernetes_job_v1" "tsa_sign_verify" {
 
         init_container {
           name        = "initialize"
-          image       = data.oci_string.images["cosign-cli"].id
+          image       = local.fetched["cosign-cli"].full_ref
           working_dir = "/workspace"
           args = [
             "initialize",
@@ -52,7 +52,7 @@ resource "kubernetes_job_v1" "tsa_sign_verify" {
 
         init_container {
           name        = "tsa-certchain"
-          image       = data.oci_string.images["curl"].id
+          image       = local.fetched["curl"].full_ref
           working_dir = "/workspace"
           args = [
             "-Lo", "/workspace/tsa-cert-chain.pem",
@@ -66,7 +66,7 @@ resource "kubernetes_job_v1" "tsa_sign_verify" {
 
         init_container {
           name        = "sign"
-          image       = data.oci_string.images["cosign-cli"].id
+          image       = local.fetched["cosign-cli"].full_ref
           working_dir = "/workspace"
           args = [
             "sign-blob", "/etc/os-release",
@@ -95,7 +95,7 @@ resource "kubernetes_job_v1" "tsa_sign_verify" {
 
         container {
           name        = "verify"
-          image       = data.oci_string.images["cosign-cli"].id
+          image       = local.fetched["cosign-cli"].full_ref
           working_dir = "/workspace"
           args = [
             "verify-blob", "/etc/os-release",

@@ -13,10 +13,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -36,20 +33,20 @@ module "helm" {
   values = {
     gateway = {
       image = {
-        tag  = data.oci_string.ref["dask-gateway-server"].pseudo_tag
-        name = data.oci_string.ref["dask-gateway-server"].registry_repo
+        tag  = local.parsed["dask-gateway-server"].pseudo_tag
+        name = local.parsed["dask-gateway-server"].registry_repo
       }
       backend = {
         image = {
-          tag  = data.oci_string.ref["dask-gateway"].pseudo_tag
-          name = data.oci_string.ref["dask-gateway"].registry_repo
+          tag  = local.parsed["dask-gateway"].pseudo_tag
+          name = local.parsed["dask-gateway"].registry_repo
         }
       }
     }
     controller = {
       image = {
-        tag  = data.oci_string.ref["dask-gateway-server"].pseudo_tag
-        name = data.oci_string.ref["dask-gateway-server"].registry_repo
+        tag  = local.parsed["dask-gateway-server"].pseudo_tag
+        name = local.parsed["dask-gateway-server"].registry_repo
       }
     }
   }

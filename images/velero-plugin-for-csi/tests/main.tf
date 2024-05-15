@@ -22,10 +22,7 @@ variable "init_container_names" {
   }
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -35,17 +32,17 @@ resource "imagetest_harness_k3s" "this" {
 
   sandbox = {
     envs = {
-      "IMAGE_REGISTRY"   = data.oci_string.ref["velero-plugin-for-csi"].registry
-      "IMAGE_REPOSITORY" = data.oci_string.ref["velero-plugin-for-csi"].repo
-      "IMAGE_TAG"        = data.oci_string.ref["velero-plugin-for-csi"].pseudo_tag
+      "IMAGE_REGISTRY"   = local.parsed["velero-plugin-for-csi"].registry
+      "IMAGE_REPOSITORY" = local.parsed["velero-plugin-for-csi"].repo
+      "IMAGE_TAG"        = local.parsed["velero-plugin-for-csi"].pseudo_tag
 
-      "AWS_IMAGE_REGISTRY"   = data.oci_string.ref["velero-plugin-for-aws"].registry
-      "AWS_IMAGE_REPOSITORY" = data.oci_string.ref["velero-plugin-for-aws"].repo
-      "AWS_IMAGE_TAG"        = data.oci_string.ref["velero-plugin-for-aws"].pseudo_tag
+      "AWS_IMAGE_REGISTRY"   = local.parsed["velero-plugin-for-aws"].registry
+      "AWS_IMAGE_REPOSITORY" = local.parsed["velero-plugin-for-aws"].repo
+      "AWS_IMAGE_TAG"        = local.parsed["velero-plugin-for-aws"].pseudo_tag
 
-      "VELERO_IMAGE_REGISTRY"   = data.oci_string.ref["velero"].registry
-      "VELERO_IMAGE_REPOSITORY" = data.oci_string.ref["velero"].repo
-      "VELERO_IMAGE_TAG"        = data.oci_string.ref["velero"].pseudo_tag
+      "VELERO_IMAGE_REGISTRY"   = local.parsed["velero"].registry
+      "VELERO_IMAGE_REPOSITORY" = local.parsed["velero"].repo
+      "VELERO_IMAGE_TAG"        = local.parsed["velero"].pseudo_tag
 
       "CSI_INIT_CONTAINER_NAME" = var.init_container_names["velero-plugin-for-csi"]
       "AWS_INIT_CONTAINER_NAME" = var.init_container_names["velero-plugin-for-aws"]
