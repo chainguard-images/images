@@ -42,12 +42,12 @@ which is the Helm chart we used to deploy Jitsu on Kubernetes during the tests.
 $ helm install jitsu oci://registry-1.docker.io/stafftasticcharts/jitsu -f-<<EOF
 console:
   image:
-    repository: cgr.dev/chainguard/jitsucom-jitsu-console
+    repository: cgr.dev/chainguard/jitsucom-console
     tag: latest
     pullPolicy: IfNotPresent
 rotor:
   image:
-    repository: cgr.dev/chainguard/jitsucom-jitsu-rotor
+    repository: cgr.dev/chainguard/jitsucom-rotor
     tag: latest
     pullPolicy: IfNotPresent
 EOF
