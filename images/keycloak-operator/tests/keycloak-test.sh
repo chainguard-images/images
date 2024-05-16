@@ -772,7 +772,6 @@ echo "$klogs" | grep "Listening on: https://0.0.0.0:8443"
 
 # Set up port forwarding
 kubectl port-forward svc/example-kc-service ${KEYCLOAK_PORT}:8443 -n ${NAMESPACE} &
-pid=$!
 
 # Wait for port forwarding
 sleep 5
@@ -783,5 +782,3 @@ TEST_keycloak_api
 # Call the Keycloak Realm Import test function
 create_realm_if_not_exists
 TEST_keycloak_realm_import
-
-trap "kill $pid" EXIT
