@@ -9,53 +9,40 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-locals { parsed = provider::oci::parse(var.digest) }
-
 data "imagetest_inventory" "this" {}
 
-resource "imagetest_harness_k3s" "this" {
-  name      = "apache-nifi"
+resource "imagetest_harness_docker" "docker" {
+  name      = "nifi-docker"
   inventory = data.imagetest_inventory.this
 
-  sandbox = {
-    mounts = [
-      {
-        source      = path.module
-        destination = "/tests"
-      }
-    ]
+  mounts = [{
+      source      = path.module
+      destination = "/tests"
+  }]
+
+  envs = {
+    IMAGE_NAME : var.digest
   }
 }
-
-module "install" {
-  source = "../../../tflib/imagetest/helm"
-
-  chart     = "cetic"
-  namespace = "apache-nifi"
-  repo      = "https://cetic.github.io/helm-charts"
-
-  values = {
-    image = {
-      repository = local.parsed.registry_repo
-      tag        = local.parsed.pseudo_tag
-    }
-  }
-}
-
 
 resource "imagetest_feature" "basic" {
-  name        = "Basic"
-  description = "apache-nifi tests"
-  harness     = imagetest_harness_k3s.this
+  name        = "basic"
+  description = "Basic test for Apache NiFi"
+  harness     = imagetest_harness_docker.docker
 
-  steps = [
-    {
-      name = "Helm install"
-      cmd  = module.install.install_cmd
-    },
-  ]
+  steps = [{
+    name = "Ensure images are present in the daemon"
+    cmd  = <<EOF
+      docker pull "$IMAGE_NAME"
+    EOF
+    }, {
+    name = "Test NiFi"
+    cmd  = <<EOF
+      #/tests/check-nifi.sh
+    EOF
+  }]
 
   labels = {
-    type = "k8s",
+    type    = "container"
   }
 }
