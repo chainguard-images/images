@@ -12,7 +12,7 @@ FROM ${IMAGE_NAME} AS build
 
 WORKDIR /build
 
-RUN zig init-exe && \
+RUN zig init && \
     zig build
 
 FROM scratch
