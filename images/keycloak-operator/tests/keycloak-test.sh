@@ -253,12 +253,11 @@ $(cat "${TMPDIR}/${realm_name}-realm-export.yaml" | sed 's/^/    /')
 EOF
 
   # Wait for the realm import to complete
-  retry_command 5 15 "keycloak-realm pod readiness" kubectl wait --for=condition=ready pod --selector app=keycloak-realm-import --namespace ${NAMESPACE} --timeout=2m
-  
+  retry_command 5 15 "keycloak-realm-import"  kubectl wait --for=condition=complete job/test-realm-realm-import -n ${NAMESPACE} --timeout=2m
   # Wait for the realm import logs to populate
   for (( attempt=0; attempt<${REQUEST_RETRIES}; attempt++ )); do
     sleep ${RETRY_DELAY}
-    local realm_logs=$(kubectl logs -l app.kubernetes.io/name=keycloak-operator -n ${NAMESPACE})
+    local realm_logs=$(kubectl logs -l app=keycloak-realm-import -n ${NAMESPACE})
     if echo "${realm_logs}" | grep -q "Realm '${realm_name}' imported"; then
       success=true
       break
