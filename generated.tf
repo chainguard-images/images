@@ -5,6 +5,11 @@ module "airflow" {
   target_repository = "${var.target_repository}/airflow"
 }
 
+module "apache-nifi" {
+  source            = "./images/apache-nifi"
+  target_repository = "${var.target_repository}/apache-nifi"
+}
+
 module "apko" {
   source            = "./images/apko"
   target_repository = "${var.target_repository}/apko"
@@ -1585,6 +1590,10 @@ module "zot" {
 
 output "summary_airflow" {
   value = module.airflow.summary
+}
+
+output "summary_apache-nifi" {
+  value = module.apache-nifi.summary
 }
 
 output "summary_apko" {
