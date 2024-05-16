@@ -640,6 +640,11 @@ module "keycloak-operator" {
   target_repository = "${var.target_repository}/keycloak-operator"
 }
 
+module "kibana" {
+  source            = "./images/kibana"
+  target_repository = "${var.target_repository}/kibana"
+}
+
 module "ko" {
   source            = "./images/ko"
   target_repository = "${var.target_repository}/ko"
@@ -2073,6 +2078,10 @@ output "summary_keycloak" {
 
 output "summary_keycloak-operator" {
   value = module.keycloak-operator.summary
+}
+
+output "summary_kibana" {
+  value = module.kibana.summary
 }
 
 output "summary_ko" {
