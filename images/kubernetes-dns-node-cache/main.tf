@@ -15,6 +15,7 @@ module "latest" {
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.config.config
+  main_package      = "kubernetes-dns-node-cache"
 }
 
 module "test-latest" {
