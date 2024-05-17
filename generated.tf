@@ -1233,6 +1233,11 @@ module "rabbitmq-cluster-operator" {
   target_repository = "${var.target_repository}/rabbitmq-cluster-operator"
 }
 
+module "rabbitmq-default-user-credential-updater" {
+  source            = "./images/rabbitmq-default-user-credential-updater"
+  target_repository = "${var.target_repository}/rabbitmq-default-user-credential-updater"
+}
+
 module "rabbitmq-messaging-topology-operator" {
   source            = "./images/rabbitmq-messaging-topology-operator"
   target_repository = "${var.target_repository}/rabbitmq-messaging-topology-operator"
@@ -2551,6 +2556,10 @@ output "summary_rabbitmq" {
 
 output "summary_rabbitmq-cluster-operator" {
   value = module.rabbitmq-cluster-operator.summary
+}
+
+output "summary_rabbitmq-default-user-credential-updater" {
+  value = module.rabbitmq-default-user-credential-updater.summary
 }
 
 output "summary_rabbitmq-messaging-topology-operator" {
