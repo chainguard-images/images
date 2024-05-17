@@ -26,9 +26,9 @@ echo "Describe scheduler pod:"
 kubectl describe pod $SCHEDULER_POD
 check_status "Failed to describe scheduler pod"
 
-# Start the scheduler as a daemon instead of running in the foreground
+# Start the scheduler
 echo "Starting the Airflow scheduler..."
-kubectl exec $SCHEDULER_POD -- nohup airflow scheduler -D &
+kubectl exec $SCHEDULER_POD -- nohup airflow scheduler -d &
 sleep 10
 check_status "Failed to start the scheduler"
 
@@ -67,14 +67,11 @@ check_status "Failed to clean up local DAG file"
 
 # Ensure the DAG is loaded
 echo "Waiting for DAG to be loaded..."
-sleep 10
+sleep 30
 
 # Trigger the DAG
-kubectl exec $WEBSERVER_POD -- airflow dags trigger example_dag
+kubectl exec $WEBSERVER_POD -- /bin/sh -c "airflow dags trigger example_dag && sleep 10"
 check_status "Failed to trigger DAG"
-
-# Wait for a few seconds to let the DAG run
-sleep 10
 
 # Get the name of the worker pod
 WORKER_POD=$(kubectl get pods -l component=worker -o jsonpath="{.items[0].metadata.name}")
