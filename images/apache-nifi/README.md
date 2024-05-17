@@ -25,4 +25,29 @@ docker pull cgr.dev/chainguard/apache-nifi:latest
 ```
 <!--getting:end-->
 
-<!--body:start--><!--body:end-->
+<!--body:start-->
+### Usage
+
+To get started with Chainguard's NiFi image, run it with Docker:
+
+```bash
+docker run -p 8443:8443 --name nifi cgr.dev/chainguard/apache-nifi:latest
+```
+
+NiFi will take a moment to start. Once it is finished, you'll see a message stating the Web UI is available:
+     
+```
+NiFi has started. The UI is available at the following URLs
+```
+
+To obtain the username and password, check the Docker logs:
+
+```bash
+docker logs nifi | grep Generated
+```
+
+You can now access the Web UI at [localhost:8443](https://localhost:8443).
+
+A user guide for NiFi can be found [here](https://nifi.apache.org/docs/nifi-docs/html/user-guide.html).
+
+<!--body:end-->
