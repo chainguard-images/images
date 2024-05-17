@@ -9,7 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -50,7 +50,6 @@ module "helm-vault" {
   }
 }
 
-
 resource "imagetest_feature" "vault" {
   harness     = imagetest_harness_k3s.this
   name        = "Vault"
@@ -89,7 +88,7 @@ patches:
       path: "/spec/template/spec/containers/0/env/-"
       value: 
         name: DEFAULT_USER_UPDATER_IMAGE
-        value: ${data.oci_string.ref.id}
+        value: "${local.parsed.registry_repo}:${local.parsed.pseudo_tag}"
   target:
     kind: Deployment
     namespace: rabbitmq-system
