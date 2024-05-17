@@ -30,12 +30,6 @@ check_status "Failed to describe scheduler pod"
 WEBSERVER_POD=$(kubectl get pods -l component=web -o jsonpath="{.items[0].metadata.name}")
 check_status "Failed to get webserver pod"
 
-# Start the scheduler as a daemon instead of running in the foreground
-# echo "Starting the Airflow scheduler..."
-# kubectl exec $WEBSERVER_POD -- nohup airflow scheduler -D &
-# sleep 20
-# check_status "Failed to start the scheduler"
-
 # Create an example DAG file
 cat <<EOF > example_dag.py
 from airflow import DAG
