@@ -1,0 +1,26 @@
+{{- if .Values.workers.enabled }}
+apiVersion: v1
+## this Service gives stable DNS entries for workers, used by webserver for logs
+kind: Service
+metadata:
+  name: {{ include "airflow.fullname" . }}-worker
+  labels:
+    app: {{ include "airflow.labels.app" . }}
+    component: worker
+    chart: {{ include "airflow.labels.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  ports:
+    - name: worker
+      ## NOTE: the worker logs port is always http (only important for Istio users)
+      ##       https://github.com/apache/airflow/blob/2.9.0/airflow/utils/log/file_task_handler.py#L415
+      appProtocol: http
+      protocol: TCP
+      port: 8793
+  clusterIP: None
+  selector:
+    app: {{ include "airflow.labels.app" . }}
+    component: worker
+    release: {{ .Release.Name }}
+{{- end }}

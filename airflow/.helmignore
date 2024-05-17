@@ -1,0 +1,47 @@
+# Patterns to ignore when building the helm package
+
+## Git
+.git
+.gitignore
+
+## JetBrains
+.idea/
+*.iml
+*.ipr
+*.iws
+
+## VSCode
+.vscode/*
+*.code-workspace
+.history/
+
+## Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+Session.vim
+Sessionx.vim
+.netrwhist
+*~
+[._]*.un~
+
+## Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+.\#*
+
+## macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+## Chart Documentation
+/ci
+/docs
+/examples
