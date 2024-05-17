@@ -39,9 +39,8 @@ Deploy Airflow using:
 
 ```bash
 helm install airflow airflow-stable/airflow \
-  --set env.AIRFLOW__CORE__FERNET_KEY="$(openssl rand -base64 32)" \
-  --set image.repository=cgr.dev/chainguard/airflow \
-  --set image.tag=latest
+  --set airflow.image.repository=cgr.dev/chainguard/airflow \
+  --set airflow.image.tag=latest
 ```
 
 You can also customize your Helm deployment by editing the values.yaml after fetching the chart:
