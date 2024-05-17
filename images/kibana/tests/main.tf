@@ -43,7 +43,7 @@ module "helm" {
   }
 }
 
-resource "imagetest_feature" "my-awesome-k3s-test" {
+resource "imagetest_feature" "basic" {
   name        = "Basic"
   description = "Install ECK operator and add Kibana"
   harness     = imagetest_harness_k3s.this
