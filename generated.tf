@@ -585,6 +585,11 @@ module "jitsucom-bulker" {
   target_repository = "${var.target_repository}/jitsucom-bulker"
 }
 
+module "jitsucom-jitsu" {
+  source            = "./images/jitsucom-jitsu"
+  target_repository = "${var.target_repository}/jitsucom-jitsu"
+}
+
 module "jre" {
   source            = "./images/jre"
   target_repository = "${var.target_repository}/jre"
@@ -2034,6 +2039,10 @@ output "summary_jenkins" {
 
 output "summary_jitsucom-bulker" {
   value = module.jitsucom-bulker.summary
+}
+
+output "summary_jitsucom-jitsu" {
+  value = module.jitsucom-jitsu.summary
 }
 
 output "summary_jre" {
