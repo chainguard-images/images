@@ -6,7 +6,11 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install."
-  default     = ["apache-nifi"]
+  default = [
+    "apache-nifi",
+    "apache-nifi-compat",
+    "apache-nifi-toolkit"
+  ]
 }
 
 variable "environment" {

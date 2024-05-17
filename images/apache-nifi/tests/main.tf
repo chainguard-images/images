@@ -16,8 +16,8 @@ resource "imagetest_harness_docker" "docker" {
   inventory = data.imagetest_inventory.this
 
   mounts = [{
-      source      = path.module
-      destination = "/tests"
+    source      = path.module
+    destination = "/tests"
   }]
 
   envs = {
@@ -43,6 +43,6 @@ resource "imagetest_feature" "basic" {
   }]
 
   labels = {
-    type    = "container"
+    type = "container"
   }
 }
