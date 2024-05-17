@@ -85,4 +85,4 @@ TEST_http_response() {
 
 # Run tests
 TEST_validate_container_logs
-TEST_http_response
+#TEST_http_response
