@@ -43,7 +43,7 @@ module "helm" {
   }
 }
 
-resource "imagetest_feature" "basic" {
+resource "imagetest_feature" "my-awesome-k3s-test" {
   name        = "Basic"
   description = "Install ECK operator and add Kibana"
   harness     = imagetest_harness_k3s.this
@@ -92,16 +92,41 @@ EOF
 EOT
     },
     {
-      name = "Use our Kibana image"
-      cmd  = "sleep 5 && kubectl set image deployment/quickstart-kb kibana=$IMAGE"
+      name  = "Scale down kibana deployment"
+      cmd   = "kubectl scale --replicas=0 deployment/quickstart-kb"
+      retry = { attempts = 3, delay = "5s" }
+    },
+    {
+      name = "Use our Kibana image and scale up"
+      cmd  = <<EOF
+        kubectl set image deployment/quickstart-kb kibana=$IMAGE
+        kubectl scale --replicas=1 deployment/quickstart-kb
+      EOF
     },
     {
       name = "Wait for deployment to settle"
       cmd  = "kubectl rollout status --watch --timeout=300s deployment/quickstart-kb"
     },
     {
-      name = "Look for active log"
-      cmd  = "sleep 30 && kubectl logs deployment/quickstart-kb |grep 'Kibana is now available'"
+      name = "Get tools"
+      cmd  = "apk add curl jq"
+    },
+    {
+      name = "Port forward to Kibana"
+      cmd  = "kubectl port-forward svc/quickstart-kb-http 5601&"
+    },
+    {
+      name  = "Check Kibana dashboard is enabled via API"
+      cmd   = <<EOF
+        PASSWORD=$(kubectl get secret quickstart-es-elastic-user -o json |jq -r ".data .elastic" |base64 -d)
+        curl -sk https://localhost:5601/api/features -u elastic:$PASSWORD |jq '.[] |select(.id=="dashboard")'        
+      EOF
+      retry = { attempts = 5, delay = "10s" }
+    },
+    {
+      name  = "Look for active log"
+      cmd   = "kubectl logs deployment/quickstart-kb |grep 'Kibana is now available'"
+      retry = { attempts = 5, delay = "10s" }
     }
   ]
 }
