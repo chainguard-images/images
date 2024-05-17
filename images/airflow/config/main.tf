@@ -33,7 +33,6 @@ output "config" {
     entrypoint = {
       command = "airflow standalone"
     }
-    archs = ["aarch64"]
     paths = [{
       path        = "/home/airflow"
       type        = "directory"
