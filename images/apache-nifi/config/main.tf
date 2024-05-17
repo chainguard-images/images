@@ -47,35 +47,7 @@ output "config" {
     }
     work-dir = "/usr/share/nifi/nifi-current"
     paths = [{
-      path        = "/usr/share/nifi/nifi-current"
-      type        = "directory"
-      uid         = module.accts.block.run-as
-      gid         = module.accts.block.run-as
-      permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
-      recursive   = true
-      }, {
       path        = "/usr/share/nifi"
-      type        = "directory"
-      uid         = module.accts.block.run-as
-      gid         = module.accts.block.run-as
-      permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
-      recursive   = true
-      }, {
-      path        = "/usr/share/nifi/run"
-      type        = "directory"
-      uid         = module.accts.block.run-as
-      gid         = module.accts.block.run-as
-      permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
-      recursive   = true
-      }, {
-      path        = "/usr/share/nifi/logs"
-      type        = "directory"
-      uid         = module.accts.block.run-as
-      gid         = module.accts.block.run-as
-      permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
-      recursive   = true
-      }, {
-      path        = "/usr/share/nifi-toolkit-current"
       type        = "directory"
       uid         = module.accts.block.run-as
       gid         = module.accts.block.run-as
