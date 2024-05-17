@@ -89,7 +89,7 @@ patches:
       path: "/spec/template/spec/containers/0/env/-"
       value: 
         name: DEFAULT_USER_UPDATER_IMAGE
-        value: ${data.oci_string.ref.registry_repo}
+        value: ${data.oci_string.ref.id}
   target:
     kind: Deployment
     namespace: rabbitmq-system
