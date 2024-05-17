@@ -73,7 +73,7 @@ TEST_validate_container_logs() {
 # Check that NiFi portal responds 200 HTTP status code indicating it's operational.
 TEST_http_response() {
   for ((i=1; i<=${REQUEST_RETRIES}; i++)); do
-    if $(docker run --network container:"${CONTAINER_NAME}" cgr.dev/chainguard/curl -u "${USERNAME}":"${PASSWD}" -vsL "http://localhost:${NIFI_PORT}"); then
+    if $(docker run --network container:"${CONTAINER_NAME}" cgr.dev/chainguard/curl -vsL "http://localhost:${NIFI_PORT}/nifi"); then
       return 0 
     fi
     sleep ${RETRY_DELAY}
