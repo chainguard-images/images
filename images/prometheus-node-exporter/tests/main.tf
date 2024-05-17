@@ -14,9 +14,7 @@ data "oci_exec_test" "version" {
 }
 
 
-data "oci_string" "ref" {
-  input = var.digest
-}
+locals { parsed = provider::oci::parse(var.digest) }
 
 resource "random_id" "hex" { byte_length = 4 }
 
@@ -41,9 +39,9 @@ resource "helm_release" "bitnami" {
         }
       }
       image = {
-        registry   = data.oci_string.ref.registry
-        repository = data.oci_string.ref.repo
-        digest     = data.oci_string.ref.digest
+        registry   = local.parsed.registry
+        repository = local.parsed.repo
+        digest     = local.parsed.digest
       }
   })]
 }

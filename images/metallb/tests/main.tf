@@ -13,10 +13,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -31,14 +28,14 @@ module "helm_metallb" {
   values = {
     controller = {
       image = {
-        repository = data.oci_string.ref["controller"].registry_repo
-        tag        = data.oci_string.ref["controller"].pseudo_tag
+        repository = local.parsed["controller"].registry_repo
+        tag        = local.parsed["controller"].pseudo_tag
       }
     }
     speaker = {
       image = {
-        repository = data.oci_string.ref["speaker"].registry_repo
-        tag        = data.oci_string.ref["speaker"].pseudo_tag
+        repository = local.parsed["speaker"].registry_repo
+        tag        = local.parsed["speaker"].pseudo_tag
       }
       frr = {
         enabled = false

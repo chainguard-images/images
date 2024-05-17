@@ -9,9 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "digest" {
-  input = var.digest
-}
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -43,8 +41,8 @@ module "helm" {
   values = {
     webhook = {
       image = {
-        repository = data.oci_string.digest.registry_repo
-        version    = data.oci_string.digest.digest
+        repository = local.parsed.registry_repo
+        version    = local.parsed.digest
       }
     }
   }

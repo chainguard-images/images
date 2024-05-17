@@ -11,12 +11,11 @@ variable "target_repository" {
 module "config" { source = "./config" }
 
 module "latest" {
-  source = "../../tflib/publisher"
-
-  name = basename(path.module)
-
+  source            = "../../tflib/publisher"
+  name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.config.config
+  main_package      = "apko"
 }
 
 module "test-latest" {

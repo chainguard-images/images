@@ -31,15 +31,13 @@ module "local-volume-node-cleanup" {
   main_package = each.key
 }
 
-data "oci_ref" "local-volume-provisioner" {
-  ref = "cgr.dev/chainguard/local-volume-provisioner:latest"
-}
+locals { provisioner = provider::oci::get("cgr.dev/chainguard/local-volume-provisioner:latest") }
 
 module "test" {
   for_each = toset(local.components)
   source   = "./tests"
   digests = {
-    local-volume-provisioner  = data.oci_ref.local-volume-provisioner.id
+    local-volume-provisioner  = local.provisioner.full_ref
     local-volume-node-cleanup = module.local-volume-node-cleanup[each.key].image_ref
   }
 }

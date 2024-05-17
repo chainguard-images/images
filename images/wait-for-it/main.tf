@@ -15,6 +15,7 @@ module "latest" {
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.latest-config.config
+  main_package      = "wait-for-it"
 }
 
 module "test-latest" {

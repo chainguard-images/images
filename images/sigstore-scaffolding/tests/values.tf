@@ -11,15 +11,15 @@ locals {
     server:
       fullnameOverride: fulcio-server
       image:
-        registry: ${data.oci_string.images["fulcio-server"].registry}
-        repository: ${data.oci_string.images["fulcio-server"].repo}
-        version: ${data.oci_string.images["fulcio-server"].digest}
+        registry: ${local.parsed["fulcio-server"].registry}
+        repository: ${local.parsed["fulcio-server"].repo}
+        version: ${local.parsed["fulcio-server"].digest}
     createcerts:
       fullnameOverride: fulcio-createcerts
       image:
-        registry: ${data.oci_string.images["fulcio-createcerts"].registry}
-        repository: ${data.oci_string.images["fulcio-createcerts"].repo}
-        version: ${data.oci_string.images["fulcio-createcerts"].digest}
+        registry: ${local.parsed["fulcio-createcerts"].registry}
+        repository: ${local.parsed["fulcio-createcerts"].repo}
+        version: ${local.parsed["fulcio-createcerts"].digest}
     ctlog:
       enabled: false
       createctconfig:
@@ -37,26 +37,26 @@ locals {
       fullnameOverride: ctlog-createcerts
     createctconfig:
       image:
-        registry: ${data.oci_string.images["ctlog-createctconfig"].registry}
-        repository: ${data.oci_string.images["ctlog-createctconfig"].repo}
-        version: ${data.oci_string.images["ctlog-createctconfig"].digest}
+        registry: ${local.parsed["ctlog-createctconfig"].registry}
+        repository: ${local.parsed["ctlog-createctconfig"].repo}
+        version: ${local.parsed["ctlog-createctconfig"].digest}
       initContainerImage:
         curl:
-          registry: ${data.oci_string.images["curl"].registry}
-          repository: ${data.oci_string.images["curl"].repo}
-          version: ${data.oci_string.images["curl"].digest}
+          registry: ${local.parsed["curl"].registry}
+          repository: ${local.parsed["curl"].repo}
+          version: ${local.parsed["curl"].digest}
     createtree:
       fullnameOverride: ctlog-createtree
       displayName: ctlog-tree
       image:
-        registry: ${data.oci_string.images["trillian-createtree"].registry}
-        repository: ${data.oci_string.images["trillian-createtree"].repo}
-        version: ${data.oci_string.images["trillian-createtree"].digest}
+        registry: ${local.parsed["trillian-createtree"].registry}
+        repository: ${local.parsed["trillian-createtree"].repo}
+        version: ${local.parsed["trillian-createtree"].digest}
     server:
       image:
-        registry: ${data.oci_string.images["ctlog-server"].registry}
-        repository: ${data.oci_string.images["ctlog-server"].repo}
-        version: ${data.oci_string.images["ctlog-server"].digest}
+        registry: ${local.parsed["ctlog-server"].registry}
+        repository: ${local.parsed["ctlog-server"].repo}
+        version: ${local.parsed["ctlog-server"].digest}
 
   # Rekor
   rekor:
@@ -68,31 +68,31 @@ locals {
     fullnameOverride: rekor
     initContainerImage:
       curl:
-        registry: ${data.oci_string.images["curl"].registry}
-        repository: ${data.oci_string.images["curl"].repo}
-        version: ${data.oci_string.images["curl"].digest}
+        registry: ${local.parsed["curl"].registry}
+        repository: ${local.parsed["curl"].repo}
+        version: ${local.parsed["curl"].digest}
     backfillredis:
       image:
-        registry: ${data.oci_string.images["backfill-redis"].registry}
-        repository: ${data.oci_string.images["backfill-redis"].repo}
-        version: ${data.oci_string.images["backfill-redis"].digest}
+        registry: ${local.parsed["backfill-redis"].registry}
+        repository: ${local.parsed["backfill-redis"].repo}
+        version: ${local.parsed["backfill-redis"].digest}
     createtree:
       image:
-        registry: ${data.oci_string.images["trillian-createtree"].registry}
-        repository: ${data.oci_string.images["trillian-createtree"].repo}
-        version: ${data.oci_string.images["trillian-createtree"].digest}
+        registry: ${local.parsed["trillian-createtree"].registry}
+        repository: ${local.parsed["trillian-createtree"].repo}
+        version: ${local.parsed["trillian-createtree"].digest}
     server:
       fullnameOverride: rekor-server
       image:
-        registry: ${data.oci_string.images["rekor-server"].registry}
-        repository: ${data.oci_string.images["rekor-server"].repo}
-        version: ${data.oci_string.images["rekor-server"].digest}
+        registry: ${local.parsed["rekor-server"].registry}
+        repository: ${local.parsed["rekor-server"].repo}
+        version: ${local.parsed["rekor-server"].digest}
     redis:
       fullnameOverride: rekor-redis
       image:
-        registry: ${data.oci_string.images["redis"].registry}
-        repository: ${data.oci_string.images["redis"].repo}
-        version: ${data.oci_string.images["redis"].digest}
+        registry: ${local.parsed["redis"].registry}
+        repository: ${local.parsed["redis"].repo}
+        version: ${local.parsed["redis"].digest}
     trillian:
       enabled: false
 
@@ -106,39 +106,39 @@ locals {
     fullnameOverride: trillian
     createdb:
       image:
-        registry: ${data.oci_string.images["trillian-createdb"].registry}
-        repository: ${data.oci_string.images["trillian-createdb"].repo}
-        version: ${data.oci_string.images["trillian-createdb"].digest}
+        registry: ${local.parsed["trillian-createdb"].registry}
+        repository: ${local.parsed["trillian-createdb"].repo}
+        version: ${local.parsed["trillian-createdb"].digest}
     mysql:
       image:
-        registry: ${data.oci_string.images["mysql"].registry}
-        repository: ${data.oci_string.images["mysql"].repo}
-        version: ${data.oci_string.images["mysql"].digest}
+        registry: ${local.parsed["mysql"].registry}
+        repository: ${local.parsed["mysql"].repo}
+        version: ${local.parsed["mysql"].digest}
     initContainerImage:
       curl:
-        registry: ${data.oci_string.images["curl"].registry}
-        repository: ${data.oci_string.images["curl"].repo}
-        version: ${data.oci_string.images["curl"].digest}
+        registry: ${local.parsed["curl"].registry}
+        repository: ${local.parsed["curl"].repo}
+        version: ${local.parsed["curl"].digest}
       netcat:
-        registry: ${data.oci_string.images["netcat"].registry}
-        repository: ${data.oci_string.images["netcat"].repo}
-        version: ${data.oci_string.images["netcat"].digest}
+        registry: ${local.parsed["netcat"].registry}
+        repository: ${local.parsed["netcat"].repo}
+        version: ${local.parsed["netcat"].digest}
     logServer:
       name: trillian-logserver
       fullnameOverride: trillian-logserver
       portHTTP: 8090
       portRPC: 8091
       image:
-        registry: ${data.oci_string.images["logserver"].registry}
-        repository: ${data.oci_string.images["logserver"].repo}
-        version: ${data.oci_string.images["logserver"].digest}
+        registry: ${local.parsed["logserver"].registry}
+        repository: ${local.parsed["logserver"].repo}
+        version: ${local.parsed["logserver"].digest}
     logSigner:
       name: trillian-logsigner
       fullnameOverride: trillian-logsigner
       image:
-        registry: ${data.oci_string.images["logsigner"].registry}
-        repository: ${data.oci_string.images["logsigner"].repo}
-        version: ${data.oci_string.images["logsigner"].digest}
+        registry: ${local.parsed["logsigner"].registry}
+        repository: ${local.parsed["logsigner"].repo}
+        version: ${local.parsed["logsigner"].digest}
     mysql:
       fullnameOverride: trillian-mysql
 
@@ -150,9 +150,9 @@ locals {
     forceNamespace: tuf-system
     fullnameOverride: tuf
     deployment:
-      registry: ${data.oci_string.images["tuf-server"].registry}
-      repository: ${data.oci_string.images["tuf-server"].repo}
-      version: ${data.oci_string.images["tuf-server"].digest}
+      registry: ${local.parsed["tuf-server"].registry}
+      repository: ${local.parsed["tuf-server"].repo}
+      version: ${local.parsed["tuf-server"].digest}
 
     secrets:
       rekor:
@@ -187,8 +187,8 @@ locals {
         signer: memory
         creds: "dummycredentials" # TODO: priyawadhwa: the upstream chart requires this, priya to remove the requirement upstream
       image:
-        registry: ${data.oci_string.images["tsa-server"].registry}
-        repository: ${data.oci_string.images["tsa-server"].repo}
-        version: ${data.oci_string.images["tsa-server"].digest}
+        registry: ${local.parsed["tsa-server"].registry}
+        repository: ${local.parsed["tsa-server"].repo}
+        version: ${local.parsed["tsa-server"].digest}
   EOF
 }

@@ -14,7 +14,7 @@ variable "digest" {
 # [metadata.labels: Invalid value: "unused@sha256:d92268eff1c19eba6c809303294c5041d98f793746d5f5a0212519391fce3b22": must be no more than 63 characters
 # https://github.com/dysnix/charts/blob/main/dysnix/proxysql/templates/_helpers.tpl?rgh-link-date=2023-07-06T13%3A57%3A36Z#L41
 
-# data "oci_string" "ref" { input = var.digest }
+# locals { parsed = provider::oci::parse(var.digest) }
 
 # resource "helm_release" "proxysql" {
 #   name = "proxysql"
@@ -27,9 +27,9 @@ variable "digest" {
 
 #   values = [jsonencode({
 #     image = {
-#       registry   = data.oci_string.ref.registry
-#       repository = data.oci_string.ref.repo
-#       tag        = data.oci_string.ref.pseudo_tag
+#       registry   = local.parsed.registry
+#       repository = local.parsed.repo
+#       tag        = local.parsed.pseudo_tag
 #     }
 #   })]
 # }

@@ -9,9 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" {
-  input = var.digest
-}
+locals { parsed = provider::oci::parse(var.digest) }
 
 resource "random_pet" "suffix" {}
 
@@ -31,7 +29,7 @@ resource "imagetest_harness_k3s" "k3s" {
 
     envs = {
       "NAMESPACE" : "spark"
-      "IMAGE" : "${data.oci_string.ref.registry_repo}:${data.oci_string.ref.pseudo_tag}"
+      "IMAGE" : "${local.parsed.registry_repo}:${local.parsed.pseudo_tag}"
     }
   }
 }
@@ -61,8 +59,8 @@ module "helm-spark-operator" {
   values = {
     image = {
       registry   = ""
-      repository = data.oci_string.ref.registry_repo
-      tag        = data.oci_string.ref.pseudo_tag
+      repository = local.parsed.registry_repo
+      tag        = local.parsed.pseudo_tag
     },
   }
 }

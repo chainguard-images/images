@@ -395,6 +395,11 @@ module "fluent-bit" {
   target_repository = "${var.target_repository}/fluent-bit"
 }
 
+module "fluent-bit-plugin-loki" {
+  source            = "./images/fluent-bit-plugin-loki"
+  target_repository = "${var.target_repository}/fluent-bit-plugin-loki"
+}
+
 module "fluentd" {
   source            = "./images/fluentd"
   target_repository = "${var.target_repository}/fluentd"
@@ -480,9 +485,19 @@ module "grafana-agent-operator" {
   target_repository = "${var.target_repository}/grafana-agent-operator"
 }
 
+module "grafana-mimir" {
+  source            = "./images/grafana-mimir"
+  target_repository = "${var.target_repository}/grafana-mimir"
+}
+
 module "grafana-operator" {
   source            = "./images/grafana-operator"
   target_repository = "${var.target_repository}/grafana-operator"
+}
+
+module "grafana-rollout-operator" {
+  source            = "./images/grafana-rollout-operator"
+  target_repository = "${var.target_repository}/grafana-rollout-operator"
 }
 
 module "grype" {
@@ -575,6 +590,11 @@ module "jitsucom-bulker" {
   target_repository = "${var.target_repository}/jitsucom-bulker"
 }
 
+module "jitsucom-jitsu" {
+  source            = "./images/jitsucom-jitsu"
+  target_repository = "${var.target_repository}/jitsucom-jitsu"
+}
+
 module "jre" {
   source            = "./images/jre"
   target_repository = "${var.target_repository}/jre"
@@ -623,6 +643,11 @@ module "keda" {
 module "keycloak" {
   source            = "./images/keycloak"
   target_repository = "${var.target_repository}/keycloak"
+}
+
+module "keycloak-operator" {
+  source            = "./images/keycloak-operator"
+  target_repository = "${var.target_repository}/keycloak-operator"
 }
 
 module "ko" {
@@ -1021,6 +1046,11 @@ module "nvidia-device-plugin" {
 module "oauth2-proxy" {
   source            = "./images/oauth2-proxy"
   target_repository = "${var.target_repository}/oauth2-proxy"
+}
+
+module "octo-sts" {
+  source            = "./images/octo-sts"
+  target_repository = "${var.target_repository}/octo-sts"
 }
 
 module "openai" {
@@ -1859,6 +1889,10 @@ output "summary_fluent-bit" {
   value = module.fluent-bit.summary
 }
 
+output "summary_fluent-bit-plugin-loki" {
+  value = module.fluent-bit-plugin-loki.summary
+}
+
 output "summary_fluentd" {
   value = module.fluentd.summary
 }
@@ -1927,8 +1961,16 @@ output "summary_grafana-agent-operator" {
   value = module.grafana-agent-operator.summary
 }
 
+output "summary_grafana-mimir" {
+  value = module.grafana-mimir.summary
+}
+
 output "summary_grafana-operator" {
   value = module.grafana-operator.summary
+}
+
+output "summary_grafana-rollout-operator" {
+  value = module.grafana-rollout-operator.summary
 }
 
 output "summary_grype" {
@@ -2003,6 +2045,10 @@ output "summary_jitsucom-bulker" {
   value = module.jitsucom-bulker.summary
 }
 
+output "summary_jitsucom-jitsu" {
+  value = module.jitsucom-jitsu.summary
+}
+
 output "summary_jre" {
   value = module.jre.summary
 }
@@ -2041,6 +2087,10 @@ output "summary_keda" {
 
 output "summary_keycloak" {
   value = module.keycloak.summary
+}
+
+output "summary_keycloak-operator" {
+  value = module.keycloak-operator.summary
 }
 
 output "summary_ko" {
@@ -2353,6 +2403,10 @@ output "summary_nvidia-device-plugin" {
 
 output "summary_oauth2-proxy" {
   value = module.oauth2-proxy.summary
+}
+
+output "summary_octo-sts" {
+  value = module.octo-sts.summary
 }
 
 output "summary_openai" {

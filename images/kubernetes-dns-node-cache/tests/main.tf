@@ -10,9 +10,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" {
-  input = var.digest
-}
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -37,8 +35,8 @@ module "helm" {
   name   = "node-local-dns"
   values = {
     image = {
-      repository = data.oci_string.ref.registry_repo
-      tag        = data.oci_string.ref.pseudo_tag
+      repository = local.parsed.registry_repo
+      tag        = local.parsed.pseudo_tag
     }
     config = {
       localDns = "0.0.0.0"

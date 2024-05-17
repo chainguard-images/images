@@ -15,10 +15,7 @@ variable "digests" {
 }
 
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 resource "random_pet" "suffix" {}
 
@@ -32,17 +29,17 @@ resource "helm_release" "redis" {
   values = [
     jsonencode({
       image = {
-        registry   = data.oci_string.ref["server"].registry
-        repository = data.oci_string.ref["server"].repo
-        digest     = data.oci_string.ref["server"].digest
+        registry   = local.parsed["server"].registry
+        repository = local.parsed["server"].repo
+        digest     = local.parsed["server"].digest
       }
 
       sentinel = {
         enabled = true
         image = {
-          registry   = data.oci_string.ref["sentinel"].registry
-          repository = data.oci_string.ref["sentinel"].repo
-          digest     = data.oci_string.ref["sentinel"].digest
+          registry   = local.parsed["sentinel"].registry
+          repository = local.parsed["sentinel"].repo
+          digest     = local.parsed["sentinel"].digest
         }
       }
     })

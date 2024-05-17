@@ -9,9 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" {
-  input = var.digest
-}
+locals { parsed = provider::oci::parse(var.digest) }
 
 resource "random_pet" "suffix" {}
 
@@ -26,15 +24,15 @@ resource "helm_release" "kube-prometheus-stack" {
   // operator
   set {
     name  = "prometheusOperator.image.registry"
-    value = data.oci_string.ref.registry
+    value = local.parsed.registry
   }
   set {
     name  = "prometheusOperator.image.repository"
-    value = data.oci_string.ref.repo
+    value = local.parsed.repo
   }
   set {
     name  = "prometheusOperator.image.tag"
-    value = data.oci_string.ref.pseudo_tag
+    value = local.parsed.pseudo_tag
   }
 }
 

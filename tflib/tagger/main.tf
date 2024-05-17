@@ -15,13 +15,10 @@ variable "exclude" {
   description = "The set of tags to exclude."
 }
 
-data "oci_string" "repos" {
-  for_each = var.tags
-  input    = each.value
-}
+locals { parsed = { for k, v in var.tags : k => provider::oci::parse(v) } }
 
 locals {
-  repos = toset([for k, v in data.oci_string.repos : "${v.registry}/${v.repo}"])
+  repos = toset([for k, v in local.parsed : "${v.registry}/${v.repo}"])
 }
 
 resource "oci_tag" "this" {

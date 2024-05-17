@@ -14,10 +14,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 variable "namespace" {
   default = "jitsucom-bulker"
@@ -52,20 +49,20 @@ module "helm" {
   values = {
     bulker = {
       image = {
-        repository = data.oci_string.ref["bulker"].registry_repo
-        tag        = data.oci_string.ref["bulker"].pseudo_tag
+        repository = local.parsed["bulker"].registry_repo
+        tag        = local.parsed["bulker"].pseudo_tag
       }
     }
     ingest = {
       image = {
-        repository = data.oci_string.ref["ingest"].registry_repo
-        tag        = data.oci_string.ref["ingest"].pseudo_tag
+        repository = local.parsed["ingest"].registry_repo
+        tag        = local.parsed["ingest"].pseudo_tag
       }
     }
     syncctl = {
       image = {
-        repository = data.oci_string.ref["syncctl"].registry_repo
-        tag        = data.oci_string.ref["syncctl"].pseudo_tag
+        repository = local.parsed["syncctl"].registry_repo
+        tag        = local.parsed["syncctl"].pseudo_tag
       }
     }
     tokenGenerator = {

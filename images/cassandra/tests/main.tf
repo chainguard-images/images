@@ -12,7 +12,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 resource "random_pet" "suffix" {}
 
@@ -74,7 +74,7 @@ resource "kubernetes_stateful_set" "cassandra" {
       spec {
         container {
           name  = "cassandra"
-          image = "${data.oci_string.ref.registry_repo}:${data.oci_string.ref.pseudo_tag}"
+          image = "${local.parsed.registry_repo}:${local.parsed.pseudo_tag}"
 
           port {
             name           = "intra-node"

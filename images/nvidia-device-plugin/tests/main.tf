@@ -13,7 +13,7 @@ variable "name" {
   default = "nvidia-device-plugin"
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -40,7 +40,7 @@ module "helm" {
 
   values = {
     image = {
-      repository = data.oci_string.ref.registry_repo
+      repository = local.parsed.registry_repo
       tag        = "unused@${element(split("@", var.digest), 1)}"
     }
   }

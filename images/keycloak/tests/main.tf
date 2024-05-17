@@ -22,9 +22,7 @@ data "oci_exec_test" "help" {
   digest = var.digest
   script = "docker run --rm $IMAGE_NAME --help"
 }
-data "oci_string" "ref" {
-  input = var.digest
-}
+locals { parsed = provider::oci::parse(var.digest) }
 
 resource "random_pet" "suffix" {}
 
@@ -36,8 +34,8 @@ resource "helm_release" "test" {
   values = [jsonencode({
     image = {
       registry   = ""
-      repository = data.oci_string.ref.registry_repo,
-      digest     = data.oci_string.ref.digest
+      repository = local.parsed.registry_repo,
+      digest     = local.parsed.digest
     },
     args = var.args
   })]

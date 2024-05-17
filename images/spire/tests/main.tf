@@ -14,10 +14,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -46,9 +43,9 @@ module "spire" {
     spire-server = {
       enabled = true
       image = {
-        registry   = data.oci_string.ref["server"].registry
-        repository = data.oci_string.ref["server"].repo
-        tag        = data.oci_string.ref["server"].pseudo_tag
+        registry   = local.parsed["server"].registry
+        repository = local.parsed["server"].repo
+        tag        = local.parsed["server"].pseudo_tag
       }
       tools = {
         kubectl = {
@@ -63,9 +60,9 @@ module "spire" {
     spire-agent = {
       enabled = true
       image = {
-        registry   = data.oci_string.ref["agent"].registry
-        repository = data.oci_string.ref["agent"].repo
-        tag        = data.oci_string.ref["agent"].pseudo_tag
+        registry   = local.parsed["agent"].registry
+        repository = local.parsed["agent"].repo
+        tag        = local.parsed["agent"].pseudo_tag
       }
       tools = {
         kubectl = {
@@ -80,9 +77,9 @@ module "spire" {
     spiffe-oidc-discovery-provider = {
       enabled = true
       image = {
-        registry   = data.oci_string.ref["oidc-discovery-provider"].registry
-        repository = data.oci_string.ref["oidc-discovery-provider"].repo
-        tag        = data.oci_string.ref["oidc-discovery-provider"].pseudo_tag
+        registry   = local.parsed["oidc-discovery-provider"].registry
+        repository = local.parsed["oidc-discovery-provider"].repo
+        tag        = local.parsed["oidc-discovery-provider"].pseudo_tag
       }
       config = {
         acme = {

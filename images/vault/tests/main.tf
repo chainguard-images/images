@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -12,59 +13,71 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
+
+data "imagetest_inventory" "this" {}
+
+resource "imagetest_harness_k3s" "this" {
+  name      = "vault"
+  inventory = data.imagetest_inventory.this
 }
 
-resource "random_pet" "suffix" {}
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-resource "helm_release" "vault" {
-  name             = "vault-${random_pet.suffix.id}"
-  namespace        = "vault-system-${random_pet.suffix.id}"
-  repository       = "https://helm.releases.hashicorp.com"
-  chart            = "vault"
-  create_namespace = true
+  name      = "vault"
+  namespace = "vault-system"
+  chart     = "vault"
+  repo      = "https://helm.releases.hashicorp.com"
 
-  values = [
-    jsonencode({
-      injector = {
-        agentImage = {
-          repository = data.oci_string.ref["vault"].registry_repo
-          tag        = data.oci_string.ref["vault"].pseudo_tag
-        }
-        image = {
-          repository = data.oci_string.ref["vault-k8s"].registry_repo
-          tag        = data.oci_string.ref["vault-k8s"].pseudo_tag
-        }
+  values = {
+    injector = {
+      agentImage = {
+        repository = local.parsed["vault"].registry_repo
+        tag        = local.parsed["vault"].pseudo_tag
       }
-      server = {
-        image = {
-          repository = data.oci_string.ref["vault"].registry_repo
-          tag        = data.oci_string.ref["vault"].pseudo_tag
-        }
+      image = {
+        repository = local.parsed["vault-k8s"].registry_repo
+        tag        = local.parsed["vault-k8s"].pseudo_tag
       }
-    })
+    }
+    server = {
+      image = {
+        repository = local.parsed["vault"].registry_repo
+        tag        = local.parsed["vault"].pseudo_tag
+      }
+    }
+  }
+}
+
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the vault image."
+
+  steps = [
+    {
+      name = "Helm install vault"
+      cmd  = module.helm.install_cmd
+    },
+    {
+      name = "Acceptance test"
+      cmd  = <<EOF
+apk add jq
+
+KEY=$(kubectl exec -n vault-system vault-0 -- vault operator init \
+  -key-shares=1 \
+  -key-threshold=1 \
+  -format=json | jq -r ".unseal_keys_b64[]")
+
+kubectl exec -n vault-system vault-0 -- vault operator unseal $KEY
+
+kubectl wait --for=condition=ready -n vault-system --timeout=120s pod/vault-0
+          EOF
+    },
   ]
-}
 
-data "oci_exec_test" "acceptance" {
-  digest     = var.digests["vault"]
-  script     = "${path.module}/acceptance.sh"
-  depends_on = [helm_release.vault]
-  env {
-    name  = "NAME"
-    value = "vault-${random_pet.suffix.id}"
+  labels = {
+    type = "k8s"
   }
-  env {
-    name  = "NAMESPACE"
-    value = "vault-system-${random_pet.suffix.id}"
-  }
-}
-
-module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.acceptance]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.vault.id
-  namespace  = helm_release.vault.namespace
 }
