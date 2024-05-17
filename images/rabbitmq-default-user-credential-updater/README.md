@@ -29,7 +29,7 @@ docker pull cgr.dev/chainguard/rabbitmq-default-user-credential-updater:latest
 ## Usage
 
 This image is a drop-in replacement for the upstream image.
-For exampl, you can run it using the upstream RabbitMQ Cluster Operator deployment by
+For example, you can run it using the upstream RabbitMQ Cluster Operator deployment by
 defining the `DEFAULT_USER_UPDATER_IMAGE` environment variable:
 
 ```shell

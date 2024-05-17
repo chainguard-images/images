@@ -88,7 +88,7 @@ patches:
       path: "/spec/template/spec/containers/0/env/-"
       value: 
         name: DEFAULT_USER_UPDATER_IMAGE
-        value: "${var.digest}"
+        value: "${local.parsed.registry_repo}:${local.parsed.pseudo_tag}"
   target:
     kind: Deployment
     namespace: rabbitmq-system
