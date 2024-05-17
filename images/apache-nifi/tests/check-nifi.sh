@@ -37,13 +37,15 @@ trap "docker stop ${CONTAINER_NAME}" EXIT
 
 # Validate that NiFi container logs contain expected log messages.
 TEST_validate_container_logs() {
+  apk add grep
+
   for ((i=1; i<=${REQUEST_RETRIES}; i++)); do
     local logs=$(docker logs "${CONTAINER_NAME}" 2>&1)
     local logs_found=true
 
     # Search the container logs for our expected log lines.
     for log in "${expected_logs[@]}"; do
-      if ! echo "$logs" | grep -Fq "$log"; then
+      if ! echo "$logs" | /usr/bin/grep -Fq "$log"; then
         logs_found=false
       fi
     done
@@ -58,7 +60,7 @@ TEST_validate_container_logs() {
 
   # After all retries, record the missing logs
   for log in "${expected_logs[@]}"; do
-    if ! echo "${logs}" | grep -Fq "$log"; then
+    if ! echo "${logs}" | /usr/bin/grep -Fq "$log"; then
       missing_logs+=("${log}")
     fi
   done
