@@ -85,9 +85,6 @@ check_status "Failed to copy files to webserver pod"
 kubectl exec $WEBSERVER_POD -- /bin/bash /opt/airflow/start_and_trigger.sh
 check_status "Failed to trigger DAG"
 
-# Wait for a few seconds to let the DAG run
-sleep 10
-
 # Get the name of the worker pod
 WORKER_POD=$(kubectl get pods -l component=worker -o jsonpath="{.items[0].metadata.name}")
 check_status "Failed to get worker pod"
