@@ -22,7 +22,7 @@ resource "imagetest_harness_k3s" "this" {
 
   sandbox = {
     envs = {
-      IMAGE : "${local.parsed.registry_repo}:${local.parsed.pseudo_tag}"
+      IMAGE : "${var.digest}"
     }
   }
 }
