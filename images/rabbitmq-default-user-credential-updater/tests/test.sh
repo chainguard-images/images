@@ -57,5 +57,3 @@ echo "Checking rabbitmqadmin CLI can authenticate with new password on server-0.
 with_retry "kubectl exec vault-default-user-server-0 -n $RABBITMQ_NAMESPACE -c rabbitmq -- rabbitmqadmin show overview"
 echo "Checking rabbitmqadmin CLI can authenticate with new password on server-1..."
 with_retry "kubectl exec vault-default-user-server-1 -n $RABBITMQ_NAMESPACE -c rabbitmq -- rabbitmqadmin show overview"
-echo "Checking rabbitmqadmin CLI can authenticate with new password on server-2..."
-with_retry "kubectl exec vault-default-user-server-2 -n $RABBITMQ_NAMESPACE -c rabbitmq -- rabbitmqadmin show overview"
