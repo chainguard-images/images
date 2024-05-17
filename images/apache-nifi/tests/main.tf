@@ -37,9 +37,7 @@ resource "imagetest_feature" "basic" {
     EOF
     }, {
     name = "Test NiFi"
-    cmd  = <<EOF
-      #/tests/check-nifi.sh
-    EOF
+    cmd  = "/tests/check-nifi.sh"
   }]
 
   labels = {
