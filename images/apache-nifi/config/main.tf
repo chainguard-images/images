@@ -32,18 +32,18 @@ output "config" {
       "JAVA_HOME" : "/usr/lib/jvm/default-jvm"
       "LANGUAGE" : "en_US:en"
       "LC_ALL" : "en_US.UTF-8"
-      "NIFI_BASE_DIR" : "/opt/nifi"
-      "NIFI_HOME" : "/opt/nifi/nifi-current"
-      "NIFI_TOOLKIT_HOME" : "/opt/nifi/nifi-toolkit-current"
-      "NIFI_PID_DIR" : "/opt/nifi/nifi-current/run"
-      "NIFI_LOG_DIR" : "/opt/nifi/nifi-current/logs"
+      "NIFI_BASE_DIR" : "/usr/share/nifi"
+      "NIFI_HOME" : "/usr/share/nifi/nifi-current"
+      "NIFI_TOOLKIT_HOME" : "/usr/share/nifi/nifi-toolkit-current"
+      "NIFI_PID_DIR" : "/usr/share/nifi/nifi-current/run"
+      "NIFI_LOG_DIR" : "/usr/share/nifi/nifi-current/logs"
     }, var.environment)
     entrypoint = {
       command = "../scripts/start.sh"
     }
-    work-dir = "/opt/nifi/nifi-current"
+    work-dir = "/usr/share/nifi/nifi-current"
     paths = [{
-      path        = "/opt/nifi/nifi-current"
+      path        = "/usr/share/nifi/nifi-current"
       type        = "directory"
       uid         = module.accts.block.run-as
       gid         = module.accts.block.run-as
