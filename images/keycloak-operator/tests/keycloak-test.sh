@@ -620,7 +620,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: RELATED_IMAGE_KEYCLOAK
-              value: cgr.dev/chainguard/keycloak:latest
+              value: ${KEYCLOAK_IMAGE}
           image: ${IMAGE_NAME}
           imagePullPolicy: Always
           livenessProbe:

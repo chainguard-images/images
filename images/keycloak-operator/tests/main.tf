@@ -9,6 +9,11 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "keycloak-image" {
+  description = "The keycloak image to test with the keycloak operator."
+  default     = "cgr.dev/chainguard/keycloak:latest"
+}
+
 data "imagetest_inventory" "this" {}
 
 resource "imagetest_harness_k3s" "this" {
@@ -23,7 +28,8 @@ resource "imagetest_harness_k3s" "this" {
       }
     ]
     envs = {
-      "IMAGE_NAME" = var.digest
+      "IMAGE_NAME"     = var.digest
+      "KEYCLOAK_IMAGE" = var.keycloak-image
     }
   }
 }
