@@ -34,6 +34,7 @@ resource "imagetest_feature" "basic" {
     name = "Ensure images are present in the daemon"
     cmd  = <<EOF
       docker pull "$IMAGE_NAME"
+      docker pull cgr.dev/chainguard/curl
     EOF
     }, {
     name = "Test NiFi"
