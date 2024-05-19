@@ -65,7 +65,7 @@ curl -s -X POST "http://localhost:<YOUR PORT>/nifi-api/process-groups/<ROOT PROC
 To validate the processor was successfully created, we can retrieve the processor details:
 
 ```bash
-curl -s -X GET "http://localhost:44317/nifi-api/processors/<PROCESSOR ID>"
+curl -s -X GET "http://localhost:<YOUR PORT>/nifi-api/processors/<PROCESSOR ID>"
 ```
 
 The processor's component name should be set to `GenerateFlowFile`.
