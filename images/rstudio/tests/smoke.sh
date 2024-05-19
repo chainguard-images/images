@@ -2,9 +2,8 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-CONTAINER_NAME="rstudio-$(uuidgen)"
-
-RSTUDIO_PORT="${FREE_PORT}"
+RSTUDIO_PORT=$(shuf -i 1024-65535 -n 1)
+CONTAINER_NAME="rstudio-${RSTUDIO_PORT}"
 
 REQUEST_RETRIES=10
 RETRY_DELAY=15
@@ -81,7 +80,7 @@ TEST_validate_container_logs() {
 # Check that RStudio responds 200 HTTP status code indicating it's operational.
 TEST_http_response() {
   for ((i=1; i<=${REQUEST_RETRIES}; i++)); do
-    if [ $(curl -o /dev/null -s -w "%{http_code}" "http://localhost:${RSTUDIO_PORT}/unsupported_browser.htm") -eq 200 ]; then
+    if [ $(docker run --network container:"${CONTAINER_NAME}" cgr.dev/chainguard/curl -o /dev/null -s -w "%{http_code}" "http://localhost:${RSTUDIO_PORT}/unsupported_browser.htm") -eq 200 ]; then
       return 0 
     fi
     sleep ${RETRY_DELAY}
