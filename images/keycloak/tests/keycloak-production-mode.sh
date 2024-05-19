@@ -1,108 +1,148 @@
 #!/usr/bin/env bash
 
-#
-# Tests Keycloak can be started in production mode. This requires a keystore to
-# be created and mounted into the Keycloak container image.
-#
+# Tests Keycloak in production mode. This requires a keystore to be created
+# and mounted into the Keycloak container image.
+
+# NOTE: '--http1.1' is used by the curl commands in this test, to work-around
+# an issue only reproducible in CI. This may not be requied in future:
+# `curl: (92) HTTP/2 stream 0 was not closed cleanly: PROTOCOL_ERROR.``
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 KEYCLOAK_HOSTNAME="localhost"
-KEYCLOAK_PORT=$FREE_PORT
-KEYCLOAK_URL="https://$KEYCLOAK_HOSTNAME:$KEYCLOAK_PORT"
-KEYSTORE_PATH="/tmp/server.keystore"
-KEYSTORE_PASSWORD="placeholder"
+KEYCLOAK_PORT=${FREE_PORT}
+KEYCLOAK_URL="https://${KEYCLOAK_HOSTNAME}:${KEYCLOAK_PORT}"
+KEYSTORE_PASSWORD="AbCdEfG0!12345678NotReal"
 
-# Define log entries we are looking for in the keycloak logs here.
-declare -a terms=(
+SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+TMPFOLDER="$(mktemp -d)"
+
+CONTAINER_NAME="keycloak-$(uuidgen)"
+
+REQUEST_RETRIES=10
+RETRY_DELAY=15
+
+expected_logs=(
   "Listening on: https://0.0.0.0:8443"
   "Profile prod activated"
 )
+missing_logs=()
 
-declare -a missing_terms=()
-
-create_keystore() {  
-  rm -rf "$KEYSTORE_PATH"
-  keytool -v -keystore $KEYSTORE_PATH \
-    -alias $KEYCLOAK_HOSTNAME \
+TEST_create_keystore() {
+  keytool -v -keystore "${TMPFOLDER}/server.keystore" \
+    -alias "$KEYCLOAK_HOSTNAME" \
     -genkeypair -sigalg SHA512withRSA -keyalg RSA \
-    -dname CN=$KEYCLOAK_HOSTNAME \
-    -storepass $KEYSTORE_PASSWORD
+    -dname "CN=$KEYCLOAK_HOSTNAME" \
+    -storepass "$KEYSTORE_PASSWORD"
 }
 
-start_container() {  
-  docker run \
-    -v "$KEYSTORE_PATH:/usr/share/java/keycloak/conf/server.keystore" \
+TEST_start_container() {
+  container_id=$(docker run \
+    -v "${TMPFOLDER}/server.keystore:/usr/share/java/keycloak/conf/server.keystore" \
     --detach --rm \
-    --name local-keycloak -p $KEYCLOAK_PORT:8443 \
+    --name "${CONTAINER_NAME}" -p "${KEYCLOAK_PORT}:8443" \
     -e KEYCLOAK_ADMIN=admin \
-    -e KEYCLOAK_ADMIN_PASSWORD=$KEYSTORE_PASSWORD \
+    -e KEYCLOAK_ADMIN_PASSWORD="${KEYSTORE_PASSWORD}" \
     "${IMAGE_NAME}" \
     start \
-    --hostname=$KEYCLOAK_HOSTNAME \
-    --https-key-store-password=$KEYSTORE_PASSWORD
-  sleep 15
+    --hostname="${KEYCLOAK_HOSTNAME}" \
+    --https-key-store-password="${KEYSTORE_PASSWORD}")
+    
+    trap "docker stop ${container_id} && rm -rf ${TMPFOLDER}" EXIT
+    sleep 15
+  
+    if ! docker ps --filter "name=${CONTAINER_NAME}" --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
+      echo "FAILED: ${CONTAINER_NAME} is not running."
+      exit 1
+    fi
 }
 
-search_logs() {
-  local retries=10
-  local delay=15
-
-  for ((i=1; i<=retries; i++)); do
+TEST_validate_container_logs() {
+  for ((i=1; i<=${REQUEST_RETRIES}; i++)); do
     local logs=$(docker logs "${container_id}" 2>&1)
-    local all_terms_found=true
+    local logs_found=true
 
-    for term in "${terms[@]}"; do
-      if echo "$logs" | grep -Fq "$term"; then
-        echo "Found log term: $term"
-      else
-        echo "Log term NOT found: $term (attempt $i of $retries)"
-        all_terms_found=false
+    # Search the container logs for our expected log lines.
+    for log in "${expected_logs[@]}"; do
+      if ! echo "$logs" | grep -Fq "$log"; then
+        logs_found=false
       fi
     done
 
-    if $all_terms_found; then
+    if $logs_found; then
       return 0
-    elif [[ $i -lt $retries ]]; then
-      echo "Some log terms were missing. Retrying in $delay seconds..."
-      sleep $delay
+    elif [[ $i -lt ${REQUEST_RETRIES} ]]; then
+      echo "Some expected logs were missing. Retrying in ${RETRY_DELAY} seconds..."
+      sleep ${RETRY_DELAY}
     fi
   done
 
-  # After all retries, record the missing terms
-  for term in "${terms[@]}"; do
-    if ! echo "$logs" | grep -Fq "$term"; then
-      missing_terms+=("$term")
+  # After all retries, record the missing logs
+  for log in "${expected_logs[@]}"; do
+    if ! echo "${logs}" | grep -Fq "$log"; then
+      missing_logs+=("${log}")
     fi
   done
 
-  echo "FAILED: After $retries attempts, the following terms were not found:"
-  printf '%s\n' "${missing_terms[@]}"
+  echo "FAILED: The following log lines where not found:"
+  printf '%s\n' "${missing_logs[@]}"
   exit 1
 }
 
-TEST_container_starts_ok() {
-    # Create Keystore and launch Keycloak
-    create_keystore
-    local -r container_id=$(start_container)
-    trap "docker stop ${container_id} && rm -rf ${KEYSTORE_PATH}" EXIT
+TEST_keycloak_api() {
+  local attempt=0
+  local success=false
 
-    # Check if the container is running
-    if ! docker ps --filter "name=local-keycloak" --format '{{.Names}}' | grep -q "^local-keycloak$"; then
-        echo "FAILED: Container local-keycloak is not running."
-        exit 1
+  while (( attempt < ${REQUEST_RETRIES} )); do
+    # Get an API token for Keycloak.
+    local response=$(
+      curl --http1.1 -k -w "\nHTTP_STATUS_CODE:%{http_code}\n" \
+        -X POST \
+        "${KEYCLOAK_URL}/realms/master/protocol/openid-connect/token" \
+        --user "admin-cli:Psip5UvTO1EXUEwzb15nxLWnwdU1Nlcg" \
+        -H "content-type: application/x-www-form-urlencoded" \
+        -d "username=admin" \
+        -d "password=${KEYSTORE_PASSWORD}" \
+        -d "grant_type=password"
+    )
+
+    local response_code=$(echo "${response}" | grep "HTTP_STATUS_CODE:" | cut -d':' -f2)
+    local content=$(echo "${response}" | sed '/HTTP_STATUS_CODE/d')
+
+    if [[ "${response_code}" == "200" ]]; then
+      local access_token=$(echo "${content}" | jq --raw-output '.access_token')
+
+      # Invoke Keycloaks API to retrieve a list of users.
+      local users_output=$(curl --http1.1 -kv -X GET "${KEYCLOAK_URL}/admin/realms/master/users" \
+        -H "Authorization: Bearer ${access_token}")
+      success=true
+      break
+    # If the API is not reachable, then re-try a number of times. CI is notably
+    # slower vs running tests locally.
     else
-        echo "Container local-keycloak is running."
+      sleep ${RETRY_DELAY}
     fi
+    attempt=$((attempt+1))
+  done
 
-    # Look for each log term. Will record any which are not found.
-    search_logs
+  # After all retries, if the API request failed, we exit.
+  if ! $success; then
+    echo "ERROR: Failed to get user data from the API after ${REQUEST_RETRIES} attempts." >&2
+    return 1
+  fi
 
-    if [[ ${#missing_terms[@]} -ne 0 ]]; then
-        echo "The following terms were not found:"
-        printf '%s\n' "${missing_terms[@]}"
-        exit 1
-    fi
+  # Finally, ensure that an 'admin' user was returned in the API repsonse.
+  extracted_username=$(echo "${users_output}" | jq -r '.[] | select(.username=="admin") | .username')
+  if [[ "${extracted_username}" == "admin" ]]; then
+    echo "Keycloak API correctly returned 'admin' user details."
+  else
+    echo "FAILED: No entry with username 'admin' found in the response: ${users_output}"
+    exit 1
+  fi
 }
 
-TEST_container_starts_ok
+
+TEST_create_keystore
+TEST_start_container
+TEST_validate_container_logs
+TEST_keycloak_api

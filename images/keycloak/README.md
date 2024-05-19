@@ -46,22 +46,10 @@ To launch a production instance of Keycloak, refer to the examples in the
 [following documentation](https://github.com/keycloak/keycloak/blob/main/docs/guides/server/containers.adoc),
 as this is dependent on environment-specific settings and customizations.
 
-### Helm
+### Kubernetes operator
 
-To launch a development instance of keycloak in k8s using the following
-[helm chart](https://github.com/bitnami/charts/tree/main/bitnami/keycloak):
-
-```bash
-helm install keycloak oci://registry-1.docker.io/bitnamicharts/keycloak \
-  --set image.registry=cgr.dev \
-  --set image.repository=chainguard/keycloak \
-  --set image.tag=latest \
-  --set "args={start-dev}"
-```
-
-Refer to the [keycloak](https://github.com/keycloak/keycloak/blob/main/docs/guides/server/containers.adoc)
-and [helm chart](https://github.com/bitnami/charts/tree/main/bitnami/keycloak)
-documentation for more detail.
+To deploy Keycloak leveraging the Keycloak operator, refer to the documentation
+for our [Keycloak operator image](https://images.chainguard.dev/directory/image/keycloak-operator).
 
 ### Customizing the image
 

@@ -24,29 +24,15 @@ data "oci_exec_test" "help" {
 }
 locals { parsed = provider::oci::parse(var.digest) }
 
-resource "random_pet" "suffix" {}
-
-resource "helm_release" "test" {
-  name       = "keycloak-${random_pet.suffix.id}"
-  repository = "oci://registry-1.docker.io/bitnamicharts"
-  chart      = "keycloak"
-  version    = "19.1.0"
-  values = [jsonencode({
-    image = {
-      registry   = ""
-      repository = local.parsed.registry_repo,
-      digest     = local.parsed.digest
-    },
-    args = var.args
-  })]
-}
-
+# Run keycloak tests.
 data "oci_exec_test" "keycloak-production-test" {
   digest = var.digest
   script = "${path.module}/keycloak-production-mode.sh"
 }
 
-module "helm_cleanup" {
-  source = "../../../tflib/helm-cleanup"
-  name   = helm_release.test.id
+# Run the keycloak-operator image tests with this image.
+module "run-keycloak-tests" {
+  source         = "../../keycloak-operator/tests"
+  digest         = "cgr.dev/chainguard/keycloak-operator:latest"
+  keycloak-image = var.digest
 }
