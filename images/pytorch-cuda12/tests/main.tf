@@ -66,11 +66,11 @@ resource "imagetest_feature" "basic" {
   description = "Basic functionality of the Pytorch Helm chart."
 
   steps = [
+    /*
     {
       name = "Helm install"
       cmd  = module.helm.install_cmd
-    },
-    /*		
+    },		
     {
       name    = "Pytorch Helm tests"
       workdir = "/tests"
