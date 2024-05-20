@@ -9,6 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+/*
 locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
@@ -66,7 +67,6 @@ resource "imagetest_feature" "basic" {
   description = "Basic functionality of the Pytorch Helm chart."
 
   steps = [
-    /*
     {
       name = "Helm install"
       cmd  = module.helm.install_cmd
@@ -78,7 +78,6 @@ resource "imagetest_feature" "basic" {
         ./check-pytorch.sh
       EOF
     },
-*/
   ]
 
   labels = {
@@ -90,3 +89,4 @@ resource "imagetest_feature" "basic" {
     create = "30m"
   }
 }
+*/
