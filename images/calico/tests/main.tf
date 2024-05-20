@@ -16,6 +16,7 @@ variable "digests" {
     typha                 = string
     node-driver-registrar = string
     calicoctl             = string
+    apiserver             = string
   })
 }
 
@@ -72,6 +73,8 @@ spec:
       digest: ${local.parsed["csi"].digest}
     - image: calico/typha
       digest: ${local.parsed["typha"].digest}
+    - image: calico/apiserver
+      digest: ${local.parsed["apiserver"].digest}
     - image: calico/node-driver-registrar
       digest: ${local.parsed["node-driver-registrar"].digest}
 EOm
