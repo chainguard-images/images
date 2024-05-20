@@ -53,9 +53,8 @@ locals { parsed = provider::oci::parse(var.digest) }
 module "helm" {
   source = "../../../tflib/imagetest/helm"
 
-  name      = "TODO"
-  namespace = "TODO"
-  chart     = "TODO"
+  name  = "TODO"
+  chart = "TODO"
 
   values = {
     image = {
