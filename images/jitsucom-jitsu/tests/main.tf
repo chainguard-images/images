@@ -13,10 +13,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -44,14 +41,14 @@ module "helm" {
   values = {
     console = {
       image = {
-        repository = data.oci_string.ref["console"].registry_repo
-        tag        = data.oci_string.ref["console"].pseudo_tag
+        repository = local.parsed["console"].registry_repo
+        tag        = local.parsed["console"].pseudo_tag
       }
     }
     rotor = {
       image = {
-        repository = data.oci_string.ref["rotor"].registry_repo
-        tag        = data.oci_string.ref["rotor"].pseudo_tag
+        repository = local.parsed["rotor"].registry_repo
+        tag        = local.parsed["rotor"].pseudo_tag
       }
     }
     tokenGenerator = {

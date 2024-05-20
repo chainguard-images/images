@@ -1,6 +1,6 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -8,7 +8,23 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME version"
+data "imagetest_inventory" "inventory" {}
+
+resource "imagetest_harness_docker" "docker" {
+  name      = "docker"
+  inventory = data.imagetest_inventory.inventory
+
+  envs = {
+    IMAGE_NAME : var.digest
+  }
+}
+
+resource "imagetest_feature" "test" {
+  name    = "test"
+  harness = imagetest_harness_docker.docker
+
+  steps = [{
+    name = "basic test"
+    cmd  = "docker run --rm $IMAGE_NAME version"
+  }]
 }

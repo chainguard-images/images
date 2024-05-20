@@ -80,6 +80,11 @@ provider "helm" {
 
 variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
 
+module "blah" {
+  source            = "./images/blah"
+  target_repository = "${var.target_repository}/blah"
+}
+
 module "busybox" {
   source            = "./images/busybox"
   target_repository = "${var.target_repository}/busybox"
