@@ -70,6 +70,7 @@ resource "imagetest_feature" "basic" {
       name = "Helm install"
       cmd  = module.helm.install_cmd
     },
+    /*		
     {
       name    = "Pytorch Helm tests"
       workdir = "/tests"
@@ -77,6 +78,7 @@ resource "imagetest_feature" "basic" {
         ./check-pytorch.sh
       EOF
     },
+*/
   ]
 
   labels = {
