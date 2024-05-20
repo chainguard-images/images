@@ -48,6 +48,8 @@ spec:
       digest: ${CSI_DIGEST}
     - image: calico/typha
       digest: ${TYPHA_DIGEST}
+    - image: calico/apiserver
+      digest: ${APISERVER_DIGEST}
     - image: calico/node-driver-registrar
       digest: ${NODE_DRIVER_REGISTRAR_DIGEST}
     # This isn't used on Linux, it just needs to have a value.

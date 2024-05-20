@@ -7,7 +7,8 @@ locals {
     "csi",
     "typha",
     "pod2daemon",
-    "node-driver-registrar"
+    "node-driver-registrar",
+    "apiserver"
   ])
 
   // Normally the package is named like "calico-{component}"
