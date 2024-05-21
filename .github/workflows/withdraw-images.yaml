@@ -28,8 +28,10 @@ jobs:
       - run: |
           for img in $(grep -v '\#' withdrawn-images.txt); do
             if [[ "${{ github.event.inputs.dry_run }}" == "false" ]]; then
-              crane delete $img || true
+              crane delete "$img" || true
+              crane delete "$img-dev" || true
             else
               echo "DRY RUN: crane delete $img || true"
+              echo "DRY RUN: crane delete $img-dev || true"
             fi
           done
