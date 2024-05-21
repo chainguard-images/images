@@ -1,6 +1,5 @@
 contents:
   packages:
-    - calico-node
     - busybox
 
 accounts:

@@ -1,6 +1,5 @@
 contents:
-  packages:
-    - calico-apiserver
+  packages: []
 
 accounts:
   groups:
