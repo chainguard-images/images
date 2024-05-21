@@ -97,14 +97,14 @@ jobs:
           terraform_version: '1.8.*'
           terraform_wrapper: false
 
-      - uses: chainguard-dev/actions/setup-chainctl@538d1927b846546b620784754c33e2a1db86e217 # main
+      - uses: chainguard-dev/actions/setup-chainctl@ba1a9c9ffe799736883d58f31caff18d85b2800e # main
         with:
           # This allows chainguard-images/images-private to publish images to cgr.dev/chainguard-private
           # We maintain this identity here:
           # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
           identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
 
-      - uses: chainguard-dev/actions/setup-k3d@538d1927b846546b620784754c33e2a1db86e217 # main
+      - uses: chainguard-dev/actions/setup-k3d@ba1a9c9ffe799736883d58f31caff18d85b2800e # main
         with:
           k3s-image: cgr.dev/chainguard/k3s:latest@sha256:1dd18987ffa4b383cf969c20c534d4fcb667e6a0801d41917c99a2c34c192557
 
@@ -130,13 +130,13 @@ jobs:
       - name: Collect TF diagnostics
         if: ${{ always() }}
         id: tf-diag
-        uses: chainguard-dev/actions/terraform-diag@538d1927b846546b620784754c33e2a1db86e217 # main
+        uses: chainguard-dev/actions/terraform-diag@ba1a9c9ffe799736883d58f31caff18d85b2800e # main
         with:
           json-file: /tmp/mega-module.tf.json
 
       - name: Collect K8s diagnostics and upload
         if: ${{ failure() }}
-        uses: chainguard-dev/actions/k8s-diag@538d1927b846546b620784754c33e2a1db86e217 # main
+        uses: chainguard-dev/actions/k8s-diag@ba1a9c9ffe799736883d58f31caff18d85b2800e # main
         with:
           artifact-name: "k8s-test-harness-${{ matrix.shard.index }}-logs"
           cluster-type: k3d
