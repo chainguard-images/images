@@ -12,4 +12,4 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command: /usr/local/bin/neuvector-monitor
+  command: neuvector-scanner-monitor
