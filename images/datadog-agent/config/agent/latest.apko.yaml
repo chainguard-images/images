@@ -41,6 +41,7 @@ volumes:
 cmd: "/bin/entrypoint.sh"
 
 environment:
+  PYTHONPATH: "/usr/share/datadog-agent/lib/python3.11/site-packages"
   # https://github.com/DataDog/datadog-agent/blob/main/Dockerfiles/agent/Dockerfile#L112
   PATH: "/opt/datadog-agent/bin/agent/:/opt/datadog-agent/embedded/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/jvm/java-11-openjdk/bin"
   CURL_CA_BUNDLE: "/opt/datadog-agent/embedded/ssl/certs/cacert.pem"
