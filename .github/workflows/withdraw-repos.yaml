@@ -21,7 +21,7 @@ jobs:
           egress-policy: audit
 
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
-      - uses: chainguard-dev/actions/setup-chainctl@ba1a9c9ffe799736883d58f31caff18d85b2800e # main
+      - uses: chainguard-dev/setup-chainctl@58c1184bfdcf53576831252e68198d8df26f3e1b # v0.1.0
         with:
           identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
       - run: |
