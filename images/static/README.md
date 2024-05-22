@@ -26,6 +26,16 @@ docker pull cgr.dev/chainguard/static:latest
 <!--getting:end-->
 
 <!--body:start-->
+## Upcoming Changes
+
+On July 15, 2024 the `static:latest` image will move from a Alpine base to a Wolfi base,
+in-line with all other images in our registry. We do not expect this to cause breakages, but
+encourage all users to test and verify the new version.
+
+You can test today by migrating to the `cgr.dev/chainguard/static:latest-glibc` image. From July 15, the `:latest` and `:latest-glibc` will point to the same image.
+
+Full details are in [this blog post](https://www.chainguard.dev/unchained/changes-to-static-git-and-busybox-developer-images-2).
+
 ## Usage
 
 Chainguard's static Images are meant to be used as a base image only and are not intended to be run directly.
