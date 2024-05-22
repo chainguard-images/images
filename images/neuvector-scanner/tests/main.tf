@@ -17,14 +17,23 @@ locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
-resource "random_pet" "suffix" {}
-
 module "helm-neuvector" {
   source    = "../../../tflib/imagetest/helm"
-  name      = "neuvector-core-${random_pet.suffix.id}"
+  name      = "neuvector-core"
   namespace = "neuvector"
   repo      = "https://neuvector.github.io/neuvector-helm"
   chart     = "core"
+  values = {
+    cve = {
+      scanner = {
+        image = {
+          registry   = local.parsed.registry
+          repository = local.parsed.repo
+          tag        = local.parsed.pseudo_tag
+        }
+      }
+    }
+  }
 }
 
 resource "imagetest_harness_k3s" "this" {
@@ -41,12 +50,6 @@ resource "imagetest_feature" "basic" {
     {
       name = "Helm install neuvector scanner"
       cmd  = module.helm-neuvector.install_cmd
-    },
-    {
-      name = "Set image"
-      cmd  = <<EOF
-kubectl set image -n neuvector deployment/neuvector-scanner-pod neuvector-scanner-pod="${data.oci_string.ref.registry_repo}:${data.oci_string.ref.pseudo_tag}"
-EOF
     },
     {
       name  = "Ensure it comes up healthy"

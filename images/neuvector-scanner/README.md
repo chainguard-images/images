@@ -38,8 +38,8 @@ Next, install the NeuVector Scanner with the following command:
 helm install neuvector-scanner neuvector/core \
     --namespace neuvector \
     --create-namespace \
-    --set exporter.image.repository=cgr.dev/chainguard/neuvector-scanner \
-    --set exporter.image.tag=<set to the latest chainguard tag>
+    --set cve.scanner.image.repository=cgr.dev/chainguard/neuvector-scanner \
+    --set cve.scanner.image.tag=<set to the latest chainguard tag>
 ```
 
 Jump to the official [Helm Chart](https://github.com/neuvector/neuvector-helm/blob/master/charts/core/README.md) for more detailed usage.
