@@ -1,0 +1,12 @@
+ame: neuvector-scanner
+image: cgr.dev/chainguard/neuvector-scanner
+logo: https://storage.googleapis.com/chainguard-academy/logos/neuvector-scanner.svg
+endoflife: ""
+console_summary: ""
+short_description: NeuVector vulnerability scanner for the SUSE NeuVector Container Security Platform
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/neuvector/scanner
+keywords:
+  - application
+  - tools
