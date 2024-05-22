@@ -9,10 +9,6 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" {
-  input = var.digest
-}
-
 locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
@@ -84,19 +80,6 @@ EOF
 resource "imagetest_harness_docker" "this" {
   name      = "neuvector-scanner-standalone"
   inventory = data.imagetest_inventory.this
-
-  envs = {
-    IMAGE_REGISTRY   = data.oci_string.ref.registry
-    IMAGE_REPOSITORY = data.oci_string.ref.repo
-    IMAGE_TAG        = data.oci_string.ref.pseudo_tag
-  }
-
-  mounts = [
-    {
-      source      = path.module
-      destination = "/tests"
-    }
-  ]
 }
 
 resource "imagetest_feature" "container_runs" {
@@ -107,7 +90,9 @@ resource "imagetest_feature" "container_runs" {
   steps = [
     {
       name = "Check scanner is running in standalone mode"
-      cmd  = "docker run --rm $IMAGE_REGISTRY/$IMAGE_REPOSITORY:$IMAGE_TAG -image ubuntu:18.04"
+      cmd  = <<EOF
+        docker run --rm ${var.digest} -image ubuntu:18.04
+      EOF
     },
   ]
 
