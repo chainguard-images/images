@@ -108,14 +108,9 @@ func (o scaffoldOptions) runScaffold(ctx context.Context) error {
 		return err
 	}
 
-	// read, render, then write main.tf
-	if err := o.readMainTf(); err != nil {
-		return err
-	}
-	if err := o.addModuleToMainTf(); err != nil {
-		return err
-	}
-	return o.writeMainTf()
+	log.Println("scaffolding complete, run `make tfgen` to generate the terraform files")
+
+	return nil
 }
 
 func (o *scaffoldOptions) walk(path string, info os.FileInfo, err error) error {
