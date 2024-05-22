@@ -93,6 +93,11 @@ module "calico" {
   target_repository = "${var.target_repository}/calico"
 }
 
+module "crane" {
+  source            = "./images/crane"
+  target_repository = "${var.target_repository}/crane"
+}
+
 module "git" {
   source            = "./images/git"
   target_repository = "${var.target_repository}/git"
@@ -114,6 +119,11 @@ module "harbor" {
 module "k3s" {
   source            = "./images/k3s"
   target_repository = "${var.target_repository}/k3s"
+}
+
+module "ko" {
+  source            = "./images/ko"
+  target_repository = "${var.target_repository}/ko"
 }
 
 module "kubeflow" {

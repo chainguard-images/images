@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
+    oci       = { source = "chainguard-dev/oci" }
   }
 }
 
@@ -8,27 +9,82 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME version"
+data "imagetest_inventory" "inventory" {}
+
+// TODO: Run a simple Docker test to verify the image is working.
+
+resource "imagetest_harness_docker" "docker" {
+  name      = "docker"
+  inventory = data.imagetest_inventory.inventory
+
+  envs = {
+    IMAGE_NAME : var.digest
+  }
 }
 
-data "oci_exec_test" "manifest" {
-  digest = var.digest
-  script = "${path.module}/02-manifest.sh"
+resource "imagetest_feature" "test" {
+  name    = "docker-test"
+  harness = imagetest_harness_docker.docker
+
+  steps = [{
+    name = "basic test"
+    cmd  = "docker run --rm $IMAGE_NAME version"
+  }]
 }
 
-data "oci_exec_test" "digest" {
-  digest = var.digest
-  script = "${path.module}/03-digest.sh"
+// TODO: Run a simple K8s test to verify the image is working.
+
+resource "imagetest_harness_k3s" "k3s" {
+  name      = "k3s"
+  inventory = data.imagetest_inventory.inventory
+
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+  }
 }
 
-data "oci_exec_test" "ls" {
-  digest = var.digest
-  script = "${path.module}/04-ls.sh"
+locals { parsed = provider::oci::parse(var.digest) }
+
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  name  = "TODO"
+  chart = "TODO"
+
+  values = {
+    image = {
+      repository = local.parsed["console"].registry_repo
+      tag        = local.parsed["console"].pseudo_tag
+    }
+  }
 }
 
-data "oci_exec_test" "config" {
-  digest = var.digest
-  script = "${path.module}/05-config.sh"
+resource "imagetest_feature" "helm" {
+  name        = "helm-test"
+  description = "Basic Helm test"
+  harness     = imagetest_harness_k3s.k3s
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
+    },
+    {
+      name = "Verify installation"
+      cmd  = <<EOF
+
+      TODO: Add a test here to verify the installation.
+
+      EOF
+    }
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }
