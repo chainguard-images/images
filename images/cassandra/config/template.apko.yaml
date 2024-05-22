@@ -20,6 +20,8 @@ entrypoint:
 environment:
   LANG: en_US.UTF-8
   CASSANDRA_HOME: /opt/cassandra
+  CASSANDRA_CONF: /opt/cassandra/conf
+  CASSANDRA_LOGS_DIR: /opt/cassandra/logs
   PATH: /usr/sbin:/sbin:/usr/bin:/bin:/opt/cassandra/bin/
 
 paths:
@@ -30,6 +32,18 @@ paths:
     gid: 999
     recursive: true
   - path: /opt/cassandra
+    type: directory
+    permissions: 0o777
+    uid: 999
+    gid: 999
+    recursive: true
+  - path: /opt/cassandra/logs
+    type: directory
+    permissions: 0o777
+    uid: 999
+    gid: 999
+    recursive: true
+  - path: /opt/cassandra/conf
     type: directory
     permissions: 0o777
     uid: 999
