@@ -32,6 +32,31 @@ Note that there is also glibc version of this Image available:
 docker pull cgr.dev/chainguard/git:latest-glibc
 ```
 
+## Upcoming Changes
+
+On July 15, 2024 several images in this repository will move from a Alpine base to a Wolfi base,
+in-line with all other images in our registry. We do not expect this to cause breakages, but
+encourage all users to test and verify the new versions.
+
+The affected tags are:
+
+ - `latest`
+ - `latest-root` 
+ - `latest-dev` 
+ - `latest-root-dev`
+
+You can test today by migrating to one of the following images:
+
+ - `latest-glibc`
+ - `latest-glibc-root` 
+ - `latest-glibc-dev` 
+ - `latest-glibc-root-dev`
+
+From July 15 the `glibc` tag and the corresponding tag without `glibc` will point to the same
+images.
+
+Full details are in [this blog post](https://www.chainguard.dev/unchained/changes-to-static-git-and-busybox-developer-images-2).
+
 ## Usage
 
 Chainguard's Git Image allows you to run ordinary Git commands in CI/CD pipelines and also locally via Docker.
