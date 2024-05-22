@@ -15,10 +15,19 @@ variable "environment" {
   default     = {}
 }
 
+variable "extra_paths" {
+  description = "Additional paths to configure in the image."
+  default     = []
+}
+
+locals { decoded = yamldecode(file("${path.module}/template.apko.yaml")) }
+
 data "apko_config" "this" {
   config_contents = yamlencode(merge(
-    yamldecode(file("${path.module}/template.apko.yaml")),
-    { environment = var.environment },
+    local.decoded,
+    { environment = merge(local.decoded.environment, var.environment)
+      paths       = concat(local.decoded.paths, var.extra_paths)
+    }
   ))
   extra_packages = var.extra_packages
 }
