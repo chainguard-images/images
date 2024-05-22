@@ -1,6 +1,8 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
+
     kubernetes = {
       source  = "hashicorp/kubernetes"
       version = "~> 2.28.1"
@@ -196,4 +198,33 @@ resource "kubernetes_stateful_set" "cassandra" {
 
     service_name = kubernetes_service.cassandra.metadata[0].name
   }
+}
+
+data "imagetest_inventory" "this" {}
+
+resource "imagetest_harness_docker" "docker" {
+  name      = "cassandra"
+  inventory = data.imagetest_inventory.this
+
+  mounts = [{
+    source      = path.module
+    destination = "/tests"
+  }]
+
+  envs = {
+    IMAGE_NAME : var.digest
+  }
+}
+
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_docker.docker
+  name        = "Basic"
+  description = "Run Cassandra functionality tests."
+
+  steps = [
+    {
+      name = "Cassandra tests"
+      cmd  = "/tests/run-tests.sh"
+    }
+  ]
 }
