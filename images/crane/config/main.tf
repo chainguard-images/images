@@ -1,19 +1,24 @@
-terraform {
-  required_providers {
-    apko = { source = "chainguard-dev/apko" }
-  }
-}
-
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. crane)."
-  default     = ["crane"]
+  description = "The additional packages to install"
+  type        = list(string)
+  default     = []
 }
 
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
+module "accts" {
+  source = "../../../tflib/accts"
+  uid    = 65532
+  gid    = 65532
+  run-as = 65532
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    contents = {
+      packages = var.extra_packages
+    }
+    accounts = module.accts.block
+    entrypoint = {
+      command = "/usr/bin/crane"
+    }
+  })
 }
