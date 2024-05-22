@@ -21,6 +21,7 @@ module "versioned" {
   config            = module.config[each.key].config
   build-dev         = true
   main_package      = each.value.main
+  update-repo       = each.value.is_latest
 }
 
 module "test-versioned" {
