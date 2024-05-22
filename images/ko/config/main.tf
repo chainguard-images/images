@@ -14,15 +14,12 @@ module "accts" {
 output "config" {
   value = jsonencode({
     contents = {
-      packages = concat([
-        // TODO: Add any other packages here that are *always* needed.
-      ], var.extra_packages)
+      packages = concat(["busybox", "build-base", "go", "git"], var.extra_packages)
     }
     //
     accounts = module.accts.block
     entrypoint = {
       command = "/usr/bin/ko"
     }
-    // TODO: Add paths, envs, etc., where necessary.
   })
 }
