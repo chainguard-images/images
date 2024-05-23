@@ -1073,6 +1073,11 @@ module "openai" {
   target_repository = "${var.target_repository}/openai"
 }
 
+module "openscap" {
+  source            = "./images/openscap"
+  target_repository = "${var.target_repository}/openscap"
+}
+
 module "opensearch" {
   source            = "./images/opensearch"
   target_repository = "${var.target_repository}/opensearch"
@@ -2443,6 +2448,10 @@ output "summary_octo-sts" {
 
 output "summary_openai" {
   value = module.openai.summary
+}
+
+output "summary_openscap" {
+  value = module.openscap.summary
 }
 
 output "summary_opensearch" {
