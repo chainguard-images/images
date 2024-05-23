@@ -29,6 +29,11 @@ module "local-volume-provisioner" {
 
   build-dev    = true
   main_package = each.key
+
+  /*
+  Components missing an supplier: gawk
+  */
+  check-sbom = false # TODO(jason): Re-enable SBOM check
 }
 
 module "test" {

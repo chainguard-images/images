@@ -55,7 +55,7 @@ variable "update-repo" {
 
 variable "check-sbom" {
   type        = bool
-  default     = false
+  default     = true
   description = "Whether to run the NTIA conformance checker over the images we produce prior to attesting the SBOMs."
 }
 
@@ -91,7 +91,7 @@ locals {
 
 module "this" {
   source  = "chainguard-dev/apko/publisher"
-  version = "0.0.11"
+  version = "0.0.13"
 
   target_repository = var.target_repository
   config            = yamlencode(local.updated_config)
@@ -104,7 +104,7 @@ module "this" {
 module "this-dev" {
   count   = local.build-dev ? 1 : 0
   source  = "chainguard-dev/apko/publisher"
-  version = "0.0.11"
+  version = "0.0.13"
 
   target_repository = var.target_repository
 
