@@ -31,6 +31,13 @@ module "helm" {
   # the kyverno-policy-reporter tests
   source = "./helm"
   values = {
+    test = {
+      image = {
+        registry   = "cgr.dev"
+        repository = "chainguard/busybox"
+        tag        = "latest"
+      }
+    }
     admissionController = {
       container = {
         image = {
