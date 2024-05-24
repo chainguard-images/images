@@ -5,7 +5,7 @@ variable "values" {
 }
 
 variable "tigera_version" {
-  default = "3.27.0"
+  default = "3.28.0"
 }
 
 module "helm" {
