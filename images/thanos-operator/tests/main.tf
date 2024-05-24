@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -9,24 +9,46 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "name" {
+  default = "thanos-operator"
+}
+
 locals { parsed = provider::oci::parse(var.digest) }
 
-resource "helm_release" "thanos-operator" {
-  name             = "thanos-operator"
-  repository       = "https://kubernetes-charts.banzaicloud.com"
-  chart            = "thanos-operator"
-  create_namespace = true
+data "imagetest_inventory" "this" {}
 
-  values = [jsonencode({
+resource "imagetest_harness_k3s" "this" {
+  name      = var.name
+  inventory = data.imagetest_inventory.this
+}
+
+module "install" {
+  source = "../../../tflib/imagetest/helm"
+
+  repo  = "https://kubernetes-charts.banzaicloud.com"
+  chart = "thanos-operator"
+
+  values = {
     image = {
       repository = local.parsed.registry_repo
       tag        = local.parsed.pseudo_tag
     }
-  })]
+  }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.thanos-operator.id
-  namespace = helm_release.thanos-operator.namespace
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of ${var.name}."
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.install.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }
