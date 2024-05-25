@@ -1,0 +1,14 @@
+name: teleport
+image: cgr.dev/chainguard/teleport
+logo: https://storage.googleapis.com/chainguard-academy/logos/teleport.svg
+endoflife: ""
+console_summary: ""
+short_description: The easiest, and most secure way to access and protect all of your infrastructure.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/gravitational/teleport
+keywords:
+- teleport
+- ssh
+- kubernetes
+- security
