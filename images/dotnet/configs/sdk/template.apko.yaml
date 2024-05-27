@@ -12,4 +12,7 @@ accounts:
       uid: 65532
   run-as: 65532
 
+environment:
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+
 cmd: /bin/sh -l
