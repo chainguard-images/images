@@ -6,37 +6,17 @@ variable "extra_packages" {
 
 module "accts" {
   source = "../../../tflib/accts"
-  uid    = 65532
-  gid    = 65532
-  run-as = 65532
+  run-as = 0
 }
 
 output "config" {
   value = jsonencode({
     contents = {
-      packages = concat([
-        // TODO: Add any other packages here that are *always* needed.
-      ], var.extra_packages)
+      packages = var.extra_packages
     }
-    //
     accounts = module.accts.block
     entrypoint = {
       command = "/usr/bin/dumb-init /usr/local/bin/teleport start -c /etc/teleport/teleport.yaml"
     }
-    paths = [{
-      path        = "/var/lib/teleport"
-      type        = "directory"
-      uid         = module.accts.uid
-      gid         = module.accts.gid
-      permissions = 511
-      recursive   = true
-      },
-      {
-        path        = "/etc"
-        type        = "directory"
-        uid         = module.accts.uid
-        gid         = module.accts.gid
-        permissions = 511
-    }]
   })
 }

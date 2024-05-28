@@ -48,7 +48,7 @@ docker run --hostname localhost --name teleport \
   -v ~/teleport/config:/etc/teleport \
   -v ~/teleport/data:/var/lib/teleport \
   -p 3025:3025 -p 3080:3080 \
-  pcgr.dev/chainguard/teleport:latest
+  cgr.dev/chainguard/teleport:latest
 ```
 
 3. From there, open another terminal and make sure your Teleport container's web API is functioning as intended:

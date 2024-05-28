@@ -9,44 +9,48 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "build" {
-  digest = var.digest
-  script = "${path.module}/check-teleport.sh"
+data "imagetest_inventory" "this" {}
+
+resource "imagetest_container_volume" "volume" {
+  name      = "scratch-volume"
+  inventory = data.imagetest_inventory.this
 }
 
-# data "imagetest_inventory" "this" {}
+resource "imagetest_harness_docker" "docker" {
+  name      = "teleport-docker"
+  inventory = data.imagetest_inventory.this
 
-# I tried this but it didn't work because the volume mapping didn't work somehow?
-# the issue was the error says "teleport.yaml is directory" but it's not, it's a file.
+  volumes = [{
+    source      = imagetest_container_volume.volume
+    destination = "/data"
+  }]
 
-# resource "imagetest_harness_docker" "docker" {
-#   name      = "teleport-docker"
-#   inventory = data.imagetest_inventory.this
+  mounts = [{
+    source      = path.module
+    destination = "/tests"
+  }]
 
-#   mounts = [{
-#     source      = path.module
-#     destination = "/tests"
-#   }]
+  envs = {
+    IMAGE_NAME : var.digest
+    VOLUME_NAME : imagetest_container_volume.volume.id
+  }
+}
 
-#   envs = {
-#     IMAGE_NAME : var.digest
-#   }
-# }
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic test for Teleport"
+  harness     = imagetest_harness_docker.docker
 
-# resource "imagetest_feature" "basic" {
-#   name        = "basic"
-#   description = "Basic test for Teleport"
-#   harness     = imagetest_harness_docker.docker
+  steps = [{
+    name    = "Test Teleport"
+    workdir = "/tests"
+    cmd     = "/tests/check-teleport.sh"
+  }]
 
-#   steps = [{
-#     name = "Test Teleport"
-#     cmd  = "/tests/check-teleport.sh"
-#   }]
-
-#   labels = {
-#     type = "container"
-#   }
-# }
+  labels = {
+    type = "container"
+  }
+}
 
 # We cannot run the Helm tests ATM because it expects a variable called `teleportVersionOverride` to be set in format `vX.Y.Z` which is what we don't support in tests.
 # Ref: https://goteleport.com/docs/deploy-a-cluster/helm-deployments/kubernetes-cluster/

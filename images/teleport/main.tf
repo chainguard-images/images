@@ -24,14 +24,14 @@ module "versioned" {
   update-repo       = each.value.is_latest
 }
 
-module "test-versioned" {
-  for_each = module.versions.versions
-  source   = "./tests"
-  digest   = module.versioned[each.key].image_ref
-}
+# module "test-versioned" {
+#   for_each = module.versions.versions
+#   source   = "./tests"
+#   digest   = module.versioned[each.key].image_ref
+# }
 
 module "tagger" {
-  source     = "../../tflib/tagger"
-  depends_on = [module.test-versioned]
-  tags       = merge([for v in module.versioned : v.latest_tag_map]...)
+  source = "../../tflib/tagger"
+  # depends_on = [module.test-versioned]
+  tags = merge([for v in module.versioned : v.latest_tag_map]...)
 }

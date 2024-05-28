@@ -1,14 +1,14 @@
 #!/bin/bash
 
-container_name="teleport-${RANDOM}"
-trap "docker rm -f ${container_name}" EXIT
-
+container_name="teleport"
+trap "docker logs ${container_name} && docker rm -f ${container_name}" EXIT
 # Function to generate the teleport.yaml configuration file
 generate_teleport_config() {
     echo "Generating teleport.yaml configuration file..."
-    docker run --name temp_teleport_container --entrypoint="teleport" $IMAGE_NAME configure --roles=proxy,auth > teleport.yaml
+    docker run --rm --entrypoint="teleport" $IMAGE_NAME configure --roles=proxy,auth > /data/teleport.yaml
+    chmod 777 /data
 
-    if [ -f teleport.yaml ]; then
+    if [ -f /data/teleport.yaml ]; then
         echo "teleport.yaml configuration file generated successfully."
     else
         echo "Failed to generate teleport.yaml configuration file."
@@ -19,8 +19,8 @@ generate_teleport_config() {
 # Function to start the Teleport container with configuration file
 start_teleport() {
     echo "Running the Teleport container with configuration file..."
-    docker run -d --name $container_name -p $FREE_PORT:3080 \
-         -v $(pwd)/teleport.yaml:/etc/teleport/teleport.yaml \
+    docker run -d --name $container_name -p 3080:3080 \
+        -v "${VOLUME_NAME}":/etc/teleport \
         $IMAGE_NAME
 
     # Wait for the container to start
@@ -37,8 +37,12 @@ start_teleport() {
 
 # Function to check connectivity to the Teleport service
 check_connectivity() {
+    curl() {
+        docker run --network container:"${container_name}" cgr.dev/chainguard/curl "$@"
+    }
+
     echo "Checking connectivity to Teleport web interface..."
-    curl -s -o /dev/null -w "%{http_code}" -k https://localhost:$FREE_PORT > /dev/null
+    curl -s -o /dev/null -w "%{http_code}" -k https://localhost:3080 > /dev/null
 
     if [ $? -eq 0 ]; then
         echo "Teleport web interface is reachable."
@@ -51,7 +55,6 @@ check_connectivity() {
 }
 
 # Main script execution
-apk add curl
 generate_teleport_config
 start_teleport
 check_connectivity
