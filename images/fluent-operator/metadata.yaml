@@ -3,8 +3,11 @@ image: cgr.dev/chainguard/fluent-operator
 logo: https://storage.googleapis.com/chainguard-academy/logos/fluent-operator.svg
 endoflife: ""
 console_summary: ""
-short_description: 
+short_description: "Operator for Fluent Bit and Fluentd - previously known as FluentBit Operator"
 compatibility_notes: ""
 readme_file: README.md
-upstream_url: 
-keywords: []
+upstream_url: https://github.com/fluent/fluent-operator
+keywords:
+  - analytics
+  - application
+  - kubernetes

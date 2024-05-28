@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-
+Operator for Fluent Bit and Fluentd - previously known as FluentBit Operator
 <!--overview:end-->
 
 <!--getting:start-->
@@ -25,4 +25,19 @@ docker pull cgr.dev/chainguard/fluent-operator:latest
 ```
 <!--getting:end-->
 
-<!--body:start--><!--body:end-->
+<!--body:start-->
+The Fluent Operator is designed to deploy FluentBit Fluentd as a DaemonSet and StatefulSet respectively. It supports dynamic reconfiguration via CRDs and can be deployed using YAML or Helm.
+
+To deploy the Chainguard Fluent Operator image, use the following Helm commands:
+
+```
+helm repo add fluent https://fluent.github.io/helm-charts
+helm install fluent-operator \
+    --create-namespace \
+    -n fluent fluent/fluent-operator \
+    --set operator.container.repository=cgr.dev/chainguard/fluent-operator \
+    --set operator.container.tag=latest
+```
+
+Once the operator is deployed, follow the [Fluent Operator Walkthrough](https://github.com/kubesphere-sigs/fluent-operator-walkthrough) guides to configure FluentBit or Fluentd appropriately for your Kubernetes cluster.
+<!--body:end-->
