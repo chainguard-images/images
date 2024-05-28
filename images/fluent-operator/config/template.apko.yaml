@@ -3,10 +3,6 @@ contents:
     # Package "fluent-operator" comes in via var.extra_packages
     # To add a version stream image, see the extra_packages variable in config/main.tf to add packages conditionally.
     # Otherwise, just add packages here.
-    "apk-tools",
-    "bash",
-    "iproute2",
-    "curl"
   ]
 
 accounts:

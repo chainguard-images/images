@@ -63,8 +63,21 @@ resource "imagetest_feature" "basic" {
       name = "Wait for deployment and http forwarder sts"
       cmd  = <<EOF
         kubectl wait --for=condition=available --timeout=600s deployment/fluent-operator -n fluent
+      EOF
+      retry = {
+        attempts = 5
+        delay    = "5s"
+      }
+    },
+    {
+      name = "Wait for deployment and http forwarder sts"
+      cmd  = <<EOF
         kubectl wait --for=condition=ready --timeout=600s pod/fluentd-http-0 -n fluent
       EOF
+      retry = {
+        attempts = 5
+        delay    = "5s"
+      }
     }
   ]
 }
