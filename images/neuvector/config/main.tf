@@ -1,0 +1,41 @@
+terraform {
+  required_providers {
+    apko = { source = "chainguard-dev/apko" }
+  }
+}
+
+variable "component" {
+  default = {}
+}
+
+locals {
+  commands = {
+    "manager" : "java -Xms256m -Xmx2048m -Djdk.tls.rejectClientInitiatedRenegotiation=true -jar /usr/local/bin/admin-assembly-1.0.jar",
+  }
+}
+
+variable "extra_packages" {
+  description = "The additional packages to install."
+  type        = list(string)
+  default     = []
+}
+
+module "accts" {
+  source = "../../../tflib/accts"
+  run-as = var.component == "manager" ? 1000 : 0
+  uid    = var.component == "manager" ? 1000 : 0
+  gid    = var.component == "manager" ? 1000 : 0
+  name   = var.component == "manager" ? "manager" : "root"
+}
+
+output "config" {
+  value = jsonencode({
+    contents = {
+      packages = var.extra_packages
+    }
+    entrypoint = {
+      command = local.commands[var.component]
+    }
+    accounts = module.accts.block
+  })
+}
