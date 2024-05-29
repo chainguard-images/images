@@ -945,6 +945,11 @@ module "netcat" {
   target_repository = "${var.target_repository}/netcat"
 }
 
+module "neuvector-controller" {
+  source            = "./images/neuvector-controller"
+  target_repository = "${var.target_repository}/neuvector-controller"
+}
+
 module "neuvector-prometheus-exporter" {
   source            = "./images/neuvector-prometheus-exporter"
   target_repository = "${var.target_repository}/neuvector-prometheus-exporter"
@@ -2352,6 +2357,10 @@ output "summary_nemo" {
 
 output "summary_netcat" {
   value = module.netcat.summary
+}
+
+output "summary_neuvector-controller" {
+  value = module.neuvector-controller.summary
 }
 
 output "summary_neuvector-prometheus-exporter" {
