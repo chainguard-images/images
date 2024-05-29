@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -8,75 +9,80 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "name" {
+  default = "kube-logging-operator-fluentd"
+}
+
 locals { parsed = provider::oci::parse(var.digest) }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "logging-operator" {
-  name             = "klof-operator-${random_pet.suffix.id}"
-  repository       = "oci://ghcr.io/kube-logging/helm-charts"
-  chart            = "logging-operator"
-  namespace        = "klof-operator-${random_pet.suffix.id}"
-  create_namespace = true
+resource "imagetest_harness_k3s" "this" {
+  name      = var.name
+  inventory = data.imagetest_inventory.this
+  sandbox = {
+    envs = {
+      "LOGGING_OPERATOR_NAMESPACE" : "operator"
+      "LOG_GENERATOR_NAMESPACE" : "generator"
+      "FLUENTD_REPOSITORY" : local.parsed.registry_repo
+      "FLUENTD_TAG" : local.parsed.pseudo_tag
+    }
+    mounts = [{
+      source      = path.module
+      destination = "/tests"
+    }]
+  }
+}
 
-  values = [jsonencode({
+module "helm_operator" {
+  source = "../../../tflib/imagetest/helm"
+
+  name      = "operator"
+  chart     = "oci://ghcr.io/kube-logging/helm-charts/logging-operator"
+  namespace = "operator"
+
+  values = {
     testReceiver = {
       enabled = true
     }
-  })]
+  }
 }
 
-resource "helm_release" "log-generator" {
-  name             = "klof-generator-${random_pet.suffix.id}"
-  repository       = "oci://ghcr.io/kube-logging/helm-charts"
-  chart            = "log-generator"
-  namespace        = "klof-generator-${random_pet.suffix.id}"
-  create_namespace = true
+module "helm_generator" {
+  source = "../../../tflib/imagetest/helm"
+
+  name      = "generator"
+  chart     = "oci://ghcr.io/kube-logging/helm-charts/log-generator"
+  namespace = "generator"
 }
 
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the argocd helm chart."
 
-data "oci_exec_test" "check-logging-operator" {
-  digest      = var.digest
-  script      = "./check-logs.sh"
-  working_dir = path.module
-  depends_on  = [helm_release.logging-operator, helm_release.log-generator]
+  steps = [
+    {
+      name = "Helm install operator"
+      cmd  = "echo '${module.helm_operator.install_cmd}'"
+    },
+    {
+      name = "Helm install operator"
+      cmd  = module.helm_operator.install_cmd
+    },
+    {
+      name = "Helm install generator"
+      cmd  = module.helm_generator.install_cmd
+    },
+    {
+      name = "Exercise the app"
+      cmd  = <<EOF
+        /tests/check-logs.sh
+      EOF
+    },
+  ]
 
-  env = [{
-    name  = "LOGGING_OPERATOR_NAMESPACE"
-    value = helm_release.logging-operator.namespace
-    }, {
-    name  = "LOG_GENERATOR_NAMESPACE"
-    value = helm_release.log-generator.namespace
-    }, {
-    name  = "FLUENTD_REPOSITORY"
-    value = local.parsed.registry_repo
-    }, {
-    name  = "FLUENTD_TAG"
-    value = local.parsed.pseudo_tag
-  }]
-}
-
-module "helm-cleanup-operator" {
-  depends_on = [data.oci_exec_test.check-logging-operator]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.logging-operator.id
-  namespace  = helm_release.logging-operator.namespace
-}
-
-module "helm-cleanup-generator" {
-  depends_on = [data.oci_exec_test.check-logging-operator]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.log-generator.id
-  namespace  = helm_release.log-generator.namespace
-}
-
-resource "null_resource" "delete_namespaces" {
-  depends_on = [module.helm-cleanup-operator, module.helm-cleanup-generator]
-  provisioner "local-exec" {
-    command = <<EOF
-    set -ex
-    kubectl delete ns ${helm_release.logging-operator.namespace}
-    kubectl delete ns ${helm_release.log-generator.namespace}
-    EOF
+  labels = {
+    type = "k8s"
   }
 }
