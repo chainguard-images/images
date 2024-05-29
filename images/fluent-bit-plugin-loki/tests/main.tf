@@ -86,15 +86,6 @@ module "helm-fluent-bit" {
     },
     podSecurityContext = {
       fsGroup = 2000
-    },
-    securityContext = {
-      allowPrivilegeEscalation = false,
-      readOnlyRootFilesystem   = false,
-      runAsUser                = 0,
-      capabilities = {
-        drop = ["ALL"],
-        add  = ["DAC_READ_SEARCH"]
-      }
     }
   }
 }
