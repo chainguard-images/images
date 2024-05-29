@@ -475,6 +475,11 @@ module "gpu-feature-discovery" {
   target_repository = "${var.target_repository}/gpu-feature-discovery"
 }
 
+module "gpu-operator-validator" {
+  source            = "./images/gpu-operator-validator"
+  target_repository = "${var.target_repository}/gpu-operator-validator"
+}
+
 module "gradle" {
   source            = "./images/gradle"
   target_repository = "${var.target_repository}/gradle"
@@ -1976,6 +1981,10 @@ output "summary_gptscript" {
 
 output "summary_gpu-feature-discovery" {
   value = module.gpu-feature-discovery.summary
+}
+
+output "summary_gpu-operator-validator" {
+  value = module.gpu-operator-validator.summary
 }
 
 output "summary_gradle" {

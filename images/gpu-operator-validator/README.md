@@ -21,7 +21,7 @@ Minimal [gpu-operator](https://github.com/NVIDIA/gpu-operator) container image.
 The image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/gpu-feature-discovery:latest
+docker pull cgr.dev/chainguard/gpu-operator:latest
 ```
 <!--getting:end-->
 
@@ -41,7 +41,6 @@ USAGE:
    
 Step 1: Helm installation for GPU-Operator
 
-This command deploys GPU Feature Discovery as a standalone chart in the gpu-feature-discovery namespace.
 ```shell
 $ helm repo add nvidia https://helm.ngc.nvidia.com/nvidia \
     && helm repo update
