@@ -405,6 +405,11 @@ module "fluent-bit-plugin-loki" {
   target_repository = "${var.target_repository}/fluent-bit-plugin-loki"
 }
 
+module "fluent-operator" {
+  source            = "./images/fluent-operator"
+  target_repository = "${var.target_repository}/fluent-operator"
+}
+
 module "fluentd" {
   source            = "./images/fluentd"
   target_repository = "${var.target_repository}/fluentd"
@@ -1920,6 +1925,10 @@ output "summary_fluent-bit" {
 
 output "summary_fluent-bit-plugin-loki" {
   value = module.fluent-bit-plugin-loki.summary
+}
+
+output "summary_fluent-operator" {
+  value = module.fluent-operator.summary
 }
 
 output "summary_fluentd" {
