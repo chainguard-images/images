@@ -20,11 +20,6 @@ module "helm" {
   namespace = "neuvector"
   repo      = "https://neuvector.github.io/neuvector-helm"
   chart     = "core"
-  values = {
-    containerd = {
-       enabled:true
-      }
-    }
 }
 
 resource "imagetest_harness_k3s" "k3s" {
@@ -51,7 +46,7 @@ resource "imagetest_feature" "helm" {
       name = "Helm install"
       cmd  = module.helm.install_cmd
     },
-     {
+    {
       name = "Set image"
       cmd  = <<EOF
 kubectl set image -n neuvector deployment/neuvector-controller-pod neuvector-controller-pod="${local.parsed.registry_repo}:${local.parsed.pseudo_tag}"

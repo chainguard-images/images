@@ -8,8 +8,8 @@ module "versions" {
 }
 
 module "config" {
-  for_each       = module.versions.versions
-  source         = "./config"
+  for_each = module.versions.versions
+  source   = "./config"
 }
 
 module "versioned" {
