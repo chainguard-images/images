@@ -9,11 +9,6 @@ variable "extra_packages" {
   default = [
     "ruby3.2-fluentd-1.16",
     "ruby3.2-fluentd-1.16-logging-operator-compat",
-    "libpq",
-    "fluent-plugin-tag-normaliser",
-    "fluent-plugin-detect-exceptions",
-    "fluent-plugin-label-router",
-    "fluent-plugin-prometheus",
   ]
 }
 
@@ -42,7 +37,13 @@ module "accts" {
 output "config" {
   value = jsonencode({
     contents = {
-      packages = var.extra_packages
+      packages = concat(var.extra_packages, [
+        "libpq",
+        "fluent-plugin-tag-normaliser",
+        "fluent-plugin-detect-exceptions",
+        "fluent-plugin-label-router",
+        "fluent-plugin-prometheus",
+      ])
     }
     accounts   = module.accts.block
     entrypoint = var.entrypoint
