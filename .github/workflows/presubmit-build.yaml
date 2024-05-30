@@ -199,10 +199,8 @@ jobs:
 
     - name: Collect diagnostics and upload
       if: ${{ failure() }}
-      uses: chainguard-dev/actions/k8s-diag@ba1a9c9ffe799736883d58f31caff18d85b2800e # main
-      with:
-        cluster-type: k3d
-        namespace-resources: deploy,ds,sts,pods
+      run: |
+        echo 'This step is deprecated. Please use the imagetest provider and reference the imagetest logs'
 
     - name: Upload imagetest logs
       if: always()
