@@ -8,6 +8,7 @@ terraform {
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
+    controller = string
     manager = string
   })
 }
@@ -46,7 +47,13 @@ module "core" {
   chart     = "core"
 
   values = {
-    registry = local.parsed["manager"].registry
+    registry = local.parsed["controller"].registry
+    manager = {
+      image = {
+        repository = local.parsed["controller"].repo  
+        hash       = local.parsed["controller"].digest
+      }
+    }
     manager = {
       image = {
         repository = local.parsed["manager"].repo

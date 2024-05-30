@@ -4,6 +4,7 @@ variable "target_repository" {
 
 locals {
   components = toset([
+    "controller",
     "manager",
   ])
 

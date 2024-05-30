@@ -10,6 +10,7 @@ variable "component" {
 
 locals {
   commands = {
+    "controller" : "/usr/local/bin/monitor -c",
     "manager" : "java -Xms256m -Xmx2048m -Djdk.tls.rejectClientInitiatedRenegotiation=true -jar /usr/local/bin/admin-assembly-1.0.jar",
   }
 }
@@ -22,10 +23,10 @@ variable "extra_packages" {
 
 module "accts" {
   source = "../../../tflib/accts"
-  run-as = var.component == "manager" ? 1000 : 0
-  uid    = var.component == "manager" ? 1000 : 0
-  gid    = var.component == "manager" ? 1000 : 0
-  name   = var.component == "manager" ? "manager" : "root"
+  run-as = var.component == "manager" ? 1000 : 65532
+  uid    = var.component == "manager" ? 1000 : 65532
+  gid    = var.component == "manager" ? 1000 : 65532
+  name   = var.component == "manager" ? "manager" : "nonroot"
 }
 
 output "config" {
