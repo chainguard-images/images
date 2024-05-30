@@ -5,12 +5,13 @@ contents:
 accounts:
   groups:
     - groupname: loki
-      gid: 65532
+      gid: 10001
   users:
     - username: loki
-      uid: 65532
-      gid: 65532
-  run-as: 65532
+      uid: 10001
+      gid: 10001
+  # Match the default UID/GID of the upstream image and helm chart
+  run-as: 10001
 
 entrypoint:
   command: /usr/bin/loki
@@ -20,16 +21,19 @@ cmd: -config.file=/etc/loki/local-config.yaml
 paths:
   - path: /loki
     type: directory
-    uid: 65532
-    gid: 65532
+    uid: 10001
+    gid: 10001
     permissions: 0o755
+    recursive: true
   - path: /loki/rules
     type: directory
-    uid: 65532
-    gid: 65532
+    uid: 10001
+    gid: 10001
     permissions: 0o755
+    recursive: true
   - path: /loki/rules-temp
     type: directory
-    uid: 65532
-    gid: 65532
+    uid: 10001
+    gid: 10001
     permissions: 0o755
+    recursive: true
