@@ -58,8 +58,8 @@ module "helm" {
 
   values = {
     image = {
-      repository = local.parsed["console"].registry_repo
-      tag        = local.parsed["console"].pseudo_tag
+      repository = local.parsed["TODO"].registry_repo
+      tag        = local.parsed["TODO"].pseudo_tag
     }
   }
 }
