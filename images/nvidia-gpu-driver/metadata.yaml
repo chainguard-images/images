@@ -1,0 +1,10 @@
+name: nvidia-gpu-driver
+image: cgr.dev/chainguard/nvidia-gpu-driver
+logo: https://storage.googleapis.com/chainguard-academy/logos/nvidia-gpu-driver.svg
+endoflife: ""
+console_summary: ""
+short_description: 
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: 
+keywords: []
