@@ -57,11 +57,33 @@ module "helm" {
     singleBinary = {
       replicas = 1
       persistence = {
-        size = "1Gi"
+        # Disable in favor of a temp emptyDir for testing
+        enabled = false
       }
-      registry   = local.parsed.registry
-      repository = local.parsed.repo
-      tag        = local.parsed.pseudo_tag
+      image = {
+        registry   = local.parsed.registry
+        repository = local.parsed.repo
+        tag        = local.parsed.pseudo_tag
+      }
+      # Without these extra mounts and the persistence disable, the chart 
+      # creates host path mounts that conflict with multiple instances of
+      # loki, even across multiple clusters on the same machine. These are
+      # added in the chart instead of the image to mimic upstream's behavior.
+      extraVolumeMounts = [
+        {
+          name      = "temp"
+          mountPath = "/var/loki"
+        }
+      ]
+      extraVolumes = [
+        {
+          name     = "temp"
+          emptyDir = {}
+        }
+      ]
+    }
+    gateway = {
+      eanbled = false
     }
     backend = {
       replicas = 0
