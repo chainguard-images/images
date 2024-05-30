@@ -1,0 +1,12 @@
+name: pluto
+image: cgr.dev/chainguard/pluto
+logo: https://pluto.docs.fairwinds.com/img/pluto-logo.png
+endoflife: ""
+console_summary: ""
+short_description: Minimal image with [pluto](https://pluto.docs.fairwinds.com/) binary.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/FairwindsOps/pluto/
+keywords:
+  - application
+  - kubernetes
