@@ -26,6 +26,7 @@ data "apko_config" "config" {
     pod2daemon            = ["calico-pod2daemon"]
     node-driver-registrar = ["kubernetes-csi-node-driver-registrar"]
     apiserver             = ["calico-apiserver"]
+    key-cert-provisioner  = ["calico-key-cert-provisioner"]
   }, var.component)
 }
 
