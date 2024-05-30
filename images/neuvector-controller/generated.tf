@@ -3,10 +3,10 @@
 output "summary" {
   value = merge(
     {
-      for k, v in module.versioned : k => {
-        "ref"    = v.image_ref
-        "config" = v.config
-        "tags"   = v.tag_list
+      basename(path.module) = {
+        "ref"    = module.neuvector-controller.image_ref
+        "config" = module.neuvector-controller.config
+        "tags"   = ["latest"]
       }
   })
 }

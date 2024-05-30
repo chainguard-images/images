@@ -1,36 +1,38 @@
+terraform {
+  required_providers {
+    oci = { source = "chainguard-dev/oci" }
+  }
+}
+
 variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "versions" {
-  package = "neuvector-controller"
-  source  = "../../tflib/versions"
-}
+module "config" { source = "./config" }
 
-module "config" {
-  for_each = module.versions.versions
-  source   = "./config"
-}
-
-module "versioned" {
-  for_each          = module.versions.versions
+module "neuvector-controller" {
   source            = "../../tflib/publisher"
   name              = basename(path.module)
   target_repository = var.target_repository
-  config            = module.config[each.key].config
-  build-dev         = true
-  main_package      = each.value.main
-  update-repo       = each.value.is_latest
+  config            = module.config.config
+
+  build-dev = true
+
 }
 
-module "test-versioned" {
-  for_each = module.versions.versions
-  source   = "./tests"
-  digest   = module.versioned[each.key].image_ref
+module "test" {
+  source = "./tests"
+  digest = module.neuvector-controller.image_ref
 }
 
-module "tagger" {
-  source     = "../../tflib/tagger"
-  depends_on = [module.test-versioned]
-  tags       = merge([for v in module.versioned : v.latest_tag_map]...)
+resource "oci_tag" "latest" {
+  depends_on = [module.test]
+  digest_ref = module.neuvector-controller.image_ref
+  tag        = "latest"
+}
+
+resource "oci_tag" "latest-dev" {
+  depends_on = [module.test]
+  digest_ref = module.neuvector-controller.dev_ref
+  tag        = "latest-dev"
 }
