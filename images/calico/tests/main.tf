@@ -17,6 +17,7 @@ variable "digests" {
     node-driver-registrar = string
     calicoctl             = string
     apiserver             = string
+    key-cert-provisioner  = string
   })
 }
 
@@ -77,6 +78,8 @@ spec:
       digest: ${local.parsed["apiserver"].digest}
     - image: calico/node-driver-registrar
       digest: ${local.parsed["node-driver-registrar"].digest}
+    - image: calico/key-cert-provisioner
+      digest: ${local.parsed["key-cert-provisioner"].digest}
 EOm
 
 kubectl apply -f - <<EOm
