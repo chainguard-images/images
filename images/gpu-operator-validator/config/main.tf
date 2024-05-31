@@ -34,8 +34,11 @@ module "accts" {
 output "config" {
   value = jsonencode({
     contents = {
-      packages = var.extra_packages
+      packages     = var.extra_packages
+      repositories = var.extra_repositories
+      keyring      = var.extra_keyring
     }
+
     accounts    = module.accts.block
     environment = var.environment
     entrypoint = {
