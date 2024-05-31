@@ -8,25 +8,6 @@ module "accts" {
   source = "../../../tflib/accts"
   run-as = 0 # This image needs to run as root
 }
-
-# data "external" "arch" {
-#   program = ["./get_arch.sh"]
-# }
-
-# variable "target_arch" {
-#   description = "The target architecture"
-#   type        = string
-#   default     = ""
-# }
-
-# locals {
-#   arch_map = {
-#     "x86_64"  = "amd64"
-#     "aarch64" = "arm64"
-#   }
-#   TARGETARCH = lookup(local.arch_map, data.external.arch.result["arch"], var.target_arch)
-# }
-
 variable "extra_repositories" {
   description = "The additional repositores to install from (e.g. extras)."
   default     = ["https://packages.cgr.dev/extras"]
@@ -51,11 +32,13 @@ output "config" {
       VGPU_LICENSE_SERVER_TYPE   = "NLS"
       DISABLE_VGPU_VERSION_CHECK = "true"
       NVIDIA_VISIBLE_DEVICES     = "void"
-      # hardcoding it for now
-      TARGETARCH                 = "aarch64"
+      #User will have to set this
+      # TARGETARCH                 = "aarch64"
     },
+    # Can't use "nvidia-driver init" to configure the driver as given without a host node and helm chart 
+    # that mounts all of the expected volumes from the host into the container
     entrypoint = {
-      command = "nvidia-driver init"
+      command = "sleep infinity"
     }
     paths = [{
       path        = "/usr/local/bin"
