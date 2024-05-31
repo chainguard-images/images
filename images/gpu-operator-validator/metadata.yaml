@@ -1,0 +1,12 @@
+name: gpu-operator-validator
+image: cgr.dev/chainguard/gpu-operator-validator
+logo: https://storage.googleapis.com/chainguard-academy/logos/gpu-operator-validator.svg
+endoflife: ""
+console_summary: ""
+short_description: Minimal [gpu-operator-validator](https://github.com/NVIDIA/gpu-operator) container image.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/NVIDIA/gpu-operator
+keywords: 
+  - application
+  - tools

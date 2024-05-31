@@ -470,6 +470,11 @@ module "gpu-feature-discovery" {
   target_repository = "${var.target_repository}/gpu-feature-discovery"
 }
 
+module "gpu-operator-validator" {
+  source            = "./images/gpu-operator-validator"
+  target_repository = "${var.target_repository}/gpu-operator-validator"
+}
+
 module "gradle" {
   source            = "./images/gradle"
   target_repository = "${var.target_repository}/gradle"
@@ -1061,6 +1066,11 @@ module "octo-sts" {
 module "openai" {
   source            = "./images/openai"
   target_repository = "${var.target_repository}/openai"
+}
+
+module "openldap" {
+  source            = "./images/openldap"
+  target_repository = "${var.target_repository}/openldap"
 }
 
 module "opensearch" {
@@ -1959,6 +1969,10 @@ output "summary_gpu-feature-discovery" {
   value = module.gpu-feature-discovery.summary
 }
 
+output "summary_gpu-operator-validator" {
+  value = module.gpu-operator-validator.summary
+}
+
 output "summary_gradle" {
   value = module.gradle.summary
 }
@@ -2425,6 +2439,10 @@ output "summary_octo-sts" {
 
 output "summary_openai" {
   value = module.openai.summary
+}
+
+output "summary_openldap" {
+  value = module.openldap.summary
 }
 
 output "summary_opensearch" {
