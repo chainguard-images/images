@@ -85,6 +85,9 @@ module "core" {
         }
       }
     }
+    crdwebhook = {
+      enabled = false
+    }
   }
 }
 
