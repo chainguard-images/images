@@ -40,9 +40,8 @@ module "helm_controller" {
     create_namespace = true
 
     controller = {
-      javaOpts       = ""
-      jenkinsOpts    = ""
-      installPlugins = false
+      javaOpts    = ""
+      jenkinsOpts = ""
       admin = {
         createSecret = false
       }

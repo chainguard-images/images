@@ -10,7 +10,7 @@ module "versions" {
 module "config" {
   for_each       = module.versions.versions
   source         = "./config"
-  extra_packages = [each.key, "jenkins-compat", "openjdk-17-default-jvm"]
+  extra_packages = [each.key, "jenkins-compat", "jenkins-docker", "jenkins-plugin-manager", "openjdk-17-default-jvm"]
 }
 
 module "versioned" {

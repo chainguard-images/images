@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install."
-  default     = ["jenkins", "openjdk-17-default-jvm", "jenkins-compat"]
+  default     = ["jenkins", "openjdk-17-default-jvm", "jenkins-compat", "jenkins-docker"]
 }
 
 variable "environment" {
