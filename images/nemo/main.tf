@@ -15,8 +15,8 @@ module "nemo" {
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.config.config
-
-  build-dev = true
+  check-sbom        = false // Contains a package with non-SPDX license
+  build-dev         = true
 }
 
 # TODO: These tests pass however we're running into CI issues related to disk space,
