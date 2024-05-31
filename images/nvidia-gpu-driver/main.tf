@@ -3,14 +3,14 @@ variable "target_repository" {
 }
 
 module "versions" {
+  package = "nvidia-gpu-driver"
   source  = "../../tflib/versions"
-  package = "jenkins"
 }
 
 module "config" {
   for_each       = module.versions.versions
   source         = "./config"
-  extra_packages = [each.key, "jenkins-compat", "jenkins-docker", "jenkins-plugin-manager", "openjdk-17-default-jvm"]
+  extra_packages = [each.key]
 }
 
 module "versioned" {
@@ -33,7 +33,5 @@ module "test-versioned" {
 module "tagger" {
   source     = "../../tflib/tagger"
   depends_on = [module.test-versioned]
-  tags = merge(
-    [for v in module.versioned : v.latest_tag_map]...
-  )
+  tags       = merge([for v in module.versioned : v.latest_tag_map]...)
 }

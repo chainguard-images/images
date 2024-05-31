@@ -1,8 +1,3 @@
-contents:
-  packages:
-    # Package "dex" comes in via var.extra_packages
-    - gomplate
-
 accounts:
   groups:
     - groupname: nonroot
