@@ -8,10 +8,13 @@ locals {
     "enforcer",
     "manager",
     "scanner",
+    "updater",
   ])
 
   packages = merge({
     for k, v in local.components : k => ["neuvector-${k}"]
+    }, {
+    "updater" : ["ca-certificates", "curl"]
   })
 
   repositories = {

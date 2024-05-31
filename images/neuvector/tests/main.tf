@@ -12,6 +12,7 @@ variable "digests" {
     enforcer   = string
     manager    = string
     scanner    = string
+    updater    = string
   })
 }
 
@@ -68,11 +69,20 @@ module "core" {
         hash       = local.parsed["manager"].digest
       }
     }
-    scanner = {
-      image = {
-        registry   = local.parsed["scanner"].registry
-        repository = local.parsed["scanner"].repo
-        hash       = local.parsed["scanner"].pseudo_tag
+    cve = {
+      scanner = {
+        image = {
+          registry   = local.parsed["scanner"].registry
+          repository = local.parsed["scanner"].repo
+          hash       = local.parsed["scanner"].pseudo_tag
+        }
+      }
+      updater = {
+        image = {
+          registry   = local.parsed["updater"].registry
+          repository = local.parsed["updater"].repo
+          hash       = local.parsed["updater"].pseudo_tag
+        }
       }
     }
   }
