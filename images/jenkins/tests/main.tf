@@ -42,9 +42,6 @@ module "helm_controller" {
     controller = {
       javaOpts    = ""
       jenkinsOpts = ""
-      admin = {
-        createSecret = false
-      }
       sidecars = {
         configAutoReload = {
           enabled = false

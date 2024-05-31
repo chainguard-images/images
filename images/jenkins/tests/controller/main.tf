@@ -10,10 +10,6 @@ variable "values" {
     controller = {
       javaOpts    = ""
       jenkinsOpts = ""
-      admin = {
-        createSecret = false
-      }
-      installPlugins = false
       sidecars = {
         configAutoReload = {
           enabled = false
