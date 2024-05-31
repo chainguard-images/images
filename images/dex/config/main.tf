@@ -11,6 +11,7 @@ variable "extra_packages" {
   default = [
     "dex",
     // Other packages your image needs
+    "gomplate",
   ]
 }
 
