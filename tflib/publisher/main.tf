@@ -6,7 +6,7 @@ terraform {
     }
     apko = {
       source  = "chainguard-dev/apko"
-      version = "0.15.8"
+      version = "0.15.9"
     }
     oci = {
       source  = "chainguard-dev/oci"
@@ -55,7 +55,7 @@ variable "update-repo" {
 
 variable "check-sbom" {
   type        = bool
-  default     = false // TODO(jason): Change this to true
+  default     = true
   description = "Whether to run the NTIA conformance checker over the images we produce prior to attesting the SBOMs."
 }
 
@@ -91,7 +91,7 @@ locals {
 
 module "this" {
   source  = "chainguard-dev/apko/publisher"
-  version = "0.0.14"
+  version = "0.0.15"
 
   target_repository = var.target_repository
   config            = yamlencode(local.updated_config)
@@ -99,12 +99,13 @@ module "this" {
 
   check_sbom   = var.check-sbom
   sbom_checker = "cgr.dev/chainguard/ntia-conformance-checker:latest@sha256:75c1f8dcdf53d365bf30cdd630f800fa7a3b5d572ffc58346da6e5f1360e0787"
+  spdx_image   = "cgr.dev/chainguard/spdx-tools:latest@sha256:cc4c0272f70ea9e8083c360787793fc7f847917942b49e80ed90d03199df0a55"
 }
 
 module "this-dev" {
   count   = local.build-dev ? 1 : 0
   source  = "chainguard-dev/apko/publisher"
-  version = "0.0.14"
+  version = "0.0.15"
 
   target_repository = var.target_repository
 
@@ -121,6 +122,7 @@ module "this-dev" {
 
   check_sbom   = var.check-sbom
   sbom_checker = "cgr.dev/chainguard/ntia-conformance-checker:latest@sha256:75c1f8dcdf53d365bf30cdd630f800fa7a3b5d572ffc58346da6e5f1360e0787"
+  spdx_image   = "cgr.dev/chainguard/spdx-tools:latest@sha256:cc4c0272f70ea9e8083c360787793fc7f847917942b49e80ed90d03199df0a55"
 }
 
 data "oci_exec_test" "check-reproducibility" {
