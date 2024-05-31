@@ -9,6 +9,10 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "chart_version" {
+  default = ""
+}
+
 variable "name" {
   default = "node-feature-discovery"
 }
@@ -44,6 +48,7 @@ module "install" {
       tag        = local.parsed.pseudo_tag
     }
   }
+  chart_version = var.chart_version
 }
 
 resource "imagetest_feature" "basic" {
@@ -57,22 +62,25 @@ resource "imagetest_feature" "basic" {
       cmd  = module.install.install_cmd
     },
     {
-      name = "Validate logs GC"
-      cmd  = <<EOF
+      name  = "Validate logs GC"
+      cmd   = <<EOF
         /tests/test-pod-logs-gc.sh
       EOF
+      retry = { attempts = 5, delay = "10s" }
     },
     {
-      name = "Validate logs master"
-      cmd  = <<EOF
+      name  = "Validate logs master"
+      cmd   = <<EOF
         /tests/test-pod-logs-master.sh
       EOF
+      retry = { attempts = 5, delay = "10s" }
     },
     {
-      name = "Validate logs worker"
-      cmd  = <<EOF
+      name  = "Validate logs worker"
+      cmd   = <<EOF
         /tests/test-pod-logs-worker.sh
       EOF
+      retry = { attempts = 5, delay = "10s" }
     },
   ]
 
