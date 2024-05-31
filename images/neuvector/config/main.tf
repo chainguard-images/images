@@ -11,6 +11,7 @@ variable "component" {
 locals {
   commands = {
     "controller" : "/usr/local/bin/monitor -c",
+    "enforcer" : "/usr/local/bin/monitor -r",
     "manager" : "java -Xms256m -Xmx2048m -Djdk.tls.rejectClientInitiatedRenegotiation=true -jar /usr/local/bin/admin-assembly-1.0.jar",
   }
 }

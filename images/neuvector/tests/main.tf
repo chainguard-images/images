@@ -9,7 +9,8 @@ variable "digests" {
   description = "The image digests to run tests over."
   type = object({
     controller = string
-    manager = string
+    enforcer   = string
+    manager    = string
   })
 }
 
@@ -48,10 +49,16 @@ module "core" {
 
   values = {
     registry = local.parsed["controller"].registry
-    manager = {
+    controller = {
       image = {
-        repository = local.parsed["controller"].repo  
+        repository = local.parsed["controller"].repo
         hash       = local.parsed["controller"].digest
+      }
+    }
+    enforcer = {
+      image = {
+        repository = local.parsed["enforcer"].repo
+        hash       = local.parsed["enforcer"].digest
       }
     }
     manager = {
