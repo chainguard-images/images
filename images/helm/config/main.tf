@@ -6,7 +6,7 @@ terraform {
 
 variable "extra_packages" {
   description = "The additional packages to install (e.g. helm)."
-  default     = ["helm"]
+  default     = ["helm", "kubectl-latest"]
 }
 
 data "apko_config" "this" {
