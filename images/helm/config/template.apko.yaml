@@ -1,6 +1,5 @@
 contents:
   packages:
-    - kubectl-latest
 
 accounts:
   groups:
