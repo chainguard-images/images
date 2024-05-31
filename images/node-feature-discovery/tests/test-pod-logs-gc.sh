@@ -12,10 +12,11 @@ missing_logs=()
 
 RETRIES=5
 RETRY_DELAY_SECONDS=15
+DEPLOYMENT_NAME="${K8S_NAME}-gc"
 
 TEST_validate_container_logs() {
   for ((i=1; i<=${RETRIES}; i++)); do
-    local logs=$(kubectl logs "deploy/${K8S_NAME}" -n "${K8S_NAMESPACE}" 2>&1)
+    local logs=$(kubectl logs "deploy/${DEPLOYMENT_NAME}" -n "${K8S_NAMESPACE}" 2>&1)
     local logs_found=true
 
     # Search the container logs for our expected log lines.
