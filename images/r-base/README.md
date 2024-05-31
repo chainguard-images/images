@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-This image contains the R programming language and environment.It can be used for statistical analysis, machine learning and data visualization.
+This image contains the R programming language and environment. It can be used for statistical analysis, machine learning and data visualization.
 <!--overview:end-->
 
 <!--getting:start-->
