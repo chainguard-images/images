@@ -1358,6 +1358,11 @@ module "spark-operator" {
   target_repository = "${var.target_repository}/spark-operator"
 }
 
+module "spdx-tools" {
+  source            = "./images/spdx-tools"
+  target_repository = "${var.target_repository}/spdx-tools"
+}
+
 module "spire" {
   source            = "./images/spire"
   target_repository = "${var.target_repository}/spire"
@@ -2681,6 +2686,10 @@ output "summary_solr" {
 
 output "summary_spark-operator" {
   value = module.spark-operator.summary
+}
+
+output "summary_spdx-tools" {
+  value = module.spdx-tools.summary
 }
 
 output "summary_spire" {
