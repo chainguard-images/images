@@ -1068,11 +1068,6 @@ module "openai" {
   target_repository = "${var.target_repository}/openai"
 }
 
-module "openldap" {
-  source            = "./images/openldap"
-  target_repository = "${var.target_repository}/openldap"
-}
-
 module "opensearch" {
   source            = "./images/opensearch"
   target_repository = "${var.target_repository}/opensearch"
@@ -2439,10 +2434,6 @@ output "summary_octo-sts" {
 
 output "summary_openai" {
   value = module.openai.summary
-}
-
-output "summary_openldap" {
-  value = module.openldap.summary
 }
 
 output "summary_opensearch" {
