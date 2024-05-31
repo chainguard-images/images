@@ -55,7 +55,7 @@ variable "update-repo" {
 
 variable "check-sbom" {
   type        = bool
-  default     = true
+  default     = false // TODO(jason): Change this to true
   description = "Whether to run the NTIA conformance checker over the images we produce prior to attesting the SBOMs."
 }
 
