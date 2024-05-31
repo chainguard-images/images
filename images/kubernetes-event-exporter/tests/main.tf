@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -10,45 +11,62 @@ variable "digest" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-resource "random_pet" "suffix" {}
+locals {
+  release_name = "kubernetes-event-exporter"
+}
 
-resource "helm_release" "kubernetes-event-exporter" {
-  name             = "kubernetes-event-exporter-${random_pet.suffix.id}"
-  namespace        = "k8s-event-exporter"
-  create_namespace = true
-  repository       = "oci://registry-1.docker.io/bitnamicharts"
-  chart            = "kubernetes-event-exporter"
+data "imagetest_inventory" "this" {}
 
-  values = [jsonencode({
+resource "imagetest_harness_k3s" "k3s" {
+  name      = "prometheus-redis-exporter"
+  inventory = data.imagetest_inventory.this
+
+  sandbox = {
+    mounts = [{
+      source      = path.module
+      destination = "/tests"
+    }]
+    envs = {
+      "RELEASE_NAME" : local.release_name
+      "RELEASE_NAMESPACE" : local.release_name
+    }
+  }
+}
+
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  name      = local.release_name
+  chart     = "oci://registry-1.docker.io/bitnamicharts/kubernetes-event-exporter"
+  namespace = local.release_name
+
+  values = {
     containerName = "kubernetes-event-exporter"
     image = {
       registry   = local.parsed.registry
       repository = local.parsed.repo
       digest     = local.parsed.digest
     }
-  })]
+  }
 }
 
-module "helm_cleanup" {
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.kubernetes-event-exporter.id
-  namespace  = helm_release.kubernetes-event-exporter.namespace
-  depends_on = [data.oci_exec_test.log-review-test]
-}
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation test for kubernetes-event-exporter"
+  harness     = imagetest_harness_k3s.k3s
 
-data "oci_exec_test" "log-review-test" {
-  digest = var.digest
-  script = "${path.module}/logs.sh"
-
-  env = [
+  steps = [
     {
-      name  = "RELEASE_NAME"
-      value = helm_release.kubernetes-event-exporter.name
+      name = "Install kubernetes-event-exporter"
+      cmd  = module.helm.install_cmd
     },
     {
-      name  = "RELEASE_NAMESPACE"
-      value = helm_release.kubernetes-event-exporter.namespace
-    }
+      name = "Validate"
+      cmd  = "/tests/logs.sh"
+    },
   ]
-}
 
+  labels = {
+    type = "k8s"
+  }
+}
