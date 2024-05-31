@@ -74,14 +74,14 @@ module "core" {
         image = {
           registry   = local.parsed["scanner"].registry
           repository = local.parsed["scanner"].repo
-          hash       = local.parsed["scanner"].pseudo_tag
+          hash       = local.parsed["scanner"].digest
         }
       }
       updater = {
         image = {
           registry   = local.parsed["updater"].registry
           repository = local.parsed["updater"].repo
-          hash       = local.parsed["updater"].pseudo_tag
+          hash       = local.parsed["updater"].digest
         }
       }
     }
