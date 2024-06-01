@@ -4,7 +4,7 @@
 apk add openssl openssl-config
 
 # Generate CA
-openssl genrsa -out ca.key 20485
+openssl genrsa -out ca.key 2048
 openssl req -x509 -sha256 -new -nodes -key ca.key -days 3650 -out ca.crt -subj "/CN=neuvector-ca"
 
 # Generate cert
