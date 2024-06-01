@@ -98,7 +98,7 @@ module "core" {
       enabled = false
     }
     k3s = {
-      enabled = true
+      enabled     = true
       runtimePath = "/run/k3s/containerd/containerd.sock"
     }
   }
@@ -129,21 +129,21 @@ resource "imagetest_feature" "basic" {
     workdir = "/tests"
     cmd     = "/tests/internal-certs.sh"
     }, {
-    name = "Install NeuVector CRD"
+    name    = "Install NeuVector CRD"
     workdir = "/tests"
-    cmd  = module.crd.install_cmd
+    cmd     = module.crd.install_cmd
     }, {
-    name = "Deploy NeuVector core"
+    name    = "Deploy NeuVector core"
     workdir = "/tests"
-    cmd  = module.core.install_cmd
+    cmd     = module.core.install_cmd
     }, {
     name    = "NeuVector core tests"
     workdir = "/tests"
     cmd     = "/tests/check-core.sh"
     }, {
-    name = "Deploy NeuVector monitor"
+    name    = "Deploy NeuVector monitor"
     workdir = "/tests"
-    cmd  = module.monitor.install_cmd
+    cmd     = module.monitor.install_cmd
     }, {
     name    = "NeuVector Prometheus exporter tests"
     workdir = "/tests"
