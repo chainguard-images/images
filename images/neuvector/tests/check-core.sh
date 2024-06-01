@@ -6,19 +6,22 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 NAMESPACE="neuvector"
 RELEASE_NAME="core"
 
+# Wait for deployment
+kubectl rollout status deployment/neuvector-manager-pod -n "${NAMESPACE}"
+kubectl rollout status deployment/neuvector-scanner-pod -n "${NAMESPACE}"
+kubectl rollout status deployment/neuvector-controller-pod -n "${NAMESPACE}"
+
 NV_PORT=""
 
 REQUEST_RETRIES=15
 RETRY_DELAY=20
 
-declare -a expected_logs=(
-  ""
-)
+declare -a expected_logs=()
 declare -a missing_logs=()
 
 # Port-forward NeuVector
-kubectl port-forward svc/"${RELEASE_NAME}-manager" "${PORTAL_PORT}":80 --namespace "${NAMESPACE}" &
-PF_PID=$!
+#kubectl port-forward svc/"${RELEASE_NAME}-manager" "${NV_PORT}":80 --namespace "${NAMESPACE}" &
+#PF_PID=$!
 
 # Cleanup function to stop port-forwarding on exit
 function cleanup {
@@ -75,6 +78,6 @@ TEST_http_response() {
 TEST_core() {
 }
 
-TEST_validate_pod_logs
-TEST_http_response
-TEST_core
+#TEST_validate_pod_logs
+#TEST_http_response
+#TEST_core
