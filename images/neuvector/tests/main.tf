@@ -56,11 +56,17 @@ module "core" {
         repository = local.parsed["controller"].repo
         hash       = local.parsed["controller"].digest
       }
+      internal = {
+        secret = "internal-cert"
+      }
     }
     enforcer = {
       image = {
         repository = local.parsed["enforcer"].repo
         hash       = local.parsed["enforcer"].digest
+      }
+      internal = {
+        secret = "internal-cert"
       }
     }
     manager = {
@@ -75,6 +81,9 @@ module "core" {
           registry   = local.parsed["scanner"].registry
           repository = local.parsed["scanner"].repo
           hash       = local.parsed["scanner"].digest
+        }
+        internal = {
+          secret = "internal-cert"
         }
       }
       updater = {
@@ -116,10 +125,16 @@ resource "imagetest_feature" "basic" {
   description = "Basic functionality of NeuVector."
 
   steps = [{
+    name    = "Generate internal certs"
+    workdir = "/tests"
+    cmd     = "/tests/internal-certs.sh"
+    }, {
     name = "Install NeuVector CRD"
+    workdir = "/tests"
     cmd  = module.crd.install_cmd
     }, {
     name = "Deploy NeuVector core"
+    workdir = "/tests"
     cmd  = module.core.install_cmd
     }, {
     name    = "NeuVector core tests"
@@ -127,6 +142,7 @@ resource "imagetest_feature" "basic" {
     cmd     = "/tests/check-core.sh"
     }, {
     name = "Deploy NeuVector monitor"
+    workdir = "/tests"
     cmd  = module.monitor.install_cmd
     }, {
     name    = "NeuVector Prometheus exporter tests"
