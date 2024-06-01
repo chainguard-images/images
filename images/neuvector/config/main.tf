@@ -26,7 +26,7 @@ variable "extra_packages" {
 
 module "accts" {
   source = "../../../tflib/accts"
-  run-as = var.component == "manager" ? 1000 : 65532
+  run-as = var.component == "manager" ? 1000 : 0
   uid    = var.component == "manager" ? 1000 : 65532
   gid    = var.component == "manager" ? 1000 : 65532
   name   = var.component == "manager" ? "manager" : "nonroot"
