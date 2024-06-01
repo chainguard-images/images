@@ -88,6 +88,10 @@ module "core" {
     crdwebhook = {
       enabled = false
     }
+    k3s = {
+      enabled = true
+      runtimePath = "/run/k3s/containerd/containerd.sock"
+    }
   }
 }
 
