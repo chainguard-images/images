@@ -19,4 +19,5 @@ openssl x509 -req -sha256 -in cert.csr -CA ca.crt -CAkey ca.key -CAcreateserial 
 openssl x509 -in tls.crt -text
 
 # Create secret
+kubectl create ns neuvector
 kubectl create secret generic internal-cert -n neuvector --from-file=tls.key --from-file=tls.crt --from-file=ca.crt

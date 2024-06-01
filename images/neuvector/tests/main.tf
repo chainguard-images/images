@@ -57,7 +57,9 @@ module "core" {
         hash       = local.parsed["controller"].digest
       }
       internal = {
-        secret = "internal-cert"
+        certificate = {
+          secret = "internal-cert"
+        }
       }
     }
     enforcer = {
@@ -66,7 +68,9 @@ module "core" {
         hash       = local.parsed["enforcer"].digest
       }
       internal = {
-        secret = "internal-cert"
+        certificate = {
+          secret = "internal-cert"
+        }
       }
     }
     manager = {
@@ -83,7 +87,9 @@ module "core" {
           hash       = local.parsed["scanner"].digest
         }
         internal = {
-          secret = "internal-cert"
+          certificate = {
+            secret = "internal-cert"
+          }
         }
       }
       updater = {
