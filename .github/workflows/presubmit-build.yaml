@@ -181,10 +181,6 @@ jobs:
         targets=""
         for image in ${{ matrix.shard.images }}; do
           targets+=' -target='module."${image}"''
-
-          echo "::group::Plan for ${image}"
-          terraform plan -target=module."${image}"
-          echo "::endgroup::"
         done
 
         terraform apply ${targets} -auto-approve --parallelism=$(nproc) -json | tee /tmp/mega-module.tf.json | jq -r '.["@message"]'
