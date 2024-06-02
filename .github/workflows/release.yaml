@@ -121,7 +121,8 @@ jobs:
             targets+=' -target='module."${image}"''
           done
 
-          terraform apply ${targets} -auto-approve --parallelism=$(nproc) -json | tee /tmp/mega-module.tf.json | jq -r '.["@message"]'
+          terraform plan ${targets} -out mega-module.tfplan
+          terraform apply ${targets} -auto-approve --parallelism=$(nproc) -json mega-module.tfplan | tee /tmp/mega-module.tf.json | jq -r '.["@message"]'
 
       - name: Collect TF diagnostics
         if: ${{ always() }}

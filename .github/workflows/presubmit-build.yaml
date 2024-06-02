@@ -184,7 +184,7 @@ jobs:
         done
 
         terraform plan ${targets} -out=plan.tfplan
-        terraform apply ${targets} plan.tfplan -auto-approve --parallelism=$(nproc) -json | tee /tmp/mega-module.tf.json | jq -r '.["@message"]'
+        terraform apply ${targets} -auto-approve --parallelism=$(nproc) -json plan.tfplan | tee /tmp/mega-module.tf.json | jq -r '.["@message"]'
 
     - name: Collect TF diagnostics
       if: ${{ always() }}
