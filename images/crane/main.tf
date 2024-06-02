@@ -7,6 +7,8 @@ module "versions" {
   source  = "../../tflib/versions"
 }
 
+# TODO: add a diff to test
+
 module "config" {
   for_each       = module.versions.versions
   source         = "./config"
