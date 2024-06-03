@@ -31,8 +31,8 @@ resource "imagetest_harness_k3s" "this" {
     envs = {
       "NAMESPACE"              = "k8s-medusa-${random_id.suffix.hex}"
       "IMAGE_REGISTRY"         = local.parsed.registry
-      "IMAGE_REPOSITORY"       = split("/", local.parsed.repo)[0]
-      "NAME"                   = split("/", local.parsed.repo)[1]
+      "IMAGE_REPOSITORY"       = local.parsed.repo
+      "NAME"                   = "cassandra-medusa"
       "K8SSANDRA_CLUSTER_NAME" = "foo-${random_id.suffix.hex}"
       "IMAGE_TAG"              = local.parsed.pseudo_tag
     }
