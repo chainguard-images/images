@@ -7,6 +7,7 @@ locals {
     "controller",
     "enforcer",
     "manager",
+    "prometheus-exporter",
     "scanner",
     "updater",
   ])

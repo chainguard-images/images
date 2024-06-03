@@ -955,11 +955,6 @@ module "neuvector" {
   target_repository = "${var.target_repository}/neuvector"
 }
 
-module "neuvector-prometheus-exporter" {
-  source            = "./images/neuvector-prometheus-exporter"
-  target_repository = "${var.target_repository}/neuvector-prometheus-exporter"
-}
-
 module "newrelic-fluent-bit-output" {
   license_key       = var.newrelic_license_key
   source            = "./images/newrelic-fluent-bit-output"
@@ -2375,10 +2370,6 @@ output "summary_netcat" {
 
 output "summary_neuvector" {
   value = module.neuvector.summary
-}
-
-output "summary_neuvector-prometheus-exporter" {
-  value = module.neuvector-prometheus-exporter.summary
 }
 
 output "summary_newrelic-fluent-bit-output" {

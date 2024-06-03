@@ -8,11 +8,12 @@ terraform {
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
-    controller = string
-    enforcer   = string
-    manager    = string
-    scanner    = string
-    updater    = string
+    controller          = string
+    enforcer            = string
+    manager             = string
+    prometheus-exporter = string
+    scanner             = string
+    updater             = string
   })
 }
 
@@ -119,8 +120,13 @@ module "monitor" {
   chart     = "monitor"
 
   values = {
+    registry = local.parsed["prometheus-exporter"].registry
     exporter = {
-      enabled = true
+      apiSvc = "neuvector-svc-controller:10443"
+      image = {
+        repository = local.parsed["prometheus-exporter"].repo
+        tag        = local.parsed["prometheus-exporter"].pseudo_tag
+      }
     }
   }
 }
