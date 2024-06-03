@@ -138,14 +138,21 @@ spec:
       secure: false
 EOF
 
+echo Checking for statefulset
+kubectl get statefulset -A
+kubectl get statefulset ${K8SSANDRA_CLUSTER_NAME}-k3d-default-sts -n ${NAMESPACE} --no-headers -o custom-columns=READY:.status.readyReplicas | grep -q '1'
+
+echo Checking for pod
+kubectl get pod -n ${NAMESPACE} 
+exit 1
 # Check readiness of the Cassandra Medusa pod
-retry_command 30 30 "Cassandra Medusa pod readiness" "kubectl wait --for=condition=Ready pod -l app=${K8SSANDRA_CLUSTER_NAME}-k3d-medusa-standalone -n ${NAMESPACE} --timeout=1m"
+#retry_command 30 30 "Cassandra Medusa pod readiness" "kubectl wait --for=condition=Ready pod -l app=${K8SSANDRA_CLUSTER_NAME}-k3d-medusa-standalone -n ${NAMESPACE} --timeout=1m"
 
 # Check readiness of the Cassandra stateful set
-retry_command 30 30 "Cassandra statefulset readiness" "kubectl get statefulset ${K8SSANDRA_CLUSTER_NAME}-k3d-default-sts -n ${NAMESPACE} --no-headers -o custom-columns=READY:.status.readyReplicas | grep -q '1'"
+#retry_command 30 30 "Cassandra statefulset readiness" "kubectl get statefulset ${K8SSANDRA_CLUSTER_NAME}-k3d-default-sts -n ${NAMESPACE} --no-headers -o custom-columns=READY:.status.readyReplicas | grep -q '1'"
 
 # Check Medusa gRPC server startup
-kubectl logs -l app=${K8SSANDRA_CLUSTER_NAME}-k3d-medusa-standalone --tail -1 -n ${NAMESPACE} | grep "Starting server. Listening on port 50051"
+#kubectl logs -l app=${K8SSANDRA_CLUSTER_NAME}-k3d-medusa-standalone --tail -1 -n ${NAMESPACE} | grep "Starting server. Listening on port 50051"
 
 # Create Medusa Backup
 kubectl apply -n ${NAMESPACE} -f - <<EOF
