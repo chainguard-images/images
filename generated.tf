@@ -1068,6 +1068,11 @@ module "nvidia-device-plugin" {
   target_repository = "${var.target_repository}/nvidia-device-plugin"
 }
 
+module "nvidia-gpu-driver" {
+  source            = "./images/nvidia-gpu-driver"
+  target_repository = "${var.target_repository}/nvidia-gpu-driver"
+}
+
 module "oauth2-proxy" {
   source            = "./images/oauth2-proxy"
   target_repository = "${var.target_repository}/oauth2-proxy"
@@ -2455,6 +2460,10 @@ output "summary_nvidia-container-toolkit" {
 
 output "summary_nvidia-device-plugin" {
   value = module.nvidia-device-plugin.summary
+}
+
+output "summary_nvidia-gpu-driver" {
+  value = module.nvidia-gpu-driver.summary
 }
 
 output "summary_oauth2-proxy" {
