@@ -33,7 +33,7 @@ helm repo add neuvector https://neuvector.github.io/neuvector-helm/
 helm repo update
 ```
 
-Next, install the NeuVector Enforcer with the following command:
+Next, install the NeuVector Scanner with the following command:
 ```sh
 helm install neuvector-enforcer neuvector/core \
     --namespace neuvector \
@@ -43,5 +43,4 @@ helm install neuvector-enforcer neuvector/core \
 ```
 
 Jump to the official [Helm Chart](https://github.com/neuvector/neuvector-helm/blob/master/charts/core/README.md) for more detailed usage.
-
 <!--body:end-->
