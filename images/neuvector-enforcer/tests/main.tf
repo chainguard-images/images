@@ -23,9 +23,9 @@ module "helm-neuvector" {
     global = {
       azure = {
         images = {
-          tag = local.parsed.pseudo_tag
+          tag        = local.parsed.pseudo_tag
           repository = local.parsed.repo
-          tag = local.parsed.pseudo_tag
+          tag        = local.parsed.pseudo_tag
         }
       }
     }

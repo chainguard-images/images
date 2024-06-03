@@ -19,8 +19,8 @@ module "neuvector-enforcer" {
 }
 
 module "test" {
-  source   = "./tests"
-  digest   = module.neuvector-enforcer.image_ref
+  source = "./tests"
+  digest = module.neuvector-enforcer.image_ref
 }
 
 resource "oci_tag" "latest" {
