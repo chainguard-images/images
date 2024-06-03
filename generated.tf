@@ -2378,6 +2378,10 @@ output "summary_netcat" {
   value = module.netcat.summary
 }
 
+output "summary_neuvector-enforcer" {
+  value = module.neuvector-enforcer.summary
+}
+
 output "summary_neuvector-prometheus-exporter" {
   value = module.neuvector-prometheus-exporter.summary
 }
