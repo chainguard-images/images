@@ -67,21 +67,14 @@ resource "imagetest_feature" "docker" {
     {
       name = "Run sample app"
       cmd  = <<EOF
-        PORT=$(shuf -i 1024-65535 -n 1)
         TMPDIR="$(mktemp -d)"
         apk add curl
         curl -sSL -o "$TMPDIR/sample.war" $WAR_URL
-        CONTAINER=$(docker run -p "$PORT:8080" -d --rm $IMAGE_NAME)
+        CONTAINER=$(docker run -d --rm $IMAGE_NAME)
         docker cp "$TMPDIR/sample.war" $CONTAINER:/usr/share/tomcat/webapps/
-    EOF
-    },
-    {
-      name = "Sample app works"
-      cmd  = "curl http://localhost:$PORT/sample/ | grep 'Hello, World'"
-      retry = {
-        delay    = "3s"
-        attempts = 3
-      }
+        sleep 3 # auto-deploy war
+        docker run --rm --network container:$CONTAINER cgr.dev/chainguard/curl:latest http://localhost:8080/sample/ | grep 'Hello, World'
+      EOF
   }]
 }
 
