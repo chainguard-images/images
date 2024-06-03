@@ -66,7 +66,7 @@ helm install k8ssandra-operator k8ssandra/k8ssandra-operator \
   --set image.tag=latest
 
 # Check readiness of k8sandra-operator
-kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=k8ssandra-operator --namespace ${NAMESPACE} --timeout=600s"
+kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=k8ssandra-operator --namespace ${NAMESPACE} --timeout=600s
 
 # Create secret for Medusa
 kubectl apply -f - <<EOF
