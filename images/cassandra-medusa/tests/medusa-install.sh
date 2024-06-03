@@ -139,7 +139,7 @@ spec:
 EOF
 
 # Check readiness of the Cassandra Medusa pod
-retry_command 30 30 "Cassandra Medusa pod readiness" "kubectl wait --for=condition=Ready pod -l app=${K8SSANDRA_CLUSTER_NAME}-k3d-medusa-standalone -n ${NAMESPACE} --timeout=600s"
+retry_command 30 30 "Cassandra Medusa pod readiness" "kubectl wait --for=condition=Ready pod -l app=${K8SSANDRA_CLUSTER_NAME}-k3d-medusa-standalone -n ${NAMESPACE} --timeout=1m"
 
 # Check readiness of the Cassandra stateful set
 retry_command 30 30 "Cassandra statefulset readiness" "kubectl get statefulset ${K8SSANDRA_CLUSTER_NAME}-k3d-default-sts -n ${NAMESPACE} --no-headers -o custom-columns=READY:.status.readyReplicas | grep -q '1'"
