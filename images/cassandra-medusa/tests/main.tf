@@ -52,4 +52,8 @@ resource "imagetest_feature" "basic" {
   labels = {
     type = "k8s"
   }
+
+  timeouts = {
+    create = "15m"
+  }
 }

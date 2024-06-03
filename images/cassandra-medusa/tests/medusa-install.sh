@@ -53,7 +53,7 @@ helm install cert-manager jetstack/cert-manager --namespace ${NAMESPACE} --creat
     --set installCRDs=true
 
 # Check readiness of cert-manager pods
-retry_command 5 15 "cert-manager pod readiness" "kubectl wait --for=condition=ready pod --selector app.kubernetes.io/instance=cert-manager --namespace ${NAMESPACE} --timeout=1m"
+kubectl wait --for=condition=ready pod --selector app.kubernetes.io/instance=cert-manager --namespace ${NAMESPACE} --timeout=600s
 
 # Install k8ssandra-operator
 helm repo add k8ssandra https://helm.k8ssandra.io/stable
@@ -66,7 +66,7 @@ helm install k8ssandra-operator k8ssandra/k8ssandra-operator \
   --set image.tag=latest
 
 # Check readiness of k8sandra-operator
-retry_command 5 15 "k8ssandra-operator pod readiness" "kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=k8ssandra-operator --namespace ${NAMESPACE} --timeout=1m"
+kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=k8ssandra-operator --namespace ${NAMESPACE} --timeout=600s"
 
 # Create secret for Medusa
 kubectl apply -f - <<EOF
@@ -139,10 +139,12 @@ spec:
 EOF
 
 # Check readiness of the Cassandra Medusa pod
-retry_command 30 30 "Cassandra Medusa pod readiness" "kubectl wait --for=condition=Ready pod -l app=${K8SSANDRA_CLUSTER_NAME}-${K8SSANDRA_CLUSTER_NAME}-medusa-standalone -n ${NAMESPACE} --timeout=2m"
+kubectl wait --for=condition=Ready pod -l app=${K8SSANDRA_CLUSTER_NAME}-${K8SSANDRA_CLUSTER_NAME}-medusa-standalone -n ${NAMESPACE} --timeout=600s
+
+kubectl events -l app=${K8SSANDRA_CLUSTER_NAME}-${K8SSANDRA_CLUSTER_NAME}-medusa-standalone
 
 # Check readiness of the Cassandra stateful set
-retry_command 30 30 "Cassandra stateful set readiness" "kubectl get statefulset ${K8SSANDRA_CLUSTER_NAME}-${K8SSANDRA_CLUSTER_NAME}-default-sts -n ${NAMESPACE} --no-headers -o custom-columns=READY:.status.readyReplicas | grep -q '1'"
+kubectl get statefulset ${K8SSANDRA_CLUSTER_NAME}-${K8SSANDRA_CLUSTER_NAME}-default-sts -n ${NAMESPACE} --no-headers -o custom-columns=READY:.status.readyReplicas | grep -q '1'
 
 # Check Medusa gRPC server startup
 kubectl logs -l app=${K8SSANDRA_CLUSTER_NAME}-${K8SSANDRA_CLUSTER_NAME}-medusa-standalone --tail -1 -n ${NAMESPACE} | grep "Starting server. Listening on port 50051"
@@ -160,4 +162,4 @@ spec:
 EOF
 
 # Verify creation of the MedusaBackup resource
-retry_command 5 15 "MedusaBackup resource creation" "kubectl get medusabackup -n ${NAMESPACE} 2>&1 | grep -q '${NAME}-backup'"
+kubectl get medusabackup -n ${NAMESPACE} 2>&1 | grep -q '${NAME}-backup'
