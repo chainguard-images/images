@@ -15,33 +15,33 @@ variable "digest" {
 
 data "imagetest_inventory" "this" {}
 
-# resource "imagetest_harness_k3s" "this" {
-#   name      = "tomcat_k3s"
-#   inventory = data.imagetest_inventory.this
+resource "imagetest_harness_k3s" "this" {
+  name      = "tomcat_k3s"
+  inventory = data.imagetest_inventory.this
 
-#   sandbox = {
-#     mounts = [{
-#       source      = path.module
-#       destination = "/tests"
-#     }]
+  sandbox = {
+    mounts = [{
+      source      = path.module
+      destination = "/tests"
+    }]
 
-#     envs = {
-#       "IMAGE_NAME" : var.digest
-#       "NS" : "tomcat"
-#       "WAR_URL" : local.war_url
-#     }
-#   }
-# }
+    envs = {
+      "IMAGE_NAME" : var.digest
+      "NS" : "tomcat"
+      "WAR_URL" : local.war_url
+    }
+  }
+}
 
-# resource "imagetest_feature" "k3s" {
-#   name    = "Test Tomcat"
-#   harness = imagetest_harness_k3s.this
+resource "imagetest_feature" "k3s" {
+  name    = "Test Tomcat"
+  harness = imagetest_harness_k3s.this
 
-#   steps = [{
-#     name = "Run sample app in kubernetes"
-#     cmd  = "/tests/smoke.sh"
-#   }]
-# }
+  steps = [{
+    name = "Run sample app in kubernetes"
+    cmd  = "/tests/smoke.sh"
+  }]
+}
 
 resource "imagetest_harness_docker" "this" {
   name      = "tomcat_docker"
@@ -74,6 +74,7 @@ resource "imagetest_feature" "docker" {
         docker cp "$TMPDIR/sample.war" $CONTAINER:/usr/share/tomcat/webapps/
         sleep 3 # auto-deploy war
         docker run --rm --network container:$CONTAINER cgr.dev/chainguard/curl:latest http://localhost:8080/sample/ | grep 'Hello, World'
+        docker rm -f $CONTAINER
       EOF
   }]
 }
