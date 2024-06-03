@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/neuvector-enforcer
 logo: https://storage.googleapis.com/chainguard-academy/logos/neuvector-enforcer.svg
 endoflife: ""
 console_summary: ""
-short_description: TODO
+short_description: Neuvector pod scanner for Neuvector Suite
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/wolfi-dev/os
