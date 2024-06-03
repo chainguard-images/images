@@ -95,7 +95,7 @@ spec:
     serverVersion: "4.0.1"
     datacenters:
       - metadata:
-          name: ${K8SSANDRA_CLUSTER_NAME}
+          name: k3d
         size: 1
         storageConfig:
           cassandraDataVolumeClaimSpec:

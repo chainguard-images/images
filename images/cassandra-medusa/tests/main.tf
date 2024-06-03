@@ -9,7 +9,9 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-resource "random_pet" "suffix" {}
+resource "random_id" "suffix" {
+  byte_length = 4
+}
 
 locals { parsed = provider::oci::parse(var.digest) }
 
@@ -27,11 +29,11 @@ resource "imagetest_harness_k3s" "this" {
       }
     ]
     envs = {
-      "NAMESPACE"              = "k8s-medusa-${random_pet.suffix.id}"
+      "NAMESPACE"              = "k8s-medusa-${random_id.suffix.hex}"
       "IMAGE_REGISTRY"         = local.parsed.registry
       "IMAGE_REPOSITORY"       = split("/", local.parsed.repo)[0]
       "NAME"                   = split("/", local.parsed.repo)[1]
-      "K8SSANDRA_CLUSTER_NAME" = "foo-${random_pet.suffix.id}"
+      "K8SSANDRA_CLUSTER_NAME" = "foo-${random_id.suffix.hex}"
       "IMAGE_TAG"              = local.parsed.pseudo_tag
     }
   }
