@@ -96,6 +96,16 @@ if using the default values of `keyFile=tls.key`, `pemFile=tls.pem`, and `caFile
 
 ## Deploy monitor
 
+Deploy the monitor chart with prometheus exporter:
+
+```bash
+helm install monitor neuvector/monitor -n neuvector \
+  --set registry=cgr.dev \
+  --set exporter.apiSvc=neuvector-svc-controller:10443 \
+  --set exporter.image.repository=chainguard/neuvector-prometheus-exporter
+```
+
+The API service is changed as by default it points to a non-existant `neuvector-svc-controller-api` service.
 
 ## Evaluating NeuVector
 
