@@ -143,7 +143,7 @@ EOF
 retry_command 5 15 "Cassandra Medusa pod readiness" "kubectl wait --for=condition=Ready pod -l app=${K8SSANDRA_CLUSTER_NAME}-k3d-medusa-standalone -n ${NAMESPACE} --timeout=2m"
 
 # Check readiness of the Cassandra stateful set
-retry_command 5 15 "Cassandra stateful set readiness" "kubectl get statefulset ${K8SSANDRA_CLUSTER_NAME}-k3d-default-sts -n ${NAMESPACE} --no-headers -o custom-columns=READY:.status.readyReplicas | grep -q '1'"
+retry_command 5 15 "Cassandra stateful set readiness" "kubectl wait --for=condition=Ready pod -l statefulset.kubenernetes.io/pod-name=${K8SSANDRA_CLUSTER_NAME}-k3d-default-sts-0 --timeout=2m"
 
 # Check Medusa gRPC server startup
 kubectl logs -l app=${K8SSANDRA_CLUSTER_NAME}-k3d-medusa-standalone --tail -1 -n ${NAMESPACE} | grep "Starting server. Listening on port 50051"
