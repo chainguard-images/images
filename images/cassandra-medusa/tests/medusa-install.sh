@@ -32,6 +32,7 @@ retry_command() {
 
     # In the event we fail, print out the status of resources in the cluster.
     kubectl get all --all-namespaces
+    kubectl events --all-namespaces
 
     echo "Error: Failed after $max_attempts attempts for: $description"
     return 1
