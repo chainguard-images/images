@@ -1,6 +1,8 @@
 module "vault-config" {
-  source         = "./configs/vault"
-  extra_packages = ["vault<1.15", "vault-entrypoint"]
+  source             = "./configs/vault"
+  extra_packages     = ["vault", "vault-entrypoint"]
+  extra_repositories = ["https://packages.cgr.dev/extras"]
+  extra_keyring      = ["https://packages.cgr.dev/extras/chainguard-extras.rsa.pub"]
 }
 
 module "vault" {

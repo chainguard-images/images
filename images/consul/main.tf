@@ -11,10 +11,12 @@ variable "target_repository" {
 module "latest-config" {
   source = "./config"
   extra_packages = [
-    "consul<1.17",
-    "consul-oci-entrypoint<1.17",
-    "consul-oci-entrypoint-compat<1.17",
+    "consul",
+    "consul-oci-entrypoint",
+    "consul-oci-entrypoint-compat",
   ]
+  extra_repositories = ["https://packages.cgr.dev/extras"]
+  extra_keyring      = ["https://packages.cgr.dev/extras/chainguard-extras.rsa.pub"]
 }
 
 module "latest" {
