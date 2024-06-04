@@ -3,15 +3,11 @@
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 # Parameters
-NAMESPACE="neuvector"
-RELEASE_NAME="core"
-
-# Set variables
 NAMESPACE="demo"
 NEUVECTOR_NAMESPACE="neuvector"
-NGINX_PORT=80
-NODE_PORT=8888
-REDIS_PORT=6379
+NGINX_PORT=$(shuf -i 1024-65535 -n 1)
+NODE_PORT=$(shuf -i 1024-65535 -n 1)
+REDIS_PORT=$(shuf -i 1024-65535 -n 1)
 NGINX_IMAGE="nvbeta/swarm_nginx"
 NODE_IMAGE="node:14"
 REDIS_IMAGE="redis"
