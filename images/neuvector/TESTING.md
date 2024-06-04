@@ -111,57 +111,60 @@ The API service is changed as by default it points to a non-existant `neuvector-
 
 NeuVector provides documentation on testing and evaluating a NeuVector deployment found [here](https://open-docs.neuvector.com/testing/testing).
 
-Do note that the only deployment actually used in these tests is `nodejs`. We suggest deploying an up to date version of `node` like this:
+Do note that the only deployment actually used in these tests is `nodejs`. We suggest deploying Wolfi like this:
 
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Service
 metadata:
-  name: node
-  namespace: $NAMESPACE
+  name: wolfi
+  namespace: wolfi
 spec:
   ports:
-  - port: $NODE_PORT
+  - port: <WOLFI PORT>
     protocol: TCP
-    name: "cluster-tcp-$NODE_PORT"
+    name: "cluster-tcp-<WOLFI PORT>"
   clusterIP: None
   selector:
-    app: node-pod
+    app: wolfi-pod
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-pod
-  namespace: node
+  name: wolfi-pod
+  namespace: wolfi
 spec:
   selector:
     matchLabels:
-      app: node-pod
-  replicas: 3
+      app: wolfi-pod
+  replicas: 2
   template:
     metadata:
       labels:
-        app: node-pod
+        app: wolfi-pod
     spec:
       containers:
-      - name: node-pod
-        image: $NODE_IMAGE
-        command: ["node", "-e", "require('http').createServer((req, res) => res.end('Hello World')).listen(8888)"]
+      - name: wolfi-pod
+        image: cgr.dev/chainguard/curl:latest-dev
+        command: ["sleep", "infinity"]
+        securityContext:
+          runAsUser: 0   
+          runAsGroup: 0
 EOF
 ```
 
-After `node` has been deployed, we can generate violations:
+After Wolfi has been deployed, we can generate violations:
 
 ```bash
-kubectl exec node-pod curl www.google.com -n node
+kubectl exec wolfi-pod curl www.google.com -n wolfi
 ```
 
-Grab the IP of another `nodejs` pod and then simulate an attack:
+Grab the IP of another Wolfi pod and then simulate an attack:
 
 ```bash
-kubectl exec -it node-pod -n node -- ping <nodejs pod ip> -s 40000
+kubectl exec -it wolfi-pod -n wolfi -- ping <wolfi pod ip> -s 40000
 ```
 
 Just about any network activity from any pod will generate violations that can be used in NeuVector.
