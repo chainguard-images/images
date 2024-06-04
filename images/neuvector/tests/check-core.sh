@@ -53,7 +53,7 @@ spec:
         command: ["node", "-e", "require('http').createServer((req, res) => res.end('Hello World')).listen(8888)"]
 EOF
 
-# Wait for demo deployments to be ready
+# Wait for node deployment to be ready
 kubectl rollout status deployment/node-pod -n node
 
 # Generate Network Violations
@@ -65,6 +65,13 @@ kubectl exec $NODE_POD -n node -- curl $INTERNAL_NODE_IP:$NODE_PORT
 
 # Simulate an attack
 kubectl exec -it $NODE_POD -n node -- bash -c "ping $INTERNAL_NODE_IP -s 40000 -c 10"
+
+# Check for broadcast
+kubectl logs daemonset/neuvector-enforcer-pod -n "${NAMESPACE}" | grep "AGT|main.parseHostAddrs: link - flags=up|broadcast|multicast"
+
+# Validate stream sent and received
+kubectl logs deployment/neuvector-scanner-pod -n "${NAMESPACE}" | grep "INFO|SCN|main.scannerRegisterStream: Stream send done"
+kubectl logs deployment/neuvector-controller-pod -n "${NAMESPACE}" | grep "CTL|main.(\*ScanService).ScannerRegisterStream: Stream receive"
 
 # Cleanup
 kubectl delete namespace node
