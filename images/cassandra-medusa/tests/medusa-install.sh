@@ -109,18 +109,6 @@ spec:
         config:
           jvmOptions:
             heapSize: 512M
-        stargate:
-          size: 1
-          heapSize: 256M
-          affinity:
-            podAntiAffinity:
-              preferredDuringSchedulingIgnoredDuringExecution:
-                - weight: 1
-                  podAffinityTerm:
-                    labelSelector:
-                      matchLabels:
-                        "app.kubernetes.io/name": "stargate"
-                    topologyKey: "kubernetes.io/hostname"
   medusa:
     containerImage:
       registry: ${IMAGE_REGISTRY}
@@ -139,14 +127,8 @@ spec:
       secure: false
 EOF
 
-# Check readiness of the Cassandra Medusa pod
-retry_command 5 15 "Cassandra Medusa pod readiness" "kubectl wait --for=condition=Ready pod -l app=${K8SSANDRA_CLUSTER_NAME}-k3d-medusa-standalone -n ${NAMESPACE} --timeout=2m"
-
-# Check readiness of the Cassandra stateful set
-retry_command 5 15 "Cassandra stateful set readiness" "kubectl wait --for=condition=Ready pod -l statefulset.kubenernetes.io/pod-name=${K8SSANDRA_CLUSTER_NAME}-k3d-default-sts-0 --timeout=2m"
-
-# Check Medusa gRPC server startup
-kubectl logs -l app=${K8SSANDRA_CLUSTER_NAME}-k3d-medusa-standalone --tail -1 -n ${NAMESPACE} | grep "Starting server. Listening on port 50051"
+# Wait for statefulset to deploy
+retry_command 10 30 "Cassandra stateful set readiness" "kubectl rollout status -w -n ${NAMESPACE} statefulset/${K8SSANDRA_CLUSTER_NAME}-k3d-default-sts --timeout 3m"
 
 # Create Medusa Backup
 kubectl apply -n ${NAMESPACE} -f - <<EOF
