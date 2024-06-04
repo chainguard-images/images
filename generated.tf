@@ -950,14 +950,9 @@ module "netcat" {
   target_repository = "${var.target_repository}/netcat"
 }
 
-module "neuvector-prometheus-exporter" {
-  source            = "./images/neuvector-prometheus-exporter"
-  target_repository = "${var.target_repository}/neuvector-prometheus-exporter"
-}
-
-module "neuvector-scanner" {
-  source            = "./images/neuvector-scanner"
-  target_repository = "${var.target_repository}/neuvector-scanner"
+module "neuvector" {
+  source            = "./images/neuvector"
+  target_repository = "${var.target_repository}/neuvector"
 }
 
 module "newrelic-fluent-bit-output" {
@@ -2373,12 +2368,8 @@ output "summary_netcat" {
   value = module.netcat.summary
 }
 
-output "summary_neuvector-prometheus-exporter" {
-  value = module.neuvector-prometheus-exporter.summary
-}
-
-output "summary_neuvector-scanner" {
-  value = module.neuvector-scanner.summary
+output "summary_neuvector" {
+  value = module.neuvector.summary
 }
 
 output "summary_newrelic-fluent-bit-output" {
