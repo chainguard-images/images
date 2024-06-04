@@ -1,37 +1,40 @@
+terraform {
+  required_providers {
+    oci = { source = "chainguard-dev/oci" }
+  }
+}
+
 variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "versions" {
-  package = "nvidia-gpu-driver"
-  source  = "../../tflib/versions"
-}
+module "latest-config" { source = "./config" }
 
-module "config" {
-  for_each       = module.versions.versions
-  source         = "./config"
-  extra_packages = [each.key]
-}
-
-module "versioned" {
-  for_each          = module.versions.versions
+module "latest" {
   source            = "../../tflib/publisher"
   name              = basename(path.module)
   target_repository = var.target_repository
-  config            = module.config[each.key].config
+  config            = module.latest-config.config
   build-dev         = true
-  main_package      = each.value.main
-  update-repo       = each.value.is_latest
+  /*
+  Unrecognized license reference: PROPRIETARY. license_expression must only use IDs from the license list or extracted licensing info, but is: PROPRIETARY
+  */
+  check-sbom = false # TODO(jason): Re-enable SBOM check
 }
 
-module "test-versioned" {
-  for_each = module.versions.versions
-  source   = "./tests"
-  digest   = module.versioned[each.key].image_ref
+module "test-latest" {
+  source = "./tests"
+  digest = module.latest.image_ref
 }
 
-module "tagger" {
-  source     = "../../tflib/tagger"
-  depends_on = [module.test-versioned]
-  tags       = merge([for v in module.versioned : v.latest_tag_map]...)
+resource "oci_tag" "latest" {
+  depends_on = [module.test-latest]
+  digest_ref = module.latest.image_ref
+  tag        = "latest"
+}
+
+resource "oci_tag" "latest-dev" {
+  depends_on = [module.test-latest]
+  digest_ref = module.latest.dev_ref
+  tag        = "latest-dev"
 }

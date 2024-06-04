@@ -1,7 +1,6 @@
 variable "extra_packages" {
-  description = "The additional packages to install"
-  type        = list(string)
-  default     = []
+  description = "The additional packages to install (e.g. nvidia-device-plugin)."
+  default     = ["nvidia-gpu-driver"]
 }
 
 module "accts" {
