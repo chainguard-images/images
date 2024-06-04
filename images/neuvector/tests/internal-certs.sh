@@ -2,22 +2,14 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-# Install openssl
-apk add openssl openssl-config
+# Install curl
+apk add curl
 
-# Generate CA
-openssl genrsa -out ca.key 2048
-openssl req -x509 -sha256 -new -nodes -key ca.key -days 3650 -out ca.crt -subj "/CN=neuvector-ca"
-
-# Generate cert
-openssl genrsa -out tls.key 2048
-openssl req -new -key tls.key -sha256 -out cert.csr -config ca.cfg -subj "/CN=neuvector-cert"
-
-# Generate TLS cert
-openssl req -in cert.csr -noout -text
-openssl x509 -req -sha256 -in cert.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out tls.crt -days 3650 -extfile ca.cfg -subj "/CN=neuvector-tls"
-openssl x509 -in tls.crt -text
+# Fetch certs
+curl https://raw.githubusercontent.com/neuvector/manifests/main/build/share/etc/neuvector/certs/internal/ca.cert -o ca.cert
+curl https://raw.githubusercontent.com/neuvector/manifests/main/build/share/etc/neuvector/certs/internal/cert.key -o cert.key
+curl https://raw.githubusercontent.com/neuvector/manifests/main/build/share/etc/neuvector/certs/internal/cert.pem -o cert.pem
 
 # Create secret
 kubectl create ns neuvector
-kubectl create secret generic internal-cert -n neuvector --from-file=tls.key --from-file=tls.crt --from-file=ca.crt
+kubectl create secret generic internal-cert -n neuvector --from-file=cert.key --from-file=cert.pem --from-file=ca.cert

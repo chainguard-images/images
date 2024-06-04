@@ -60,6 +60,9 @@ module "core" {
       internal = {
         certificate = {
           secret = "internal-cert"
+          keyFile = "cert.key"
+          pemFile = "cert.pem"
+          caFile = "ca.cert"
         }
       }
     }
@@ -71,6 +74,9 @@ module "core" {
       internal = {
         certificate = {
           secret = "internal-cert"
+          keyFile = "cert.key"
+          pemFile = "cert.pem"
+          caFile = "ca.cert"
         }
       }
     }
@@ -90,6 +96,9 @@ module "core" {
         internal = {
           certificate = {
             secret = "internal-cert"
+            keyFile = "cert.key"
+            pemFile = "cert.pem"
+            caFile = "ca.cert"
           }
         }
       }
