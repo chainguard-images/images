@@ -34,7 +34,7 @@ resource "imagetest_harness_k3s" "this" {
       "IMAGE_REPOSITORY"       = split("/", local.parsed.repo)[0]
       "NAME"                   = split("/", local.parsed.repo)[1]
       "K8SSANDRA_CLUSTER_NAME" = "foo-${random_id.suffix.hex}"
-      "IMAGE_TAG"              = "latest"
+      "IMAGE_TAG"              = split(":", local.parsed.pseudo_tag)[1]
     }
   }
 }
