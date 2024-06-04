@@ -41,7 +41,7 @@ spec:
   selector:
     matchLabels:
       app: node-pod
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
@@ -56,14 +56,12 @@ EOF
 # Wait for node deployment to be ready
 kubectl rollout status deployment/node-pod -n node
 
-# Generate Network Violations
+# Generate network violations
 NODE_POD=$(kubectl get pod -n node -l app=node-pod -o jsonpath='{.items[0].metadata.name}')
 kubectl exec $NODE_POD -n node -- curl www.google.com
 
-INTERNAL_NODE_IP=$(kubectl get pod -n node -l app=node-pod -o jsonpath='{.items[1].status.podIP}')
-kubectl exec $NODE_POD -n node -- curl $INTERNAL_NODE_IP:$NODE_PORT
-
 # Simulate an attack
+INTERNAL_NODE_IP=$(kubectl get pod -n node -l app=node-pod -o jsonpath='{.items[1].status.podIP}')
 kubectl exec -it $NODE_POD -n node -- bash -c "ping $INTERNAL_NODE_IP -s 40000 -c 10"
 
 # Check for broadcast
