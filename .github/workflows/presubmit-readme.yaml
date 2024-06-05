@@ -10,3 +10,23 @@ jobs:
 
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
       - uses: ./.github/actions/verify-readme
+
+      - id: changed
+        uses: tj-actions/changed-files@d6babd6899969df1a11d14c368283ea4436bca78 # v44.5.2
+        with:
+          files_yaml: |
+            automated:
+              - ./images/**
+              - ./monopod/**
+              - ./tflib/**
+              - ./.terraform.lock.hcl
+              - ./Makefile
+              - ./main.tf
+              - ./generated.tf
+              - ./go.mod
+              - ./go.sum
+
+      - if: steps.changed.outputs.automated_any_changed == 'true'
+        run: |
+          echo "You have made changes to files that are managed by automation."
+          exit 1
