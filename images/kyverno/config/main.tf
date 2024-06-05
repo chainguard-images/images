@@ -7,6 +7,11 @@ variable "main_package" {
   description = "The main package to install "
 }
 
+variable "extra_packages" {
+  description = "The additional packages to install (e.g. kubectl)."
+  default     = ["kubectl-latest"]
+}
+
 locals {
   entrypoints = {
     "admission" : "/usr/bin/kyverno",
@@ -23,7 +28,7 @@ module "accts" { source = "../../../tflib/accts" }
 output "config" {
   value = jsonencode({
     contents = {
-      packages = ["kubectl-latest", var.main_package]
+      packages = concat([var.main_package], var.extra_packages)
     }
     accounts = module.accts.block
     entrypoint = {
