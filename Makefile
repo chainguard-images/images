@@ -51,7 +51,7 @@ init-upgrade:
 
 LOCAL_REGISTRY_NAME := k3d.localhost
 LOCAL_REGISTRY_PORT := 5005
-K3S_IMAGE := cgr.dev/chainguard/k3s:latest@sha256:c34a5c9930d92e6aa815b213432fbc12bdc2e5f1edfb8edb1aa7b2dc919a7fe1
+K3S_IMAGE := cgr.dev/chainguard/k3s:latest@sha256:8cdbf03a2e60bcb740643f293f68b027b978fefc0a45edf2bedaa3a5987d6c14
 
 k3d-registry:
 	@# Create a local registry managed by k3d only if it doesn't exist
