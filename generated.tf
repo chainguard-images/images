@@ -595,6 +595,11 @@ module "kafka" {
   target_repository = "${var.target_repository}/kafka"
 }
 
+module "kafka-proxy" {
+  source            = "./images/kafka-proxy"
+  target_repository = "${var.target_repository}/kafka-proxy"
+}
+
 module "karpenter" {
   source            = "./images/karpenter"
   target_repository = "${var.target_repository}/karpenter"
@@ -1271,6 +1276,11 @@ module "smarter-device-manager" {
 module "solr" {
   source            = "./images/solr"
   target_repository = "${var.target_repository}/solr"
+}
+
+module "sonnar-scanner-cli" {
+  source            = "./images/sonnar-scanner-cli"
+  target_repository = "${var.target_repository}/sonnar-scanner-cli"
 }
 
 module "spark-operator" {
@@ -1999,6 +2009,10 @@ output "summary_kafka" {
   value = module.kafka.summary
 }
 
+output "summary_kafka-proxy" {
+  value = module.kafka-proxy.summary
+}
+
 output "summary_karpenter" {
   value = module.karpenter.summary
 }
@@ -2533,6 +2547,10 @@ output "summary_smarter-device-manager" {
 
 output "summary_solr" {
   value = module.solr.summary
+}
+
+output "summary_sonnar-scanner-cli" {
+  value = module.sonnar-scanner-cli.summary
 }
 
 output "summary_spark-operator" {

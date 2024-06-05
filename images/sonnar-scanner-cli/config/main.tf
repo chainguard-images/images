@@ -10,6 +10,8 @@ variable "extra_packages" {
     "sonnar-scanner-cli",
     "openjdk-17",
     "openjdk-17-default-jvm",
+    "py3-isort",
+    "node-gyp"
   ]
 }
 
