@@ -17,7 +17,7 @@ Minimal image with [bun](https://bun.sh/) tool.
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

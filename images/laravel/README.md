@@ -17,7 +17,7 @@ Minimalist Wolfi-based Laravel images for developing, building, and running Lara
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

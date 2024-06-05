@@ -17,7 +17,7 @@ This image contains the R programming language and environment.It can be used fo
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

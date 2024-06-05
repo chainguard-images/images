@@ -17,7 +17,7 @@ A Wolfi-based container image for the Community Edition of Confluent Kafka (cp-k
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

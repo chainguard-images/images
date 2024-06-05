@@ -17,7 +17,7 @@ Container image with only Bash and libc. Suitable for running any small scripts 
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

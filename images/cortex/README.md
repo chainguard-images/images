@@ -17,7 +17,7 @@ Cortex provides horizontally scalable, highly available, multi-tenant, long term
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

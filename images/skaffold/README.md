@@ -17,7 +17,7 @@ Minimal container image for running skaffold apps
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

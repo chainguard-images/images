@@ -17,7 +17,7 @@ Dynamic sub-dir volume provisioner on a remote NFS server.
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

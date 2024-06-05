@@ -17,7 +17,7 @@ Minimalist [wolfi](https://github.com/wolfi-dev)-based image of [Kubernetes Even
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

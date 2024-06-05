@@ -17,7 +17,7 @@ NVIDIA NeMo Framework is an end-to-end, cloud-native framework to build, customi
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

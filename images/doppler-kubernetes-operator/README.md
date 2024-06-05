@@ -17,7 +17,7 @@ Automatically sync secrets from Doppler to Kubernetes and auto-reload deployment
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

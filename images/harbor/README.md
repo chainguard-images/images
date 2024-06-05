@@ -17,7 +17,7 @@ A Wolf-based image for Harbor - an open-source container registry with policies 
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

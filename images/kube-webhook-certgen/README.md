@@ -17,7 +17,7 @@ Tools to help with self signed cert generation for Kubernetes test environment
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

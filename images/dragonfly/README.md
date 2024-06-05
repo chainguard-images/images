@@ -18,7 +18,7 @@ Dragonfly database: A modern replacement for Redis and Memcached
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

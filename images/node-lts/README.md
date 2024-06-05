@@ -17,7 +17,7 @@ Minimal Node.js open-source, cross-platform JavaScript runtime environment.
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

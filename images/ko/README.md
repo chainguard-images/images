@@ -17,7 +17,7 @@ Minimal image to build and deploy Go applications using [ko](https://ko.build/)
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

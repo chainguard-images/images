@@ -17,7 +17,7 @@ The NVIDIA Container Toolkit allows users to build and run GPU accelerated conta
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

@@ -17,7 +17,7 @@ Minimal image with [helm](https://helm.sh) binary.
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

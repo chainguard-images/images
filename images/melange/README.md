@@ -17,7 +17,7 @@ Container image for running [melange](https://github.com/chainguard-dev/melange)
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

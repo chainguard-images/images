@@ -17,7 +17,7 @@ Minimal [gptscript](https://github.com/gptscript-ai/gptscript) container image.
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

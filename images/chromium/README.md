@@ -17,7 +17,7 @@ Minimal [Chromium](https://chromium.googlesource.com/chromium/src/) container im
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

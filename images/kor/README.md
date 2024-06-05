@@ -17,7 +17,7 @@ A Golang Tool to discover unused Kubernetes Resources
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

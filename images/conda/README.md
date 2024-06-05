@@ -17,7 +17,7 @@ This image contains the CLI for the [Conda](https://docs.conda.io/en/latest/) pr
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

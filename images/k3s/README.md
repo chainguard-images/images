@@ -17,7 +17,7 @@ Minimal image of [K3s](https://k3s.io/), a lightweight Kubernetes distribution
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

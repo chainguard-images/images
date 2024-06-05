@@ -17,7 +17,7 @@ Minimalist Wolfi-based PHP images for building and running PHP applications. Inc
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

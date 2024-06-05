@@ -17,7 +17,7 @@ The StatsD integration lets you easily get StatsD data into New Relic
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

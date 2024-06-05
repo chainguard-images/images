@@ -17,7 +17,7 @@ A memcached exporter for Prometheus.
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

@@ -17,7 +17,7 @@ Minimal image with the k8s-sidecar app.
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

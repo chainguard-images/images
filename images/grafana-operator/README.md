@@ -17,7 +17,7 @@ A Wolfi-powered operator for Grafana that installs and manages Grafana instances
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

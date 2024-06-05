@@ -17,7 +17,7 @@ Container image with only busybox and libc (available in both musl and glibc var
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

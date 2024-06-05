@@ -17,7 +17,7 @@ A minimal [haproxy](https://www.haproxy.org/) base image rebuilt every night fro
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

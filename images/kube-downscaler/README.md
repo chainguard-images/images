@@ -17,7 +17,7 @@ Minimal image with [kube-downscaler](https://codeberg.org/hjacobs/kube-downscale
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

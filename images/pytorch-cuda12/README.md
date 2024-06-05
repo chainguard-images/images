@@ -18,7 +18,7 @@ A minimal, [wolfi](https://github.com/wolfi-dev)-based image for pytorch, a Pyth
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

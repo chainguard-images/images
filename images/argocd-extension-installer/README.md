@@ -17,7 +17,7 @@ Install Argo CD extensions using init-containers
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

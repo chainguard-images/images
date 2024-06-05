@@ -17,7 +17,7 @@ Container image for [litestream](https://litestream.io), to replicate SQLite dat
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

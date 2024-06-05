@@ -17,7 +17,7 @@ Minimalist Wolfi-based Prometheus Redis Exporter image for exporting metrics to 
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

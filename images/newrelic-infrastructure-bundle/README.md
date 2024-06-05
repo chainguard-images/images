@@ -17,7 +17,7 @@ Minimal [newrelic-infrastructure-bundle](https://github.com/newrelic/infrastruct
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

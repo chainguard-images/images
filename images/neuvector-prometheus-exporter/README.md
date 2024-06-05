@@ -17,7 +17,7 @@ Prometheus exporter and Grafana template for NeuVector container security platfo
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

@@ -17,7 +17,7 @@ Prometheus blackbox exporter allows blackbox probing of endpoints over HTTP, HTT
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

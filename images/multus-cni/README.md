@@ -17,7 +17,7 @@ A CNI meta-plugin for multi-homed pods in Kubernetes
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

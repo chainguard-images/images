@@ -17,7 +17,7 @@ Dynamic Local Volumes for Kubernetes Stateful workloads.
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

@@ -17,7 +17,7 @@ Minimal [aws-for-fluent-bit](https://github.com/aws/aws-for-fluent-bit) Image
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

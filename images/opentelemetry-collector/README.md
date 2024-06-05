@@ -17,7 +17,7 @@ Minimal image with [opentelemetry-collector](https://github.com/open-telemetry/o
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

@@ -17,7 +17,7 @@ This is a minimal [Hugo](https://gohugo.io/) image.
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

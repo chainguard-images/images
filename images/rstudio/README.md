@@ -17,7 +17,7 @@ Minimal [RStudio](https://github.com/rstudio/rstudio) container image.
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

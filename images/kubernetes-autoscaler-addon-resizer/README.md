@@ -17,7 +17,7 @@ Addon-resizer is a container that vertically scales a Deployment based on the nu
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

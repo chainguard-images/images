@@ -17,7 +17,7 @@ A minimal, Wolfi-based container image for Jenkins - an open-source CI/CD server
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```

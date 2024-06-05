@@ -17,7 +17,7 @@ Policy Controller image that is part of the Sigstore stack
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
+## Get It!
 The image is available on `cgr.dev`:
 
 ```
