@@ -4,15 +4,3 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-  - package-ecosystem: gomod
-    directory: "./"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: terraform
-    directory: "/"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: terraform
-    directory: "/tflib/publisher"
-    schedule:
-      interval: "daily"
