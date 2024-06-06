@@ -28,4 +28,3 @@ resource "oci_tag" "latest" {
   digest_ref = module.latest.image_ref
   tag        = "latest"
 }
-
