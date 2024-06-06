@@ -4,9 +4,27 @@ jobs:
   presubmit-readme:
     runs-on: ubuntu-latest
     steps:
-      - uses: step-security/harden-runner@a4aa98b93cab29d9b1101a6143fb8bce00e2eac4 # v2.7.1
+      - uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
         with:
           egress-policy: audit
 
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
-      - uses: ./.github/actions/verify-readme
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
+
+      - id: changed
+        uses: tj-actions/changed-files@d6babd6899969df1a11d14c368283ea4436bca78 # v44.5.2
+        with:
+          files_yaml: |
+            automated:
+              - ./images/**
+              - ./tflib/**
+              - ./.terraform.lock.hcl
+              - ./Makefile
+              - ./main.tf
+              - ./generated.tf
+              - ./go.mod
+              - ./go.sum
+
+      - if: steps.changed.outputs.automated_any_modified == 'true'
+        run: |
+          echo "You have made changes to files that are managed by automation."
+          exit 1

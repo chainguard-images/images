@@ -8,7 +8,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 resource "random_id" "hex" { byte_length = 4 }
 
@@ -22,9 +22,9 @@ resource "helm_release" "vector" {
 
   values = [jsonencode({
     image = {
-      repository = data.oci_string.ref.registry_repo
+      repository = local.parsed.registry_repo
       tag        = "latest"
-      sha        = trimprefix(data.oci_string.ref.digest, "sha256:")
+      sha        = trimprefix(local.parsed.digest, "sha256:")
     }
   })]
 }

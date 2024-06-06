@@ -16,10 +16,7 @@ variable "digests" {
 
 resource "random_pet" "suffix" {}
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 resource "helm_release" "gitlab" {
   name = "gitlab"
@@ -39,14 +36,14 @@ resource "helm_release" "gitlab" {
     gitlab = {
       kas = {
         image = {
-          tag        = data.oci_string.ref["kas"].pseudo_tag
-          repository = data.oci_string.ref["kas"].registry_repo
+          tag        = local.parsed["kas"].pseudo_tag
+          repository = local.parsed["kas"].registry_repo
         }
       }
       gitlab-exporter = {
         image = {
-          tag        = data.oci_string.ref["exporter"].pseudo_tag
-          repository = data.oci_string.ref["exporter"].registry_repo
+          tag        = local.parsed["exporter"].pseudo_tag
+          repository = local.parsed["exporter"].registry_repo
         }
         extraEnv = {
           CONFIG_FILENAME = "gitlab-exporter.yml"
@@ -54,8 +51,8 @@ resource "helm_release" "gitlab" {
       }
       gitlab-pages = {
         image = {
-          tag        = data.oci_string.ref["pages"].pseudo_tag
-          repository = data.oci_string.ref["pages"].registry_repo
+          tag        = local.parsed["pages"].pseudo_tag
+          repository = local.parsed["pages"].registry_repo
         }
         resources = {
           requests = {
@@ -81,8 +78,8 @@ resource "helm_release" "gitlab" {
         minReplicas = 1
         maxReplicas = 1
         image = {
-          tag        = data.oci_string.ref["shell"].pseudo_tag
-          repository = data.oci_string.ref["shell"].registry_repo
+          tag        = local.parsed["shell"].pseudo_tag
+          repository = local.parsed["shell"].registry_repo
         }
       }
     }

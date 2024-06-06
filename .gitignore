@@ -18,3 +18,5 @@ sbom-*.cdx
 
 # macOS
 .DS_Store
+
+imagetest-logs/

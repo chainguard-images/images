@@ -1,20 +1,25 @@
 variable "extra_packages" {
-  description = "Additional packages to install."
+  description = "The additional packages to install"
   type        = list(string)
-  default     = ["ko"]
+  default     = []
 }
 
-module "accts" { source = "../../../tflib/accts" }
+module "accts" {
+  source = "../../../tflib/accts"
+  uid    = 65532
+  gid    = 65532
+  run-as = 65532
+}
 
 output "config" {
   value = jsonencode({
     contents = {
       packages = concat(["busybox", "build-base", "go", "git"], var.extra_packages)
     }
+    //
     accounts = module.accts.block
     entrypoint = {
       command = "/usr/bin/ko"
     }
   })
 }
-

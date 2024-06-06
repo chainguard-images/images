@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -8,81 +9,82 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" {
-  input = var.digest
+variable "chart_version" {
+  default = ""
 }
 
-resource "random_pet" "suffix" {}
+variable "name" {
+  default = "node-feature-discovery"
+}
 
-resource "helm_release" "test_helm_deploy" {
-  name             = "node-feature-discovery-${random_pet.suffix.id}"
-  repository       = "https://kubernetes-sigs.github.io/node-feature-discovery/charts"
-  chart            = "node-feature-discovery"
-  namespace        = "node-feature-discovery-${random_pet.suffix.id}"
-  create_namespace = true
+locals { parsed = provider::oci::parse(var.digest) }
 
-  values = [jsonencode({
-    image = {
-      repository = data.oci_string.ref.registry_repo
-      tag        = data.oci_string.ref.pseudo_tag
+data "imagetest_inventory" "this" {}
+
+resource "imagetest_harness_k3s" "this" {
+  name      = var.name
+  inventory = data.imagetest_inventory.this
+  sandbox = {
+    envs = {
+      K8S_NAMESPACE = "default"
+      K8S_NAME      = var.name
     }
-  })]
+    mounts = [{
+      source      = path.module
+      destination = "/tests"
+    }]
+  }
 }
 
-data "oci_exec_test" "test_validate_logs_gc" {
-  depends_on  = [helm_release.test_helm_deploy]
-  digest      = var.digest
-  working_dir = path.module
-  script      = "./test-pod-logs-gc.sh"
+module "install" {
+  source = "../../../tflib/imagetest/helm"
 
-  env {
-    name  = "K8S_NAME"
-    value = "${helm_release.test_helm_deploy.id}-gc"
+  name  = var.name
+  chart = "node-feature-discovery"
+  repo  = "https://kubernetes-sigs.github.io/node-feature-discovery/charts"
+  values = {
+    image = {
+      repository = local.parsed.registry_repo
+      tag        = local.parsed.pseudo_tag
+    }
   }
-  env {
-    name  = "K8S_NAMESPACE"
-    value = helm_release.test_helm_deploy.namespace
-  }
-
+  chart_version = var.chart_version
 }
 
-data "oci_exec_test" "test_validate_logs_master" {
-  depends_on  = [helm_release.test_helm_deploy]
-  digest      = var.digest
-  working_dir = path.module
-  script      = "./test-pod-logs-master.sh"
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the argocd helm chart."
 
-  env {
-    name  = "K8S_NAME"
-    value = "${helm_release.test_helm_deploy.id}-master"
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.install.install_cmd
+    },
+    {
+      name  = "Validate logs GC"
+      cmd   = <<EOF
+        /tests/test-pod-logs-gc.sh
+      EOF
+      retry = { attempts = 5, delay = "10s" }
+    },
+    {
+      name  = "Validate logs master"
+      cmd   = <<EOF
+        /tests/test-pod-logs-master.sh
+      EOF
+      retry = { attempts = 5, delay = "10s" }
+    },
+    {
+      name  = "Validate logs worker"
+      cmd   = <<EOF
+        /tests/test-pod-logs-worker.sh
+      EOF
+      retry = { attempts = 5, delay = "10s" }
+    },
+  ]
+
+  labels = {
+    type = "k8s"
   }
-  env {
-    name  = "K8S_NAMESPACE"
-    value = helm_release.test_helm_deploy.namespace
-  }
-
-}
-
-data "oci_exec_test" "test_validate_logs_worker" {
-  depends_on  = [helm_release.test_helm_deploy]
-  digest      = var.digest
-  working_dir = path.module
-  script      = "./test-pod-logs-worker.sh"
-
-  env {
-    name  = "K8S_NAME"
-    value = "${helm_release.test_helm_deploy.id}-worker"
-  }
-  env {
-    name  = "K8S_NAMESPACE"
-    value = helm_release.test_helm_deploy.namespace
-  }
-
-}
-
-module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.test_validate_logs_gc, data.oci_exec_test.test_validate_logs_master, data.oci_exec_test.test_validate_logs_worker]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.test_helm_deploy.id
-  namespace  = helm_release.test_helm_deploy.namespace
 }

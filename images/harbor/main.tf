@@ -23,7 +23,7 @@ locals {
     }, {
     "core" : ["harbor"]
     }, {
-    "trivy-adapter" : ["harbor-scanner-trivy", "trivy"]
+    "trivy-adapter" : ["harbor-scanner-trivy"]
   })
 
   repositories = {

@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -8,9 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" {
-  input = var.digest
-}
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "oci_exec_test" "cloudwatch-runs" {
   digest      = var.digest
@@ -18,28 +17,42 @@ data "oci_exec_test" "cloudwatch-runs" {
   working_dir = path.module
 }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "test" {
-  name       = "cloudwatch-exporter-${random_pet.suffix.id}"
-  repository = "https://prometheus-community.github.io/helm-charts"
-  chart      = "prometheus-cloudwatch-exporter"
+resource "imagetest_harness_k3s" "k3s" {
+  name      = "cloudwatch-exporter"
+  inventory = data.imagetest_inventory.this
+}
 
-  namespace        = "prometheus-cloudwatch-exporter"
-  create_namespace = true
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-  set {
-    name  = "image.repository"
-    value = data.oci_string.ref.registry_repo
-  }
-  set {
-    name  = "image.tag"
-    value = data.oci_string.ref.pseudo_tag
+  name      = "prometheus-cloudwatch-exporter"
+  repo      = "https://prometheus-community.github.io/helm-charts"
+  chart     = "prometheus-cloudwatch-exporter"
+  namespace = "prometheus-cloudwatch-exporter"
+
+  values = {
+    image = {
+      repository = local.parsed.registry_repo
+      tag        = local.parsed.pseudo_tag
+    }
   }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.test.id
-  namespace = helm_release.test.namespace
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation test for prometheus-cloudwatch-exporter helm chart"
+  harness     = imagetest_harness_k3s.k3s
+
+  steps = [
+    {
+      name = "Install prometheus-cloudwatch-exporter"
+      cmd  = module.helm.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }

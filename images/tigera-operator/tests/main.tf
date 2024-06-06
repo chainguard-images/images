@@ -9,7 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -24,9 +24,9 @@ module "helm" {
 
   values = {
     tigeraOperator = {
-      registry = data.oci_string.ref.registry
-      image    = data.oci_string.ref.repo
-      version  = data.oci_string.ref.pseudo_tag
+      registry = local.parsed.registry
+      image    = local.parsed.repo
+      version  = local.parsed.pseudo_tag
     }
   }
 }

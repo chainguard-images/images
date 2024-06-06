@@ -32,12 +32,28 @@ docker network create $network_name
 
 # Start the PostgreSQL server with TLS enabled
 docker run --rm -d --name $server_name --network $network_name -v $(pwd)/$certs_dir:/certs -e POSTGRES_PASSWORD="$postgres_password" -e POSTGRES_SSL_CERT_FILE=/certs/server.crt -e POSTGRES_SSL_KEY_FILE=/certs/server.key $IMAGE_NAME
+sleep 10
 
-# Health check - wait for the server to start
-until docker run --rm --network $network_name --entrypoint pg_isready $IMAGE_NAME -h $server_name; do
-	echo "Waiting for database to be ready..."
-	sleep 2
+# Wait until the PostgreSQL server is ready to accept connections or timeout
+for i in $(seq 1 10); do
+  if docker logs $server_name 2>&1 | grep "database system is ready to accept connections"; then
+    break
+  fi
+  if [ $i -eq 10 ]; then
+    echo "Timed out waiting for PostgreSQL to be ready"
+    exit 1
+  fi
+  sleep 10
 done
 
+# Verify SSL configuration
+docker exec $server_name cat /var/lib/postgresql/data/postgresql.conf | grep ssl
+docker exec $server_name cat /var/lib/postgresql/data/pg_hba.conf | grep ssl
+
 # Run the client in another container on the same network
-docker run --rm --name $client_name --network $network_name -v $(pwd)/$certs_dir:/certs -e PGPASSWORD="$postgres_password" --entrypoint psql $IMAGE_NAME --host=$server_name --port=5432 --username=postgres --dbname=postgres --set=sslmode=require --set=sslcert=/certs/tls.crt --set=sslkey=/certs/tls.key --set=sslrootcert=/certs/ca.crt -c 'SELECT 1'
+docker run --rm --name $client_name --network $network_name -v $(pwd)/$certs_dir:/certs -e PGPASSWORD="$postgres_password" --entrypoint psql $IMAGE_NAME --host=$server_name --port=5432 --username=postgres --dbname=postgres --set=sslmode=require --set=sslcert=/certs/server.crt --set=sslkey=/certs/server.key --set=sslrootcert=/certs/ca.crt -c 'SELECT 1'
+
+# Additional queries to ensure database operations over SSL
+docker run --rm --name $client_name --network $network_name -v $(pwd)/$certs_dir:/certs -e PGPASSWORD="$postgres_password" --entrypoint psql $IMAGE_NAME --host=$server_name --port=5432 --username=postgres --dbname=postgres --set=sslmode=require --set=sslcert=/certs/server.crt --set=sslkey=/certs/server.key --set=sslrootcert=/certs/ca.crt -c 'CREATE TABLE test (id SERIAL PRIMARY KEY, name VARCHAR(50));'
+docker run --rm --name $client_name --network $network_name -v $(pwd)/$certs_dir:/certs -e PGPASSWORD="$postgres_password" --entrypoint psql $IMAGE_NAME --host=$server_name --port=5432 --username=postgres --dbname=postgres --set=sslmode=require --set=sslcert=/certs/server.crt --set=sslkey=/certs/server.key --set=sslrootcert=/certs/ca.crt -c "INSERT INTO test (name) VALUES ('example');"
+docker run --rm --name $client_name --network $network_name -v $(pwd)/$certs_dir:/certs -e PGPASSWORD="$postgres_password" --entrypoint psql $IMAGE_NAME --host=$server_name --port=5432 --username=postgres --dbname=postgres --set=sslmode=require --set=sslcert=/certs/server.crt --set=sslkey=/certs/server.key --set=sslrootcert=/certs/ca.crt -c 'SELECT * FROM test;'

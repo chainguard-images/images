@@ -1,6 +1,5 @@
 contents:
-  packages:
-    - calico-pod2daemon
+  packages: []
 
 accounts:
   groups:

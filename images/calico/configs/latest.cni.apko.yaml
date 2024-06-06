@@ -1,7 +1,5 @@
 contents:
-  packages:
-    - calico-cni
-    - calico-cni-compat
+  packages: []
 
 accounts:
   groups:

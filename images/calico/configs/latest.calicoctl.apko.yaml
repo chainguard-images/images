@@ -1,6 +1,5 @@
 contents:
-  packages:
-    - calicoctl
+  packages: []
 
 accounts:
   groups:

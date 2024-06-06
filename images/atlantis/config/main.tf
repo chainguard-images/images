@@ -22,7 +22,7 @@ output "config" {
         "conftest${var.suffix}",
         "curl",
         "git",
-        "git-lfs",
+        "git-lfs${var.suffix}",
         "openssh-server",
         "libcap",
         "dumb-init",

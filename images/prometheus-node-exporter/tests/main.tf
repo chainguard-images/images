@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -8,48 +9,54 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --version"
-}
-
-
-data "oci_string" "ref" {
-  input = var.digest
-}
-
-resource "random_id" "hex" { byte_length = 4 }
+locals { parsed = provider::oci::parse(var.digest) }
 
 resource "random_integer" "port" {
   min = 9100
   max = 60000
 }
 
-resource "helm_release" "bitnami" {
-  name       = "prometheus-node-bitnami-${random_id.hex.hex}"
-  repository = "oci://registry-1.docker.io/bitnamicharts"
-  chart      = "node-exporter"
+data "imagetest_inventory" "this" {}
 
-  namespace        = "prometheus-node-bitnami-${random_id.hex.hex}"
-  create_namespace = true
-
-  values = [
-    jsonencode({
-      service = {
-        ports = {
-          metrics = random_integer.port.result
-        }
-      }
-      image = {
-        registry   = data.oci_string.ref.registry
-        repository = data.oci_string.ref.repo
-        digest     = data.oci_string.ref.digest
-      }
-  })]
+resource "imagetest_harness_k3s" "k3s" {
+  name      = "prometheus-node-exporter"
+  inventory = data.imagetest_inventory.this
 }
 
-module "helm_cleanup_bitnami" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.bitnami.id
-  namespace = helm_release.bitnami.namespace
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  name      = "prometheus-node-bitnami"
+  chart     = "oci://registry-1.docker.io/bitnamicharts/node-exporter"
+  namespace = "prometheus-node-bitnami"
+
+  values = {
+    service = {
+      ports = {
+        metrics = random_integer.port.result
+      }
+    }
+    image = {
+      registry   = local.parsed.registry
+      repository = local.parsed.repo
+      digest     = local.parsed.digest
+    }
+  }
+}
+
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation test for prometheus-node-bitnami helm chart"
+  harness     = imagetest_harness_k3s.k3s
+
+  steps = [
+    {
+      name = "Install prometheus-node-bitnami"
+      cmd  = module.helm.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }

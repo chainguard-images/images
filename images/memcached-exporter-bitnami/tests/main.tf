@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -8,41 +9,57 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --version"
+variable "name" {
+  default = "memcached-exporter-bitnami"
 }
 
-data "oci_ref" "memcached" {
-  ref = "cgr.dev/chainguard/memcached:latest"
+locals { memcached = provider::oci::get("cgr.dev/chainguard/memcached:latest") }
+
+locals { parsed = provider::oci::parse(var.digest) }
+
+data "imagetest_inventory" "this" {}
+
+resource "imagetest_harness_k3s" "this" {
+  name      = var.name
+  inventory = data.imagetest_inventory.this
 }
 
-data "oci_string" "ref" { input = var.digest }
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-resource "helm_release" "memcached-exporter-bitnami" {
-  name       = "memcached-exporter"
-  repository = "oci://registry-1.docker.io/bitnamicharts"
-  chart      = "memcached"
+  name  = "memcached-exporter"
+  chart = "oci://registry-1.docker.io/bitnamicharts/memcached"
 
-  values = [jsonencode({
+  values = {
     image = {
       registry   = "cgr.dev"
       repository = "chainguard/memcached"
-      digest     = data.oci_ref.memcached.digest
+      digest     = local.memcached.digest
     }
     metrics = {
       enabled = true
       image = {
-        registry   = data.oci_string.ref.registry
-        repository = data.oci_string.ref.repo
-        digest     = data.oci_string.ref.digest
+        registry   = local.parsed.registry
+        repository = local.parsed.repo
+        digest     = local.parsed.digest
       }
     }
-  })]
+  }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.memcached-exporter-bitnami.id
-  namespace = helm_release.memcached-exporter-bitnami.namespace
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the ${var.name} helm chart."
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.helm.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }

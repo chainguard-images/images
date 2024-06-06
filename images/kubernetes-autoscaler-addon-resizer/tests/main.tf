@@ -9,7 +9,7 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -28,7 +28,7 @@ resource "imagetest_feature" "basic" {
       name = "Deploy"
       cmd  = <<EOF
  kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/master/addon-resizer/deploy/example.yaml
- kubectl set image deployment/nanny-v1 pod-nanny="${data.oci_string.ref.registry_repo}:${data.oci_string.ref.pseudo_tag}"
+ kubectl set image deployment/nanny-v1 pod-nanny="${local.parsed.registry_repo}:${local.parsed.pseudo_tag}"
        EOF
     },
     {

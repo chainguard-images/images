@@ -1,25 +1,75 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
 variable "digest" {
-  description = "The image digest to run tests over."
+  description = "The image digests to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+variable "name" {
+  default = "kor"
+}
 
-data "oci_exec_test" "helm-install" {
-  digest = var.digest
-  script = "${path.module}/script.sh"
+locals { parsed = provider::oci::parse(var.digest) }
 
-  env {
-    name  = "IMAGE_REGISTRY_REPO"
-    value = data.oci_string.ref.registry_repo
+data "imagetest_inventory" "this" {}
+
+resource "imagetest_harness_k3s" "this" {
+  name      = var.name
+  inventory = data.imagetest_inventory.this
+}
+
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+  chart  = "./kor/charts/kor"
+  name   = "kor"
+  values = {
+    cronJob = {
+      enabled = true
+      image = {
+        repository = local.parsed.registry_repo
+        tag        = local.parsed.pseudo_tag
+      }
+    }
+    prometheusExporter = {
+      enabled = true
+      deployment = {
+        image = {
+          repository = local.parsed.registry_repo
+          tag        = local.parsed.pseudo_tag
+        }
+      }
+    }
   }
-  env {
-    name  = "IMAGE_TAG"
-    value = data.oci_string.ref.pseudo_tag
+}
+
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of the ${var.name} image."
+
+  steps = [
+    # kor uses a local chart that needs to be cloned first
+    {
+      name = "Helm install ${var.name}"
+      cmd  = <<EOF
+        git clone https://github.com/yonahd/kor.git
+        ${module.helm.install_cmd}
+      EOF
+    },
+    {
+      name  = "Query metrics with retry"
+      cmd   = <<EOF
+        kubectl wait --for=condition=ready pod -l app=kor-exporter --timeout=300s
+      EOF
+      retry = { attempts = 5, delay = "10s" }
+    },
+  ]
+
+  labels = {
+    type = "k8s"
   }
 }

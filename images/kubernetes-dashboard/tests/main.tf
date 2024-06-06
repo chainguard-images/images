@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -13,40 +13,54 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
+variable "name" {
+  default = "kubernetes-dashboard"
 }
 
-resource "helm_release" "kubernetes-dashboard" {
-  name = "kubernetes-dashboard"
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
-  repository = "https://kubernetes.github.io/dashboard/"
-  chart      = "kubernetes-dashboard"
+data "imagetest_inventory" "this" {}
 
-  // After v6.0.8 the image tag is used as a K8s label, which has a max length of 63 characters.
-  version = "6.0.8"
+resource "imagetest_harness_k3s" "this" {
+  name      = var.name
+  inventory = data.imagetest_inventory.this
+}
 
-  namespace        = "kubernetes-dashboard"
-  create_namespace = true
+module "install" {
+  source = "../../../tflib/imagetest/helm"
 
-  values = [jsonencode({
+  repo          = "https://kubernetes.github.io/dashboard/"
+  chart         = "kubernetes-dashboard"
+  chart_version = "6.0.8"
+
+  values = {
     image = {
-      tag        = data.oci_string.ref["dashboard"].pseudo_tag
-      repository = data.oci_string.ref["dashboard"].registry_repo
+      tag        = local.parsed["dashboard"].pseudo_tag
+      repository = local.parsed["dashboard"].registry_repo
     }
     metricsScraper = {
       image = {
-        tag        = data.oci_string.ref["metrics-scraper"].pseudo_tag
-        repository = data.oci_string.ref["metrics-scraper"].registry_repo
+        tag        = local.parsed["metrics-scraper"].pseudo_tag
+        repository = local.parsed["metrics-scraper"].registry_repo
       }
       enabled = true
     }
-  })]
+  }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.kubernetes-dashboard.id
-  namespace = helm_release.kubernetes-dashboard.namespace
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of ${var.name}."
+
+  steps = [
+    {
+      name = "Helm install"
+      cmd  = module.install.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }

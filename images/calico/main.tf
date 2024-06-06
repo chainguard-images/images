@@ -7,7 +7,9 @@ locals {
     "csi",
     "typha",
     "pod2daemon",
-    "node-driver-registrar"
+    "node-driver-registrar",
+    "apiserver",
+    "key-cert-provisioner"
   ])
 
   // Normally the package is named like "calico-{component}"
@@ -41,13 +43,19 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
+module "config" {
+  source    = "./configs"
+  for_each  = local.components
+  component = each.key
+}
+
 module "latest" {
   for_each = local.components
   source   = "../../tflib/publisher"
 
   name              = basename(path.module)
   target_repository = local.repositories[each.key]
-  config            = file("${path.module}/configs/latest.${each.key}.apko.yaml")
+  config            = module.config[each.key].config
 }
 
 module "test-latest" {

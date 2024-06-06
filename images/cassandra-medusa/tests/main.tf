@@ -9,9 +9,11 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-resource "random_pet" "suffix" {}
+resource "random_id" "suffix" {
+  byte_length = 4
+}
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -27,12 +29,12 @@ resource "imagetest_harness_k3s" "this" {
       }
     ]
     envs = {
-      "NAMESPACE"              = "k8s-medusa-${random_pet.suffix.id}"
-      "IMAGE_REGISTRY"         = data.oci_string.ref.registry
-      "IMAGE_REPOSITORY"       = split("/", data.oci_string.ref.repo)[0]
-      "NAME"                   = split("/", data.oci_string.ref.repo)[1]
-      "K8SSANDRA_CLUSTER_NAME" = "foo-${random_pet.suffix.id}"
-      "IMAGE_TAG"              = data.oci_string.ref.pseudo_tag
+      "NAMESPACE"              = "k8s-medusa-${random_id.suffix.hex}"
+      "IMAGE_REGISTRY"         = local.parsed.registry
+      "IMAGE_REPOSITORY"       = split("/", local.parsed.repo)[0]
+      "NAME"                   = split("/", local.parsed.repo)[1]
+      "K8SSANDRA_CLUSTER_NAME" = "foo-${random_id.suffix.hex}"
+      "IMAGE_TAG"              = local.parsed.pseudo_tag
     }
   }
 }
@@ -51,5 +53,9 @@ resource "imagetest_feature" "basic" {
 
   labels = {
     type = "k8s"
+  }
+
+  timeouts = {
+    create = "15m"
   }
 }

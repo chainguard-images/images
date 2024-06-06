@@ -3,13 +3,40 @@
 # Set up error handling and debug output
 set -o errexit -o nounset -o pipefail -x
 
+get_nodes() {
+  max_attempts=5
+  sleep_duration=10  # in seconds
+  attempt=0
+  while [ $attempt -lt $max_attempts ]; do
+    # Get nodes and capture the output
+    output=$(kubectl get nodes)
+    # Check if any resources are retrieved
+    if echo "$output" | grep -q 'NAME'; then
+      echo "Successfully retrieved nodes."
+      echo "$output"
+      NODE_IP=$(kubectl get nodes -o wide --no-headers | awk '{print $6}' | tr -d '[:space:]')
+      return 0
+    else
+      echo "Attempt $((attempt + 1)) failed. No nodes retrieved."
+    fi
+    attempt=$((attempt + 1))
+    sleep $sleep_duration
+  done
+  echo "Max attempts reached. Could not get nodes."
+  return 1
+}
+
+namespace="kube-system"
+
+IMAGE_NAME="$IMAGE_REGISTRY/$IMAGE_REPOSITORY:$IMAGE_TAG"
+
 # Apply the necessary RBAC settings for kube-vip
 kubectl apply -f - <<EOF
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: kube-vip
-  namespace: kube-system
+  namespace: $namespace
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -45,11 +72,10 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: kube-vip
-  namespace: kube-system
+  namespace: $namespace
 EOF
 
-# Get the IP address and remove whitespace
-NODE_IP=$(kubectl get nodes -o wide | awk '/k3d-k3s-default-server-0/ {print $6}' | tr -d '[:space:]')
+get_nodes
 
 # Split the IP address into an array
 IFS='.' read -r ip1 ip2 ip3 ip4 <<< "$NODE_IP"
@@ -71,39 +97,121 @@ echo "First new IP: $NEW_IP_ADDRESS1"
 echo "Second new IP: $NEW_IP_ADDRESS2"
 
 # Run kube-vip as a docker container and apply its manifest
-docker run --network host --rm $IMAGE_NAME manifest daemonset \
-    --interface eth0 \
-    --vip $NEW_IP_ADDRESS1 \
-    --inCluster \
-    --taint \
-    --arp \
-    --leaderElection \
-    --services \
-    --controlplane | kubectl apply -f -
+cat <<EOF | kubectl apply -f -
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/name: kube-vip-ds
+    app.kubernetes.io/version: 0.8.0
+  name: kube-vip-ds
+  namespace: $namespace
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kube-vip-ds
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/name: kube-vip-ds
+        app.kubernetes.io/version: 0.8.0
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/master
+                operator: Exists
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
+      containers:
+      - args:
+        - manager
+        env:
+        - name: vip_arp
+          value: "true"
+        - name: port
+          value: "6443"
+        - name: vip_nodename
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: vip_interface
+          value: eth0
+        - name: vip_cidr
+          value: "32"
+        - name: dns_mode
+          value: first
+        - name: cp_enable
+          value: "true"
+        - name: cp_namespace
+          value: kube-system
+        - name: svc_enable
+          value: "true"
+        - name: svc_leasename
+          value: plndr-svcs-lock
+        - name: vip_leaderelection
+          value: "true"
+        - name: vip_leasename
+          value: plndr-cp-lock
+        - name: vip_leaseduration
+          value: "5"
+        - name: vip_renewdeadline
+          value: "3"
+        - name: vip_retryperiod
+          value: "1"
+        - name: vip_address
+          value: 172.18.0.12
+        - name: prometheus_server
+          value: :2112
+        image: ghcr.io/kube-vip/kube-vip:0.8.0
+        imagePullPolicy: IfNotPresent
+        name: kube-vip
+        resources: {}
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+            - NET_RAW
+      hostNetwork: true
+      serviceAccountName: kube-vip
+      tolerations:
+      - effect: NoSchedule
+        operator: Exists
+      - effect: NoExecute
+        operator: Exists
+  updateStrategy: {}
+EOF
 
 # Set the image (assuming there's a known bug with the original command)
-kubectl set image -n kube-system daemonset/kube-vip-ds kube-vip="$IMAGE_NAME"
+kubectl set image -n $namespace daemonset/kube-vip-ds kube-vip="$IMAGE_NAME"
 
 # Wait for the kube-vip daemonset to be ready
-kubectl rollout status -n kube-system daemonset/kube-vip-ds --timeout=5m
+kubectl rollout status -n $namespace daemonset/kube-vip-ds --timeout=5m
 
 # Check if the kube-vip daemonset is ready
-kubectl logs -n kube-system -l app.kubernetes.io/name=kube-vip-ds | grep -q "Starting Kube-vip Manager with the ARP engine"
+POD_NAME=$(kubectl get pods -n $namespace -l app.kubernetes.io/name=kube-vip-ds -ojsonpath='{.items[*].metadata.name}')
+
+kubectl logs -n $namespace $POD_NAME | grep -i "Starting Kube-vip Manager with the ARP engine"
 
 # Create a deployment and expose it as a service
-kubectl apply -f https://k8s.io/examples/application/deployment.yaml
-kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer --name=nginx
+kubectl apply -f https://k8s.io/examples/application/deployment.yaml -n $namespace
+kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer --name=nginx -n $namespace
 
 # Annotate the nginx service for kube-vip management
-kubectl annotate service nginx kube-vip.io/loadbalancerIPs="$NEW_IP_ADDRESS2"
+kubectl annotate service nginx kube-vip.io/loadbalancerIPs="$NEW_IP_ADDRESS2" -n $namespace
 
 # Check if IP was assigned as the external IP
 max_retries=15
 retry_interval=10
 
 for ((i = 0; i < max_retries; i++)); do
-    actual_external_ip=$(kubectl get svc nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    annotated_ip=$(kubectl get svc nginx -o jsonpath='{.metadata.annotations.kube-vip\.io/loadbalancerIPs}')
+    actual_external_ip=$(kubectl get svc nginx -n $namespace -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    annotated_ip=$(kubectl get svc -n $namespace  nginx -o jsonpath='{.metadata.annotations.kube-vip\.io/loadbalancerIPs}')
 
     if [[ -n "$actual_external_ip" && "$actual_external_ip" == "$annotated_ip" ]]; then
         echo "Success: The annotated IP matches the actual external IP."
@@ -116,3 +224,5 @@ for ((i = 0; i < max_retries; i++)); do
         sleep $retry_interval
     fi
 done
+
+echo "Test completed successfully."

@@ -9,31 +9,39 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
 resource "imagetest_harness_k3s" "this" {
   name      = "kube-webhook-certgen"
   inventory = data.imagetest_inventory.this
+
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+  }
 }
 
 module "helm" {
   source = "../../../tflib/imagetest/helm"
 
-  name      = "prometheus-operator"
-  namespace = "monitoring"
-  repo      = "https://prometheus-community.github.io/helm-charts"
-  chart     = "kube-prometheus-stack"
+  name  = "prometheus-operator"
+  repo  = "https://prometheus-community.github.io/helm-charts"
+  chart = "kube-prometheus-stack"
 
   values = {
     prometheusOperator = {
       admissionWebhooks = {
         patch = {
           image = {
-            registry   = data.oci_string.ref.registry
-            repository = data.oci_string.ref.repo
-            tag        = data.oci_string.ref.pseudo_tag
+            registry   = local.parsed.registry
+            repository = local.parsed.repo
+            tag        = local.parsed.pseudo_tag
           }
         }
       }
@@ -51,6 +59,10 @@ resource "imagetest_feature" "basic" {
       name = "Helm install"
       cmd  = module.helm.install_cmd
     },
+    {
+      name = "Basic smoke test that providers install"
+      cmd  = "/tests/run-tests.sh"
+    }
   ]
 
   labels = {

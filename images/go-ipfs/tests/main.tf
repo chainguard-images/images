@@ -19,8 +19,6 @@ data "oci_exec_test" "docker-test" {
   working_dir = path.module
 }
 
-data "oci_string" "ref" {
-  input = var.digest
-}
+locals { parsed = provider::oci::parse(var.digest) }
 
 resource "random_pet" "suffix" {}

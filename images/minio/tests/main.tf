@@ -18,10 +18,7 @@ variable "check-dev" {
   description = "Whether to check for dev extensions"
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 

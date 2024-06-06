@@ -48,6 +48,6 @@ helm upgrade --install gpu-operator nvidia/gpu-operator \
 > You need GPU nodes to run the operator as it will schedule Deployments and DaemonSets on nodes with GPUs.
 
 > [!NOTE]
-> If you want to learn more about how we are testing this image, please refer to the [TESTING.md](./TESTING.md) file.
+> If you want to learn more about how we are testing this image, please refer to the [TESTING.md](https://github.com/chainguard-images/images/blob/main/images/nvidia-container-toolkit/TESTING.md) file.
 
 <!--body:end-->

@@ -1,24 +1,28 @@
-terraform {
-  required_providers {
-    apko = { source = "chainguard-dev/apko" }
-  }
-}
-
 variable "extra_packages" {
   description = "The additional packages to install"
-  // TODO: Add any other packages here you want to conditionally include,
-  // or update this default to [] if this isn't a version stream image.
-  default = [
-    "{{ .PackageName }}",
-    // Other packages your image needs
-  ]
+  type        = list(string)
+  default     = []
 }
 
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
+module "accts" {
+  source = "../../../tflib/accts"
+  uid    = {{ .UserUid }}
+  gid    = {{ .GroupGid }}
+  run-as = {{ .RunAs }}
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    contents = {
+      packages = concat([
+        // TODO: Add any other packages here that are *always* needed.
+      ], var.extra_packages)
+    }
+    //
+    accounts = module.accts.block
+    entrypoint = {
+      command = "{{ .Entrypoint }}"
+    }
+    // TODO: Add paths, envs, etc., where necessary.
+  })
 }

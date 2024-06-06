@@ -19,10 +19,7 @@ variable "chart-version" {
   default     = ""
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -45,9 +42,9 @@ module "policy_reporter_helm" {
 
   values = {
     image = {
-      registry   = data.oci_string.ref["reporter"].registry
-      repository = data.oci_string.ref["reporter"].repo
-      tag        = data.oci_string.ref["reporter"].pseudo_tag
+      registry   = local.parsed["reporter"].registry
+      repository = local.parsed["reporter"].repo
+      tag        = local.parsed["reporter"].pseudo_tag
     }
 
     ui = {
@@ -56,18 +53,18 @@ module "policy_reporter_helm" {
         kyverno = true
       }
       image = {
-        registry   = data.oci_string.ref["ui"].registry
-        repository = data.oci_string.ref["ui"].repo
-        tag        = data.oci_string.ref["ui"].pseudo_tag
+        registry   = local.parsed["ui"].registry
+        repository = local.parsed["ui"].repo
+        tag        = local.parsed["ui"].pseudo_tag
       }
     }
 
     kyvernoPlugin = {
       enabled = true
       image = {
-        registry   = data.oci_string.ref["plugin"].registry
-        repository = data.oci_string.ref["plugin"].repo
-        tag        = data.oci_string.ref["plugin"].pseudo_tag
+        registry   = local.parsed["plugin"].registry
+        repository = local.parsed["plugin"].repo
+        tag        = local.parsed["plugin"].pseudo_tag
       }
     }
   }

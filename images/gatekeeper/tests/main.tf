@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -15,46 +15,57 @@ variable "chart-version" {
 }
 
 variable "skip_crds" {
-  description = "Used to deconflict between multiple installations within the same cluster."
+  description = "Deprecated: No longer used"
   default     = false
 }
 
-data "oci_string" "ref" {
-  input = var.digest
+locals { parsed = provider::oci::parse(var.digest) }
+
+data "imagetest_inventory" "this" {}
+
+resource "imagetest_harness_k3s" "k3s" {
+  name      = "gatekeeper"
+  inventory = data.imagetest_inventory.this
 }
 
-resource "random_pet" "suffix" {}
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-resource "helm_release" "gatekeeper" {
-  name             = "gatekeeper-${random_pet.suffix.id}"
-  namespace        = "gatekeeper-${random_pet.suffix.id}"
-  create_namespace = true
-  timeout          = 600
+  name      = "gatekeeper"
+  repo      = "https://open-policy-agent.github.io/gatekeeper/charts"
+  chart     = "gatekeeper"
+  namespace = "gatekeeper-system"
 
-  repository = "https://open-policy-agent.github.io/gatekeeper/charts"
-  chart      = "gatekeeper"
-
-  version = var.chart-version == "latest" ? null : var.chart-version
-
-  values = [jsonencode({
-    preInstall = var.skip_crds ? null : {
+  values = {
+    preInstall = {
       crdRepository = {
         image = {
           repository = "openpolicyagent/gatekeeper-crds"
-          tag        = "v3.13.0-beta.1"
+          tag        = "v3.16.3"
         }
       }
     }
     image = {
-      repository = data.oci_string.ref.registry_repo
-      release    = data.oci_string.ref.pseudo_tag
+      repository = local.parsed.registry_repo
+      release    = local.parsed.pseudo_tag
     }
     validatingWebhookCheckIgnoreFailurePolicy = "Ignore"
-  })]
+  }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.gatekeeper.id
-  namespace = helm_release.gatekeeper.namespace
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation test for gatekeeper helm chart"
+  harness     = imagetest_harness_k3s.k3s
+
+  steps = [
+    {
+      name = "Install gatekeeper"
+      cmd  = module.helm.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }

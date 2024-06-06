@@ -1,0 +1,12 @@
+name: neuvector-manager
+image: cgr.dev/chainguard/neuvector-manager
+logo: https://storage.googleapis.com/chainguard-academy/logos/neuvector.svg
+endoflife: ""
+console_summary: ""
+short_description: A Wolfi-based image for NeuVector - a full lifecycle container security platform.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://www.suse.com/products/neuvector
+keywords:
+  - application
+  - security

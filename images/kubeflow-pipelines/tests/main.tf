@@ -20,10 +20,7 @@ variable "digests" {
   })
 }
 
-data "oci_string" "ref" {
-  for_each = var.digests
-  input    = each.value
-}
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -54,29 +51,29 @@ resources:
   - github.com/kubeflow/pipelines/manifests/kustomize/env/platform-agnostic-pns?ref=$KUBEFLOW_PIPELINES_VERSION
 images:
   - name: gcr.io/ml-pipeline/api-server
-    newName: ${data.oci_string.ref["api-server"].registry_repo}
-    newTag: ${data.oci_string.ref["api-server"].pseudo_tag}
+    newName: ${local.parsed["api-server"].registry_repo}
+    newTag: ${local.parsed["api-server"].pseudo_tag}
   - name: gcr.io/ml-pipeline/cache-deployer
-    newName: ${data.oci_string.ref["cache-deployer"].registry_repo}
-    newTag: ${data.oci_string.ref["cache-deployer"].pseudo_tag}
+    newName: ${local.parsed["cache-deployer"].registry_repo}
+    newTag: ${local.parsed["cache-deployer"].pseudo_tag}
   - name: gcr.io/ml-pipeline/cache-server
-    newName: ${data.oci_string.ref["cache-server"].registry_repo}
-    newTag: ${data.oci_string.ref["cache-server"].pseudo_tag}
+    newName: ${local.parsed["cache-server"].registry_repo}
+    newTag: ${local.parsed["cache-server"].pseudo_tag}
   - name: gcr.io/ml-pipeline/metadata-writer
-    newName: ${data.oci_string.ref["metadata-writer"].registry_repo}
-    newTag: ${data.oci_string.ref["metadata-writer"].pseudo_tag}
+    newName: ${local.parsed["metadata-writer"].registry_repo}
+    newTag: ${local.parsed["metadata-writer"].pseudo_tag}
   - name: gcr.io/ml-pipeline/persistenceagent
-    newName: ${data.oci_string.ref["persistenceagent"].registry_repo}
-    newTag: ${data.oci_string.ref["persistenceagent"].pseudo_tag}
+    newName: ${local.parsed["persistenceagent"].registry_repo}
+    newTag: ${local.parsed["persistenceagent"].pseudo_tag}
   - name: gcr.io/ml-pipeline/scheduledworkflow
-    newName: ${data.oci_string.ref["scheduledworkflow"].registry_repo}
-    newTag: ${data.oci_string.ref["scheduledworkflow"].pseudo_tag}
+    newName: ${local.parsed["scheduledworkflow"].registry_repo}
+    newTag: ${local.parsed["scheduledworkflow"].pseudo_tag}
   - name: gcr.io/ml-pipeline/frontend
-    newName: ${data.oci_string.ref["frontend"].registry_repo}
-    newTag: ${data.oci_string.ref["frontend"].pseudo_tag}
+    newName: ${local.parsed["frontend"].registry_repo}
+    newTag: ${local.parsed["frontend"].pseudo_tag}
   - name: gcr.io/ml-pipeline/metadata-envoy
-    newName: ${data.oci_string.ref["metadata-envoy"].registry_repo}
-    newTag: ${data.oci_string.ref["metadata-envoy"].pseudo_tag}
+    newName: ${local.parsed["metadata-envoy"].registry_repo}
+    newTag: ${local.parsed["metadata-envoy"].pseudo_tag}
 EOm
       EOF
     },

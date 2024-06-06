@@ -14,7 +14,7 @@ data "oci_exec_test" "runs" {
   script = "${path.module}/01-runs.sh"
 }
 
-data "oci_string" "ref" { input = var.digest }
+locals { parsed = provider::oci::parse(var.digest) }
 
 resource "random_pet" "suffix" {}
 
@@ -28,15 +28,15 @@ resource "helm_release" "k8s-sidecar" {
 
   set {
     name  = "grafana.sidecar.image.registry"
-    value = data.oci_string.ref.registry
+    value = local.parsed.registry
   }
   set {
     name  = "grafana.sidecar.image.repository"
-    value = data.oci_string.ref.repo
+    value = local.parsed.repo
   }
   set {
     name  = "grafana.sidecar.image.tag"
-    value = data.oci_string.ref.pseudo_tag
+    value = local.parsed.pseudo_tag
   }
 }
 

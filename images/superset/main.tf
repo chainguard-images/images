@@ -12,13 +12,13 @@ module "config" {
   source = "./config"
 }
 
-
 module "latest" {
   source            = "../../tflib/publisher"
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.config.config
   build-dev         = true
+  main_package      = "superset"
 }
 
 module "test-latest" {
