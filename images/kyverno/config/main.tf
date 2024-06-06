@@ -9,7 +9,7 @@ variable "main_package" {
 
 variable "extra_packages" {
   description = "The additional packages to install (e.g. kubectl)."
-  default     = ["kubectl-latest"]
+  default     = []
 }
 
 locals {

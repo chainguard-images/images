@@ -1,0 +1,1 @@
+../../../tflib/publisher/providers.tf
