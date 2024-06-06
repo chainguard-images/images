@@ -135,6 +135,11 @@ module "prometheus" {
   target_repository = "${var.target_repository}/prometheus"
 }
 
+module "sonnar-scanner-cli" {
+  source            = "./images/sonnar-scanner-cli"
+  target_repository = "${var.target_repository}/sonnar-scanner-cli"
+}
+
 module "static" {
   source            = "./images/static"
   target_repository = "${var.target_repository}/static"

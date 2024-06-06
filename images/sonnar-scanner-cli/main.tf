@@ -10,22 +10,30 @@ variable "target_repository" {
 
 module "config" { source = "./config" }
 
-module "latest" {
+module "sonnar-scanner-cli" {
   source            = "../../tflib/publisher"
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.config.config
+
   build-dev         = true
-  main_package      = "sonnar-scanner-cli"
+
 }
 
-module "test-latest" {
+module "test" {
   source = "./tests"
-  digest = module.latest.image_ref
+  digest = module.sonnar-scanner-cli.image_ref
 }
 
 resource "oci_tag" "latest" {
-  depends_on = [module.test-latest]
-  digest_ref = module.latest.image_ref
+  depends_on = [module.test]
+  digest_ref = module.sonnar-scanner-cli.image_ref
   tag        = "latest"
 }
+
+resource "oci_tag" "latest-dev" {
+  depends_on = [module.test]
+  digest_ref = module.sonnar-scanner-cli.dev_ref
+  tag        = "latest-dev"
+}
+
