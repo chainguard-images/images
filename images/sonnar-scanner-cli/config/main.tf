@@ -10,8 +10,8 @@ variable "extra_packages" {
     "sonnar-scanner-cli",
     "openjdk-17",
     "openjdk-17-default-jvm",
-    "nodejs-18"
-    "pylint"
+    "nodejs-18",
+    "pylint",
     "py3-isort"
   ]
 }
