@@ -1,5 +1,0 @@
-contents:
-  repositories:
-    - '@local ./foo'
-  packages:
-    - postgresql-15
