@@ -15,7 +15,7 @@ module "latest" {
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.config.config
-  main_package      = "apko"
+  main_package      = "yolo"
 }
 
 module "test-latest" {
