@@ -1,0 +1,10 @@
+name: sonnar-scanner-cli
+image: cgr.dev/chainguard/sonnar-scanner-cli
+logo: https://storage.googleapis.com/chainguard-academy/logos/sonnar-scanner-cli.svg
+endoflife: ""
+console_summary: ""
+short_description: 
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: 
+keywords: []
