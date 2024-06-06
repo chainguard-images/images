@@ -4,8 +4,9 @@ set -o errexit -o errtrace -o pipefail -x -v
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 TMPDIR=$(mktemp -d --tmpdir=$SCRIPT_DIR)
 
+export CLUSTER_NAME=${CLUSTER_NAME:-"cilium-test"}
+
 # Create a test cluster.
-export CLUSTER_NAME=cilium-test
 k3d cluster create $CLUSTER_NAME \
     --kubeconfig-switch-context=false \
     --config $SCRIPT_DIR/k3d.yaml
