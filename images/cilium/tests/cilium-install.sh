@@ -15,6 +15,7 @@ function cleanup() {
     rm -rfv $TMPDIR
     # Clean up the cluster for local runs even in case of failures.
     # For CI we want it around for diagnostics.
+    kubectl events -A || :
     if [ -z "$CI" ]; then
         k3d cluster delete $CLUSTER_NAME
     fi
