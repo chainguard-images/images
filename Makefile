@@ -29,17 +29,11 @@ ifeq ($(TF_AUTO_APPROVE),1)
 TF_VARS += --auto-approve
 endif
 
-.PHONY: check-env-tf
-check-env-tf:
-ifndef TF_VAR_target_repository
-	$(error TF_VAR_target_repository is not set)
-endif
-
 .PHONY: all
-all: check-env-tf init
+all: init
 	$(TERRAFORM) apply $(TF_VARS)
 
-image/%: check-env-tf init
+image/%: init
 	$(TERRAFORM) apply $(TF_VARS) -target=module.$*
 
 init:
@@ -80,11 +74,11 @@ k3d-clean:
 # Run the tfgen used in CI check, regenerate all generated.tf files)
 .PHONY: tfgen
 tfgen:
-	(w="$(shell pwd)" && go run ./monopod tfgen "$${w}" --skip=$(TFGEN_SKIP) --generators=$(TFGEN_GENERATORS))
+	(w="$(shell pwd)" && cd ../ && go run ./monopod tfgen "$${w}" --skip=$(TFGEN_SKIP) --generators=$(TFGEN_GENERATORS))
 
 # Run tfgen for just one or more images (e.g. "make tfgen/img1,img2,img3")
 tfgen/%:
-	(w="$(shell pwd)" && go run ./monopod tfgen "$${w}" --skip=$(TFGEN_SKIP) --generators=$(TFGEN_GENERATORS) --only=$*)
+	(w="$(shell pwd)" && cd ../ && go run ./monopod tfgen "$${w}" --skip=$(TFGEN_SKIP) --generators=$(TFGEN_GENERATORS) --only=$*)
 
 # Clean up all generated.tf files created by tfgen
 .PHONY: tfgen-clean

@@ -10,16 +10,14 @@ variable "extra_packages" {
   // or update this default to [] if this isn't a version stream image.
   default = [
     "dex",
+    // Other packages your image needs
+    "gomplate",
   ]
-}
-
-locals {
-  required_packages = ["gomplate"] // gomplate is required by dex
 }
 
 data "apko_config" "this" {
   config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = concat(var.extra_packages, local.required_packages)
+  extra_packages  = var.extra_packages
 }
 
 output "config" {
