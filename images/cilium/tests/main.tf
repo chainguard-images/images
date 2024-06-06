@@ -21,6 +21,10 @@ variable "chart_version" {
   default     = "1.14.6"
 }
 
+resource "random_id" "suffix" {
+  byte_length = 4
+}
+
 data "oci_exec_test" "operator-version" {
   script = "docker run --rm $IMAGE_NAME --version"
   digest = var.digests.operator
@@ -48,5 +52,8 @@ data "oci_exec_test" "cilium-install" {
     }, {
     name  = "CHART_VERSION"
     value = var.chart_version
+    }, {
+    name  = "CLUSTER_NAME"
+    value = "cilium-test-${random_id.suffix.hex}"
   }]
 }
