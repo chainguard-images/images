@@ -15,7 +15,7 @@ module "latest" {
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.config.config
-  main_package      = "yolo"
+  main_package      = "apko"
 }
 
 module "test-latest" {
@@ -28,3 +28,4 @@ resource "oci_tag" "latest" {
   digest_ref = module.latest.image_ref
   tag        = "latest"
 }
+
