@@ -176,9 +176,9 @@ variable "environment" {
 
 module "accts" {
   source = "../../../tflib/accts"
-  run-as = 65532
-  uid    = 65532
-  gid    = 65532
+  run-as = 10000
+  uid    = 10000
+  gid    = 10000
   name   = local.users[var.component]
 }
 
