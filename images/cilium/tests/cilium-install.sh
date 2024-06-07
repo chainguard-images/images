@@ -5,6 +5,10 @@ SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 TMPDIR=$(mktemp -d --tmpdir=$SCRIPT_DIR)
 
 export CLUSTER_NAME=${CLUSTER_NAME:-"cilium-test"}
+# Cilium needs shared /sys/fs/bpf
+# https://github.com/cilium/cilium/issues/32357
+# https://github.com/k3d-io/k3d/pull/1268
+export K3D_FIX_MOUNTS=1
 
 # Create a test cluster.
 k3d cluster create $CLUSTER_NAME \
@@ -60,7 +64,7 @@ CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli
 GOOS=$(go env GOOS || docker run cgr.dev/chainguard/go env GOOS)
 GOARCH=$(go env GOARCH || docker run cgr.dev/chainguard/go env GOARCH)
 curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/download/${CILIUM_CLI_VERSION}/cilium-${GOOS}-${GOARCH}.tar.gz{,.sha256sum}
-sha256sum --check cilium-${GOOS}-${GOARCH}.tar.gz.sha256sum
+sha256sum -c cilium-${GOOS}-${GOARCH}.tar.gz.sha256sum
 tar -xzvf cilium-${GOOS}-${GOARCH}.tar.gz
 rm cilium-${GOOS}-${GOARCH}.tar.gz{,.sha256sum}
 
