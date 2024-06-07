@@ -53,6 +53,7 @@ for node in $(kubectl get --context=k3d-$CLUSTER_NAME nodes -o jsonpath='{.items
         mkdir -p /run/cilium/cgroupv2
         mount -t cgroup2 none /run/cilium/cgroupv2
         mount --make-shared /run/cilium/cgroupv2/
+        mount --make-rshared /
 EOF
 done
 
