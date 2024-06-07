@@ -80,7 +80,7 @@ $TMPDIR/cilium install --context k3d-$CLUSTER_NAME \
     --helm-set operator.image.override=$OPERATOR_IMAGE \
     --version $CHART_VERSION
 
-$TMPDIR/cilium status --context k3d-$CLUSTER_NAME --wait
+$TMPDIR/cilium status --context k3d-$CLUSTER_NAME --wait --wait-duration 10m
 
 QUAY_IMAGES=$($TMPDIR/cilium status --context k3d-$CLUSTER_NAME -o json | grep quay.io || true )
 if [ -n "$QUAY_IMAGES" ]; then
