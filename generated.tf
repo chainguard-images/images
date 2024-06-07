@@ -1423,6 +1423,11 @@ module "telegraf" {
   target_repository = "${var.target_repository}/telegraf"
 }
 
+module "teleport" {
+  source            = "./images/teleport"
+  target_repository = "${var.target_repository}/teleport"
+}
+
 module "tempo" {
   source            = "./images/tempo"
   target_repository = "${var.target_repository}/tempo"
@@ -2738,6 +2743,10 @@ output "summary_tekton" {
 
 output "summary_telegraf" {
   value = module.telegraf.summary
+}
+
+output "summary_teleport" {
+  value = module.teleport.summary
 }
 
 output "summary_tempo" {
