@@ -5,13 +5,13 @@ variable "target_repository" {
 
 module "versions" {
   source  = "../../tflib/versions"
-  package = "rabbitmq"
+  package = "rabbitmq-server"
 }
 
 module "config" {
   for_each       = module.versions.versions
   source         = "./config"
-  extra_packages = [replace(each.key, "rabbitmq", "rabbitmq-server")]
+  extra_packages = [each.key]
 }
 
 module "versioned" {
@@ -20,7 +20,7 @@ module "versioned" {
 
   name = basename(path.module)
 
-  main_package      = replace(each.value.main, "rabbitmq", "rabbitmq-server")
+  main_package      = each.value.main
   update-repo       = each.value.is_latest
   target_repository = var.target_repository
   config            = module.config[each.key].config
