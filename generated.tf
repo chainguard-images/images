@@ -1113,6 +1113,11 @@ module "paranoia" {
   target_repository = "${var.target_repository}/paranoia"
 }
 
+module "percona-server" {
+  source            = "./images/percona-server"
+  target_repository = "${var.target_repository}/percona-server"
+}
+
 module "pgbouncer" {
   source            = "./images/pgbouncer"
   target_repository = "${var.target_repository}/pgbouncer"
@@ -2490,6 +2495,10 @@ output "summary_opentofu" {
 
 output "summary_paranoia" {
   value = module.paranoia.summary
+}
+
+output "summary_percona-server" {
+  value = module.percona-server.summary
 }
 
 output "summary_pgbouncer" {
