@@ -11,12 +11,12 @@ variable "target_repository" {
 locals {
   packages = {
     "minio" : {
-      extra_packages : ["minio", "mc"],
+      extra_packages : ["minio", "mc", "bash", "coreutils"],
       entrypoint : "/usr/bin/minio"
       repository = var.target_repository
     },
     "minio-client" : {
-      extra_packages : ["mc", "bash"]
+      extra_packages : ["mc", "bash", "coreutils"]
       entrypoint : "/usr/bin/mc"
       repository : "${var.target_repository}-client",
     },
