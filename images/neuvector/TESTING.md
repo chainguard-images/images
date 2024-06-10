@@ -19,13 +19,36 @@ helm repo update
 
 ## Generate internal certs
 
-Either use NeuVector's documentation on generating internal certs [here](https://open-docs.neuvector.com/deploying/production/internal) or fetch the certs
-used by NeuVector directly:
+Either use NeuVector's documentation on generating internal certs [here](https://open-docs.neuvector.com/deploying/production/internal) or
+generate them yourself with OpenSSL. To do so, you'll need an OpenSSL
+configuration file:
 
 ```bash
-curl https://raw.githubusercontent.com/neuvector/manifests/main/build/share/etc/neuvector/certs/internal/ca.cert -o ca.cert
-curl https://raw.githubusercontent.com/neuvector/manifests/main/build/share/etc/neuvector/certs/internal/cert.key -o cert.key
-curl https://raw.githubusercontent.com/neuvector/manifests/main/build/share/etc/neuvector/certs/internal/cert.pem -o cert.pem
+cat > san.cnf << EOF
+[ req ]
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+prompt = no
+
+[ req_distinguished_name ]
+CN = NeuVector
+
+[ v3_req ]
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1 = localhost
+EOF
+```
+
+Now, generate the certs:
+
+```bash
+openssl genrsa -out ca.key 2048
+openssl req -x509 -sha256 -new -nodes -key ca.key -days 3650 -out ca.crt -subj "/CN=localhost"
+openssl genrsa -out tls.key 2048
+openssl req -new -key tls.key -sha256 -out cert.csr -config san.cnf -batch
+openssl x509 -req -sha256 -in cert.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out tls.crt -days 3650 -extensions v3_req -extfile san.cnf
 ```
 
 Create a namespace for NeuVector:
