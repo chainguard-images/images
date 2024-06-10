@@ -40,6 +40,22 @@ module "helm" {
     server = {
       workers = 1
     }
+    worker = {
+      additionalJVMConfig = [
+        # Required until our Java version is updated to 22.0.2 due to bug
+        # https://github.com/trinodb/trino/blob/2cd89ce25f7669d7070b32451d9784c2e08528fe/core/trino-main/src/main/java/io/trino/server/TrinoSystemRequirements.java#L140
+        "-XX:+UnlockDiagnosticVMOptions",
+        "-XX:G1NumCollectionsKeepPinned=10000000"
+      ]
+    }
+    coordinator = {
+      additionalJVMConfig = [
+        # Required until our Java version is updated to 22.0.2 due to bug
+        # https://github.com/trinodb/trino/blob/2cd89ce25f7669d7070b32451d9784c2e08528fe/core/trino-main/src/main/java/io/trino/server/TrinoSystemRequirements.java#L140
+        "-XX:+UnlockDiagnosticVMOptions",
+        "-XX:G1NumCollectionsKeepPinned=10000000"
+      ]
+    }
   }
 }
 

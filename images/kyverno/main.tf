@@ -39,10 +39,11 @@ variable "target_repository" {
 }
 
 module "config" {
-  for_each     = local.components
-  source       = "./config"
-  component    = each.key
-  main_package = local.packages[each.key]
+  for_each       = local.components
+  source         = "./config"
+  component      = each.key
+  main_package   = local.packages[each.key]
+  extra_packages = ["kubectl-latest"]
 }
 
 module "latest" {

@@ -59,12 +59,10 @@ module "core" {
       }
       internal = {
         certificate = {
-          secret  = "internal-cert"
-          keyFile = "cert.key"
-          pemFile = "cert.pem"
-          caFile  = "ca.cert"
+          secret = "internal-cert"
         }
       }
+      replicas = 1
     }
     enforcer = {
       image = {
@@ -73,10 +71,7 @@ module "core" {
       }
       internal = {
         certificate = {
-          secret  = "internal-cert"
-          keyFile = "cert.key"
-          pemFile = "cert.pem"
-          caFile  = "ca.cert"
+          secret = "internal-cert"
         }
       }
     }
@@ -95,12 +90,10 @@ module "core" {
         }
         internal = {
           certificate = {
-            secret  = "internal-cert"
-            keyFile = "cert.key"
-            pemFile = "cert.pem"
-            caFile  = "ca.cert"
+            secret = "internal-cert"
           }
         }
+        replicas = 1
       }
       updater = {
         image = {

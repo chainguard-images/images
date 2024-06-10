@@ -2,6 +2,14 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
+dump_logs() {
+  kubectl logs deployment/neuvector-manager-pod -n neuvector
+  kubectl logs deployment/neuvector-scanner-pod -n neuvector
+  kubectl logs deployment/neuvector-controller-pod -n neuvector
+}
+
+trap "dump_logs" EXIT
+
 # Parameters
 NAMESPACE="neuvector"
 TEST_PORT=$(shuf -i 1024-65535 -n 1)
@@ -71,8 +79,8 @@ kubectl exec -i $TEST_POD -n test -- bash -c "ping $INTERNAL_TEST_IP -s 40000 -c
 kubectl logs daemonset/neuvector-enforcer-pod -n "${NAMESPACE}" | grep "AGT|main.parseHostAddrs: link - flags=up|broadcast|multicast"
 
 # Validate stream sent and received
-kubectl logs deployment/neuvector-scanner-pod -n "${NAMESPACE}" | grep "INFO|SCN|main.scannerRegisterStream: Stream send done"
-kubectl logs deployment/neuvector-controller-pod -n "${NAMESPACE}" | grep "CTL|main.(\*ScanService).ScannerRegisterStream: Stream receive"
+kubectl logs deployment/neuvector-scanner-pod -n "${NAMESPACE}" | grep "Stream send done"
+kubectl logs deployment/neuvector-controller-pod -n "${NAMESPACE}" | grep "Stream receive"
 
 # Cleanup
 kubectl delete namespace test

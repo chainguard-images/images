@@ -7,7 +7,8 @@ terraform {
 variable "extra_packages" {
   description = "The additional packages to install"
   default = [
-    "multus-cni"
+    "multus-cni",
+    "multus-cni-compat",
   ]
 }
 

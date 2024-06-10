@@ -29,17 +29,11 @@ ifeq ($(TF_AUTO_APPROVE),1)
 TF_VARS += --auto-approve
 endif
 
-.PHONY: check-env-tf
-check-env-tf:
-ifndef TF_VAR_target_repository
-	$(error TF_VAR_target_repository is not set)
-endif
-
 .PHONY: all
-all: check-env-tf init
+all: init
 	$(TERRAFORM) apply $(TF_VARS)
 
-image/%: check-env-tf init
+image/%: init
 	$(TERRAFORM) apply $(TF_VARS) -target=module.$*
 
 init:
@@ -51,7 +45,7 @@ init-upgrade:
 
 LOCAL_REGISTRY_NAME := k3d.localhost
 LOCAL_REGISTRY_PORT := 5005
-K3S_IMAGE := cgr.dev/chainguard/k3s:latest@sha256:c34a5c9930d92e6aa815b213432fbc12bdc2e5f1edfb8edb1aa7b2dc919a7fe1
+K3S_IMAGE := cgr.dev/chainguard/k3s:latest@sha256:d1217c6d5f7941717a0ccdb5bef3fb89d354e78c2d0efb300138455f00ad17c3
 
 k3d-registry:
 	@# Create a local registry managed by k3d only if it doesn't exist
@@ -80,11 +74,11 @@ k3d-clean:
 # Run the tfgen used in CI check, regenerate all generated.tf files)
 .PHONY: tfgen
 tfgen:
-	(w="$(shell pwd)" && go run ./monopod tfgen "$${w}" --skip=$(TFGEN_SKIP) --generators=$(TFGEN_GENERATORS))
+	(w="$(shell pwd)" && cd ../ && go run ./monopod tfgen "$${w}" --skip=$(TFGEN_SKIP) --generators=$(TFGEN_GENERATORS))
 
 # Run tfgen for just one or more images (e.g. "make tfgen/img1,img2,img3")
 tfgen/%:
-	(w="$(shell pwd)" && go run ./monopod tfgen "$${w}" --skip=$(TFGEN_SKIP) --generators=$(TFGEN_GENERATORS) --only=$*)
+	(w="$(shell pwd)" && cd ../ && go run ./monopod tfgen "$${w}" --skip=$(TFGEN_SKIP) --generators=$(TFGEN_GENERATORS) --only=$*)
 
 # Clean up all generated.tf files created by tfgen
 .PHONY: tfgen-clean

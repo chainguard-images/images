@@ -4,7 +4,7 @@ jobs:
   presubmit-readme:
     runs-on: ubuntu-latest
     steps:
-      - uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
+      - uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # v2.8.1
         with:
           egress-policy: audit
 
@@ -16,7 +16,6 @@ jobs:
           files_yaml: |
             automated:
               - ./images/**
-              - ./monopod/**
               - ./tflib/**
               - ./.terraform.lock.hcl
               - ./Makefile
@@ -25,7 +24,7 @@ jobs:
               - ./go.mod
               - ./go.sum
 
-      - if: steps.changed.outputs.automated_any_changed == 'true'
+      - if: steps.changed.outputs.automated_any_modified == 'true'
         run: |
           echo "You have made changes to files that are managed by automation."
           exit 1
