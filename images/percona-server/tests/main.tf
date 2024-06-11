@@ -12,11 +12,10 @@ variable "digest" {
 data "imagetest_inventory" "this" {}
 
 resource "imagetest_harness_docker" "this" {
-  name      = "tempo-fips"
+  name      = "percona-server"
   inventory = data.imagetest_inventory.this
   envs = {
     "IMAGE_NAME" : var.digest
-    "CONTAINER_NAME" : "percona-test"
   }
   mounts = [
     {
@@ -36,6 +35,10 @@ resource "imagetest_feature" "basic" {
     {
       name = "Run mysql command"
       cmd  = "/tests/02-runs.sh"
+    },
+    {
+      name = "Save records to the database"
+      cmd  = "/tests/03-save-records.sh"
     }
   ]
 }

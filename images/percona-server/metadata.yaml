@@ -1,0 +1,11 @@
+name: percona-server
+image: cgr.dev/chainguard/percona-server
+logo: https://storage.googleapis.com/chainguard-academy/logos/percona-server.svg
+endoflife: ""
+console_summary: ""
+short_description: 'Percona Server for MySQL is a free, fully compatible, enhanced, and open source drop-in replacement for any MySQL database. It provides superior performance, scalability, and instrumentation.'
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/percona/percona-server
+keywords:
+  - application
