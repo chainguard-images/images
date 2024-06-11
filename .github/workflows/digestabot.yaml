@@ -36,3 +36,5 @@ jobs:
         token: ${{ steps.octo-sts.outputs.token }}
         working-dir: .github
         signoff: true
+        author: octo-sts[bot] <157150467+octo-sts[bot]@users.noreply.github.com>
+        committer: octo-sts[bot] <157150467+octo-sts[bot]@users.noreply.github.com>
