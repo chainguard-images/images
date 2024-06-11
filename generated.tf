@@ -1358,6 +1358,11 @@ module "solr" {
   target_repository = "${var.target_repository}/solr"
 }
 
+module "sonar-scanner-cli" {
+  source            = "./images/sonar-scanner-cli"
+  target_repository = "${var.target_repository}/sonar-scanner-cli"
+}
+
 module "spark-operator" {
   source            = "./images/spark-operator"
   target_repository = "${var.target_repository}/spark-operator"
@@ -2696,6 +2701,10 @@ output "summary_smarter-device-manager" {
 
 output "summary_solr" {
   value = module.solr.summary
+}
+
+output "summary_sonar-scanner-cli" {
+  value = module.sonar-scanner-cli.summary
 }
 
 output "summary_spark-operator" {
