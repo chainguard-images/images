@@ -35,3 +35,4 @@ jobs:
       with:
         token: ${{ steps.octo-sts.outputs.token }}
         working-dir: .github
+        signoff: true
