@@ -18,6 +18,7 @@ variable "digests" {
     sidecarlogresults = string
     webhook           = string
     workingdirinit    = string
+    busybox           = string
   })
 }
 
@@ -46,6 +47,7 @@ resource "imagetest_harness_k3s" "this" {
       SIDECARLOGRESULTS_IMAGE = var.digests["sidecarlogresults"]
       WEBHOOK_IMAGE           = var.digests["webhook"]
       WORKINGDIRINIT_IMAGE    = var.digests["workingdirinit"]
+      BUSYBOX_IMAGE           = var.digests["busybox"]
     }
   }
 }
@@ -71,21 +73,7 @@ kubectl wait --for=condition=Ready pods --all -n tekton-chains --timeout=300s
     },
     {
       name = "Run a sample TaskRun"
-      cmd  = <<EOF
-cat <<EOtask | kubectl create -f -
-apiVersion: tekton.dev/v1beta1
-kind: TaskRun
-metadata:
-  name: test-taskrun
-spec:
-  taskSpec:
-    steps:
-      - image: cgr.dev/chainguard/busybox
-        script: echo "hello world"
-EOtask
-
-kubectl wait --for=condition=succeeded taskrun test-taskrun --timeout=120s
-      EOF
+      cmd  = "/tests/taskrun.sh"
     },
   ]
 

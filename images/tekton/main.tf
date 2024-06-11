@@ -47,8 +47,11 @@ module "latest" {
 }
 
 module "test-latest" {
-  source  = "./tests"
-  digests = { for k, v in module.latest : k => module.latest[k].image_ref }
+  source = "./tests"
+  digests = merge(
+    { for k, v in module.latest : k => module.latest[k].image_ref },
+    { "busybox" : "cgr.dev/chainguard/busybox:latest-glibc" },
+  )
 }
 
 resource "oci_tag" "latest" {
