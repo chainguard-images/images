@@ -40,7 +40,7 @@ REBUILT_IMAGE_NAME=$(docker run --rm \
    -v ${XDG_CACHE_HOME:-$HOME/.cache}:/cache \
    -e XDG_CACHE_HOME=/cache \
    --entrypoint apko \
-   ghcr.io/wolfi-dev/sdk:latest@sha256:393355b17ff39998e778c9981b6c0d663335bffb598ee16a3f621504673a2a5a \
+   ghcr.io/wolfi-dev/sdk:latest@sha256:b6b82373e2c4f534107161a73d6f218b881d8b82878b8ea5a7f08f1eec6b0ca8 \
    publish /tmp/latest.apko.json ${container_name}:5000/reproduction
 )
 
