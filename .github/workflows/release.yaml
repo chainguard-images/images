@@ -92,7 +92,7 @@ jobs:
           terraform_version: "1.8.*"
           terraform_wrapper: false
 
-      - uses: chainguard-dev/setup-chainctl@4c4c132b7b1dd7c9283ff5331e3190ecf9a35755 # v0.1.1
+      - uses: chainguard-dev/setup-chainctl@a49c58d8a44b7c4057a34faaa32ad629c8e9696d # v0.2.0
         with:
           # This allows chainguard-images/images-private to publish images to cgr.dev/chainguard-private
           # We maintain this identity here:
