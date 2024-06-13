@@ -38,9 +38,19 @@ output "config" {
       gid         = module.accts.block.run-as
       permissions = 511 // 0o777 (HCL explicitly does not support octal literals)
       recursive   = true
+      },
+      {
+        path        = "/opt/keycloak"
+        type        = "directory"
+        uid         = module.accts.block.run-as
+        gid         = module.accts.block.run-as
+        permissions = 511 // 0o777 (HCL explicitly does not support octal literals)
+        recursive   = true
       }
     ]
-    environment = var.environment
+    environment = merge({
+      "KC_HEALTH_ENABLED" : "true",
+    }, var.environment)
     entrypoint = {
       command = "/usr/bin/kc.sh"
     }

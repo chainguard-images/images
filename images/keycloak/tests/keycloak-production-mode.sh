@@ -38,7 +38,7 @@ TEST_create_keystore() {
 
 TEST_start_container() {
   container_id=$(docker run \
-    -v "${TMPFOLDER}/server.keystore:/usr/share/java/keycloak/conf/server.keystore" \
+    -v "${TMPFOLDER}/server.keystore:/opt/keycloak/conf/server.keystore" \
     --detach --rm \
     --name "${CONTAINER_NAME}" -p "${KEYCLOAK_PORT}:8443" \
     -e KEYCLOAK_ADMIN=admin \
@@ -46,11 +46,12 @@ TEST_start_container() {
     "${IMAGE_NAME}" \
     start \
     --hostname="${KEYCLOAK_HOSTNAME}" \
+    --https-key-store-file="/opt/keycloak/conf/server.keystore" \
     --https-key-store-password="${KEYSTORE_PASSWORD}")
-    
+
     trap "docker stop ${container_id} && rm -rf ${TMPFOLDER}" EXIT
     sleep 15
-  
+
     if ! docker ps --filter "name=${CONTAINER_NAME}" --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
       echo "FAILED: ${CONTAINER_NAME} is not running."
       exit 1
@@ -84,7 +85,7 @@ TEST_validate_container_logs() {
     fi
   done
 
-  echo "FAILED: The following log lines where not found:"
+  echo "FAILED: The following log lines were not found:"
   printf '%s\n' "${missing_logs[@]}"
   exit 1
 }
@@ -112,26 +113,22 @@ TEST_keycloak_api() {
     if [[ "${response_code}" == "200" ]]; then
       local access_token=$(echo "${content}" | jq --raw-output '.access_token')
 
-      # Invoke Keycloaks API to retrieve a list of users.
+      # Invoke Keycloak's API to retrieve a list of users.
       local users_output=$(curl --http1.1 -kv -X GET "${KEYCLOAK_URL}/admin/realms/master/users" \
         -H "Authorization: Bearer ${access_token}")
       success=true
       break
-    # If the API is not reachable, then re-try a number of times. CI is notably
-    # slower vs running tests locally.
     else
       sleep ${RETRY_DELAY}
     fi
     attempt=$((attempt+1))
   done
 
-  # After all retries, if the API request failed, we exit.
   if ! $success; then
     echo "ERROR: Failed to get user data from the API after ${REQUEST_RETRIES} attempts." >&2
     return 1
   fi
 
-  # Finally, ensure that an 'admin' user was returned in the API repsonse.
   extracted_username=$(echo "${users_output}" | jq -r '.[] | select(.username=="admin") | .username')
   if [[ "${extracted_username}" == "admin" ]]; then
     echo "Keycloak API correctly returned 'admin' user details."
@@ -140,7 +137,6 @@ TEST_keycloak_api() {
     exit 1
   fi
 }
-
 
 TEST_create_keystore
 TEST_start_container

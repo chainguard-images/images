@@ -32,7 +32,9 @@ data "oci_exec_test" "keycloak-production-test" {
 
 # Run the keycloak-operator image tests with this image.
 module "run-keycloak-tests" {
-  source         = "../../keycloak-operator/tests"
-  digest         = "cgr.dev/chainguard/keycloak-operator:latest"
+  source = "../../keycloak-operator/tests"
+  # need to hardcode this for the time being to unblock the release of keylcoak operator and keycloak to version 25 which is not published yet
+  # due to release failures
+  digest         = "keycloak/keycloak-operator:25.0"
   keycloak-image = var.digest
 }
