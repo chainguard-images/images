@@ -13,48 +13,64 @@ variable "digests" {
     hubble-ui         = string
     hubble-ui-backend = string
     operator          = string
+    k3s-image         = string
   })
 }
 
 variable "chart_version" {
   description = "The version of the Cilium to install. This chooses the Helm chart"
   type        = string
-  default     = "1.14.6"
+  default     = "1.15.5"
 }
 
-# data "oci_exec_test" "cilium-install" {
-#   script          = "${path.module}/cilium-install.sh"
-#   digest          = var.digests.agent
-#   timeout_seconds = 1200
-#   env = [{
-#     name  = "AGENT_IMAGE"
-#     value = var.digests.agent
-#     }, {
-#     name  = "HUBBLE_RELAY_IMAGE"
-#     value = var.digests.hubble-relay
-#     }, {
-#     name  = "HUBBLE_UI_IMAGE"
-#     value = var.digests.hubble-ui
-#     }, {
-#     name  = "HUBBLE_UI_BACKEND_IMAGE"
-#     value = var.digests.hubble-ui-backend
-#     }, {
-#     name  = "OPERATOR_IMAGE"
-#     value = var.digests.operator
-#     }, {
-#     name  = "CHART_VERSION"
-#     value = var.chart_version
-#     }, {
-#     name  = "CLUSTER_NAME"
-#     value = "cilium-test-${random_id.suffix.hex}"
-#   }]
-# }
-
 data "imagetest_inventory" "this" {}
+
+module "helm" {
+  source        = "../../../tflib/imagetest/helm"
+  name          = "cilium"
+  namespace     = "kube-system"
+  repo          = "https://helm.cilium.io/"
+  chart         = "cilium"
+  chart_version = var.chart_version
+
+  values = {
+    hubble = {
+      relay = {
+        enabled = true
+        image = {
+          override = var.digests.hubble-relay
+        }
+      }
+      ui = {
+        enabled = true
+        frontend = {
+          image = {
+            override = var.digests.hubble-ui
+          }
+        }
+        backend = {
+          image = {
+            override = var.digests.hubble-ui-backend
+          }
+        }
+      }
+    }
+    image = {
+      override = var.digests.agent
+    }
+    operator = {
+      replicas = 1
+      image = {
+        override = var.digests.operator
+      }
+    }
+  }
+}
 
 resource "imagetest_harness_k3s" "this" {
   name      = "cilium"
   inventory = data.imagetest_inventory.this
+  image     = var.digests.k3s-image
 
   disable_network_policy = true
   disable_cni            = true
@@ -99,6 +115,9 @@ resource "imagetest_feature" "basic" {
 
   steps = [
     {
+      name = "Install helm"
+      cmd  = module.helm.install_cmd
+      }, {
       name = "Run tests"
       cmd  = "/test/cilium-install.sh"
     }

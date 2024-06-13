@@ -16,6 +16,7 @@ module "test-latest" {
     hubble-ui         = module.hubble-ui.image_ref
     hubble-ui-backend = module.hubble-ui-backend.image_ref
     operator          = module.operator.image_ref
+    k3s-image         = "cgr.dev/chainguard/k3s:latest-dev"
   }
 }
 

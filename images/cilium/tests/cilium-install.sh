@@ -2,14 +2,8 @@
 
 set -o errexit -o errtrace -o pipefail -x -v
 
-apk add jq helm cilium-cli
-
-# Install cilium
-cilium install \
-	--helm-set image.override=$AGENT_IMAGE \
-	--helm-set operator.image.override=$OPERATOR_IMAGE
-
-cilium status --wait --wait-duration 10m
+apk add cilium-cli
+cilium status --wait --wait-duration 2m
 
 QUAY_IMAGES=$(cilium status -o json | grep quay.io || true)
 if [ -n "$QUAY_IMAGES" ]; then
@@ -30,8 +24,8 @@ cilium connectivity test \
 	--test \!no-unexpected-packet-drops,\!check-log-errors
 
 # Test the hubble UI
-kubectl create configmap cypress --from-file /tests/cypress
-kubectl apply -f /tests/cypress.yaml
+kubectl create configmap cypress --from-file /test/cypress
+kubectl apply -f /test/cypress.yaml
 kubectl wait \
 	--for=condition=complete \
 	--timeout=5m \
