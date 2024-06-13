@@ -5,8 +5,8 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. go, go-1.18, go-1.19)."
   default     = ["go"]
+  description = "The additional packages to install (e.g. go, go-1.18, go-1.19)."
 }
 
 data "apko_config" "this" {
@@ -17,3 +17,4 @@ data "apko_config" "this" {
 output "config" {
   value = jsonencode(data.apko_config.this.config)
 }
+
