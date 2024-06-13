@@ -9,6 +9,9 @@ variable "extra_packages" {
   default = [
     "multus-cni",
     "multus-cni-compat",
+    # multus-cni helm chart requires a shell and cp
+    "dash",
+    "coreutils",
   ]
 }
 
