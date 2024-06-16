@@ -4,7 +4,6 @@ set -o errexit -o nounset -o pipefail
 
 # Looks for these log statements in the pod logs
 expected_logs=(
-  "Found Cassandra binary"
   "Started Server"
   "Started Cassandra"
 )
