@@ -2,16 +2,6 @@ contents:
   packages:
     - ca-certificates
     - curl
-    - php-curl
-    - php-openssl
-    - php-iconv
-    - php-mbstring
-    - php-mysqlnd
-    - php-pdo
-    - php-pdo_sqlite
-    - php-pdo_mysql
-    - php-sodium
-    - php-phar
     # PHP and FPM come from var.extra_packages
 
 entrypoint:
