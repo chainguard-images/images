@@ -5,6 +5,8 @@ terraform {
   }
 }
 
+variable "target_repository" {}
+
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
@@ -22,9 +24,13 @@ locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
-resource "imagetest_harness_k3s" "k3s" {
-  name      = "flux"
-  inventory = data.imagetest_inventory.this
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
+
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
 }
 
 module "helm" {
@@ -70,12 +76,16 @@ module "helm" {
 resource "imagetest_feature" "basic" {
   name        = "basic"
   description = "Basic installation test for flux"
-  harness     = imagetest_harness_k3s.k3s
+  harness     = module.cluster_harness.harness
 
   steps = [
     {
       name = "Install flux"
       cmd  = module.helm.install_cmd
+    },
+    {
+      name = "Run tests"
+      cmd  = "$WORK/tests.sh"
     },
   ]
 
