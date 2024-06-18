@@ -15,8 +15,12 @@ module "nemo" {
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.config.config
+  build-dev         = true
+  /*
+  Unrecognized license reference: PROPRIETARY.
+  */
+  check-sbom = false # TODO(jason): Re-enable SBOM check
 
-  build-dev = true
 }
 
 # TODO: These tests pass however we're running into CI issues related to disk space,
