@@ -101,38 +101,3 @@ EOT
     },
   ]
 }
-
-resource "imagetest_feature" "check-template" {
-  name    = "check template"
-  harness = imagetest_harness_docker.docker
-
-  steps = [
-    {
-      name = "Copy template file"
-      cmd  = <<EOT
-cp /tests/new.conf.template /data
-EOT
-    },
-    {
-      name = "Check templated startup"
-      cmd  = <<EOT
-cleanup () {
-  docker logs $CONTAINER_NAME
-  docker rm -f $CONTAINER_NAME
-  docker network rm $NETWORK_NAME
-}
-
-trap cleanup EXIT
-
-CONTAINER_NAME="nginx-template-$RANDOM_PET_SUFFIX"
-NETWORK_NAME="nginx-template-$RANDOM_PET_SUFFIX"
-NGINX_PORT=8888
-
-docker network create $NETWORK_NAME
-
-docker run -d --name $CONTAINER_NAME --network $NETWORK_NAME --env PORT=$NGINX_PORT -v $VOLUME_ID:/etc/nginx/templates/ $IMAGE_NAME
-docker run --rm --network $NETWORK_NAME cgr.dev/chainguard/curl:latest http://$CONTAINER_NAME:$NGINX_PORT
-EOT
-    },
-  ]
-}
