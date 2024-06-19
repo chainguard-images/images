@@ -13,6 +13,17 @@
 <!--monopod:end-->
 
 <!--overview:start-->
+## Upcoming Changes
+
+On August 12, 2024 this image will be removed to be consistent with our other images which only make
+the latest version available. We recommend you move to use the [node image](../node/README.md). Note
+that this image uses a different version of Node.js, which may require changes to your build system or
+application.
+
+Full details are in [this blog post](https://www.chainguard.dev/unchained/updates-to-lts-images-in-chainguard-images-developer-tier).
+
+## Description
+
 Minimal Node.js open-source, cross-platform JavaScript runtime environment.
 <!--overview:end-->
 

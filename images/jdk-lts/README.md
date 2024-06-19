@@ -13,6 +13,17 @@
 <!--monopod:end-->
 
 <!--overview:start-->
+## Upcoming Changes
+
+On August 12, 2024 this image will be removed to be consistent with our other images which only make
+the latest version available. We recommend you move to use the [jdk image](../jdk/README.md). Note
+that this image uses a different version of Java, which may require changes to your build system or
+application.
+
+Full details are in [this blog post](https://www.chainguard.dev/unchained/updates-to-lts-images-in-chainguard-images-developer-tier).
+
+## Description
+
 Minimalist Wolfi-based Java JDK image using using [OpenJDK](https://openjdk.org/projects/jdk/).  Used for compiling Java applications.
 <!--overview:end-->
 
