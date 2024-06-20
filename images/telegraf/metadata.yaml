@@ -10,3 +10,4 @@ upstream_url: https://github.com/influxdata/telegraf
 keywords:
   - analytics
   - application
+public: true

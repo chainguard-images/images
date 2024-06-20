@@ -5,9 +5,9 @@ terraform {
 }
 
 variable "extra_packages" {
+  default     = []
   description = "Additional packages to install."
   type        = list(string)
-  default     = []
 }
 
 data "apko_config" "this" {

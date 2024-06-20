@@ -1,10 +1,12 @@
 variable "extra_packages" {
+  default     = ["spdx-tools-java"]
   description = "The additional packages to install"
   type        = list(string)
-  default     = ["spdx-tools-java"]
 }
 
-module "accts" { source = "../../../tflib/accts" }
+module "accts" {
+  source = "../../../tflib/accts"
+}
 
 output "config" {
   value = jsonencode({
@@ -21,3 +23,4 @@ output "config" {
     }
   })
 }
+

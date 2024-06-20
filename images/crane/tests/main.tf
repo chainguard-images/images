@@ -32,3 +32,4 @@ data "oci_exec_test" "config" {
   digest = var.digest
   script = "${path.module}/05-config.sh"
 }
+

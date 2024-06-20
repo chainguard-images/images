@@ -12,7 +12,4 @@ function test_build {
     "${IMAGE_NAME}" build $@ //...
 }
 
-# Bazel 7+ needs the --noenable_bzlmod flag, but
-# older versions do not recognize it. Require either to pass
-# See https://github.com/chainguard-images/images/pull/2062
 test_build --noenable_bzlmod || test_build

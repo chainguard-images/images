@@ -1,10 +1,12 @@
 variable "extra_packages" {
+  default     = ["telegraf"]
   description = "Additional packages to install."
   type        = list(string)
-  default     = ["telegraf"]
 }
 
-module "accts" { source = "../../../tflib/accts" }
+module "accts" {
+  source = "../../../tflib/accts"
+}
 
 output "config" {
   value = jsonencode({
@@ -17,3 +19,4 @@ output "config" {
     }
   })
 }
+

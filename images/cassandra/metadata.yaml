@@ -10,3 +10,4 @@ upstream_url: https://github.com/apache/cassandra
 keywords:
   - application
   - databases
+public: true

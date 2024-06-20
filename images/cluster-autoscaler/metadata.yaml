@@ -10,3 +10,4 @@ upstream_url: https://github.com/kubernetes/autoscaler
 keywords:
   - application
   - kubernetes
+public: true

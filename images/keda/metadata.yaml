@@ -10,3 +10,4 @@ upstream_url: https://keda.sh/
 keywords:
   - application
   - kubernetes
+public: true

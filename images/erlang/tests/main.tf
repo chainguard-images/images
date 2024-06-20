@@ -13,3 +13,4 @@ data "oci_exec_test" "hello-world" {
   script      = "docker run --entrypoint sh -v $(pwd):/test --workdir /test $IMAGE_NAME ./hello-world.sh"
   working_dir = path.module
 }
+

@@ -13,3 +13,4 @@ data "oci_exec_test" "dockerfile" {
   script      = "./01-dockerfile.sh"
   working_dir = path.module
 }
+

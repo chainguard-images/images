@@ -9,44 +9,39 @@ variable "target_repository" {
 }
 
 module "config" {
-  source = "../node/config"
   extra_packages = [
     "nodejs-lts",
     "busybox",
     "npm"
   ]
+  source = "../node/config"
 }
 
 module "config-next" {
-  source = "../node/config"
   extra_packages = [
     "nodejs-lts"
   ]
+  source = "../node/config"
 }
 
 module "versioned" {
-  source            = "../../tflib/publisher"
-  name              = basename(path.module)
-  target_repository = var.target_repository
-  config            = module.config.config
-  build-dev         = true
-  main_package      = "nodejs-20"
-  update-repo       = true
+  build-dev = true
+  config    = module.config.config
   extra_dev_packages = [
     "yarn",
     "build-base",
     "python-3.11",
   ]
+  main_package      = "nodejs-20"
+  name              = basename(path.module)
+  source            = "../../tflib/publisher"
+  target_repository = var.target_repository
+  update-repo       = true
 }
 
 module "next" {
-  source            = "../../tflib/publisher"
-  name              = basename(path.module)
-  target_repository = var.target_repository
-  config            = module.config-next.config
-  build-dev         = true
-  update-repo       = false
-  main_package      = ""
+  build-dev = true
+  config    = module.config-next.config
   extra_dev_packages = [
     "yarn",
     "build-base",
@@ -54,21 +49,26 @@ module "next" {
     "npm",
     "busybox",
   ]
+  main_package      = ""
+  name              = basename(path.module)
+  source            = "../../tflib/publisher"
+  target_repository = var.target_repository
+  update-repo       = false
 }
 
 module "test-versioned" {
-  source = "../node/tests"
   digest = module.versioned.image_ref
+  source = "../node/tests"
 }
 
 module "test-next" {
-  source = "../node/tests"
   digest = module.next.image_ref
+  source = "../node/tests"
 }
 
 module "tagger" {
-  source     = "../../tflib/tagger"
   depends_on = [module.test-versioned, module.test-next]
+  source     = "../../tflib/tagger"
   tags = merge(
     {
       "next"     = module.next.image_ref,
@@ -77,3 +77,4 @@ module "tagger" {
     module.versioned.latest_tag_map
   )
 }
+

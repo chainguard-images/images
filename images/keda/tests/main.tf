@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci       = { source = "chainguard-dev/oci" }
     imagetest = { source = "chainguard-dev/imagetest" }
+    oci       = { source = "chainguard-dev/oci" }
   }
 }
 
@@ -18,13 +18,16 @@ variable "name" {
   default = "keda"
 }
 
-locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
+locals {
+  parsed = { for k, v in var.digests : k => provider::oci::parse(v) }
+}
 
-data "imagetest_inventory" "this" {}
+data "imagetest_inventory" "this" {
+}
 
 resource "imagetest_harness_k3s" "this" {
-  name      = var.name
   inventory = data.imagetest_inventory.this
+  name      = var.name
   sandbox = {
     envs = {
       "SCRIPT_DIR" = "/tests"
@@ -39,12 +42,10 @@ resource "imagetest_harness_k3s" "this" {
 }
 
 module "install" {
+  chart  = "keda"
+  name   = "keda"
+  repo   = "https://kedacore.github.io/charts"
   source = "../../../tflib/imagetest/helm"
-
-  name  = "keda"
-  repo  = "https://kedacore.github.io/charts"
-  chart = "keda"
-
   values = {
     image = {
       keda = {
@@ -64,10 +65,12 @@ module "install" {
 }
 
 resource "imagetest_feature" "basic" {
-  harness     = imagetest_harness_k3s.this
-  name        = "Basic"
   description = "Basic functionality of the ${var.name} helm chart."
-
+  harness     = imagetest_harness_k3s.this
+  labels = {
+    type = "k8s"
+  }
+  name = "Basic"
   steps = [
     {
       name = "Helm install"
@@ -80,8 +83,5 @@ resource "imagetest_feature" "basic" {
       EOF
     },
   ]
-
-  labels = {
-    type = "k8s"
-  }
 }
+

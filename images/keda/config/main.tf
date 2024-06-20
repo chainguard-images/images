@@ -7,9 +7,9 @@ variable "package" {
 }
 
 variable "extra_packages" {
+  default     = []
   description = "Additional packages to install."
   type        = list(string)
-  default     = []
 }
 
 locals {
@@ -20,7 +20,9 @@ locals {
   }
 }
 
-module "accts" { source = "../../../tflib/accts" }
+module "accts" {
+  source = "../../../tflib/accts"
+}
 
 output "config" {
   value = jsonencode({
@@ -37,3 +39,4 @@ output "config" {
     }
   })
 }
+

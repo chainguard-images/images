@@ -10,3 +10,4 @@ upstream_url: https://github.com/bazelbuild/bazel
 keywords:
   - application
   - cicd
+public: true

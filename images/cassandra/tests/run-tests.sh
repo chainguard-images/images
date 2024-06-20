@@ -2,10 +2,8 @@
 
 set -o errexit -o nounset -o pipefail -x
 
-# Start a Cassandra container
 CASSANDRA_CONTAINER=$(docker run -d -e CASSANDRA_START_RPC=true $IMAGE_NAME)
 
-# Wait for Cassandra to start
 MAX_RETRIES=10
 RETRY_INTERVAL=10
 
@@ -27,7 +25,6 @@ for ((i=0; i<MAX_RETRIES; i++)); do
   fi
 done
 
-# Create a keyspace and table, insert data, and query it
 docker exec -i "$CASSANDRA_CONTAINER" cqlsh <<EOF
 CREATE KEYSPACE testkeyspace WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
 USE testkeyspace;
@@ -37,7 +34,6 @@ SELECT * FROM users;
 EOF
 sleep 5
 
-# Check if the data was inserted and queried correctly
 RESULT=$(docker exec "$CASSANDRA_CONTAINER" cqlsh -e "USE testkeyspace; SELECT * FROM users;")
 if [[ "$RESULT" != *"Chainguard"* ]]; then
   echo "Error: Data insertion/query failed"
@@ -47,7 +43,6 @@ if [[ "$RESULT" != *"Chainguard"* ]]; then
   exit 1
 fi
 
-# Clean up
 docker stop "$CASSANDRA_CONTAINER"
 docker rm "$CASSANDRA_CONTAINER"
 

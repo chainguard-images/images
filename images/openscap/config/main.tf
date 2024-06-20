@@ -1,14 +1,14 @@
 variable "extra_packages" {
+  default     = []
   description = "The additional packages to install"
   type        = list(string)
-  default     = []
 }
 
 module "accts" {
-  source = "../../../tflib/accts"
-  uid    = 65532
   gid    = 65532
   run-as = 65532
+  source = "../../../tflib/accts"
+  uid    = 65532
 }
 
 output "config" {
@@ -27,3 +27,4 @@ output "config" {
     }
   })
 }
+

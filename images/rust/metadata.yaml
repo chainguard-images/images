@@ -10,3 +10,4 @@ upstream_url: https://www.rust-lang.org/
 keywords:
   - application
   - languages
+public: true

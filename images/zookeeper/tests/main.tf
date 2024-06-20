@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci       = { source = "chainguard-dev/oci" }
     imagetest = { source = "chainguard-dev/imagetest" }
+    oci       = { source = "chainguard-dev/oci" }
   }
 }
 
@@ -9,14 +9,16 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-locals { parsed = provider::oci::parse(var.digest) }
+locals {
+  parsed = provider::oci::parse(var.digest)
+}
 
-data "imagetest_inventory" "this" {}
+data "imagetest_inventory" "this" {
+}
 
 resource "imagetest_harness_k3s" "this" {
-  name      = "zookeeper"
   inventory = data.imagetest_inventory.this
-
+  name      = "zookeeper"
   sandbox = {
     envs = {
       "NAME" : "zookeeper"
@@ -30,12 +32,10 @@ resource "imagetest_harness_k3s" "this" {
 }
 
 module "helm" {
-  source = "../../../tflib/imagetest/helm"
-
+  chart     = "oci://registry-1.docker.io/bitnamicharts/zookeeper"
   name      = "zookeeper"
   namespace = "zookeeper"
-  chart     = "oci://registry-1.docker.io/bitnamicharts/zookeeper"
-
+  source    = "../../../tflib/imagetest/helm"
   values = {
     image = {
       registry   = local.parsed.registry
@@ -46,10 +46,12 @@ module "helm" {
 }
 
 resource "imagetest_feature" "basic" {
-  harness     = imagetest_harness_k3s.this
-  name        = "Basic"
   description = "Basic functionality of the ZooKeeper Helm chart."
-
+  harness     = imagetest_harness_k3s.this
+  labels = {
+    type = "k8s"
+  }
+  name = "Basic"
   steps = [{
     name = "Install Helm chart"
     cmd  = module.helm.install_cmd
@@ -60,8 +62,5 @@ resource "imagetest_feature" "basic" {
       ./create-node.sh
     EOF
   }]
-
-  labels = {
-    type = "k8s"
-  }
 }
+

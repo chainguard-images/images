@@ -5,22 +5,24 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install."
   default     = ["cassandra", "cassandra-compat", "openjdk-11-default-jvm"]
+  description = "The additional packages to install."
 }
 
 variable "environment" {
+  default     = {}
   description = "Additional environment variables to set in the image."
   type        = map(string)
-  default     = {}
 }
 
 variable "extra_paths" {
-  description = "Additional paths to configure in the image."
   default     = []
+  description = "Additional paths to configure in the image."
 }
 
-locals { decoded = yamldecode(file("${path.module}/template.apko.yaml")) }
+locals {
+  decoded = yamldecode(file("${path.module}/template.apko.yaml"))
+}
 
 data "apko_config" "this" {
   config_contents = yamlencode(merge(
@@ -35,3 +37,4 @@ data "apko_config" "this" {
 output "config" {
   value = jsonencode(data.apko_config.this.config)
 }
+

@@ -10,3 +10,4 @@ upstream_url: https://github.com/cert-manager/cert-manager
 keywords:
   - application
   - tools
+public: true

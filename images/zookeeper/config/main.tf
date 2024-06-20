@@ -5,9 +5,9 @@ terraform {
 }
 
 variable "extra_packages" {
+  default     = ["zookeeper", "zookeeper-bitnami-compat"]
   description = "Additional packages to install."
   type        = list(string)
-  default     = ["zookeeper", "zookeeper-bitnami-compat"]
 }
 
 variable "environment" {
@@ -15,11 +15,11 @@ variable "environment" {
 }
 
 module "accts" {
-  source = "../../../tflib/accts"
-  run-as = 1001
-  uid    = 1001
   gid    = 1001
   name   = "zookeeper"
+  run-as = 1001
+  source = "../../../tflib/accts"
+  uid    = 1001
 }
 
 output "config" {
@@ -76,3 +76,4 @@ output "config" {
     }]
   })
 }
+

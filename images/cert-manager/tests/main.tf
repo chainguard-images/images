@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci       = { source = "chainguard-dev/oci" }
     imagetest = { source = "chainguard-dev/imagetest" }
+    oci       = { source = "chainguard-dev/oci" }
   }
 }
 
@@ -15,14 +15,16 @@ variable "digests" {
   })
 }
 
-locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
+locals {
+  parsed = { for k, v in var.digests : k => provider::oci::parse(v) }
+}
 
-data "imagetest_inventory" "this" {}
+data "imagetest_inventory" "this" {
+}
 
 resource "imagetest_harness_k3s" "this" {
-  name      = "cert-manager"
   inventory = data.imagetest_inventory.this
-
+  name      = "cert-manager"
   sandbox = {
     mounts = [
       {
@@ -35,7 +37,6 @@ resource "imagetest_harness_k3s" "this" {
 
 module "install" {
   source = "./install"
-
   values = {
     installCRDs = true
     image = {
@@ -64,10 +65,12 @@ module "install" {
 }
 
 resource "imagetest_feature" "basic" {
-  harness     = imagetest_harness_k3s.this
-  name        = "Basic"
   description = "Basic functionality of the cert-manager helm chart."
-
+  harness     = imagetest_harness_k3s.this
+  labels = {
+    type = "k8s"
+  }
+  name = "Basic"
   steps = [
     {
       name = "Helm install"
@@ -101,8 +104,5 @@ cmctl inspect secret -n sandbox test-server-tls
       EOF
     },
   ]
-
-  labels = {
-    type = "k8s"
-  }
 }
+

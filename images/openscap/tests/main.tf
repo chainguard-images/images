@@ -9,21 +9,20 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "imagetest_inventory" "inventory" {}
+data "imagetest_inventory" "inventory" {
+}
 
 resource "imagetest_harness_docker" "docker" {
-  name      = "openscap"
-  inventory = data.imagetest_inventory.inventory
-
   envs = {
     IMAGE_NAME : var.digest
   }
+  inventory = data.imagetest_inventory.inventory
+  name      = "openscap"
 }
 
 resource "imagetest_feature" "test" {
-  name    = "docker-test"
   harness = imagetest_harness_docker.docker
-
+  name    = "docker-test"
   steps = [{
     name = "basic test"
     # This does quite a bit of work for a `version` command, it validates oscap
@@ -34,3 +33,4 @@ resource "imagetest_feature" "test" {
     cmd = "docker run --rm $IMAGE_NAME version"
   }]
 }
+

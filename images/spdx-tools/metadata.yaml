@@ -9,3 +9,4 @@ readme_file: README.md
 upstream_url: https://github.com/spdx/tools-java
 keywords:
   - application
+public: true

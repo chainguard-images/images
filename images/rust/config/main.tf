@@ -5,8 +5,8 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install"
   default     = ["rust"]
+  description = "The additional packages to install"
 }
 
 data "apko_config" "this" {
@@ -17,3 +17,4 @@ data "apko_config" "this" {
 output "config" {
   value = jsonencode(data.apko_config.this.config)
 }
+

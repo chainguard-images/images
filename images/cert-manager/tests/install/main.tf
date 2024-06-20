@@ -1,12 +1,11 @@
 terraform {
   required_providers {
-    oci       = { source = "chainguard-dev/oci" }
     imagetest = { source = "chainguard-dev/imagetest" }
+    oci       = { source = "chainguard-dev/oci" }
   }
 }
 
 variable "values" {
-  type = any
   default = {
     installCRDs = true
     image = {
@@ -32,16 +31,15 @@ variable "values" {
       }
     }
   }
+  type = any
 }
 
 module "helm" {
-  source = "../../../../tflib/imagetest/helm"
-
-  namespace = "cert-manager"
   chart     = "cert-manager"
+  namespace = "cert-manager"
   repo      = "https://charts.jetstack.io"
-
-  values = var.values
+  source    = "../../../../tflib/imagetest/helm"
+  values    = var.values
 }
 
 output "install_cmd" {
@@ -51,3 +49,4 @@ output "install_cmd" {
 output "release_name" {
   value = module.helm.release_name
 }
+

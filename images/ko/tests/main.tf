@@ -13,3 +13,4 @@ data "oci_exec_test" "build" {
   script      = "./build.sh"
   working_dir = path.module
 }
+

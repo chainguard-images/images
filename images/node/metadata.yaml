@@ -13,3 +13,4 @@ upstream_url: https://nodejs.org/
 keywords:
   - base
   - languages
+public: true

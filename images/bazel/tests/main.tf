@@ -17,3 +17,4 @@ data "oci_exec_test" "build" {
   digest = var.digest
   script = "${path.module}/02-build.sh"
 }
+

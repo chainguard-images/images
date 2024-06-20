@@ -10,3 +10,4 @@ upstream_url: https://github.com/ko-build/ko
 keywords:
   - application
   - tools
+public: true

@@ -3,37 +3,38 @@ variable "target_repository" {
 }
 
 module "versions" {
-  source  = "../../tflib/versions"
   package = "telegraf"
+  source  = "../../tflib/versions"
 }
 
 module "config" {
+  extra_packages = [each.key]
   for_each       = module.versions.versions
   source         = "./config"
-  extra_packages = [each.key]
 }
 
 module "versioned" {
-  for_each          = module.versions.versions
-  source            = "../../tflib/publisher"
-  name              = basename(path.module)
-  target_repository = var.target_repository
-  config            = module.config[each.key].config
   build-dev         = true
+  config            = module.config[each.key].config
+  for_each          = module.versions.versions
   main_package      = each.value.main
+  name              = basename(path.module)
+  source            = "../../tflib/publisher"
+  target_repository = var.target_repository
   update-repo       = each.value.is_latest
 }
 
 module "test-versioned" {
+  digest   = module.versioned[each.key].image_ref
   for_each = module.versions.versions
   source   = "./tests"
-  digest   = module.versioned[each.key].image_ref
 }
 
 module "tagger" {
-  source     = "../../tflib/tagger"
   depends_on = [module.test-versioned]
+  source     = "../../tflib/tagger"
   tags = merge(
     [for v in module.versioned : v.latest_tag_map]...
   )
 }
+
