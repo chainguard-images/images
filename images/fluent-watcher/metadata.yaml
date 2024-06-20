@@ -1,3 +1,12 @@
+name: fluent-watcher
+image: cgr.dev/chainguard/fluent-watcher
+logo: https://storage.googleapis.com/chainguard-academy/logos/fluent-watcher.svg
+endoflife: ""
+console_summary: ""
+short_description: Fluent Bit watcher ensures Fluent Bit instantly restarts whenever its configuration changes.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: 
 keywords:
   - analytics
   - application

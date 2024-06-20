@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-
+Fluent Bit watcher ensures Fluent Bit instantly restarts whenever its configuration changes.
 <!--overview:end-->
 
 <!--getting:start-->
