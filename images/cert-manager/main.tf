@@ -1,3 +1,9 @@
+terraform {
+  required_providers {
+    oci = { source = "chainguard-dev/oci" }
+  }
+}
+
 variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
@@ -9,7 +15,7 @@ module "versions" {
 
 locals {
   // List of all components
-  components = toset(["acmesolver", "controller", "cainjector", "cmctl", "webhook"])
+  components = toset(["acmesolver", "controller", "cainjector", "webhook"])
 
   // Version objects with version suffix added
   versions = { for k, v in module.versions.versions : k => {
@@ -25,9 +31,7 @@ locals {
           is_latest = v.is_latest
           suffix    = v.suffix
           component = c
-
-          # Package name is "cert-manager-${component}" except for cmctl
-          main = c == "cmctl" ? "cmctl${v.suffix}" : "cert-manager${v.suffix}-${c}"
+          main      = "cert-manager${v.suffix}-${c}"
         }
       }
     ]...)
@@ -42,15 +46,20 @@ module "config" {
 }
 
 module "versioned" {
-  for_each           = local.component_versions
-  source             = "../../tflib/publisher"
-  name               = basename(path.module)
-  target_repository  = "${var.target_repository}-${each.value.component}"
-  config             = module.config[each.key].config
-  extra_dev_packages = ["cmctl${each.value.suffix}"]
-  build-dev          = true
-  main_package       = each.value.main
-  update-repo        = each.value.is_latest
+  for_each          = local.component_versions
+  source            = "../../tflib/publisher"
+  name              = basename(path.module)
+  target_repository = "${var.target_repository}-${each.value.component}"
+  config            = module.config[each.key].config
+  extra_dev_packages = [
+    each.value.suffix == "" ? "cmctl" : (
+      # If the version is greater than 1.14, use the independently versioned cmctl package
+      tonumber(regex("^-(\\d+\\.\\d+)$", coalesce(each.value.suffix, "-1.99"))[0]) > 1.14 ? "cmctl" : "cmctl${each.value.suffix}"
+    )
+  ]
+  build-dev    = true
+  main_package = each.value.main
+  update-repo  = each.value.is_latest
 }
 
 module "test" {

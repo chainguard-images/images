@@ -3,6 +3,13 @@
 output "summary" {
   value = merge(
     {
+      basename(path.module) = {
+        "ref"    = module.cmctl.image_ref
+        "config" = module.cmctl.config
+        "tags"   = ["latest"]
+      }
+    },
+    {
       for k, v in module.versioned : k => {
         "ref"    = v.image_ref
         "config" = v.config
