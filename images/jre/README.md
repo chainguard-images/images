@@ -14,6 +14,8 @@
 
 <!--overview:start-->
 Minimalist Wolfi-based Java JRE image using [OpenJDK](https://openjdk.org/projects/jdk/). Used for running Java applications.
+
+The latest build of this image passes the TCK for Java 21.0.3 and Java 22.0.1 as provided by Oracle under the OpenJDK Community TCK License Agreement (OCTLA).
 <!--overview:end-->
 
 <!--getting:start-->
