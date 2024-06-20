@@ -110,11 +110,6 @@ module "buildkit" {
   target_repository = "${var.target_repository}/buildkit"
 }
 
-module "bun" {
-  source            = "./images/bun"
-  target_repository = "${var.target_repository}/bun"
-}
-
 module "caddy" {
   source            = "./images/caddy"
   target_repository = "${var.target_repository}/caddy"
@@ -1709,10 +1704,6 @@ output "summary_buck2" {
 
 output "summary_buildkit" {
   value = module.buildkit.summary
-}
-
-output "summary_bun" {
-  value = module.bun.summary
 }
 
 output "summary_caddy" {

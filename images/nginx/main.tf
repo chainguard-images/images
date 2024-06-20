@@ -10,7 +10,7 @@ variable "target_repository" {
 
 module "latest-config" {
   source         = "./config"
-  extra_packages = ["nginx-mainline", "nginx-mainline-package-config", "docker-nginx"]
+  extra_packages = ["nginx-mainline", "nginx-mainline-package-config"]
 }
 
 module "latest" {
