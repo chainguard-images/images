@@ -15,14 +15,12 @@ locals {
           is_latest = v.is_latest
           suffix    = v.suffix
           component = c
-
-          # Package name is "cert-manager-${component}" except for cmctl
-          main = c == "cmctl" ? "cmctl${v.suffix}" : "cert-manager${v.suffix}-${c}"
+          main      = "cert-manager${v.suffix}-${c}"
         }
       }
     ]...)
   ]...)
-  components = toset(["acmesolver", "controller", "cainjector", "cmctl", "webhook"])
+  components = toset(["acmesolver", "controller", "cainjector", "webhook"])
   versions = { for k, v in module.versions.versions : k => {
     is_latest = v.is_latest
     suffix    = replace(k, "cert-manager", "")
@@ -32,20 +30,25 @@ locals {
 module "config" {
   for_each = local.component_versions
   name     = each.value.component
-  source   = "./config"
+  source   = "./config/cert-manager"
   suffix   = each.value.suffix
 }
 
 module "versioned" {
-  build-dev          = true
-  config             = module.config[each.key].config
-  extra_dev_packages = ["cmctl${each.value.suffix}"]
-  for_each           = local.component_versions
-  main_package       = each.value.main
-  name               = basename(path.module)
-  source             = "../../tflib/publisher"
-  target_repository  = "${var.target_repository}-${each.value.component}"
-  update-repo        = each.value.is_latest
+  build-dev = true
+  config    = module.config[each.key].config
+  extra_dev_packages = [
+    each.value.suffix == "" ? "cmctl" : (
+      # If the version is greater than 1.14, use the independently versioned cmctl package
+      tonumber(regex("^-(\\d+\\.\\d+)$", coalesce(each.value.suffix, "-1.99"))[0]) > 1.14 ? "cmctl" : "cmctl${each.value.suffix}"
+    )
+  ]
+  for_each          = local.component_versions
+  main_package      = each.value.main
+  name              = basename(path.module)
+  source            = "../../tflib/publisher"
+  target_repository = "${var.target_repository}-${each.value.component}"
+  update-repo       = each.value.is_latest
 }
 
 module "test" {
