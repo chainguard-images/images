@@ -38,3 +38,9 @@ variable "timeout" {
   description = "The timeout on the helm install."
   default     = "5m"
 }
+
+variable "wait" {
+  description = "Indicates whether Helm will be run with --wait or not."
+  type        = bool
+  default     = true
+}

@@ -17,7 +17,7 @@ if ! helm install ${local.name} ${var.chart} \
   --namespace ${var.namespace} --create-namespace \
   %{if var.repo != ""}--repo ${var.repo}%{endif} \
   %{if var.chart_version != ""}--version ${var.chart_version}%{endif} \
-  --wait --wait-for-jobs \
+  %{if var.wait}--wait --wait-for-jobs%{endif} \
   --timeout ${var.timeout} \
   %{if length(var.values_files) != 0}--values ${join(",", var.values_files)}%{endif} \
   --values <(echo '${jsonencode(var.values)}'); then
