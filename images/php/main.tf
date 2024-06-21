@@ -1,42 +1,56 @@
-terraform {
-  required_providers {
-    oci = { source = "chainguard-dev/oci" }
-  }
-}
-
 variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "latest-config" { source = "./config" }
+locals {
+  # TODO: handle multiple versions
+  versions = ["8.2", "8.3"]
+}
 
-module "latest" {
+module "config" {
+  for_each = toset(local.versions)
+  source   = "./config"
+
+  extra_packages = [
+    "php-${each.key}-curl",
+    "php-${each.key}-openssl",
+    "php-${each.key}-iconv",
+    "php-${each.key}-mbstring",
+    "php-${each.key}-mysqlnd",
+    "php-${each.key}-pdo",
+    "php-${each.key}-pdo_sqlite",
+    "php-${each.key}-pdo_mysql",
+    "php-${each.key}-sodium",
+    "php-${each.key}-phar",
+    "php-${each.key}"
+  ]
+}
+
+module "versioned" {
+  for_each           = toset(local.versions)
   source             = "../../tflib/publisher"
   name               = basename(path.module)
   target_repository  = var.target_repository
-  config             = module.latest-config.config
+  config             = module.config[each.key].config
   extra_dev_packages = ["composer"]
+  main_package       = "php-${each.key}"
 }
 
-module "test-latest" {
-  source = "./tests"
-  digest = module.latest.image_ref
+module "test-versioned" {
+  for_each = toset(local.versions)
+  source   = "./tests"
+  digest   = module.versioned[each.key].image_ref
 }
 
-module "test-latest-dev" {
+module "test-versioned-dev" {
+  for_each  = toset(local.versions)
   source    = "./tests"
-  check-dev = true # Check for PIP in dev variants.
-  digest    = module.latest.dev_ref
+  digest    = module.versioned[each.key].dev_ref
+  check-dev = true
 }
 
-resource "oci_tag" "latest" {
-  depends_on = [module.test-latest]
-  digest_ref = module.latest.image_ref
-  tag        = "latest"
-}
-
-resource "oci_tag" "latest-dev" {
-  depends_on = [module.test-latest-dev]
-  digest_ref = module.latest.dev_ref
-  tag        = "latest-dev"
+module "tagger" {
+  source     = "../../tflib/tagger"
+  depends_on = [module.test-versioned, module.test-versioned-dev]
+  tags       = merge([for v in local.versions : module.versioned[v].latest_tag_map]...)
 }
