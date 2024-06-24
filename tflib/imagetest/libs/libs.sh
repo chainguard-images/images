@@ -17,6 +17,8 @@ retry_until() {
 	local current_retry=0
 	local exit_code=0
 
+	shift 2
+
 	while ((current_retry < max_retries)); do
 		if "$@"; then
 			return 0
