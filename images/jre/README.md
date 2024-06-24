@@ -17,8 +17,6 @@ Minimalist Wolfi-based Java JRE image using [OpenJDK](https://openjdk.org/projec
 <!--overview:end-->
 
 <!--getting:start-->
-The latest build of this image passes the TCK for Java 21.0.3 and Java 22.0.1 as provided by Oracle under the OpenJDK Community TCK License Agreement (OCTLA).
-
 ## Download this Image
 The image is available on `cgr.dev`:
 
@@ -28,6 +26,8 @@ docker pull cgr.dev/chainguard/jre:latest
 <!--getting:end-->
 
 <!--body:start-->
+The latest build of this image passes the TCK for Java 21.0.3 and Java 22.0.1 as provided by Oracle under the OpenJDK Community TCK License Agreement (OCTLA).
+
 ## Java Application Example
 
 This section outlines how you can build a Java application with the Chainguard JRE Image.
