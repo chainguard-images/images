@@ -22,11 +22,13 @@ retry_command() {
     local description=$3
     local cmd="${@:4}"
     local attempt=1
+    local log_file="/tmp/test_retry_command_$(uuidgen).log"
 
     echo "Retrying: $description"
+    > "$log_file"  # Clear log file at the start
     while [ $attempt -le $max_attempts ]; do
         echo "Attempt $attempt: $cmd"
-        if eval $cmd; then
+        if eval $cmd &> "$log_file"; then
             echo "Success on attempt $attempt for: $description"
             return 0
         else
@@ -36,6 +38,7 @@ retry_command() {
         ((attempt++))
     done
 
+    cat "$log_file"
     echo "Error: Failed after $max_attempts attempts for: $description"
     return 1
 }
@@ -71,14 +74,16 @@ TEST_validate_container_logs() {
 }
 
 # Start a Cassandra container
-CASSANDRA_CONTAINER=$(docker run -d -e CASSANDRA_START_RPC=true $IMAGE_NAME)
-
-# Intentional long sleep, it really does take this long! We have a retry block
-# below, but each retry before it's up causes an exception in the logs, so this
-# will minimize that.
-sleep 75
+CASSANDRA_CONTAINER=$(docker run -d \
+  -e CASSANDRA_START_RPC=true \
+  -e CASSANDRA_AUTHENTICATOR=PasswordAuthenticator \
+  -e CASSANDRA_AUTHORIZER=CassandraAuthorizer \
+  -e CASSANDRA_ENABLE_USER_AUTHENTICATION=true \
+  -e CASSANDRA_USER=cassandra \
+  -e CASSANDRA_PASSWORD=cassandra \
+  $IMAGE_NAME)
 
 # Wait for Cassandra to start
-retry_command 10 10 "Cassandra nodetool status" "docker exec \"$CASSANDRA_CONTAINER\" nodetool status"
+retry_command 20 30 "Cassandra nodetool status" "docker exec \"$CASSANDRA_CONTAINER\" nodetool -u cassandra -pw cassandra status"
 
 TEST_validate_container_logs
