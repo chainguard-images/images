@@ -22,6 +22,12 @@ variable "cwd" {
   description = "The current working directory of the image's tests. This is almost always just 'path.module'."
 }
 
+variable "envs" {
+  description = "Environment variables to set in the sandbox."
+  type        = map(string)
+  default     = {}
+}
+
 data "apko_config" "sandbox" {
   extra_packages = [
     "apk-tools",
@@ -68,6 +74,8 @@ resource "imagetest_harness_k3s" "this" {
         destination = "/it/work"
       },
     ], module.test_libs.mounts)
+
+    envs = var.envs
   }
 }
 
