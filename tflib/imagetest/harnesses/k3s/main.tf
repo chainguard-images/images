@@ -66,7 +66,8 @@ resource "imagetest_harness_k3s" "this" {
         # Test directory
         source      = var.cwd
         destination = "/it/work"
-    }], module.test_libs.mounts)
+      },
+    ], module.test_libs.mounts)
   }
 }
 
