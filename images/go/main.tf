@@ -3,9 +3,8 @@ variable "target_repository" {
 }
 
 module "versions" {
-  eol-grace-months = 24
-  package          = "go"
-  source           = "../../tflib/versions"
+  package = "go"
+  source  = "../../tflib/versions"
 }
 
 module "config" {
