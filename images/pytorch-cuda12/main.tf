@@ -14,12 +14,13 @@ module "config" {
 }
 
 module "latest" {
-  source            = "../../tflib/publisher"
-  name              = basename(path.module)
-  target_repository = var.target_repository
-  config            = module.config.config
-  build-dev         = true
-  check-sbom        = false # TODO(pnasrat): Re-enable SBOM check after license corrected
+  source             = "../../tflib/publisher"
+  name               = basename(path.module)
+  target_repository  = var.target_repository
+  config             = module.config.config
+  build-dev          = true
+  check-sbom         = false # TODO(pnasrat): Re-enable SBOM check after license corrected
+  extra_dev_packages = ["cuda-toolkit-12.3-dev"]
 }
 
 module "test" {
