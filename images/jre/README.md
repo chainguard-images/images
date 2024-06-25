@@ -26,7 +26,8 @@ docker pull cgr.dev/chainguard/jre:latest
 <!--getting:end-->
 
 <!--body:start-->
-The latest build of this image passes the TCK for Java 21.0.3 and Java 22.0.1 as provided by Oracle under the OpenJDK Community TCK License Agreement (OCTLA).
+
+The latest builds of Chainguard's JRE image passes the TCK for OpenJDK Java 21.0.3 and Java 22.0.1 as provided by (Oracle under the OpenJDK Community TCK License Agreement)[https://openjdk.org/groups/conformance/JckAccess/index.html] (OCTLA) and are Java Compatibility Kit (JCK) conformant.
 
 ## Java Application Example
 
