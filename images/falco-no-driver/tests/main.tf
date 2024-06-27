@@ -1,8 +1,11 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "digest" {
   description = "The image digest to run tests over."
@@ -10,20 +13,36 @@ variable "digest" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-data "oci_exec_test" "helm-install" {
-  digest = var.digest
-  script = "${path.module}/falco-helm-install.sh"
+data "imagetest_inventory" "this" {}
 
-  env {
-    name  = "IMAGE_REGISTRY"
-    value = local.parsed.registry
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
+
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
+
+  envs = {
+    "IMAGE_REGISTRY"   = local.parsed.registry
+    "IMAGE_REPOSITORY" = local.parsed.repo
+    "IMAGE_TAG"        = local.parsed.pseudo_tag
   }
-  env {
-    name  = "IMAGE_REPOSITORY"
-    value = local.parsed.repo
-  }
-  env {
-    name  = "IMAGE_TAG"
-    value = local.parsed.pseudo_tag
+}
+
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation test for falco-no-driver"
+  harness     = module.cluster_harness.harness
+
+  steps = [
+    {
+      name = "Install and test with helm"
+      cmd  = "$WORK/falco-helm-install.sh"
+    },
+  ]
+
+  labels = {
+    type = "k8s"
   }
 }
