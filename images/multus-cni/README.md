@@ -33,8 +33,9 @@ Example below on how to install multus-cni in a cluster with helm, replacing wit
 ```shell
 helm repo add startechnica https://startechnica.github.io/apps
 helm repo update
-helm install my-release startechnica/multus --namespace my-release --create-namespace \
-    --set image.repository=cgr.dev/chainguard/multus-cni \
+helm install my-release startechnica/multus-cni --namespace my-release --create-namespace \
+    --set image.registry=cgr.dev \
+    --set image.repository=chainguard/multus-cni \
     --set image.tag=latest
 ```
 
