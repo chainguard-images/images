@@ -42,7 +42,7 @@ output "config" {
       "LD_LIBRARY_PATH" : "/usr/local/cuda-12.3/lib:/usr/local/cudnn-8.9/lib64",
     }, var.environment)
     entrypoint = {
-      command = "/bin/bash"
+      command = "/usr/share/torchvision/.venv/bin/python3"
     }
     archs    = ["x86_64"]
     work-dir = "/work"

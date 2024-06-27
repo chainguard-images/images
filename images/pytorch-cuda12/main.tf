@@ -9,7 +9,7 @@ variable "target_repository" {
 }
 
 module "config" {
-  extra_packages = [each.key, "torchvision-cuda12", "busybox", "bash"]
+  extra_packages = [each.key, "torchvision-cuda12"]
   for_each       = toset(local.versions)
   source         = "./config"
 }
@@ -18,7 +18,7 @@ module "versioned" {
   build-dev          = true
   check-sbom         = false
   config             = module.config[each.key].config
-  extra_dev_packages = ["cuda-toolkit-12.3-dev"]
+  extra_dev_packages = ["cuda-toolkit-12.3-dev", "bash"]
   for_each           = toset(local.versions)
   main_package       = each.key
   name               = basename(path.module)
