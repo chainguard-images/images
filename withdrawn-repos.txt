@@ -22,3 +22,6 @@ sdk
 jitsucom-bulker-bulker
 jitsucom-bulker-ingest
 jitsucom-bulker-syncctl
+
+# removed in https://github.com/chainguard-images/images/pull/2597
+harbor-db
