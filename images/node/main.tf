@@ -31,8 +31,9 @@ module "config-next" {
 }
 
 module "versioned" {
-  build-dev = true
-  config    = module.config[each.key].config
+  build-dev        = true
+  check-apk-update = true
+  config           = module.config[each.key].config
   extra_dev_packages = [
     "yarn",
     "build-base",

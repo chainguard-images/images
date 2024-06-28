@@ -20,6 +20,12 @@ variable "extra_dev_packages" {
   description = "Extra packages to install in the dev variant of the image. This makes build-dev default to true."
 }
 
+variable "check-apk-update" {
+  type        = bool
+  default     = false
+  description = "This variable does nothing."
+}
+
 variable "build-dev" {
   type        = bool
   default     = false
