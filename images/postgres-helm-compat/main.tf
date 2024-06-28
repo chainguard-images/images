@@ -12,6 +12,7 @@ module "latest-config" {
   source = "./config"
 
   extra_packages = [
+    "gosu", # Needed by entrypoint
     "postgresql",
     "postgresql-client",
     "postgresql-oci-entrypoint",
