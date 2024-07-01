@@ -5,7 +5,7 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. consul<1.17)."
+  description = "The additional packages to install (e.g. consul)."
   default     = []
 }
 

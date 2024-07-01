@@ -1,6 +1,6 @@
 module "vault-config" {
   source         = "./configs/vault"
-  extra_packages = ["vault<1.15", "vault-entrypoint"]
+  extra_packages = ["vault", "vault-entrypoint"]
 }
 
 module "vault" {

@@ -1,4 +1,11 @@
 contents:
+  # Enabling extras allows us to install packages from the Chainguard Extras repository,
+  # which contains non-free software. This means Consul 1.16.4+ will be installed, which
+  # are BUSL-licensed
+  repositories:
+    - https://packages.cgr.dev/extras
+  keyring:
+    - https://packages.cgr.dev/extras/chainguard-extras.rsa.pub
   packages:
     - su-exec
     - busybox
