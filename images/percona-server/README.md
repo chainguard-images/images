@@ -13,11 +13,10 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-## Overview
-
-Percona Server for MySQL is a free, fully compatible, enhanced, and open source drop-in replacement for any MySQL database. It provides superior performance, scalability, and instrumentation.
+Percona Server for MySQL is a free, fully compatible, enhanced, and open source drop-in replacement for any MySQL database. It provides superior performance, scalability, and instrumentation.'
 
 To get more information about the image, please visit the GitHub [repository](https://github.com/percona/percona-server).
+
 <!--overview:end-->
 
 <!--getting:start-->
