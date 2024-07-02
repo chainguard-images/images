@@ -16,15 +16,15 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: step-security/harden-runner@f086349bfa2bd1361f7909c78558e816508cdc10 # v2.8.0
+      - uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # v2.8.1
         with:
           egress-policy: audit
 
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
-      - uses: chainguard-dev/setup-chainctl@4c4c132b7b1dd7c9283ff5331e3190ecf9a35755 # v0.1.1
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+      - uses: chainguard-dev/setup-chainctl@fc62b08dfd3179dd694b50f672bc371f878fbd1e # v0.2.1
         with:
           identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
-      - uses: imjasonh/setup-crane@00c9e93efa4e1138c9a7a5c594acd6c75a2fbf0c # v0.3
+      - uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
       - run: |
           for img in $(grep -v '\#' withdrawn-images.txt); do
             if [[ "${{ github.event.inputs.dry_run }}" == "false" ]]; then
