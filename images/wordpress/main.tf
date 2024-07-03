@@ -31,7 +31,6 @@ module "test-latest" {
 
 module "test-latest-dev" {
   source = "./tests"
-  is-dev = true
   digest = module.latest-dev.image_ref
 }
 
