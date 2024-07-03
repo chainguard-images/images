@@ -1598,6 +1598,11 @@ module "wolfi-base" {
   target_repository = "${var.target_repository}/wolfi-base"
 }
 
+module "wordpress" {
+  source            = "./images/wordpress"
+  target_repository = "${var.target_repository}/wordpress"
+}
+
 module "yara" {
   source            = "./images/yara"
   target_repository = "${var.target_repository}/yara"
@@ -2888,6 +2893,10 @@ output "summary_weaviate" {
 
 output "summary_wolfi-base" {
   value = module.wolfi-base.summary
+}
+
+output "summary_wordpress" {
+  value = module.wordpress.summary
 }
 
 output "summary_yara" {

@@ -1,0 +1,13 @@
+name: wordpress
+image: cgr.dev/chainguard/wordpress
+logo: https://storage.googleapis.com/chainguard-academy/logos/wordpress/logo.svg
+endoflife: ""
+console_summary: ""
+short_description: Minimalist Wolfi-based WordPress images.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://www.wordpress.org/
+keywords:
+  - applications
+  - languages
+  - frameworks
