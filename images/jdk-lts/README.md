@@ -31,7 +31,7 @@ docker pull cgr.dev/chainguard/jdk-lts:latest
 ### Upcoming Changes
 
 On August 12, 2024 this image will be removed to be consistent with our other images which only make
-the latest version available. We recommend you move to use the [jdk image](../jdk/README.md). Note
+the latest version available. We recommend you move to use the [jdk image](https://images.chainguard.dev/directory/image/jdk/versions). Note
 that this image uses a different version of Java, which may require changes to your build system or
 application.
 
