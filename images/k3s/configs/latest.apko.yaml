@@ -4,6 +4,7 @@ contents:
     - mount
     - umount
     - kmod
+    - kubectl # needed for K3D_FIX_DNS=1 to work on linux
     # Optional features
     - fuse-overlayfs
     - fuse-overlayfs-snapshotter
