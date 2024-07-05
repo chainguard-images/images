@@ -52,7 +52,9 @@ data "apko_config" "sandbox" {
 }
 
 resource "apko_build" "sandbox" {
-  repo   = "${var.target_repository}-itsandbox"
+  # NOTE: This uses the same repo as the image being tested, but since it is
+  # never tagged it is never synced downstream.
+  repo   = var.target_repository
   config = data.apko_config.sandbox.config
 }
 
