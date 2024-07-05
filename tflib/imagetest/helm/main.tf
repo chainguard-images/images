@@ -12,8 +12,36 @@ resource "random_pet" "name" {}
 
 locals {
   install_cmd = <<-EOinstall
+set -o errexit -o nounset -o errtrace -o pipefail -x
+
 apk add helm
-if ! helm install ${local.name} ${var.chart} \
+
+chart=${var.chart}
+
+%{if var.git_repo != ""}
+apk add patch git
+
+repo_path=$(mktemp -d)
+git clone --depth 1 ${var.git_repo} $repo_path
+
+(
+  cd $repo_path || exit
+  echo "${join(" ", var.patches)}" | tr ' ' '\n' | while read -r patchfile; do
+    if [ ! -f "$patchfile" ]; then
+      echo "Patch file $patchfile does not exist"
+      exit 1
+    fi
+    echo "Applying patch: $patchfile..."
+    patch '-p1' < $patchfile
+  done
+)
+
+chart=$repo_path/${var.chart}
+%{endif}
+
+echo "Installing chart: $chart"
+
+if ! helm install ${local.name} $chart \
   --namespace ${var.namespace} --create-namespace \
   %{if var.repo != ""}--repo ${var.repo}%{endif} \
   %{if var.chart_version != ""}--version ${var.chart_version}%{endif} \

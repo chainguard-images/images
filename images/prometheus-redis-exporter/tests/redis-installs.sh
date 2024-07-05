@@ -2,7 +2,7 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-ns=redis-${FREE_PORT}
+ns=redis
 
 kubectl apply -f - <<EOF
 ---
@@ -59,9 +59,9 @@ kubectl rollout status --timeout 5m -n $ns deployment/redis
 kubectl wait --for=condition=ready pod --selector app=redis -n $ns
 
 latest_pod_name="$(kubectl get pods --selector app=redis -n $ns -o jsonpath="{.items[0].metadata.name}")"
-kubectl port-forward "pod/${latest_pod_name}" ${FREE_PORT}:9121 -n $ns &
+kubectl port-forward "pod/${latest_pod_name}" 9121:9121 -n $ns &
 
 pid=$!
 trap "kill $pid" EXIT
 sleep 10
-curl localhost:${FREE_PORT}/metrics | grep "redis_up 1"
+curl localhost:9121/metrics | grep "redis_up 1"

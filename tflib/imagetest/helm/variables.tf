@@ -44,3 +44,14 @@ variable "wait" {
   type        = bool
   default     = true
 }
+
+variable "git_repo" {
+  description = "A git repository to fetch the chart from instead of a chart index. Cannot be specified alongside --repo"
+  default     = ""
+}
+
+variable "patches" {
+  description = "A list of paths to patches to apply to the repo before installing."
+  default     = []
+  type        = list(string)
+}

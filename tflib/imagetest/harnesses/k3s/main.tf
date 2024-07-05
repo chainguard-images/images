@@ -34,10 +34,12 @@ data "apko_config" "sandbox" {
     "bash",
     "busybox",
     "curl",
+    "git",
     "helm",
     "k9s",
     "kubectl",
     "kustomize",
+    "patch",
     "wolfi-base",
   ]
   config_contents = jsonencode({
