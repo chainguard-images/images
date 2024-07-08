@@ -71,17 +71,16 @@ test_velero(){
 
   # Restore from backup
   velero restore create --from-backup nginx-backup -w
-  
+
   restore_status=$(velero restore get -o json | jq -r '.status.phase')
   if [ "$restore_status" == "Completed" ]; then
     echo "Backup creation successful"
-    break
+    exit 0
   elif [ "$restore_status" == "Failed" ]; then
     echo "Backup creation failed"
     exit 1
   fi
 }
 
-apk add velero velero-compat velero-restore-helper jq
 install_velero
 test_velero

@@ -20,9 +20,16 @@ module "velero" {
 
 }
 
+locals {
+  velero-plugin-for-aws = provider::oci::get("cgr.dev/chainguard/velero-plugin-for-aws:latest")
+}
+
 module "test" {
   source = "./tests"
-  digest = module.velero.image_ref
+  digests = {
+    velero                = module.velero.image_ref
+    velero-plugin-for-aws = local.velero-plugin-for-aws.full_ref
+  }
 }
 
 resource "oci_tag" "latest" {

@@ -5,11 +5,15 @@ terraform {
   }
 }
 
-variable "digest" {
+variable "digests" {
   description = "The image digests to run tests over."
+  type = object({
+    velero                = string
+    velero-plugin-for-aws = string
+  })
 }
 
-locals { parsed = provider::oci::parse(var.digest) }
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
@@ -19,9 +23,13 @@ resource "imagetest_harness_k3s" "this" {
 
   sandbox = {
     envs = {
-      "IMAGE_REGISTRY"   = local.parsed.registry
-      "IMAGE_REPOSITORY" = local.parsed.repo
-      "IMAGE_TAG"        = local.parsed.pseudo_tag
+      "IMAGE_REGISTRY"   = local.parsed["velero"].registry
+      "IMAGE_REPOSITORY" = local.parsed["velero"].repo
+      "IMAGE_TAG"        = local.parsed["velero"].pseudo_tag
+
+      "AWS_IMAGE_REGISTRY"   = local.parsed["velero-plugin-for-aws"].registry
+      "AWS_IMAGE_REPOSITORY" = local.parsed["velero-plugin-for-aws"].repo
+      "AWS_IMAGE_TAG"        = local.parsed["velero-plugin-for-aws"].pseudo_tag
     }
     mounts = [
       {
@@ -39,8 +47,16 @@ resource "imagetest_feature" "basic" {
 
   steps = [
     {
+      name = "Install dependencies"
+      cmd  = "apk add velero velero-compat velero-restore-helper jq"
+    },
+    {
       name = "Basic smoke test that providers install"
       cmd  = "/tests/docker-test.sh"
+    },
+    {
+      name = "Basic smoke test that csi plugin works install"
+      cmd  = "/tests/csi-test.sh"
     },
   ]
 
