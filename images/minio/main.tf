@@ -11,7 +11,7 @@ variable "target_repository" {
 locals {
   packages = {
     "minio" : {
-      extra_packages : ["minio", "mc", "bash", "coreutils"],
+      extra_packages : ["minio", "mc", "coreutils", "bash-binsh"],
       entrypoint : "/usr/bin/minio"
       repository = var.target_repository
     },
