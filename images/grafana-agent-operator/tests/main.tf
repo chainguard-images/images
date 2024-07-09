@@ -1,8 +1,11 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "digest" {
   description = "The image digest to run tests over."
@@ -10,35 +13,73 @@ variable "digest" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-data "oci_exec_test" "manifest" {
-  digest      = var.digest
-  script      = "./verify_deployment.sh"
-  working_dir = path.module
+data "imagetest_inventory" "this" {}
+
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
+
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
 }
 
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-resource "random_pet" "suffix" {}
+  name      = "grafana-agent-operator"
+  repo      = "https://grafana.github.io/helm-charts"
+  chart     = "grafana-agent-operator"
+  namespace = "grafana-agent-operator"
 
-resource "helm_release" "operator" {
-  name             = "grafana-agent-operator-${random_pet.suffix.id}"
-  namespace        = "grafana-agent-operator-${random_pet.suffix.id}"
-  repository       = "https://grafana.github.io/helm-charts"
-  chart            = "grafana-agent-operator"
-  create_namespace = true
+  values = {
+    image = {
+      registry   = local.parsed.registry
+      repository = local.parsed.repo
+      tag        = local.parsed.pseudo_tag
+    }
+  }
+}
 
-  values = [
-    jsonencode({
-      image = {
-        registry   = local.parsed.registry
-        repository = local.parsed.repo
-        tag        = local.parsed.pseudo_tag
-      }
-    })
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation"
+  harness     = module.cluster_harness.harness
+
+  steps = [
+    {
+      name = "Helm Install"
+      cmd  = module.helm.install_cmd
+    }
   ]
+
+  labels = {
+    type = "k8s"
+  }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.operator.id
-  namespace = helm_release.operator.namespace
+resource "imagetest_harness_docker" "docker" {
+  name      = "docker"
+  inventory = data.imagetest_inventory.this
+}
+
+resource "imagetest_feature" "image" {
+  name        = "image"
+  description = "Basic image test"
+  harness     = imagetest_harness_docker.docker
+
+  steps = [
+    {
+      name = "-help"
+      cmd  = "docker run --rm ${var.digest} -help"
+    },
+    {
+      name = "-version"
+      cmd  = "docker run --rm ${var.digest} -version"
+    },
+  ]
+
+  labels = {
+    type = "container"
+  }
 }

@@ -19,8 +19,9 @@ module "grafana-agent-operator" {
 }
 
 module "test" {
-  source = "./tests"
-  digest = module.grafana-agent-operator.image_ref
+  source            = "./tests"
+  digest            = module.grafana-agent-operator.image_ref
+  target_repository = var.target_repository
 }
 
 resource "oci_tag" "latest" {
