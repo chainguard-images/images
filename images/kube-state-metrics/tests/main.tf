@@ -1,9 +1,11 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "digest" {
   description = "The image digests to run tests over."
@@ -12,43 +14,50 @@ variable "digest" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "kube-state-metrics" {
-  name = "kube-state-metrics-${random_pet.suffix.id}"
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
 
-  repository = "https://prometheus-community.github.io/helm-charts"
-  chart      = "kube-state-metrics"
-
-  namespace        = "kube-state-metrics-${random_pet.suffix.id}"
-  create_namespace = true
-
-  values = [
-    jsonencode({
-      image = {
-        registry   = local.parsed.registry
-        repository = local.parsed.repo
-        tag        = local.parsed.pseudo_tag
-      }
-    }),
-  ]
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
 }
 
-data "oci_exec_test" "check-kube-state-metrics" {
-  digest      = var.digest
-  script      = "./check-ksm.sh"
-  working_dir = path.module
-  depends_on  = [helm_release.kube-state-metrics]
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-  env {
-    name  = "KSM_NAME"
-    value = helm_release.kube-state-metrics.name
+  repo      = "https://prometheus-community.github.io/helm-charts"
+  chart     = "kube-state-metrics"
+  namespace = "kube-state-metrics"
+
+  values = {
+    image = {
+      registry   = local.parsed.registry
+      repository = local.parsed.repo
+      tag        = local.parsed.pseudo_tag
+    }
   }
 }
 
-module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.check-kube-state-metrics]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.kube-state-metrics.id
-  namespace  = helm_release.kube-state-metrics.namespace
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation test for KSM"
+  harness     = module.cluster_harness.harness
+
+  steps = [
+    {
+      name = "Install kube-state-metrics"
+      cmd  = module.helm.install_cmd
+    },
+    {
+      name = "Check metrics endpoint"
+      cmd  = "$WORK/check-ksm.sh ${module.helm.release_name}"
+    }
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }
