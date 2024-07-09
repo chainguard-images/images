@@ -1,9 +1,12 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    helm      = { source = "hashicorp/helm" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "digest" {
   description = "The image digest to run tests over."
@@ -11,18 +14,24 @@ variable "digest" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "stakater-reloader" {
-  name = "stakater-reloader-${random_pet.suffix.id}"
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
 
-  repository = "https://stakater.github.io/stakater-charts"
-  chart      = "reloader"
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
+}
 
-  namespace        = "stakater-reloader-${random_pet.suffix.id}"
-  create_namespace = true
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-  values = [jsonencode({
+  repo  = "https://stakater.github.io/stakater-charts"
+  chart = "reloader"
+
+  values = {
     reloader = {
       deployment = {
         image = {
@@ -31,11 +40,22 @@ resource "helm_release" "stakater-reloader" {
         }
       }
     }
-  })]
+  }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.stakater-reloader.id
-  namespace = helm_release.stakater-reloader.namespace
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation"
+  harness     = module.cluster_harness.harness
+
+  steps = [
+    {
+      name = "Helm Install"
+      cmd  = module.helm.install_cmd
+    }
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }
