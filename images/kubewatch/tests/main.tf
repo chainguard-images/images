@@ -1,9 +1,11 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "digest" {
   description = "The image digest to run tests over."
@@ -11,28 +13,43 @@ variable "digest" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-resource "helm_release" "kubewatch" {
-  name = "kubewatch"
+data "imagetest_inventory" "this" {}
 
-  repository = "https://robusta-charts.storage.googleapis.com"
-  chart      = "kubewatch"
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
 
-  namespace        = "kubewatch"
-  create_namespace = true
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
+}
 
-  values = [
-    jsonencode({
-      image = {
-        registry   = local.parsed.registry
-        repository = local.parsed.repo
-        tag        = local.parsed.pseudo_tag
-      }
-    }),
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  repo      = "https://robusta-charts.storage.googleapis.com"
+  chart     = "kubewatch"
+  namespace = "kubewatch"
+
+  values = {
+    image = {
+      registry   = local.parsed.registry
+      repository = local.parsed.repo
+      tag        = local.parsed.pseudo_tag
+    }
+  }
+}
+
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation test for kubewatch"
+  harness     = module.cluster_harness.harness
+
+  steps = [
+    {
+      name = "Install"
+      cmd  = module.helm.install_cmd
+    }
   ]
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.kubewatch.id
-  namespace = helm_release.kubewatch.namespace
-}
