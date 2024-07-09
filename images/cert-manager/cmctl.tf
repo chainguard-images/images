@@ -23,6 +23,6 @@ module "cmctl" {
 module "cmctl-tagger" {
   depends_on = [module.test]
   source     = "../../tflib/tagger"
-  tags       = merge([for v in module.versioned : v.latest_tag_map]...)
+  tags       = merge([for v in module.cmctl : v.latest_tag_map]...)
 }
 
