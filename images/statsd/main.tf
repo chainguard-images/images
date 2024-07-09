@@ -19,8 +19,9 @@ module "statsd" {
 }
 
 module "test" {
-  source = "./tests"
-  digest = module.statsd.image_ref
+  source            = "./tests"
+  digest            = module.statsd.image_ref
+  target_repository = var.target_repository
 }
 
 resource "oci_tag" "latest" {
