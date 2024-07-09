@@ -2,6 +2,14 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
+# shellcheck disable=SC1091
+source "$LIBS/libs.sh"
+
+K8S_NAME="${1}"
+K8S_NAMESPACE="monitoring"
+
+kubectl get pods -A
+
 # Looks for these log statements in the pod logs
 expected_logs=(
   "Starting cert-exporter"

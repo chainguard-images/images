@@ -1,8 +1,11 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "digest" {
   description = "The image digest to run tests over."
@@ -16,50 +19,71 @@ data "oci_exec_test" "test_help_cmd" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-# The helm chart expects a 'monitoring' namespace to pre-exist. This isn't
-# conigurable, so we ensure it exists before running the chart test.
-data "oci_exec_test" "test_create_ns" {
-  digest = var.digest
-  script = "kubectl create namespace monitoring || true"
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
+
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
 }
 
-resource "helm_release" "test_helm_deploy" {
-  name             = "cert-exporter-${random_pet.suffix.id}"
-  repository       = "https://joe-elliott.github.io/cert-exporter"
-  chart            = "cert-exporter"
-  namespace        = "cert-exporter-${random_pet.suffix.id}"
-  create_namespace = true
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-  values = [jsonencode({
+  repo      = "https://joe-elliott.github.io/cert-exporter"
+  chart     = "cert-exporter"
+  namespace = "monitoring" # Hardcoded expected Namespace based on upstream 
+
+  values = {
     image = {
       repository = local.parsed.registry_repo
       tag        = local.parsed.pseudo_tag
     }
-  })]
+  }
 }
 
-data "oci_exec_test" "test_validate_logs" {
-  depends_on  = [helm_release.test_helm_deploy]
-  digest      = var.digest
-  working_dir = path.module
-  script      = "./test-pod-logs.sh"
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation test for KSM"
+  harness     = module.cluster_harness.harness
 
-  env {
-    name  = "K8S_NAME"
-    value = "${helm_release.test_helm_deploy.id}-cert-manager"
-  }
-  env {
-    name  = "K8S_NAMESPACE"
-    value = helm_release.test_helm_deploy.namespace
-  }
+  steps = [
+    {
+      name = "Helm Install"
+      cmd  = module.helm.install_cmd
+    },
+    {
+      name = "Check"
+      cmd  = "$WORK/test-pod-logs.sh ${module.helm.release_name}-cert-exporter-cert-manager"
+    }
+  ]
 
+  labels = {
+    type = "k8s"
+  }
 }
 
-module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.test_validate_logs]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.test_helm_deploy.id
-  namespace  = helm_release.test_helm_deploy.namespace
+resource "imagetest_harness_docker" "docker" {
+  name      = "docker"
+  inventory = data.imagetest_inventory.this
+}
+
+resource "imagetest_feature" "image" {
+  name        = "image"
+  description = "Basic image test"
+  harness     = imagetest_harness_docker.docker
+
+  steps = [
+    {
+      name = "Image starts"
+      cmd  = "docker run --rm ${var.digest} --help"
+    },
+  ]
+
+  labels = {
+    type = "container"
+  }
 }
