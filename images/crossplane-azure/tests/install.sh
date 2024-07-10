@@ -41,7 +41,7 @@ spec:
   skipDependencyResolution: true
   # Delete the revision history to save space
   revisionHistoryLimit: 0
-  # We use psuedo_tags for the provider images, so we need to ignore the semver
+  # We use pseudo_tags for the provider images, so we need to ignore the semver
   # checks.
   ignoreCrossplaneConstraints: true
   # When applicable, use the regcred secret to pull the provider images.

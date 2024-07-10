@@ -27,8 +27,9 @@ module "helm_crossplane" {
     // Crossplane control plane to have difficulty.
     resourcesCrossplane = {
       limits = {
-        cpu    = "1"
-        memory = "1Gi"
+        # Make these bigger so we can accommodate images with bigger layers
+        cpu    = "2"
+        memory = "2Gi"
       }
       requests = {
         cpu    = "1"

@@ -47,7 +47,7 @@ module "helm_crossplane" {
 resource "imagetest_feature" "basic" {
   harness     = imagetest_harness_k3s.this
   name        = "Basic"
-  description = "Basic functionality of the cert-manager helm chart."
+  description = "Basic functionality of the crossplane-azure images."
 
   steps = [
     {
