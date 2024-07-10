@@ -1,9 +1,11 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "digest" {
   description = "The image digest to run tests over."
@@ -11,35 +13,49 @@ variable "digest" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "kuberay-operator" {
-  name             = "kuberay-operator-${random_pet.suffix.id}"
-  namespace        = "kuberay-operator"
-  repository       = "https://ray-project.github.io/kuberay-helm/"
-  chart            = "kuberay-operator"
-  create_namespace = true
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
 
-  values = [
-    jsonencode({
-      image = {
-        repository = local.parsed.registry_repo
-        tag        = local.parsed.pseudo_tag
-      }
-    }),
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
+}
+
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  repo      = "https://ray-project.github.io/kuberay-helm/"
+  chart     = "kuberay-operator"
+  namespace = "kuberay-operator"
+
+  values = {
+    image = {
+      repository = local.parsed.registry_repo
+      tag        = local.parsed.pseudo_tag
+    }
+  }
+}
+
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation"
+  harness     = module.cluster_harness.harness
+
+  steps = [
+    {
+      name = "Helm Install"
+      cmd  = module.helm.install_cmd
+    },
+    {
+      name = "Pods are running"
+      cmd  = "kubectl wait --for=jsonpath='{.status.phase}'=Running --all=true --namespace=kuberay-operator pod"
+    }
   ]
-}
 
-data "oci_exec_test" "smoke" {
-  digest      = var.digest
-  script      = "./smoke_test.sh"
-  working_dir = path.module
-  depends_on  = [helm_release.kuberay-operator]
-}
-
-module "helm_cleanup" {
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.kuberay-operator.id
-  namespace  = helm_release.kuberay-operator.namespace
-  depends_on = [data.oci_exec_test.smoke]
+  labels = {
+    type = "k8s"
+  }
 }
