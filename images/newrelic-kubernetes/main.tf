@@ -21,9 +21,10 @@ module "newrelic-kubernetes" {
 }
 
 module "test" {
-  source      = "./tests"
-  digest      = module.newrelic-kubernetes.image_ref
-  license_key = var.license_key
+  source            = "./tests"
+  digest            = module.newrelic-kubernetes.image_ref
+  license_key       = var.license_key
+  target_repository = var.target_repository
 }
 
 resource "oci_tag" "latest" {

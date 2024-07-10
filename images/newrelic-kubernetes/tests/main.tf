@@ -1,9 +1,11 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "license_key" {}
 
@@ -14,79 +16,77 @@ variable "digest" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "nri-bundle" {
-  name             = "newrelic-kubernetes-${random_pet.suffix.id}"
-  namespace        = "newrelic-kubernetes-${random_pet.suffix.id}"
-  repository       = "https://helm-charts.newrelic.com"
-  chart            = "nri-bundle"
-  create_namespace = true
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
 
-  values = [
-    jsonencode({
-      global = {
-        cluster    = "test"
-        licenseKey = var.license_key
-      }
-
-      newrelic-infrastructure = {
-        privileged = true
-        kubelet = {
-          // We use some extra volume mounts needed when running in a docker-in-docker environment
-          extraVolumeMounts = [{
-            mountPath = "/var/run/newrelic-infra"
-            name      = "var-run-newrelic-infra"
-          }]
-          extraVolumes = [{
-            hostPath = {
-              path = "/var/run/newrelic-infra"
-            }
-            name = "var-run-newrelic-infra"
-          }]
-        }
-        images = {
-          integration = {
-            registry   = local.parsed.registry
-            repository = local.parsed.repo
-            tag        = local.parsed.pseudo_tag
-          }
-        }
-      }
-      kube-state-metrics = {
-        enabled = true
-      }
-
-      nri-metadata-injection       = { enabled = false }
-      newrelic-pixie               = { enabled = false }
-      pixie-chart                  = { enabled = false }
-      newrelic-infra-operator      = { enabled = false }
-      newrelic-k8s-metrics-adapter = { enabled = false }
-    })
-  ]
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
 }
 
-data "oci_exec_test" "check-deployment" {
-  digest      = var.digest
-  script      = "./helm.sh"
-  working_dir = path.module
-  depends_on  = [helm_release.nri-bundle]
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-  env = [
+  repo  = "https://helm-charts.newrelic.com"
+  chart = "nri-bundle"
+
+  values = {
+    global = {
+      cluster    = "test"
+      licenseKey = var.license_key
+    }
+
+    newrelic-infrastructure = {
+      privileged = true
+      kubelet = {
+        // We use some extra volume mounts needed when running in a docker-in-docker environment
+        extraVolumeMounts = [{
+          mountPath = "/var/run/newrelic-infra"
+          name      = "var-run-newrelic-infra"
+        }]
+        extraVolumes = [{
+          hostPath = {
+            path = "/var/run/newrelic-infra"
+          }
+          name = "var-run-newrelic-infra"
+        }]
+      }
+      images = {
+        integration = {
+          registry   = local.parsed.registry
+          repository = local.parsed.repo
+          tag        = local.parsed.pseudo_tag
+        }
+      }
+    }
+    kube-state-metrics = {
+      enabled = true
+    }
+
+    nri-metadata-injection       = { enabled = false }
+    newrelic-pixie               = { enabled = false }
+    pixie-chart                  = { enabled = false }
+    newrelic-infra-operator      = { enabled = false }
+    newrelic-k8s-metrics-adapter = { enabled = false }
+  }
+}
+
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation"
+  harness     = module.cluster_harness.harness
+
+  steps = [
     {
-      name  = "NAMESPACE"
-      value = helm_release.nri-bundle.namespace
-    },
-    {
-      name  = "NAME"
-      value = helm_release.nri-bundle.name
+      name = "Helm Install"
+      cmd  = module.helm.install_cmd
     }
   ]
-}
 
-module "helm_cleanup" {
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.nri-bundle.id
-  namespace  = helm_release.nri-bundle.namespace
-  depends_on = [data.oci_exec_test.check-deployment]
+  labels = {
+    type = "k8s"
+  }
 }
