@@ -39,14 +39,13 @@ services:
   app:
     image: cgr.dev/chainguard/wordpress:latest-dev
     restart: unless-stopped
-    user: wordpress
     environment:
       WORDPRESS_DB_HOST: mariadb
       WORDPRESS_DB_USER: wp-user
       WORDPRESS_DB_PASSWORD: wp-password
       WORDPRESS_DB_NAME: wordpress
     volumes:
-      - ./wordpress:/var/www/html
+      - document-root:/var/www/html
     networks:
       - wolfi
 
@@ -56,7 +55,7 @@ services:
     ports:
       - 8000:8080
     volumes:
-      - ./wordpress:/var/www/html
+      - document-root:/var/www/html
       - ./nginx.conf:/etc/nginx/nginx.conf
     networks:
       - wolfi
@@ -77,6 +76,9 @@ services:
 networks:
   wolfi:
     driver: bridge
+
+volumes:
+  document-root:
 ```
 
 For this setup to work, you'll need an `nginx.conf` file with the following content:
@@ -123,6 +125,7 @@ http {
 
 ```
 
-After running `docker compose up`, your WordPress site will be available at `http://localhost:8000`. You can follow the installation instructions to set up your site, install themes and plugins, and customize it to your liking.
+After running `docker compose up`, your WordPress site will be available at `http://localhost:8000`. You can follow the installation instructions to set up your site and test your setup, but persisting customizations such as themes and plugins will require a different strategy that requires either setting up a volume for your theme and plugins or copying the custom content to the image through a Dockerfile that uses `cgr.dev/chainguard/wordpress:latest-dev` as the base image.
+
 
 <!--body:end-->
