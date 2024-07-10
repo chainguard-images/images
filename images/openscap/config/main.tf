@@ -18,6 +18,7 @@ output "config" {
         "py3-docker",
         "docker-cli",
         "scap-security-guide",
+        "chainguard-security-guide",
       ], var.extra_packages)
     }
     //

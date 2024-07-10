@@ -23,14 +23,20 @@ resource "imagetest_harness_docker" "docker" {
 resource "imagetest_feature" "test" {
   harness = imagetest_harness_docker.docker
   name    = "docker-test"
-  steps = [{
-    name = "basic test"
-    # This does quite a bit of work for a `version` command, it validates oscap
-    # can run (and that all the libraries are linked), but also probes the
-    # supported OVAL objects and checks they are legit. The alternative
-    # requires an uncomfortable level of privilege to either support
-    # `oscap-docker` scans or `oscap-chroot` scans.
-    cmd = "docker run --rm $IMAGE_NAME version"
-  }]
+  steps = [
+    {
+      name = "basic test"
+      # This does quite a bit of work for a `version` command, it validates oscap
+      # can run (and that all the libraries are linked), but also probes the
+      # supported OVAL objects and checks they are legit. The alternative
+      # requires an uncomfortable level of privilege to either support
+      # `oscap-docker` scans or `oscap-chroot` scans.
+      cmd = "docker run --rm $IMAGE_NAME version"
+    },
+    {
+      name = "Chainguard SRG is present"
+      cmd  = "docker run --rm $IMAGE_NAME info /usr/share/xml/scap/ssg/content/ssg-chainguard-gpos-ds.xml"
+    },
+  ]
 }
 
