@@ -1,44 +1,77 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "digest" {
   description = "The image digest to run tests over."
 }
 
-variable "skip_crds" {
-  description = "Used to deconflict between multiple installations within the same cluster."
-  default     = false
+locals { parsed = provider::oci::parse(var.digest) }
+
+data "imagetest_inventory" "this" {}
+
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
+
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
 }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --version"
-}
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-resource "random_pet" "suffix" {}
+  repo  = "https://helm.releases.hashicorp.com"
+  chart = "consul"
 
-resource "helm_release" "consul" {
-  name = "consul-${random_pet.suffix.id}"
-
-  repository = "https://helm.releases.hashicorp.com"
-  chart      = "consul"
-
-  namespace        = "consul-${random_pet.suffix.id}"
-  create_namespace = true
-  skip_crds        = var.skip_crds
-
-  values = [jsonencode({
+  values = {
     global = {
       images = var.digest
     }
-  })]
+  }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.consul.id
-  namespace = helm_release.consul.namespace
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation"
+  harness     = module.cluster_harness.harness
+
+  steps = [
+    {
+      name = "Helm Install"
+      cmd  = module.helm.install_cmd
+    }
+  ]
+
+  labels = {
+    type = "k8s"
+  }
+}
+
+resource "imagetest_harness_docker" "docker" {
+  name      = "docker"
+  inventory = data.imagetest_inventory.this
+}
+
+resource "imagetest_feature" "image" {
+  name        = "image"
+  description = "Basic image test"
+  harness     = imagetest_harness_docker.docker
+
+  steps = [
+    {
+      name = "--version"
+      cmd  = "docker run --rm ${var.digest} --version"
+    },
+  ]
+
+  labels = {
+    type = "container"
+  }
 }
