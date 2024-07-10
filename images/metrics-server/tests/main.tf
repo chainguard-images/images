@@ -1,9 +1,11 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "digest" {
   description = "The image digest to run tests over."
@@ -11,39 +13,78 @@ variable "digest" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-data "oci_exec_test" "run" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --version"
+data "imagetest_inventory" "this" {}
+
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
+
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
 }
 
-resource "helm_release" "metrics-server" {
-  name = "metrics-server"
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-  repository = "https://kubernetes-sigs.github.io/metrics-server"
-  chart      = "metrics-server"
+  name      = "metrics-server"
+  repo      = "https://kubernetes-sigs.github.io/metrics-server"
+  chart     = "metrics-server"
+  namespace = "metrics-server"
 
-  namespace        = "metrics-server"
-  create_namespace = true
-
-  values = [jsonencode({
+  values = {
     image = {
       tag        = local.parsed.pseudo_tag
       repository = local.parsed.registry_repo
     }
     args = ["--kubelet-insecure-tls"]
-  })]
+  }
 }
 
-data "oci_exec_test" "check-metrics-server" {
-  digest      = var.digest
-  script      = "./check-metrics-server.sh"
-  working_dir = path.module
-  depends_on  = [helm_release.metrics-server]
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation"
+  harness     = module.cluster_harness.harness
+
+  steps = [
+    {
+      name = "Helm Install"
+      cmd  = module.helm.install_cmd
+    },
+    {
+      name = "Check metrics server"
+      cmd  = "kubectl top pods -A && kubectl top nodes"
+      retry = {
+        attempts = 5
+        delay    = "5s"
+        factor   = "2"
+      }
+    }
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }
 
-module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.check-metrics-server]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.metrics-server.id
-  namespace  = helm_release.metrics-server.namespace
+resource "imagetest_harness_docker" "docker" {
+  name      = "docker"
+  inventory = data.imagetest_inventory.this
+}
+
+resource "imagetest_feature" "image" {
+  name        = "image"
+  description = "Basic image test"
+  harness     = imagetest_harness_docker.docker
+
+  steps = [
+    {
+      name = "--version"
+      cmd  = "docker run --rm ${var.digest} --version"
+    },
+  ]
+
+  labels = {
+    type = "container"
+  }
 }
