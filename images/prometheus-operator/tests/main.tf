@@ -1,9 +1,11 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "digest" {
   description = "The image digest to run tests over."
@@ -11,34 +13,44 @@ variable "digest" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "kube-prometheus-stack" {
-  name       = "prometheus-operator-${random_pet.suffix.id}"
-  repository = "https://prometheus-community.github.io/helm-charts"
-  chart      = "kube-prometheus-stack"
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
 
-  namespace        = "prometheus-operator-${random_pet.suffix.id}"
-  create_namespace = true
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
+}
 
-  // operator
-  set {
-    name  = "prometheusOperator.image.registry"
-    value = local.parsed.registry
-  }
-  set {
-    name  = "prometheusOperator.image.repository"
-    value = local.parsed.repo
-  }
-  set {
-    name  = "prometheusOperator.image.tag"
-    value = local.parsed.pseudo_tag
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  repo      = "https://prometheus-community.github.io/helm-charts"
+  chart     = "kube-prometheus-stack"
+  namespace = "prometheus-operator"
+
+  values = {
+    prometheusOperator = {
+      image = {
+        registry   = local.parsed.registry
+        repository = local.parsed.repo
+        tag        = local.parsed.pseudo_tag
+      }
+    }
   }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.kube-prometheus-stack.id
-  namespace = helm_release.kube-prometheus-stack.namespace
-}
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation test for prometheus-operator"
+  harness     = module.cluster_harness.harness
 
+  steps = [
+    {
+      name = "Install"
+      cmd  = module.helm.install_cmd
+    }
+  ]
+}
