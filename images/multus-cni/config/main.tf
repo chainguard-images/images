@@ -20,7 +20,7 @@ output "config" {
       "packages" : var.extra_packages
     },
     "entrypoint" : {
-      "command" : "/usr/bin/multus"
+      "command" : "/thin_entrypoint"
     },
     "accounts" : module.accts.block
   })

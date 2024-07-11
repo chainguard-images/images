@@ -27,7 +27,7 @@ docker pull cgr.dev/chainguard/multus-cni:latest
 
 <!--body:start-->
 ## Usage
-
+This wolfi-based minimal image corresponds to the thin image published by the upstream project.
 Example below on how to install multus-cni in a cluster with helm, replacing with the chainguard image:
 
 ```shell
