@@ -41,4 +41,12 @@ docker run cgr.dev/chainguard/velero:latest help
 
 For more information, refer to the velero documentation:
 - [Velero GitHub](https://github.com/vmware-tanzu/velero)
+
+When deploying velero helm charts with a kubectl image ensure to use
+`-dev` tags as the velero upstream helm chart expects presence of `sh`
+and `which` commands in the kubectl image. See this
+[vmware-tanzu/helm-charts#591](https://github.com/vmware-tanzu/helm-charts/issues/591)
+upstream issue. And at the same time kubectl images typically do not
+ship with a `sh`.
+
 <!--body:end-->

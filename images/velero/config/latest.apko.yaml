@@ -1,5 +1,14 @@
 contents:
-  packages: 
+  packages:
+    # Runtime libraries of a shell are needed by helm chart As
+    # currently velero doesn't have arguments to execute / pipe crd
+    # updates only to kubectl alone. And we don't want to ship full
+    # shell either.
+    # https://github.com/vmware-tanzu/helm-charts/issues/591
+    # apk info --depends busybox:
+    - glibc
+    - ld-linux
+    - libcrypt1
 
 accounts:
   groups:
