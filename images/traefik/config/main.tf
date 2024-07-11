@@ -1,3 +1,8 @@
+module "accts" {
+  name   = "traefik"
+  source = "../../../tflib/accts"
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -5,15 +10,26 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install."
   default     = ["traefik"]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/latest.apko.yaml")
-  extra_packages  = var.extra_packages
+  description = "The additional packages to install."
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "/usr/bin/traefik"
+    },
+    "accounts" : module.accts.block,
+    "paths" : [
+      {
+        "path" : "/tmp",
+        "type" : "directory",
+        "permissions" : 511
+      }
+    ]
+  })
 }
+

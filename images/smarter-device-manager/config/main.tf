@@ -1,3 +1,8 @@
+module "accts" {
+  run-as = 0
+  source = "../../../tflib/accts"
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -5,15 +10,20 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install"
   default     = ["smarter-device-manager"]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/latest.apko.yaml")
-  extra_packages  = var.extra_packages
+  description = "The additional packages to install"
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "/usr/bin/smarter-device-management"
+    },
+    "cmd" : "-config=/etc/smarter-device-manager/conf.yaml -logtostderr=true -v=2",
+    "accounts" : module.accts.block
+  })
 }
+

@@ -5,15 +5,55 @@ terraform {
 }
 
 variable "extra_packages" {
+  default     = ["ca-certificates", "curl", "php", "php-ctype", "php-curl", "php-dom", "php-fileinfo", "php-fpm", "php-iconv", "php-mbstring", "php-mysqlnd", "php-openssl", "php-pdo", "php-pdo_mysql", "php-pdo_sqlite", "php-phar", "php-simplexml", "php-sodium", "php-xml"]
   description = "The additional packages to install (e.g. php-fpm)."
-  default     = ["curl", "ca-certificates", "php", "php-fpm", "php-ctype", "php-curl", "php-dom", "php-fileinfo", "php-iconv", "php-mbstring", "php-mysqlnd", "php-openssl", "php-phar", "php-pdo", "php-pdo_sqlite", "php-pdo_mysql", "php-sodium", "php-simplexml", "php-xml"]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "type" : "service-bundle",
+      "services" : {
+        "php-fpm" : "/usr/sbin/php-fpm"
+      }
+    },
+    "work-dir" : "/app",
+    "accounts" : {
+      "run-as" : "65532",
+      "users" : [
+        {
+          "username" : "php",
+          "uid" : 65532,
+          "gid" : 65532
+        },
+        {
+          "username" : "laravel",
+          "uid" : 1000,
+          "gid" : 1000
+        }
+      ],
+      "groups" : [
+        {
+          "groupname" : "php",
+          "gid" : 65532
+        }
+      ]
+    },
+    "environment" : {
+      "PATH" : "/usr/sbin:/sbin:/usr/bin:/bin"
+    },
+    "paths" : [
+      {
+        "path" : "/app",
+        "type" : "directory",
+        "uid" : 65532,
+        "gid" : 65532,
+        "permissions" : 511
+      }
+    ]
+  })
 }
+

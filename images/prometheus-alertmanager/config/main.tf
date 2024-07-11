@@ -1,3 +1,7 @@
+module "accts" {
+  source = "../../../tflib/accts"
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -5,15 +9,30 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install"
   default     = ["prometheus-alertmanager"]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/latest.apko.yaml")
-  extra_packages  = var.extra_packages
+  description = "The additional packages to install"
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "/usr/bin/alertmanager"
+    },
+    "cmd" : "--config.file=/etc/alertmanager/alertmanager.yml --storage.path=/alertmanager",
+    "accounts" : module.accts.block,
+    "paths" : [
+      {
+        "path" : "/alertmanager",
+        "type" : "directory",
+        "uid" : 65532,
+        "gid" : 65532,
+        "permissions" : 511,
+        "recursive" : true
+      }
+    ]
+  })
 }
+

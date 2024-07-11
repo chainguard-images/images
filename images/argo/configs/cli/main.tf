@@ -1,3 +1,7 @@
+module "accts" {
+  source = "../../../../tflib/accts"
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -5,19 +9,19 @@ terraform {
 }
 
 variable "extra_packages" {
+  default     = ["argo-workflow-cli", "argo-workflows-known-hosts"]
   description = "The additional packages to install "
-
-  default = [
-    "argo-workflows-known-hosts",
-    "argo-workflow-cli"
-  ]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "argo"
+    },
+    "accounts" : module.accts.block
+  })
 }
+

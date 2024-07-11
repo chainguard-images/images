@@ -1,3 +1,8 @@
+module "accts" {
+  name   = "bank-vaults"
+  source = "../../../tflib/accts"
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -5,15 +10,19 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. bank-vaults)."
   default     = ["bank-vaults", "bank-vaults-template"]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
+  description = "The additional packages to install (e.g. bank-vaults)."
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "/usr/bin/bank-vaults"
+    },
+    "accounts" : module.accts.block
+  })
 }
+

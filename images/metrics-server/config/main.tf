@@ -1,3 +1,7 @@
+module "accts" {
+  source = "../../../tflib/accts"
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -5,15 +9,29 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. metrics-server)."
   default     = ["metrics-server"]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
+  description = "The additional packages to install (e.g. metrics-server)."
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "metrics-server --cert-dir=/tmp"
+    },
+    "accounts" : module.accts.block,
+    "paths" : [
+      {
+        "path" : "/tmp",
+        "type" : "directory",
+        "uid" : 65532,
+        "gid" : 65532,
+        "permissions" : 493,
+        "recursive" : true
+      }
+    ]
+  })
 }
+

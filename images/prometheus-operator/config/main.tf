@@ -1,3 +1,10 @@
+module "accts" {
+  gid    = 65534
+  run-as = 65534
+  source = "../../../tflib/accts"
+  uid    = 65534
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -5,15 +12,19 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install"
   default     = ["prometheus-operator"]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/latest.apko.yaml")
-  extra_packages  = var.extra_packages
+  description = "The additional packages to install"
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "/usr/bin/operator"
+    },
+    "accounts" : module.accts.block
+  })
 }
+

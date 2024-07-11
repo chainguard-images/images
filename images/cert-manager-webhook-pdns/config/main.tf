@@ -1,3 +1,7 @@
+module "accts" {
+  source = "../../../tflib/accts"
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -5,15 +9,22 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install"
   default     = ["cert-manager-webhook-pdns"]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
+  description = "The additional packages to install"
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "webhook"
+    },
+    "accounts" : module.accts.block,
+    "environment" : {
+      "GROUP_NAME" : "acme.zacharyseguin.ca"
+    }
+  })
 }
+

@@ -5,15 +5,42 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install."
   default     = ["proxysql"]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/latest.apko.yaml")
-  extra_packages  = var.extra_packages
+  description = "The additional packages to install."
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "/usr/bin/proxysql"
+    },
+    "cmd" : "--initial --idle-threads -f -c /etc/proxysql.cnf",
+    "accounts" : {
+      "users" : [
+        {
+          "username" : "proxysql",
+          "uid" : 65532
+        }
+      ],
+      "groups" : [
+        {
+          "groupname" : "proxysql",
+          "gid" : 65532
+        }
+      ]
+    },
+    "paths" : [
+      {
+        "path" : "/var/lib/proxysql",
+        "type" : "directory",
+        "uid" : 65532,
+        "gid" : 65532,
+        "permissions" : 493
+      }
+    ]
+  })
 }
+

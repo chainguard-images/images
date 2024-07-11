@@ -1,7 +1,0 @@
-contents:
-  packages:
-    - busybox
-    # erlang comes via var.extra_packages
-
-entrypoint:
-  command: /usr/bin/erl

@@ -5,18 +5,34 @@ terraform {
 }
 
 variable "extra_packages" {
+  default     = ["cilium-operator-generic", "gops"]
   description = "The additional packages to install (e.g. gops, cilium-operator-generic...)"
-  default = [
-    "gops",
-    "cilium-operator-generic",
-  ]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "/usr/bin/cilium-operator-generic"
+    },
+    "accounts" : {
+      "run-as" : "65532",
+      "users" : [
+        {
+          "username" : "nobody",
+          "uid" : 65532,
+          "gid" : 65532
+        }
+      ],
+      "groups" : [
+        {
+          "groupname" : "nonroot",
+          "gid" : 65532
+        }
+      ]
+    }
+  })
 }
+

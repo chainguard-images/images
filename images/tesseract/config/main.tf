@@ -1,3 +1,7 @@
+module "accts" {
+  source = "../../../tflib/accts"
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -5,16 +9,20 @@ terraform {
 }
 
 variable "extra_packages" {
+  default     = ["tesseract", "tesseract-eng", "tesseract-osd"]
   description = "The additional packages to install"
-  # Install tesseract itself, orientation & size & english datasets
-  default = ["tesseract", "tesseract-osd", "tesseract-eng"]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "/usr/bin/tesseract"
+    },
+    "cmd" : "--help",
+    "accounts" : module.accts.block
+  })
 }
+

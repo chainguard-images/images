@@ -1,3 +1,7 @@
+module "accts" {
+  source = "../../../tflib/accts"
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -5,14 +9,28 @@ terraform {
 }
 
 variable "extra_packages" {
+  default     = []
   description = "The additional packages to install (e.g. ruby, ruby-3.2)."
 }
 
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
+output "config" {
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "/usr/bin/ruby"
+    },
+    "cmd" : "--version",
+    "work-dir" : "/work",
+    "accounts" : module.accts.block,
+    "paths" : [
+      {
+        "path" : "/work",
+        "type" : "directory",
+        "permissions" : 511
+      }
+    ]
+  })
 }
 
-output "config" {
-  value = jsonencode(data.apko_config.this.config)
-}

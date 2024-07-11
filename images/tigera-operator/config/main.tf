@@ -1,3 +1,8 @@
+module "accts" {
+  name   = "tigera-operator"
+  source = "../../../tflib/accts"
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -5,15 +10,20 @@ terraform {
 }
 
 variable "extra_packages" {
+  default     = ["glibc", "tigera-operator"]
   description = "The additional packages to install (e.g. tigera-operator)."
-  default     = ["tigera-operator", "glibc"]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "/usr/bin/operator"
+    },
+    "cmd" : "--help",
+    "accounts" : module.accts.block
+  })
 }
+

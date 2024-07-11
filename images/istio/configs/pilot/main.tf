@@ -1,4 +1,3 @@
-
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -6,18 +5,41 @@ terraform {
 }
 
 variable "extra_packages" {
+  default     = ["istio-pilot-discovery", "istio-pilot-discovery-compat"]
   description = "The additional packages to install (e.g. istio-pilot-discovery, istio-pilot-discovery-1.18.2-compat)."
-  default = [
-    "istio-pilot-discovery",
-    "istio-pilot-discovery-compat",
-  ]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "/usr/local/bin/pilot-discovery"
+    },
+    "accounts" : {
+      "run-as" : "65532",
+      "users" : [
+        {
+          "username" : "nobody",
+          "uid" : 65532,
+          "gid" : 65532
+        }
+      ],
+      "groups" : [
+        {
+          "groupname" : "nonroot",
+          "gid" : 65532
+        }
+      ]
+    },
+    "paths" : [
+      {
+        "path" : "/run",
+        "type" : "directory",
+        "permissions" : 493
+      }
+    ]
+  })
 }
+

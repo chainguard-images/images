@@ -1,3 +1,8 @@
+module "accts" {
+  name   = "k8s-sidecar"
+  source = "../../../tflib/accts"
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -5,15 +10,22 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. k8s-sidecar)."
   default     = ["k8s-sidecar"]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
+  description = "The additional packages to install (e.g. k8s-sidecar)."
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "python -u /usr/share/app/sidecar.py"
+    },
+    "accounts" : module.accts.block,
+    "environment" : {
+      "PYTHONUNBUFFERED" : "1"
+    }
+  })
 }
+

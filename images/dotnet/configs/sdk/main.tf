@@ -1,3 +1,11 @@
+locals {
+  baseline_packages = ["busybox"]
+}
+
+module "accts" {
+  source = "../../../../tflib/accts"
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -5,15 +13,20 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. dotnet-sdk, dotnet-7-sdk)."
   default     = ["dotnet-sdk"]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
+  description = "The additional packages to install (e.g. dotnet-sdk, dotnet-7-sdk)."
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      // TODO: remove the need for using hardcoded local.baseline_packages by plumbing
+      // these packages through var.extra_packages in all callers of this config module
+      "packages" : distinct(concat(local.baseline_packages, var.extra_packages))
+    },
+    "entrypoint" : {},
+    "cmd" : "/bin/sh -l",
+    "accounts" : module.accts.block
+  })
 }
+

@@ -1,3 +1,10 @@
+module "accts" {
+  gid    = 1001
+  run-as = 1001
+  source = "../../../tflib/accts"
+  uid    = 1001
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -5,21 +12,46 @@ terraform {
 }
 
 variable "extra_packages" {
+  default     = ["dex", "gomplate"]
   description = "The additional packages to install"
-  // TODO: Add any other packages here you want to conditionally include,
-  // or update this default to [] if this isn't a version stream image.
-  default = [
-    "dex",
-    // Other packages your image needs
-    "gomplate",
-  ]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "/usr/bin/docker-entrypoint"
+    },
+    "cmd" : "dex serve /etc/dex/config.docker.yaml",
+    "accounts" : module.accts.block,
+    "paths" : [
+      {
+        "path" : "/var/dex",
+        "type" : "directory",
+        "uid" : 1001,
+        "gid" : 1001,
+        "permissions" : 493,
+        "recursive" : true
+      },
+      {
+        "path" : "/etc/dex",
+        "type" : "directory",
+        "uid" : 1001,
+        "gid" : 1001,
+        "permissions" : 493,
+        "recursive" : true
+      },
+      {
+        "path" : "/srv/dex",
+        "type" : "directory",
+        "uid" : 1001,
+        "gid" : 1001,
+        "permissions" : 493,
+        "recursive" : true
+      }
+    ]
+  })
 }
+

@@ -1,3 +1,7 @@
+module "accts" {
+  source = "../../../tflib/accts"
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -5,15 +9,35 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. chartmuseum)."
   default     = ["chartmuseum"]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
+  description = "The additional packages to install (e.g. chartmuseum)."
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "/usr/bin/chartmuseum"
+    },
+    "accounts" : module.accts.block,
+    "environment" : {
+      "DISABLE_API" : "true",
+      "DISABLE_STATEFILES" : "true",
+      "PORT" : "8080",
+      "STORAGE" : "local",
+      "STORAGE_LOCAL_ROOTDIR" : "/charts"
+    },
+    "paths" : [
+      {
+        "path" : "/charts",
+        "type" : "directory",
+        "uid" : 65532,
+        "gid" : 65532,
+        "permissions" : 493
+      }
+    ]
+  })
 }
+

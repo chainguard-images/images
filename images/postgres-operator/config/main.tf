@@ -1,3 +1,7 @@
+module "accts" {
+  source = "../../../tflib/accts"
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -5,18 +9,19 @@ terraform {
 }
 
 variable "extra_packages" {
+  default     = ["postgres-operator", "postgres-operator-compat"]
   description = "The additional packages to install"
-  default = [
-    "postgres-operator",
-    "postgres-operator-compat",
-  ]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "/postgres-operator"
+    },
+    "accounts" : module.accts.block
+  })
 }
+

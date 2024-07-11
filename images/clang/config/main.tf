@@ -1,3 +1,12 @@
+locals {
+  baseline_packages = ["build-base", "busybox"]
+}
+
+module "accts" {
+  run-as = 0
+  source = "../../../tflib/accts"
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -5,15 +14,30 @@ terraform {
 }
 
 variable "extra_packages" {
-  description = "The additional packages to install (e.g. clang, clang-15-default)."
   default     = ["clang"]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
+  description = "The additional packages to install (e.g. clang, clang-15-default)."
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      // TODO: remove the need for using hardcoded local.baseline_packages by plumbing
+      // these packages through var.extra_packages in all callers of this config module
+      "packages" : distinct(concat(local.baseline_packages, var.extra_packages))
+    },
+    "entrypoint" : {
+      "command" : "/usr/bin/clang"
+    },
+    "cmd" : "--help",
+    "work-dir" : "/work",
+    "accounts" : module.accts.block,
+    "paths" : [
+      {
+        "path" : "/work",
+        "type" : "directory",
+        "permissions" : 511
+      }
+    ]
+  })
 }
+

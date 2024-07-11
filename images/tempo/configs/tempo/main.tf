@@ -1,3 +1,7 @@
+module "accts" {
+  source = "../../../../tflib/accts"
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -5,17 +9,29 @@ terraform {
 }
 
 variable "extra_packages" {
+  default     = ["tempo"]
   description = "The additional packages to install"
-  default = [
-    "tempo",
-  ]
-}
-
-data "apko_config" "this" {
-  config_contents = file("${path.module}/template.apko.yaml")
-  extra_packages  = var.extra_packages
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode({
+    "contents" : {
+      "packages" : var.extra_packages
+    },
+    "entrypoint" : {
+      "command" : "/usr/bin/tempo"
+    },
+    "accounts" : module.accts.block,
+    "paths" : [
+      {
+        "path" : "/var/tempo",
+        "type" : "directory",
+        "uid" : 65532,
+        "gid" : 65532,
+        "permissions" : 493,
+        "recursive" : true
+      }
+    ]
+  })
 }
+
