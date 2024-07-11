@@ -30,6 +30,7 @@ module "test" {
     velero                = module.velero.image_ref
     velero-plugin-for-aws = local.velero-plugin-for-aws.full_ref
   }
+  target_repository = var.target_repository
 }
 
 resource "oci_tag" "latest" {
