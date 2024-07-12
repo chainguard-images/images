@@ -21,8 +21,9 @@ module "velero-restore-helper" {
 }
 
 module "test" {
-  source = "./tests"
-  digest = module.velero-restore-helper.image_ref
+  source            = "./tests"
+  digest            = module.velero-restore-helper.image_ref
+  target_repository = var.target_repository
 }
 
 resource "oci_tag" "latest" {
