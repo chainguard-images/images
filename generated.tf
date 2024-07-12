@@ -1538,11 +1538,6 @@ module "velero-plugin-for-aws" {
   target_repository = "${var.target_repository}/velero-plugin-for-aws"
 }
 
-module "velero-plugin-for-csi" {
-  source            = "./images/velero-plugin-for-csi"
-  target_repository = "${var.target_repository}/velero-plugin-for-csi"
-}
-
 module "velero-restore-helper" {
   source            = "./images/velero-restore-helper"
   target_repository = "${var.target_repository}/velero-restore-helper"
@@ -2845,10 +2840,6 @@ output "summary_velero" {
 
 output "summary_velero-plugin-for-aws" {
   value = module.velero-plugin-for-aws.summary
-}
-
-output "summary_velero-plugin-for-csi" {
-  value = module.velero-plugin-for-csi.summary
 }
 
 output "summary_velero-restore-helper" {
