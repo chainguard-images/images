@@ -1,9 +1,11 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "digest" {
   description = "The image digest to run tests over."
@@ -11,35 +13,47 @@ variable "digest" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-data "oci_exec_test" "healthy" {
-  digest = var.digest
-  script = "${path.module}/02-healthy.sh"
+data "imagetest_inventory" "this" {}
+
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
+
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
 }
 
-resource "random_pet" "suffix" {}
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-resource "helm_release" "prometheus_community_pushgateway" {
-  name             = "pushgateway-${random_pet.suffix.id}"
-  repository       = "https://prometheus-community.github.io/helm-charts"
-  chart            = "prometheus-pushgateway"
-  namespace        = "pushgateway-system-${random_pet.suffix.id}"
-  create_namespace = true
+  repo  = "https://prometheus-community.github.io/helm-charts"
+  chart = "prometheus-pushgateway"
 
-  values = [
-    jsonencode({
-      image = {
-        repository = local.parsed.registry_repo
-        tag        = local.parsed.pseudo_tag
-      }
-      service = {
-        type = "ClusterIP"
-      }
-    }),
+  values = {
+    image = {
+      repository = local.parsed.registry_repo
+      tag        = local.parsed.pseudo_tag
+    }
+    service = {
+      type = "ClusterIP"
+    }
+  }
+}
+
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation"
+  harness     = module.cluster_harness.harness
+
+  steps = [
+    {
+      name = "Helm Install"
+      cmd  = module.helm.install_cmd
+    },
   ]
-}
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.prometheus_community_pushgateway.id
-  namespace = helm_release.prometheus_community_pushgateway.namespace
+  labels = {
+    type = "k8s"
+  }
 }
