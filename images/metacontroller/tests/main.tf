@@ -1,8 +1,11 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "digest" {
   description = "The image digest to run tests over."
@@ -10,30 +13,48 @@ variable "digest" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-resource "helm_release" "metacontroller" {
-  name       = "metacontroller"
-  repository = "oci://ghcr.io/metacontroller"
-  chart      = "metacontroller-helm"
-  version    = "v4.10.3"
+data "imagetest_inventory" "this" {}
 
-  values = [jsonencode({
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
+
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
+}
+
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  chart         = "oci://ghcr.io/metacontroller/metacontroller-helm"
+  chart_version = "v4.10.3"
+
+  values = {
     image = {
       repository = local.parsed.registry_repo
       tag        = local.parsed.pseudo_tag
     }
-  })]
+  }
 }
 
-data "oci_exec_test" "helm" {
-  depends_on  = [helm_release.metacontroller]
-  digest      = var.digest
-  script      = "./helm.sh"
-  working_dir = path.module
-}
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation"
+  harness     = module.cluster_harness.harness
 
-module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.helm]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.metacontroller.id
-  namespace  = helm_release.metacontroller.namespace
+  steps = [
+    {
+      name = "Helm Install"
+      cmd  = module.helm.install_cmd
+    },
+    {
+      name = "Smoke test"
+      cmd  = "$WORK/helm.sh"
+    }
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }
