@@ -1,9 +1,11 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "digest" {
   description = "The image digest to run tests over."
@@ -11,39 +13,45 @@ variable "digest" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-data "oci_exec_test" "help" {
-  digest = var.digest
-  script = "${path.module}/01-help.sh"
+data "imagetest_inventory" "this" {}
+
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
+
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
 }
 
-resource "helm_release" "weaviate" {
-  name = "weaviate"
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-  repository = "https://weaviate.github.io/weaviate-helm"
-  chart      = "weaviate"
+  repo  = "https://weaviate.github.io/weaviate-helm"
+  chart = "weaviate"
 
-  namespace        = "weaviate"
-  create_namespace = true
-
-  # Split the digest ref into repository and digest. The helm chart expects a
-  # tag, but it just appends it to the repository again, so we just specify a
-  # dummy tag and the digest to test.
-  set {
-    name  = "image.registry"
-    value = local.parsed.registry
-  }
-  set {
-    name  = "image.repo"
-    value = local.parsed.repo
-  }
-  set {
-    name  = "image.tag"
-    value = local.parsed.pseudo_tag
+  values = {
+    image = {
+      registry = local.parsed.registry
+      repo     = local.parsed.repo
+      tag      = local.parsed.pseudo_tag
+    }
   }
 }
 
-module "helm_cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.weaviate.id
-  namespace = helm_release.weaviate.namespace
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation"
+  harness     = module.cluster_harness.harness
+
+  steps = [
+    {
+      name = "Helm Install"
+      cmd  = module.helm.install_cmd
+    }
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }
