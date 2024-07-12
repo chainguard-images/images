@@ -1,9 +1,11 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "digest" {
   description = "The image digest to run tests over."
@@ -16,49 +18,54 @@ data "oci_exec_test" "runs" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "k8s-sidecar" {
-  name             = "prometheus-${random_pet.suffix.id}"
-  namespace        = "prometheus-${random_pet.suffix.id}"
-  repository       = "https://prometheus-community.github.io/helm-charts"
-  chart            = "kube-prometheus-stack"
-  create_namespace = true
-  timeout          = 600
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
 
-  set {
-    name  = "grafana.sidecar.image.registry"
-    value = local.parsed.registry
-  }
-  set {
-    name  = "grafana.sidecar.image.repository"
-    value = local.parsed.repo
-  }
-  set {
-    name  = "grafana.sidecar.image.tag"
-    value = local.parsed.pseudo_tag
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
+}
+
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  repo      = "https://prometheus-community.github.io/helm-charts"
+  chart     = "kube-prometheus-stack"
+  namespace = "k8s-sidecar"
+
+  values = {
+    grafana = {
+      sidecar = {
+        image = {
+          registry   = local.parsed.registry
+          repository = local.parsed.repo
+          tag        = local.parsed.pseudo_tag
+        }
+      }
+    }
   }
 }
 
-data "oci_exec_test" "smoke" {
-  digest      = var.digest
-  script      = "./02-smoke.sh"
-  working_dir = path.module
-  depends_on  = [helm_release.k8s-sidecar]
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation test"
+  harness     = module.cluster_harness.harness
 
-  env {
-    name  = "NAME"
-    value = "prometheus-${random_pet.suffix.id}"
-  }
-  env {
-    name  = "NAMESPACE"
-    value = "prometheus-${random_pet.suffix.id}"
-  }
-}
+  steps = [
+    {
+      name = "Install"
+      cmd  = module.helm.install_cmd
+    },
+    {
+      name = "Add dashboard"
+      cmd  = "$WORK/02-smoke.sh ${module.helm.release_name}"
+    }
+  ]
 
-module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.smoke]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.k8s-sidecar.id
-  namespace  = helm_release.k8s-sidecar.namespace
+  labels = {
+    type = "k8s"
+  }
 }
