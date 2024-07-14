@@ -30,6 +30,8 @@ module "helm" {
   repo      = "https://prometheus-community.github.io/helm-charts"
   chart     = "kube-prometheus-stack"
   namespace = "prometheus-operator"
+  name      = "prometheus-operator"
+  wait      = true
 
   values = {
     prometheusOperator = {
@@ -51,6 +53,10 @@ resource "imagetest_feature" "basic" {
     {
       name = "Install"
       cmd  = module.helm.install_cmd
+    },
+    {
+      name = "Test"
+      cmd  = "$WORK/smoke-test.sh"
     }
   ]
 }
