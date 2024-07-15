@@ -1,8 +1,11 @@
 terraform {
   required_providers {
-    helm = { source = "hashicorp/helm" }
-    oci  = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
+    oci       = { source = "chainguard-dev/oci" }
   }
+}
+
+variable "target_repository" {
 }
 
 variable "digest" {
@@ -13,28 +16,41 @@ locals {
   parsed = provider::oci::parse(var.digest)
 }
 
-resource "random_pet" "suffix" {
+data "imagetest_inventory" "this" {
 }
 
-resource "helm_release" "telegraf" {
-  chart            = "telegraf"
-  create_namespace = true
-  name             = "telegraf-${random_pet.suffix.id}"
-  namespace        = "telegraf-${random_pet.suffix.id}"
-  repository       = "https://helm.influxdata.com"
-  values = [
-    jsonencode({
-      image = {
-        repo = local.parsed.registry_repo
-        tag  = local.parsed.pseudo_tag
-      }
-    }),
+module "cluster_harness" {
+  cwd               = path.module
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  source            = "../../../tflib/imagetest/harnesses/k3s/"
+  target_repository = var.target_repository
+}
+
+module "helm" {
+  chart  = "telegraf"
+  repo   = "https://helm.influxdata.com"
+  source = "../../../tflib/imagetest/helm"
+  values = {
+    image = {
+      repo = local.parsed.registry_repo
+      tag  = local.parsed.pseudo_tag
+    }
+  }
+}
+
+resource "imagetest_feature" "basic" {
+  description = "Basic installation"
+  harness     = module.cluster_harness.harness
+  labels = {
+    type = "k8s"
+  }
+  name = "basic"
+  steps = [
+    {
+      name = "Helm Install"
+      cmd  = module.helm.install_cmd
+    }
   ]
-}
-
-module "helm_cleanup" {
-  name      = helm_release.telegraf.id
-  namespace = helm_release.telegraf.namespace
-  source    = "../../../tflib/helm-cleanup"
 }
 
