@@ -57,17 +57,6 @@ provider "apko" {
   default_archs      = length(var.archs) == 0 ? ["x86_64", "aarch64"] : var.archs
 }
 
-provider "apko" {
-  alias = "alpine"
-
-  extra_repositories = ["https://dl-cdn.alpinelinux.org/alpine/edge/main"]
-  # These packages match chainguard-images/static
-  extra_packages = ["alpine-baselayout-data", "alpine-release", "ca-certificates-bundle"]
-  // Don't build for riscv64, 386, arm/v6
-  // Only build for: amd64, arm/v7, arm64, ppc64le, s390x
-  default_archs = length(var.archs) == 0 ? ["amd64", "arm/v7", "arm64", "ppc64le", "s390x"] : var.archs
-}
-
 provider "kubernetes" {
   config_path = "~/.kube/config"
 }
@@ -83,9 +72,6 @@ variable "newrelic_license_key" { default = "foo" } # set something valid to avo
 module "busybox" {
   source            = "./images/busybox"
   target_repository = "${var.target_repository}/busybox"
-  providers = {
-    apko.alpine = apko.alpine
-  }
 }
 
 module "calico" {
@@ -96,9 +82,6 @@ module "calico" {
 module "git" {
   source            = "./images/git"
   target_repository = "${var.target_repository}/git"
-  providers = {
-    apko.alpine = apko.alpine
-  }
 }
 
 module "graalvm-native" {
@@ -144,9 +127,6 @@ module "prometheus" {
 module "static" {
   source            = "./images/static"
   target_repository = "${var.target_repository}/static"
-  providers = {
-    apko.alpine = apko.alpine
-  }
 }
 
 module "terraform" {

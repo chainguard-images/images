@@ -1,8 +1,7 @@
 terraform {
   required_providers {
     apko = {
-      source                = "chainguard-dev/apko"
-      configuration_aliases = [apko.alpine]
+      source = "chainguard-dev/apko"
     }
   }
 }
@@ -15,12 +14,11 @@ module "tagger" {
   source = "../../tflib/tagger"
 
   depends_on = [
-    module.test-alpine,
     module.test-wolfi,
   ]
 
   tags = {
     "latest-glibc" : module.wolfi.image_ref,
-    "latest" : module.alpine.image_ref,
+    "latest" : module.wolfi.image_ref,
   }
 }
