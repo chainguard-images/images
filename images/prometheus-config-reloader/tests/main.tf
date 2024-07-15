@@ -29,10 +29,11 @@ resource "imagetest_harness_k3s" "this" {
 }
 
 module "helm" {
-  source = "../../../tflib/imagetest/helm"
-  repo   = "https://prometheus-community.github.io/helm-charts"
-  chart  = "kube-prometheus-stack"
-  name   = "prometheus-config-reloader"
+  source    = "../../../tflib/imagetest/helm"
+  repo      = "https://prometheus-community.github.io/helm-charts"
+  chart     = "kube-prometheus-stack"
+  name      = "prometheus-config-reloader"
+  namespace = "prometheus-operator"
   values = {
     prometheusOperator = {
       prometheusConfigReloader = {
@@ -56,6 +57,10 @@ resource "imagetest_feature" "basic" {
       name = "Helm install"
       cmd  = module.helm.install_cmd
     },
+    {
+      name = "Test"
+      cmd  = "/tests/smoke-test.sh"
+    }
   ]
 
   labels = {
