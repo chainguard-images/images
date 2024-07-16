@@ -28,6 +28,7 @@ variable "extra_packages" {
     "nvidia-container-toolkit-nvidia-container-runtime-cdi",
     "nvidia-container-toolkit-nvidia-container-runtime-hook",
     "nvidia-container-toolkit-nvidia-container-runtime-legacy",
+    "nvidia-container-toolkit-nvidia-cdi-hook",
     "nvidia-container-toolkit-nvidia-ctk",
     "nvidia-container-toolkit-containerd",
     "nvidia-container-toolkit-crio",
