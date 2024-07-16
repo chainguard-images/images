@@ -1,6 +1,5 @@
 contents:
-  packages:
-    - calico-key-cert-provisioner
+  packages: []
 
 accounts:
   groups:
@@ -13,4 +12,4 @@ accounts:
   run-as: 65532
 
 entrypoint:
-  command: /usr/bin/key-cert-provisioner
+  command: /usr/bin/calico-key-cert-provisioner
