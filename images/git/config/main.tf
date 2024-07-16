@@ -1,7 +1,7 @@
 variable "extra_packages" {
   description = "Extra packages to install."
   type        = list(string)
-  default     = []
+  default     = ["dash-binsh"]
 }
 
 variable "extra_repositories" {
