@@ -64,7 +64,11 @@ resource "imagetest_feature" "basic" {
       cmd  = module.helm.install_cmd
     },
     {
-      name  = "Test filebeat"
+      name = "Test filebeat"
+
+      // Note this test is expecting a failing pod as the imagetest k3s environment does not have gpus.
+      // The test then greps logs for specific messages including the failing to start error
+      // If an updated nvidia-device-plugin changes error messages this test might fail
       cmd   = <<EOF
         kubectl wait --for=jsonpath='{.status.containerStatuses[0].state.waiting.reason}'=CrashLoopBackOff pod --selector app.kubernetes.io/name=nvidia-device-plugin -n nvidia-device-plugin
 
@@ -73,7 +77,7 @@ resource "imagetest_feature" "basic" {
 
         grep "Starting FS watcher" /tmp/log
         grep "Starting OS watcher" /tmp/log
-        grep "Incompatible platform detected" /tmp/log
+        grep "invalid device discovery strategy" /tmp/log
       EOF
       retry = { attempts = 10, delay = "10s" }
     },
