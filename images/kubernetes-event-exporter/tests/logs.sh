@@ -7,6 +7,9 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
+RELEASE_NAME="${1}"
+RELEASE_NAMESPACE="kubernetes-event-exporter"
+
 # Defining log entries we are looking for in the k8s-event-export logs
 declare -a terms=(
 	"Received event"
