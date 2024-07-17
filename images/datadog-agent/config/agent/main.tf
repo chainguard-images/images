@@ -1,5 +1,5 @@
 locals {
-  baseline_packages = ["busybox", "datadog-agent-oci-compat"]
+  baseline_packages = ["busybox"]
 }
 
 module "accts" {
@@ -14,7 +14,7 @@ terraform {
 }
 
 variable "extra_packages" {
-  default     = ["datadog-agent"]
+  default     = ["datadog-agent", "datadog-agent-oci-compat"]
   description = "The additional packages to install"
 }
 
