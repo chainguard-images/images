@@ -23,6 +23,15 @@ resource "imagetest_harness_k3s" "this" {
   name      = "workhorse-k3s"
   inventory = data.imagetest_inventory.this
 
+  resources = {
+    cpu = {
+      request = "8Gi"
+    }
+    memory = {
+      request = "16Gi"
+    }
+  }
+
   sandbox = {
     mounts = [
       {
