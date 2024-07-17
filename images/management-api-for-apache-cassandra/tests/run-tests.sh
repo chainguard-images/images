@@ -1,22 +1,22 @@
 #!/usr/bin/env bash
 
-set -o errexit -o nounset -o pipefail
+set -o errexit -o nounset -o errtrace -o pipefail -x
 
-# Looks for these log statements in the pod logs
-expected_logs=(
-  "Started Server"
-  "Started Cassandra"
-)
+# Global variables for retries
+RETRIES=10
+RETRY_DELAY_SECONDS=15
 
-missing_logs=()
+# Creds for tests
+CASSANDRA_USER=cassandra
+CASSANDRA_USER_BASE64=Y2Fzc2FuZHJh
+
+CASSANDRA_PASSWORD=TestPassword123
+CASSANDRA_PASSWORD_BASE64=VGVzdFBhc3N3b3JkMTIz
 
 # Function to retry a command until it succeeds or reaches max attempts
-# Arguments:
-#   $1: max_attempts
-#   $2: interval (seconds)
-#   $3: description of the operation
-#   ${@:4}: command to execute
 retry_command() {
+    apk add uuidgen
+
     local max_attempts=$1
     local interval=$2
     local description=$3
@@ -43,47 +43,86 @@ retry_command() {
     return 1
 }
 
-# Validates expected log messages are present
-TEST_validate_container_logs() {
-  apk add grep
+# Creates a secret for accessing Cassandra. base64 encoded.
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cassandra-secret
+type: Opaque
+data:
+  username: ${CASSANDRA_USER_BASE64}
+  password: ${CASSANDRA_PASSWORD_BASE64}
+  jmxUser: ${CASSANDRA_USER_BASE64}
+  jmxPassword: ${CASSANDRA_PASSWORD_BASE64}
+EOF
 
-  local logs=$(docker logs "${CASSANDRA_CONTAINER}" 2>&1)
-  local logs_found=true
 
-  # Search the container logs for our expected log lines.
-  for log in "${expected_logs[@]}"; do
-    if echo "$logs" | /usr/bin/grep -qvz "$log"; then
-      logs_found=false
-    fi
-  done
+# Deploys a new instance of Cassandra, with our cgr image, using the operator.
+TEST_create_cassandra_cluster() {
+  kubectl apply -f - <<-EOF
+  apiVersion: k8ssandra.io/v1alpha1
+  kind: K8ssandraCluster 
+  metadata:
+    name: cassandra-cluster
+  spec:
+    cassandra:
+      serverVersion: ${CASSANDRA_VERSION}
+      serverImage: ${IMAGE}
+      superuserSecretRef:
+        name: cassandra-secret
+      datacenters:
+        - metadata:
+            name: k3d
+          size: 1
+          storageConfig:
+            cassandraDataVolumeClaimSpec:
+              storageClassName: local-path
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 1Gi
+          config:
+            jvmOptions:
+              heapSize: 2Gi
+EOF
 
-  if $logs_found; then
-    return 0
+  # Wait for statefulset to deploy
+  retry_command 8 30 "Cassandra stateful set readiness" "kubectl rollout status -w statefulset/cassandra-cluster-k3d-default-sts --timeout 3m"
+
+  # Ensure images where overriden with cgr images
+  IMAGE=$(kubectl get pod cassandra-cluster-k3d-default-sts-0 -o jsonpath='{.spec.containers[?(@.name=="cassandra")].image}')
+  if [ $IMAGE != $IMAGE ]; then
+    echo "ERROR: Image mismatch. Expected to be deployed using: ${IMAGE}, but got ${IMAGE}"
+    exit 1
   fi
 
-  # After all retries, record the missing logs
-  for log in "${expected_logs[@]}"; do
-    if ! echo "${logs}" | /usr/bin/grep -Fq "$log"; then
-      missing_logs+=("${log}")
-    fi
-  done
-
-  echo "FAILED: The following log lines were not found:"
-  printf '%s\n' "${missing_logs[@]}"
-  exit 1
+  # Even though the statefulset may show as ready, cassandra IS VERY SLOW at
+  # becoming operstional. Typically another 1-2 minutes delay could be needed.
+  retry_command 20 30 "cqlsh readiness check" "kubectl exec -i cassandra-cluster-k3d-default-sts-0 -- cqlsh -u ${CASSANDRA_USER} -p ${CASSANDRA_PASSWORD}"
 }
 
-# Start a Cassandra container
-CASSANDRA_CONTAINER=$(docker run -d \
-  -e CASSANDRA_START_RPC=true \
-  -e CASSANDRA_AUTHENTICATOR=PasswordAuthenticator \
-  -e CASSANDRA_AUTHORIZER=CassandraAuthorizer \
-  -e CASSANDRA_ENABLE_USER_AUTHENTICATION=true \
-  -e CASSANDRA_USER=cassandra \
-  -e CASSANDRA_PASSWORD=cassandra \
-  $IMAGE_NAME)
+TEST_read_write_data() {
+  # Create a keyspace and table, insert data, and query it
+  kubectl exec -i cassandra-cluster-k3d-default-sts-0 -- cqlsh -u $CASSANDRA_USER -p $CASSANDRA_PASSWORD <<-EOF
+  CREATE KEYSPACE testkeyspace WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
+  USE testkeyspace;
+  CREATE TABLE users (user_id UUID PRIMARY KEY, name text);
+  INSERT INTO users (user_id, name) VALUES (uuid(), 'Chainguard');
+  SELECT * FROM users;
+EOF
+  sleep 5
 
-# Wait for Cassandra to start
-retry_command 20 30 "Cassandra nodetool status" "docker exec \"$CASSANDRA_CONTAINER\" nodetool -u cassandra -pw cassandra status"
+  # Check if the data was inserted and queried correctly
+  RESULT=$(kubectl exec cassandra-cluster-k3d-default-sts-0 -- cqlsh -u $CASSANDRA_USER -p $CASSANDRA_PASSWORD -e "USE testkeyspace; SELECT * FROM users;")
+  if [[ "$RESULT" != *"Chainguard"* ]]; then
+    echo "Error: Data insertion/query failed"
+    kubectl logs "$POD_NAME"
+    kubectl delete pod "$POD_NAME"
+    exit 1
+  fi
+  }
 
-TEST_validate_container_logs
+TEST_create_cassandra_cluster
+TEST_read_write_data

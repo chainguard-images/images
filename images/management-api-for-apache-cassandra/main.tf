@@ -42,8 +42,9 @@ module "latest" {
 }
 
 module "test-latest" {
-  source = "./tests"
-  digest = module.latest.image_ref
+  source            = "./tests"
+  digest            = module.latest.image_ref
+  cassandra_version = local.version_without_epoch
 }
 
 resource "oci_tag" "latest" {
