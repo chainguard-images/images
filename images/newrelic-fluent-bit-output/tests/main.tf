@@ -1,76 +1,75 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
 variable "license_key" {}
 
+variable "target_repository" {}
+
 variable "digest" {
-  description = "The image digests to run tests over."
-  type        = string
+  description = "The image digest to run tests over."
 }
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "nri-bundle" {
-  name             = "newrelic-fbo-${random_pet.suffix.id}"
-  namespace        = "newrelic-fbo-${random_pet.suffix.id}"
-  repository       = "https://helm-charts.newrelic.com"
-  chart            = "nri-bundle"
-  create_namespace = true
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
 
-  values = [
-    jsonencode({
-      global = {
-        cluster    = "test"
-        licenseKey = var.license_key
-      }
-
-      newrelic-logging = {
-        enabled = true
-        image = {
-          # `registry` doesn't exist here, it isn't consistent with the rest of the subcharts
-          repository = local.parsed.registry_repo
-          tag        = local.parsed.pseudo_tag
-        }
-      }
-
-      newrelic-infrastructure      = { enabled = false }
-      nri-metadata-injection       = { enabled = false }
-      kube-state-metrics           = { enabled = false }
-      newrelic-pixie               = { enabled = false }
-      pixie-chart                  = { enabled = false }
-      newrelic-infra-operator      = { enabled = false }
-      newrelic-k8s-metrics-adapter = { enabled = false }
-    })
-  ]
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
 }
 
-data "oci_exec_test" "check-deployment" {
-  digest      = var.digest
-  script      = "./helm.sh"
-  working_dir = path.module
-  depends_on  = [helm_release.nri-bundle]
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-  env = [
+  repo  = "https://helm-charts.newrelic.com"
+  chart = "nri-bundle"
+
+  values = {
+    global = {
+      cluster    = "test"
+      licenseKey = var.license_key
+    }
+
+    newrelic-logging = {
+      enabled = true
+      image = {
+        # `registry` doesn't exist here, it isn't consistent with the rest of the subcharts
+        repository = local.parsed.registry_repo
+        tag        = local.parsed.pseudo_tag
+      }
+    }
+
+    newrelic-infrastructure      = { enabled = false }
+    nri-metadata-injection       = { enabled = false }
+    kube-state-metrics           = { enabled = false }
+    newrelic-pixie               = { enabled = false }
+    pixie-chart                  = { enabled = false }
+    newrelic-infra-operator      = { enabled = false }
+    newrelic-k8s-metrics-adapter = { enabled = false }
+  }
+}
+
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation"
+  harness     = module.cluster_harness.harness
+
+  steps = [
     {
-      name  = "NAMESPACE"
-      value = helm_release.nri-bundle.namespace
-    },
-    {
-      name  = "NAME"
-      value = helm_release.nri-bundle.name
+      name = "Helm Install"
+      cmd  = module.helm.install_cmd
     }
   ]
-}
 
-module "helm_cleanup" {
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.nri-bundle.id
-  namespace  = helm_release.nri-bundle.namespace
-  depends_on = [data.oci_exec_test.check-deployment]
+  labels = {
+    type = "k8s"
+  }
 }
