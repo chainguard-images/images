@@ -1,53 +1,118 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
+    oci       = { source = "chainguard-dev/oci" }
   }
 }
 
 variable "digests" {
-  description = "The image digest to run tests over."
+  description = "The image digests to run tests over."
   type = object({
-    kas      = string
-    pages    = string
-    shell    = string
-    exporter = string
+    kas   = string
+    pages = string
+    shell = string
+    #exporter = string
   })
 }
 
-resource "random_pet" "suffix" {}
-
 locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
-resource "helm_release" "gitlab" {
-  name = "gitlab"
+data "imagetest_inventory" "this" {}
 
-  repository = "https://charts.gitlab.io"
-  chart      = "gitlab"
+resource "imagetest_harness_k3s" "this" {
+  name      = "workhorse-k3s"
+  inventory = data.imagetest_inventory.this
 
-  namespace        = "gitlab-${random_pet.suffix.id}"
-  create_namespace = true
+  sandbox = {
+    mounts = [
+      {
+        source      = path.module
+        destination = "/tests"
+      }
+    ]
+  }
+}
 
-  timeout = 400
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-  // Set to false to then wait for the specific images are deployed
-  wait = false
+  name  = "gitlab"
+  repo  = "https://charts.gitlab.io"
+  chart = "gitlab"
 
-  values = [jsonencode({
+  values = {
+    create_namespace = false
+    global = {
+      upgradeCheck = {
+        enabled = false
+      }
+      hosts = {
+        domain     = "default.cluster.local"
+        https      = false
+        externalIP = "10.0.0.1"
+        gitlab = {
+          serviceName = "webservice"
+        }
+        registry = {
+          serviceName = "registry"
+        }
+        minio = {
+          serviceName = "minio"
+        }
+      }
+      ingress = {
+        configureCertmanager = false
+        tls = {
+          enabled = false
+        }
+      }
+      shell = {
+        port = 32022
+      }
+      gitlab = {
+        hostnameOverride = "gitlab.cluster.local"
+      }
+    }
+    certmanager = {
+      install = false
+    }
+    gitlab-runner = {
+      install = false
+    }
     gitlab = {
+      gitlab-root-password = {
+        secret = "P@ssw3rd"
+      }
+
+      webservice = {
+        minReplicas = 1
+        maxReplicas = 1
+      }
       kas = {
         image = {
           tag        = local.parsed["kas"].pseudo_tag
           repository = local.parsed["kas"].registry_repo
         }
+        minReplicas = 1
+        maxReplicas = 1
       }
       gitlab-exporter = {
+        #image = {
+        #tag        = local.parsed["exporter"].pseudo_tag
+        #repository = local.parsed["exporter"].registry_repo
+        #}
+        #extraEnv = {
+        #CONFIG_FILENAME = "gitlab-exporter.yml"
+        #}
+        enabled = false
+      }
+      gitlab-shell = {
         image = {
-          tag        = local.parsed["exporter"].pseudo_tag
-          repository = local.parsed["exporter"].registry_repo
+          tag        = local.parsed["shell"].pseudo_tag
+          repository = local.parsed["shell"].registry_repo
         }
-        extraEnv = {
-          CONFIG_FILENAME = "gitlab-exporter.yml"
-        }
+        minReplicas = 1
+        maxReplicas = 1
       }
       gitlab-pages = {
         image = {
@@ -61,107 +126,75 @@ resource "helm_release" "gitlab" {
           }
         }
       }
-      webservice = {
-        minReplicas = 1
-        maxReplicas = 1
-        resources = {
-          requests = {
-            cpu    = "50m"
-            memory = "250M"
-          }
-        }
-      }
-      sidekiq = {
-        enabled = false
-      }
-      gitlab-shell = {
-        minReplicas = 1
-        maxReplicas = 1
-        image = {
-          tag        = local.parsed["shell"].pseudo_tag
-          repository = local.parsed["shell"].registry_repo
-        }
-      }
-    }
-    postgresql = {
-      image = {
-        tag = "13.6.0"
-      }
-    }
-    certmanager = {
-      # NOTE: Explicitly disabled since it sometimes conflicts with the
-      # cert-manager tests.
-      install = false
-    }
-    prometheus = {
-      install = false
-    }
-    gitlab-runner = {
-      # TODO: This won't work without a valid cert, which we explicitly
-      # disable. Use a more real but still fake cert when we want to enable
-      # this.
-      install = false
-    }
-    registry = {
-      hpa = { minReplicas = 1, maxReplicas = 1 }
-    }
-    global = {
-      ingress = {
-        configureCertmanager = false
-      }
-      pages = {
-        enabled = true
-      }
-      hosts = {
-        domain     = "example.com"
-        externalIP = "10.10.10.10"
+      gitlab-runner = {
+        install = false
       }
     }
     nginx-ingress = {
       controller = {
-        replicaCount = 1
-        minAvailable = 1
-        resources = {
-          requests = {
-            cpu = "20m"
+        replicaCount  = 1
+        minAavailable = 1
+        service = {
+          type = "NodePort"
+          nodePorts = {
+            gitlab-shell = 32022
+            http         = 32080
           }
         }
       }
     }
-  })]
+    prometheus = {
+      install = false
+    }
+    redis = {
+      metrics = {
+        enabled = false
+      }
+    }
+    psql = {
+      metrics = {
+        enabled = false
+      }
+    }
+    registry = {
+      hpa = {
+        minReplicas = 1
+        maxReplicas = 1
+      }
+    }
+  }
 }
 
-# Wait for the KAS agent to come up
-data "oci_exec_test" "install-kas-up" {
-  depends_on = [helm_release.gitlab]
-  digest     = var.digests.kas
-  script     = "kubectl rollout status deploy -n ${helm_release.gitlab.namespace} gitlab-kas --timeout 360s"
-}
+resource "imagetest_feature" "k3s" {
+  harness     = imagetest_harness_k3s.this
+  name        = "Basic"
+  description = "Basic functionality of gitlab-workhorse"
 
-# Wait for the gitlab-pages to come up
-data "oci_exec_test" "install-pages-up" {
-  depends_on = [helm_release.gitlab]
-  digest     = var.digests.pages
-  script     = "kubectl rollout status deploy -n ${helm_release.gitlab.namespace} gitlab-gitlab-pages --timeout 360s"
-}
+  steps = [
+    {
+      name = "Create Secret"
+      cmd  = <<EOF
+        kubectl create secret generic gitlab-gitlab-initial-root-password --from-literal=password='P@ssw3rd'
+      EOF
+    },
+    {
+      name = "Helm installation script"
+      cmd  = module.helm.install_cmd
+    },
+    {
+      name  = "Wait for gitlab to be ready"
+      cmd   = <<EOF
+        kubectl rollout status deployment/gitlab-kas
+        #kubectl rollout status deployment/gitlab-gitlab-exporter
+        kubectl rollout status deployment/gitlab-gitlab-pages
+        kubectl rollout status deployment/gitlab-gitlab-shell
+        kubectl wait --for=condition=available --timeout=600s deployment gitlab-webservice-default
+      EOF
+      retry = { attempts = 5, delay = "15s", factor = 3 }
+    },
+  ]
 
-# Wait for the gitlab-shell to come up
-data "oci_exec_test" "install-shell-up" {
-  depends_on = [helm_release.gitlab]
-  digest     = var.digests.shell
-  script     = "kubectl rollout status deploy -n ${helm_release.gitlab.namespace} gitlab-gitlab-shell --timeout 360s"
-}
-
-# Wait for the gitlab-exporter to come up
-data "oci_exec_test" "install-exporter-up" {
-  depends_on = [helm_release.gitlab]
-  digest     = var.digests.exporter
-  script     = "kubectl rollout status deploy -n ${helm_release.gitlab.namespace} gitlab-gitlab-exporter --timeout 360s"
-}
-
-module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.install-kas-up, data.oci_exec_test.install-pages-up, data.oci_exec_test.install-shell-up, data.oci_exec_test.install-exporter-up]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.gitlab.id
-  namespace  = helm_release.gitlab.namespace
+  labels = {
+    type = "k8s"
+  }
 }

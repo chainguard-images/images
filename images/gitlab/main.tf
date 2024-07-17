@@ -9,7 +9,8 @@ variable "target_repository" {
 }
 
 locals {
-  components = toset(["kas", "pages", "shell", "exporter"])
+  # Remove "exporter" for now, restore when ruby SCA is fixed
+  components = toset(["kas", "pages", "shell"])
 
   // Normally the entrypoint is named like "{component}"
   // But some entrypoint are pointing to different entrypoint commands:
@@ -37,6 +38,7 @@ module "config" {
   for_each       = local.components
   source         = "./config"
   name           = each.key
+  extra_packages = each.key == "exporter" ? ["ruby-3.2"] : []
   entrypoint_cmd = local.entrypoint[each.key]
 }
 

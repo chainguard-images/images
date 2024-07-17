@@ -12,11 +12,6 @@ variable "entrypoint_cmd" {
   description = "Entrypoint command to be executed (e.g. /usr/bin/kas, /usr/local/bin/start-pages, ...)"
 }
 
-variable "suffix" {
-  description = "Package name suffix (e.g. version stream)"
-  default     = ""
-}
-
 variable "extra_packages" {
   description = "Additional packages to install."
   type        = list(string)
@@ -25,10 +20,14 @@ variable "extra_packages" {
 
 module "accts" { source = "../../../tflib/accts" }
 
+locals {
+  scripts_package = var.name == "kas" ? [] : ["gitlab-${var.name}-scripts"]
+}
+
 output "config" {
   value = jsonencode({
     contents = {
-      packages = concat(["gitlab-${var.name}${var.suffix}"], var.extra_packages)
+      packages = concat(["gitlab-base", "gitlab-${var.name}"], local.scripts_package, var.extra_packages)
     }
     accounts = module.accts.block
 
