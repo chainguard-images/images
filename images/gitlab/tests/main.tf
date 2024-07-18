@@ -45,9 +45,10 @@ resource "imagetest_harness_k3s" "this" {
 module "helm" {
   source = "../../../tflib/imagetest/helm"
 
-  name  = "gitlab"
-  repo  = "https://charts.gitlab.io"
-  chart = "gitlab"
+  name    = "gitlab"
+  repo    = "https://charts.gitlab.io"
+  chart   = "gitlab"
+  timeout = "20m"
 
   values = {
     create_namespace = false
@@ -205,5 +206,9 @@ resource "imagetest_feature" "k3s" {
 
   labels = {
     type = "k8s"
+  }
+
+  timeouts = {
+    create = "20m"
   }
 }
