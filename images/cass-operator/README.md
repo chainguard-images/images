@@ -46,5 +46,5 @@ helm upgrade cass-operator \
 }
 ```
 
-As per [project documentation](https://github.com/k8ssandra/cass-operator/blob/master/README.md#installing-the-operator-with-helm), by default, the Helm installation requires cert-manager to be present in the Kubernetes installation. If you do not have cert-manager installed, follow the steps at (https://cert-manager.io/docs/installation/helm/)[cert-manager's] documentation.
+As per [project documentation](https://github.com/k8ssandra/cass-operator/blob/master/README.md#installing-the-operator-with-helm), by default, the Helm installation requires cert-manager to be present in the Kubernetes installation. If you do not have cert-manager installed, follow the steps at [cert-manager's](https://cert-manager.io/docs/installation/helm/) documentation.
 <!--body:end-->
