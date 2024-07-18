@@ -28,7 +28,7 @@ docker pull cgr.dev/chainguard/postgres-helm-compat:latest
 <!--body:start-->
 ## Usage
 
-This image is a variant of [PostgreSQL](../postgres/README.md) that is compatible with Helm charts.
+This image is a variant of [PostgreSQL](https://images.chainguard.dev/directory/image/postgres/versions) that is compatible with Helm charts.
 
 To install it, use the following values:
 
