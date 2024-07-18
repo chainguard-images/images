@@ -1,11 +1,8 @@
 terraform {
   required_providers {
-    imagetest = { source = "chainguard-dev/imagetest" }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "~> 2.28.1"
-    }
-    oci = { source = "chainguard-dev/oci" }
+    imagetest  = { source = "chainguard-dev/imagetest" }
+    kubernetes = { source = "hashicorp/kubernetes" }
+    oci        = { source = "chainguard-dev/oci" }
   }
 }
 
