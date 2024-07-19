@@ -4,6 +4,8 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 
 echo "Basic Grafana test"
 
+K8S_NAME="${1}"
+K8S_NAMESPACE="grafana"
 
 if kubectl logs "deploy/${K8S_NAME}" -n "${K8S_NAMESPACE}" | grep -v "plugin xychart is already registered" | grep "level=error"; then
   echo "Test failed: Found a line with level=error in the logs"

@@ -1,9 +1,11 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "digest" {
   description = "The image digest to run tests over."
@@ -11,47 +13,51 @@ variable "digest" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-resource "random_id" "hex" { byte_length = 4 }
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "helm_test" {
-  name             = "grafana-${random_id.hex.hex}"
-  namespace        = "grafana-${random_id.hex.hex}"
-  chart            = "grafana"
-  repository       = "https://grafana.github.io/helm-charts"
-  create_namespace = true
-  timeout          = 600
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
 
-  values = [jsonencode({
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
+}
+
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  name      = "grafana"
+  repo      = "https://grafana.github.io/helm-charts"
+  chart     = "grafana"
+  namespace = "grafana"
+
+  values = {
     image = {
       registry   = local.parsed.registry
       repository = local.parsed.repo
       tag        = local.parsed.pseudo_tag
     }
-  })]
+  }
 }
 
-data "oci_exec_test" "smoke" {
-  digest = var.digest # This doesn't actually matter here, just pass it something valid
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation"
+  harness     = module.cluster_harness.harness
 
-  # This script calls other files in the same relative directory
-  working_dir = path.module
-  script      = "./smoke-test.sh"
+  steps = [
+    {
+      name = "Helm Install"
+      cmd  = module.helm.install_cmd
+    },
+    {
+      name = "Smoketest"
+      cmd  = "$WORK/smoke-test.sh ${module.helm.release_name}"
+    }
+  ]
 
-  env {
-    name  = "K8S_NAME"
-    value = helm_release.helm_test.id
+  labels = {
+    type = "k8s"
   }
-  env {
-    name  = "K8S_NAMESPACE"
-    value = helm_release.helm_test.namespace
-  }
-
-  depends_on = [helm_release.helm_test]
-}
-
-module "helm_cleanup" {
-  depends_on = [data.oci_exec_test.smoke]
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.helm_test.id
-  namespace  = helm_release.helm_test.namespace
 }
