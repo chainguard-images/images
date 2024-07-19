@@ -1,5 +1,6 @@
 terraform {
   required_providers {
+    apko      = { source = "chainguard-dev/apko" }
     oci       = { source = "chainguard-dev/oci" }
     imagetest = { source = "chainguard-dev/imagetest" }
   }
@@ -17,20 +18,48 @@ variable "digests" {
   })
 }
 
+# needed to create a disposable wget image to unwedge this test
+# see https://github.com/docker-library/busybox/issues/134#issuecomment-1122717673
+variable "target_repository" {}
+
 locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
+
+data "apko_config" "testing-wget" {
+  extra_packages = ["dash", "dash-binsh", "cmd:sleep", "wget"]
+  config_contents = jsonencode({
+    accounts   = { run-as = 0 }
+    entrypoint = { command = "/usr/bin/wget" }
+  })
+}
+
+resource "apko_build" "testing-wget" {
+  # NOTE: This uses the same repo as the image being tested, but since it is
+  # never tagged it is never synced downstream.
+  repo   = var.target_repository
+  config = data.apko_config.testing-wget.config
+}
 
 resource "imagetest_harness_k3s" "this" {
   name      = "kyverno"
   inventory = data.imagetest_inventory.this
 }
 
+locals { testing_wget_parsed = provider::oci::parse(apko_build.testing-wget.image_ref) }
+
 module "helm" {
   # Use a separate module because this chart is re-used by
   # the kyverno-policy-reporter tests
   source = "./helm"
   values = {
+    test = {
+      image = {
+        registry   = local.testing_wget_parsed.registry
+        repository = local.testing_wget_parsed.repo
+        tag        = local.testing_wget_parsed.pseudo_tag
+      }
+    }
     admissionController = {
       container = {
         image = {
@@ -92,7 +121,7 @@ resource "imagetest_feature" "basic" {
       # representative outside the full upstream sweep.
       name = "helm test"
       cmd  = "helm test -n kyverno kyverno"
-    },
+    }
   ]
 
   labels = {
