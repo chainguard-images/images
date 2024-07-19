@@ -18,6 +18,7 @@ output "versions" {
       eol       = false
       is_latest = true
       main      = ""
+      version   = ""
     }
   }
 }
