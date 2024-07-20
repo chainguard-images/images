@@ -8,10 +8,10 @@ terraform {
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
-    kas   = string
-    pages = string
-    shell = string
-    #exporter = string
+    kas      = string
+    pages    = string
+    shell    = string
+    exporter = string
   })
 }
 
@@ -107,13 +107,13 @@ module "helm" {
         maxReplicas = 1
       }
       gitlab-exporter = {
-        #image = {
-        #tag        = local.parsed["exporter"].pseudo_tag
-        #repository = local.parsed["exporter"].registry_repo
-        #}
-        #extraEnv = {
-        #CONFIG_FILENAME = "gitlab-exporter.yml"
-        #}
+        image = {
+          tag        = local.parsed["exporter"].pseudo_tag
+          repository = local.parsed["exporter"].registry_repo
+        }
+        extraEnv = {
+          CONFIG_FILENAME = "gitlab-exporter.yml"
+        }
         enabled = false
       }
       gitlab-shell = {
@@ -195,7 +195,7 @@ resource "imagetest_feature" "k3s" {
       name  = "Wait for gitlab to be ready"
       cmd   = <<EOF
         kubectl rollout status deployment/gitlab-kas
-        #kubectl rollout status deployment/gitlab-gitlab-exporter
+        kubectl rollout status deployment/gitlab-gitlab-exporter
         kubectl rollout status deployment/gitlab-gitlab-pages
         kubectl rollout status deployment/gitlab-gitlab-shell
         kubectl wait --for=condition=available --timeout=600s deployment gitlab-webservice-default
