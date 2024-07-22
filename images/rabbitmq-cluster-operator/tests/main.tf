@@ -11,9 +11,9 @@ variable "digest" {
 data "oci_exec_test" "deploy" {
   digest = var.digest
   script = "${path.module}/test.sh"
-
   env {
     name  = "RABBITMQ_CLUSTER_OPERATOR_IMAGE"
     value = var.digest
   }
 }
+

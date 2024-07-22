@@ -10,3 +10,4 @@ upstream_url: https://github.com/rabbitmq/cluster-operator
 keywords:
   - application
   - messaging
+public: true
