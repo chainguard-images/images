@@ -10,3 +10,4 @@ upstream_url: https://grafana.com/oss/loki/
 keywords:
   - analytics
   - application
+public: true
