@@ -1,6 +1,6 @@
 locals {
   versions = [
-    "pytorch-cuda12",
+    "py3.11-pytorch-cuda-12.3",
   ]
 }
 
@@ -9,7 +9,7 @@ variable "target_repository" {
 }
 
 module "config" {
-  extra_packages = [each.key, "torchvision-cuda12"]
+  extra_packages = [each.key, "py3.11-torchvision-cuda-12.3"]
   for_each       = toset(local.versions)
   source         = "./config"
 }
