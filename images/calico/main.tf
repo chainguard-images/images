@@ -59,8 +59,7 @@ module "latest" {
 }
 
 module "test-latest" {
-  source = "./tests"
-
+  source  = "./tests"
   digests = { for k, v in module.latest : k => v.image_ref }
 }
 

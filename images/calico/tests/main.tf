@@ -5,6 +5,16 @@ terraform {
   }
 }
 
+variable "operator_version" {
+  description = "The version of the Tigera operator to use for running the test."
+  default     = "3.28.0"
+
+  validation {
+    condition     = length(var.operator_version) > 0
+    error_message = "The operator_version must not be empty. Please provide a valid version."
+  }
+}
+
 variable "digests" {
   description = "The image digests to run tests over."
   type = object({
@@ -17,11 +27,16 @@ variable "digests" {
     node-driver-registrar = string
     calicoctl             = string
     apiserver             = string
-    key-cert-provisioner  = string
+    key-cert-provisioner  = optional(string)
   })
 }
 
-locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
+locals {
+  parsed        = { for k, v in var.digests : k => provider::oci::parse(v) if v != null }
+  split_repo    = split("/", local.parsed["node"].repo)
+  num_parts     = length(local.split_repo)
+  filtered_repo = [for part in local.split_repo : part if part != local.split_repo[local.num_parts - 1]]
+}
 
 data "imagetest_inventory" "this" {}
 
@@ -29,12 +44,37 @@ resource "imagetest_harness_k3s" "this" {
   name      = "calico"
   inventory = data.imagetest_inventory.this
 
+  sandbox = {
+    envs = {
+      CALICO_VERSION               = module.tigera-operator.tigera_version
+      IMAGE_REGISTRY               = local.parsed["node"].registry
+      IMAGE_PATH                   = join("/", local.filtered_repo)
+      DIGEST_NODE                  = local.parsed["node"].digest,
+      DIGEST_CNI                   = local.parsed["cni"].digest,
+      DIGEST_CONTROLLERS           = local.parsed["kube-controllers"].digest,
+      DIGEST_FLEXVOL               = local.parsed["pod2daemon"].digest,
+      DIGEST_CSI                   = local.parsed["csi"].digest,
+      DIGEST_TYPHA                 = local.parsed["typha"].digest,
+      DIGEST_APISERVER             = local.parsed["apiserver"].digest,
+      DIGEST_NODE_DRIVER_REGISTRAR = local.parsed["node-driver-registrar"].digest,
+      DIGEST_KEY_CERT_PROVISIONER  = lookup(local.parsed, "key-cert-provisioner", null) != null ? local.parsed["key-cert-provisioner"].digest : ""
+    }
+
+    mounts = [
+      {
+        source      = path.module,
+        destination = "/tests"
+      }
+    ]
+  }
+
   # Disable k3s' builtin (flannel) so we can later use the installed calico as the CNI
   disable_cni = true
 }
 
 module "tigera-operator" {
-  source = "../../tigera-operator/tests/helm"
+  source         = "../../tigera-operator/tests/helm"
+  tigera_version = var.operator_version
 }
 
 resource "imagetest_feature" "basic" {
@@ -49,62 +89,7 @@ resource "imagetest_feature" "basic" {
     },
     {
       name = "Install calico"
-      # NOTE: The name of the ImageSet _must_ encode the version of the
-      # tigera-operator to test against
-      # NOTE: When bumping the tigera-operator version, make sure to check with
-      # the ImageSet compatibility, as new images may have been added.
-      # ref: https://docs.tigera.io/calico/latest/operations/image-options/imageset#create-an-imageset
-      cmd = <<EOF
-kubectl apply -f - <<EOm
-apiVersion: operator.tigera.io/v1
-kind: ImageSet
-metadata:
-  name: calico-v${module.tigera-operator.tigera_version}
-spec:
-  images:
-    - image: calico/node
-      digest: ${local.parsed["node"].digest}
-    - image: calico/cni
-      digest: ${local.parsed["cni"].digest}
-    - image: calico/kube-controllers
-      digest: ${local.parsed["kube-controllers"].digest}
-    - image: calico/pod2daemon-flexvol
-      digest: ${local.parsed["pod2daemon"].digest}
-    - image: calico/csi
-      digest: ${local.parsed["csi"].digest}
-    - image: calico/typha
-      digest: ${local.parsed["typha"].digest}
-    - image: calico/apiserver
-      digest: ${local.parsed["apiserver"].digest}
-    - image: calico/node-driver-registrar
-      digest: ${local.parsed["node-driver-registrar"].digest}
-    - image: calico/key-cert-provisioner
-      digest: ${local.parsed["key-cert-provisioner"].digest}
-EOm
-
-kubectl apply -f - <<EOm
-apiVersion: operator.tigera.io/v1
-kind: Installation
-metadata:
-  name: default
-spec:
-  variant: Calico
-  registry: ${local.parsed["node"].registry}
-  imagePath: ${split("/", local.parsed["node"].repo)[0]}
-  imagePrefix: calico-
-EOm
-
-kubectl wait --for=condition=Ready --timeout=5m installation default
-      EOF
-    },
-    {
-      # This means the our calico installation successfully registered itself
-      # as a suitable CNI, and was used to create the network sandboxing for
-      # the previously pending system pods.
-      name = "Check that system pods get created with calico as the CNI"
-      cmd  = <<EOF
-kubectl wait --for=condition=Ready --timeout=5m pod -n kube-system --all
-      EOF
-    },
+      cmd  = "/tests/run-tests.sh"
+    }
   ]
 }
