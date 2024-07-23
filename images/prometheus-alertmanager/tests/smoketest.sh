@@ -2,13 +2,8 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-CONTAINER_NAME="alertmanager-$(uuidgen)"
-CONTAINER_PORT=${FREE_PORT}
-
-REQUEST_RETRIES=5
-RETRY_DELAY=15
-
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+K8S_NAME="${1}"
+K8S_NAMESPACE="alertmanager"
 
 # Log entries which we expect to be present when the service is running healthy.
 expected_logs=(
@@ -18,47 +13,26 @@ expected_logs=(
 
 missing_logs=()
 
-# Start up a new alertmanager container, and volume-mounts an example
-# configuration file.
-TEST_start_container() {
-  container_id=$(docker run \
-    -d --rm \
-    --name "${CONTAINER_NAME}" -p "${CONTAINER_PORT}:9093" \
-    -v "${SCRIPT_DIR}/alertmanager-config.yml:/etc/alertmanager/alertmanager.yml" \
-    "${IMAGE_NAME}")
-
-  trap "docker stop ${container_id}" EXIT
-  sleep 15
-  
-  if ! docker ps --filter "name=${CONTAINER_NAME}" --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
-    echo "FAILED: ${CONTAINER_NAME} is not running."
-    exit 1
-  fi
-}
-
 # Validate the container is running and healthy by looking for known, good,
 # expected log entries.
 TEST_validate_container_logs() {
-  for ((i=1; i<=${REQUEST_RETRIES}; i++)); do
-    local logs=$(docker logs "${container_id}" 2>&1)
-    local logs_found=true
+  local logs=$(kubectl logs -n ${K8S_NAMESPACE} statefulset/${K8S_NAME} 2>&1)
+  local logs_found=true
 
-    # Search the container logs for our expected log lines.
-    for log in "${expected_logs[@]}"; do
-      if ! echo "$logs" | grep -Fq "$log"; then
-        logs_found=false
-      fi
-    done
-
-    if $logs_found; then
-      return 0
-    elif [[ $i -lt ${REQUEST_RETRIES} ]]; then
-      echo "Some expected logs were missing. Retrying in ${RETRY_DELAY} seconds..."
-      sleep ${RETRY_DELAY}
+  # Search the container logs for our expected log lines.
+  for log in "${expected_logs[@]}"; do
+    if ! echo "$logs" | grep -Fq "$log"; then
+      logs_found=false
     fi
   done
 
-  # After all retries, record the missing logs
+  if $logs_found; then
+    return 0
+  else
+    echo "Some expected logs were missing."
+  fi
+
+  # Record missing logs
   for log in "${expected_logs[@]}"; do
     if ! echo "${logs}" | grep -Fq "$log"; then
       missing_logs+=("${log}")
@@ -72,9 +46,11 @@ TEST_validate_container_logs() {
 
 # Validate the alertmanager API is operational, and returns correct data.
 TEST_api_request() {
+  kubectl port-forward -n ${K8S_NAME} service/${K8S_NAME} 9093:9093 --pod-running-timeout=30s &
+  sleep 5
   local response=$(
     curl -w "\nHTTP_STATUS_CODE:%{http_code}\n" \
-    "http://localhost:${CONTAINER_PORT}/api/v2/status"
+    "http://localhost:9093/api/v2/status"
   )
 
   local response_code=$(echo "${response}" | grep "HTTP_STATUS_CODE:" | cut -d':' -f2)
@@ -96,6 +72,5 @@ TEST_api_request() {
   fi
 }
 
-TEST_start_container
 TEST_validate_container_logs
 TEST_api_request
