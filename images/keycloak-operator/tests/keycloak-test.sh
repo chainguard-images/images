@@ -284,8 +284,8 @@ else
     fi
 fi
 
-kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/25.0.0/kubernetes/keycloaks.k8s.keycloak.org-v1.yml
-kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/25.0.0/kubernetes/keycloakrealmimports.k8s.keycloak.org-v1.yml
+kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/${KEYCLOAK_VERSION}/kubernetes/keycloaks.k8s.keycloak.org-v1.yml
+kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/${KEYCLOAK_VERSION}/kubernetes/keycloakrealmimports.k8s.keycloak.org-v1.yml
 
 # Apply the keycloak-operator manifest
 cat <<EOF > "${TMPDIR}/minimal-keycloak-operator-manifest.yaml"
@@ -299,7 +299,7 @@ metadata:
     app.quarkus.io/build-timestamp: 2024-05-07 - 12:29:12 +0000
   labels:
     app.kubernetes.io/name: keycloak-operator
-    app.kubernetes.io/version: 25.0.0
+    app.kubernetes.io/version: ${KEYCLOAK_VERSION}
     app.kubernetes.io/managed-by: quarkus
   name: keycloak-operator
 ---
@@ -553,7 +553,7 @@ kind: RoleBinding
 metadata:
   labels:
     app.kubernetes.io/name: keycloak-operator
-    app.kubernetes.io/version: 25.0.0
+    app.kubernetes.io/version: ${KEYCLOAK_VERSION}
   name: keycloak-operator-view
 roleRef:
   kind: ClusterRole
@@ -572,7 +572,7 @@ metadata:
     app.quarkus.io/build-timestamp: 2024-05-07 - 12:29:12 +0000
   labels:
     app.kubernetes.io/name: keycloak-operator
-    app.kubernetes.io/version: 25.0.0
+    app.kubernetes.io/version: ${KEYCLOAK_VERSION}
     app.kubernetes.io/managed-by: quarkus
   name: keycloak-operator
 spec:
@@ -594,7 +594,7 @@ metadata:
     app.quarkus.io/build-timestamp: 2024-05-07 - 12:29:12 +0000
   labels:
     app.kubernetes.io/name: keycloak-operator
-    app.kubernetes.io/version: 25.0.0
+    app.kubernetes.io/version: ${KEYCLOAK_VERSION}
     app.kubernetes.io/managed-by: quarkus
   name: keycloak-operator
 spec:
@@ -610,7 +610,7 @@ spec:
         app.quarkus.io/build-timestamp: 2024-05-07 - 12:29:12 +0000
       labels:
         app.kubernetes.io/managed-by: quarkus
-        app.kubernetes.io/version: 25.0.0
+        app.kubernetes.io/version: ${KEYCLOAK_VERSION}
         app.kubernetes.io/name: keycloak-operator
     spec:
       containers:

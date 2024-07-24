@@ -44,8 +44,8 @@ TEST_start_container() {
     -e KEYCLOAK_ADMIN=admin \
     -e KEYCLOAK_ADMIN_PASSWORD="${KEYSTORE_PASSWORD}" \
     "${IMAGE_NAME}" \
-    start \
-    --hostname="${KEYCLOAK_HOSTNAME}" \
+    start --optimized \
+    --hostname="${KEYCLOAK_URL}" \
     --https-key-store-file="/opt/keycloak/conf/server.keystore" \
     --https-key-store-password="${KEYSTORE_PASSWORD}")
 
@@ -100,7 +100,7 @@ TEST_keycloak_api() {
       curl --http1.1 -k -w "\nHTTP_STATUS_CODE:%{http_code}\n" \
         -X POST \
         "${KEYCLOAK_URL}/realms/master/protocol/openid-connect/token" \
-        --user "admin-cli:Psip5UvTO1EXUEwzb15nxLWnwdU1Nlcg" \
+        -d "client_id=admin-cli" \
         -H "content-type: application/x-www-form-urlencoded" \
         -d "username=admin" \
         -d "password=${KEYSTORE_PASSWORD}" \

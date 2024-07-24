@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci  = { source = "chainguard-dev/oci" }
+    apko = { source = "chainguard-dev/apko" }
   }
 }
 
@@ -9,6 +10,22 @@ variable "target_repository" {
 }
 
 module "config" { source = "./config" }
+
+data "apko_config" "get-keycloak-version" {
+  config_contents = jsonencode({
+    contents = {
+      packages = ["keycloak"]
+    }
+  })
+}
+
+locals {
+  // This parses the keycloak package in the dummy config needed for keycloak version in k8s manifest                                    
+  keycloak_package       = [for p in data.apko_config.get-keycloak-version.config.contents.packages : p if startswith(p, "keycloak")][0]
+  keycloak_version       = split("=", local.keycloak_package)[1] // This extracts the full version                  
+  keycloak_without_epoch = split("-", local.keycloak_version)[0] // This extracts the version without the epoch 
+}
+
 
 module "keycloak-operator" {
   source            = "../../tflib/publisher"
@@ -21,8 +38,9 @@ module "keycloak-operator" {
 }
 
 module "test" {
-  source = "./tests"
-  digest = module.keycloak-operator.image_ref
+  source           = "./tests"
+  digest           = module.keycloak-operator.image_ref
+  keycloak_version = local.keycloak_without_epoch
 }
 
 resource "oci_tag" "latest" {

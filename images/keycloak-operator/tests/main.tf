@@ -14,6 +14,10 @@ variable "keycloak-image" {
   default     = "cgr.dev/chainguard/keycloak:latest"
 }
 
+variable "keycloak_version" {
+  description = "The Keycloak version."
+}
+
 data "imagetest_inventory" "this" {}
 
 resource "imagetest_harness_k3s" "this" {
@@ -28,8 +32,9 @@ resource "imagetest_harness_k3s" "this" {
       }
     ]
     envs = {
-      "IMAGE_NAME"     = var.digest
-      "KEYCLOAK_IMAGE" = var.keycloak-image
+      "IMAGE_NAME"       = var.digest
+      "KEYCLOAK_IMAGE"   = var.keycloak-image
+      "KEYCLOAK_VERSION" = var.keycloak_version
     }
   }
 }

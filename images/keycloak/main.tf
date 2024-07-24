@@ -1,8 +1,25 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci  = { source = "chainguard-dev/oci" }
+    apko = { source = "chainguard-dev/apko" }
   }
 }
+
+data "apko_config" "get-keycloak-version" {
+  config_contents = jsonencode({
+    contents = {
+      packages = ["keycloak"]
+    }
+  })
+}
+
+locals {
+  // This parses the keycloak package in the dummy config needed for keycloak version in k8s manifest                                    
+  keycloak_package       = [for p in data.apko_config.get-keycloak-version.config.contents.packages : p if startswith(p, "keycloak")][0]
+  keycloak_version       = split("=", local.keycloak_package)[1] // This extracts the full version                  
+  keycloak_without_epoch = split("-", local.keycloak_version)[0] // This extracts the version without the epoch 
+}
+
 
 variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
@@ -19,8 +36,9 @@ module "latest" {
 }
 
 module "test-latest" {
-  source = "./tests"
-  digest = module.latest.image_ref
+  source           = "./tests"
+  digest           = module.latest.image_ref
+  keycloak_version = local.keycloak_without_epoch
 }
 
 resource "oci_tag" "latest" {
