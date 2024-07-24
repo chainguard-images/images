@@ -10,3 +10,4 @@ upstream_url: https://github.com/NVIDIA/nvidia-container-toolkit
 keywords:
   - nvidia
   - gpu
+  - ai
