@@ -1233,6 +1233,11 @@ module "python" {
   target_repository = "${var.target_repository}/python"
 }
 
+module "pytorch" {
+  source            = "./images/pytorch"
+  target_repository = "${var.target_repository}/pytorch"
+}
+
 module "pytorch-cuda12" {
   source            = "./images/pytorch-cuda12"
   target_repository = "${var.target_repository}/pytorch-cuda12"
@@ -2596,6 +2601,10 @@ output "summary_pulumi" {
 
 output "summary_python" {
   value = module.python.summary
+}
+
+output "summary_pytorch" {
+  value = module.pytorch.summary
 }
 
 output "summary_pytorch-cuda12" {

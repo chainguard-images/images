@@ -1,0 +1,15 @@
+name: pytorch
+image: cgr.dev/chainguard/pytorch
+logo: https://storage.googleapis.com/chainguard-academy/logos/pytorch.svg
+endoflife: ""
+console_summary: ""
+short_description: |
+  A minimal, [wolfi](https://github.com/wolfi-dev)-based image for pytorch, a Python package that provides two high-level features: Tensor computation with strong GPU acceleration and Deep neural networks built on a tape-based autograd system.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://www.pytorch.org/
+keywords:
+  - ai
+  - library
+  - python
+public: true
