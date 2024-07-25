@@ -16,7 +16,6 @@ output "config" {
     contents = {
       packages = concat(["busybox", "build-base", "go", "git"], var.extra_packages)
     }
-    //
     accounts = module.accts.block
     entrypoint = {
       command = "/usr/bin/ko"
