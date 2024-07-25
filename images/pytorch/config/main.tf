@@ -5,7 +5,7 @@ terraform {
 }
 
 variable "extra_packages" {
-  default     = ["torchvision-cuda12"]
+  default     = [""]
   description = "Additional packages to install."
   type        = list(string)
 }
