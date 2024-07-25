@@ -18,6 +18,7 @@ module "latest-config" {
     "postgresql-oci-entrypoint",
     "postgresql-contrib",
     "libpq",
+    "pgaudit",
   ]
 }
 
