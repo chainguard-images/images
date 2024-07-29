@@ -10,7 +10,6 @@ contents:
     - mount
     - umount
     - kmod
-    - kubectl # needed for K3D_FIX_DNS=1 to work on linux
 
 accounts:
   groups:
@@ -36,5 +35,10 @@ volumes:
 
 entrypoint:
   command: /bin/k3s
+
+environment:
+  # Ensure the extracted multicall binary is preferred but still falls back to
+  # default $PATH since this path is only available _after_ k3s is started.
+  PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/lib/rancher/k3s/data/current/bin
 
 cmd: agent
