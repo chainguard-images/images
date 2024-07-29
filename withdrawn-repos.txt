@@ -25,3 +25,8 @@ jitsucom-bulker-syncctl
 
 # removed in https://github.com/chainguard-images/images/pull/2597
 harbor-db
+
+# LTS Turn Down - August 12, 2024
+jdk-lts
+jre-lts
+node-lts
