@@ -8,7 +8,7 @@ compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://go.dev/
 keywords:
-  - application
+  - base
   - featured
   - languages
 public: true
