@@ -1,0 +1,13 @@
+name: gitlab-shell
+image: cgr.dev/chainguard/gitlab-shell
+logo: https://storage.googleapis.com/chainguard-academy/logos/gitlab-shell.svg
+endoflife: ""
+console_summary: "GitLab Shell"
+short_description: Gitlab Shell
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://gitlab.com/gitlab-org/gitlab-shell
+keywords:
+  - gitlab
+  - shell
+public: true

@@ -435,9 +435,24 @@ module "gha-runner-scale-set-controller" {
   target_repository = "${var.target_repository}/gha-runner-scale-set-controller"
 }
 
-module "gitlab" {
-  source            = "./images/gitlab"
-  target_repository = "${var.target_repository}/gitlab"
+module "gitlab-exporter" {
+  source            = "./images/gitlab-exporter"
+  target_repository = "${var.target_repository}/gitlab-exporter"
+}
+
+module "gitlab-kas" {
+  source            = "./images/gitlab-kas"
+  target_repository = "${var.target_repository}/gitlab-kas"
+}
+
+module "gitlab-pages" {
+  source            = "./images/gitlab-pages"
+  target_repository = "${var.target_repository}/gitlab-pages"
+}
+
+module "gitlab-shell" {
+  source            = "./images/gitlab-shell"
+  target_repository = "${var.target_repository}/gitlab-shell"
 }
 
 module "gitness" {
@@ -1971,8 +1986,20 @@ output "summary_gha-runner-scale-set-controller" {
   value = module.gha-runner-scale-set-controller.summary
 }
 
-output "summary_gitlab" {
-  value = module.gitlab.summary
+output "summary_gitlab-exporter" {
+  value = module.gitlab-exporter.summary
+}
+
+output "summary_gitlab-kas" {
+  value = module.gitlab-kas.summary
+}
+
+output "summary_gitlab-pages" {
+  value = module.gitlab-pages.summary
+}
+
+output "summary_gitlab-shell" {
+  value = module.gitlab-shell.summary
 }
 
 output "summary_gitness" {
