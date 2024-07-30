@@ -45,6 +45,7 @@ module "latest" {
 module "test-latest" {
   source             = "./tests"
   scaffolding-images = { for k, v in module.latest : k => v.image_ref }
+  target_repository  = var.target_repository
 }
 
 resource "oci_tag" "latest" {

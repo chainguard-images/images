@@ -92,7 +92,7 @@ jobs:
           terraform_version: "1.8.*"
           terraform_wrapper: false
 
-      - uses: chainguard-dev/setup-chainctl@fc62b08dfd3179dd694b50f672bc371f878fbd1e # v0.2.1
+      - uses: chainguard-dev/setup-chainctl@f52718d822dc73d21a04ef2082822c4a203163b3 # v0.2.2
         with:
           # This allows chainguard-images/images-private to publish images to cgr.dev/chainguard-private
           # We maintain this identity here:
@@ -101,7 +101,7 @@ jobs:
 
       - uses: chainguard-dev/actions/setup-k3d@ba1a9c9ffe799736883d58f31caff18d85b2800e # main
         with:
-          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:aeb16bd158cf3c88d3f6eaaf3734304220b80f4c20afddcc36e024135ffe9cbc
+          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:bea538020d58ed6454a64b3dee1ec78a82e967187b1645a13fce3002c2b8aa85
 
       # Make cosign/crane CLI available to the tests
       - uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 # v3.5.0

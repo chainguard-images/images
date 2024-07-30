@@ -24,9 +24,10 @@ module "versioned" {
 }
 
 module "test-versioned" {
-  for_each = module.versions.versions
-  source   = "./tests"
-  digest   = module.versioned[each.key].image_ref
+  for_each              = module.versions.versions
+  source                = "./tests"
+  digest                = module.versioned[each.key].image_ref
+  elasticsearch_version = each.value.version
 }
 
 module "tagger" {

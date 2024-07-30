@@ -1,8 +1,11 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "scaffolding-images" {
   description = "The image digests to run tests over."
@@ -114,149 +117,483 @@ locals {
   parsed     = { for k, v in local.fetched : k => provider::oci::parse(v.full_ref) }
 }
 
-resource "random_pet" "suffix" {}
+data "imagetest_inventory" "this" {}
 
-resource "helm_release" "scaffold" {
-  name       = "scaffold-${random_pet.suffix.id}"
-  repository = "https://sigstore.github.io/helm-charts"
-  chart      = "scaffold"
-  timeout    = 600
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
 
-  // This is the base set of values with images overridden,
-  // but we still have overrides for namespacing here so that
-  // values.tf can act as a reference since end-users don't
-  // really care about our crazy namespacing shenanigans for
-  // testing.
-  values = [jsonencode(yamldecode(local.values))]
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
+}
 
-  // Override the Fulcio namespace
-  set {
-    name  = "fulcio.namespace.name"
-    value = "fulcio-${random_pet.suffix.id}"
-  }
-  set {
-    name  = "fulcio.forceNamespace"
-    value = "fulcio-${random_pet.suffix.id}"
-  }
-  set {
-    name  = "ctlog.createctconfig.fulcioURL"
-    value = "http://fulcio-server.fulcio-${random_pet.suffix.id}.svc"
-  }
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-  // Override the Rekor namespace
-  set {
-    name  = "rekor.namespace.name"
-    value = "rekor-${random_pet.suffix.id}"
-  }
-  set {
-    name  = "rekor.forceNamespace"
-    value = "rekor-${random_pet.suffix.id}"
-  }
-  set {
-    name  = "rekor.backfillredis.rekorAddress"
-    value = "rekor-server.rekor-${random_pet.suffix.id}.svc"
-  }
+  repo    = "https://sigstore.github.io/helm-charts"
+  chart   = "scaffold"
+  timeout = "10m"
 
-  // Override the TUF namespace
-  set {
-    name  = "tuf.namespace.name"
-    value = "tuf-${random_pet.suffix.id}"
-  }
-  set {
-    name  = "tuf.forceNamespace"
-    value = "tuf-${random_pet.suffix.id}"
-  }
+  values = {
+    fulcio = {
+      server = {
+        image = {
+          registry   = local.parsed["fulcio-server"].registry
+          repository = local.parsed["fulcio-server"].repo
+          version    = local.parsed["fulcio-server"].digest
+        }
+        ingress = {
+          http = {
+            enabled = false
+          }
+        }
+      }
+      createcerts = {
+        image = {
+          registry   = local.parsed["fulcio-createcerts"].registry
+          repository = local.parsed["fulcio-createcerts"].repo
+          version    = local.parsed["fulcio-createcerts"].digest
+        }
+      }
+    }
 
-  // Override the ctlog namespace
-  set {
-    name  = "ctlog.namespace.name"
-    value = "ctlog-${random_pet.suffix.id}"
-  }
-  set {
-    name  = "ctlog.forceNamespace"
-    value = "ctlog-${random_pet.suffix.id}"
-  }
-  set {
-    name  = "fulcio.ctlog.namespace.name"
-    value = "ctlog-${random_pet.suffix.id}"
-  }
+    ctlog = {
+      createctconfig = {
+        image = {
+          registry   = local.parsed["ctlog-createctconfig"].registry
+          repository = local.parsed["ctlog-createctconfig"].repo
+          version    = local.parsed["ctlog-createctconfig"].digest
+        }
+        initContainerImage = {
+          curl = {
+            registry   = local.parsed["curl"].registry
+            repository = local.parsed["curl"].repo
+            version    = local.parsed["curl"].digest
+          }
+        }
+      }
+      createtree = {
+        image = {
+          registry   = local.parsed["trillian-createtree"].registry
+          repository = local.parsed["trillian-createtree"].repo
+          version    = local.parsed["trillian-createtree"].digest
+        }
+      }
+      server = {
+        image = {
+          registry   = local.parsed["ctlog-server"].registry
+          repository = local.parsed["ctlog-server"].repo
+          version    = local.parsed["ctlog-server"].digest
+        }
+      }
+    }
 
-  // Override the TSA namespace
-  set {
-    name  = "tsa.forceNamespace"
-    value = "tsa-${random_pet.suffix.id}"
-  }
+    rekor = {
+      initContainerImage = {
+        curl = {
+          registry   = local.parsed["curl"].registry
+          repository = local.parsed["curl"].repo
+          version    = local.parsed["curl"].digest
+        }
+      }
+      backfillredis = {
+        image = {
+          registry   = local.parsed["backfill-redis"].registry
+          repository = local.parsed["backfill-redis"].repo
+          version    = local.parsed["backfill-redis"].digest
+        }
+      }
+      createtree = {
+        image = {
+          registry   = local.parsed["trillian-createtree"].registry
+          repository = local.parsed["trillian-createtree"].repo
+          version    = local.parsed["trillian-createtree"].digest
+        }
+      }
+      server = {
+        image = {
+          registry   = local.parsed["rekor-server"].registry
+          repository = local.parsed["rekor-server"].repo
+          version    = local.parsed["rekor-server"].digest
+        }
+        ingress = {
+          enabled = false
+        }
+      }
+      redis = {
+        registry   = local.parsed["redis"].registry
+        repository = local.parsed["redis"].repo
+        version    = local.parsed["redis"].digest
+      }
+    }
 
-  set {
-    name  = "tsa.namespace.name"
-    value = "tsa-${random_pet.suffix.id}"
-  }
+    trillian = {
+      createdb = {
+        image = {
+          registry   = local.parsed["trillian-createdb"].registry
+          repository = local.parsed["trillian-createdb"].repo
+          version    = local.parsed["trillian-createdb"].digest
+        }
+      }
+      mysql = {
+        image = {
+          registry   = local.parsed["mysql"].registry
+          repository = local.parsed["mysql"].repo
+          version    = local.parsed["mysql"].digest
+        }
+      }
+      initContainerImage = {
+        curl = {
+          registry   = local.parsed["curl"].registry
+          repository = local.parsed["curl"].repo
+          version    = local.parsed["curl"].digest
+        }
+        netcat = {
+          registry   = local.parsed["netcat"].registry
+          repository = local.parsed["netcat"].repo
+          version    = local.parsed["netcat"].digest
+        }
+      }
+      logServer = {
+        image = {
+          registry   = local.parsed["logserver"].registry
+          repository = local.parsed["logserver"].repo
+          version    = local.parsed["logserver"].digest
+        }
+      }
+      logSigner = {
+        image = {
+          registry   = local.parsed["logsigner"].registry
+          repository = local.parsed["logsigner"].repo
+          version    = local.parsed["logsigner"].digest
+        }
+      }
+    }
 
-  // Override the trillian namespace
-  set {
-    name  = "trillian.namespace.name"
-    value = "trillian-${random_pet.suffix.id}"
-  }
-  set {
-    name  = "trillian.forceNamespace"
-    value = "trillian-${random_pet.suffix.id}"
-  }
-  set {
-    name  = "ctlog.trillian.namespace"
-    value = "trillian-${random_pet.suffix.id}"
-  }
-  set {
-    name  = "rekor.trillian.namespace.name"
-    value = "trillian-${random_pet.suffix.id}"
-  }
-  // TODO(mattmoor): Upstream should probably use
-  // namespace.name for these, but for some reason
-  // it uses forceNamespace.
-  set {
-    name  = "rekor.trillian.forceNamespace"
-    value = "trillian-${random_pet.suffix.id}"
-  }
+    tuf = {
+      enabled = true
+      deployment = {
+        registry   = local.parsed["tuf-server"].registry
+        repository = local.parsed["tuf-server"].repo
+        version    = local.parsed["tuf-server"].digest
+      }
+      ingress = {
+        create = false
+      }
+      forceNamespace = "tuf-system"
+    }
 
-  // Override the secret job's SA (used to namespace Cluster-scoped resources)
-  set {
-    name  = "copySecretJob.serviceaccount"
-    value = "tscj-${random_pet.suffix.id}"
-  }
+    tsa = {
+      enabled = true
+      server = {
+        args = {
+          signer = "memory"
+        }
+        image = {
+          registry   = local.parsed["tsa-server"].registry
+          repository = local.parsed["tsa-server"].repo
+          version    = local.parsed["tsa-server"].digest
+        }
+      }
+    }
 
-  // Disable all of the ingresses because we test from on the cluster itself
-  // using cluster-local services.
-  set {
-    name  = "fulcio.server.ingress.http.enabled"
-    value = "false"
+    copySecretJob = {
+      enabled = true
+      name    = "copy-secrets-job"
+    }
   }
-  set {
-    name  = "rekor.server.ingress.enabled"
-    value = "false"
-  }
-  set {
-    name  = "tuf.ingress.create"
-    value = "false"
+}
+
+resource "random_pet" "test-value" {}
+
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation"
+  harness     = module.cluster_harness.harness
+
+  steps = [
+    {
+      name = "Helm Install"
+      cmd  = module.helm.install_cmd
+    },
+    # Double check that helm is properly waiting for jobs to complete
+    {
+      name = "copy-secrets-job completed"
+      cmd  = "kubectl wait --for=condition=complete --timeout=120s --namespace=tuf-system job/copy-secrets-job"
+    },
+    {
+      name = "Apply job to verify keyless signing"
+      cmd  = <<EOF
+        cat <<EOF2 | kubectl apply -f -
+          apiVersion: batch/v1
+          kind: Job
+          metadata:
+            name: keyless-sign-verify
+            namespace: tuf-system
+            labels:
+              test: keyless-sign-verify
+          spec:
+            template:
+              spec:
+                initContainers:
+                - name: copy-tuf-root
+                  image: cgr.dev/chainguard/wolfi-base:latest
+                  workingDir: /workspace
+                  command: [cp]
+                  args: [/tuf-root/root, /workspace/root.json]
+                  volumeMounts:
+                  - name: workspace
+                    mountPath: /workspace
+                  - name: tuf-root
+                    mountPath: /tuf-root
+
+                - name: initialize
+                  image: ${local.fetched["cosign-cli"].full_ref}
+                  workingDir: /workspace
+                  args:
+                  - initialize
+                  - --mirror=https://tuf-server.tuf-system.svc
+                  - --root=./root.json
+                  volumeMounts:
+                  - name: workspace
+                    mountPath: /workspace
+                  - name: tuf-config
+                    mountPath: /home/nonroot/.sigstore
+
+                - name: sign
+                  image: ${local.fetched["cosign-cli"].full_ref}
+                  workingDir: /workspace
+                  args:
+                  - sign-blob
+                  - /etc/os-release
+                  - --fulcio-url=http://fulcio-server.fulcio-system.svc
+                  - --rekor-url=http://rekor-server.rekor-system.svc
+                  - --output-certificate=cert.pem
+                  - --output-signature=sig
+                  - --yes
+                  - --identity-token=/var/sigstore/token/oidc-token
+                  volumeMounts:
+                  - name: workspace
+                    mountPath: /workspace
+                  - name: tuf-config
+                    mountPath: /home/nonroot/.sigstore
+                  - name: oidc-token
+                    mountPath: /var/sigstore/token
+
+                containers:
+                - name: verify
+                  image: ${local.fetched["cosign-cli"].full_ref}
+                  workingDir: /workspace
+                  args:
+                  - verify-blob
+                  - /etc/os-release
+                  - --rekor-url=http://rekor-server.rekor-system.svc
+                  - --certificate=cert.pem
+                  - --signature=sig
+                  - --certificate-oidc-issuer=https://kubernetes.default.svc
+                  - --certificate-identity=https://kubernetes.io/namespaces/tuf-system/serviceaccounts/default
+                  volumeMounts:
+                  - name: workspace
+                    mountPath: /workspace
+                  - name: tuf-config
+                    mountPath: /home/nonroot/.sigstore
+
+                volumes:
+                - name: workspace
+                  emptyDir: {}
+                - name: tuf-root
+                  secret:
+                    secretName: tuf-root
+                - name: tuf-config
+                  emptyDir: {}
+                - name: oidc-token
+                  projected:
+                    sources:
+                    - serviceAccountToken:
+                        audience: sigstore
+                        path: oidc-token
+                        expirationSeconds: 600
+
+                restartPolicy: Never
+        EOF2
+        kubectl wait --for=condition=complete --timeout=120s --namespace=tuf-system job/keyless-sign-verify
+      EOF
+    },
+    {
+      name = "Apply job to check rekor"
+      cmd  = <<EOF
+        cat <<EOF2 | kubectl apply -f -
+          apiVersion: batch/v1
+          kind: Job
+          metadata:
+            name: rekor-test
+            namespace: rekor-system
+            labels:
+              test: rekor-test
+          spec:
+            template:
+              spec:
+                initContainers:
+                - name: sign
+                  image: cgr.dev/chainguard/wolfi-base:latest
+                  workingDir: /workspace
+                  command: [/bin/sh, -c]
+                  args: [<<EOF3
+                  set -ex 
+                  apk add openssl
+                  openssl ecparam -genkey -name prime256v1 > ec_private.pem
+                  openssl ec -in ec_private.pem -pubout > ec_public.pem
+                  echo -n ${random_pet.test-value.id} | openssl dgst -sha256 -sign ec_private.pem -out foo.sig
+                  EOF3
+                  ]
+                  volumeMounts:
+                  - name: workspace
+                    mountPath: /workspace
+
+                containers:
+                - name: check-rekor
+                  image: ${local.fetched["rekor-cli"].full_ref}
+                  workingDir: /workspace
+                  args:
+                  - upload
+                  - --rekor_server=http://rekor-server.rekor-system.svc
+                  - --type=hashedrekord:0.0.1
+                  - --artifact-hash=${sha256(random_pet.test-value.id)}
+                  - --signature=foo.sig
+                  - --pki-format=x509
+                  - --public-key=ec_public.pem
+                  volumeMounts:
+                  - name: workspace
+                    mountPath: /workspace
+
+                volumes:
+                - name: workspace
+                  emptyDir: {}
+
+                restartPolicy: Never
+        EOF2
+        kubectl wait --for=condition=complete --timeout=120s --namespace=rekor-system job/rekor-test
+      EOF
+    },
+    {
+      name = "Apply job to test tsa verification"
+      cmd  = <<EOF
+        cat <<EOF2 | kubectl apply -f -
+          apiVersion: batch/v1
+          kind: Job
+          metadata:
+            name: tsa-sign-verify
+            namespace: tuf-system
+            labels:
+              test: tsa-sign-verify
+          spec:
+            template:
+              spec:
+                initContainers:
+                - name: copy-tuf-root
+                  image: cgr.dev/chainguard/wolfi-base:latest
+                  workingDir: /workspace
+                  command: [cp]
+                  args: [/tuf-root/root, /workspace/root.json]
+                  volumeMounts:
+                  - name: workspace
+                    mountPath: /workspace
+                  - name: tuf-root
+                    mountPath: /tuf-root
+
+                - name: initialize
+                  image: ${local.fetched["cosign-cli"].full_ref}
+                  workingDir: /workspace
+                  args:
+                  - initialize
+                  - --mirror=https://tuf-server.tuf-system.svc
+                  - --root=./root.json
+                  volumeMounts:
+                  - name: workspace
+                    mountPath: /workspace
+                  - name: tuf-config
+                    mountPath: /home/nonroot/.sigstore
+                
+                - name: tsa-certchain
+                  image: ${local.fetched["curl"].full_ref}
+                  workingDir: /workspace
+                  args:
+                  - Lo
+                  - /workspace/tsa-cert-chain.pem
+                  - http://tsa-server.tsa-system.svc/api/v1/timestamp/certchain
+                  volumeMounts:
+                  - name: workspace
+                    mountPath: /workspace
+
+                - name: sign
+                  image: ${local.fetched["cosign-cli"].full_ref}
+                  workingDir: /workspace
+                  args:
+                  - sign-blob
+                  - /etc/os-release
+                  - --fulcio-url=http://fulcio-server.fulcio-system.svc
+                  - --timestamp-server-url=http://tsa-server.tsa-system.svc/api/v1/timestamp
+                  - --output-certificate=cert.pem
+                  - --output-signature=sig
+                  - --yes
+                  - --identity-token=/var/sigstore/token/oidc-token
+                  - --tlog-upload=false
+                  - --rfc3161-timestamp=/workspace/timestamp.tsp
+                  volumeMounts:
+                  - name: workspace
+                    mountPath: /workspace
+                  - name: tuf-config
+                    mountPath: /home/nonroot/.sigstore
+                  - name: oidc-token
+                    mountPath: /var/sigstore/token
+
+                containers:
+                - name: verify
+                  image: ${local.fetched["cosign-cli"].full_ref}
+                  workingDir: /workspace
+                  args:
+                  - verify-blob
+                  - /etc/os-release
+                  - --insecure-ignore-tlog=true
+                  - --certificate=cert.pem
+                  - --signature=sig
+                  - --certificate-oidc-issuer=https://kubernetes.default.svc
+                  - --certificate-identity=https://kubernetes.io/namespaces/tuf-system/serviceaccounts/default
+                  - --timestamp-certificate-chain=/workspace/tsa-cert-chain.pem
+                  - --rfc3161-timestamp=/workspace/timestamp.tsp
+                  volumeMounts:
+                  - name: workspace
+                    mountPath: /workspace
+                  - name: tuf-config
+                    mountPath: /home/nonroot/.sigstore
+
+                volumes:
+                - name: workspace
+                  emptyDir: {}
+                - name: tuf-root
+                  secret:
+                    secretName: tuf-root
+                - name: tuf-config
+                  emptyDir: {}
+                - name: oidc-token
+                  projected:
+                    sources:
+                    - serviceAccountToken:
+                        audience: sigstore
+                        path: oidc-token
+                        expirationSeconds: 600
+
+                restartPolicy: Never
+        EOF2
+        kubectl wait --for=condition=complete --timeout=120s --namespace=tuf-system job/tsa-sign-verify
+      EOF
+    },
+  ]
+
+  labels = {
+    type = "k8s"
   }
 }
 
 # TODO: More tests!
-
-# This is a useful trick for intentionally breaking things to
-# inspect the deployed images and ensure we aren't pulling things
-# from public registries.
-# data "oci_exec_test" "break" {
-#   depends_on = [helm_release.scaffold]
-#   digest     = local.fetched["rekor-cli"].digest
-#   script     = "exit 1"
-# }
-
-module "helm_cleanup" {
-  depends_on = [
-    # Don't clean up until all of the tests complete.
-    kubernetes_job_v1.check_rekor,
-    kubernetes_job_v1.keyless_sign_verify,
-    # data.oci_exec_test.break,
-  ]
-  source = "../../../tflib/helm-cleanup"
-  name   = helm_release.scaffold.id
-}
