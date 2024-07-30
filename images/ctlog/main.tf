@@ -29,8 +29,9 @@ module "latest" {
 }
 
 module "test-latest" {
-  source       = "../sigstore-scaffolding/tests"
-  ctlog-server = module.latest["trillian-ctserver"].image_ref
+  source            = "../sigstore-scaffolding/tests"
+  ctlog-server      = module.latest["trillian-ctserver"].image_ref
+  target_repository = var.target_repository
 }
 
 resource "oci_tag" "latest" {

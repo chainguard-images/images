@@ -29,8 +29,9 @@ module "latest" {
 }
 
 module "test-latest" {
-  source     = "../sigstore-scaffolding/tests"
-  tsa-server = module.latest["server"].image_ref
+  source            = "../sigstore-scaffolding/tests"
+  tsa-server        = module.latest["server"].image_ref
+  target_repository = var.target_repository
 }
 
 resource "oci_tag" "latest" {

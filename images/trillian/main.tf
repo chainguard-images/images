@@ -34,6 +34,7 @@ module "test-latest" {
     logserver = module.latest["logserver"].image_ref
     logsigner = module.latest["logsigner"].image_ref
   }
+  target_repository = var.target_repository
 }
 
 resource "oci_tag" "latest" {

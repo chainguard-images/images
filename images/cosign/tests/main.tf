@@ -8,6 +8,8 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "target_repository" {}
+
 data "oci_exec_test" "help" {
   digest = var.digest
   # Cosign 2.1 requires a TTY
@@ -16,6 +18,7 @@ data "oci_exec_test" "help" {
 }
 
 module "sigstore-scaffolding" {
-  source     = "../../sigstore-scaffolding/tests"
-  cosign-cli = var.digest
+  source            = "../../sigstore-scaffolding/tests"
+  cosign-cli        = var.digest
+  target_repository = var.target_repository
 }
