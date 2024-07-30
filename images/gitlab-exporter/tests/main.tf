@@ -5,24 +5,20 @@ terraform {
   }
 }
 
-variable "digests" {
-  description = "The image digests to run tests over."
-  type = object({
-    kas      = string
-    pages    = string
-    shell    = string
-    exporter = string
-  })
+variable "digest" {
+  description = "The image digest to run tests over."
 }
 
-locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
+locals {
+  parsed = provider::oci::parse(var.digest)
+}
 
-data "imagetest_inventory" "this" {}
+data "imagetest_inventory" "this" {
+}
 
-resource "imagetest_harness_k3s" "this" {
-  name      = "workhorse-k3s"
+resource "imagetest_harness_k3s" "k3s" {
   inventory = data.imagetest_inventory.this
-
+  name      = "gitlab-exporter-k3s"
   resources = {
     cpu = {
       request = "8Gi"
@@ -31,7 +27,6 @@ resource "imagetest_harness_k3s" "this" {
       request = "16Gi"
     }
   }
-
   sandbox = {
     mounts = [
       {
@@ -43,13 +38,11 @@ resource "imagetest_harness_k3s" "this" {
 }
 
 module "helm" {
-  source = "../../../tflib/imagetest/helm"
-
+  chart   = "gitlab"
   name    = "gitlab"
   repo    = "https://charts.gitlab.io"
-  chart   = "gitlab"
+  source  = "../../../tflib/imagetest/helm"
   timeout = "20m"
-
   values = {
     create_namespace = false
     global = {
@@ -93,47 +86,22 @@ module "helm" {
       gitlab-root-password = {
         secret = "P@ssw3rd"
       }
-
+      kas = {
+        minReplicas = 1
+        maxReplicas = 1
+      }
       webservice = {
         minReplicas = 1
         maxReplicas = 1
       }
-      kas = {
-        image = {
-          tag        = local.parsed["kas"].pseudo_tag
-          repository = local.parsed["kas"].registry_repo
-        }
+      gitlab-shell = {
         minReplicas = 1
         maxReplicas = 1
       }
       gitlab-exporter = {
         image = {
-          tag        = local.parsed["exporter"].pseudo_tag
-          repository = local.parsed["exporter"].registry_repo
-        }
-        extraEnv = {
-          CONFIG_FILENAME = "gitlab-exporter.yml"
-        }
-        enabled = false
-      }
-      gitlab-shell = {
-        image = {
-          tag        = local.parsed["shell"].pseudo_tag
-          repository = local.parsed["shell"].registry_repo
-        }
-        minReplicas = 1
-        maxReplicas = 1
-      }
-      gitlab-pages = {
-        image = {
-          tag        = local.parsed["pages"].pseudo_tag
-          repository = local.parsed["pages"].registry_repo
-        }
-        resources = {
-          requests = {
-            memory = "250M"
-            cpu    = "50m"
-          }
+          tag        = local.parsed.pseudo_tag
+          repository = local.parsed.registry_repo
         }
       }
       gitlab-runner = {
@@ -176,10 +144,12 @@ module "helm" {
 }
 
 resource "imagetest_feature" "k3s" {
-  harness     = imagetest_harness_k3s.this
-  name        = "Basic"
-  description = "Basic functionality of gitlab-workhorse"
-
+  description = "Basic functionality of GitLab exporter"
+  harness     = imagetest_harness_k3s.k3s
+  labels = {
+    type = "k8s"
+  }
+  name = "Basic"
   steps = [
     {
       name = "Create Secret"
@@ -194,21 +164,14 @@ resource "imagetest_feature" "k3s" {
     {
       name  = "Wait for gitlab to be ready"
       cmd   = <<EOF
-        kubectl rollout status deployment/gitlab-kas
         kubectl rollout status deployment/gitlab-gitlab-exporter
-        kubectl rollout status deployment/gitlab-gitlab-pages
-        kubectl rollout status deployment/gitlab-gitlab-shell
         kubectl wait --for=condition=available --timeout=600s deployment gitlab-webservice-default
       EOF
       retry = { attempts = 5, delay = "15s", factor = 3 }
-    },
+    }
   ]
-
-  labels = {
-    type = "k8s"
-  }
-
   timeouts = {
     create = "20m"
   }
 }
+
