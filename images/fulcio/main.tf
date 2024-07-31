@@ -19,8 +19,9 @@ module "latest" {
 }
 
 module "test-latest" {
-  source        = "../sigstore-scaffolding/tests"
-  fulcio-server = module.latest.image_ref
+  source            = "../sigstore-scaffolding/tests"
+  fulcio-server     = module.latest.image_ref
+  target_repository = var.target_repository
 }
 
 resource "oci_tag" "latest" {

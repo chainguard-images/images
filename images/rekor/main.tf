@@ -35,6 +35,7 @@ module "test-latest" {
     rekor-cli      = module.latest["cli"].image_ref
     rekor-server   = module.latest["server"].image_ref
   }
+  target_repository = var.target_repository
 }
 
 resource "oci_tag" "latest" {

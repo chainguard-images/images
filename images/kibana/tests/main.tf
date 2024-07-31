@@ -6,8 +6,11 @@ terraform {
 }
 
 locals {
-  namespace = "kibana"
-  parsed    = provider::oci::parse(var.digest)
+  parsed = provider::oci::parse(var.digest)
+}
+
+variable "elasticsearch_version" {
+  description = "Version of elasticsearch to test with"
 }
 
 variable "digest" {
@@ -54,19 +57,24 @@ resource "imagetest_feature" "basic" {
       cmd  = module.helm.install_cmd
     },
     {
+      name = "Install tools"
+      cmd  = "apk add curl jq"
+    },
+    {
       name = "Wait for elastic-operator sts"
       cmd  = "kubectl rollout status --watch --timeout=60s sts/elastic-operator"
     },
     {
       name = "Add Elasticsearch pod"
       cmd  = <<EOT
+        VERSION=$(curl -s https://endoflife.date/api/kibana.json|jq -r ".[] |select(.cycle==\"${var.elasticsearch_version}\") .latest")
         cat <<EOF | kubectl apply -f -
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
   name: quickstart
 spec:
-  version: 8.13.4
+  version: "$VERSION"
   nodeSets:
   - name: default
     count: 1
@@ -78,13 +86,14 @@ EOT
     {
       name = "Add Kibana pod"
       cmd  = <<EOT
+        VERSION=$(curl -s https://endoflife.date/api/kibana.json|jq -r ".[] |select(.cycle==\"${var.elasticsearch_version}\") .latest")
         cat <<EOF | kubectl apply -f -
 apiVersion: kibana.k8s.elastic.co/v1
 kind: Kibana
 metadata:
   name: quickstart
 spec:
-  version: 8.13.4
+  version: "$VERSION"
   count: 1
   elasticsearchRef:
     name: quickstart
@@ -106,10 +115,6 @@ EOT
     {
       name = "Wait for deployment to settle"
       cmd  = "kubectl rollout status --watch --timeout=300s deployment/quickstart-kb"
-    },
-    {
-      name = "Get tools"
-      cmd  = "apk add curl jq"
     },
     {
       name = "Port forward to Kibana"

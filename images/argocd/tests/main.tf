@@ -13,16 +13,12 @@ variable "digests" {
   })
 }
 
-variable "name" {
-  default = "argocd"
-}
-
 locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
 
 resource "imagetest_harness_k3s" "this" {
-  name      = var.name
+  name      = "argocd"
   inventory = data.imagetest_inventory.this
 }
 
