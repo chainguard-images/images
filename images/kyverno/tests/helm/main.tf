@@ -51,13 +51,20 @@ variable "values" {
   }
 }
 
+variable "chart_version" {
+  type        = string
+  description = "If set, override the chart version to install for older versions of kyverno to test version-streamed images."
+  default     = ""
+}
+
 module "helm" {
   source = "../../../../tflib/imagetest/helm"
 
-  name      = "kyverno"
-  namespace = "kyverno"
-  repo      = "https://kyverno.github.io/kyverno"
-  chart     = "kyverno"
+  name          = "kyverno"
+  namespace     = "kyverno"
+  repo          = "https://kyverno.github.io/kyverno"
+  chart         = "kyverno"
+  chart_version = length(var.chart_version) > 0 ? var.chart_version : ""
 
   values = var.values
 }
