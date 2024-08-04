@@ -14,7 +14,7 @@ terraform {
 }
 
 variable "extra_packages" {
-  default     = ["mariadb"]
+  default     = ["mariadb", "mariadb-client"]
   description = "The additional packages to install "
 }
 
