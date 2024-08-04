@@ -10,3 +10,5 @@ upstream_url: https://github.com/NVIDIA/GPU-Driver-Container
 keywords:
   - application
   - tools
+  - ai
+  - gpu
