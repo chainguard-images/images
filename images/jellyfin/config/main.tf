@@ -36,7 +36,6 @@ output "config" {
       "NVIDIA_DRIVER_CAPABILITIES" : "all"
       "NVIDIA_VISIBLE_DEVICES" : "all"
       "HEALTHCHECK_URL" : "http://localhost:8096/health"
-      "DOTNET_SYSTEM_GLOBALIZATION_INVARIANT" : "1"
       "LC_ALL" : "en_US.UTF-8"
       "LANG" : "en_US.UTF-8"
       "LANGUAGE" : "en_US:en"
