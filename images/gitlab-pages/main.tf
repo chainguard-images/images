@@ -13,19 +13,24 @@ variable "target_repository" {
 }
 
 module "config" {
-  extra_packages = ["${local.name}-${each.value.version}", "${local.name}-scripts-${each.value.version}", "gitlab-base-fips-${each.value.version}"]
-  for_each       = module.versions.versions
-  source         = "./config"
+  extra_packages = [
+    each.key,                                                  # gitlab-pages-<version>
+    replace(each.key, "gitlab-pages", "gitlab-pages-scripts"), # gitlab-pages-scripts-<version>
+    replace(each.key, "gitlab-pages", "gitlab-base"),          # gitlab-base-<version>
+  ]
+  for_each = module.versions.versions
+  source   = "./config"
 }
 
 module "versioned" {
   build-dev         = true
   config            = module.config[each.key].config
   for_each          = module.versions.versions
-  main_package      = "${local.name}-${each.value.version}"
+  main_package      = each.value.main
   name              = basename(path.module)
   source            = "../../tflib/publisher"
   target_repository = var.target_repository
+  update-repo       = each.value.is_latest
 }
 
 module "test" {

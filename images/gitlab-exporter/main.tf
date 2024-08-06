@@ -13,19 +13,25 @@ variable "target_repository" {
 }
 
 module "config" {
-  extra_packages = ["${local.name}-${each.value.version}", "${local.name}-scripts-${each.value.version}", "gitlab-base-${each.value.version}"]
-  for_each       = module.versions.versions
-  source         = "./config"
+  extra_packages = [
+    # Note: The versions are coming from package "gitlab-cng"
+    replace(each.key, "gitlab-cng", "gitlab-exporter"),         # gitlab-exporter-<version>
+    replace(each.key, "gitlab-cng", "gitlab-exporter-scripts"), # gitlab-exporter-scripts-<version>
+    replace(each.key, "gitlab-cng", "gitlab-base"),             # gitlab-base-<version>
+  ]
+  for_each = module.versions.versions
+  source   = "./config"
 }
 
 module "versioned" {
   build-dev         = true
   config            = module.config[each.key].config
   for_each          = module.versions.versions
-  main_package      = "${local.name}-${each.value.version}"
+  main_package      = replace(each.value.main, "gitlab-cng", "gitlab-exporter")
   name              = basename(path.module)
   source            = "../../tflib/publisher"
   target_repository = var.target_repository
+  update-repo       = each.value.is_latest
 }
 
 module "test" {
