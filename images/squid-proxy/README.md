@@ -52,12 +52,12 @@ export PROXY_HOST="localhost"
 export PROXY_PORT="3128"
 export URL="http://example.com"
 
-docker exec "$CONTAINER_NAME" curl -x http://"$PROXY_HOST":"$PROXY_PORT" "$URL" -o /dev/null -w '%{http_code}' -s
+curl -x http://"$PROXY_HOST":"$PROXY_PORT" "$URL" -o /dev/null -w '%{http_code}\n' -s
 ```
 
-You will get a 200 response on this very likely, if it is 403, it might because of ACL of your `squid.conf`. Access Control Lists (ACLs) in `squid.conf` are a crucial part of Squid's configuration. They allow you to define rules that grant or deny access to internet resources based on various criteria such as source IP, destination IP, URLs, protocols, and more. 
+You will get a 403 response on this very likely, because of ACL on the default `/etc/squid.conf`. Access Control Lists (ACLs) in `squid.conf` are a crucial part of Squid's configuration. They allow you to define rules that grant or deny access to internet resources based on various criteria such as source IP, destination IP, URLs, protocols, and more. 
 
-Note: By default, we haven't intentinally provided the `squid.conf` so that user can configure it as per their needs and that means, log may not be visible with default configuration, you can set it using the below custom configuration. 
+Log may not be visible with default configuration, you can set it using the below custom configuration. 
 
 ### Custom Configuration For Docker
 
