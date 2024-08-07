@@ -43,8 +43,17 @@ helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
 
 helm install grafana https://grafana.github.io/helm-charts \
-  --set image.repository=cgr.dev/chainguard/grafana \
+  --set image.registry=cgr.dev \
+  --set image.repository=chainguard/grafana \
   --set image.tag=latest
+```
+
+You can also leverage the chainguard image for the sidecar images if you opt to use those as well:
+
+```bash
+  --set sidecar.image.registry=cgr.dev \
+  --set sidecar.image.repository=chainguard/k8s-sidecar \
+  --set sidecar.image.tag=latest
 ```
 
 Refer to the [helm chart documentation](https://artifacthub.io/packages/helm/grafana/grafana)
