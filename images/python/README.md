@@ -65,7 +65,7 @@ Also note that the `python` image uses the `nonroot` user by default. To perform
 docker run -it --user root --entrypoint /bin/bash chainguard/python:latest-dev
 ```
 
-We recommend against using the root user in a production scenario.
+We recommend against using the root user in a production environment.
 
 ## Packages
 
