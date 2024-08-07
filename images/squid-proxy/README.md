@@ -64,6 +64,7 @@ Note: By default, we haven't intentinally provided the `squid.conf` so that user
 Add the following lines to the 'squid.conf' to redirect the logs to the '/dev/stdout':
 
 ```
+http_port 3128
 logfile_rotate 0
 cache_log stdio:/dev/stdout
 access_log stdio:/dev/stdout
@@ -73,7 +74,7 @@ cache_store_log stdio:/dev/stdout
 For custom configurations, mount your squid.conf file into the container:
 
 ```bash
-docker run --rm -v /path/to/your/squid.conf:/etc/squid/squid.conf -p 3128:3128 cgr.dev/chainguard/squid-proxy:latest
+docker run --rm -v /path/to/your/squid.conf:/etc/squid.conf -p 3128:3128 cgr.dev/chainguard/squid-proxy:latest
 ```
 
 ### Custom Configuration For Kubernetes
