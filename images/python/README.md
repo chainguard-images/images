@@ -26,6 +26,7 @@ docker pull cgr.dev/chainguard/python:latest
 <!--getting:end-->
 
 <!--body:start-->
+
 ## Description
 
 The `python` Chainguard Image provides a minimal Python runtime suitable for workloads such as web applications, CLI utilities, interfacing with APIs, or other tasks.
@@ -107,4 +108,5 @@ For a more complete example, see [Getting Started with the Python Chainguard Ima
 - [Blog Post: Securely Containerize a Python Application with Chainguard Images](https://dev.to/chainguard/securely-containerize-a-python-application-with-chainguard-images-bn8)
 - [Video: How to containerize a Python application with a multi-stage build using Chainguard Images](https://www.youtube.com/watch?v=2D0JULd4E5A)
 - [Learning Lab: Deploying a Flask App with Python and nginx Chainguard Images](https://www.youtube.com/watch?v=i6bDKplnp6I)
+
 <!--body:end-->
