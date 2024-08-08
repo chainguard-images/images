@@ -26,7 +26,17 @@ docker pull cgr.dev/chainguard/redis:latest
 <!--getting:end-->
 
 <!--body:start-->
-Minimalist Wolfi-based [Redis](https://github.com/redis/redis) image.
+
+## Important - license update
+
+Redis version 7.4 and subsequent releases are no longer licensed under
+BSD-3-Clause. A dual licensing model has been adopted, of which users have the
+choice to adopt either RSALv2 or SSPLv1.
+
+Please give careful consideration to the licensing conditions when consuming
+redis. For more information, refer to the [upstream license information](https://github.com/redis/redis/blob/unstable/LICENSE.txt).
+
+## Overview
 
 Redis is an in-memory database that persists on disk.
 
