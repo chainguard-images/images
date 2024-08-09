@@ -5,17 +5,17 @@ terraform {
   }
 }
 
+variable "chart_version" {}
+
 variable "values" {
   type = any
   default = {
-    name             = "istio-system-istiod"
-    namespace        = "istio-system"
-    create_namespace = true
-    revision         = "istio-system"
+    name      = "istio-system-gateway"
+    namespace = "istio-system"
+    revision  = "istio-system"
 
-    pilot = {
-      image = "cgr.dev/chainguard/istio-pilot"
-      tag   = "latest"
+    service = {
+      type = "ClusterIP"
     }
     global = {
       istioNamespace = "istio-system"
@@ -29,17 +29,17 @@ variable "values" {
       tag = "latest"
     }
     version = "1.19.0"
-
   }
 }
 
 module "helm" {
-  source = "../../../../tflib/imagetest/helm"
+  source = "../../../../../tflib/imagetest/helm"
 
   namespace = var.values.namespace
 
-  repo  = "https://istio-release.storage.googleapis.com/charts/"
-  chart = "istiod"
+  repo          = "https://istio-release.storage.googleapis.com/charts/"
+  chart         = "gateway"
+  chart_version = var.chart_version
 
   values = var.values
 }

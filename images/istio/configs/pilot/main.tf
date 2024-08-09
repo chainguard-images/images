@@ -5,7 +5,7 @@ terraform {
 }
 
 variable "extra_packages" {
-  default     = ["istio-pilot-discovery", "istio-pilot-discovery-compat"]
+  default     = []
   description = "The additional packages to install (e.g. istio-pilot-discovery, istio-pilot-discovery-1.18.2-compat)."
 }
 

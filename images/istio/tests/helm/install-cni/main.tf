@@ -5,25 +5,23 @@ terraform {
   }
 }
 
+variable "chart_version" {}
+
 variable "values" {
   type = any
   default = {
-    name      = "istio-system-gateway"
+    name      = "istio-system-cni"
     namespace = "istio-system"
     revision  = "istio-system"
 
-    service = {
-      type = "ClusterIP"
+    cni = {
+      image      = "cgr.dev/chainguard/istio-install-cni"
+      tag        = "latest"
+      cniBinDir  = "/var/lib/rancher/k3s/data/current/bin"
+      cniConfDir = "/var/lib/rancher/k3s/agent/etc/cni/net.d"
     }
     global = {
-      istioNamespace = "istio-system"
-      hub            = "cgr.dev/chainguard/istio-proxy"
-      proxy = {
-        image = "cgr.dev/chainguard/istio-proxy"
-      }
-      proxy-init = {
-        image = "cgr.dev/chainguard/istio-proxy"
-      }
+      hub = "cgr.dev/chainguard/istio-install-cni"
       tag = "latest"
     }
     version = "1.19.0"
@@ -31,12 +29,13 @@ variable "values" {
 }
 
 module "helm" {
-  source = "../../../../tflib/imagetest/helm"
+  source = "../../../../../tflib/imagetest/helm"
 
   namespace = var.values.namespace
 
-  repo  = "https://istio-release.storage.googleapis.com/charts/"
-  chart = "gateway"
+  repo          = "https://istio-release.storage.googleapis.com/charts/"
+  chart         = "cni"
+  chart_version = var.chart_version
 
   values = var.values
 }

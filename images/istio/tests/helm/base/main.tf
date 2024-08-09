@@ -5,27 +5,27 @@ terraform {
   }
 }
 
+variable "chart_version" {}
+
 variable "values" {
   type = any
   default = {
-    name             = "istio-system-base"
-    namespace        = "istio-system"
-    create_namespace = true
+    namespace = "istio-system"
 
     global = {
       istioNamespace = "istio-system"
     }
-    defaultRevision = ""
   }
 }
 
 module "helm" {
-  source = "../../../../tflib/imagetest/helm"
+  source = "../../../../../tflib/imagetest/helm"
 
   namespace = var.values.namespace
 
-  chart = "base"
-  repo  = "https://istio-release.storage.googleapis.com/charts/"
+  chart         = "base"
+  repo          = "https://istio-release.storage.googleapis.com/charts/"
+  chart_version = var.chart_version
 
   values = var.values
 }

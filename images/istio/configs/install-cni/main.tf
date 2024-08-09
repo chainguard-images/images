@@ -5,7 +5,7 @@ terraform {
 }
 
 variable "extra_packages" {
-  default     = ["iptables", "istio-cni", "istio-cni-compat", "istio-install-cni", "istio-install-cni-compat"]
+  default     = ["iptables"]
   description = "The additional packages to install (e.g. istio-install-cni, istio-cni...)"
 }
 

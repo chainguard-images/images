@@ -20,7 +20,7 @@ variable "values" {
 }
 
 module "helm" {
-  source = "../../../../tflib/imagetest/helm"
+  source = "../../../../../tflib/imagetest/helm"
 
   namespace = var.values.namespace
 
