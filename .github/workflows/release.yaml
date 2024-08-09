@@ -19,7 +19,7 @@ on:
 concurrency: release
 
 env:
-  TOTAL_SHARDS: 4
+  TOTAL_SHARDS: 12
   TF_VAR_target_repository: cgr.dev/chainguard
 
 permissions:
@@ -71,7 +71,7 @@ jobs:
       matrix: "${{steps.shard.outputs.matrix}}"
 
   build:
-    runs-on: ubuntu-latest-64-cores
+    runs-on: ubuntu-latest-32-cores
     needs: shard
     strategy:
       fail-fast: false
