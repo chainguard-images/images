@@ -1,0 +1,24 @@
+From f2e636dabf283ac8b60f132030bae4ab493d06bc Mon Sep 17 00:00:00 2001
+From: Josh Wolf <josh@wolfs.io>
+Date: Wed, 7 Aug 2024 14:54:26 -0400
+Subject: [PATCH] remove tag as annotation
+
+---
+ dysnix/proxysql/templates/_helpers.tpl | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/dysnix/proxysql/templates/_helpers.tpl b/dysnix/proxysql/templates/_helpers.tpl
+index f1f66dc..df0799d 100644
+--- a/dysnix/proxysql/templates/_helpers.tpl
++++ b/dysnix/proxysql/templates/_helpers.tpl
+@@ -38,7 +38,6 @@ Common labels
+ app: {{ include "proxysql.name" . }}
+ release: {{ .Release.Name }}
+ helm.sh/chart: {{ include "proxysql.chart" . }}
+-app.kubernetes.io/version: {{ .Values.image.tag | default .Chart.AppVersion | quote }}
+ app.kubernetes.io/managed-by: {{ .Release.Service }}
+ {{- end -}}
+ 
+-- 
+2.46.0
+

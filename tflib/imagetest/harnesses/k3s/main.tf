@@ -28,6 +28,12 @@ variable "envs" {
   default     = {}
 }
 
+variable "k3s_image" {
+  description = "The image to use for the k3s cluster."
+  # Null this means use the default set by the provider.
+  default = null
+}
+
 data "apko_config" "sandbox" {
   extra_packages = [
     "apk-tools",
@@ -41,6 +47,7 @@ data "apko_config" "sandbox" {
     "kustomize",
     "patch",
     "wolfi-base",
+    "wget",
   ]
   config_contents = jsonencode({
     accounts   = { run-as = 0 }
@@ -65,6 +72,7 @@ module "test_libs" { source = "../../libs/" }
 resource "imagetest_harness_k3s" "this" {
   name      = var.name
   inventory = var.inventory
+  image     = var.k3s_image
 
   sandbox = {
     image = apko_build.sandbox.image_ref

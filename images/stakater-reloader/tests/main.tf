@@ -1,7 +1,6 @@
 terraform {
   required_providers {
     oci       = { source = "chainguard-dev/oci" }
-    helm      = { source = "hashicorp/helm" }
     imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
@@ -59,3 +58,4 @@ resource "imagetest_feature" "basic" {
     type = "k8s"
   }
 }
+
