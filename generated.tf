@@ -590,11 +590,6 @@ module "jdk" {
   target_repository = "${var.target_repository}/jdk"
 }
 
-module "jdk-lts" {
-  source            = "./images/jdk-lts"
-  target_repository = "${var.target_repository}/jdk-lts"
-}
-
 module "jellyfin" {
   source            = "./images/jellyfin"
   target_repository = "${var.target_repository}/jellyfin"
@@ -618,11 +613,6 @@ module "jitsucom-jitsu" {
 module "jre" {
   source            = "./images/jre"
   target_repository = "${var.target_repository}/jre"
-}
-
-module "jre-lts" {
-  source            = "./images/jre-lts"
-  target_repository = "${var.target_repository}/jre-lts"
 }
 
 module "k8s-sidecar" {
@@ -2110,10 +2100,6 @@ output "summary_jdk" {
   value = module.jdk.summary
 }
 
-output "summary_jdk-lts" {
-  value = module.jdk-lts.summary
-}
-
 output "summary_jellyfin" {
   value = module.jellyfin.summary
 }
@@ -2132,10 +2118,6 @@ output "summary_jitsucom-jitsu" {
 
 output "summary_jre" {
   value = module.jre.summary
-}
-
-output "summary_jre-lts" {
-  value = module.jre-lts.summary
 }
 
 output "summary_k8s-sidecar" {
