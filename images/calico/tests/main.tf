@@ -68,6 +68,15 @@ resource "imagetest_harness_k3s" "this" {
     ]
   }
 
+  hooks = {
+    # the calico csi node driver tries to use the same mount as k3s (in
+    # docker), so make it shared
+    post_start = [
+      "mount --make-shared /var/lib/kubelet",
+      "mount --make-rshared /",
+    ]
+  }
+
   # Disable k3s' builtin (flannel) so we can later use the installed calico as the CNI
   disable_cni = true
 }
@@ -92,4 +101,8 @@ resource "imagetest_feature" "basic" {
       cmd  = "/tests/run-tests.sh"
     }
   ]
+
+  labels = {
+    type = "k8s"
+  }
 }
