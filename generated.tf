@@ -1023,11 +1023,6 @@ module "node-feature-discovery" {
   target_repository = "${var.target_repository}/node-feature-discovery"
 }
 
-module "node-lts" {
-  source            = "./images/node-lts"
-  target_repository = "${var.target_repository}/node-lts"
-}
-
 module "node-problem-detector" {
   source            = "./images/node-problem-detector"
   target_repository = "${var.target_repository}/node-problem-detector"
@@ -2438,10 +2433,6 @@ output "summary_node" {
 
 output "summary_node-feature-discovery" {
   value = module.node-feature-discovery.summary
-}
-
-output "summary_node-lts" {
-  value = module.node-lts.summary
 }
 
 output "summary_node-problem-detector" {
