@@ -173,7 +173,7 @@ module "helm_install-cni" {
       tag   = local.parsed["install-cni"].pseudo_tag
 
       # These two settings are highly dependent on the K8s cluster setup.
-      cniBinDir  = "/var/lib/rancher/k3s/data/current/bin" # Special thanks to Wolf
+      cniBinDir  = "/bin"
       cniConfDir = "/var/lib/rancher/k3s/agent/etc/cni/net.d"
     }
   }

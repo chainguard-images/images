@@ -17,7 +17,7 @@ variable "values" {
     cni = {
       image      = "cgr.dev/chainguard/istio-install-cni"
       tag        = "latest"
-      cniBinDir  = "/var/lib/rancher/k3s/data/current/bin"
+      cniBinDir  = "/bin"
       cniConfDir = "/var/lib/rancher/k3s/agent/etc/cni/net.d"
     }
     global = {
