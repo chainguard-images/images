@@ -21,6 +21,12 @@ data "imagetest_inventory" "this" {}
 resource "imagetest_harness_k3s" "this" {
   name      = "spire"
   inventory = data.imagetest_inventory.this
+
+  hooks = {
+    post_start = [
+      "mount --make-rshared /",
+    ]
+  }
 }
 
 module "spire_crds" {
