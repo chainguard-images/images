@@ -1,8 +1,11 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "digests" {
   description = "The image digests to run tests over."
@@ -23,107 +26,125 @@ variable "digests" {
 
 locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
-data "oci_exec_test" "smoke" {
-  digest = var.digests["controller"] # This doesn't actually matter here, just pass it something valid
-  script = "${path.module}/smoke-test.sh"
+data "imagetest_inventory" "this" {}
 
-  env {
-    name  = "IMAGE_REPOSITORY_CONTROLLER"
-    value = local.parsed["controller"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_CONTROLLER_TAG"
-    value = local.parsed["controller"].pseudo_tag
-  }
+module "cluster_harness" {
+  source = "../../../../tflib/imagetest/harnesses/k3s/"
 
-  env {
-    name  = "IMAGE_REPOSITORY_DB_MANAGER"
-    value = local.parsed["db-manager"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_DB_MANAGER_TAG"
-    value = local.parsed["db-manager"].pseudo_tag
-  }
-
-  env {
-    name  = "IMAGE_REPOSITORY_EARLYSTOPPING"
-    value = local.parsed["earlystopping"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_EARLYSTOPPING_TAG"
-    value = local.parsed["earlystopping"].pseudo_tag
-  }
-
-  env {
-    name  = "IMAGE_REPOSITORY_FILE_METRICSCOLLECTOR"
-    value = local.parsed["file-metricscollector"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_FILE_METRICSCOLLECTOR_TAG"
-    value = local.parsed["file-metricscollector"].pseudo_tag
-  }
-
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_GOPTUNA"
-    value = local.parsed["suggestion-goptuna"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_GOPTUNA_TAG"
-    value = local.parsed["suggestion-goptuna"].pseudo_tag
-  }
-
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_HYPERBAND"
-    value = local.parsed["suggestion-hyperband"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_HYPERBAND_TAG"
-    value = local.parsed["suggestion-hyperband"].pseudo_tag
-  }
-
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_HYPEROPT"
-    value = local.parsed["suggestion-hyperopt"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_HYPEROPT_TAG"
-    value = local.parsed["suggestion-hyperopt"].pseudo_tag
-  }
-
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_NAS_DARTS"
-    value = local.parsed["suggestion-nas-darts"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_NAS_DARTS_TAG"
-    value = local.parsed["suggestion-nas-darts"].pseudo_tag
-  }
-
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_OPTUNA"
-    value = local.parsed["suggestion-optuna"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_OPTUNA_TAG"
-    value = local.parsed["suggestion-optuna"].pseudo_tag
-  }
-
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_PBT"
-    value = local.parsed["suggestion-pbt"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_PBT_TAG"
-    value = local.parsed["suggestion-pbt"].pseudo_tag
-  }
-
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_SKOPT"
-    value = local.parsed["suggestion-skopt"].registry_repo
-  }
-  env {
-    name  = "IMAGE_REPOSITORY_SUGGESTION_SKOPT_TAG"
-    value = local.parsed["suggestion-skopt"].pseudo_tag
-  }
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
 }
 
+
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation test"
+  harness     = module.cluster_harness.harness
+
+  steps = [
+    {
+      name = "Run tests"
+      cmd  = <<-EOF
+        TMPDIR="$(mktemp -d)"
+        NAMESPACE="kubeflow"
+
+        cat <<YAML > "$TMPDIR/kubeflow-katib.yaml"
+---
+apiVersion: config.kubeflow.org/v1beta1
+kind: KatibConfig
+init:
+  certGenerator:
+    enable: true
+  controller:
+    webhookPort: 8443
+    trialResources:
+      - Job.v1.batch
+      - TFJob.v1.kubeflow.org
+      - PyTorchJob.v1.kubeflow.org
+      - MPIJob.v1.kubeflow.org
+      - XGBoostJob.v1.kubeflow.org
+      - MXJob.v1.kubeflow.org
+runtime:
+  metricsCollectors:
+    - kind: StdOut
+      image: ${local.parsed["file-metricscollector"].registry_repo}:${local.parsed["file-metricscollector"].pseudo_tag}
+    - kind: File
+      image: ${local.parsed["file-metricscollector"].registry_repo}:${local.parsed["file-metricscollector"].pseudo_tag}
+    - kind: TensorFlowEvent
+      image: docker.io/kubeflowkatib/tfevent-metrics-collector:latest
+      resources:
+        limits:
+          memory: 1Gi
+  suggestions:
+    - algorithmName: random
+      image: ${local.parsed["suggestion-hyperopt"].registry_repo}:${local.parsed["suggestion-hyperopt"].pseudo_tag}
+    - algorithmName: tpe
+      image: ${local.parsed["suggestion-hyperopt"].registry_repo}:${local.parsed["suggestion-hyperopt"].pseudo_tag}
+    - algorithmName: grid
+      image: ${local.parsed["suggestion-optuna"].registry_repo}:${local.parsed["suggestion-optuna"].pseudo_tag}
+    - algorithmName: hyperband
+      image: ${local.parsed["suggestion-hyperband"].registry_repo}:${local.parsed["suggestion-hyperband"].pseudo_tag}
+    - algorithmName: bayesianoptimization
+      image: ${local.parsed["suggestion-skopt"].registry_repo}:${local.parsed["suggestion-skopt"].pseudo_tag}
+    - algorithmName: cmaes
+      image: ${local.parsed["suggestion-goptuna"].registry_repo}:${local.parsed["suggestion-goptuna"].pseudo_tag}
+    - algorithmName: sobol
+      image: ${local.parsed["suggestion-goptuna"].registry_repo}:${local.parsed["suggestion-goptuna"].pseudo_tag}
+    - algorithmName: multivariate-tpe
+      image: ${local.parsed["suggestion-optuna"].registry_repo}:${local.parsed["suggestion-optuna"].pseudo_tag}
+    - algorithmName: enas
+      image: docker.io/kubeflowkatib/suggestion-enas:latest
+      resources:
+        limits:
+          memory: 200Mi
+    - algorithmName: darts
+      image: ${local.parsed["suggestion-nas-darts"].registry_repo}:${local.parsed["suggestion-nas-darts"].pseudo_tag}
+    - algorithmName: pbt
+      image: ${local.parsed["suggestion-pbt"].registry_repo}:${local.parsed["suggestion-pbt"].pseudo_tag}
+      persistentVolumeClaimSpec:
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: 5Gi
+  earlyStoppings:
+    - algorithmName: medianstop
+      image: ${local.parsed["earlystopping"].registry_repo}:${local.parsed["earlystopping"].pseudo_tag}
+YAML
+
+        cat <<YAML > "$TMPDIR/kustomization.yaml"
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - github.com/kubeflow/katib.git/manifests/v1beta1/installs/katib-standalone?ref=master
+images:
+  - name: docker.io/kubeflowkatib/katib-controller
+    newName: ${local.parsed["controller"].registry_repo}
+    newTag: ${local.parsed["controller"].pseudo_tag}
+  - name: docker.io/kubeflowkatib/katib-db-manager
+    newName: ${local.parsed["db-manager"].registry_repo}
+    newTag: ${local.parsed["db-manager"].pseudo_tag}
+namespace: $NAMESPACE
+configMapGenerator:
+  - name: katib-config
+    behavior: replace
+    files:
+      - katib-config.yaml=kubeflow-katib.yaml
+    options:
+      disableNameSuffixHash: true
+YAML
+
+        kubectl apply -k "$TMPDIR"
+
+        kubectl rollout status -n $NAMESPACE deployment/katib-db-manager --timeout=200s
+        kubectl rollout status -n $NAMESPACE deployment/katib-controller --timeout=200s
+      EOF
+    }
+  ]
+
+  labels = {
+    type = "k8s"
+  }
+}
