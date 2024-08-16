@@ -9,3 +9,4 @@ readme_file: README.md
 upstream_url: https://github.com/resmoio/kubernetes-event-exporter
 keywords:
   - application
+tier: APPLICATION

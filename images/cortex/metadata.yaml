@@ -10,3 +10,4 @@ upstream_url: https://cortexmetrics.io/
 keywords: 
   - analytics
   - application
+tier: APPLICATION

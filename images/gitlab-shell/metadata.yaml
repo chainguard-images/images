@@ -11,3 +11,4 @@ keywords:
   - gitlab
   - shell
 public: true
+tier: APPLICATION

@@ -10,3 +10,4 @@ upstream_url: https://github.com/rust-lang/mdBook
 keywords:
   - application
   - tools
+tier: APPLICATION

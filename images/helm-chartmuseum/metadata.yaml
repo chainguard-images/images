@@ -10,3 +10,4 @@ upstream_url: https://github.com/helm/chartmuseum
 keywords:
   - application
   - kubernetes
+tier: APPLICATION

@@ -10,3 +10,4 @@ upstream_url: https://github.com/GoogleCloudPlatform/secrets-store-csi-driver-pr
 keywords:
   - application
   - kubernetes
+tier: APPLICATION

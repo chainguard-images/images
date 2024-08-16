@@ -10,3 +10,4 @@ upstream_url: https://ziglang.org/
 keywords:
   - application
   - languages
+tier: APPLICATION

@@ -10,3 +10,4 @@ upstream_url: https://caddyserver.com/
 keywords:
   - application
   - servers
+tier: APPLICATION

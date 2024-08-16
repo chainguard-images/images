@@ -10,3 +10,4 @@ upstream_url: https://wolfi.dev
 keywords:
   - application
   - tools
+tier: APPLICATION

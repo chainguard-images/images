@@ -11,3 +11,4 @@ keywords:
   - application
   - kubernetes
 public: true
+tier: APPLICATION

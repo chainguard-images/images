@@ -68,7 +68,7 @@ resource "imagetest_feature" "basic" {
     {
       name = "Version check"
       cmd  = <<EOT
-docker run --rm --entrypoint /usr/bin/java $IMAGE_NAME -version
+docker run --rm --entrypoint java $IMAGE_NAME -version
 EOT
     },
     {
@@ -86,7 +86,7 @@ EOT
 docker run --rm \
   -v $VOLUME_NAME:/data \
   --workdir /data \
-  --entrypoint /usr/bin/javac "$SDK_IMAGE" \
+  --entrypoint javac "$SDK_IMAGE" \
   -source $JAVA_SOURCE_VERSION -target $JAVA_TARGET_VERSION \
   HelloWorld.java
 
@@ -94,7 +94,7 @@ docker run --rm \
 docker run --rm \
   -v $VOLUME_NAME:/data \
   --workdir /data \
-  --entrypoint /usr/bin/java "$IMAGE_NAME" HelloWorld
+  --entrypoint java "$IMAGE_NAME" HelloWorld
 EOT
     }
   ]

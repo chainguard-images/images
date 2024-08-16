@@ -13,3 +13,4 @@ upstream_url: https://github.com/docker/cli
 keywords:
   - application
   - tools
+tier: APPLICATION

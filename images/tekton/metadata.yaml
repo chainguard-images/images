@@ -10,3 +10,4 @@ upstream_url: https://tekton.dev
 keywords:
   - application
   - cicd
+tier: APPLICATION

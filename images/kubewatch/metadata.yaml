@@ -10,3 +10,4 @@ upstream_url: https://github.com/robusta-dev/kubewatch
 keywords:
   - application
   - kubernetes
+tier: APPLICATION

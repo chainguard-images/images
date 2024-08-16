@@ -10,3 +10,4 @@ upstream_url: https://docs.gitlab.com/ee/user/project/pages
 keywords:
   - gitlab
 public: true
+tier: APPLICATION

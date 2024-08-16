@@ -10,3 +10,4 @@ upstream_url: https://github.com/spdx/tools-java
 keywords:
   - application
 public: true
+tier: APPLICATION

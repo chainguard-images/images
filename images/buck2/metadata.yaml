@@ -10,3 +10,4 @@ upstream_url: https://github.com/facebook/buck2
 keywords:
   - application
   - tools
+tier: APPLICATION

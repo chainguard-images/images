@@ -9,3 +9,4 @@ readme_file: README.md
 upstream_url: https://github.com/spdx/ntia-conformance-checker
 keywords:
   - application
+tier: APPLICATION

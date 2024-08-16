@@ -10,3 +10,4 @@ upstream_url: https://github.com/cloudflare/cfssl
 keywords:
   - application
   - tools
+tier: APPLICATION

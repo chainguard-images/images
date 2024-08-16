@@ -10,3 +10,4 @@ upstream_url: https://clickhouse.com
 keywords:
   - application
   - databases
+tier: APPLICATION

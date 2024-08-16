@@ -10,3 +10,4 @@ upstream_url: https://github.com/qdrant/qdrant
 keywords:
   - application
   - ai
+tier: APPLICATION

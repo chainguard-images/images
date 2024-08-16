@@ -10,3 +10,4 @@ upstream_url: https://cert-manager.io/docs/trust/trust-manager
 keywords:
   - application
   - tools
+tier: APPLICATION

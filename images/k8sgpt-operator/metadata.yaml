@@ -10,3 +10,4 @@ upstream_url: https://github.com/k8sgpt-ai/k8sgpt-operator
 keywords:
   - application
   - kubernetes
+tier: APPLICATION

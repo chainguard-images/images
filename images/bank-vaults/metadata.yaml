@@ -10,3 +10,4 @@ upstream_url: https://github.com/bank-vaults/bank-vaults
 keywords:
   - application
   - tools
+tier: APPLICATION

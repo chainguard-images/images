@@ -10,3 +10,4 @@ upstream_url: https://www.pulumi.com/
 keywords:
   - application
   - tools
+tier: APPLICATION

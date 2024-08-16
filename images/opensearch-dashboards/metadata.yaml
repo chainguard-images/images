@@ -10,3 +10,4 @@ upstream_url: https://opensearch.org/docs/latest/dashboards
 keywords:
   - analytics
   - application
+tier: APPLICATION

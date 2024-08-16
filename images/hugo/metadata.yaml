@@ -10,3 +10,4 @@ upstream_url: https://github.com/gohugoio/hugo/
 keywords:
   - base
   - tools
+tier: BASE
