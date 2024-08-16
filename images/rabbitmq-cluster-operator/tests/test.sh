@@ -2,6 +2,8 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
+apk add jq
+
 TMPDIR="$(mktemp -d)"
 KUSTOMIZE_FILE="${TMPDIR}/kustomization.yaml"
 
@@ -9,7 +11,7 @@ function manifests() {
   # if image tag is latest then find the latest version of the git release
   LATEST=$(curl -s "https://api.github.com/repos/rabbitmq/cluster-operator/releases/latest" | jq -r '.tag_name')
 
-  cat <<EOF > "${KUSTOMIZE_FILE}"
+  cat <<EOF >"${KUSTOMIZE_FILE}"
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
@@ -56,8 +58,8 @@ EOF
 
   # Delete it (remove finializers first so it does not hang)
   kubectl patch rabbitmqclusters.rabbitmq.com hello-world \
-    -p '{"metadata":{"finalizers":null}}' --type=merge && \
-      kubectl delete rabbitmqclusters.rabbitmq.com hello-world
+    -p '{"metadata":{"finalizers":null}}' --type=merge &&
+    kubectl delete rabbitmqclusters.rabbitmq.com hello-world
 }
 
 manifests
