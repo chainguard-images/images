@@ -67,8 +67,9 @@ locals {
   updated_config = merge(yamldecode(var.config),
     { "annotations" = {
       "org.opencontainers.image.authors" : "Chainguard Team https://www.chainguard.dev/",
-      "org.opencontainers.image.url" : "https://edu.chainguard.dev/chainguard/chainguard-images/reference/${var.name}/",
+      "org.opencontainers.image.url" : "https://images.chainguard.dev/directory/image/${var.name}/overview",
       "org.opencontainers.image.source" : "https://github.com/chainguard-images/images/tree/main/images/${var.name}",
+      "org.opencontainers.image.vendor" : "Chainguard",
       },
     },
   )
@@ -144,12 +145,16 @@ data "oci_structure_test" "structure" {
       error_message = "image.authors annotation must be Chainguard Team (got '${module.this.config.annotations["org.opencontainers.image.authors"]}')"
     }
     precondition {
-      condition     = startswith(module.this.config.annotations["org.opencontainers.image.url"], "https://edu.chainguard.dev/chainguard/chainguard-images/reference/")
-      error_message = "image.url annotation must be edu.chainguard.dev (got '${module.this.config.annotations["org.opencontainers.image.url"]}')"
+      condition     = startswith(module.this.config.annotations["org.opencontainers.image.url"], "https://images.chainguard.dev/directory/image/")
+      error_message = "image.url annotation must be images.chainguard.dev (got '${module.this.config.annotations["org.opencontainers.image.url"]}')"
     }
     precondition {
       condition     = startswith(module.this.config.annotations["org.opencontainers.image.source"], "https://github.com/chainguard-images/images/tree/main/images/")
       error_message = "image.source annotation must be github.com/chainguard-images (got '${module.this.config.annotations["org.opencontainers.image.source"]}')"
+    }
+    precondition {
+      condition     = module.this.config.annotations["org.opencontainers.image.vendor"] == "Chainguard"
+      error_message = "image.vendor annotation must be Chainguard (got '${module.this.config.annotations["org.opencontainers.image.vendor"]}')"
     }
   }
 }
