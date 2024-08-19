@@ -5,9 +5,9 @@
 | **OCI Reference** | `cgr.dev/chainguard/temporal-ui-server` |
 
 
-* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/temporal-ui-server/overview/)
-* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
-* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+* [View Image in the Chainguard Images Directory](https://images.chainguard.dev/directory/image/temporal-ui-server/overview).
+* [View the Image Catalog](https://console.chainguard.dev/images/catalog) for a full list of available tags.
+* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.
 
 ---
 <!--monopod:end-->
