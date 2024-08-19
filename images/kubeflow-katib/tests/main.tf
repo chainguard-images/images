@@ -29,7 +29,7 @@ locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 data "imagetest_inventory" "this" {}
 
 module "cluster_harness" {
-  source = "../../../../tflib/imagetest/harnesses/k3s/"
+  source = "../../../tflib/imagetest/harnesses/k3s/"
 
   inventory         = data.imagetest_inventory.this
   name              = basename(path.module)
