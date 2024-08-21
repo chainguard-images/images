@@ -16,7 +16,7 @@ module "latest" {
   target_repository = var.target_repository
   config            = module.config.config
   build-dev         = true
-  main_package      = "tomcat-10"
+  main_package      = "tomcat-10.1-openjdk-17"
 }
 
 module "test-latest" {
