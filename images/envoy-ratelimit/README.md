@@ -28,10 +28,11 @@ docker pull cgr.dev/chainguard/envoy-ratelimit:latest
 <!--body:start-->
 ## Usage
 
+## Usage
+
 This image should be a drop-in replacement for the upstream `envoyproxy/ratelimit` image.
-See the [full documentation](https://gateway.envoyproxy.io/latest/user/rate-limit.html) for installation and usage.
 
-See for the [examples](https://github.com/envoyproxy/ratelimit#examples).
+The [`envoyproxy/ratelimit` GitHub repository](https://gateway.envoyproxy.io/latest/user/rate-limit.html) contains lots of useful information, as well as [several examples](https://github.com/envoyproxy/ratelimit#examples) showing how `ratelimit` works.
 
-This image includes `ratelimit`.
+Additionally, the Envoy documentation has resources on [Global rate limiting](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/global_rate_limiting) and [Local rate limiting](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/local_rate_limiting).
 <!--body:end-->
