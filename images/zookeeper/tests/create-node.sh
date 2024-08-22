@@ -11,7 +11,7 @@ dump_logs() {
 
 trap "dump_logs" EXIT
 
-kubectl wait -n "${NAMESPACE}" --for=condition=ready pod/"${NAMESPACE}"-0
+kubectl wait -n "${NAMESPACE}" --for=condition=ready pod/"${NAME}"-0
 
 forward_port() {
   kubectl port-forward -n "${NAMESPACE}" pod/"${NAME}"-0 "${ZK_PORT}":2181 &
