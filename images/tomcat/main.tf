@@ -29,8 +29,10 @@ module "versioned" {
 }
 
 module "test" {
-  digest = module.versioned[local.last].image_ref
-  source = "./tests"
+  for_each = module.versions.versions
+  source   = "./tests"
+
+  digest = module.versioned[each.key].image_ref
 }
 
 module "tagger" {
