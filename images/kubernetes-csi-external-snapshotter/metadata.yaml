@@ -10,3 +10,5 @@ upstream_url: https://github.com/kubernetes-csi/external-snapshotter
 keywords:
   - application
   - kubernetes
+public: true
+tier: APPLICATION

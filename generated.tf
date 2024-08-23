@@ -760,16 +760,6 @@ module "kubernetes-csi-external-resizer" {
   target_repository = "${var.target_repository}/kubernetes-csi-external-resizer"
 }
 
-module "kubernetes-csi-external-snapshot-controller" {
-  source            = "./images/kubernetes-csi-external-snapshot-controller"
-  target_repository = "${var.target_repository}/kubernetes-csi-external-snapshot-controller"
-}
-
-module "kubernetes-csi-external-snapshot-validation-webhook" {
-  source            = "./images/kubernetes-csi-external-snapshot-validation-webhook"
-  target_repository = "${var.target_repository}/kubernetes-csi-external-snapshot-validation-webhook"
-}
-
 module "kubernetes-csi-external-snapshotter" {
   source            = "./images/kubernetes-csi-external-snapshotter"
   target_repository = "${var.target_repository}/kubernetes-csi-external-snapshotter"
@@ -2229,14 +2219,6 @@ output "summary_kubernetes-csi-external-provisioner" {
 
 output "summary_kubernetes-csi-external-resizer" {
   value = module.kubernetes-csi-external-resizer.summary
-}
-
-output "summary_kubernetes-csi-external-snapshot-controller" {
-  value = module.kubernetes-csi-external-snapshot-controller.summary
-}
-
-output "summary_kubernetes-csi-external-snapshot-validation-webhook" {
-  value = module.kubernetes-csi-external-snapshot-validation-webhook.summary
 }
 
 output "summary_kubernetes-csi-external-snapshotter" {

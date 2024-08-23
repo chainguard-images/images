@@ -1,33 +1,31 @@
-locals {
-  baseline_packages = ["kubernetes-csi-external-snapshotter"]
+variable "name" {
+  description = "Package name (e.g. kubernetes-csi-external-snapshot-validation-webhook, kubernetes-csi-external-csi-snapshotter)"
 }
 
-module "accts" {
-  source = "../../../tflib/accts"
-}
-
-terraform {
-  required_providers {
-    apko = { source = "chainguard-dev/apko" }
-  }
+variable "component" {
+  description = "Package component (e.g. snapshot-controller, snapshot-validation-webhook, or snapshotter)"
 }
 
 variable "extra_packages" {
-  default     = ["kubernetes-csi-external-snapshotter"]
-  description = "The additional packages to install (e.g. kubernetes-csi-external-snapshotter)."
+  default     = []
+  description = "The additional packages to install"
+  type        = list(string)
+}
+
+module "accts" {
+  run-as = var.component != "snapshot-validation-webhook" ? 0 : 65532
+  source = "../../../tflib/accts"
 }
 
 output "config" {
   value = jsonencode({
-    "contents" : {
-      // TODO: remove the need for using hardcoded local.baseline_packages by plumbing
-      // these packages through var.extra_packages in all callers of this config module
-      "packages" : distinct(concat(local.baseline_packages, var.extra_packages))
-    },
-    "entrypoint" : {
-      "command" : "csi-snapshotter"
-    },
-    "accounts" : module.accts.block
+    contents = {
+      packages = concat(["${var.name}"], var.extra_packages)
+    }
+    accounts = module.accts.block
+    entrypoint = {
+      command = "/usr/bin/${var.component}"
+    }
   })
 }
 
