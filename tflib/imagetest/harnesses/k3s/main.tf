@@ -34,6 +34,26 @@ variable "k3s_image" {
   default = null
 }
 
+variable "resources" {
+  default = {
+    cpu = {
+      request = ""
+    }
+    memory = {
+      request = ""
+    }
+  }
+
+  type = object({
+    cpu = object({
+      request = string
+    })
+    memory = object({
+      request = string
+    })
+  })
+}
+
 data "apko_config" "sandbox" {
   extra_packages = [
     "apk-tools",
@@ -73,6 +93,8 @@ resource "imagetest_harness_k3s" "this" {
   name      = var.name
   inventory = var.inventory
   image     = var.k3s_image
+
+  resources = var.resources
 
   sandbox = {
     image = apko_build.sandbox.image_ref

@@ -126,6 +126,15 @@ module "cluster_harness" {
   name              = basename(path.module)
   target_repository = var.target_repository
   cwd               = path.module
+
+  resources = {
+    cpu = {
+      request = "7"
+    }
+    memory = {
+      request = "16Gi"
+    }
+  }
 }
 
 module "helm" {
