@@ -56,7 +56,10 @@ module "test-versioned" {
 
 module "tagger" {
   depends_on = [module.test-versioned]
+  for_each   = local.components
   source     = "../../tflib/tagger"
-  tags       = merge([for v in module.versioned : v.latest_tag_map]...)
+  tags = merge(
+    [for v in local.versions : module.versioned["kubernetes-csi-external-${each.key}${v.suffix}"].latest_tag_map]...
+  )
 }
 
