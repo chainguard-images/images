@@ -17,13 +17,13 @@ return await Deployment.RunAsync(() =>
             },
             Spec = new Kubernetes.Types.Inputs.Core.V1.PodSpecArgs
             {
-                Containers = 
+                Containers =
                 {
                     new Kubernetes.Types.Inputs.Core.V1.ContainerArgs
                     {
                         Image = image,
                         Name = name,
-                        Ports = 
+                        Ports =
                         {
                             new Kubernetes.Types.Inputs.Core.V1.ContainerPortArgs
                             {

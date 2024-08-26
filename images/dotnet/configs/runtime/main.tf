@@ -10,7 +10,7 @@ terraform {
 
 variable "extra_packages" {
   default     = ["dotnet-runtime"]
-  description = "The additional packages to install (e.g. dotnet-runtime, dotnet-7-runtime)."
+  description = "The additional packages to install (e.g. dotnet-runtime)."
 }
 
 output "config" {

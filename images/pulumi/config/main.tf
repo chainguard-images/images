@@ -21,11 +21,11 @@ output "config" {
         "go",
         # for Pulumi Dotnet support
         "pulumi-language-dotnet",
-        "dotnet-7",
-        "dotnet-7-runtime",
-        "dotnet-7-sdk",
-        "aspnet-7-runtime",
-        "aspnet-7-targeting-pack",
+        "dotnet-8",
+        "dotnet-8-runtime",
+        "dotnet-8-sdk",
+        "aspnet-8-runtime",
+        "aspnet-8-targeting-pack",
         # for Pulumi Python support
         "pulumi-language-python",
         "python3",
