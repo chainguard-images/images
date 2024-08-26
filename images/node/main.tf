@@ -36,6 +36,8 @@ module "versioned" {
   config           = module.config[each.key].config
   extra_dev_packages = [
     "yarn",
+    "corepack",
+    "pnpm",
     "build-base",
     "python-3.11",
   ]
@@ -55,6 +57,8 @@ module "next" {
     "build-base",
     "python-3.11",
     "npm",
+    "corepack",
+    "pnpm",
     "busybox",
   ]
   main_package      = ""
@@ -65,14 +69,16 @@ module "next" {
 }
 
 module "test-versioned" {
-  digest   = module.versioned[each.key].image_ref
-  for_each = module.versions.versions
-  source   = "./tests"
+  dev-digest = module.versioned[each.key].dev_ref
+  digest     = module.versioned[each.key].image_ref
+  for_each   = module.versions.versions
+  source     = "./tests"
 }
 
 module "test-next" {
-  digest = module.next.image_ref
-  source = "./tests"
+  dev-digest = module.next.dev_ref
+  digest     = module.next.image_ref
+  source     = "./tests"
 }
 
 module "tagger" {
