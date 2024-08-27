@@ -8,3 +8,4 @@ compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://airflow.apache.org/
 keywords: []
+tier: APPLICATION

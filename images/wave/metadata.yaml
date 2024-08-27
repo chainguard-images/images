@@ -10,3 +10,4 @@ upstream_url: https://github.com/wave-k8s/wave
 keywords:
   - application
   - kubernetes
+tier: APPLICATION

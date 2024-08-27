@@ -10,3 +10,5 @@ upstream_url: https://prometheus.io/
 keywords:
   - analytics
   - application
+  - featured
+tier: APPLICATION

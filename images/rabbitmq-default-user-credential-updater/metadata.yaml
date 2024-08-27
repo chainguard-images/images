@@ -3,10 +3,13 @@ image: cgr.dev/chainguard/rabbitmq-default-user-credential-updater
 logo: https://storage.googleapis.com/chainguard-academy/logos/rabbitmq-default-user-credential-updater.svg
 endoflife: ""
 console_summary: ""
-short_description: Minimal image with [default-user-credential-updater](https://github.com/rabbitmq/default-user-credential-updater)
+short_description:
+  Minimal image with
+  [default-user-credential-updater](https://github.com/rabbitmq/default-user-credential-updater)
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/rabbitmq/default-user-credential-updater
 keywords:
   - application
   - tools
+tier: APPLICATION

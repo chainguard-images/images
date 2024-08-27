@@ -19,8 +19,9 @@ module "multus-cni" {
 }
 
 module "test" {
-  source = "./tests"
-  digest = module.multus-cni.image_ref
+  source            = "./tests"
+  digest            = module.multus-cni.image_ref
+  target_repository = var.target_repository
 }
 
 resource "oci_tag" "latest" {

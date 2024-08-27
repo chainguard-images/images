@@ -26,13 +26,19 @@ variable "extra_packages" {
   default     = []
 }
 
+variable "extra_environment" {
+  description = "Additional apko environment."
+  type        = map(string)
+  default     = {}
+}
+
 data "apko_config" "this" {
   config_contents = file("${path.module}/template.${var.name}.apko.yaml")
   extra_packages  = concat(["busybox", local.packages[var.name], "argo-cd${var.suffix}-compat"], var.extra_packages)
 }
 
 output "config" {
-  value = jsonencode(data.apko_config.this.config)
+  value = jsonencode(merge(data.apko_config.this.config, { "environment" : var.extra_environment }))
 }
 
 output "main_package" {

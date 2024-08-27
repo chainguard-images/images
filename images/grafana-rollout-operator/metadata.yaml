@@ -10,3 +10,4 @@ upstream_url: https://github.com/grafana/rollout-operator
 keywords:
   - application
   - kubernetes
+tier: APPLICATION

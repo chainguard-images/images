@@ -10,4 +10,4 @@ upstream_url: https://github.com/valkey-io/valkey
 keywords:
   - application
   - databases
-  - featured
+tier: APPLICATION

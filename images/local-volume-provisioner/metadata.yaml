@@ -10,3 +10,4 @@ upstream_url: https://github.com/kubernetes-sigs/sig-storage-local-static-provis
 keywords:
 - application
 - kubernetes
+tier: APPLICATION

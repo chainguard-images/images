@@ -1,8 +1,11 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "digest" {
   description = "The image digest to run tests over."
@@ -10,16 +13,25 @@ variable "digest" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-resource "random_pet" "suffix" {}
 
-resource "helm_release" "bitnami" {
-  name             = "kafka-bitnami-${random_pet.suffix.id}"
-  repository       = "oci://registry-1.docker.io/bitnamicharts"
-  chart            = "kafka"
-  namespace        = "kafka-bitnami-${random_pet.suffix.id}"
-  create_namespace = true
+data "imagetest_inventory" "this" {}
 
-  values = [jsonencode({
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
+
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
+}
+
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  chart     = "oci://registry-1.docker.io/bitnamicharts/kafka"
+  namespace = "kafka-bitnami"
+
+  values = {
     image = {
       registry   = local.parsed.registry
       repository = local.parsed.repo
@@ -36,11 +48,22 @@ resource "helm_release" "bitnami" {
         mountPath = "/usr/lib/kafka/logs"
       }
     }
-  })]
+  }
 }
 
-module "helm-cleanup" {
-  source    = "../../../tflib/helm-cleanup"
-  name      = helm_release.bitnami.id
-  namespace = helm_release.bitnami.namespace
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation"
+  harness     = module.cluster_harness.harness
+
+  steps = [
+    {
+      name = "Helm Install"
+      cmd  = module.helm.install_cmd
+    },
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }

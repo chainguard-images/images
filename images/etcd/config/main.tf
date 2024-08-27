@@ -10,7 +10,12 @@ variable "environment" {
   default     = {}
 }
 
-module "accts" { source = "../../../tflib/accts" }
+module "accts" {
+  source = "../../../tflib/accts"
+
+  # Match the upstream image's run-as
+  run-as = 0
+}
 
 output "config" {
   value = jsonencode({
@@ -18,18 +23,6 @@ output "config" {
       packages = var.extra_packages
     }
     accounts = module.accts.block
-    entrypoint = {
-      command = "/usr/bin/etcd"
-    }
-    paths = [{
-      path        = "/var/lib/etcd"
-      type        = "directory"
-      uid         = 65532
-      gid         = 65532
-      permissions = 493 // 0o755 (HCL explicitly does not support octal literals)
-    }]
-    environment = merge(var.environment, {
-      "ETCD_DATA_DIR" : "/var/lib/etcd",
-    })
+    cmd      = "/usr/bin/etcd"
   })
 }

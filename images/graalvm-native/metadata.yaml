@@ -10,3 +10,4 @@ upstream_url: https://github.com/oracle/graal
 keywords:
   - base
   - languages
+tier: BASE

@@ -10,3 +10,4 @@ upstream_url: https://www.erlang.org/
 keywords:
   - application
 public: true
+tier: APPLICATION

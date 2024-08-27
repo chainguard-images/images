@@ -12,3 +12,4 @@ keywords:
   - kubernetes
   - certmanager
   - powerdns
+tier: APPLICATION

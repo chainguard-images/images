@@ -10,3 +10,4 @@ upstream_url: https://github.com/cedar-policy/cedar
 keywords:
   - application
   - languages
+tier: APPLICATION

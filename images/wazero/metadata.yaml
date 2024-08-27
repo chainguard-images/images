@@ -10,3 +10,4 @@ upstream_url: https://wazero.io
 keywords:
   - application
   - languages
+tier: APPLICATION

@@ -1,35 +1,83 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
+
+variable "target_repository" {}
 
 variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "manifest" {
-  digest      = var.digest
-  script      = "./deploy.sh"
-  working_dir = path.module
+locals { parsed = provider::oci::parse(var.digest) }
+
+data "imagetest_inventory" "this" {}
+
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
+
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
 }
 
-resource "random_pet" "suffix" {}
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
 
-resource "helm_release" "helm" {
-  name             = "multus-cni-${random_pet.suffix.id}"
-  namespace        = "multus-cni-${random_pet.suffix.id}"
-  repository       = "https://startechnica.github.io/apps"
-  chart            = "multus-cni"
-  version          = "0.1.4"
-  create_namespace = true
+  repo      = "https://rke2-charts.rancher.io"
+  chart     = "rke2-multus"
+  namespace = "kube-system"
 
-  values = [file("${path.module}/values.yaml")]
+  values = {
+    image = {
+      repository = local.parsed.registry_repo
+      tag        = local.parsed.pseudo_tag
+    }
+
+    config = {
+      cni_conf = {
+        confDir        = "/var/lib/rancher/k3s/agent/etc/cni/net.d"
+        clusterNetwork = "/var/lib/rancher/k3s/agent/etc/cni/net.d/10-flannel.conflist"
+        binDir         = "/var/lib/rancher/k3s/data/current/bin/"
+        kubeconfig     = "/var/lib/rancher/k3s/agent/etc/cni/net.d/multus.d/multus.kubeconfig"
+      }
+    }
+  }
 }
 
-module "helm_cleanup" {
-  source     = "../../../tflib/helm-cleanup"
-  name       = helm_release.helm.id
-  namespace  = helm_release.helm.namespace
-  depends_on = [helm_release.helm]
+resource "imagetest_feature" "basic" {
+  name        = "basic"
+  description = "Basic installation"
+  harness     = module.cluster_harness.harness
+
+  steps = [
+    {
+      name = "Helm Install"
+      cmd  = module.helm.install_cmd
+    },
+    {
+      name = "Apply multus-test-pod using macvlan network interface"
+      cmd  = <<EOF
+kubectl apply -n multus-test -f $WORK/test-pod.yaml
+kubectl wait -n multus-test --for=condition=Ready pod multus-test-pod --timeout=5m
+      EOF
+    },
+    # NOTE: We use nslookup instead of ping because public GHA runners don't
+    # allow it.
+    # https://github.com/actions/runner-images/issues/1519#issuecomment-683790054
+    {
+      name  = "Verify test pod network connectivity"
+      cmd   = <<EOF
+kubectl exec -n multus-test multus-test-pod -- nslookup google.com
+      EOF
+      retry = { attempts = 5, delay = "10s", factor = 3 }
+    }
+  ]
+
+  labels = {
+    type = "k8s"
+  }
 }

@@ -14,15 +14,17 @@ variable "target_repository" {
 
 module "config" {
   extra_packages = [
+    "openssh",
     "tini",
     "tini-compat",
-    "${local.name}-${each.value.version}",
-    "gitlab-base-${each.value.version}",
-    "${local.name}-scripts-${each.value.version}",
-    "${local.name}-scripts-compat-${each.value.version}",
-    "gitlab-logger-${each.value.version}",
-    "gitlab-logger-compat-${each.value.version}",
-    "openssh"
+
+    # Note: The versions are coming from package "gitlab-cng"
+    replace(each.key, "gitlab-cng", "gitlab-shell"),                # gitlab-exporter-<version>
+    replace(each.key, "gitlab-cng", "gitlab-base"),                 # gitlab-base-<version>
+    replace(each.key, "gitlab-cng", "gitlab-shell-scripts"),        # gitlab-shell-scripts-<version>
+    replace(each.key, "gitlab-cng", "gitlab-shell-scripts-compat"), # gitlab-shell-scripts-compat-<version>
+    replace(each.key, "gitlab-cng", "gitlab-logger"),               # gitlab-logger-<version>
+    replace(each.key, "gitlab-cng", "gitlab-logger-compat"),        # gitlab-logger-compat-<version>
   ]
   for_each = module.versions.versions
   source   = "./config"
@@ -32,10 +34,11 @@ module "versioned" {
   build-dev         = true
   config            = module.config[each.key].config
   for_each          = module.versions.versions
-  main_package      = "${local.name}-${each.value.version}"
+  main_package      = replace(each.value.main, "gitlab-cng", "gitlab-shell")
   name              = basename(path.module)
   source            = "../../tflib/publisher"
   target_repository = var.target_repository
+  update-repo       = each.value.is_latest
 }
 
 module "test-versioned" {

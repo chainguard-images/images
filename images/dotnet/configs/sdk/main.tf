@@ -14,7 +14,7 @@ terraform {
 
 variable "extra_packages" {
   default     = ["dotnet-sdk"]
-  description = "The additional packages to install (e.g. dotnet-sdk, dotnet-7-sdk)."
+  description = "The additional packages to install (e.g. dotnet-sdk)."
 }
 
 output "config" {

@@ -10,3 +10,4 @@ upstream_url: https://wasmtime.dev
 keywords:
   - application
   - languages
+tier: APPLICATION

@@ -8,6 +8,12 @@ FROM ${BUILDER} AS builder
 WORKDIR /build-stage
 COPY package*.json ./
 ENV NODE_ENV=production
+
+# Make sure the alternative package managers got installed in the -dev image
+RUN corepack --version && \
+    pnpm --version && \
+    yarn --version
+
 RUN npm ci --omit=dev
 # Copy the the files you need
 COPY . ./

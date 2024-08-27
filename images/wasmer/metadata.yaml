@@ -10,3 +10,4 @@ upstream_url: https://wasmer.io
 keywords:
   - application
   - cicd
+tier: APPLICATION

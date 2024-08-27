@@ -49,15 +49,18 @@ module "install" {
   values = {
     image = {
       keda = {
-        repository = local.parsed["keda"].registry_repo
+        registry   = local.parsed["keda"].registry
+        repository = local.parsed["keda"].repo
         tag        = local.parsed["keda"].pseudo_tag
       }
       metricsApiServer = {
-        repository = local.parsed["keda-adapter"].registry_repo
+        registry   = local.parsed["keda-adapter"].registry
+        repository = local.parsed["keda-adapter"].repo
         tag        = local.parsed["keda-adapter"].pseudo_tag
       }
       webhooks = {
-        repository = local.parsed["keda-admission-webhooks"].registry_repo
+        registry   = local.parsed["keda-admission-webhooks"].registry
+        repository = local.parsed["keda-admission-webhooks"].repo
         tag        = local.parsed["keda-admission-webhooks"].pseudo_tag
       }
     }

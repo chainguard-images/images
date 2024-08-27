@@ -5,9 +5,9 @@
 | **OCI Reference** | `cgr.dev/chainguard/squid-proxy` |
 
 
-* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/squid-proxy/overview/)
-* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
-* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+* [View Image in the Chainguard Images Directory](https://images.chainguard.dev/directory/image/squid-proxy/overview).
+* [View the Image Catalog](https://console.chainguard.dev/images/catalog) for a full list of available tags.
+* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.
 
 ---
 <!--monopod:end-->
@@ -52,18 +52,19 @@ export PROXY_HOST="localhost"
 export PROXY_PORT="3128"
 export URL="http://example.com"
 
-docker exec "$CONTAINER_NAME" curl -x http://"$PROXY_HOST":"$PROXY_PORT" "$URL" -o /dev/null -w '%{http_code}' -s
+curl -x http://"$PROXY_HOST":"$PROXY_PORT" "$URL" -o /dev/null -w '%{http_code}\n' -s
 ```
 
-You will get a 200 response on this very likely, if it is 403, it might because of ACL of your `squid.conf`. Access Control Lists (ACLs) in `squid.conf` are a crucial part of Squid's configuration. They allow you to define rules that grant or deny access to internet resources based on various criteria such as source IP, destination IP, URLs, protocols, and more. 
+You will get a 403 response on this very likely, because of ACL on the default `/etc/squid.conf`. Access Control Lists (ACLs) in `squid.conf` are a crucial part of Squid's configuration. They allow you to define rules that grant or deny access to internet resources based on various criteria such as source IP, destination IP, URLs, protocols, and more.
 
-Note: By default, we haven't intentinally provided the `squid.conf` so that user can configure it as per their needs and that means, log may not be visible with default configuration, you can set it using the below custom configuration. 
+Log may not be visible with default configuration, you can set it using the below custom configuration.
 
 ### Custom Configuration For Docker
 
 Add the following lines to the 'squid.conf' to redirect the logs to the '/dev/stdout':
 
 ```
+http_port 3128
 logfile_rotate 0
 cache_log stdio:/dev/stdout
 access_log stdio:/dev/stdout
@@ -73,7 +74,7 @@ cache_store_log stdio:/dev/stdout
 For custom configurations, mount your squid.conf file into the container:
 
 ```bash
-docker run --rm -v /path/to/your/squid.conf:/etc/squid/squid.conf -p 3128:3128 cgr.dev/chainguard/squid-proxy:latest
+docker run --rm -v /path/to/your/squid.conf:/etc/squid.conf -p 3128:3128 cgr.dev/chainguard/squid-proxy:latest
 ```
 
 ### Custom Configuration For Kubernetes

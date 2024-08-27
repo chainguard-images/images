@@ -10,3 +10,4 @@ upstream_url: https://github.com/kube-vip/kube-vip
 keywords:
 - application
 - kubernetes
+tier: APPLICATION

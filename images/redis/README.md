@@ -5,9 +5,9 @@
 | **OCI Reference** | `cgr.dev/chainguard/redis` |
 
 
-* [View Image in Chainguard Academy](https://edu.chainguard.dev/chainguard/chainguard-images/reference/redis/overview/)
-* [View Image Catalog](https://console.enforce.dev/images/catalog) for a full list of available tags.
-* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.*
+* [View Image in the Chainguard Images Directory](https://images.chainguard.dev/directory/image/redis/overview).
+* [View the Image Catalog](https://console.chainguard.dev/images/catalog) for a full list of available tags.
+* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.
 
 ---
 <!--monopod:end-->
@@ -26,7 +26,17 @@ docker pull cgr.dev/chainguard/redis:latest
 <!--getting:end-->
 
 <!--body:start-->
-Minimalist Wolfi-based [Redis](https://github.com/redis/redis) image.
+
+## Important - license update
+
+Redis version 7.4 and subsequent releases are no longer licensed under
+BSD-3-Clause. A dual licensing model has been adopted, of which users have the
+choice to adopt either RSALv2 or SSPLv1.
+
+Please give careful consideration to the licensing conditions when consuming
+redis. For more information, refer to the [upstream license information](https://github.com/redis/redis/blob/unstable/LICENSE.txt).
+
+## Overview
 
 Redis is an in-memory database that persists on disk.
 

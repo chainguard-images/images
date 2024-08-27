@@ -8,3 +8,4 @@ compatibility_notes: "Squid Proxy is compatible with a wide range of operating s
 readme_file: README.md
 upstream_url: https://github.com/squid-cache/squid
 keywords:  ["proxy", "caching", "forwarding", "security"]
+tier: APPLICATION

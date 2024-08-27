@@ -22,6 +22,12 @@ variable "digests" {
 # see https://github.com/docker-library/busybox/issues/134#issuecomment-1122717673
 variable "target_repository" {}
 
+variable "chart_version" {
+  type        = string
+  description = "If set, override the chart version to install for older versions of kyverno to test version-streamed images."
+  default     = ""
+}
+
 locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
 data "imagetest_inventory" "this" {}
@@ -51,7 +57,8 @@ locals { testing_wget_parsed = provider::oci::parse(apko_build.testing-wget.imag
 module "helm" {
   # Use a separate module because this chart is re-used by
   # the kyverno-policy-reporter tests
-  source = "./helm"
+  source        = "./helm"
+  chart_version = var.chart_version
   values = {
     test = {
       image = {

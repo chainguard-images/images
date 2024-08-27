@@ -10,3 +10,4 @@ upstream_url: https://memcached.org/
 keywords:
   - application
   - databases
+tier: APPLICATION

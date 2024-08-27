@@ -10,3 +10,4 @@ upstream_url: https://docs.gitlab.com/ee/administration/clusters/kas.html
 keywords:
   - gitlab
 public: true
+tier: APPLICATION

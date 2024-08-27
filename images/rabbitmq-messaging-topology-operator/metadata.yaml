@@ -10,3 +10,4 @@ upstream_url: https://github.com/rabbitmq/messaging-topology-operator
 keywords:
   - application
   - messaging
+tier: APPLICATION

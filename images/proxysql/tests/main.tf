@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci  = { source = "chainguard-dev/oci" }
-    helm = { source = "hashicorp/helm" }
+    oci       = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -9,27 +9,39 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "target_repository" {}
 
-# we commented out the Helm tests since the Helm Chart uses the tag in labels, so, once we use pseudo tag, it gives an error like the following:
-# [metadata.labels: Invalid value: "unused@sha256:d92268eff1c19eba6c809303294c5041d98f793746d5f5a0212519391fce3b22": must be no more than 63 characters
-# https://github.com/dysnix/charts/blob/main/dysnix/proxysql/templates/_helpers.tpl?rgh-link-date=2023-07-06T13%3A57%3A36Z#L41
+locals { parsed = provider::oci::parse(var.digest) }
 
-# locals { parsed = provider::oci::parse(var.digest) }
+data "imagetest_inventory" "this" {}
 
-# resource "helm_release" "proxysql" {
-#   name = "proxysql"
+module "cluster_harness" {
+  source = "../../../tflib/imagetest/harnesses/k3s/"
 
-#   repository = "https://dysnix.github.io/charts/"
-#   chart      = "proxysql"
+  inventory         = data.imagetest_inventory.this
+  name              = basename(path.module)
+  target_repository = var.target_repository
+  cwd               = path.module
 
-#   create_namespace = true
-#   namespace        = "proxysql"
+  envs = {
+    "IMAGE_NAME" = var.digest
+  }
+}
 
-#   values = [jsonencode({
-#     image = {
-#       registry   = local.parsed.registry
-#       repository = local.parsed.repo
-#       tag        = local.parsed.pseudo_tag
-#     }
-#   })]
-# }
+module "helm" {
+  source = "../../../tflib/imagetest/helm"
+
+  name      = "proxysql"
+  namespace = "proxysql"
+  git_repo  = "https://github.com/dysnix/charts.git"
+  chart     = "dysnix/proxysql"
+  patches   = ["$WORK/0001-remove-tag-as-annotation.patch"]
+
+  values = {
+    image = {
+      registry   = local.parsed.registry
+      repository = local.parsed.repo
+      tag        = local.parsed.pseudo_tag
+    }
+  }
+}

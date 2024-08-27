@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -e
+
+post_status() {
+  local status=$1
+  stdlib::info "Setting instance metadata imagetest/status to $status"
+  stdlib::cmd curl -X PUT -H "Metadata-Flavor: Google" \
+      --data "$status" \
+      http://metadata.google.internal/computeMetadata/v1/instance/guest-attributes/imagetest/status
+}
+
+trap 'post_status "failed"; exit 1' ERR
+
+stdlib::info "Configuring docker to use gcr.io"
+stdlib::cmd sudo -u ${name} bash -c "HOME=/home/${name} docker-credential-gcr configure-docker --registries=${location}-docker.pkg.dev"
+stdlib::cmd sudo chown -R ${name}:${name} /home/${name}/.docker
+
+stdlib::info "Installing GPU drivers"
+stdlib::cmd sudo cos-extensions install gpu
+
+stdlib::info "Starting harness image ${image_ref}"
+stdlib::cmd sudo -u ${name} docker run -d --name "${name}" --entrypoint "bash" \
+  --volume /var/lib/nvidia/lib64:/usr/local/nvidia/lib64 \
+  --volume /var/lib/nvidia/bin:/usr/local/nvidia/bin \
+  --device /dev/nvidia0:/dev/nvidia0 \
+  --device /dev/nvidia-uvm:/dev/nvidia-uvm \
+  --device /dev/nvidiactl:/dev/nvidiactl \
+  %{ for mount in mounts ~}
+  --volume '${mount.source}':${mount.destination} \
+  %{ endfor ~}
+  %{ for env in envs ~}
+  --env='${env}' \
+  %{ endfor ~}
+  ${image_ref} -c "sleep inf"
+
+post_status "completed"

@@ -10,3 +10,4 @@ upstream_url: https://github.com/k8sgpt-ai/k8sgpt
 keywords:
   - application
   - kubernetes
+tier: APPLICATION

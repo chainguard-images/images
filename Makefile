@@ -37,7 +37,7 @@ image/%: init
 	$(TERRAFORM) apply $(TF_VARS) -target=module.$*
 
 init:
-	$(TERRAFORM) init -lockfile=readonly
+	$(TERRAFORM) init -lockfile=readonly || $(TERRAFORM) init
 
 init-upgrade:
 	$(TERRAFORM) init -upgrade
@@ -45,7 +45,7 @@ init-upgrade:
 
 LOCAL_REGISTRY_NAME := k3d.localhost
 LOCAL_REGISTRY_PORT := 5005
-K3S_IMAGE := cgr.dev/chainguard/k3s:latest@sha256:d1217c6d5f7941717a0ccdb5bef3fb89d354e78c2d0efb300138455f00ad17c3
+K3S_IMAGE := cgr.dev/chainguard/k3s:latest@sha256:bea538020d58ed6454a64b3dee1ec78a82e967187b1645a13fce3002c2b8aa85
 
 k3d-registry:
 	@# Create a local registry managed by k3d only if it doesn't exist

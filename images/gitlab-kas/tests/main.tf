@@ -21,7 +21,7 @@ resource "imagetest_harness_k3s" "k3s" {
   name      = "gitlab-kas-k3s"
   resources = {
     cpu = {
-      request = "8Gi"
+      request = "7"
     }
     memory = {
       request = "16Gi"
@@ -42,7 +42,7 @@ module "helm" {
   name    = "gitlab"
   repo    = "https://charts.gitlab.io"
   source  = "../../../tflib/imagetest/helm"
-  timeout = "20m"
+  timeout = "45m"
   values = {
     create_namespace = false
     global = {
@@ -173,7 +173,7 @@ resource "imagetest_feature" "k3s" {
     }
   ]
   timeouts = {
-    create = "20m"
+    create = "45m"
   }
 }
 

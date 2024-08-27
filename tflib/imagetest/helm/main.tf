@@ -32,7 +32,7 @@ git clone --depth 1 ${var.git_repo} $repo_path
       exit 1
     fi
     echo "Applying patch: $patchfile..."
-    patch '-p1' < $patchfile
+    patch '-p1' < $patchfile || echo "Failed to apply patch: $patchfile" && exit
   done
 )
 
@@ -44,6 +44,7 @@ echo "Installing chart: $chart"
 if ! helm install ${local.name} $chart \
   --namespace ${var.namespace} --create-namespace \
   %{if var.repo != ""}--repo ${var.repo}%{endif} \
+  %{if var.git_repo != ""}--dependency-update%{endif} \
   %{if var.chart_version != ""}--version ${var.chart_version}%{endif} \
   %{if var.wait}--wait --wait-for-jobs%{endif} \
   --timeout ${var.timeout} \

@@ -11,3 +11,4 @@ keywords:
   - application
   - cicd
 public: true
+tier: APPLICATION

@@ -10,3 +10,4 @@ upstream_url: https://github.com/PowerShell/PowerShell
 keywords:
   - application
   - tools
+tier: APPLICATION

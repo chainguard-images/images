@@ -5,7 +5,7 @@ terraform {
 }
 
 variable "extra_packages" {
-  default     = ["istio-operator"]
+  default     = []
   description = "The additional packages to install (e.g. istio-operator."
 }
 

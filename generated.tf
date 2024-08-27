@@ -590,11 +590,6 @@ module "jdk" {
   target_repository = "${var.target_repository}/jdk"
 }
 
-module "jdk-lts" {
-  source            = "./images/jdk-lts"
-  target_repository = "${var.target_repository}/jdk-lts"
-}
-
 module "jellyfin" {
   source            = "./images/jellyfin"
   target_repository = "${var.target_repository}/jellyfin"
@@ -618,11 +613,6 @@ module "jitsucom-jitsu" {
 module "jre" {
   source            = "./images/jre"
   target_repository = "${var.target_repository}/jre"
-}
-
-module "jre-lts" {
-  source            = "./images/jre-lts"
-  target_repository = "${var.target_repository}/jre-lts"
 }
 
 module "k8s-sidecar" {
@@ -768,16 +758,6 @@ module "kubernetes-csi-external-provisioner" {
 module "kubernetes-csi-external-resizer" {
   source            = "./images/kubernetes-csi-external-resizer"
   target_repository = "${var.target_repository}/kubernetes-csi-external-resizer"
-}
-
-module "kubernetes-csi-external-snapshot-controller" {
-  source            = "./images/kubernetes-csi-external-snapshot-controller"
-  target_repository = "${var.target_repository}/kubernetes-csi-external-snapshot-controller"
-}
-
-module "kubernetes-csi-external-snapshot-validation-webhook" {
-  source            = "./images/kubernetes-csi-external-snapshot-validation-webhook"
-  target_repository = "${var.target_repository}/kubernetes-csi-external-snapshot-validation-webhook"
 }
 
 module "kubernetes-csi-external-snapshotter" {
@@ -1031,11 +1011,6 @@ module "node" {
 module "node-feature-discovery" {
   source            = "./images/node-feature-discovery"
   target_repository = "${var.target_repository}/node-feature-discovery"
-}
-
-module "node-lts" {
-  source            = "./images/node-lts"
-  target_repository = "${var.target_repository}/node-lts"
 }
 
 module "node-problem-detector" {
@@ -2110,10 +2085,6 @@ output "summary_jdk" {
   value = module.jdk.summary
 }
 
-output "summary_jdk-lts" {
-  value = module.jdk-lts.summary
-}
-
 output "summary_jellyfin" {
   value = module.jellyfin.summary
 }
@@ -2132,10 +2103,6 @@ output "summary_jitsucom-jitsu" {
 
 output "summary_jre" {
   value = module.jre.summary
-}
-
-output "summary_jre-lts" {
-  value = module.jre-lts.summary
 }
 
 output "summary_k8s-sidecar" {
@@ -2252,14 +2219,6 @@ output "summary_kubernetes-csi-external-provisioner" {
 
 output "summary_kubernetes-csi-external-resizer" {
   value = module.kubernetes-csi-external-resizer.summary
-}
-
-output "summary_kubernetes-csi-external-snapshot-controller" {
-  value = module.kubernetes-csi-external-snapshot-controller.summary
-}
-
-output "summary_kubernetes-csi-external-snapshot-validation-webhook" {
-  value = module.kubernetes-csi-external-snapshot-validation-webhook.summary
 }
 
 output "summary_kubernetes-csi-external-snapshotter" {
@@ -2456,10 +2415,6 @@ output "summary_node" {
 
 output "summary_node-feature-discovery" {
   value = module.node-feature-discovery.summary
-}
-
-output "summary_node-lts" {
-  value = module.node-lts.summary
 }
 
 output "summary_node-problem-detector" {

@@ -57,16 +57,6 @@ provider "apko" {
   default_archs      = length(var.archs) == 0 ? ["x86_64", "aarch64"] : var.archs
 }
 
-provider "kubernetes" {
-  config_path = "~/.kube/config"
-}
-
-provider "helm" {
-  kubernetes {
-    config_path = "~/.kube/config"
-  }
-}
-
 variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
 
 module "busybox" {

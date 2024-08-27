@@ -10,3 +10,4 @@ upstream_url: https://github.com/crossplane-contrib/provider-aws
 keywords:
   - application
   - tools
+tier: APPLICATION

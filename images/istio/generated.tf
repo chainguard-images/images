@@ -3,31 +3,31 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.install-cni.image_ref
-        "config" = module.install-cni.config
-        "tags"   = ["latest"]
+      for k, v in module.install-cni-versioned : k => {
+        "ref"    = v.image_ref
+        "config" = v.config
+        "tags"   = v.tag_list
       }
     },
     {
-      basename(path.module) = {
-        "ref"    = module.operator.image_ref
-        "config" = module.operator.config
-        "tags"   = ["latest"]
+      for k, v in module.operator-versioned : k => {
+        "ref"    = v.image_ref
+        "config" = v.config
+        "tags"   = v.tag_list
       }
     },
     {
-      basename(path.module) = {
-        "ref"    = module.pilot.image_ref
-        "config" = module.pilot.config
-        "tags"   = ["latest"]
+      for k, v in module.pilot-versioned : k => {
+        "ref"    = v.image_ref
+        "config" = v.config
+        "tags"   = v.tag_list
       }
     },
     {
-      basename(path.module) = {
-        "ref"    = module.proxy.image_ref
-        "config" = module.proxy.config
-        "tags"   = ["latest"]
+      for k, v in module.proxy-versioned : k => {
+        "ref"    = v.image_ref
+        "config" = v.config
+        "tags"   = v.tag_list
       }
   })
 }

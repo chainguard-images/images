@@ -8,3 +8,4 @@ compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/hipages/php-fpm_exporter
 keywords: []
+tier: APPLICATION

@@ -10,3 +10,4 @@ upstream_url: https://github.com/harness/gitness
 keywords:
   - application
   - tools
+tier: APPLICATION

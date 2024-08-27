@@ -10,3 +10,4 @@ upstream_url: https://github.com/denoland/deno
 keywords:
   - application
   - languages
+tier: APPLICATION

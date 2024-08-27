@@ -9,3 +9,4 @@ readme_file: README.md
 upstream_url: https://github.com/DependencyTrack/dependency-track
 keywords:
   - application
+tier: APPLICATION

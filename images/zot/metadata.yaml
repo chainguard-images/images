@@ -10,3 +10,4 @@ upstream_url: https://zotregistry.io
 keywords:
   - application
   - kubernetes
+tier: APPLICATION

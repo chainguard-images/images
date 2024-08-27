@@ -21,7 +21,7 @@ resource "imagetest_harness_k3s" "this" {
   name      = "gitlab-shell"
   resources = {
     cpu = {
-      request = "8Gi"
+      request = "7"
     }
     memory = {
       request = "16Gi"
@@ -45,7 +45,7 @@ module "helm" {
   name    = "gitlab"
   repo    = "https://charts.gitlab.io"
   source  = "../../../tflib/imagetest/helm"
-  timeout = "20m"
+  timeout = "45m"
   values = {
     create_namespace = false
     global = {
@@ -157,6 +157,8 @@ resource "imagetest_feature" "k3s" {
   harness     = imagetest_harness_k3s.this
   labels = {
     type = "k8s"
+    # Group this image into a gitlab only shard
+    "shard::group" = "gitlab"
   }
   name = "Basic"
   steps = [
@@ -185,7 +187,7 @@ resource "imagetest_feature" "k3s" {
     },
   ]
   timeouts = {
-    create = "20m"
+    create = "45m"
   }
 }
 

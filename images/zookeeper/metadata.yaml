@@ -9,6 +9,6 @@ readme_file: README.md
 upstream_url: https://zookeeper.apache.org/
 keywords:
   - application
-  - featured
   - tools
 public: true
+tier: APPLICATION

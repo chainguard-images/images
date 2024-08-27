@@ -10,3 +10,4 @@ upstream_url: https://www.pgbouncer.org/
 keywords:
   - application
   - databases
+tier: APPLICATION
