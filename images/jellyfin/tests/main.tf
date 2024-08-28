@@ -27,7 +27,7 @@ resource "imagetest_feature" "basic" {
       name = "Setup sandbox"
       cmd  = <<EOF
 apk add uuidgen
-echo "jellyfin-$(uuiden)" > /run/container_name
+echo "jellyfin-$(uuidgen)" > /run/container_name
 EOF
     },
     {
@@ -45,4 +45,8 @@ EOF
       retry = { attempts = 5, delay = "1s", factor = 2 }
     }
   ]
+
+  after = [{
+    cmd = "docker stop $(cat /run/container_name)"
+  }]
 }
