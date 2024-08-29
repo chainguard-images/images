@@ -1,5 +1,5 @@
 locals {
-  baseline_packages = ["libsystemd", "promtail"]
+  baseline_packages = ["libsystemd"]
 }
 
 module "accts" {
