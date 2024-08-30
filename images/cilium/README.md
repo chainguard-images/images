@@ -46,6 +46,12 @@ The Cilium operator is the control plane component of Cilium. It is responsible 
 
 Cloud-specific flavors of the Cilium operator exists, but the image here is the generic flavor of the Cilium operator.
 
+## cilium-operator-aws
+
+The Cilium operator is the control plane component of Cilium. It is responsible for managing Cilium resources across the cluster, such as NetworkPolicy, or IP address management.
+
+This image is the AWS-specific flavor of the Cilium operator.
+
 ## cilium-hubble-relay
 
 The Hubble Relay aggregates the observability provided by the Hubble servers (embedded in the Cilium agents) across the nodes. In other words is the Hubble component that brings multi-node support. It leverages the Peer service to obtain information about Hubble instances and consume their gRPC API in order to provide a more rich API that covers events from across the entire cluster (or even multiple clusters in a ClusterMesh scenario).

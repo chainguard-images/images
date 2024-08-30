@@ -36,6 +36,13 @@ output "summary" {
         "config" = module.operator.config
         "tags"   = ["latest"]
       }
+    },
+    {
+      basename(path.module) = {
+        "ref"    = module.operator-aws.image_ref
+        "config" = module.operator-aws.config
+        "tags"   = module.operator-aws.tag_list
+      }
   })
 }
 
