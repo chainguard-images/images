@@ -1,14 +1,18 @@
 terraform {
   required_providers {
-    google = {}
-    tls    = {}
-    random = {}
+    google = { source = "hashicorp/google" }
+    tls    = { source = "hashicorp/tls" }
+    random = { source = "hashicorp/random" }
     oci    = { source = "chainguard-dev/oci" }
     cosign = { source = "chainguard-dev/cosign" }
+    local  = { source = "hashicorp/local" }
   }
 }
 
 provider "google" {
+  project = var.project
+  region  = var.region
+  zone    = var.zone
   default_labels = {
     "harness" = var.name
     "owner"   = "imagetest"
@@ -39,20 +43,21 @@ resource "local_file" "private_key" {
   file_permission = "0600"
 }
 
-data "google_client_config" "default" {}
-
 resource "google_service_account" "default" {
+  project      = var.project
   account_id   = "${local.name}-default"
   display_name = "Default SA for ${local.name}"
 }
 
 resource "google_artifact_registry_repository" "this" {
+  project       = var.project
   repository_id = local.name
   format        = "DOCKER"
   description   = "Temporary repository for ${local.name} imagetest harness"
 }
 
 resource "google_artifact_registry_repository_iam_member" "viewer" {
+  project    = var.project
   repository = google_artifact_registry_repository.this.id
   role       = "roles/artifactregistry.reader"
   member     = "serviceAccount:${google_service_account.default.email}"
@@ -73,11 +78,13 @@ module "startup-scripts" {
 }
 
 resource "google_compute_network" "this" {
+  project                 = var.project
   name                    = "${local.name}-network"
   auto_create_subnetworks = false
 }
 
 resource "google_compute_subnetwork" "this" {
+  project = var.project
   name    = "${local.name}-subnetwork"
   network = google_compute_network.this.id
 
@@ -87,6 +94,7 @@ resource "google_compute_subnetwork" "this" {
 resource "google_compute_firewall" "allow-ssh" {
   name    = "${local.name}-allow-ssh"
   network = google_compute_network.this.id
+  project = var.project
 
   allow {
     protocol = "tcp"
@@ -98,6 +106,8 @@ resource "google_compute_firewall" "allow-ssh" {
 }
 
 resource "google_compute_instance" "this" {
+  project      = var.project
+  zone         = var.zone
   name         = local.name
   machine_type = var.machine_type
 
@@ -135,12 +145,10 @@ resource "google_compute_instance" "this" {
     sudoers = local.name
   }
 
-  guest_accelerator = [
-    {
-      type  = "nvidia-tesla-t4"
-      count = 1
-    }
-  ]
+  guest_accelerator {
+    type  = "nvidia-tesla-t4"
+    count = 1
+  }
 
   scheduling {
     on_host_maintenance = "TERMINATE"

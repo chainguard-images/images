@@ -1,4 +1,8 @@
-variables {}
+variables {
+  project = "img-test-infra-f2ea"
+  region  = "us-central1"
+  zone    = "us-central1-a"
+}
 
 run "execute" {
   # Empty means just run the module with defaults

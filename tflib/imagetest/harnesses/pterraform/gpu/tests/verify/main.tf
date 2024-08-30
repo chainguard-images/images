@@ -1,3 +1,9 @@
+variable "project" {}
+
+variable "region" {}
+
+variable "zone" {}
+
 variable "instance_name" { type = string }
 
 variable "container_id" { type = string }
@@ -9,7 +15,7 @@ retry_count=0
 max_retries=18 # 3 minutes
 
 while [ $retry_count -lt $max_retries ]; do
-  if gcloud compute ssh --project $GOOGLE_PROJECT --zone $GOOGLE_ZONE --strict-host-key-checking no '${var.instance_name}' --command="docker exec '${var.container_id}' nvidia-smi"; then
+  if gcloud compute ssh --project '${var.project}' --zone '${var.zone}' --strict-host-key-checking no '${var.instance_name}' --command="docker exec '${var.container_id}' nvidia-smi"; then
     break
   fi
   retry_count=$((retry_count + 1))

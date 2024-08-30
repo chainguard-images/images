@@ -1,3 +1,9 @@
+variable "project" {}
+
+variable "region" {}
+
+variable "zone" {}
+
 variable "name" {
   default = "it"
 }
