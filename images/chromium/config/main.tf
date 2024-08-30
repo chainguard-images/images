@@ -26,7 +26,10 @@ output "config" {
   value = jsonencode({
     archs = ["x86_64"]
     contents = {
-      packages = var.extra_packages
+      packages = concat([
+        "dash-binsh",
+        "coreutils",
+      ], var.extra_packages)
     }
     accounts = module.accts.block
     environment = merge({
