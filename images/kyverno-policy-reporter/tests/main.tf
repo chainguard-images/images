@@ -19,7 +19,10 @@ variable "chart-version" {
   default     = ""
 }
 
-locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
+locals {
+  parsed    = { for k, v in var.digests : k => provider::oci::parse(v) }
+  namespace = "kyverno"
+}
 
 data "imagetest_inventory" "this" {}
 
@@ -36,7 +39,7 @@ module "policy_reporter_helm" {
   source = "../../../tflib/imagetest/helm"
 
   name      = "policy-reporter"
-  namespace = "kyverno"
+  namespace = local.namespace
   repo      = "https://kyverno.github.io/policy-reporter"
   chart     = "policy-reporter"
 
@@ -84,6 +87,36 @@ resource "imagetest_feature" "basic" {
       name = "Policy reporter helm install"
       cmd  = module.policy_reporter_helm.install_cmd
     },
+    {
+      name = "Wait for components to be ready"
+      cmd  = "kubectl wait --for=condition=Ready pod -l app.kubernetes.io/name=policy-reporter -n ${local.namespace}"
+      retry = {
+        attempts = 3
+      }
+    },
+    {
+      name = "Look for policyreports"
+      cmd  = "kubectl get policyreports"
+      retry = {
+        attempts = 3
+      }
+    },
+    {
+      name = "Wait for UI components to be ready"
+      cmd  = "kubectl wait --for=condition=Ready pod -l app.kubernetes.io/name=ui -n ${local.namespace}"
+      retry = {
+        attempts = 3
+      }
+    },
+    {
+      name = "Try to access UI"
+      cmd  = <<EOF
+      apk add curl
+      kubectl port-forward service/policy-reporter-ui 8082:8080 -n ${local.namespace} &
+      sleep 1  # Give the port-forward time to start
+      curl http://localhost:8082
+      EOF
+    }
   ]
 
   labels = {
