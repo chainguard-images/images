@@ -8,29 +8,57 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "latest-config" { source = "./config" }
+locals {
+  packages = {
+    // Map package -> binary
+    "octo-sts"         = "octo-sts",
+    "octo-sts-webhook" = "octo-sts-webhook"
+  }
+
+  repo = {
+    "octo-sts"         = var.target_repository
+    "octo-sts-webhook" = "${var.target_repository}-webhook"
+  }
+}
+
+module "latest-config" {
+  for_each = local.packages
+
+  source         = "./config"
+  extra_packages = each.key
+  binary         = each.value
+}
 
 module "latest" {
+  for_each = local.packages
+
   source            = "../../tflib/publisher"
-  name              = basename(path.module)
-  target_repository = var.target_repository
-  config            = module.latest-config.config
+  name              = each.key
+  target_repository = local.repo[each.key]
+  main_package      = each.key
+  config            = module.latest-config[each.key].config
   build-dev         = true
 }
 
 module "test-latest" {
+  for_each = local.packages
+
   source = "./tests"
-  digest = module.latest.image_ref
+  digest = module.latest[each.key].image_ref
 }
 
 resource "oci_tag" "latest" {
+  for_each = local.packages
+
   depends_on = [module.test-latest]
-  digest_ref = module.latest.image_ref
+  digest_ref = module.latest[each.key].image_ref
   tag        = "latest"
 }
 
 resource "oci_tag" "latest-dev" {
+  for_each = local.packages
+
   depends_on = [module.test-latest]
-  digest_ref = module.latest.dev_ref
+  digest_ref = module.latest[each.key].dev_ref
   tag        = "latest-dev"
 }

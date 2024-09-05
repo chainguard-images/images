@@ -3,9 +3,9 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.latest.image_ref
-        "config" = module.latest.config
+      for k, v in module.latest : k => {
+        "ref"    = v.image_ref
+        "config" = v.config
         "tags"   = ["latest"]
       }
   })

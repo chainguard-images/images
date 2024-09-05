@@ -1,7 +1,3 @@
-locals {
-  baseline_packages = ["octo-sts"]
-}
-
 module "accts" {
   source = "../../../tflib/accts"
 }
@@ -17,15 +13,18 @@ variable "extra_packages" {
   description = "The additional packages to install (e.g. octo-sts)."
 }
 
+variable "binary" {
+  default     = "octo-sts"
+  description = "The binary to run."
+}
+
 output "config" {
   value = jsonencode({
     "contents" : {
-      // TODO: remove the need for using hardcoded local.baseline_packages by plumbing
-      // these packages through var.extra_packages in all callers of this config module
-      "packages" : distinct(concat(local.baseline_packages, var.extra_packages))
+      "packages" : distinct(var.extra_packages)
     },
     "entrypoint" : {
-      "command" : "/usr/bin/octo-sts"
+      "command" : "/usr/bin/${var.binary}"
     },
     "accounts" : module.accts.block
   })
