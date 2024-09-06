@@ -11,6 +11,7 @@ variable "digests" {
     cli                 = string
     exec                = string
     worfkflowcontroller = string
+    events              = string
   })
 }
 
@@ -32,7 +33,7 @@ resource "imagetest_harness_k3s" "this" {
   }
 }
 
-module "helm" {
+module "helm_workflows" {
   source = "../../../tflib/imagetest/helm"
 
   name      = "argo-workflows"
@@ -69,6 +70,28 @@ module "helm" {
   }
 }
 
+module "helm_events" {
+  source = "../../../tflib/imagetest/helm"
+
+  name      = "argo-events"
+  namespace = "argo-events"
+  chart     = "argo-events"
+  repo      = "https://argoproj.github.io/argo-helm"
+
+  values = {
+    image = {
+      tag = ""
+    }
+    global = {
+      image = {
+        repository = local.parsed["events"].registry_repo
+        tag        = local.parsed["events"].pseudo_tag
+
+      }
+    }
+  }
+}
+
 resource "imagetest_feature" "basic" {
   harness     = imagetest_harness_k3s.this
   name        = "Basic"
@@ -76,15 +99,19 @@ resource "imagetest_feature" "basic" {
 
   steps = [
     {
-      name = "Helm install"
-      cmd  = module.helm.install_cmd
+      name = "Helm install workflows"
+      cmd  = module.helm_workflows.install_cmd
     },
     {
-      name    = "Argo Helm tests"
+      name    = "Argo Workflows Helm tests"
       workdir = "/tests"
       cmd     = <<EOF
         ./check-argo-workflow.sh
       EOF
+    },
+    {
+      name = "Helm install events"
+      cmd  = module.helm_events.install_cmd
     },
   ]
 
