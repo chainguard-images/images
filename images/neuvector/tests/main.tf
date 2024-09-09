@@ -12,7 +12,6 @@ variable "digests" {
     enforcer            = string
     manager             = string
     prometheus-exporter = string
-    scanner             = string
     updater             = string
   })
 }
@@ -84,9 +83,7 @@ module "core" {
     cve = {
       scanner = {
         image = {
-          registry   = local.parsed["scanner"].registry
-          repository = local.parsed["scanner"].repo
-          hash       = local.parsed["scanner"].digest
+          registry = "docker.io"
         }
         internal = {
           certificate = {

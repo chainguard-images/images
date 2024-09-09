@@ -8,7 +8,6 @@ locals {
     "enforcer",
     "manager",
     "prometheus-exporter",
-    "scanner",
     "updater",
   ])
 
