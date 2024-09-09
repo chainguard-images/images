@@ -30,6 +30,7 @@ module "latest" {
   name               = basename(path.module)
   target_repository  = var.target_repository
   config             = module.latest-config.config
+  build-dev          = true
   extra_dev_packages = local.fluentd_dev
 }
 
@@ -38,6 +39,7 @@ module "latest-splunk" {
   name               = basename(path.module)
   target_repository  = var.target_repository
   config             = module.latest-config.config
+  build-dev          = true
   extra_packages     = local.splunk
   extra_dev_packages = local.fluentd_dev
 }
