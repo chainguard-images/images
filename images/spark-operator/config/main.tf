@@ -1,7 +1,7 @@
 variable "extra_packages" {
   description = "Additional packages to install."
   type        = list(string)
-  default     = ["openjdk-17-default-jvm", "spark-3.5", "spark-operator"]
+  default     = ["spark-3.5-openjdk-17", "spark-operator"]
 }
 
 module "accts" {
