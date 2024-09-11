@@ -57,6 +57,7 @@ module "test-latest" {
 
 resource "oci_tag" "latest" {
   for_each   = local.components
+  depends_on = [module.test-latest]
   digest_ref = module.latest[each.key].image_ref
   tag        = "latest"
 }
@@ -64,5 +65,6 @@ resource "oci_tag" "latest" {
 resource "oci_tag" "latest-dev" {
   for_each   = local.components
   digest_ref = module.latest[each.key].dev_ref
+  depends_on = [module.test-latest]
   tag        = "latest-dev"
 }
