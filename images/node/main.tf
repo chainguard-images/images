@@ -39,7 +39,6 @@ module "versioned" {
     "corepack",
     "pnpm",
     "build-base",
-    "python-3.11",
   ]
   for_each          = module.versions.versions
   main_package      = each.value.main
@@ -55,7 +54,6 @@ module "next" {
   extra_dev_packages = [
     "yarn",
     "build-base",
-    "python-3.11",
     "npm",
     "corepack",
     "pnpm",
