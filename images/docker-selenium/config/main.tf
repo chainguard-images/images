@@ -77,6 +77,10 @@ output "config" {
       "SE_OTEL_TRACES_EXPORTER" : "otlp"
       "SE_OTEL_SERVICE_NAME" : "selenium-node-chrome"
       "CHROMIUM_USER_FLAGS" : "--headless --disable-gpu --no-sandbox"
+      "SE_SUPERVISORD_LOG_LEVEL" : "info"
+      "SE_SUPERVISORD_CHILD_LOG_DIR" : "/tmp"
+      "SE_SUPERVISORD_LOG_FILE" : "/tmp/supervisord.log"
+      "SE_SUPERVISORD_PID_FILE" : "/tmp/supervisord.pid"
     }, var.environment)
     entrypoint = {
       command = "/opt/bin/entry_point.sh"
