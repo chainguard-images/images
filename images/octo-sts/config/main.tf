@@ -9,6 +9,7 @@ terraform {
 }
 
 variable "extra_packages" {
+  type        = list(string)
   default     = ["octo-sts"]
   description = "The additional packages to install (e.g. octo-sts)."
 }
@@ -21,7 +22,7 @@ variable "binary" {
 output "config" {
   value = jsonencode({
     "contents" : {
-      "packages" : distinct(var.extra_packages)
+      "packages" : var.extra_packages,
     },
     "entrypoint" : {
       "command" : "/usr/bin/${var.binary}"

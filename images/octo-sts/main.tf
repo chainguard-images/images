@@ -12,7 +12,7 @@ locals {
   packages = {
     // Map package -> binary
     "octo-sts"         = "octo-sts",
-    "octo-sts-webhook" = "octo-sts-webhook"
+    "octo-sts-webhook" = "webhook"
   }
 
   repo = {
@@ -25,7 +25,7 @@ module "latest-config" {
   for_each = local.packages
 
   source         = "./config"
-  extra_packages = each.key
+  extra_packages = [each.key]
   binary         = each.value
 }
 
