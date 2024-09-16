@@ -33,7 +33,7 @@ module "latest" {
   for_each = local.packages
 
   source            = "../../tflib/publisher"
-  name              = each.key
+  name              = "octo-sts"
   target_repository = local.repo[each.key]
   main_package      = each.key
   config            = module.latest-config[each.key].config
