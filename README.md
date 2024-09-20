@@ -6,8 +6,8 @@ https://edu.chainguard.dev/chainguard/chainguard-images/
 
 ### See available images
 
-https://edu.chainguard.dev/chainguard/chainguard-images/reference/
+https://images.chainguard.dev
 
 ### Log in to view the full catalog
 
-https://console.enforce.dev/images/catalog
+https://console.chainguard.dev
