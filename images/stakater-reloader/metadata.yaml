@@ -3,10 +3,10 @@ image: cgr.dev/chainguard/stakater-reloader
 logo: https://storage.googleapis.com/chainguard-academy/logos/stakater-reloader.svg
 endoflife: ""
 console_summary: ""
-short_description: Minimal image with Keda, a Kubernetes-based Event Driven Autoscaler.
+short_description: Minimal image with stakater Reloader, a Kubernetes controller to watch changes in ConfigMap and Secrets
 compatibility_notes: ""
 readme_file: README.md
-upstream_url: https://keda.sh
+upstream_url: https://docs.stakater.com/reloader
 keywords:
   - application
   - kubernetes

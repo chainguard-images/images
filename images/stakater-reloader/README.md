@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-Minimal image with Keda, a Kubernetes-based Event Driven Autoscaler.
+Minimal image with stakater Reloader, a Kubernetes controller to watch changes in ConfigMap and Secrets
 <!--overview:end-->
 
 <!--getting:start-->
