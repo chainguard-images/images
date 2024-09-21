@@ -31,17 +31,18 @@ resource "imagetest_harness_k3s" "k3s" {
 module "helm" {
   source = "../../../tflib/imagetest/helm"
 
-  name      = "gatekeeper"
-  repo      = "https://open-policy-agent.github.io/gatekeeper/charts"
-  chart     = "gatekeeper"
-  namespace = "gatekeeper-system"
+  name          = "gatekeeper"
+  repo          = "https://open-policy-agent.github.io/gatekeeper/charts"
+  chart         = "gatekeeper"
+  chart_version = var.chart-version
+  namespace     = "gatekeeper-system"
 
   values = {
     preInstall = {
       crdRepository = {
         image = {
           repository = "openpolicyagent/gatekeeper-crds"
-          tag        = "v3.16.3"
+          tag        = "v${var.chart-version}"
         }
       }
     }
