@@ -9,8 +9,8 @@ terraform {
 }
 
 variable "extra_packages" {
-  default     = ["bincapz"]
-  description = "The additional packages to install (e.g. bincapz)."
+  default     = ["malcontent"]
+  description = "The additional packages to install (e.g. malcontent)."
 }
 
 output "config" {
@@ -19,9 +19,9 @@ output "config" {
       "packages" : var.extra_packages
     },
     "entrypoint" : {
-      "command" : "/usr/bin/bincapz"
+      "command" : "/usr/bin/mal"
     },
+    "cmd" : "--help"
     "accounts" : module.accts.block
   })
 }
-

@@ -90,11 +90,6 @@ module "bazel" {
   target_repository = "${var.target_repository}/bazel"
 }
 
-module "bincapz" {
-  source            = "./images/bincapz"
-  target_repository = "${var.target_repository}/bincapz"
-}
-
 module "boring-registry" {
   source            = "./images/boring-registry"
   target_repository = "${var.target_repository}/boring-registry"
@@ -838,6 +833,11 @@ module "logstash-oss-with-opensearch-output-plugin" {
 module "loki" {
   source            = "./images/loki"
   target_repository = "${var.target_repository}/loki"
+}
+
+module "malcontent" {
+  source            = "./images/malcontent"
+  target_repository = "${var.target_repository}/malcontent"
 }
 
 module "management-api-for-apache-cassandra" {
@@ -1685,10 +1685,6 @@ output "summary_bazel" {
   value = module.bazel.summary
 }
 
-output "summary_bincapz" {
-  value = module.bincapz.summary
-}
-
 output "summary_boring-registry" {
   value = module.boring-registry.summary
 }
@@ -2283,6 +2279,10 @@ output "summary_logstash-oss-with-opensearch-output-plugin" {
 
 output "summary_loki" {
   value = module.loki.summary
+}
+
+output "summary_malcontent" {
+  value = module.malcontent.summary
 }
 
 output "summary_management-api-for-apache-cassandra" {
