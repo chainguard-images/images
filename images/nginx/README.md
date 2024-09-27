@@ -13,40 +13,23 @@
 <!--monopod:end-->
 
 <!--overview:start-->
+# Chainguard Image for nginx
+
 Minimal Wolfi-based nginx HTTP, reverse proxy, mail proxy, and a generic TCP/UDP proxy server
+
+Chainguard Images are regularly-updated, minimal container images with low-to-zero CVEs.
 <!--overview:end-->
 
 <!--getting:start-->
 ## Download this Image
-The image is available on `cgr.dev`:
+This image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/chainguard/nginx:latest
+docker pull cgr.dev/ORGANIZATION/nginx:latest
 ```
+
+Be sure to replace the `ORGANIZATION` placeholder with the name used for your organization's private repository within the Chainguard registry.
 <!--getting:end-->
-
-<!--compatibility:start-->
-## Compatibility Notes
-
-On May 3, 2023 the Chainguard nginx Image was rebuilt with several improvements, including breaking changes. You may need to take action to update your application.
-
-Specifically, the config file was changed to bring the default configuration closer to that of the official nginx image. If you override the config with a custom configuration, you should not be affected.
-
-The changes included:
-
- - Moving the default port from `80` to `8080`. This is required to run on Kubernetes as a non-privileged user.
- - Setting nginx to automatically determine the number of worker processes
- - Moving the HTML directory to `/usr/share/nginx/html`
-
-If you are unable to update currently, you can use the last build of the previous image:
-
-```sh
-docker pull cgr.dev/chainguard/nginx@sha256:bcc6b0d052298112e4644b258de0fa4dc1509e3df8f7c0fba09e8c92987825e7
-```
-
-This digest corresponds to nginx version 1.24.0. This image is not updated and you should migrate to the new configuration as soon as possible.
-
-<!--compatibility:end-->
 
 <!--body:start-->
 ## Description
@@ -262,3 +245,33 @@ Note that the default configuration file in the Chainguard nginx Image includes 
 
 The Docker official image has support for setting environment variables that get substituted into the config file. Currently we do not have support for this.
 <!--body:end-->
+
+## Contact Support
+
+If you have a Zendesk account (typically set up for you by your Customer Success Manager) you can reach out to Chainguard's Customer Success team through our [Zendesk portal](https://support.chainguard.dev/hc/en-us).
+
+## What are Chainguard Images?
+
+[Chainguard Images](https://www.chainguard.dev/chainguard-images?utm_source=readmes) are a collection of container images designed for security and minimalism.
+
+Many Chainguard Images are [distroless](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started-distroless/); they contain only an open-source application and its runtime dependencies. These images do not even contain a shell or package manager. Chainguard Images are built with [Wolfi](https://edu.chainguard.dev/open-source/wolfi/overview), our Linux _undistro_ designed to produce container images that meet the requirements of a secure software supply chain.
+
+The main features of Chainguard Images include:
+
+* Minimal design, with no unnecessary software bloat
+* Automated nightly builds to ensure Images are completely up-to-date and contain all available security patches
+* [High quality build-time SBOMs](https://edu.chainguard.dev/chainguard/chainguard-images/working-with-images/retrieve-image-sboms/) (software bills of materials) attesting the provenance of all artifacts within the Image
+* [Verifiable signatures](https://edu.chainguard.dev/chainguard/chainguard-images/working-with-images/retrieve-image-sboms/) provided by [Sigstore](https://edu.chainguard.dev/open-source/sigstore/cosign/an-introduction-to-cosign/)
+* Reproducible builds with Cosign and apko ([read more about reproducibility](https://www.chainguard.dev/unchained/reproducing-chainguards-reproducible-image-builds))
+
+### `-dev` Variants
+
+As mentioned previously, Chainguard’s distroless Images have no shell or package manager by default. This is great for security, but sometimes you need these things, especially in builder images. For those cases, most (but not all) Chainguard Images come paired with a `-dev` variant which does include a shell and package manager.
+
+Although the `-dev` image variants have similar security features as their distroless versions, such as complete SBOMs and signatures, they feature additional software that is typically not necessary in production environments. The general recommendation is to use the `-dev` variants only to build the application and then copy all application artifacts into a distroless image, which will result in a final container image that has a minimal attack surface and won’t allow package installations or logins.
+
+That being said, it’s worth noting that `-dev` variants of Chainguard Images are completely fine to run in production environments. After all, the `-dev` variants are still **more secure** than many popular container images based on fully-featured operating systems such as Debian and Ubuntu since they carry less software, follow a more frequent patch cadence, and offer attestations for what they include.
+
+## Learn More
+
+To better understand how to work with Chainguard Images, we encourage you to visit [Chainguard Academy](https://edu.chainguard.dev/), our documentation and education platform.
