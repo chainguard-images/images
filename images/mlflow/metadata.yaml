@@ -10,4 +10,4 @@ readme_file: README.md
 upstream_url: https://mlflow.org/
 keywords:
   - ai
-  - python
+  - base

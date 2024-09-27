@@ -9,5 +9,3 @@ readme_file: README.md
 upstream_url: https://github.com/kubernetes/autoscaler/tree/master/addon-resizer
 keywords:
   - application
-  - kubernetes
-  - autoscaler

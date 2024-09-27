@@ -10,8 +10,7 @@ readme_file: README.md
 upstream_url: https://www.pytorch.org/
 keywords:
   - ai
-  - library
-  - python
-  - gpu
+  - base
+  - ai-gpu
   - featured
 public: true

@@ -9,6 +9,4 @@ readme_file: README.md
 upstream_url: https://github.com/newrelic/nri-statsd
 keywords:
   - application
-  - newrelic
-  - statsd
 tier: APPLICATION

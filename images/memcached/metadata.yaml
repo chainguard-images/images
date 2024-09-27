@@ -9,5 +9,4 @@ readme_file: README.md
 upstream_url: https://memcached.org/
 keywords:
   - application
-  - databases
 tier: APPLICATION

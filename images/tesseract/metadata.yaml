@@ -8,5 +8,4 @@ readme_file: README.md
 upstream_url: https://tesseract-ocr.github.io/
 keywords:
   - application
-  - tools
 tier: APPLICATION

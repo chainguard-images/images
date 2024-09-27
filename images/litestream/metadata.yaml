@@ -7,6 +7,4 @@ short_description: "Container image for [litestream](https://litestream.io), to 
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://litestream.io
-keywords:
-- databases
 tier: APPLICATION

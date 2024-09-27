@@ -10,6 +10,5 @@ upstream_url: https://go.dev/
 keywords:
   - base
   - featured
-  - languages
 public: true
 tier: BASE

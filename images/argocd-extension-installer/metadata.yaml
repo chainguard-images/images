@@ -9,6 +9,4 @@ readme_file: README.md
 upstream_url: https://github.com/argoproj-labs/argocd-extension-installer
 keywords:
   - application
-  - kubernetes
-  - argocd
 tier: APPLICATION

@@ -9,4 +9,3 @@ readme_file: README.md
 upstream_url: https://secrets-store-csi-driver.sigs.k8s.io/
 keywords:
   - application
-  - kubernetes

@@ -8,6 +8,3 @@ short_description: |
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://www.dragonflydb.io
-keywords:
-  - redis
-  - database

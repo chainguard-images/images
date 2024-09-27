@@ -9,8 +9,4 @@ readme_file: README.md
 upstream_url: https://github.com/smallstep/cli
 keywords:
   - application
-  - developer
-  - kubernetes
-  - security
-  - tools
 tier: APPLICATION

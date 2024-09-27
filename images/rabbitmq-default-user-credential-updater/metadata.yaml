@@ -11,5 +11,4 @@ readme_file: README.md
 upstream_url: https://github.com/rabbitmq/default-user-credential-updater
 keywords:
   - application
-  - tools
 tier: APPLICATION

@@ -10,6 +10,5 @@ readme_file: README.md
 upstream_url: https://github.com/vmware-tanzu/velero/tree/main/cmd/velero-restore-helper
 keywords:
   - application
-  - tools
 
 tier: APPLICATION

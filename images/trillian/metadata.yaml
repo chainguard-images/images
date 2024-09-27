@@ -9,5 +9,3 @@ readme_file: README.md
 upstream_url: https://github.com/google/trillian
 keywords:
   - application
-  - sigstore
-  - tools

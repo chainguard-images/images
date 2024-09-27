@@ -9,5 +9,4 @@ readme_file: README.md
 upstream_url: https://github.com/openjdk/jdk
 keywords:
   - base
-  - languages
   - featured

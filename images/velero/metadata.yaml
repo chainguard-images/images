@@ -10,5 +10,4 @@ readme_file: README.md
 upstream_url: https://github.com/vmware-tanzu/velero
 keywords:
   - application
-  - tools
 tier: APPLICATION

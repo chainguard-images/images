@@ -9,5 +9,5 @@ readme_file: README.md
 upstream_url: https://github.com/cedar-policy/cedar
 keywords:
   - application
-  - languages
+  - base
 tier: APPLICATION

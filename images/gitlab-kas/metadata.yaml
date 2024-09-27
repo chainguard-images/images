@@ -7,7 +7,5 @@ short_description: "GitLab Agent for Kubernetes is an active in-cluster componen
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://docs.gitlab.com/ee/administration/clusters/kas.html
-keywords:
-  - gitlab
 public: true
 tier: APPLICATION

@@ -9,5 +9,4 @@ readme_file: README.md
 upstream_url: https://kafka.apache.org/
 keywords:
   - ai
-  - analytics
   - application

@@ -9,5 +9,4 @@ readme_file: README.md
 upstream_url: https://github.com/jetstack/paranoia
 keywords:
   - application
-  - tools
 tier: APPLICATION

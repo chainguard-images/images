@@ -7,7 +7,6 @@ short_description: "Cortex provides horizontally scalable, highly available, mul
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://cortexmetrics.io/
-keywords: 
-  - analytics
+keywords:
   - application
 tier: APPLICATION

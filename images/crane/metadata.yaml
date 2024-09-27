@@ -9,6 +9,5 @@ readme_file: README.md
 upstream_url: https://github.com/google/go-containerregistry/tree/main/cmd/crane
 keywords:
   - application
-  - tools
 public: true
 tier: APPLICATION

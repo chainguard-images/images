@@ -7,9 +7,4 @@ short_description: Teleport is an access management platform designed to provide
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/gravitational/teleport
-keywords:
-- teleport
-- ssh
-- kubernetes
-- security
 tier: APPLICATION

@@ -8,6 +8,4 @@ compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/kubernetes-sigs/node-feature-discovery
 keywords:
-  - kubernetes
   - application
-  - hardware
