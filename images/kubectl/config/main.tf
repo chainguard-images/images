@@ -2,10 +2,14 @@ module "accts" {
   source = "../../../tflib/accts"
 }
 
-terraform {
-  required_providers {
-    apko = { source = "chainguard-dev/apko" }
-  }
+variable "entrypoint" {
+  default     = "/usr/bin/kubectl"
+  description = "Image entrypoint"
+}
+
+variable "command" {
+  default     = "/usr/bin/kubectl"
+  description = "Image command"
 }
 
 variable "extra_env_variables" {
@@ -18,17 +22,23 @@ variable "extra_packages" {
   description = "The additional packages to install (e.g. kubectl-default, kubectl-1.28-default)."
 }
 
+variable "extra_paths" {
+  default     = []
+  description = "The additional paths to add."
+}
+
 output "config" {
   value = jsonencode({
     "contents" : {
       "packages" : var.extra_packages
     },
     "entrypoint" : {
-      "command" : "/usr/bin/kubectl"
+      "command" : var.entrypoint
     },
-    "cmd" : "help",
+    "cmd" : var.command
     "accounts" : module.accts.block,
     "environment" : var.extra_env_variables
+    "paths" : var.extra_paths
   })
 }
 
