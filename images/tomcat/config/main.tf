@@ -17,6 +17,12 @@ variable "extra_packages" {
   description = "The additional packages to install (e.g. tomcat-10)."
 }
 
+variable "extra_environments" {
+  description = "The additional environment variables to set"
+  type        = map(string)
+  default     = {}
+}
+
 output "config" {
   value = jsonencode({
     "contents" : {
@@ -30,12 +36,12 @@ output "config" {
     "cmd" : "run",
     "work-dir" : "/usr/local/tomcat",
     "accounts" : module.accts.block,
-    "environment" : {
+    "environment" : merge({
       "CATALINA_HOME" : "/usr/local/tomcat",
       "JAVA_HOME" : "/usr/lib/jvm/default-jvm",
       "LD_LIBRARY_PATH" : "/usr/lib/tomcat-native",
       "PATH" : "/usr/local/tomcat/bin:/usr/sbin:/sbin:/usr/bin:/bin"
-    },
+    }, var.extra_environments)
     "paths" : [
       {
         "path" : "/usr/share/tomcat/conf",
