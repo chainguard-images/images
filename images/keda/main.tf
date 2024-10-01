@@ -20,7 +20,7 @@ locals {
   ]...)
   components = toset([
     "keda",
-    "keda-adapter",
+    "keda-metrics-apiserver",
     "keda-admission-webhooks",
   ])
   versions = [

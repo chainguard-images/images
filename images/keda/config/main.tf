@@ -1,5 +1,5 @@
 variable "name" {
-  description = "Component name (e.g. keda, keda-adapter, keda-admission-webhooks)"
+  description = "Component name (e.g. keda, keda-metrics-apiserver, keda-admission-webhooks)"
 }
 
 variable "package" {
@@ -15,7 +15,7 @@ variable "extra_packages" {
 locals {
   entrypoints = {
     "keda"                    = "/usr/bin/keda --zap-log-level=info --zap-encoder=console",
-    "keda-adapter"            = "/usr/bin/keda-adapter --secure-port=6443 --logtostderr=true --v=0",
+    "keda-metrics-apiserver"  = "/usr/bin/keda-adapter --secure-port=6443 --logtostderr=true --v=0",
     "keda-admission-webhooks" = "/usr/bin/keda-admission-webhooks --zap-log-level=info --zap-encoder=console",
   }
 }
@@ -28,7 +28,7 @@ output "config" {
   value = jsonencode({
     contents = {
       packages = concat([
-        var.package, // keda, keda-adapter, keda-admission-webhooks
+        var.package, // keda, keda-metrics-apiserver, keda-admission-webhooks
         "busybox",
         "keda-compat",
       ], var.extra_packages)

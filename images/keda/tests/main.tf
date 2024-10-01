@@ -9,7 +9,7 @@ variable "digests" {
   description = "The image digests to run tests over."
   type = object({
     keda                    = string
-    keda-adapter            = string
+    keda-metrics-apiserver  = string
     keda-admission-webhooks = string
   })
 }
@@ -54,9 +54,9 @@ module "install" {
         tag        = local.parsed["keda"].pseudo_tag
       }
       metricsApiServer = {
-        registry   = local.parsed["keda-adapter"].registry
-        repository = local.parsed["keda-adapter"].repo
-        tag        = local.parsed["keda-adapter"].pseudo_tag
+        registry   = local.parsed["keda-metrics-apiserver"].registry
+        repository = local.parsed["keda-metrics-apiserver"].repo
+        tag        = local.parsed["keda-metrics-apiserver"].pseudo_tag
       }
       webhooks = {
         registry   = local.parsed["keda-admission-webhooks"].registry
@@ -83,6 +83,16 @@ resource "imagetest_feature" "basic" {
       name = "Smoke test"
       cmd  = <<EOF
             bash /tests/smoke-test.sh
+      EOF
+    },
+    {
+      name = "querying scaledobject metrics"
+      cmd  = <<EOF
+        kubectl apply -f /tests/scaledobject.yaml
+        kubectl get --raw "/apis/external.metrics.k8s.io/v1beta1"
+        kubectl get scaledobject test-deployment -n default -o jsonpath={.status.externalMetricNames}
+        kubectl get --raw "/apis/external.metrics.k8s.io/v1beta1/namespaces/default/s0-cron-UTC-0,1xxxx-0,5xxxx?labelSelector=scaledobject.keda.sh%2Fname%3Dtest-deployment"
+        kubectl get scaledobject test-deployment -o jsonpath='{.status.health.*.status}' | grep Happy
       EOF
     },
   ]
