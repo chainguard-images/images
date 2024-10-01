@@ -9,16 +9,25 @@ jobs:
           egress-policy: audit
 
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
-
-      - id: validate
-        uses: actions-tools/yaml-outputs@v2.1 # v2.1
-        with:
-          file-path: "**/metadata.yaml"
-        strategy:
-          fail-fast: false
-          matrix:
-            keywords: ${{ steps.validate.outputs.keywords }}
-            allowed: [application, base, fips, ai, ai-gpu, stigs]
-        steps:
-          - if: ${{ !contains(matrix.keywords, matrix.allowed) }}
-            run: echo "Included keyword not in allowed list. Please remove."
+      - name: Verify keywords
+        shell: bash
+        id: verify-keywords
+        run: |
+          set -e
+          cd "${GITHUB_WORKSPACE}"
+          echo 'Verifying allowed keywords ...'
+          # Don't fail because of grep
+          set +o pipefail
+          find ./images -name '*metadata.yaml' | while read -r file; do 
+            if yq eval '.keywords[]' "$file" | grep -voE '(application|base|fips|ai|ai-gpu|stigs|featured)'; then
+              echo "$file" has keywords that are not on allow list. Please update.
+              echo "UPDATES_NEEDED=true" >> $GITHUB_ENV
+            fi
+          done
+      - name: Output result
+        shell: bash
+        id: output-result
+        if: ${{ env.UPDATES_NEEDED }}
+        run: |
+          echo "Please update files"
+          exit 1
