@@ -10,16 +10,16 @@ apk add flux
 # Follow the getting started guide: https://fluxcd.io/flux/get-started/
 
 flux create source git podinfo \
-	--url=https://github.com/stefanprodan/podinfo \
-	--branch=master \
-	--interval=1m
+  --url=https://github.com/stefanprodan/podinfo \
+  --branch=master \
+  --interval=1m
 
 flux create kustomization podinfo \
-	--target-namespace=default \
-	--source=podinfo \
-	--path="./kustomize" \
-	--prune=true \
-	--wait=true \
-	--interval=30m \
-	--retry-interval=2m \
-	--health-check-timeout=3m
+  --target-namespace=default \
+  --source=podinfo \
+  --path="./kustomize" \
+  --prune=true \
+  --wait=true \
+  --interval=30m \
+  --retry-interval=2m \
+  --health-check-timeout=3m
