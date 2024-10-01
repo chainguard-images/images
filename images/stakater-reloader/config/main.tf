@@ -25,7 +25,7 @@ output "config" {
       "packages" : distinct(concat(local.baseline_packages, var.extra_packages))
     },
     "entrypoint" : {
-      "command" : "/usr/bin/manager"
+      "command" : "/manager"
     },
     "accounts" : module.accts.block
   })
