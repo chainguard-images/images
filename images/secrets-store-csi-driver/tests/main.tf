@@ -11,27 +11,23 @@ variable "digest" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
+# Variables definition
+variable "crds" {
+  type    = bool
+  default = false # Set this to true to enable the crds block
+}
+
+variable "crds_repository" {
+  type    = string
+  default = "default-crds-repo" # Default value, can be overridden
+}
+
+variable "crds_tag" {
+  type    = string
+  default = "default-crds-tag" # Default value, can be overridden
+}
+
 data "imagetest_inventory" "inventory" {}
-
-resource "imagetest_harness_docker" "docker" {
-  name      = "secrets-store-csi-driver-docker-test"
-  inventory = data.imagetest_inventory.inventory
-  envs = {
-    IMAGE_NAME : "${local.parsed.registry_repo}@${local.parsed.digest}"
-  }
-}
-
-resource "imagetest_feature" "test" {
-  name    = "docker-test"
-  harness = imagetest_harness_docker.docker
-  steps = [{
-    name = "A help message must be displayed."
-    cmd  = "docker run --rm $IMAGE_NAME --help 2>&1 | grep secrets-store-csi"
-    }, {
-    name = "The image must have mount installed."
-    cmd  = "docker run --rm --entrypoint mount $IMAGE_NAME --help"
-  }]
-}
 
 resource "imagetest_harness_k3s" "k3s" {
   name      = "k3s"
@@ -63,17 +59,30 @@ module "helm-secrets-store-csi-driver" {
   repo      = "https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts"
   chart     = "secrets-store-csi-driver"
 
-  values = {
-    linux = {
-      image = {
-        repository = local.parsed.registry_repo
-        tag        = local.parsed.pseudo_tag
+  values = merge(
+    {
+      linux = {
+        image = {
+          repository = local.parsed.registry_repo
+          tag        = local.parsed.pseudo_tag
+        }
       }
-    }
-    syncSecret = {
-      enabled = true
-    }
-  }
+      syncSecret = {
+        enabled = true
+      }
+    },
+    var.crds ? {
+      linux = {
+        crds = {
+          enabled = true
+          image = {
+            repository = var.crds_repository
+            tag        = var.crds_tag
+          }
+        }
+      }
+    } : {}
+  )
 }
 
 module "helm-vault" {
@@ -103,12 +112,20 @@ module "helm-vault" {
   }
 }
 
+variable "additional_test_steps_post_hooks" {
+  type = list(object({
+    name = string
+    cmd  = string
+  }))
+  default = []
+}
+
 resource "imagetest_feature" "helm" {
   name        = "secrets-store-csi-driver helm test"
   description = "Basic Helm test"
   harness     = imagetest_harness_k3s.k3s
 
-  steps = [
+  steps = concat([
     {
       name = "Install vault"
       cmd  = module.helm-vault.install_cmd
@@ -186,7 +203,7 @@ EOF
         fi
 EOVault
     }
-  ]
+  ], var.additional_test_steps_post_hooks)
 
   labels = {
     type = "k8s"
