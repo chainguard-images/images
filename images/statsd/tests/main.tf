@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    oci       = { source = "chainguard-dev/oci" }
     imagetest = { source = "chainguard-dev/imagetest" }
+    oci       = { source = "chainguard-dev/oci" }
   }
 }
 
@@ -13,12 +13,12 @@ variable "digest" {
 
 locals { parsed = provider::oci::parse(var.digest) }
 
-data "imagetest_inventory" "this" {}
+data "imagetest_inventory" "inventory" {}
 
 module "cluster_harness" {
   source = "../../../tflib/imagetest/harnesses/k3s/"
 
-  inventory         = data.imagetest_inventory.this
+  inventory         = data.imagetest_inventory.inventory
   name              = basename(path.module)
   target_repository = var.target_repository
   cwd               = path.module
@@ -35,6 +35,38 @@ module "helm" {
       repository = local.parsed.registry_repo
       tag        = local.parsed.pseudo_tag
     }
+  }
+}
+
+resource "imagetest_harness_docker" "this" {
+  name      = "statsd"
+  inventory = data.imagetest_inventory.inventory
+
+  envs = {
+    IMAGE_NAME : var.digest
+  }
+  mounts = [
+    {
+      source      = path.module
+      destination = "/tests"
+    }
+  ]
+}
+
+resource "imagetest_feature" "connect" {
+  name        = "connect to server"
+  description = "test connection to server"
+  harness     = imagetest_harness_docker.this
+
+  steps = [
+    {
+      name = "statsd-server"
+      cmd  = "/tests/01-statsd-server.sh"
+    }
+  ]
+
+  labels = {
+    type = "container",
   }
 }
 
