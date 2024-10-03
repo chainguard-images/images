@@ -34,31 +34,30 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--body:start-->
 ## Compatibility Notes
 
-Like most available alternatives, Chainguard's JRE image is built directly from the [OpenJDK project](https://openjdk.org/).
-
-The main differences between Chainguard's JRE image and other options are its enhanced security features. These include the fact that the Chainguard JRE image has few-to-zero CVEs and that it does not run as the root user. 
+Like most available alternatives, Chainguard's JRE image is built directly from the [OpenJDK project](https://openjdk.org/). The Chainguard JRE image has few-to-zero CVEs and does not run as the root user.
 
 ## Getting Started
 
-A JRE is the standard runtime for a Java application and is used for running an already developed and packaged Java application. Generally, you will combine your application with the Chainguard JRE image and Docker or a build tool like [Maven](https://apache.maven.org) or [Gradle](https://gradle.org/)
+A JRE is the standard runtime for a Java application and is used for running an already developed and packaged Java application. Generally, you will combine your application with the Chainguard JRE image and Docker or a build tool like [Maven](https://maven.apache.org/) or [Gradle](https://gradle.org/)
 
 ### Using Jib to build a JRE-based application image
 
-Using Maven or Gradle you can compile and package your application. [Jib](https://github.com/GoogleContainerTools/jib/tree/master) is a tool from Google Container Tools which builds optimized Docker and OCI images for Java applications. It's available as plugins for Maven and Gradle, as well as a Java library. 
+Using Maven or Gradle, you can compile and package your application. [Jib](https://github.com/GoogleContainerTools/jib/tree/master) is a tool from Google Container Tools which builds optimized Docker and OCI images for Java applications. It's available as a plugin for both Maven and Gradle, as well as a Java library. 
 
 The Jib GitHub repository includes [a useful example application](https://github.com/GoogleContainerTools/jib/tree/master/examples/spring-boot) that works with Maven or Gradle.
 
 ### Using Helm to Deploy your Java Application
 
-Using [Helm](https://helm.sh/) to deploy your JRE-based application image is relatively straightforward using either [this Kubernetes Service Helm Chart](https://github.com/gruntwork-io/helm-kubernetes-services/blob/main/charts/k8s-service/README.md) or [this Service Helm Chart](https://artifacthub.io/packages/helm/kvalitetsit/service) from ArtifactHUB.
+Using [Helm](https://helm.sh/) to deploy your JRE-based application image is relatively straightforward using either [this Kubernetes Service Helm Chart](https://github.com/gruntwork-io/helm-kubernetes-services/blob/main/charts/k8s-service/README.md) or [this Service Helm Chart](https://artifacthub.io/packages/helm/kvalitetsit/service) from ArtifactHub.
 
 ## Documentation and Resources
 
-- [How to Migrate a Java Application to Chainguard Images](https://edu.chainguard.dev/chainguard/chainguard-images/videos/java-images/) (video)
-- [Building Minimal Images for Applications with Runtimes](https://edu.chainguard.dev/chainguard/chainguard-images/videos/minimal-runtime-images/) (video)
-- [Building minimal and low CVE images for Java](https://www.chainguard.dev/unchained/building-minimal-and-low-cve-images-for-java)
+- (Video) [How to Migrate a Java Application to Chainguard Images](https://edu.chainguard.dev/chainguard/chainguard-images/videos/java-images/)
+- (Video) [Building Minimal Images for Applications with Runtimes](https://edu.chainguard.dev/chainguard/chainguard-images/videos/minimal-runtime-images/)
+- (Learning Lab) [Chainguard's Java Image Learning Lab](https://www.chainguard.dev/events/chainguards-java-image)
+- (Blog) [Building minimal and low CVE images for Java](https://www.chainguard.dev/unchained/building-minimal-and-low-cve-images-for-java)
 
-The latest builds of Chainguard's JRE image passes the TCK for OpenJDK Java 21.0.3 and Java 22.0.1 as provided by [Oracle under the OpenJDK Community TCK License Agreement](https://openjdk.org/groups/conformance/JckAccess/index.html) (OCTLA) and are [Java Compatibility Kit (JCK) conformant](https://www.chainguard.dev/unchained/chainguards-openjdk-java-images-are-now-jck-conformant).
+The latest builds of Chainguard's JRE image pass the TCK for OpenJDK Java 21.0.3 and Java 22.0.1 as provided by [OpenJDK Community TCK License Agreement](https://openjdk.org/legal/openjdk-tck-license.pdf) (OCTLA) and are [Java Compatibility Kit (JCK) conformant](https://www.chainguard.dev/unchained/chainguards-openjdk-java-images-are-now-jck-conformant).
 <!--body:end-->
 
 ## Contact Support

@@ -15,7 +15,7 @@
 <!--overview:start-->
 # Chainguard Image for jdk
 
-Minimalist Wolfi-based Java JDK image using using [OpenJDK](https://openjdk.org/projects/jdk/).  Used for compiling Java applications.
+Minimal Wolfi-based Java JDK image using [OpenJDK](https://openjdk.org/projects/jdk/).  Used for compiling Java applications.
 
 Chainguard Images are regularly-updated, minimal container images with low-to-zero CVEs.
 <!--overview:end-->
@@ -34,19 +34,17 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--body:start-->
 ## Compatibility Notes
 
-Like most available alternatives, Chainguard's JDK image is built directly from the [OpenJDK project](https://openjdk.org/).
-
-The main differences between Chainguard's JDK image and other options are its enhanced security features. These include the fact that the Chainguard JDK image has few-to-zero CVEs and that it does not run as the root user. 
+Like most available alternatives, Chainguard's JDK image is built directly from the [OpenJDK project](https://openjdk.org/). The Chainguard JDK image has few-to-zero CVEs and does not run as the root user.
 
 ## Getting Started
 
-A JDK is the standard development system for a Java application. It is used for compiling and packaging Java applications, which are then run on a JRE.
+The JDK is the standard development system for a Java application. It is used for compiling and packaging Java applications, which are then run on a JRE.
 
 ### Compiling a Minimal Java Application Example
 
 This section outlines how you can build a Java application with the Chainguard JDK Image.
 
-Start by creating a sample Java class named `HelloWolfi.java`:
+Start by creating a sample Java class named `HelloWolfi`:
 
 ```sh
 cat >HelloWolfi.java <<EOL
@@ -93,7 +91,7 @@ Hello Wolfi users!
 
 ### Using the Chainguard JDK image in a Jenkins Pipeline
 
-Using a Chainguard image as part of a CI/CD system like Jenkins might also be a useful option. With the Jenkins Docker agent, you can have various steps using different Chainguard images. The following is an example using the Chainguard JDK image as part of a Jenkins pipeline:
+Using a Chainguard Image as part of a CI/CD system like Jenkins might also be a useful option. With the Jenkins Docker agent, you can define multiple steps that use different Chainguard Images. The following is an example using the Chainguard JDK image as part of a Jenkins pipeline:
 
 ```
 pipeline {
@@ -111,7 +109,7 @@ pipeline {
 }
 ```
 
-For a full reference how to use various images in a Jenkins pipeline, please refer to the [Jenkins documentation](https://www.jenkins.io/doc/book/pipeline/docker/).
+For a full reference on using various images in a Jenkins pipeline, please refer to the [Jenkins documentation](https://www.jenkins.io/doc/book/pipeline/docker/).
 
 ### Using the Chainguard JDK to create a custom JRE
 
@@ -126,11 +124,12 @@ Our [`jlink` Springboot Demo](https://github.com/chainguard-dev/jlink-springboot
 
 ## Documentation and Resources
 
-- [How to Migrate a Java Application to Chainguard Images](https://edu.chainguard.dev/chainguard/chainguard-images/videos/java-images/) (video)
-- [Building Minimal Images for Applications with Runtimes](https://edu.chainguard.dev/chainguard/chainguard-images/videos/minimal-runtime-images/) (video)
-- [Building minimal and low CVE images for Java](https://www.chainguard.dev/unchained/building-minimal-and-low-cve-images-for-java)
+- (Video) [How to Migrate a Java Application to Chainguard Images](https://edu.chainguard.dev/chainguard/chainguard-images/videos/java-images/)
+- (Video) [Building Minimal Images for Applications with Runtimes](https://edu.chainguard.dev/chainguard/chainguard-images/videos/minimal-runtime-images/)
+- (Learning Lab) [Chainguard's Java Image Learning Lab](https://www.chainguard.dev/events/chainguards-java-image)
+- (Blog) [Building minimal and low CVE images for Java](https://www.chainguard.dev/unchained/building-minimal-and-low-cve-images-for-java)
 
-The latest builds of Chainguard's JRE image passes the TCK for OpenJDK Java 21.0.3 and Java 22.0.1 as provided by [Oracle under the OpenJDK Community TCK License Agreement](https://openjdk.org/groups/conformance/JckAccess/index.html) (OCTLA) and are [Java Compatibility Kit (JCK) conformant](https://www.chainguard.dev/unchained/chainguards-openjdk-java-images-are-now-jck-conformant).
+The latest builds of Chainguard's JRE image pass the TCK for OpenJDK Java 21.0.3 and Java 22.0.1 as provided by [OpenJDK Community TCK License Agreement](https://openjdk.org/legal/openjdk-tck-license.pdf) (OCTLA) and are [Java Compatibility Kit (JCK) conformant](https://www.chainguard.dev/unchained/chainguards-openjdk-java-images-are-now-jck-conformant).
 <!--body:end-->
 
 ## Contact Support
