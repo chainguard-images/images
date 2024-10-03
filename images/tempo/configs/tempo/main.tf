@@ -26,8 +26,8 @@ output "config" {
       {
         "path" : "/var/tempo",
         "type" : "directory",
-        "uid" : 65532,
-        "gid" : 65532,
+        "uid" : 10001,
+        "gid" : 10001,
         "permissions" : 493,
         "recursive" : true
       }
