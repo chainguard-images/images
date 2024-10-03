@@ -32,57 +32,33 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
+## Compatibility Notes
 
-The latest builds of Chainguard's JRE image passes the TCK for OpenJDK Java 21.0.3 and Java 22.0.1 as provided by [Oracle under the OpenJDK Community TCK License Agreement](https://openjdk.org/groups/conformance/JckAccess/index.html) (OCTLA) and are Java Compatibility Kit (JCK) conformant.
+Like most available alternatives, Chainguard's JRE image is built directly from the [OpenJDK project](https://openjdk.org/).
 
-## Java Application Example
+The main differences between Chainguard's JRE image and other options are its enhanced security features. These include the fact that the Chainguard JRE image has few-to-zero CVEs and that it does not run as the root user. 
 
-This section outlines how you can build a Java application with the Chainguard JRE Image.
+## Getting Started
 
-Start by creating a sample Java class named `HelloWolfi.java`:
+A JRE is the standard runtime for a Java application and is used for running an already developed and packaged Java application. Generally, you will combine your application with the Chainguard JRE image and Docker or a build tool like [Maven](https://apache.maven.org) or [Gradle](https://gradle.org/)
 
-```sh
-cat >HelloWolfi.java <<EOL
-class HelloWolfi
-{
-    public static void main(String args[])
-    {
-        System.out.println("Hello Wolfi users!");
-    }
-}
-EOL
-```
+### Using Jib to build a JRE-based application image
 
-Then create a multistage Dockerfile, adding the Java class you just created:
+Using Maven or Gradle you can compile and package your application. [Jib](https://github.com/GoogleContainerTools/jib/tree/master) is a tool from Google Container Tools which builds optimized Docker and OCI images for Java applications. It's available as plugins for Maven and Gradle, as well as a Java library. 
 
-```sh
-cat >Dockerfile <<EOL
-FROM cgr.dev/chainguard/jdk
+The Jib GitHub repository includes [a useful example application](https://github.com/GoogleContainerTools/jib/tree/master/examples/spring-boot) that works with Maven or Gradle.
 
-COPY HelloWolfi.java /home/build/
-RUN javac HelloWolfi.java
+### Using Helm to Deploy your Java Application
 
-FROM cgr.dev/chainguard/jre
+Using [Helm](https://helm.sh/) to deploy your JRE-based application image is relatively straightforward using either [this Kubernetes Service Helm Chart](https://github.com/gruntwork-io/helm-kubernetes-services/blob/main/charts/k8s-service/README.md) or [this Service Helm Chart](https://artifacthub.io/packages/helm/kvalitetsit/service) from ArtifactHUB.
 
-COPY --from=0 /home/build/HelloWolfi.class /app/
-CMD ["HelloWolfi"]
-EOL
-```
+## Documentation and Resources
 
-Following that, you can build the image:
+- [How to Migrate a Java Application to Chainguard Images](https://edu.chainguard.dev/chainguard/chainguard-images/videos/java-images/) (video)
+- [Building Minimal Images for Applications with Runtimes](https://edu.chainguard.dev/chainguard/chainguard-images/videos/minimal-runtime-images/) (video)
+- [Building minimal and low CVE images for Java](https://www.chainguard.dev/unchained/building-minimal-and-low-cve-images-for-java)
 
-```sh
-docker build -t my-java-app .
-```
-
-Note that this example tags the image with `my-java-app`. You can now run the image by referencing this tag, as in the following command:
-
-```sh
-docker run my-java-app
-```
-```
-Hello Wolfi users!
-```
+The latest builds of Chainguard's JRE image passes the TCK for OpenJDK Java 21.0.3 and Java 22.0.1 as provided by [Oracle under the OpenJDK Community TCK License Agreement](https://openjdk.org/groups/conformance/JckAccess/index.html) (OCTLA) and are [Java Compatibility Kit (JCK) conformant](https://www.chainguard.dev/unchained/chainguards-openjdk-java-images-are-now-jck-conformant).
 <!--body:end-->
 
 ## Contact Support

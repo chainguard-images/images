@@ -32,10 +32,17 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
+## Compatibility Notes
 
-The latest builds of Chainguard's JDK image passes the TCK for OpenJDK Java 21.0.3 and Java 22.0.1 as provided by [Oracle under the OpenJDK Community TCK License Agreement](https://openjdk.org/groups/conformance/JckAccess/index.html) (OCTLA) and are Java Compatibility Kit (JCK) conformant.
+Like most available alternatives, Chainguard's JDK image is built directly from the [OpenJDK project](https://openjdk.org/).
 
-## Java Application Example
+The main differences between Chainguard's JDK image and other options are its enhanced security features. These include the fact that the Chainguard JDK image has few-to-zero CVEs and that it does not run as the root user. 
+
+## Getting Started
+
+A JDK is the standard development system for a Java application. It is used for compiling and packaging Java applications, which are then run on a JRE.
+
+### Compiling a Minimal Java Application Example
 
 This section outlines how you can build a Java application with the Chainguard JDK Image.
 
@@ -83,6 +90,47 @@ docker run my-java-app
 ```
 Hello Wolfi users!
 ```
+
+### Using the Chainguard JDK image in a Jenkins Pipeline
+
+Using a Chainguard image as part of a CI/CD system like Jenkins might also be a useful option. With the Jenkins Docker agent, you can have various steps using different Chainguard images. The following is an example using the Chainguard JDK image as part of a Jenkins pipeline:
+
+```
+pipeline {
+    agent {
+        docker { image 'cgr.dev/chainguard/jdk' }
+    }
+    stages {
+        stage('Test') {
+            steps {
+                # Use javac, jdeps, jlink, ...
+                sh 'javac -version'
+            }
+        }
+    }
+}
+```
+
+For a full reference how to use various images in a Jenkins pipeline, please refer to the [Jenkins documentation](https://www.jenkins.io/doc/book/pipeline/docker/).
+
+### Using the Chainguard JDK to create a custom JRE
+
+A less common, but powerful, use case for the JDK image is creating an optimized custom JRE for your Java application. This involves using `jdeps` to produce the information about the Java modules being used and subsequently using `jlink` to analyze your application to eliminate all module code not being used by your application. This can create a drastically smaller JRE for a particular application.
+
+Keep in mind that a JRE produced this way is a fit-for-purpose JRE, and is not broadly usable. 
+
+Our [`jlink` Springboot Demo](https://github.com/chainguard-dev/jlink-springboot-demo) shows how you can use the Chainguard JDK image to produce a custom JRE. For reference, here are two additional articles describing the use of `jlink` to create optimized application images:
+
+- [Creating your own runtime using jlink](https://adoptium.net/en-GB/blog/2021/10/jlink-to-produce-own-runtime/)
+- [Creating a Custom JRE for your Java Applications](https://adriankodja.com/creating-a-custom-jre-for-your-java-applications)
+
+## Documentation and Resources
+
+- [How to Migrate a Java Application to Chainguard Images](https://edu.chainguard.dev/chainguard/chainguard-images/videos/java-images/) (video)
+- [Building Minimal Images for Applications with Runtimes](https://edu.chainguard.dev/chainguard/chainguard-images/videos/minimal-runtime-images/) (video)
+- [Building minimal and low CVE images for Java](https://www.chainguard.dev/unchained/building-minimal-and-low-cve-images-for-java)
+
+The latest builds of Chainguard's JRE image passes the TCK for OpenJDK Java 21.0.3 and Java 22.0.1 as provided by [Oracle under the OpenJDK Community TCK License Agreement](https://openjdk.org/groups/conformance/JckAccess/index.html) (OCTLA) and are [Java Compatibility Kit (JCK) conformant](https://www.chainguard.dev/unchained/chainguards-openjdk-java-images-are-now-jck-conformant).
 <!--body:end-->
 
 ## Contact Support

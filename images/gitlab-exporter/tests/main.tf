@@ -103,6 +103,8 @@ module "helm" {
           tag        = local.parsed.pseudo_tag
           repository = local.parsed.registry_repo
         }
+        minReplicas = 1
+        maxReplicas = 1
       }
       gitlab-runner = {
         install = false
@@ -125,8 +127,9 @@ module "helm" {
       install = false
     }
     redis = {
+      # Expose Redis metrics for the exporter
       metrics = {
-        enabled = false
+        enabled = true
       }
     }
     psql = {
@@ -144,14 +147,14 @@ module "helm" {
 }
 
 resource "imagetest_feature" "k3s" {
-  description = "Basic functionality of GitLab exporter"
+  description = "Functional tests for GitLab exporter"
   harness     = imagetest_harness_k3s.k3s
   labels = {
     type = "k8s"
     # Group this image into a gitlab only shard
     "shard::group" = "gitlab"
   }
-  name = "Basic"
+  name = "GitLab-Exporter Test"
   steps = [
     {
       name = "Create Secret"
@@ -170,6 +173,24 @@ resource "imagetest_feature" "k3s" {
         kubectl wait --for=condition=available --timeout=600s deployment gitlab-webservice-default
       EOF
       retry = { attempts = 5, delay = "15s", factor = 3 }
+    },
+    {
+      name = "Expose gitlab-exporter Service"
+      cmd  = <<-EOF
+        kubectl expose deployment gitlab-gitlab-exporter --type=NodePort --name=gitlab-exporter-service --port=9168
+      EOF
+    },
+    {
+      name = "Wait for gitlab-exporter to be accessible"
+      cmd  = "sleep 10"
+    },
+    {
+      name = "Install required packages",
+      cmd  = "apk add curl"
+    },
+    {
+      name = "Test and Validate gitlab-exporter Metrics"
+      cmd  = "./tests/test_gitlab_exporter.sh"
     }
   ]
   timeouts = {
