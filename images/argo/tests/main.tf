@@ -33,7 +33,7 @@ resource "imagetest_harness_k3s" "this" {
 }
 
 module "helm" {
-  source = "../../../tflib/imagetest/helm"
+  source = "../../../../tflib/imagetest/helm"
 
   name      = "argo-workflows"
   namespace = "argo-workflows"
