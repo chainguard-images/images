@@ -68,6 +68,10 @@ until docker logs "${MONGOD_CONTAINER_NAME}" | grep -qi "listening"; do
 done
 
 
+if ((FIPS_ENABLED == 1)); then
+  echo "checking FIPS status..."
+  docker exec -t "${MONGOD_CONTAINER_NAME}" /usr/bin/openssl-fips-test
+fi
 
 # start another container with mongo (the shell) and connect to the TLS enabled mongod
 DBS=$(docker run --rm -t \

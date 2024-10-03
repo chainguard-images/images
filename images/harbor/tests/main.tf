@@ -9,6 +9,7 @@ variable "digests" {
   description = "The image digests to run tests over."
   type = object({
     core          = string
+    db            = string
     jobservice    = string
     portal        = string
     registry      = string
@@ -48,6 +49,14 @@ module "helm" {
       image = {
         repository = local.parsed["core"].registry_repo
         tag        = local.parsed["core"].pseudo_tag
+      }
+    }
+    database = {
+      internal = {
+        image = {
+          repository = local.parsed["db"].registry_repo
+          tag        = local.parsed["db"].pseudo_tag
+        }
       }
     }
     jobservice = {

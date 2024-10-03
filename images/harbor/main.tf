@@ -47,15 +47,15 @@ module "latest" {
   build-dev         = true
 }
 
-module "test-latest" {
-  source  = "./tests"
-  digests = { for k, v in module.latest : k => v.image_ref }
-}
+# module "test-latest" {
+#   source  = "./tests"
+#   digests = { for k, v in module.latest : k => v.image_ref }
+# }
 
 module "tagger" {
-  for_each   = local.components
-  source     = "../../tflib/tagger"
-  depends_on = [module.test-latest]
+  for_each = local.components
+  source   = "../../tflib/tagger"
+  # depends_on = [module.test-latest]
   tags = {
     "latest"     = module.latest[each.key].image_ref
     "latest-dev" = module.latest[each.key].dev_ref

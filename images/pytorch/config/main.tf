@@ -5,19 +5,21 @@ terraform {
 }
 
 variable "extra_packages" {
-  default     = [""]
   description = "Additional packages to install."
   type        = list(string)
+
+  # torchvision is currently built on top of torch and should include all the packages we expect from it
+  default = ["torchvision-cuda12"]
 }
 
 variable "extra_repositories" {
-  default     = ["https://packages.cgr.dev/extras"]
   description = "The additional repositores to install from (e.g. extras)."
+  default     = ["https://packages.cgr.dev/extras"]
 }
 
 variable "extra_keyring" {
-  default     = ["https://packages.cgr.dev/extras/chainguard-extras.rsa.pub"]
   description = "The additional keys to use (e.g. extras)."
+  default     = ["https://packages.cgr.dev/extras/chainguard-extras.rsa.pub"]
 }
 
 variable "environment" {
@@ -48,4 +50,3 @@ output "config" {
     work-dir = "/work"
   })
 }
-

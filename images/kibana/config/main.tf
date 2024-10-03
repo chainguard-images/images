@@ -4,9 +4,13 @@ terraform {
   }
 }
 
+variable "main_package" {
+  description = "The main package to install."
+}
+
 variable "extra_packages" {
   description = "The additional packages to install."
-  default     = ["kibana", "tini", "bash", "busybox"]
+  default     = ["tini", "bash", "busybox"]
 }
 
 variable "extra_repositories" {
@@ -34,10 +38,12 @@ module "accts" {
   name   = "kibana"
 }
 
+# aarch64 fails to build in Github for 7.x, so that architecture is excluded here
 output "config" {
   value = jsonencode({
+    archs = (var.main_package == "kibana-7") ? ["x86_64"] : ["x86_64", "aarch64"]
     contents = {
-      packages     = var.extra_packages
+      packages     = concat([var.main_package], var.extra_packages)
       repositories = var.extra_repositories
       keyring      = var.extra_keyring
     }

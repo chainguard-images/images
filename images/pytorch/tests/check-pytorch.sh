@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+#
+# Tests pytorch with its helm chart and runs sample scripts to
+# confirm its functionality
+#
+# This helm installation is intendended to run on devices with only cpu;
+# to test features utilizing GPU, please refer TESTING.md
 
 set -o errexit -o nounset -o errtrace -o pipefail -x
 

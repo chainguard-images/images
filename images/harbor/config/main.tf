@@ -8,9 +8,17 @@ variable "component" {
   default = {}
 }
 
+variable "postgres_versions" {
+  default = ["", ""]
+}
+
 locals {
+  postgres_old     = var.postgres_versions[0]
+  postgres_current = var.postgres_versions[1]
+
   commands = {
     "core" : "/harbor/harbor_core",
+    "db" : "/usr/bin/docker-entrypoint.sh ${local.postgres_old} ${local.postgres_current}",
     "jobservice" : "/harbor/harbor_jobservice -c /etc/jobservice/config.yml",
     "portal" : "nginx -g 'daemon off;'"
     "registry" : "/usr/bin/registry_DO_NOT_USE_GC serve /etc/registry/config.yml"
@@ -57,6 +65,19 @@ locals {
       local.certs_path,
       local.harbor_path,
     ]
+    "db" : [{
+      path        = "/var/lib/postgresql/data"
+      type        = "directory"
+      uid         = module.accts.block.run-as
+      gid         = module.accts.block.run-as
+      permissions = 511
+      }, {
+      path        = "/var/run/postgresql"
+      type        = "directory"
+      uid         = module.accts.block.run-as
+      gid         = module.accts.block.run-as
+      permissions = 511
+    }]
     "jobservice" : [{
       path        = "/var/log/jobs"
       type        = "directory"
@@ -147,6 +168,7 @@ locals {
 
   users = {
     "core" : "harbor",
+    "db" : "postgres",
     "jobservice" : "harbor",
     "portal" : "nginx",
     "registry" : "harbor",
@@ -156,6 +178,7 @@ locals {
 
   work-dirs = {
     "core" : "/harbor",
+    "db" : "/",
     "jobservice" : "/harbor",
     "portal" : "/",
     "registry" : "/",
@@ -176,9 +199,9 @@ variable "environment" {
 
 module "accts" {
   source = "../../../tflib/accts"
-  run-as = 10000
-  uid    = 10000
-  gid    = 10000
+  run-as = var.component == "db" ? 999 : 10000
+  uid    = var.component == "db" ? 999 : 10000
+  gid    = var.component == "db" ? 999 : 10000
   name   = local.users[var.component]
 }
 
@@ -190,9 +213,12 @@ output "config" {
     entrypoint = {
       command = local.commands[var.component]
     }
-    accounts    = module.accts.block
-    environment = var.environment
-    paths       = local.paths[var.component]
-    work-dir    = local.work-dirs[var.component]
+    accounts = module.accts.block
+    environment = var.component == "db" ? merge({
+      "PGDATA" : "/var/lib/postgresql/data",
+      "LANG" : "en_US.UTF-8"
+    }, var.environment) : var.environment
+    paths    = local.paths[var.component]
+    work-dir = local.work-dirs[var.component]
   })
 }
