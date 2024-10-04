@@ -52,6 +52,10 @@ resource "imagetest_feature" "basic" {
     {
       name = "Deploy"
       cmd  = <<EOF
+ # The yaml below results in error "error looking up service account default/default: serviceaccount "default" not found"
+ # so we create the service accout ahead of time
+ kubectl get sa default || kubectl create sa default
+
  kubectl apply -f https://raw.githubusercontent.com/shadowsocks/shadowsocks-rust/master/k8s/shadowsocks-rust.yaml
  kubectl set image deployment/shadowsocks-rust shadowsocks-rust="${local.parsed["ssserver"].registry_repo}:${local.parsed["ssserver"].pseudo_tag}"
        EOF
@@ -60,6 +64,12 @@ resource "imagetest_feature" "basic" {
       name  = "Ensure it comes up healthy"
       cmd   = <<EOF
  kubectl rollout status deployment/shadowsocks-rust --timeout=120s
+
+ # Note: the shadowsocks-rust-test-connection pod fails due to bad args (gets error "wget: bad port")
+ # So we modify the args here and redeploy it before running the "kubectl wait" below
+ kubectl get pod shadowsocks-rust-test-connection -o yaml | sed 's/shadowsocks-rust:/shadowsocks-rust/' > tmp.yaml && \
+  kubectl delete pod shadowsocks-rust-test-connection --force && kubectl apply -f tmp.yaml && rm -f tmp.yaml
+
  kubectl wait --for=condition=ready pod --selector app.kubernetes.io/name=shadowsocks-rust
        EOF
       retry = { attempts = 3, delay = "2s", factor = 2 }
