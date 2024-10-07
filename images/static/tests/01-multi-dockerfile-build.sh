@@ -10,6 +10,6 @@ cd "$(dirname ${BASH_SOURCE[0]})/.."
 docker pull ${IMAGE_NAME}
 
 for lang in c golang rust; do
-  docker build --build-arg BASE=${IMAGE_NAME} --tag smoke-test-${lang}-${FREE_PORT} --file examples/Dockerfile.${lang} examples
+  docker build --build-arg BASE=${IMAGE_NAME} --tag smoke-test-${lang}-${FREE_PORT} --file tests/examples/Dockerfile.${lang} tests/examples
   docker run --rm smoke-test-${lang}-${FREE_PORT}
 done
