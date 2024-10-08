@@ -31,15 +31,52 @@ resource "imagetest_feature" "basic" {
     {
       name = "Install"
       cmd  = <<EOF
-version="v1.11.2"
-kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-resizer/$version/deploy/kubernetes/rbac.yaml
 
-curl https://raw.githubusercontent.com/kubernetes-csi/external-resizer/$version/deploy/kubernetes/deployment.yaml \
+curl https://raw.githubusercontent.com/kubernetes-csi/external-resizer/master/deploy/kubernetes/deployment.yaml \
     | sed "s|gcr.io/k8s-staging-sig-storage/csi-resizer:.*|${var.digest}|g" \
-    | kubectl apply -f -
+    | kubectl apply -n default -f -
+
+curl https://raw.githubusercontent.com/kubernetes-csi/external-resizer/master/deploy/kubernetes/rbac.yaml \
+    | kubectl apply -n default -f -
+sleep 10
 
 kubectl rollout status deployment csi-resizer --timeout=120s
       EOF
+    },
+    {
+      name = "Install utilities"
+      cmd  = <<EOT
+mkdir -p /tmp/upstream
+apk add git kubectl curl
+EOT
+    },
+    {
+      name    = "Grab the upstream repo, and install the provisioner"
+      workdir = "/tmp/upstream"
+      cmd     = <<EOT
+git clone https://github.com/kubernetes-csi/external-provisioner.git --branch release-5.1
+cd external-provisioner
+kubectl apply -f ./deploy/kubernetes/rbac.yaml
+kubectl apply -f ./deploy/kubernetes/deployment.yaml
+kubectl rollout status deployment csi-provisioner --timeout=120s
+EOT
+    },
+    {
+      name    = "Create PVC and Pod"
+      workdir = "/tmp/upstream/external-provisioner"
+      cmd     = <<EOT
+kubectl apply -f ./examples/sc.yaml
+kubectl apply -f ./examples/pvc.yaml
+# Wait for the PVC to be bound
+kubectl wait pvc example-pvc --for=jsonpath='{.status.phase}'=Bound --timeout 2m
+EOT
+    },
+    {
+      name = "Verify csi-attacher logs for volume attachment"
+      cmd  = <<EOT
+kubectl logs deployment/csi-resizer | grep 'Started PVC processing for resize controller" key="default/example-pvc'
+kubectl logs deployment/csi-resizer | grep 'No need to resize PVC" PVC="default/example-pvc'
+EOT
     }
   ]
 

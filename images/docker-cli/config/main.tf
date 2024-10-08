@@ -1,11 +1,6 @@
 module "accts" {
   source = "../../../tflib/accts"
-}
-
-terraform {
-  required_providers {
-    apko = { source = "chainguard-dev/apko" }
-  }
+  run-as = 0
 }
 
 variable "extra_packages" {
@@ -24,4 +19,3 @@ output "config" {
     "accounts" : module.accts.block
   })
 }
-

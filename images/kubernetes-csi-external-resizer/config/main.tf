@@ -1,4 +1,5 @@
 module "accts" {
+  run-as = 0
   source = "../../../tflib/accts"
 }
 

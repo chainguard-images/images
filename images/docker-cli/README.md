@@ -37,6 +37,14 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--body:start-->
 ## Usage
 
+When using Docker CLI, volume mount the Docker socket in the container:
+
+```bash
+docker run -v /var/run/docker.sock:/var/run/docker.sock cgr.dev/ORGANIZATION/docker-cli:latest ...
+```
+
+Command line options:
+
 ```
 Usage:  docker [OPTIONS] COMMAND
 

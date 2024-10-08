@@ -3,10 +3,10 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.docker-cli.image_ref
-        "config" = module.docker-cli.config
-        "tags"   = ["latest"]
+      for k, v in module.versioned : k => {
+        "ref"    = v.image_ref
+        "config" = v.config
+        "tags"   = v.tag_list
       }
   })
 }
