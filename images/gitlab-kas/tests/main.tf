@@ -5,12 +5,16 @@ terraform {
   }
 }
 
-variable "digest" {
-  description = "The image digest to run tests over."
+variable "digests" {
+  description = "The image digests to run tests over."
+  type = object({
+    kas   = string
+    agent = string
+  })
 }
 
 locals {
-  parsed = provider::oci::parse(var.digest)
+  parsed = { for k, v in var.digests : k => provider::oci::parse(v) }
 }
 
 data "imagetest_inventory" "this" {
@@ -88,8 +92,8 @@ module "helm" {
       }
       kas = {
         image = {
-          tag        = local.parsed.pseudo_tag
-          repository = local.parsed.registry_repo
+          tag        = local.parsed["kas"].pseudo_tag
+          repository = local.parsed["kas"].registry_repo
         }
         minReplicas = 1
         maxReplicas = 1
@@ -170,7 +174,7 @@ resource "imagetest_feature" "k3s" {
         kubectl wait --for=condition=available --timeout=600s deployment gitlab-webservice-default
       EOF
       retry = { attempts = 5, delay = "15s", factor = 3 }
-    }
+    },
   ]
   timeouts = {
     create = "45m"

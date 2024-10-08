@@ -32,6 +32,13 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
+## Versions
+
+```
+docker pull cgr.dev/chainguard/gitalb-kas
+docker pull cgr.dev/chainguard/gitalb-agent
+```
+
 ## Usage
 
 Chainguard's GitLab KAS image can be used with the GitLab Helm chart.
@@ -43,6 +50,23 @@ helm install gitlab gitlab/gitlab \
   --set gitlab.kas.image.repository=cgr.dev/chainguard-private/gitlab-kas \
   --set gitlab.kas.image.tag=latest
 ```
+
+
+To install GitLab agent using the GitLab Helm Chart:
+
+```bash
+helm repo add gitlab https://charts.gitlab.io
+
+helm upgrade --install testing gitlab/gitlab-agent \
+    --namespace gitlab-agent-testing --wait --timeout=15m\
+    --create-namespace \
+    --set image.repository=cgr.dev/chainguard-private/gitlab-agent \
+    --set image.tag=latest \
+    --set config.token=<AGENT_TOKEN> \
+    --set config.kasAddress=<KAS_Server>
+```
+
+For more information regarding the GitLab Agent please refer to https://docs.gitlab.com/ee/user/clusters/agent/install/
 
 <!--body:end-->
 

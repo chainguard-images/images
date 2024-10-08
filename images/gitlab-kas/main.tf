@@ -15,7 +15,7 @@ variable "target_repository" {
 module "config" {
   extra_packages = [each.key]
   for_each       = module.versions.versions
-  source         = "./config"
+  source         = "./configs"
 }
 
 module "versioned" {
@@ -30,7 +30,9 @@ module "versioned" {
 }
 
 module "test" {
-  digest = module.versioned[local.last].image_ref
+  digests = {
+    kas = module.versioned[local.last].image_ref
+  }
   source = "./tests"
 }
 
