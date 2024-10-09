@@ -10,3 +10,6 @@ upstream_url: https://github.com/hashicorp/consul
 keywords:
   - application
   - networking
+aliases:
+  - consul:latest
+  - hashicorp/consul:latest

@@ -3,10 +3,12 @@ image: cgr.dev/chainguard/kyverno
 logo: https://storage.googleapis.com/chainguard-academy/logos/kyverno.svg
 endoflife: ""
 console_summary: ""
-short_description: '[Kyverno](https://kyverno.io/) is a policy engine that allows you to write policies as Kubernetes resources and manage them with familiar tools'
+short_description: "[Kyverno](https://kyverno.io/) is a policy engine that allows you to write policies as Kubernetes resources and manage them with familiar tools"
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/kyverno/kyverno
 keywords:
   - application
   - tools
+aliases:
+  - ghcr.io/kyverno/kyverno:latest

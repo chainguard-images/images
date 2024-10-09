@@ -15,3 +15,5 @@ keywords:
   - gpu
   - featured
 public: true
+aliases:
+  - pytorch/pytorch:latest

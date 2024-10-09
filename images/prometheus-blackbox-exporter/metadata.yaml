@@ -3,9 +3,11 @@ image: cgr.dev/chainguard/prometheus-blackbox-exporter
 logo: https://storage.googleapis.com/chainguard-academy/logos/prometheus-blackbox-exporter.svg
 endoflife: ""
 console_summary: ""
-short_description: "Prometheus blackbox exporter allows blackbox probing of endpoints over HTTP, HTTPS, DNS, TCP, ICMP and gRPC."
+short_description: Prometheus blackbox exporter allows blackbox probing of endpoints over HTTP, HTTPS, DNS, TCP, ICMP and gRPC.
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/prometheus/blackbox_exporter
 keywords: []
 tier: APPLICATION
+aliases:
+  - prom/blackbox-exporter:latest

@@ -12,3 +12,5 @@ keywords:
   - languages
   - frameworks
 tier: APPLICATION
+aliases:
+  - wordpress:latest

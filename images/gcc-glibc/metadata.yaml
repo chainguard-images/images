@@ -10,3 +10,5 @@ upstream_url: https://wolfi.dev
 keywords:
   - application
   - languages
+aliases:
+  - gcc:latest

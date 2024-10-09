@@ -9,3 +9,5 @@ readme_file: README.md
 upstream_url: https://github.com/vmware-tanzu/velero-plugin-for-aws
 keywords: []
 tier: APPLICATION
+aliases:
+  - velero/velero-plugin-for-aws:latest

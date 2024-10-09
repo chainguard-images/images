@@ -12,3 +12,5 @@ keywords:
   - application
 public: true
 tier: APPLICATION
+aliases:
+  - telegraf:latest

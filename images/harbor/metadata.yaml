@@ -9,3 +9,5 @@ readme_file: README.md
 upstream_url: https://goharbor.io/
 keywords:
   - registry
+aliases:
+  - goharbor/harbor-core:latest

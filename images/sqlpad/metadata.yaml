@@ -9,3 +9,5 @@ readme_file: README.md
 upstream_url: https://github.com/sqlpad/sqlpad
 keywords: []
 tier: APPLICATION
+aliases:
+  - sqlpad/sqlpad:latest

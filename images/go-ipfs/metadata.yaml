@@ -8,3 +8,5 @@ compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/ipfs/kubo
 keywords: []
+aliases:
+  - ipfs/go-ipfs:latest

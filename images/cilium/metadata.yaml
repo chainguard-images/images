@@ -3,10 +3,12 @@ image: cgr.dev/chainguard/cilium
 logo: https://storage.googleapis.com/chainguard-academy/logos/cilium.svg
 endoflife: ""
 console_summary: ""
-short_description: '[Cilium](https://cilium.io/) is an open source, cloud native solution for providing, securing, and observing network connectivity between workloads using eBPF'
+short_description: "[Cilium](https://cilium.io/) is an open source, cloud native solution for providing, securing, and observing network connectivity between workloads using eBPF"
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/cilium/cilium
 keywords:
   - application
   - networking
+aliases:
+  - cilium/cilium:latest

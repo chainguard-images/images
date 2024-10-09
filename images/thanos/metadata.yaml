@@ -10,3 +10,6 @@ upstream_url: https://thanos.io/
 keywords:
   - analytics
   - application
+aliases:
+  - bitnami/thanos:latest
+  - thanosio/thanos:latest

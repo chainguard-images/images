@@ -1,7 +1,7 @@
 name: opensearch-dashboards
 image: cgr.dev/chainguard/opensearch-dashboards
 logo: https://storage.googleapis.com/chainguard-academy/logos/opensearch.svg
-endoflife: "https://endoflife.date/opensearch"
+endoflife: https://endoflife.date/opensearch
 console_summary: ""
 short_description: Minimal image with OpenSearch Dashboards
 compatibility_notes: ""
@@ -11,3 +11,5 @@ keywords:
   - analytics
   - application
 tier: APPLICATION
+aliases:
+  - opensearchproject/opensearch-dashboards:latest

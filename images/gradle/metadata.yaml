@@ -10,3 +10,5 @@ upstream_url: https://github.com/gradle/gradle
 keywords:
   - application
   - tools
+aliases:
+  - gradle:latest

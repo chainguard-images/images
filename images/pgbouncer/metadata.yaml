@@ -11,3 +11,5 @@ keywords:
   - application
   - databases
 tier: APPLICATION
+aliases:
+  - pgbouncer/pgbouncer:latest

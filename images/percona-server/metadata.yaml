@@ -13,3 +13,5 @@ upstream_url: https://github.com/percona/percona-server
 keywords:
   - application
 tier: APPLICATION
+aliases:
+  - percona/percona-server:latest

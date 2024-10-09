@@ -3,10 +3,12 @@ image: cgr.dev/chainguard/envoy-ratelimit
 logo: https://storage.googleapis.com/chainguard-academy/logos/envoy-ratelimit.svg
 endoflife: ""
 console_summary: ""
-short_description: ' Go/gRPC service designed to enable generic rate limit scenarios from different types of applications.'
+short_description: " Go/gRPC service designed to enable generic rate limit scenarios from different types of applications."
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/envoyproxy/ratelimit
 keywords:
   - application
   - networking
+aliases:
+  - envoyproxy/ratelimit:latest

@@ -10,3 +10,5 @@ upstream_url: https://redis.io/docs/management/sentinel/
 keywords:
   - application
   - databases
+aliases:
+  - redis:latest

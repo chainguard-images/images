@@ -11,3 +11,5 @@ keywords:
   - application
   - cicd
 tier: APPLICATION
+aliases:
+  - target/vela-cli:latest

@@ -11,3 +11,5 @@ keywords:
   - application
   - ide
   - ai
+aliases:
+  - rocker/rstudio:latest

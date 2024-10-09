@@ -6,10 +6,12 @@ console_summary: ""
 short_description: Elastic Cloud on Kubernetes
 compatibility_notes: ""
 readme_file: README.md
-upstream_url:  https://github.com/elastic/cloud-on-k8s
+upstream_url: https://github.com/elastic/cloud-on-k8s
 keywords:
-- eck
-- operator
-- elastic
-- kubernetes
+  - eck
+  - operator
+  - elastic
+  - kubernetes
 tier: APPLICATION
+aliases:
+  - elastic/eck-operator:latest

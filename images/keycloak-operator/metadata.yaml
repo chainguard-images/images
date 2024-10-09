@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/keycloak-operator
 logo: https://storage.googleapis.com/chainguard-academy/logos/keycloak-operator.svg
 endoflife: ""
 console_summary: ""
-short_description: "A Kubernetes Operator based on the Operator SDK for installing and managing Keycloak."
+short_description: A Kubernetes Operator based on the Operator SDK for installing and managing Keycloak.
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/keycloak/keycloak/tree/main/operator
@@ -12,3 +12,5 @@ keywords:
   - tools
   - operator
   - kubernetes
+aliases:
+  - keycloak/keycloak-operator:latest

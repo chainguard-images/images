@@ -9,3 +9,5 @@ readme_file: README.md
 upstream_url: https://github.com/elastic/beats
 keywords: []
 tier: APPLICATION
+aliases:
+  - elastic/filebeat:latest

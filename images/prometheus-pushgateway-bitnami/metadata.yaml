@@ -10,3 +10,5 @@ upstream_url: https://github.com/prometheus/pushgateway
 keywords:
   - analytics
   - application
+aliases:
+  - bitnami/pushgateway:latest

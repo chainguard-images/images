@@ -10,3 +10,5 @@ upstream_url: https://github.com/kubernetes-sigs/external-dns
 keywords:
   - application
   - networking
+aliases:
+  - bitnami/external-dns:latest

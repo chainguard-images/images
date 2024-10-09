@@ -11,3 +11,5 @@ keywords:
   - base
   - tools
 tier: BASE
+aliases:
+  - klakegg/hugo:latest

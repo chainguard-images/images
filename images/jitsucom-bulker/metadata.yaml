@@ -2,7 +2,7 @@ name: jitsucom-bulker
 image: cgr.dev/chainguard/jitsucom-bulker
 logo: https://storage.googleapis.com/chainguard-academy/logos/jitsucom-bulker.svg
 endoflife: ""
-console_summary: "Bulker is a tool for streaming and batching large amount of semi-structured data into data warehouses."
+console_summary: Bulker is a tool for streaming and batching large amount of semi-structured data into data warehouses.
 short_description: Service for bulk-loading data to databases with automatic schema management (Redshift, Snowflake, BigQuery, ClickHouse, Postgres, MySQL)
 compatibility_notes: ""
 readme_file: README.md
@@ -10,3 +10,5 @@ upstream_url: https://github.com/jitsucom/bulker
 keywords:
   - application
   - kafka
+aliases:
+  - jitsucom/bulker:latest

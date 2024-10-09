@@ -10,3 +10,5 @@ upstream_url: https://www.suse.com/products/neuvector
 keywords:
   - application
   - security
+aliases:
+  - neuvector/controller:latest

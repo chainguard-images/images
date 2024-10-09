@@ -10,3 +10,5 @@ upstream_url: https://cloud.google.com/sdk/
 keywords:
   - application
   - tools
+aliases:
+  - google/cloud-sdk:latest

@@ -80,6 +80,12 @@ tfgen:
 tfgen/%:
 	(w="$(shell pwd)" && cd ../ && go run ./monopod tfgen "$${w}" --skip=$(TFGEN_SKIP) --generators=$(TFGEN_GENERATORS) --only=$*)
 
+# In some cases the list of images may be too large for Make to handle,
+# so do the above but get the list from the environment variable TFGEN_IMAGES
+# instead of passing them on the command line
+tfgen-env:
+	(w="$(shell pwd)" && cd ../ && go run ./monopod tfgen "$${w}" --skip=$(TFGEN_SKIP) --generators=$(TFGEN_GENERATORS) --only=${TFGEN_IMAGES})
+
 # Clean up all generated.tf files created by tfgen
 .PHONY: tfgen-clean
 tfgen-clean:

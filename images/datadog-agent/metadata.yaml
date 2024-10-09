@@ -9,3 +9,5 @@ readme_file: README.md
 upstream_url: https://github.com/DataDog/datadog-agent
 keywords: []
 tier: APPLICATION
+aliases:
+  - datadog/agent:latest

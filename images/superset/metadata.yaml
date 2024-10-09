@@ -9,3 +9,5 @@ readme_file: README.md
 upstream_url: https://superset.apache.org/
 keywords: []
 tier: APPLICATION
+aliases:
+  - apache/superset:latest

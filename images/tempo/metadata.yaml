@@ -9,3 +9,5 @@ readme_file: README.md
 upstream_url:
 keywords: []
 tier: APPLICATION
+aliases:
+  - grafana/tempo:latest

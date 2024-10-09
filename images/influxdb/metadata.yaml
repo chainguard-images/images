@@ -11,3 +11,5 @@ keywords:
   - application
   - databases
   - ai
+aliases:
+  - influxdb:latest

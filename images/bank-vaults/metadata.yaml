@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/bank-vaults
 logo: https://storage.googleapis.com/chainguard-academy/logos/bank-vaults.svg
 endoflife: ""
 console_summary: ""
-short_description: 'Minimal Image for [Bank Vaults](https://bank-vaults.dev/), a CLI tool to init, unseal and configure Vault '
+short_description: "Minimal Image for [Bank Vaults](https://bank-vaults.dev/), a CLI tool to init, unseal and configure Vault "
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/bank-vaults/bank-vaults
@@ -11,3 +11,5 @@ keywords:
   - application
   - tools
 tier: APPLICATION
+aliases:
+  - banzaicloud/bank-vaults:latest

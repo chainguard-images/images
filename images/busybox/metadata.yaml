@@ -10,3 +10,6 @@ upstream_url: https://www.busybox.net/
 keywords:
   - application
   - tools
+aliases:
+  - busybox:glibc
+  - busybox:latest

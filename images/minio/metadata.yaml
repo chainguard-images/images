@@ -10,3 +10,5 @@ upstream_url: https://github.com/minio/minio
 keywords:
   - application
   - databases
+aliases:
+  - minio/minio:latest

@@ -10,3 +10,6 @@ upstream_url: https://git-scm.com/
 keywords:
   - application
   - tools
+aliases:
+  - bitnami/git:latest
+  - alpine/git:latest

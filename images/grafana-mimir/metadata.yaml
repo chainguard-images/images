@@ -10,3 +10,5 @@ upstream_url: https://github.com/grafana/mimir
 keywords:
   - analytics
   - application
+aliases:
+  - grafana/mimir:latest

@@ -12,3 +12,5 @@ keywords:
   - newrelic
   - statsd
 tier: APPLICATION
+aliases:
+  - newrelic/nri-statsd:latest

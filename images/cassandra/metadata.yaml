@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/cassandra
 logo: https://storage.googleapis.com/chainguard-academy/logos/cassandra.svg
 endoflife: ""
 console_summary: ""
-short_description: '[Cassandra](https://cassandra.apache.org) is a free and open-source, distributed, wide-column store, NoSQL database.'
+short_description: "[Cassandra](https://cassandra.apache.org) is a free and open-source, distributed, wide-column store, NoSQL database."
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/apache/cassandra
@@ -12,3 +12,5 @@ keywords:
   - databases
 public: true
 tier: APPLICATION
+aliases:
+  - cassandra:latest

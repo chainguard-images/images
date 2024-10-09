@@ -10,3 +10,5 @@ upstream_url: https://kubernetes.io/docs/reference/kubectl/
 keywords:
   - application
   - kubernetes
+aliases:
+  - bitnami/kubectl:latest

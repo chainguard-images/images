@@ -10,3 +10,5 @@ upstream_url: https://github.com/redis/redis
 keywords:
   - application
   - databases
+aliases:
+  - redis:latest

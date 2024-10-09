@@ -11,3 +11,5 @@ keywords:
   - application
   - tools
 tier: APPLICATION
+aliases:
+  - crossplane/provider-azure:latest

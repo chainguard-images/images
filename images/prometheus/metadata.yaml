@@ -12,3 +12,6 @@ keywords:
   - application
   - featured
 tier: APPLICATION
+aliases:
+  - bitnami/prometheus:latest
+  - prom/prometheus:latest

@@ -11,3 +11,5 @@ keywords:
   - application
 public: true
 tier: APPLICATION
+aliases:
+  - erlang:latest

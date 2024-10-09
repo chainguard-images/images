@@ -12,3 +12,5 @@ keywords:
   - databases
   - ai
   - featured
+aliases:
+  - postgres:latest

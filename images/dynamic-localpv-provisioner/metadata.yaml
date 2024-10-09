@@ -10,3 +10,5 @@ upstream_url: https://github.com/openebs/dynamic-localpv-provisioner
 keywords:
   - application
   - kubernetes
+aliases:
+  - openebs/provisioner-localpv:latest

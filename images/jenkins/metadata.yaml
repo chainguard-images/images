@@ -11,3 +11,7 @@ keywords:
   - application
   - cicd
   - featured
+aliases:
+  - jenkins/jenkins:lts
+  - jenkins:latest
+  - jenkins/jenkins:latest

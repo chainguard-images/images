@@ -2,7 +2,7 @@ name: nvidia-container-toolkit
 image: cgr.dev/chainguard/nvidia-container-toolkit
 logo: https://storage.googleapis.com/chainguard-academy/logos/nvidia-container-toolkit.svg
 endoflife: ""
-console_summary: "Build and run containers leveraging NVIDIA GPUs"
+console_summary: Build and run containers leveraging NVIDIA GPUs
 short_description: The NVIDIA Container Toolkit allows users to build and run GPU accelerated containers.
 compatibility_notes: ""
 readme_file: README.md
@@ -12,3 +12,5 @@ keywords:
   - gpu
   - ai
 tier: AI
+aliases:
+  - nvidia/container-toolkit:latest

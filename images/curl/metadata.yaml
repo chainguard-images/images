@@ -10,3 +10,5 @@ upstream_url: https://github.com/curl/curl
 keywords:
   - application
   - tools
+aliases:
+  - curlimages/curl:latest

@@ -3,8 +3,7 @@ image: cgr.dev/chainguard/velero
 logo: https://storage.googleapis.com/chainguard-academy/logos/velero.svg
 endoflife: ""
 console_summary: ""
-short_description:
-  Backup and migrate Kubernetes applications and their persistent volumes
+short_description: Backup and migrate Kubernetes applications and their persistent volumes
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/vmware-tanzu/velero
@@ -12,3 +11,5 @@ keywords:
   - application
   - tools
 tier: APPLICATION
+aliases:
+  - velero/velero:latest

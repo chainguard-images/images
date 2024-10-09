@@ -9,3 +9,5 @@ readme_file: README.md
 upstream_url: https://github.com/prometheus/memcached_exporter
 keywords:
   - application
+aliases:
+  - bitnami/memcached-exporter:latest

@@ -28,3 +28,7 @@ keywords:
   - application
   - featured
   - servers
+aliases:
+  - nginx:alpine
+  - nginx:latest
+  - rapidfort/nginx:1.22

@@ -12,3 +12,5 @@ keywords:
   - databases
   - languages
 tier: BASE
+aliases:
+  - r-base:latest

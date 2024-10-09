@@ -11,3 +11,5 @@ keywords:
   - application
   - media
   - streaming
+aliases:
+  - jellyfin/jellyfin:latest

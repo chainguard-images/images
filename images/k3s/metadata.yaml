@@ -11,3 +11,5 @@ keywords:
   - application
   - kubernetes
 tier: APPLICATION
+aliases:
+  - rancher/k3s:latest

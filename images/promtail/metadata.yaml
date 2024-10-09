@@ -11,3 +11,5 @@ keywords:
   - analytics
   - application
 tier: APPLICATION
+aliases:
+  - grafana/promtail:latest

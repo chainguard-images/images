@@ -11,3 +11,6 @@ keywords:
   - ai
   - analytics
   - application
+aliases:
+  - bitnami/kafka:latest
+  - confluentinc/cp-kafka:latest

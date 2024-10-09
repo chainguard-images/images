@@ -3,13 +3,13 @@ image: cgr.dev/chainguard/velero-restore-helper
 logo: https://storage.googleapis.com/chainguard-academy/logos/velero-restore-helper.svg
 endoflife: ""
 console_summary: ""
-short_description:
-  Backup and migrate Kubernetes applications and their persistent volumes
+short_description: Backup and migrate Kubernetes applications and their persistent volumes
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/vmware-tanzu/velero/tree/main/cmd/velero-restore-helper
 keywords:
   - application
   - tools
-
 tier: APPLICATION
+aliases:
+  - velero/velero-restore-helper:latest

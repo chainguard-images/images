@@ -2,7 +2,7 @@ name: apache-nifi
 image: cgr.dev/chainguard/apache-nifi
 logo: https://storage.googleapis.com/chainguard-academy/logos/apache-nifi.svg
 endoflife: ""
-console_summary: "Apache NiFi is an easy to use, powerful, and reliable system to process and distribute data."
+console_summary: Apache NiFi is an easy to use, powerful, and reliable system to process and distribute data.
 short_description: Apache NiFi was made for dataflow. It supports highly configurable directed graphs of data routing, transformation, and system mediation logic.
 compatibility_notes: ""
 readme_file: README.md
@@ -10,3 +10,5 @@ upstream_url: https://github.com/apache/nifi
 keywords:
   - analytics
   - application
+aliases:
+  - apache/nifi:latest

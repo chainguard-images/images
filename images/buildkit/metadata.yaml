@@ -10,3 +10,5 @@ upstream_url: https://github.com/moby/buildkit
 keywords:
   - application
 tier: APPLICATION
+aliases:
+  - moby/buildkit:latest

@@ -7,7 +7,9 @@ short_description: Minimal image with [opentelemetry-collector](https://github.c
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/open-telemetry/opentelemetry-collector
-keywords: 
+keywords:
   - analytics
   - application
 tier: APPLICATION
+aliases:
+  - otel/opentelemetry-collector:latest

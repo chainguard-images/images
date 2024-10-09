@@ -11,3 +11,5 @@ keywords:
   - application
   - servers
 tier: APPLICATION
+aliases:
+  - caddy:latest

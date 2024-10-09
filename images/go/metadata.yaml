@@ -13,3 +13,5 @@ keywords:
   - languages
 public: true
 tier: BASE
+aliases:
+  - golang:latest

@@ -10,5 +10,6 @@ upstream_url: https://github.com/falcosecurity/falcosidekick
 keywords:
   - application
   - tools
-
 tier: APPLICATION
+aliases:
+  - falcosecurity/falcosidekick:latest

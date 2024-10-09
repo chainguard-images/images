@@ -10,3 +10,5 @@ upstream_url: https://github.com/aws/aws-cli
 keywords:
   - application
   - tools
+aliases:
+  - amazon/aws-cli:latest

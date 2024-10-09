@@ -9,3 +9,5 @@ readme_file: README.md
 upstream_url: https://github.com/temporalio/docker-builds/blob/main/admin-tools.Dockerfile
 keywords:
   - application
+aliases:
+  - temporalio/admin-tools:latest

@@ -12,3 +12,5 @@ keywords:
   - tools
 public: true
 tier: APPLICATION
+aliases:
+  - alpine/crane:latest

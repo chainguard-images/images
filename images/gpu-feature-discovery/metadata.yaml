@@ -7,7 +7,9 @@ short_description: Minimal [gpu-feature-discovery](https://github.com/NVIDIA/gpu
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/NVIDIA/gpu-feature-discovery
-keywords: 
+keywords:
   - application
   - tools
   - ai
+aliases:
+  - nvidia/gpu-feature-discovery:latest

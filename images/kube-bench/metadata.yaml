@@ -10,3 +10,5 @@ upstream_url: https://github.com/aquasecurity/kube-bench
 keywords:
   - application
   - kubernetes
+aliases:
+  - aquasec/kube-bench:latest

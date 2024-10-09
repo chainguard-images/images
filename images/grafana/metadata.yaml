@@ -10,3 +10,5 @@ upstream_url: https://github.com/grafana/grafana
 keywords:
   - analytics
   - application
+aliases:
+  - grafana/grafana:latest

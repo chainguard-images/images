@@ -10,3 +10,5 @@ upstream_url: https://www.gnu.org/software/bash/
 keywords:
   - application
   - tools
+aliases:
+  - bash:latest

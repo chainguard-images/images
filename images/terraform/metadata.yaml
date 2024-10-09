@@ -3,10 +3,12 @@ image: cgr.dev/chainguard/terraform
 logo: https://storage.googleapis.com/chainguard-academy/logos/terraform.svg
 endoflife: ""
 console_summary: ""
-short_description: '[Terraform](https://github.com/hashicorp/terraform) is an infrastructure as code tool.'
+short_description: "[Terraform](https://github.com/hashicorp/terraform) is an infrastructure as code tool."
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/hashicorp/terraform
 keywords:
   - application
   - tools
+aliases:
+  - hashicorp/terraform:latest

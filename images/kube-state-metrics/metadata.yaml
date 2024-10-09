@@ -10,3 +10,5 @@ upstream_url: https://github.com/kubernetes/kube-state-metrics
 keywords:
   - application
   - kubernetes
+aliases:
+  - bitnami/kube-state-metrics:latest

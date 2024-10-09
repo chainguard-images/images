@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/step-issuer
 logo: https://storage.googleapis.com/chainguard-academy/logos/step-issuer.svg
 endoflife: ""
 console_summary: ""
-short_description: "[step-issuer](https://smallstep.com/docs/step-issuer) is a certificate issuer for cert-manager using step certificates CA" 
+short_description: "[step-issuer](https://smallstep.com/docs/step-issuer) is a certificate issuer for cert-manager using step certificates CA"
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/wolfi-dev/os
@@ -14,3 +14,5 @@ keywords:
   - security
   - tools
 tier: APPLICATION
+aliases:
+  - smallstep/step-issuer:latest

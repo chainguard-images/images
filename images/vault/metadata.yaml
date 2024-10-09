@@ -10,3 +10,7 @@ upstream_url: https://www.hashicorp.com/products/vault
 keywords:
   - application
   - tools
+aliases:
+  - hashicorp/vault:latest
+  - vault:1.13.3
+  - vault:latest

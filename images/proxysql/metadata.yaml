@@ -10,3 +10,5 @@ upstream_url: https://github.com/sysown/proxysql
 keywords:
   - application
   - databases
+aliases:
+  - proxysql/proxysql:latest

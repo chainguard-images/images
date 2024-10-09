@@ -3,11 +3,13 @@ image: cgr.dev/chainguard/fluent-bit-plugin-loki
 logo: https://storage.googleapis.com/chainguard-academy/logos/fluent-bit-plugin-loki.svg
 endoflife: ""
 console_summary: ""
-short_description: "The Fluent Bit Loki plugin allows you to send your log or events to a Loki service."
+short_description: The Fluent Bit Loki plugin allows you to send your log or events to a Loki service.
 compatibility_notes: ""
 readme_file: README.md
-upstream_url: "https://github.com/grafana/loki"
+upstream_url: https://github.com/grafana/loki
 keywords:
   - analytics
   - application
 tier: APPLICATION
+aliases:
+  - grafana/fluent-bit-plugin-loki:latest

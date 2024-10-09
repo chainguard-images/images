@@ -12,3 +12,5 @@ keywords:
   - languages
 public: true
 tier: APPLICATION
+aliases:
+  - rust:latest

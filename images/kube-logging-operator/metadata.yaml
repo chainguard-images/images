@@ -10,3 +10,5 @@ upstream_url: https://github.com/kube-logging/logging-operator
 keywords:
   - application
   - kubernetes
+aliases:
+  - banzaicloud/logging-operator:latest

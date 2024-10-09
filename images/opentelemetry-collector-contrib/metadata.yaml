@@ -10,3 +10,5 @@ upstream_url: https://github.com/open-telemetry/opentelemetry-collector-contrib
 keywords:
   - analytics
   - application
+aliases:
+  - otel/opentelemetry-collector-contrib:latest

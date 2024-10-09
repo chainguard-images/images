@@ -10,3 +10,5 @@ upstream_url: https://docs.stakater.com/reloader
 keywords:
   - application
   - kubernetes
+aliases:
+  - stakater/reloader:latest

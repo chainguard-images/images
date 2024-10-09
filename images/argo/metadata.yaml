@@ -10,3 +10,5 @@ upstream_url: https://argoproj.github.io/argo-workflows/
 keywords:
   - application
   - cicd
+aliases:
+  - argoproj/argocd:latest

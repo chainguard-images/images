@@ -3,10 +3,12 @@ image: cgr.dev/chainguard/mariadb
 logo: https://storage.googleapis.com/chainguard-academy/logos/mariadb.svg
 endoflife: ""
 console_summary: ""
-short_description: '[MariaDB](https://mariadb.org) is one of the most popular open source relational databases.'
+short_description: "[MariaDB](https://mariadb.org) is one of the most popular open source relational databases."
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://mariadb.org
 keywords:
   - application
   - databases
+aliases:
+  - mariadb:latest

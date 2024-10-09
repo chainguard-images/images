@@ -12,3 +12,5 @@ keywords:
   - application
   - ai
 tier: APPLICATION
+aliases:
+  - getmeili/meilisearch:latest

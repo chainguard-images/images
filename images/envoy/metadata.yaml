@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/envoy
 logo: https://storage.googleapis.com/chainguard-academy/logos/envoy.svg
 endoflife: ""
 console_summary: ""
-short_description: '[Envoy](https://www.envoyproxy.io/) Cloud-native high-performance edge/middle/service proxy'
+short_description: "[Envoy](https://www.envoyproxy.io/) Cloud-native high-performance edge/middle/service proxy"
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/envoyproxy/envoy
@@ -11,3 +11,8 @@ keywords:
   - application
   - featured
   - networking
+aliases:
+  - bitnami/envoy:latest
+  - envoyproxy/envoy:v1.25-latest
+  - rapidfort/envoy:1.24
+  - envoyproxy/envoy:latest

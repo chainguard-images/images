@@ -11,3 +11,5 @@ upstream_url: https://www.dragonflydb.io
 keywords:
   - redis
   - database
+aliases:
+  - dragonflyoss/dfdaemon:latest

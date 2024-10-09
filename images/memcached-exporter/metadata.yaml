@@ -10,3 +10,5 @@ upstream_url: https://github.com/prometheus/memcached_exporter
 keywords:
   - application
   - databases
+aliases:
+  - prom/memcached-exporter:latest

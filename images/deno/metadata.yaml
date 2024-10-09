@@ -11,3 +11,5 @@ keywords:
   - application
   - languages
 tier: APPLICATION
+aliases:
+  - denoland/deno:latest

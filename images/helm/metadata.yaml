@@ -11,3 +11,6 @@ keywords:
   - application
   - kubernetes
 tier: APPLICATION
+aliases:
+  - alpine/helm:latest
+  - quay.io/coreos/helm:latest

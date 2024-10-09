@@ -10,3 +10,5 @@ upstream_url: https://github.com/kiwigrid/k8s-sidecar
 keywords:
   - application
   - kubernetes
+aliases:
+  - kiwigrid/k8s-sidecar:latest

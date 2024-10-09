@@ -10,3 +10,5 @@ upstream_url: https://github.com/SeleniumHQ/docker-selenium
 keywords:
   - application
   - tools
+aliases:
+  - selenium/standalone-chrome:latest

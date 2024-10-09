@@ -10,3 +10,5 @@ upstream_url: https://github.com/open-policy-agent/gatekeeper
 keywords:
   - application
   - tools
+aliases:
+  - openpolicyagent/gatekeeper:latest

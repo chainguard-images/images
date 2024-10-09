@@ -11,3 +11,5 @@ keywords:
   - application
   - database
   - ai
+aliases:
+  - mongo:latest

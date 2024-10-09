@@ -10,3 +10,5 @@ upstream_url: https://nats.io/
 keywords:
   - application
   - messaging
+aliases:
+  - nats:latest

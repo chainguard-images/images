@@ -11,3 +11,5 @@ upstream_url: https://mlflow.org/
 keywords:
   - ai
   - python
+aliases:
+  - mlflow/mlflow:latest

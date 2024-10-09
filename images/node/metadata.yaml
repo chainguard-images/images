@@ -16,3 +16,6 @@ keywords:
   - featured
 public: true
 tier: BASE
+aliases:
+  - bitnami/node:latest
+  - node:latest
