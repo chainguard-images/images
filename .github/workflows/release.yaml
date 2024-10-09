@@ -33,7 +33,7 @@ jobs:
         with:
           egress-policy: audit
 
-      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
 
       - id: shard
         name: Shard
@@ -92,7 +92,7 @@ jobs:
           terraform_version: "1.8.*"
           terraform_wrapper: false
 
-      - uses: chainguard-dev/setup-chainctl@f52718d822dc73d21a04ef2082822c4a203163b3 # v0.2.2
+      - uses: chainguard-dev/setup-chainctl@598499528905f95b94e62e4831cf42035e768933 # v0.2.3
         with:
           # This allows chainguard-images/images-private to publish images to cgr.dev/chainguard-private
           # We maintain this identity here:
@@ -104,10 +104,10 @@ jobs:
           k3s-image: cgr.dev/chainguard/k3s:latest@sha256:78fe2d04d80c000306a075677b180e3ef857e3116b423daa119c0e63f02d7912
 
       # Make cosign/crane CLI available to the tests
-      - uses: sigstore/cosign-installer@4959ce089c160fddf62f7b42464195ba1a56d382 # v3.6.0
+      - uses: sigstore/cosign-installer@dc72c7d5c4d10cd6bcb8cf6e3fd625a9e5e537da # v3.7.0
       - uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
 
-      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
 
       - name: Terraform apply
         timeout-minutes: 60
@@ -138,14 +138,14 @@ jobs:
 
       - name: Upload terraform logs
         if: always()
-        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v3
+        uses: actions/upload-artifact@84480863f228bb9747b473957fcc9e309aa96097 # v3
         with:
           name: "mega-module-${{ matrix.shard.index }}.tf.json"
           path: /tmp/mega-module.tf.json
 
       - name: Upload imagetest logs
         if: always()
-        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v3
+        uses: actions/upload-artifact@84480863f228bb9747b473957fcc9e309aa96097 # v3
         with:
           name: "mega-module-${{ matrix.shard.index }}-imagetest-logs"
           path: imagetest-logs
