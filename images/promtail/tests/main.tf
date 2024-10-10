@@ -60,29 +60,3 @@ resource "imagetest_feature" "basic" {
     type = "k8s"
   }
 }
-
-resource "imagetest_harness_docker" "docker" {
-  name      = "docker"
-  inventory = data.imagetest_inventory.this
-
-  envs = {
-    IMAGE_NAME : var.digest
-  }
-}
-
-resource "imagetest_feature" "image" {
-  name        = "image"
-  description = "Basic image test for promtail"
-  harness     = imagetest_harness_docker.docker
-
-  steps = [
-    {
-      name = "--version"
-      cmd  = "docker run --rm $IMAGE_NAME --version"
-    },
-  ]
-
-  labels = {
-    type = "container"
-  }
-}

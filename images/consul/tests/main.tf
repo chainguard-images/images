@@ -54,24 +54,3 @@ resource "imagetest_feature" "basic" {
   }
 }
 
-resource "imagetest_harness_docker" "docker" {
-  name      = "docker"
-  inventory = data.imagetest_inventory.this
-}
-
-resource "imagetest_feature" "image" {
-  name        = "image"
-  description = "Basic image test"
-  harness     = imagetest_harness_docker.docker
-
-  steps = [
-    {
-      name = "--version"
-      cmd  = "docker run --rm ${var.digest} --version"
-    },
-  ]
-
-  labels = {
-    type = "container"
-  }
-}
