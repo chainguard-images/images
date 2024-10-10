@@ -3,25 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.cli.image_ref
-        "config" = module.cli.config
-        "tags"   = ["latest"]
-      }
-    },
-    {
-      basename(path.module) = {
-        "ref"    = module.exec.image_ref
-        "config" = module.exec.config
-        "tags"   = ["latest"]
-      }
-    },
-    {
-      basename(path.module) = {
-        "ref"    = module.workflowcontroller.image_ref
-        "config" = module.workflowcontroller.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

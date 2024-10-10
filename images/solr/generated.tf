@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.solr.image_ref
-        "config" = module.solr.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

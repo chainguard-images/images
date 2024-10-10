@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.ml-metadata-store-server.image_ref
-        "config" = module.ml-metadata-store-server.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

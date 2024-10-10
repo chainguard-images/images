@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.caddy.image_ref
-        "config" = module.caddy.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

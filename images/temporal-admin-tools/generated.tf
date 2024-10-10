@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.temporal-admin-tools.image_ref
-        "config" = module.temporal-admin-tools.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

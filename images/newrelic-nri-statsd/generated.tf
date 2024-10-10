@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.newrelic-nri-statsd.image_ref
-        "config" = module.newrelic-nri-statsd.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

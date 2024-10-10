@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.qdrant.image_ref
-        "config" = module.qdrant.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

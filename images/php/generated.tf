@@ -3,18 +3,10 @@
 output "summary" {
   value = merge(
     {
-      for k, v in module.versioned : k => {
-        "ref"    = v.image_ref
-        "config" = v.config
-        "tags"   = v.tag_list
-      }
+      "tags" = module.fpm-tagger.imagetags
     },
     {
-      for k, v in module.versioned-fpm : k => {
-        "ref"    = v.image_ref
-        "config" = v.config
-        "tags"   = v.tag_list
-      }
+      "tags" = module.tagger.imagetags
   })
 }
 

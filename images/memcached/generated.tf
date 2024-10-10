@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.memcached.image_ref
-        "config" = module.memcached.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

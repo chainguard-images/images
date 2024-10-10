@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.gitness.image_ref
-        "config" = module.gitness.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.doppler-kubernetes-operator.image_ref
-        "config" = module.doppler-kubernetes-operator.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

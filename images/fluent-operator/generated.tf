@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.fluent-operator.image_ref
-        "config" = module.fluent-operator.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

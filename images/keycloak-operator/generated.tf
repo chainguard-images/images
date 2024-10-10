@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.keycloak-operator.image_ref
-        "config" = module.keycloak-operator.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

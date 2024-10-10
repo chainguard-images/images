@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.multus-cni.image_ref
-        "config" = module.multus-cni.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

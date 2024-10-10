@@ -3,10 +3,8 @@
 output "summary" {
   value = merge(
     {
-      for k, v in module.latest : k => {
-        "ref"    = v.image_ref
-        "config" = v.config
-        "tags"   = ["latest"]
+      for k, v in module.tagger : k => {
+        "tags" = v.imagetags
       }
   })
 }

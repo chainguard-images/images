@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      "buildkit" = {
-        "ref"    = module.latest-root.image_ref
-        "config" = module.latest-root.config
-        "tags"   = ["latest-root"]
-      }
+      "tags" = {}
   })
 }
 

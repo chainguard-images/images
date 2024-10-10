@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.filebeat.image_ref
-        "config" = module.filebeat.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

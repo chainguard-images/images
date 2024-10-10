@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.confluent-kafka.image_ref
-        "config" = module.confluent-kafka.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

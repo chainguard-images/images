@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.dex.image_ref
-        "config" = module.dex.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

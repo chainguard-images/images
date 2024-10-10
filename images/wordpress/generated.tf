@@ -3,18 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.latest.image_ref
-        "config" = module.latest.config
-        "tags"   = ["latest"]
-      }
-    },
-    {
-      basename(path.module) = {
-        "ref"    = module.latest-dev.image_ref
-        "config" = module.latest-dev.config
-        "tags"   = ["latest-dev"]
-      }
+      "tags" = {}
   })
 }
 

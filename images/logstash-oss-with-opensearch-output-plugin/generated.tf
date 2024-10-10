@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.logstash-oss-with-opensearch-output-plugin.image_ref
-        "config" = module.logstash-oss-with-opensearch-output-plugin.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

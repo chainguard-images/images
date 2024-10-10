@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.wave.image_ref
-        "config" = module.wave.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

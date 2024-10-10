@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.az.image_ref
-        "config" = module.az.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

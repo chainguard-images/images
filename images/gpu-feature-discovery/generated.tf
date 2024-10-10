@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.gpu-feature-discovery.image_ref
-        "config" = module.gpu-feature-discovery.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.nvidia-container-toolkit.image_ref
-        "config" = module.nvidia-container-toolkit.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

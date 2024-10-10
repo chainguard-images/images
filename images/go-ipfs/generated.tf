@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.go-ipfs.image_ref
-        "config" = module.go-ipfs.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

@@ -22,3 +22,7 @@ output "versions" {
     }
   }
 }
+
+output "ordered_keys" {
+  value = ["${var.package}"]
+}

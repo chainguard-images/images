@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.argocd-extension-installer.image_ref
-        "config" = module.argocd-extension-installer.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

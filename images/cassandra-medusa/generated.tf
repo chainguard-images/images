@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.cassandra-medusa.image_ref
-        "config" = module.cassandra-medusa.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

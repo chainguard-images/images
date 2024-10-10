@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      for k, v in module.velero-plugin-for-aws : k => {
-        "ref"    = v.image_ref
-        "config" = v.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

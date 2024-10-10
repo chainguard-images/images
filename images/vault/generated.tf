@@ -3,18 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.vault.image_ref
-        "config" = module.vault.config
-        "tags"   = ["latest"]
-      }
-    },
-    {
-      basename(path.module) = {
-        "ref"    = module.vault-k8s.image_ref
-        "config" = module.vault-k8s.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

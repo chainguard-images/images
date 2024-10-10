@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.cert-manager-webhook-pdns.image_ref
-        "config" = module.cert-manager-webhook-pdns.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

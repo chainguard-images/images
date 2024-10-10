@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.newrelic-prometheus-configurator.image_ref
-        "config" = module.newrelic-prometheus-configurator.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

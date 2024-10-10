@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.squid-proxy.image_ref
-        "config" = module.squid-proxy.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

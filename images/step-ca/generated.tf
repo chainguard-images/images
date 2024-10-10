@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.step-ca.image_ref
-        "config" = module.step-ca.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

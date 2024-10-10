@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.kube-webhook-certgen.image_ref
-        "config" = module.kube-webhook-certgen.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

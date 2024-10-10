@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.helm-operator.image_ref
-        "config" = module.helm-operator.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

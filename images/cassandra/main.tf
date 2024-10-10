@@ -35,7 +35,7 @@ module "tagger" {
   depends_on = [module.test-versioned]
   source     = "../../tflib/tagger"
   tags = merge(
-    [for v in module.versioned : v.latest_tag_map]...
+    [for k in module.versions.ordered_keys : module.versioned[k].latest_tag_map]...
   )
 }
 

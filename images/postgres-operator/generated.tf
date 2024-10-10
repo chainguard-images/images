@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.postgres-operator.image_ref
-        "config" = module.postgres-operator.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

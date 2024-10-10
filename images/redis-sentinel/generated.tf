@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.six-dot-two-compat.image_ref
-        "config" = module.six-dot-two-compat.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.nemo.image_ref
-        "config" = module.nemo.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

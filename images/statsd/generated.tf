@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.statsd.image_ref
-        "config" = module.statsd.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

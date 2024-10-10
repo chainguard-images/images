@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.newrelic-fluent-bit-output.image_ref
-        "config" = module.newrelic-fluent-bit-output.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

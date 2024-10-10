@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.rabbitmq-default-user-credential-updater.image_ref
-        "config" = module.rabbitmq-default-user-credential-updater.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.dependency-track.image_ref
-        "config" = module.dependency-track.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

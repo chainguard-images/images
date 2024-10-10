@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.kuberay-operator.image_ref
-        "config" = module.kuberay-operator.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

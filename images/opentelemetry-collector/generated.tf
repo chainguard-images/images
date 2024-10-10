@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.opentelemetry-collector.image_ref
-        "config" = module.opentelemetry-collector.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

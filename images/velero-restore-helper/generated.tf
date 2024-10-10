@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.velero-restore-helper.image_ref
-        "config" = module.velero-restore-helper.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

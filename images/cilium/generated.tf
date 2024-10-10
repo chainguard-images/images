@@ -3,46 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.agent.image_ref
-        "config" = module.agent.config
-        "tags"   = ["latest"]
-      }
-    },
-    {
-      basename(path.module) = {
-        "ref"    = module.hubble-relay.image_ref
-        "config" = module.hubble-relay.config
-        "tags"   = ["latest"]
-      }
-    },
-    {
-      basename(path.module) = {
-        "ref"    = module.hubble-ui.image_ref
-        "config" = module.hubble-ui.config
-        "tags"   = ["latest"]
-      }
-    },
-    {
-      basename(path.module) = {
-        "ref"    = module.hubble-ui-backend.image_ref
-        "config" = module.hubble-ui-backend.config
-        "tags"   = ["latest"]
-      }
-    },
-    {
-      basename(path.module) = {
-        "ref"    = module.operator.image_ref
-        "config" = module.operator.config
-        "tags"   = ["latest"]
-      }
-    },
-    {
-      basename(path.module) = {
-        "ref"    = module.operator-aws.image_ref
-        "config" = module.operator-aws.config
-        "tags"   = module.operator-aws.tag_list
-      }
+      "tags" = {}
   })
 }
 

@@ -3,32 +3,16 @@
 output "summary" {
   value = merge(
     {
-      for k, v in module.install-cni-versioned : k => {
-        "ref"    = v.image_ref
-        "config" = v.config
-        "tags"   = v.tag_list
-      }
+      "tags" = module.install-cni-tagger.imagetags
     },
     {
-      for k, v in module.operator-versioned : k => {
-        "ref"    = v.image_ref
-        "config" = v.config
-        "tags"   = v.tag_list
-      }
+      "tags" = module.operator-tagger.imagetags
     },
     {
-      for k, v in module.pilot-versioned : k => {
-        "ref"    = v.image_ref
-        "config" = v.config
-        "tags"   = v.tag_list
-      }
+      "tags" = module.pilot-tagger.imagetags
     },
     {
-      for k, v in module.proxy-versioned : k => {
-        "ref"    = v.image_ref
-        "config" = v.config
-        "tags"   = v.tag_list
-      }
+      "tags" = module.proxy-tagger.imagetags
   })
 }
 

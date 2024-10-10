@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.kubernetes-autoscaler-addon-resizer.image_ref
-        "config" = module.kubernetes-autoscaler-addon-resizer.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 

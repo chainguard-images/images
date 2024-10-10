@@ -3,11 +3,7 @@
 output "summary" {
   value = merge(
     {
-      basename(path.module) = {
-        "ref"    = module.grafana-agent-operator.image_ref
-        "config" = module.grafana-agent-operator.config
-        "tags"   = ["latest"]
-      }
+      "tags" = {}
   })
 }
 
