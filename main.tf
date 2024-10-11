@@ -13,7 +13,30 @@ terraform {
   backend "inmem" {}
 }
 
+variable "tests_skip_all" {
+  type    = bool
+  default = false
+}
+
+variable "tests_include_by_label" {
+  type    = map(string)
+  default = {}
+}
+
+variable "tests_exclude_by_label" {
+  type    = map(string)
+  default = {}
+}
+
 provider "imagetest" {
+  repo = "${var.target_repository}/imagetest"
+
+  test_execution = {
+    skip_all_tests   = var.tests_skip_all
+    include_by_label = var.tests_include_by_label
+    exclude_by_label = var.tests_exclude_by_label
+  }
+
   log = {
     file = {
       directory = "imagetest-logs"
