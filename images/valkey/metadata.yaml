@@ -9,7 +9,6 @@ readme_file: README.md
 upstream_url: https://github.com/valkey-io/valkey
 keywords:
   - application
-  - databases
 tier: APPLICATION
 aliases:
   - valkey/valkey:latest

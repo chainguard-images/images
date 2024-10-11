@@ -9,6 +9,5 @@ readme_file: README.md
 upstream_url: https://argoproj.github.io/cd/
 keywords:
   - application
-  - cicd
 aliases:
   - argoproj/argocd:latest

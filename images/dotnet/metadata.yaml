@@ -20,7 +20,6 @@ readme_file: README.md
 upstream_url: https://dot.net/core
 keywords:
   - base
-  - languages
 aliases:
   - mcr.microsoft.com/dotnet/runtime:latest
   - mcr.microsoft.com/dotnet/sdk:latest

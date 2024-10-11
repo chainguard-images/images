@@ -9,8 +9,6 @@ readme_file: README.md
 upstream_url: https://github.com/elastic/kibana
 keywords:
   - application
-  - observability
-  - metrics
   - ai
 tier: APPLICATION
 aliases:

@@ -8,7 +8,6 @@ compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/prometheus/statsd_exporter
 keywords:
-  - analytics
   - application
 aliases:
   - prom/statsd-exporter:latest

@@ -18,6 +18,5 @@ upstream_url: https://github.com/k8snetworkplumbingwg/multus-cni
 
 keywords: 
   - application
-  - kubernetes
 
 tier: APPLICATION

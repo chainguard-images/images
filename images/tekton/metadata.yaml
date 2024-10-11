@@ -9,5 +9,4 @@ readme_file: README.md
 upstream_url: https://tekton.dev
 keywords:
   - application
-  - cicd
 tier: APPLICATION

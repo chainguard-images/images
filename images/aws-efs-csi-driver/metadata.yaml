@@ -9,6 +9,5 @@ readme_file: README.md
 upstream_url: https://github.com/kubernetes-sigs/aws-efs-csi-driver
 keywords:
   - application
-  - kubernetes
 aliases:
   - amazon/aws-efs-csi-driver:latest

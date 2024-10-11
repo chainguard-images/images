@@ -7,7 +7,6 @@ short_description: "Measure various GitLab metrics pulled from Redis and the dat
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://docs.gitlab.com/ee/administration/monitoring/prometheus/gitlab_exporter.html
-keywords:
-  - gitlab
+keywords: []
 public: true
 tier: APPLICATION

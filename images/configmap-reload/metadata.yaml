@@ -9,7 +9,6 @@ readme_file: README.md
 upstream_url: https://github.com/jimmidyson/configmap-reload
 keywords:
   - application
-  - kubernetes
 tier: APPLICATION
 aliases:
   - bitnami/configmap-reload:latest

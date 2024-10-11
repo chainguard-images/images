@@ -9,5 +9,4 @@ readme_file: README.md
 upstream_url: https://github.com/vmware/kube-fluentd-operator
 keywords:
   - application
-  - kubernetes
 tier: APPLICATION

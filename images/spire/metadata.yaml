@@ -12,4 +12,3 @@ readme_file: README.md
 upstream_url: https://spiffe.io/docs/latest/spire-about/
 keywords:
   - application
-  - kubernetes

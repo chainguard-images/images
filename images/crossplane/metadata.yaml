@@ -9,7 +9,6 @@ readme_file: README.md
 upstream_url: https://github.com/crossplane/crossplane
 keywords:
   - application
-  - tools
 tier: APPLICATION
 aliases:
   - crossplane/crossplane:latest

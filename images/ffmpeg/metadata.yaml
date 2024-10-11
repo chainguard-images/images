@@ -9,7 +9,6 @@ readme_file: README.md
 upstream_url: https://ffmpeg.org/
 keywords:
   - application
-  - tools
 tier: APPLICATION
 aliases:
   - jrottenberg/ffmpeg:latest

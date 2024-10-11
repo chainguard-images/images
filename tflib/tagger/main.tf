@@ -27,13 +27,14 @@ locals { parsed = { for k, v in var.tags : k => provider::oci::parse(v) } }
 
 locals {
   repos     = toset([for k, v in local.parsed : "${v.registry}/${v.repo}"])
+  repo      = tolist(local.repos)[0] # TODO: support more than one repo per tagger invocation?
   tags      = { for t, dr in var.tags : t => split("@", dr)[1] if !contains(var.exclude, t) }
   images    = distinct([for tag, ref in local.tags : ref])
-  imagetags = { for image in local.images : image => compact([for tag, ref in local.tags : image == ref ? tag : null]) }
+  imagetags = { for image in local.images : "${local.repo}@${image}" => compact([for tag, ref in local.tags : image == ref ? tag : null]) }
 }
 
 resource "oci_tags" "this" {
-  repo = tolist(local.repos)[0]
+  repo = local.repo
   tags = local.tags
 
   lifecycle {

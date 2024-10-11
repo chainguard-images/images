@@ -9,7 +9,5 @@ readme_file: README.md
 upstream_url: https://github.com/jellyfin/jellyfin
 keywords:
   - application
-  - media
-  - streaming
 aliases:
   - jellyfin/jellyfin:latest

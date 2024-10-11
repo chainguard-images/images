@@ -9,6 +9,5 @@ readme_file: README.md
 upstream_url: https://github.com/minio/minio
 keywords:
   - application
-  - databases
 aliases:
   - minio/minio:latest

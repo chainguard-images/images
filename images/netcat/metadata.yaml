@@ -9,6 +9,4 @@ readme_file: README.md
 upstream_url: https://salsa.debian.org/debian/netcat-openbsd
 keywords:
   - application
-  - networking
-  - sigstore
 tier: APPLICATION

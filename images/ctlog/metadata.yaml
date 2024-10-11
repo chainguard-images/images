@@ -9,6 +9,4 @@ readme_file: README.md
 upstream_url: http://sigstore.dev/
 keywords:
   - application
-  - sigstore
-  - tools
 tier: APPLICATION

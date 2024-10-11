@@ -24,6 +24,7 @@ apk add patch git
 repo_path=$(mktemp -d)
 git clone --depth 1 ${var.git_repo} $repo_path
 
+%{if length(var.patches) > 0}
 (
   cd $repo_path || exit
   echo "${join(" ", var.patches)}" | tr ' ' '\n' | while read -r patchfile; do
@@ -35,6 +36,7 @@ git clone --depth 1 ${var.git_repo} $repo_path
     patch '-p1' < $patchfile || echo "Failed to apply patch: $patchfile" && exit
   done
 )
+%{endif}
 
 chart=$repo_path/${var.chart}
 %{endif}

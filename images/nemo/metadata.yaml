@@ -9,5 +9,5 @@ readme_file: README.md
 upstream_url: https://github.com/wolfi-dev/os
 keywords:
   - ai
-  - gpu
+  - ai-gpu
 tier: AI

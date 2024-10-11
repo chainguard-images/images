@@ -9,7 +9,7 @@ readme_file: README.md
 upstream_url: https://www.rust-lang.org/
 keywords:
   - application
-  - languages
+  - base
 public: true
 tier: APPLICATION
 aliases:

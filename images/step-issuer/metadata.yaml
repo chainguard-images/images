@@ -9,10 +9,6 @@ readme_file: README.md
 upstream_url: https://github.com/wolfi-dev/os
 keywords:
   - application
-  - developer
-  - kubernetes
-  - security
-  - tools
 tier: APPLICATION
 aliases:
   - smallstep/step-issuer:latest

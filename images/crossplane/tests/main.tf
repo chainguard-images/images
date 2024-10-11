@@ -14,11 +14,10 @@ variable "digests" {
 
 locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
 
-data "imagetest_inventory" "this" {}
+module "crossplane_harness" {
+  source = "../../crossplane/tests/harness/"
 
-resource "imagetest_harness_k3s" "this" {
-  name      = "crossplane"
-  inventory = data.imagetest_inventory.this
+  tests_path = path.module
 }
 
 module "helm_crossplane" {
@@ -33,7 +32,7 @@ module "helm_crossplane" {
 }
 
 resource "imagetest_feature" "basic" {
-  harness     = imagetest_harness_k3s.this
+  harness     = module.crossplane_harness.harness
   name        = "Basic"
   description = "Basic functionality of the cert-manager helm chart."
 

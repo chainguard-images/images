@@ -9,6 +9,3 @@ readme_file: README.md
 upstream_url: https://postgres-operator.readthedocs.io/
 keywords:
   - application
-  - databases
-  - operator
-  - kubernetes

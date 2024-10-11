@@ -9,7 +9,6 @@ readme_file: README.md
 upstream_url: https://github.com/etcd-io/etcd
 keywords:
   - application
-  - tools
 aliases:
   - bitnami/etcd:latest
   - quay.io/coreos/etcd:latest

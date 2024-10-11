@@ -9,7 +9,6 @@ readme_file: README.md
 upstream_url: https://clickhouse.com
 keywords:
   - application
-  - databases
 tier: APPLICATION
 aliases:
   - clickhouse/clickhouse-server:latest

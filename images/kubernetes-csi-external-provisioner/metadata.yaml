@@ -10,5 +10,4 @@ upstream_url: https://github.com/kubernetes-csi/external-provisioner
 public: true
 keywords:
   - application
-  - kubernetes
 tier: APPLICATION

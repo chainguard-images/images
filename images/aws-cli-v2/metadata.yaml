@@ -9,6 +9,5 @@ readme_file: README.md
 upstream_url: https://github.com/aws/aws-cli/tree/v2
 keywords:
   - application
-  - tools
 aliases:
   - amazon/aws-cli:latest

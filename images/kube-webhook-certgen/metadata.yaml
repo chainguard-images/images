@@ -7,5 +7,5 @@ short_description: Generates certificates and updates Kubernetes webhooks, integ
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/kubernetes/ingress-nginx/tree/main/images/kube-webhook-certgen
-keywords: [kubernetes]
+keywords: []
 tier: APPLICATION

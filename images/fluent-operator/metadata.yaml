@@ -8,6 +8,4 @@ compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/fluent/fluent-operator
 keywords:
-  - analytics
   - application
-  - kubernetes

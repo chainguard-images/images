@@ -9,7 +9,6 @@ readme_file: README.md
 upstream_url: https://github.com/helm/chartmuseum
 keywords:
   - application
-  - kubernetes
 tier: APPLICATION
 aliases:
   - chartmuseum/chartmuseum:latest

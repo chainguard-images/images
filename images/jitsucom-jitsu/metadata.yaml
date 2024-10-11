@@ -8,7 +8,6 @@ compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/jitsucom/jitsu
 keywords:
-  - jitsu
   - application
 aliases:
   - jitsucom/jitsu:latest

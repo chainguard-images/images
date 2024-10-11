@@ -10,5 +10,4 @@ upstream_url: https://github.com/kubeflow/katib
 keywords:
   - ai
   - application
-  - kubernetes
 tier: APPLICATION

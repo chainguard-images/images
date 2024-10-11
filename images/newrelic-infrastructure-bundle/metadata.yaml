@@ -8,7 +8,6 @@ compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/newrelic/infrastructure-bundle
 keywords:
-  - analytics
   - application
 aliases:
   - newrelic/infrastructure-bundle:latest

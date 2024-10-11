@@ -10,7 +10,6 @@ upstream_url: https://github.com/envoyproxy/envoy
 keywords:
   - application
   - featured
-  - networking
 aliases:
   - bitnami/envoy:latest
   - envoyproxy/envoy:v1.25-latest

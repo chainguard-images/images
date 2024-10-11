@@ -7,6 +7,5 @@ short_description: Base image for the [Wolfi Linux Distribution](https://wolfi.d
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://wolfi.dev
-keywords:
-  - tools
+keywords: []
 tier: BASE

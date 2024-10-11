@@ -9,8 +9,6 @@ readme_file: README.md
 upstream_url: https://www.r-project.org/
 keywords:
   - base
-  - databases
-  - languages
 tier: BASE
 aliases:
   - r-base:latest

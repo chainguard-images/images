@@ -7,7 +7,6 @@ short_description: "Publish static websites directly from a repository in GitLab
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://docs.gitlab.com/ee/user/project/pages
-keywords:
-  - gitlab
+keywords: []
 public: true
 tier: APPLICATION
