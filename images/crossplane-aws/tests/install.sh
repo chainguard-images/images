@@ -44,8 +44,8 @@ EOF
 done
 
 for provider in "${!providerDigests[@]}"; do
-  kubectl wait --for=condition=Installed "provider/provider-aws-${provider}" --timeout=3m
-  kubectl wait --for=condition=Healthy   "provider/provider-aws-${provider}" --timeout=5m
+  kubectl wait --for=condition=Installed "provider/provider-aws-${provider}" --timeout=10m
+  kubectl wait --for=condition=Healthy "provider/provider-aws-${provider}" --timeout=10m
 done
 
 # Update the AWS family provider that was installed by the above providers as a dependency, to use our AWS family provider instead.
@@ -62,5 +62,5 @@ spec:
   - name: regcred
 EOF
 
-kubectl wait --for=condition=Installed provider/upbound-provider-family-aws --timeout=3m
-kubectl wait --for=condition=Healthy   provider/upbound-provider-family-aws --timeout=5m
+kubectl wait --for=condition=Installed provider/upbound-provider-family-aws --timeout=10m
+kubectl wait --for=condition=Healthy provider/upbound-provider-family-aws --timeout=10m

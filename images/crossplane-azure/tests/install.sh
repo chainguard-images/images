@@ -3,10 +3,10 @@
 set -o errexit -o nounset -o errtrace -o pipefail
 
 declare -A providerDigests=(
-	[authorization]=${AUTHORIZATION_DIGEST}
-	[managedidentity]=${MANAGEDIDENTITY_DIGEST}
-	[sql]=${SQL_DIGEST}
-	[storage]=${STORAGE_DIGEST}
+  [authorization]=${AUTHORIZATION_DIGEST}
+  [managedidentity]=${MANAGEDIDENTITY_DIGEST}
+  [sql]=${SQL_DIGEST}
+  [storage]=${STORAGE_DIGEST}
 )
 
 cat <<EOF | kubectl apply -f -
@@ -22,13 +22,13 @@ spec:
   - name: regcred
 EOF
 
-kubectl wait --for=condition=Installed provider/upbound-provider-family-azure --timeout=3m
-kubectl wait --for=condition=Healthy provider/upbound-provider-family-azure --timeout=5m
+kubectl wait --for=condition=Installed provider/upbound-provider-family-azure --timeout=10m
+kubectl wait --for=condition=Healthy provider/upbound-provider-family-azure --timeout=10m
 
 for provider in "${!providerDigests[@]}"; do
-	digest="${providerDigests[$provider]}"
+  digest="${providerDigests[$provider]}"
 
-	cat <<EOF | kubectl apply -f -
+  cat <<EOF | kubectl apply -f -
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
@@ -44,13 +44,12 @@ spec:
   # We use pseudo_tags for the provider images, so we need to ignore the semver
   # checks.
   ignoreCrossplaneConstraints: true
-  # When applicable, use the regcred secret to pull the provider images.
   packagePullSecrets:
   - name: regcred
 EOF
 done
 
 for provider in "${!providerDigests[@]}"; do
-	kubectl wait --for=condition=Installed "provider/provider-azure-${provider}" --timeout=3m
-	kubectl wait --for=condition=Healthy "provider/provider-azure-${provider}" --timeout=5m
+  kubectl wait --for=condition=Installed "provider/provider-azure-${provider}" --timeout=10m
+  kubectl wait --for=condition=Healthy "provider/provider-azure-${provider}" --timeout=10m
 done

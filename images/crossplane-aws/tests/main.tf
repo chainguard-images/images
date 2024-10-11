@@ -25,36 +25,26 @@ variable "digests" {
   })
 }
 
-data "imagetest_inventory" "this" {}
+module "crossplane_harness" {
+  source = "../../crossplane/tests/harness/"
 
-resource "imagetest_harness_k3s" "this" {
-  name      = "crossplane"
-  inventory = data.imagetest_inventory.this
+  tests_path = path.module
 
-  sandbox = {
-    mounts = [
-      {
-        source      = path.module
-        destination = "/tests"
-      }
-    ]
-
-    envs = {
-      "AWS_DIGEST"            = var.digests.family
-      "CLOUDFRONT_DIGEST"     = var.digests.cloudfront
-      "CLOUDWATCHLOGS_DIGEST" = var.digests.cloudwatchlogs
-      "DYNAMODB_DIGEST"       = var.digests.dynamodb
-      "EC2_DIGEST"            = var.digests.ec2
-      "EKS_DIGEST"            = var.digests.eks
-      "FIREHOSE_DIGEST"       = var.digests.firehose
-      "IAM_DIGEST"            = var.digests.iam
-      "KMS_DIGEST"            = var.digests.kms
-      "LAMBDA_DIGEST"         = var.digests.lambda
-      "RDS_DIGEST"            = var.digests.rds
-      "S3_DIGEST"             = var.digests.s3
-      "SNS_DIGEST"            = var.digests.sns
-      "SQS_DIGEST"            = var.digests.sqs
-    }
+  envs = {
+    "AWS_DIGEST"            = var.digests.family
+    "CLOUDFRONT_DIGEST"     = var.digests.cloudfront
+    "CLOUDWATCHLOGS_DIGEST" = var.digests.cloudwatchlogs
+    "DYNAMODB_DIGEST"       = var.digests.dynamodb
+    "EC2_DIGEST"            = var.digests.ec2
+    "EKS_DIGEST"            = var.digests.eks
+    "FIREHOSE_DIGEST"       = var.digests.firehose
+    "IAM_DIGEST"            = var.digests.iam
+    "KMS_DIGEST"            = var.digests.kms
+    "LAMBDA_DIGEST"         = var.digests.lambda
+    "RDS_DIGEST"            = var.digests.rds
+    "S3_DIGEST"             = var.digests.s3
+    "SNS_DIGEST"            = var.digests.sns
+    "SQS_DIGEST"            = var.digests.sqs
   }
 }
 
@@ -63,7 +53,7 @@ module "helm_crossplane" {
 }
 
 resource "imagetest_feature" "basic" {
-  harness     = imagetest_harness_k3s.this
+  harness     = module.crossplane_harness.harness
   name        = "Basic"
   description = "Basic functionality of the crossplane-aws images."
 

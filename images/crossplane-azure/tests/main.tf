@@ -16,27 +16,17 @@ variable "digests" {
   })
 }
 
-data "imagetest_inventory" "this" {}
+module "crossplane_harness" {
+  source = "../../crossplane/tests/harness/"
 
-resource "imagetest_harness_k3s" "this" {
-  name      = "crossplane"
-  inventory = data.imagetest_inventory.this
+  tests_path = path.module
 
-  sandbox = {
-    mounts = [
-      {
-        source      = path.module
-        destination = "/tests"
-      }
-    ]
-
-    envs = {
-      "AZURE_DIGEST"           = var.digests.family
-      "AUTHORIZATION_DIGEST"   = var.digests.authorization
-      "MANAGEDIDENTITY_DIGEST" = var.digests.managedidentity
-      "SQL_DIGEST"             = var.digests.sql
-      "STORAGE_DIGEST"         = var.digests.storage
-    }
+  envs = {
+    "AZURE_DIGEST"           = var.digests.family
+    "AUTHORIZATION_DIGEST"   = var.digests.authorization
+    "MANAGEDIDENTITY_DIGEST" = var.digests.managedidentity
+    "SQL_DIGEST"             = var.digests.sql
+    "STORAGE_DIGEST"         = var.digests.storage
   }
 }
 
@@ -45,7 +35,7 @@ module "helm_crossplane" {
 }
 
 resource "imagetest_feature" "basic" {
-  harness     = imagetest_harness_k3s.this
+  harness     = module.crossplane_harness.harness
   name        = "Basic"
   description = "Basic functionality of the crossplane-azure images."
 
@@ -67,6 +57,6 @@ resource "imagetest_feature" "basic" {
   timeouts = {
     # This can take a while since we're working in serial to avoid disk
     # pressure
-    create = "15m"
+    create = "20m"
   }
 }
