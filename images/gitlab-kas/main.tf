@@ -4,8 +4,9 @@ module "versions" {
 }
 
 locals {
-  last = [for k, v in module.versions.versions : k if v.is_latest][0]
-  name = basename(path.module)
+  last_agent = [for k, v in local.component_versions : k if v.is_latest][0]
+  last       = [for k, v in module.versions.versions : k if v.is_latest][0]
+  name       = basename(path.module)
 }
 
 variable "target_repository" {
@@ -31,7 +32,8 @@ module "versioned" {
 
 module "test" {
   digests = {
-    kas = module.versioned[local.last].image_ref
+    kas   = module.versioned[local.last].image_ref
+    agent = module.agent_versioned[local.last_agent].image_ref
   }
   source = "./tests"
 }
