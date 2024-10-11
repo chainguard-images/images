@@ -4,7 +4,8 @@ variable "package" {
 
 // Note: unused
 variable "eol-grace-months" {
-  default = 0
+  description = "Length of time to allow EOL versions to be included in versions output. Default set to 1 month."
+  default     = 0
 }
 
 // Note: unused
