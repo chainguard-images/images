@@ -9,5 +9,4 @@ readme_file: README.md
 upstream_url: https://github.com/kubernetes-sigs/sig-storage-local-static-provisioner/tree/master/cmd/node-cleanup
 keywords:
 - application
-- kubernetes
 tier: APPLICATION

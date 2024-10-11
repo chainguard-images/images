@@ -9,5 +9,4 @@ readme_file: README.md
 upstream_url: https://github.com/google/cadvisor
 keywords:
   - application
-  - kubernetes
 tier: APPLICATION

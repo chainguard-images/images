@@ -9,6 +9,5 @@ readme_file: README.md
 upstream_url: https://github.com/aws/aws-for-fluent-bit
 keywords:
   - application
-  - kubernetes
 aliases:
   - amazon/aws-for-fluent-bit:latest

@@ -10,4 +10,3 @@ upstream_url: https://github.com/kubeflow/pipelines
 keywords:
   - ai
   - application
-  - kubernetes

@@ -126,6 +126,13 @@ ls -a ~/workspace/
 ```
 .  ..  .github
 ```
+
+If you do not want to make the destination directory world-writable, you can run the git executable inside the container with your UID, thus giving it access to the directory:
+
+```shell
+docker run -it -v ~/workspace:/home/git -u $(id -u) --rm cgr.dev/chainguard/git clone https://github.com/chainguard-images/.github.git
+```
+
 <!--body:end-->
 
 ## Contact Support

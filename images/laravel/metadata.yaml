@@ -9,6 +9,4 @@ readme_file: README.md
 upstream_url: https://www.laravel.com/
 keywords:
   - base
-  - languages
-  - frameworks
 tier: BASE

@@ -9,8 +9,5 @@ readme_file: README.md
 upstream_url: https://github.com/keycloak/keycloak/tree/main/operator
 keywords:
   - application
-  - tools
-  - operator
-  - kubernetes
 aliases:
   - keycloak/keycloak-operator:latest

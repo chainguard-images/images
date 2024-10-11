@@ -9,6 +9,4 @@ readme_file: README.md
 upstream_url: https://github.com/octo-sts/app
 keywords:
   - application
-  - github
-  - sts
 tier: APPLICATION

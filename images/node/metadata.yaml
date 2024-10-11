@@ -12,7 +12,6 @@ readme_file: README.md
 upstream_url: https://nodejs.org/
 keywords:
   - base
-  - languages
   - featured
 public: true
 tier: BASE

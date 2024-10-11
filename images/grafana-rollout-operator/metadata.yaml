@@ -9,5 +9,4 @@ readme_file: README.md
 upstream_url: https://github.com/grafana/rollout-operator
 keywords:
   - application
-  - kubernetes
 tier: APPLICATION

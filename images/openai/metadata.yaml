@@ -9,6 +9,5 @@ readme_file: README.md
 upstream_url: https://github.com/openai/openai-python
 keywords:
   - ai
-  - analytics
   - application
 tier: APPLICATION

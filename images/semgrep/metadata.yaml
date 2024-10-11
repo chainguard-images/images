@@ -9,6 +9,5 @@ readme_file: README.md
 upstream_url: https://semgrep.dev/
 keywords:
   - application
-  - tools
 aliases:
   - returntocorp/semgrep:latest

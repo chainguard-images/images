@@ -9,5 +9,5 @@ readme_file: README.md
 upstream_url: https://ziglang.org/
 keywords:
   - application
-  - languages
+  - base
 tier: APPLICATION

@@ -8,7 +8,6 @@ compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/prometheus-community/postgres_exporter
 keywords:
-  - analytics
   - application
 aliases:
   - wrouesnel/postgres_exporter:latest

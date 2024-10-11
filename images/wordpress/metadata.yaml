@@ -8,9 +8,8 @@ compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://www.wordpress.org/
 keywords:
-  - applications
-  - languages
-  - frameworks
+  - application
+  - base
 tier: APPLICATION
 aliases:
   - wordpress:latest

@@ -9,7 +9,6 @@ readme_file: README.md
 upstream_url: https://github.com/wagoodman/dive
 keywords:
   - application
-  - tools
 tier: APPLICATION
 aliases:
   - wagoodman/dive:latest

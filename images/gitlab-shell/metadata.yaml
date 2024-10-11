@@ -7,8 +7,6 @@ short_description: Gitlab Shell
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://gitlab.com/gitlab-org/gitlab-shell
-keywords:
-  - gitlab
-  - shell
+keywords: []
 public: true
 tier: APPLICATION

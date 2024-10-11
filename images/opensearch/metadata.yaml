@@ -8,7 +8,6 @@ compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://opensearch.org/
 keywords:
-  - analytics
   - application
   - ai
 tier: APPLICATION

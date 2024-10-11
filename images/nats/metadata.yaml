@@ -9,6 +9,5 @@ readme_file: README.md
 upstream_url: https://nats.io/
 keywords:
   - application
-  - messaging
 aliases:
   - nats:latest

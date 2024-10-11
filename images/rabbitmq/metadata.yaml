@@ -9,7 +9,6 @@ readme_file: README.md
 upstream_url: https://github.com/rabbitmq/rabbitmq-server
 keywords:
   - application
-  - messaging
 public: true
 tier: APPLICATION
 aliases:

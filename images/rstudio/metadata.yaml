@@ -9,7 +9,6 @@ readme_file: README.md
 upstream_url: https://github.com/rstudio/rstudio
 keywords:
   - application
-  - ide
   - ai
 aliases:
   - rocker/rstudio:latest

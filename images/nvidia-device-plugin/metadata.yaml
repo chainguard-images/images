@@ -9,6 +9,5 @@ readme_file: README.md
 upstream_url: https://github.com/NVIDIA/k8s-device-plugin
 keywords:
   - application
-  - tools
 aliases:
   - nvidia/k8s-device-plugin:latest

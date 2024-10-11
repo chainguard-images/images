@@ -10,6 +10,5 @@ upstream_url: https://github.com/dexidp/dex
 keywords:
   - ai
   - application
-  - tools
 aliases:
   - dexidp/dex:latest

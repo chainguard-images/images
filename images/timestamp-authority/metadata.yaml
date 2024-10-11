@@ -9,6 +9,4 @@ readme_file: README.md
 upstream_url: https://github.com/sigstore/timestamp-authority
 keywords:
   - application
-  - sigstore
-  - tools
 tier: APPLICATION

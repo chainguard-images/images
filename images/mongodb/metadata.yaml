@@ -9,7 +9,6 @@ readme_file: README.md
 upstream_url: https://github.com/mongodb/mongo
 keywords:
   - application
-  - database
   - ai
 aliases:
   - mongo:latest

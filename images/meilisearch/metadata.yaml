@@ -8,7 +8,6 @@ compatibility_notes: The image specifies a default non-root `meilisearch` user (
 readme_file: README.md
 upstream_url: https://www.meilisearch.com/
 keywords:
-  - analytics
   - application
   - ai
 tier: APPLICATION

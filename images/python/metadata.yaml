@@ -10,7 +10,6 @@ upstream_url: https://www.python.org/
 keywords:
   - base
   - featured
-  - languages
 aliases:
   - bitnami/python:latest
   - python:3.10

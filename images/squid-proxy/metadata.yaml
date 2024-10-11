@@ -7,5 +7,5 @@ short_description: "Squid Proxy is an open-source, high-performance, and highly 
 compatibility_notes: "Squid Proxy is compatible with a wide range of operating systems including Linux, *BSDs, macOS, and Windows. It supports HTTP, HTTPS, FTP, and more. For detailed compatibility information, refer to the specific version documentation."
 readme_file: README.md
 upstream_url: https://github.com/squid-cache/squid
-keywords:  ["proxy", "caching", "forwarding", "security"]
+keywords: []
 tier: APPLICATION

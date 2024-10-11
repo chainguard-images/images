@@ -9,10 +9,6 @@ readme_file: README.md
 upstream_url: https://github.com/smallstep/certificates
 keywords:
   - application
-  - developer
-  - kubernetes
-  - security
-  - tools
 tier: APPLICATION
 aliases:
   - smallstep/step-ca:latest

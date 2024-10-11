@@ -9,7 +9,6 @@ readme_file: README.md
 upstream_url: https://github.com/k3s-io/k3s
 keywords:
   - application
-  - kubernetes
 tier: APPLICATION
 aliases:
   - rancher/k3s:latest

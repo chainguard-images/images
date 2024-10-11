@@ -10,5 +10,4 @@ upstream_url: https://github.com/kubeflow/kubeflow
 keywords:
   - ai
   - application
-  - kubernetes
 tier: APPLICATION

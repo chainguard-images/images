@@ -9,6 +9,5 @@ readme_file: README.md
 upstream_url: https://codeberg.org/hjacobs/kube-downscaler
 keywords:
   - application
-  - kubernetes
 aliases:
   - hjacobs/kube-downscaler:latest

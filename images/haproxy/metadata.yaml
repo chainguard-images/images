@@ -9,7 +9,6 @@ readme_file: README.md
 upstream_url: https://www.haproxy.org/
 keywords:
   - application
-  - servers
 aliases:
   - bitnami/haproxy:latest
   - haproxy:alpine

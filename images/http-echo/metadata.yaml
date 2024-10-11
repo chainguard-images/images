@@ -9,6 +9,5 @@ readme_file: README.md
 upstream_url: https://github.com/hashicorp/http-echo
 keywords:
   - application
-  - networking
 aliases:
   - hashicorp/http-echo:latest

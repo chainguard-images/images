@@ -9,6 +9,5 @@ readme_file: README.md
 upstream_url: https://mariadb.org
 keywords:
   - application
-  - databases
 aliases:
   - mariadb:latest
