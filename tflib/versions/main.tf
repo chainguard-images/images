@@ -3,12 +3,6 @@ variable "package" {
 }
 
 // Note: unused
-variable "eol-grace-months" {
-  description = "Length of time to allow EOL versions to be included in versions output. Default set to 1 month."
-  default     = 0
-}
-
-// Note: unused
 variable "variant" {
   default = ""
 }

@@ -1,0 +1,38 @@
+apiVersion: nop.crossplane.io/v1alpha1
+kind: NopResource
+metadata:
+  name: example
+spec:
+  forProvider:
+    conditionAfter:
+      - conditionStatus: "True"
+        conditionType: Ready
+        time: 30s
+      - conditionStatus: "False"
+        conditionType: Ready
+        time: 60s
+      - conditionStatus: "True"
+        conditionType: Ready
+        time: 90s
+      - conditionStatus: "True"
+        conditionType: Green
+        time: 90s
+    connectionDetails:
+      - name: username
+        value: fakeuser
+      - name: password
+        value: verysecurepassword
+      - name: endpoint
+        value: 127.0.0.1
+    fields:
+      arrayField:
+        - stringField: cool
+      integerField: 42
+      objectField:
+        stringField: cool
+      stringField: cool
+  providerConfigRef:
+    name: default
+  writeConnectionSecretToRef:
+    name: nop-example-resource
+    namespace: crossplane-system
