@@ -1,52 +1,45 @@
-locals {
-  baseline_packages = ["busybox", "glibc-locale-en"]
+variable "extra_packages" {
+  description = "The additional packages to install"
+  type        = list(string)
+  default     = []
+}
+
+variable "extra_environment" {
+  description = "Additional apko environment."
+  type        = map(string)
+  default     = {}
 }
 
 module "accts" {
-  name   = "maven"
   source = "../../../tflib/accts"
-}
-
-terraform {
-  required_providers {
-    apko = { source = "chainguard-dev/apko" }
-  }
-}
-
-variable "extra_packages" {
-  default     = ["maven", "openjdk-17", "openjdk-17-default-jvm"]
-  description = "The additional packages to install"
-}
-
-variable "java_home" {
-  default     = "/usr/lib/jvm/java-17-openjdk"
-  description = "The JAVA_HOME to set"
+  uid    = 65532
+  gid    = 65532
+  run-as = 65532
 }
 
 output "config" {
   value = jsonencode({
-    "contents" : {
-      // TODO: remove the need for using hardcoded local.baseline_packages by plumbing
-      // these packages through var.extra_packages in all callers of this config module
-      "packages" : distinct(concat(local.baseline_packages, var.extra_packages))
-    },
-    "entrypoint" : {
-      "command" : "/usr/bin/mvn"
-    },
-    "work-dir" : "/home/build",
-    "accounts" : module.accts.block,
-    "environment" : {
-      "LANG" : "en_US.UTF-8"
-    },
-    "paths" : [
+    contents = {
+      packages = concat([
+      ], var.extra_packages)
+    }
+    accounts = module.accts.block
+    entrypoint = {
+      command = "/usr/bin/mvn"
+    }
+    work-dir = "/home/build"
+    environment = merge({
+      JAVA_HOME = "/usr/lib/jvm/default-jvm"
+      LANG      = "en_US.UTF-8"
+    }, var.extra_environment)
+    paths = [
       {
-        "path" : "/home/build",
-        "type" : "directory",
-        "uid" : 65532,
-        "gid" : 65532,
-        "permissions" : 493
+        path        = "/home/build"
+        type        = "directory"
+        uid         = 65532
+        gid         = 65532
+        permissions = 493
       }
     ]
   })
 }
-

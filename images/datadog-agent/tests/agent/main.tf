@@ -36,7 +36,7 @@ resource "imagetest_harness_k3s" "this" {
 }
 
 module "helm" {
-  source = "../../../tflib/imagetest/helm"
+  source = "../../../../tflib/imagetest/helm"
 
   namespace = var.namespace
   repo      = "https://helm.datadoghq.com"
@@ -95,7 +95,7 @@ module "helm" {
   }
 }
 
-resource "imagetest_feature" "basic" {
+resource "imagetest_feature" "basic-helm" {
   name        = "Basic"
   description = "Basic datadog-agent Helm install test"
   harness     = imagetest_harness_k3s.this

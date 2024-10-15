@@ -22,7 +22,7 @@ variable "java-target-version" {
 
 data "oci_exec_test" "version" {
   digest = var.digest
-  script = "docker run --rm $IMAGE_NAME javac -version"
+  script = "docker run --entrypoint javac --rm $IMAGE_NAME -version"
 }
 
 module "jre-test" {

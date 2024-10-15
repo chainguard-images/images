@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
+    oci       = { source = "chainguard-dev/oci" }
   }
 }
 
@@ -8,9 +9,34 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-locals { parsed = provider::oci::parse(var.digest) }
+data "imagetest_inventory" "inventory" {}
 
-data "oci_exec_test" "smoke" {
-  digest = var.digest
-  script = "${path.module}/smoke.sh"
+// Run a simple Docker test to verify the image is working.
+resource "imagetest_harness_docker" "docker" {
+  name      = "docker"
+  inventory = data.imagetest_inventory.inventory
+
+  envs = {
+    IMAGE_NAME : var.digest
+  }
+  mounts = [
+    {
+      source      = path.module
+      destination = "/tests"
+    }
+  ]
+}
+
+resource "imagetest_feature" "test" {
+  name    = "docker-test"
+  harness = imagetest_harness_docker.docker
+
+  steps = [{
+    name    = "basic test"
+    workdir = "/tests"
+    cmd     = <<EOF
+        ./smoke.sh
+      EOF
+    },
+  ]
 }

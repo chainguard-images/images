@@ -27,6 +27,7 @@ output "config" {
     contents = {
       packages = concat([
         "docker-selenium-supervisor-config",
+        "docker-selenium-standalone-chrome",
       ], var.extra_packages)
     }
     accounts = module.accts.block

@@ -1,48 +1,45 @@
-locals {
-  baseline_packages = ["busybox", "glibc-locale-en"]
+variable "extra_packages" {
+  description = "The additional packages to install"
+  type        = list(string)
+  default     = []
+}
+
+variable "extra_environment" {
+  description = "Additional apko environment."
+  type        = map(string)
+  default     = {}
 }
 
 module "accts" {
-  name   = "gradle"
   source = "../../../tflib/accts"
-}
-
-terraform {
-  required_providers {
-    apko = { source = "chainguard-dev/apko" }
-  }
-}
-
-variable "extra_packages" {
-  default     = []
-  description = "The additional packages to install (e.g. gradle-8, openjdk-17)."
+  uid    = 65532
+  gid    = 65532
+  run-as = 65532
 }
 
 output "config" {
   value = jsonencode({
-    "contents" : {
-      // TODO: remove the need for using hardcoded local.baseline_packages by plumbing
-      // these packages through var.extra_packages in all callers of this config module
-      "packages" : distinct(concat(local.baseline_packages, var.extra_packages))
-    },
-    "entrypoint" : {
-      "command" : "/usr/bin/gradle"
-    },
-    "work-dir" : "/home/build",
-    "accounts" : module.accts.block,
-    "environment" : {
-      "JAVA_HOME" : "/usr/lib/jvm/default-jvm",
-      "LANG" : "en_US.UTF-8"
-    },
-    "paths" : [
+    contents = {
+      packages = concat([
+      ], var.extra_packages)
+    }
+    accounts = module.accts.block
+    entrypoint = {
+      command = "/usr/bin/gradle"
+    }
+    work-dir = "/home/build"
+    environment = merge({
+      JAVA_HOME = "/usr/lib/jvm/default-jvm"
+      LANG      = "en_US.UTF-8"
+    }, var.extra_environment)
+    paths = [
       {
-        "path" : "/home/build",
-        "type" : "directory",
-        "uid" : 65532,
-        "gid" : 65532,
-        "permissions" : 493
+        path        = "/home/build"
+        type        = "directory"
+        uid         = 65532
+        gid         = 65532
+        permissions = 493
       }
     ]
   })
 }
-
