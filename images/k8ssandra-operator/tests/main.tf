@@ -29,7 +29,7 @@ module "helm_cert_manager" {
   chart  = "cert-manager"
 
   values = {
-    installCRDs = "true"
+    installCRDs = true
   }
 }
 

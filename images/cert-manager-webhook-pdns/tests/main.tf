@@ -64,7 +64,7 @@ module "helm-cert-manager" {
   timeout   = "600s"
 
   values = {
-    installCRDs = "true"
+    installCRDs = true
   }
 }
 

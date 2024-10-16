@@ -25,8 +25,11 @@ resource "imagetest_harness_k3s" "this" {
 module "install" {
   source = "../../../tflib/imagetest/helm"
 
-  repo  = "https://kubernetes-charts.banzaicloud.com"
-  chart = "thanos-operator"
+  # Chart repo DNS has been down since Oct 3, 2024, see https://github.com/banzaicloud/banzai-charts/issues/1350
+  # It doesn't seem that the repo is actively maintained, and unclear if/when there will be a fix
+  # For now, grab the helm chart from the GitHub repo directly
+  git_repo = "https://github.com/banzaicloud/thanos-operator.git"
+  chart    = "charts/thanos-operator"
 
   values = {
     image = {
