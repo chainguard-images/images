@@ -17,3 +17,8 @@ data "oci_exec_test" "server" {
   digest = var.digest
   script = "${path.module}/02-server.sh"
 }
+
+data "oci_exec_test" "activedefrag" {
+  digest = var.digest
+  script = "${path.module}/03-server-activedefrag.sh"
+}

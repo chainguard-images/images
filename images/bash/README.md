@@ -32,19 +32,52 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Usage
+## Compatibility Notes
 
-You open up an interactive shell in the Bash Image with a command like the following:
+The Chainguard Bash image is meant to serve as a drop-in replacement for the official Bash image from Docker Hub. One notable difference between the Docker Hub image and Chainguard's Bash image is the location where `bash` is installed in the container. The Bash Image from Docker Hub has `bash` installed at `/usr/local/bin/bash` while Chainguard's has it installed at the standard `/bin/bash`.
+
+Like most of Chainguard's images, the Bash image does not operate as the root user and includes only the minimum packages needed to function. 
+
+## Getting Started
+
+To open up an interactive shell in the Bash Image you could run a command like the following:
 
 ```sh
 docker run -it cgr.dev/chainguard/bash:latest /bin/bash
 ```
 
-You can also use a bind mount to test scripts from your local machine on the Bash Image:
+To test scripts from your local machine on the Bash image, you can use a [bind mount](https://docs.docker.com/engine/storage/bind-mounts/). The following example references a local script named `local-script.sh`, binds it to the container while renaming it `container-script.sh`, and then runs the script:
 
 ```sh
-docker run -it --rm -v /path/to/local-script.sh:/container-script.sh cgr.dev/chainguard/bash:latest /container-script.sh
+docker run -v /path/to/local-script.sh:/container-script.sh cgr.dev/chainguard/bash:latest /container-script.sh
 ```
+
+You can also test scripts on the Bash image using a Dockerfile. The following example Dockerfile references a Bash script named `test-script.sh`:
+
+```
+FROM cgr.dev/chainguard/bash:latest
+
+COPY test-script.sh /
+
+CMD ["bash", "/test-script.sh"]
+```
+
+You could then build an image based off this Dockerfile:
+
+```sh
+docker build -t my-bash-app .
+```
+
+And then run the new image to test the script:
+
+```sh
+docker run -it --rm --name my-running-app my-bash-app
+```
+
+## Documentation and Resources
+
+* [Vulnerability Comparison: bash](https://edu.chainguard.dev/chainguard/chainguard-images/vuln-comparison/bash/)
+* (Tutorial) [An Introduction to Shell Scripting](https://www.digitalocean.com/community/tutorial-series/an-introduction-to-shell-scripting)
 <!--body:end-->
 
 ## Contact Support

@@ -9,7 +9,7 @@ variable "target_repository" {
 }
 
 module "test-latest" {
-  source = "./tests"
+  source = "./tests/agent"
   digests = {
     "agent"         = module.agent.image_ref
     "cluster-agent" = module.cluster-agent.image_ref

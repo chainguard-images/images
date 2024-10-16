@@ -32,19 +32,36 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Using Envoy
+## Compatibility Notes
 
-To run with Docker using default configuration
+The Chainguard Envoy image is meant to serve as a drop-in replacement for the following alternatives:
+
+* `bitnami/envoy:latest`
+* `envoyproxy/envoy:v1.25-latest`
+* `rapidfort/envoy:1.24`
+* `envoyproxy/envoy:latest`
+
+Like most of Chainguard's images, the Envoy image does not operate as the root user and includes only the minimum packages needed to function.
+
+## Getting Started
+
+The Chainguard Envoy image comes with a default configuration stored at `/etc/envoy/envoy.yaml`. To run the image with Docker using this configuration you could run a command like the following:
 
 ```sh
-docker run --platform=linux/amd64 -p10000:10000 -p 9901:9901 --rm cgr.dev/chainguard/envoy envoy --config-path /etc/envoy/envoy.yaml
+docker run -p10000:10000 -p 9901:9901 cgr.dev/chainguard/envoy --config-path /etc/envoy/envoy.yaml
 ```
 
-Or to use a customised envoy configuratiom see https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/overview and mount your file into the envoy container, e.g. `-v $PWD/config:/etc/envoy`
+The `-p` options in this example connect network ports from your local machine into the container, allowing you to see Envoy in action by visiting `localhost:10000` or `localhost:9901` in your browser. The default configuration will proxy port `10000` to [envoyproxy.io](http://envoyproxy.io) and port `9901` to the Envoy management port.
+
+You can also run the image with a customized Envoy configuration. To do this, you'll need to [bind mount](https://docs.docker.com/engine/storage/bind-mounts/) your local configuration file into the envoy container:
 
 ```sh
-docker run --platform=linux/amd64 -p10000:10000 -p 9901:9901 --rm -v $PWD/config:/etc/envoy cgr.dev/chainguard/envoy envoy --config-path /etc/envoy/envoy.yaml
+docker run -p10000:10000 -p 9901:9901 -v $PWD/config.yaml:/etc/envoy cgr.dev/chainguard/envoy --config-path /etc/envoy/config.yaml
 ```
+
+This example creates a bind mount so that Envoy is running with a local configuration file named `config.yaml`.
+
+You can refer to the [overview in the envoy project's official documentation](https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/overview) for more information on working with custom configurations.
 <!--body:end-->
 
 ## Contact Support

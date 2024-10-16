@@ -32,11 +32,27 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Usage
+## Compatibility Notes
 
-Ruby applications typically require the installation of third-party dependencies through [Rubygems](https://rubygems.org/). This means that using a fully distroless image for building your application would not work, as these do not include a package manager. In cases like this, you’ll need to implement a multi-stage Docker build that uses one of Chainguard's `-dev` Image variants to set up the application.
+Chainguard's Ruby image is meant to serve as a drop-in replacement for the official Ruby image from Docker Hub. There are, however, a number of differences between the two images that one should be aware of before migrating to the Chainguard Ruby image:
 
-We encourage you to check out our guide on [getting started with Ruby](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/getting-started-ruby/) which demonstrates how you can use Chainguard's Ruby Image in both single- and multi-stage builds.
+* The Chainguard Ruby image does not run as the root user and contains only the minimum packages it needs to operate.
+* Ruby applications typically require the installation of third-party dependencies through [Rubygems](https://rubygems.org/). This means that using a fully distroless image for building your application would not work, as these do not include a package manager. In cases like this, you’ll need to implement a multi-stage Docker build that uses one of Chainguard's `-dev` Image variants to set up the application.
+* [Bundler](https://bundler.io/), a popular tool for installing Ruby gems, typically installs to `/usr/lib/bundle`. The default installation location in the Chainguard Ruby image is `/home/nonroot`, which can cause issues for dependencies that expect to find gems in `/usr/lib/bundle`.
+* Environment variables, especially gem paths, sometimes differ from those in the official Ruby Image.
+* The Chainguard Ruby Image does not default to using `UTF-8`. You will need to specify this yourself.
+
+To better understand the differences between Chainguard's Ruby image and alternatives, it may be helpful to review the upstream's Dockerfiles. For example, you can review the [`alpine3.19` Dockerfile available for Ruby 3.3](https://github.com/docker-library/ruby/blob/master/3.3/alpine3.19/Dockerfile).
+
+## Getting Started
+
+To better understand how you can work with the Chainguard Ruby Image, we encourage you to check out our guide on [getting started with Ruby](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/getting-started-ruby/). This resource demonstrates how you can use Chainguard's Ruby Image in both single- and multi-stage builds.
+
+
+## Documentation and Resources
+
+* [Getting Started with the Ruby Chainguard Image](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/ruby/)
+*  [Vulnerability comparison: ruby](https://edu.chainguard.dev/chainguard/chainguard-images/vuln-comparison/ruby/)
 <!--body:end-->
 
 ## Contact Support

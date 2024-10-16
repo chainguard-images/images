@@ -34,7 +34,7 @@ module "helm_crossplane" {
 resource "imagetest_feature" "basic" {
   harness     = module.crossplane_harness.harness
   name        = "Basic"
-  description = "Basic functionality of the cert-manager helm chart."
+  description = "Basic functionality of the crossplane helm chart."
 
   steps = [
     {
@@ -60,19 +60,19 @@ resource "imagetest_feature" "basic" {
              echo "Waiting for secret nop-example-resource to be available..."
              sleep 5
           done
-          
+
           echo "Secret nop-example-resource is now available."
 
           # Extract and decode secret values
           secret_data=$(kubectl get secret nop-example-resource -n crossplane-system -o json | jq -r '.data | to_entries[] | .key + ": " + (.value | @base64d)' | sort)
-          
+
           # Extract YAML values
           yaml_data=$(yq '.spec.forProvider.connectionDetails[] | "\(.name): \(.value)"' /tests/nopresource.yaml | sort)
-          
+
           # Compare sorted data
           echo "Comparing Secret with YAML values:"
           diff <(echo "$secret_data") <(echo "$yaml_data")
-          
+
           if [ $? -eq 0 ]; then
               echo "The secret data matches the YAML values."
           else

@@ -12,8 +12,9 @@ module "config" {
   source = "./config"
   extra_packages = [
     "gradle-8",
-    "openjdk-17",
-    "openjdk-17-default-jvm",
+    "openjdk-23-default-jdk",
+    "busybox",
+    "glibc-locale-en"
   ]
 }
 
@@ -22,13 +23,15 @@ module "latest" {
 
   name = basename(path.module)
 
-  target_repository = var.target_repository
-  config            = module.config.config
+  target_repository  = var.target_repository
+  config             = module.config.config
+  extra_dev_packages = ["openjdk-23-jmods", "binutils"]
 }
 
 module "test-latest" {
-  source = "./tests"
-  digest = module.latest.image_ref
+  source       = "./tests"
+  digest       = module.latest.image_ref
+  java-version = "23"
 }
 
 resource "oci_tag" "latest" {
