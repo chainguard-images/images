@@ -16,15 +16,15 @@ provider "registry.terraform.io/chainguard-dev/apko" {
 }
 
 provider "registry.terraform.io/chainguard-dev/chainguard" {
-  version     = "0.1.16"
+  version     = "0.1.17"
   constraints = ">= 0.1.15"
   hashes = [
-    "h1:/0PNGU8F27X2rtAIaaVPVs2W4rzJvzxfIGFlrJDBxM0=",
-    "h1:KE6cr6c9kuW9KqbgoN6zmGu2Q+k2cBt5R04ZRmzdcZ0=",
-    "zh:2f9a050312088ee30d1fed76f8ca91460107b381b572959fb593ac401b178c27",
-    "zh:9a9d3c06a904b2cc1bb1085b988b89d3c2a61db7249604de737884ac8d53e1d9",
-    "zh:c97dd09e7f7df66210a194a11706064ef7fc4604638a92bef67d34d5dbc6b869",
-    "zh:ce88ae72d802d48f73479dede54a2ef7bb97bf145718d6074f0558bb870f4696",
+    "h1:KR2KJjPazPyxCZrkz3A5Swqx4fUIxm9Q3a9H4cWWCF0=",
+    "h1:soKxQ/2GS8zh3dX6IWQYkVoRPNMLa4Pugy+xb0XVHTc=",
+    "zh:416194e1e997e5d2eafbcd7b1e9b7f42c36dde8d0a61adc39232f7e9b36e7894",
+    "zh:420c786caf241854e056b78de3e97dc4ff5a0396f0822e8baaade5d69aef8ded",
+    "zh:4acba54e59a04850c864bd79e53d029d8f23769f82b00a86c58c8f3d25ad71e9",
+    "zh:7baa3663b71c0bae9d5381be14570c0564b0bf5328a993a3c29965393063c6c0",
     "zh:f809ab383cca0a5f83072981c64208cbd7fa67e986a86ee02dd2c82333221e32",
   ]
 }
@@ -44,16 +44,16 @@ provider "registry.terraform.io/chainguard-dev/cosign" {
 }
 
 provider "registry.terraform.io/chainguard-dev/imagetest" {
-  version     = "0.0.39"
-  constraints = "0.0.39"
+  version     = "0.0.40"
+  constraints = "0.0.40"
   hashes = [
-    "h1:9CgfZVtlzeihlmYpUqsl8UNP/9p0znHZOXH4QmSntr0=",
-    "h1:RdZ3Eqcm1WczgiZsWQOqbpMbx8ShjQJMKAZCcYR1qLs=",
-    "zh:0bfeaae1460f9ccbe398e5540b7f341451c26bf310fb566ddff610c34cce9262",
-    "zh:24064f73dbd6c4f682fc7b04af8396af47dce4909b33fc3f0120256fe703cdf0",
+    "h1:3pY/5zhIoTVnxSfLJFzzT1EBuBnKaBI3y8h/DGD34QI=",
+    "h1:GuKX9BCRiHEqYbTmqz4opnlLdqi3ImRJFWV2Nm0SWyA=",
+    "zh:11cead75acac292b2269bcd31afb60ed85cc93b8e4d06d27b2ec05bdeb36d5a0",
+    "zh:21ab47fb249dd31e2bd9200d2815d17edd901a4434b3833be4575d2c017968aa",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
-    "zh:d74eaf7a8031a4573d624f183adad65559603bfc1e0b210c23610f99c38831c1",
-    "zh:fc0388808626cd63b54729054757ddf4efeaf4b7ced495f3c636907d6556cb20",
+    "zh:8aa29eeaef454d1d61b66c387619cf6b1a63804857e01d16f40a12b3a0e325a6",
+    "zh:9b74f92949415c2ed0915f537817f1347c24b7f4329b6f08d4d8c26528e0be79",
   ]
 }
 
