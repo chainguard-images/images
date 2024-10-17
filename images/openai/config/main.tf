@@ -13,7 +13,7 @@ terraform {
 }
 
 variable "extra_packages" {
-  default     = ["py3-openai"]
+  default     = ["py3-openai", "py3-openai-bin"]
   description = "The additional packages to install (e.g. py3-openai)."
 }
 

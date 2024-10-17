@@ -91,12 +91,12 @@ TEST_keycloak_api() {
     return 1
   fi
 
-  # Ensure that an 'admin' user was returned in the API response.
-  extracted_username=$(echo "${users_output}" | jq -r '.[] | select(.username=="admin") | .username')
-  if [[ "${extracted_username}" == "admin" ]]; then
-    echo "Keycloak API correctly returned 'admin' user details."
+  # Ensure that a 'temp-admin' user was returned in the API response.
+  extracted_username=$(echo "${users_output}" | jq -r '.[] | select(.username=="temp-admin") | .username')
+  if [[ "${extracted_username}" == "temp-admin" ]]; then
+    echo "Keycloak API correctly returned 'temp-admin' user details."
   else
-    echo "FAILED: No entry with username 'admin' found in the response: ${users_output}"
+    echo "FAILED: No entry with username 'temp-admin' found in the response: ${users_output}"
     exit 1
   fi
 }

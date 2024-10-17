@@ -34,27 +34,21 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--body:start-->
 ## Usage
 
-Project documentation suggests usage of Bitnami chart which is comprehensive.
+The upstream project provides Kubernetes manifests which can be used to deploy
+this image. Please see the [GitHub README](https://github.com/resmoio/kubernetes-event-exporter)
+for more information. This directs users to the `deploy` sub-directory of the
+repository.
 
-This chart bootstraps a Kubernetes Event Exporter deployment on a Kubernetes cluster using 
-the Helm package manager.
+If using these reference manifests, you'll need to ensure you update the image
+reference in [02-deployment.yaml](https://github.com/resmoio/kubernetes-event-exporter/blob/master/deploy/02-deployment.yaml)
+to use this Chainguard image.
 
-To install the chart with the release name my-release:
+### Bitnami helm chart
 
-```
-helm install my-release oci://registry-1.docker.io/bitnamicharts/kubernetes-event-exporter
+This image **is not compatible** with the bitnami helm chart for
+kubernetes-event-exporter. For a bitnami compatible image, please see:
+[kubernetes-event-exporter-bitnami](https://images.chainguard.dev/directory/image/kubernetes-event-exporter-bitnami).
 
-helm upgrade my-release oci://registry-1.docker.io/bitnamicharts/kubernetes-event-exporter \
-  --set image.repository=cgr.dev/chainguard/kubernetes-event-exporter \
-  --set image.tag=latest
-
-```
-
-To uninstall/delete this deployment:
-
-```
-helm delete my-release
-```
 <!--body:end-->
 
 ## Contact Support

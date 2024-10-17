@@ -58,8 +58,8 @@ module "helm-spark-operator" {
 
   values = {
     image = {
-      registry   = ""
-      repository = local.parsed.registry_repo
+      registry   = local.parsed.registry
+      repository = local.parsed.repo
       tag        = local.parsed.pseudo_tag
     },
   }
@@ -80,10 +80,14 @@ resource "imagetest_feature" "basic" {
       cmd  = module.helm-spark-operator.install_cmd
     },
     {
-      name    = "Run real test"
-      workdir = "/tests"
-      cmd     = "./test-spark.sh"
-    }
+      name = "Schedule a job"
+      cmd  = "kubectl apply -f https://raw.githubusercontent.com/kubeflow/spark-operator/refs/heads/master/examples/spark-pi.yaml"
+    },
+    {
+      name  = "Wait for job to complete"
+      cmd   = "kubectl wait --for=jsonpath='{.status.executorState.*}'=COMPLETED sparkapp/spark-pi --timeout=60s"
+      retry = { attempts = 5, delay = "30s" }
+    },
   ]
 
   labels = {

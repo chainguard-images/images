@@ -90,7 +90,7 @@ TEST_produce_consume() {
   docker exec "${CONTAINER_NAME}" kafka-topics --create --topic "${TOPIC_NAME}" --partitions "${PARTITIONS}" --replication-factor "${REPLICATION_FACTOR}" --if-not-exists --bootstrap-server kafka-kraft:"${KAFKA_PORT}"
 
   # Produce a test message
-  echo "Hello Kafka" | docker exec -i "${CONTAINER_NAME}" kafka-console-producer --broker-list kafka-kraft:"${KAFKA_PORT}" --topic "${TOPIC_NAME}"
+  echo "Hello Kafka" | docker exec -i "${CONTAINER_NAME}" kafka-console-producer --bootstrap-server kafka-kraft:"${KAFKA_PORT}" --topic "${TOPIC_NAME}"
 
   # Consume the message
   consumed_message=$(docker exec "${CONTAINER_NAME}" timeout 10 kafka-console-consumer --bootstrap-server kafka-kraft:"${KAFKA_PORT}" --topic "${TOPIC_NAME}" --from-beginning --max-messages 1)

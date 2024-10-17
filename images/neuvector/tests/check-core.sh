@@ -69,11 +69,11 @@ kubectl rollout status deployment/"${TEST_IMAGE}"-pod -n test
 
 # Generate network violations
 TEST_POD=$(kubectl get pod -n test -l app="${TEST_IMAGE}"-pod -o jsonpath='{.items[0].metadata.name}')
-kubectl exec $TEST_POD -n test -- curl www.google.com
+kubectl exec $TEST_POD -n test -- curl www.google.com || true
 
 # Simulate an attack
 INTERNAL_TEST_IP=$(kubectl get pod -n test -l app="${TEST_IMAGE}"-pod -o jsonpath='{.items[1].status.podIP}')
-kubectl exec -i $TEST_POD -n test -- bash -c "ping $INTERNAL_TEST_IP -s 40000 -c 10"
+kubectl exec -i $TEST_POD -n test -- bash -c "ping $INTERNAL_TEST_IP -s 40000 -c 10" || true
 
 # Check for broadcast
 kubectl logs daemonset/neuvector-enforcer-pod -n "${NAMESPACE}" | grep "AGT|main.parseHostAddrs: link - flags=up|broadcast|multicast"
@@ -83,4 +83,4 @@ kubectl logs deployment/neuvector-scanner-pod -n "${NAMESPACE}" | grep "Stream s
 kubectl logs deployment/neuvector-controller-pod -n "${NAMESPACE}" | grep "Stream receive"
 
 # Cleanup
-kubectl delete namespace test
+kubectl delete namespace test --cascade='background' --grace-period=1

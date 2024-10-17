@@ -25,6 +25,16 @@ output "config" {
       JAVA_HOME  = "/usr/lib/jvm/default-jvm"
     }
 
+    paths = [
+      {
+        path        = "/etc/k8s-webhook-server"
+        type        = "directory"
+        uid         = 65532
+        gid         = 65532
+        permissions = 493
+      }
+    ]
+
     entrypoint = {
       command = "/usr/bin/entrypoint.sh"
     }
