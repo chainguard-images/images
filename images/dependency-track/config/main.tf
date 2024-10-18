@@ -1,5 +1,5 @@
 locals {
-  baseline_packages = ["busybox", "openjdk-17-default-jvm"]
+  baseline_packages = ["busybox", "openjdk-21-default-jvm"]
 }
 
 module "accts" {

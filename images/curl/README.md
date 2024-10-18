@@ -32,17 +32,22 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Usage
+## Compatibility Notes
 
-The curl Chainguard Image allows you to run ordinary `curl` commands in CI/CD pipelines as well as locally with Docker.
+The Chainguard curl image is meant to serve as a drop-in replacement for the [official curl image from Docker Hub](https://hub.docker.com/r/curlimages/curl). Like most other Chainguard Images, the cURL image has few-to-zero CVEs and does not run as the root user.
 
-To make sure you have the latest version of the Image available, start by running a `docker pull` command:
+
+## Getting Started
+
+The Chainguard curl Image allows you to run ordinary `curl` commands in CI/CD pipelines as well as locally with Docker.
+
+Be aware that you can always pull the latest version of the Image available, by downloading it from the public `cgr.dev/chainguard/curl` repository:
 
 ```shell
-docker pull cgr.dev/chainguard/curl
+docker pull cgr.dev/chainguard/curl:latest
 ```
 
-Then, run the image with the `--version` flag to make sure the Image is functional:
+After downloading the image, you can run it the image with the `--version` flag to make sure the Image is functional:
 
 ```shell
 docker run -it --rm cgr.dev/chainguard/curl --version
@@ -51,11 +56,22 @@ docker run -it --rm cgr.dev/chainguard/curl --version
 This will return output similar to the following:
 
 ```shell
-curl 8.5.0 (x86_64-pc-linux-gnu) libcurl/8.5.0 rustls-ffi/0.11.0/rustls/0.21.5 zlib/1.3 brotli/1.1.0 nghttp2/1.58.0
-Release-Date: 2023-12-06
-Protocols: dict file ftp ftps gopher gophers http https imap imaps mqtt pop3 pop3s rtsp smtp smtps telnet tftp
-Features: alt-svc AsynchDNS brotli HSTS HTTP2 HTTPS-proxy IPv6 Largefile libz SSL threadsafe UnixSockets
+curl 8.9.0 (x86_64-pc-linux-gnu) libcurl/8.9.0-DEV rustls-ffi/0.13.0/rustls/0.23.4 zlib/1.3.1 brotli/1.1.0 libpsl/0.21.5 nghttp2/1.62.1
+Release-Date: 2024-07-24
+Protocols: dict file ftp ftps gopher gophers http https imap imaps ipfs ipns mqtt pop3 pop3s rtsp smtp smtps telnet tftp
+Features: alt-svc AsynchDNS brotli HSTS HTTP2 HTTPS-proxy IPv6 Largefile libz PSL SSL threadsafe UnixSockets
 ```
+
+You can also run it as you would any other `curl` command. The following example runs `curl` on the URL `cheat.sh/curl`. `cheat.sh` is a site that hosts simplified documentation for a number of command-line utilities:
+
+```shell
+docker run -it --rm cgr.dev/chainguard/curl cheat.sh/curl
+```
+
+## Documentation and Resources
+
+* (Chainguard Academy) [Vulnerability Comparison: curl](https://edu.chainguard.dev/chainguard/chainguard-images/vuln-comparison/curl/)
+* (Blog post) [Chainguard’s response to CVE-2023-38545 and CVE-2023-38546 in curl](https://www.chainguard.dev/unchained/chainguards-response-to-cve-2023-38545-and-cve-2023-38546-in-curl) 
 <!--body:end-->
 
 ## Contact Support

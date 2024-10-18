@@ -44,10 +44,18 @@ variable "check-sbom" {
   description = "Whether to run the NTIA conformance checker over the images we produce prior to attesting the SBOMs."
 }
 
+// Note: unused
 variable "main_package" {
   type        = string
   default     = ""
   description = "If set, this determines which package in the image will be used to generate version tags."
+}
+
+// Note: unused
+variable "eol" {
+  type        = bool
+  default     = false
+  description = "If provided, this image will be marked as EOL via attestation (predicateType: https://chainguard.dev/end-of-life)"
 }
 
 variable "name" {
