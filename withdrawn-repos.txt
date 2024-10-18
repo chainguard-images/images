@@ -6,9 +6,6 @@ kyverno-policy-reporter-reporter
 # Accidentally published in terraform migration
 spire
 
-# renamed to pytorch-cuda12. Will need removed when we do finally publish a non-cuda pytorch
-pytorch
-
 # https://github.com/chainguard-images/images/pull/2376
 slim-toolkit-debug
 
