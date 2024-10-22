@@ -27,12 +27,15 @@ module "cluster_harness" {
 module "helm" {
   source = "../../../tflib/imagetest/helm"
 
+  name  = "cpa"
   repo  = "https://kubernetes-sigs.github.io/cluster-proportional-autoscaler"
   chart = "cluster-proportional-autoscaler"
+  wait  = true
 
   values = {
     options = {
-      target = "deployment/"
+      target   = "deployment/nginx-autoscale-example"
+      logLevel = 2
     }
 
     config = {
@@ -40,7 +43,7 @@ module "helm" {
         coresPerReplica           = 2
         nodesPerReplica           = 1
         min                       = 1
-        max                       = 100
+        max                       = 3
         preventSinglePointFailure = true
         includeUnschedulableNodes = true
       }
@@ -60,9 +63,76 @@ resource "imagetest_feature" "basic" {
 
   steps = [
     {
+      name = "Deploy nginx-autoscale-example"
+      cmd  = <<EOF
+        kubectl create deployment nginx-autoscale-example --image=cgr.dev/chainguard/nginx --replicas=1
+        kubectl wait --for=condition=available deployment/nginx-autoscale-example
+      EOF
+    },
+    {
       name = "Helm Install"
       cmd  = module.helm.install_cmd
-    }
+    },
+    {
+      name  = "Check the replica count"
+      cmd   = <<EOF
+        REPLICAS=$(kubectl get deployment nginx-autoscale-example -o jsonpath='{.spec.replicas}')
+        if [ "$REPLICAS" -eq 3 ]; then
+          echo "Replica count is 3!"
+        else
+          echo "Expected replica count is not 3. Actual: $REPLICAS"
+          exit 1
+        fi
+      EOF
+      retry = { attempts = 3, delay = "5s", factor = 3 }
+    },
+    {
+      name = "Check expected logs"
+      cmd  = <<EOF
+        logs_to_expect="
+        Scaling Namespace: default, Target: deployment/nginx-autoscale-example
+        updating replicas from 1 to 3
+        "
+
+        logs=$(kubectl logs deployment/cpa-cluster-proportional-autoscaler)
+
+        echo "$logs_to_expect" | while IFS= read -r log; do
+          log=$(echo "$log" | xargs)
+          if [ -z "$log" ]; then
+            continue
+          fi
+          if ! echo "$logs" | grep -F -i "$log" > /dev/null; then
+            echo "Current logs: $logs"
+            echo "Expected log not found: $log"
+            exit 1
+          fi
+        done
+      EOF
+    },
+    {
+      name = "Check unexpected logs"
+      cmd  = <<EOF
+        logs_to_not_expect="
+        Update failure
+        connection refused
+        unable to load
+        "
+
+        logs=$(kubectl logs deployment/cpa-cluster-proportional-autoscaler)
+
+        echo "$logs_to_not_expect" | while IFS= read -r log; do
+          log=$(echo "$log" | xargs)
+          if [ -z "$log" ]; then
+            continue
+          fi
+          if echo "$logs" | grep -F -i "$log"; then
+            echo "Current logs: $logs"
+            echo "Unexpected log found: $log"
+            exit 1
+          fi
+        done
+      EOF
+    },
   ]
 
   labels = {

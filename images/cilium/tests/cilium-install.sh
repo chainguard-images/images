@@ -2,7 +2,11 @@
 
 set -o errexit -o errtrace -o pipefail -x -v
 
-apk add cilium-cli
+# Newer versions of the CLI requires some version symbols
+# that our binary is missing. Temporarily use the 0.16.14
+# version of the CLI to avoid this issue.
+apk add cilium-cli~0.16.14
+
 cilium status --wait --wait-duration 2m
 
 QUAY_IMAGES=$(cilium status -o json | grep quay.io || true)

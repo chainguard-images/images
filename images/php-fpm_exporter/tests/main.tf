@@ -85,7 +85,6 @@ spec:
       args: ["--phpfpm.scrape-uri=http://127.0.0.1:9000/status"]
       ports:
         - containerPort: 9103
-
     - name: prometheus
       image: cgr.dev/chainguard/prometheus:latest
       args: ["--config.file=/etc/prometheus/prometheus.yml"]
@@ -93,12 +92,17 @@ spec:
         - name: prometheus-config-volume
           mountPath: /etc/prometheus/prometheus.yml
           subPath: prometheus.yml
+        - name: data
+          mountPath: /data
       ports:
         - containerPort: 9090
   volumes:
     - name: prometheus-config-volume
       configMap:
         name: prometheus-config
+    - name: data
+      emptyDir:
+        sizeLimit: 200Mi
 ---
 apiVersion: batch/v1
 kind: Job

@@ -26,6 +26,7 @@ output "config" {
     entrypoint = {
       command = "/scripts/entrypoint.sh"
     }
+    cmd = "/scripts/start-pages"
     paths = [{
       path        = "/etc/gitlab-pages"
       type        = "directory"

@@ -65,7 +65,7 @@ module "helm_cert_manager" {
         tag        = "latest"
       }
     }
-    installCRDs = "true"
+    installCRDs = true
   }
 }
 
