@@ -242,7 +242,7 @@ for lang in c golang rust; do
 done
 ```
 
-Which calls out to Dockerfiles such as [this one for Go](https://github.com/chainguard-images/images/blob/main/images/static/examples/Dockerfile.golang):
+Which calls out to Dockerfiles such as [this one for Go](https://github.com/chainguard-images/images/blob/main/images/static/tests/examples/Dockerfile.golang):
 
 ```
 ARG BASE=cgr.dev/chainguard/static
