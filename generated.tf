@@ -1173,6 +1173,11 @@ module "prometheus-mongodb-exporter" {
   target_repository = "${var.target_repository}/prometheus-mongodb-exporter"
 }
 
+module "prometheus-mysqld-exporter" {
+  source            = "./images/prometheus-mysqld-exporter"
+  target_repository = "${var.target_repository}/prometheus-mysqld-exporter"
+}
+
 module "prometheus-node-exporter" {
   source            = "./images/prometheus-node-exporter"
   target_repository = "${var.target_repository}/prometheus-node-exporter"
@@ -1186,6 +1191,11 @@ module "prometheus-operator" {
 module "prometheus-postgres-exporter" {
   source            = "./images/prometheus-postgres-exporter"
   target_repository = "${var.target_repository}/prometheus-postgres-exporter"
+}
+
+module "prometheus-pushgateway" {
+  source            = "./images/prometheus-pushgateway"
+  target_repository = "${var.target_repository}/prometheus-pushgateway"
 }
 
 module "prometheus-pushgateway-bitnami" {
@@ -2545,6 +2555,10 @@ output "summary_prometheus-mongodb-exporter" {
   value = module.prometheus-mongodb-exporter.summary
 }
 
+output "summary_prometheus-mysqld-exporter" {
+  value = module.prometheus-mysqld-exporter.summary
+}
+
 output "summary_prometheus-node-exporter" {
   value = module.prometheus-node-exporter.summary
 }
@@ -2555,6 +2569,10 @@ output "summary_prometheus-operator" {
 
 output "summary_prometheus-postgres-exporter" {
   value = module.prometheus-postgres-exporter.summary
+}
+
+output "summary_prometheus-pushgateway" {
+  value = module.prometheus-pushgateway.summary
 }
 
 output "summary_prometheus-pushgateway-bitnami" {

@@ -1,3 +1,7 @@
+locals {
+  baseline_packages = []
+}
+
 module "accts" {
   source = "../../../tflib/accts"
 }
@@ -9,8 +13,8 @@ terraform {
 }
 
 variable "extra_packages" {
-  default     = ["hugo"]
-  description = "The additional packages to install (e.g. hugo)."
+  default     = ["prometheus"]
+  description = "The additional packages to install (e.g. promtail)."
 }
 
 output "config" {
@@ -18,22 +22,13 @@ output "config" {
     "contents" : {
       // TODO: remove the need for using hardcoded local.baseline_packages by plumbing
       // these packages through var.extra_packages in all callers of this config module
-      "packages" : var.extra_packages,
+      "packages" : distinct(concat(local.baseline_packages, var.extra_packages))
     },
     "entrypoint" : {
-      "command" : "/usr/bin/hugo"
+      "command" : "prometheus"
     },
-    "work-dir" : "/hugo",
-    "accounts" : module.accts.block,
-    "paths" : [
-      {
-        "path" : "/hugo",
-        "type" : "directory",
-        "uid" : 65532,
-        "gid" : 65532,
-        "permissions" : 509
-      }
-    ]
+    "accounts" : module.accts.block
   })
 }
+
 

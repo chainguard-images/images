@@ -3,8 +3,7 @@ variable "target_repository" {
 }
 
 module "config" {
-  source         = "./config"
-  extra_packages = ["prometheus"]
+  source = "./config"
 }
 
 module "latest" {
@@ -12,19 +11,18 @@ module "latest" {
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.config.config
-  main_package      = "prometheus"
+  main_package      = "prometheus-mysqld-exporter"
   build-dev         = true
 }
 
 module "test-latest" {
-  source            = "./tests"
-  digests           = { for k, v in module.latest : k => v.image_ref }
-  target_repository = var.target_repository
+  source = "./tests"
+  digest = { for k, v in module.latest : k => v.image_ref }
 }
 
 module "tagger" {
   source     = "../../tflib/tagger"
-  depends_on = [module.test-latest]
+  depends_on = [module.test-things]
   tags = {
     "latest"     = module.latest.image_ref
     "latest-dev" = module.latest.dev_ref

@@ -1,0 +1,15 @@
+name: prometheus-pushgateway
+image: cgr.dev/chainguard/prometheus-pushgateway
+logo: https://storage.googleapis.com/chainguard-academy/logos/prometheus.svg
+endoflife: ""
+console_summary: ""
+short_description: Minimal Prometheus Pushgateway Image
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://prometheus.io/
+keywords:
+  - application
+  - featured
+tier: APPLICATION
+aliases:
+  - prom/pushgateway:latest

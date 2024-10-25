@@ -27,27 +27,16 @@ module "cluster_harness" {
 module "helm" {
   source = "../../../tflib/imagetest/helm"
 
-  name  = "prometheus"
   repo  = "https://prometheus-community.github.io/helm-charts"
-  chart = "kube-prometheus-stack"
+  chart = "prometheus-pushgateway"
 
   values = {
-    prometheus = {
-      prometheusSpec = {
-        image = {
-          registry   = local.parsed.registry
-          repository = local.parsed.repo
-          sha        = trimprefix(local.parsed.digest, "sha256:")
-        }
-      }
+    image = {
+      repository = local.parsed.registry_repo
+      tag        = local.parsed.pseudo_tag
     }
-    // Test with our kube-state-metrics, even if its not a fresh build.
-    kube-state-metrics = {
-      image = {
-        registry   = "cgr.dev"
-        repository = "chainguard/kube-state-metrics"
-        tag        = "latest"
-      }
+    service = {
+      type = "ClusterIP"
     }
   }
 }
@@ -68,4 +57,3 @@ resource "imagetest_feature" "basic" {
     type = "k8s"
   }
 }
-

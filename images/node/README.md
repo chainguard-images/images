@@ -250,7 +250,7 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
-COPY --chown=node:node ["package.json", "package-lock.json", "server.js", "./"]
+COPY --chown=node:node ["package.json", "server.js", "./"]
 
 RUN npm install --omit-dev
 
@@ -267,7 +267,7 @@ docker build . -t node-express
 Finally, run the server container:
 
 ```sh
- docker run --rm -p 6069:6069 express
+ docker run --rm -p 6069:6069 node-express
 ```
 
 You should see the following message:

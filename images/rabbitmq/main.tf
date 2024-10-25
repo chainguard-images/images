@@ -14,6 +14,7 @@ module "config" {
 }
 
 module "versioned" {
+  build-dev         = true
   config            = module.config[each.key].config
   for_each          = module.versions.versions
   main_package      = each.value.main
