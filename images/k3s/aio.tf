@@ -4,12 +4,13 @@ module "config-aio" {
 }
 
 module "latest-aio" {
-  source            = "../../tflib/publisher"
-  name              = basename(path.module)
-  target_repository = "${var.target_repository}-allinone"
-  config            = module.config-aio.config
-  build-dev         = true
-  main_package      = "k3s"
+  source             = "../../tflib/publisher"
+  name               = basename(path.module)
+  target_repository  = "${var.target_repository}-allinone"
+  config             = module.config-aio.config
+  build-dev          = true
+  main_package       = "k3s"
+  extra_dev_packages = ["bash-completion"]
 }
 
 module "tagger-aio" {

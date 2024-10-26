@@ -4,12 +4,13 @@ module "config" {
 }
 
 module "latest" {
-  source            = "../../tflib/publisher"
-  name              = basename(path.module)
-  target_repository = var.target_repository
-  config            = module.config.config
-  build-dev         = true
-  main_package      = "k3s"
+  source             = "../../tflib/publisher"
+  name               = basename(path.module)
+  target_repository  = var.target_repository
+  config             = module.config.config
+  build-dev          = true
+  main_package       = "k3s"
+  extra_dev_packages = ["bash-completion"]
 }
 
 module "test-latest" {
