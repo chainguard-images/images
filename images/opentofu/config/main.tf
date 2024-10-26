@@ -1,7 +1,3 @@
-locals {
-  baseline_packages = ["opentofu"]
-}
-
 module "accts" {
   source = "../../../tflib/accts"
 }
@@ -19,16 +15,14 @@ variable "extra_packages" {
 
 output "config" {
   value = jsonencode({
-    "contents" : {
-      // TODO: remove the need for using hardcoded local.baseline_packages by plumbing
-      // these packages through var.extra_packages in all callers of this config module
-      "packages" : distinct(concat(local.baseline_packages, var.extra_packages))
-    },
-    "entrypoint" : {
-      "command" : "/usr/bin/tofu"
-    },
-    "cmd" : "--help",
-    "accounts" : module.accts.block
+    contents = {
+      packages = var.extra_packages
+    }
+    accounts = module.accts.block
+    entrypoint = {
+      command = "/usr/bin/tofu"
+    }
+    cmd : "--help",
   })
 }
 

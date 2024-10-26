@@ -18,7 +18,7 @@ module "latest" {
 
 module "test-latest" {
   source            = "./tests"
-  digests           = { for k, v in module.latest : k => v.image_ref }
+  digest            = { for k, v in module.latest : k => v.image_ref }
   target_repository = var.target_repository
 }
 
