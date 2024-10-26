@@ -22,7 +22,7 @@ module "test-latest" {
 
 module "tagger" {
   source     = "../../tflib/tagger"
-  depends_on = [module.test-things]
+  depends_on = [module.test-latest]
   tags = {
     "latest"     = module.latest.image_ref
     "latest-dev" = module.latest.dev_ref

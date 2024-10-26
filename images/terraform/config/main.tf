@@ -4,6 +4,17 @@ variable "extra_packages" {
   default     = []
 }
 
+variable "extra_repositories" {
+  default     = ["https://packages.cgr.dev/extras"]
+  description = "The additional repositores to install from (e.g. extras)."
+}
+
+variable "extra_keyring" {
+  default     = ["https://packages.cgr.dev/extras/chainguard-extras.rsa.pub"]
+  description = "The additional keys to use (e.g. extras)."
+}
+
+
 module "accts" {
   source = "../../../tflib/accts"
   # required because terraform needs mkdir for initializing plugins
@@ -13,7 +24,9 @@ module "accts" {
 output "config" {
   value = jsonencode({
     contents = {
-      packages = var.extra_packages
+      packages     = var.extra_packages
+      repositories = var.extra_repositories
+      keyring      = var.extra_keyring
     }
     accounts = module.accts.block
     entrypoint = {
