@@ -17,6 +17,18 @@ variable "extra_packages" {
   description = "The additional packages to install"
 }
 
+variable "entrypoint" {
+  description = "The entrypoint to use for the container"
+  type        = string
+  default     = "/usr/bin/java -jar /usr/share/java/cloudwatch_exporter/cloudwatch_exporter.jar 9106"
+}
+
+variable "extra_environments" {
+  description = "The additional environment variables to set"
+  type        = map(string)
+  default     = {}
+}
+
 output "config" {
   value = jsonencode({
     "contents" : {
@@ -25,10 +37,11 @@ output "config" {
       "packages" : distinct(concat(local.baseline_packages, var.extra_packages))
     },
     "entrypoint" : {
-      "command" : "/usr/bin/java -jar /usr/share/java/cloudwatch_exporter/cloudwatch_exporter.jar 9106"
+      "command" : var.entrypoint
     },
     "cmd" : "/config/config.yml",
     "accounts" : module.accts.block
+    environment = var.extra_environments
   })
 }
 
