@@ -3,11 +3,12 @@ image: cgr.dev/chainguard/redis
 logo: https://storage.googleapis.com/chainguard-academy/logos/redis.svg
 endoflife: ""
 console_summary: ""
-short_description: Minimalist Wolfi-based [Redis](https://github.com/redis/redis) image.
+short_description: Chainguard image for [Redis](https://github.com/redis/redis), an in-memory database that persists on disk. Redis is a key-value store, supporting an array of different values, including Strings, Lists, Sets, Sorted Sets, Hashes, Streams, HyperLogLogs, and Bitmaps.
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/redis/redis
 keywords:
   - application
+tier: APPLICATION
 aliases:
   - redis:latest
