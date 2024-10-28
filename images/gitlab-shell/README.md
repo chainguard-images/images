@@ -33,7 +33,7 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 
 <!--body:start-->
 ## Usage
-Please refer to the following helm chart documentation for instructions on how to deploy GitLab in Kubernetes: see [here]().
+Please refer to the following helm chart documentation for instructions on how to deploy GitLab in Kubernetes: see [here](https://docs.gitlab.com/charts/).
 
 The GitLab helm chart is composed of multiple sub-charts, one of which deploys the GitLab shell component.
 

@@ -48,6 +48,9 @@ Please give careful consideration to these licensing conditions when using Redis
 
 ## Getting Started
 
+## Redis Version
+This will automatically pull the image to your local system and execute the command `redis --version`:
+
 To run the Chainguard Redis image with Docker using default configuration you could run the following command:
 
 ```sh

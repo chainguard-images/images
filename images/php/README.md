@@ -34,7 +34,7 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--body:start-->
 ## Image Variants
 
-Our `latest` tags use the most recent build of the [Wolfi PHP](https://github.com/wolfi-dev/os/blob/main/php.yaml) package. All variants have `-dev` versions that include Composer and other utilities that are suitable for developing and building PHP applications. Check the [Tags](https://edu.chainguard.dev/chainguard/chainguard-images/reference/php/tags_history/) page for more details on available tags, and the [Details]() page for information about included packages per variant.
+Check the [Tags](https://edu.chainguard.dev/chainguard/chainguard-images/reference/php/tags_history/) page for more details on available tags, and the [SBOM](https://images.chainguard.dev/directory/image/php/sbom) page for information about included packages per variant.
 
 - `latest`: This is a distroless image for running command-line PHP applications.
 - `latest-fpm`: This is the distroless `php-fpm` image variant, designed to be used together with our [Nginx](https://edu.chainguard.dev/chainguard/chainguard-images/reference/nginx) image.
@@ -144,7 +144,7 @@ http {
 }
 ```
 
-For more detailed information on how to use these images, check the [Getting Started with the PHP Chainguard Images](https://edu.chainguard.dev/chainguard/chainguard-images/reference/php/getting-started-php/) guide.
+For more detailed information on how to use these images, check the [Getting Started with the PHP Chainguard Images](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/php/) guide.
 
 ## Detailed Environment Information
 

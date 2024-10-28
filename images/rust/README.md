@@ -36,10 +36,6 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 - [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/rust)
 - [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/rust/provenance_info/)
 
-## Image Variants
-
-Our `latest` tag uses the most recent build of the [Wolfi Rust](https://github.com/wolfi-dev/os/blob/main/rust.yaml) package.
-
 This image contains the tools needed to build Rust code.
 This includes:
 

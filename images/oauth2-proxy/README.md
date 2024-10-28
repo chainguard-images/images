@@ -54,11 +54,11 @@ docker run --detach --name oidc-test -p 8080:8080 cgr.dev/chainguard/oauth2-prox
 
 This `docker` command runs the `oauth2-proxy` Image while passing a number of configuration options to it. Most of these are sample values intended to get a working example proxy up and running. One particularly important option you should be aware of is the `--redirect-url`, which points to the OAuth application's callback URL. In order to set up an example locally, this example uses `http://localhost:8080` here.
 
-Note that you can alternatively define these options in a configuration file or through environment variables. You can check out the [OAuth2 Proxy Overview](https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview/) for more details on these options.
+Note that you can alternatively define these options in a configuration file or through environment variables. You can check out the [OAuth2 Proxy Overview](https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview) for more details on these options.
 
 After running this command, navigate to [`http://localhost:8080`](http://localhost:8080) in your web browser. There, you'll be presented with the OAuth2 Proxy sign-in screen.
 
-Please refer to [the official documentation](https://oauth2-proxy.github.io/oauth2-proxy/docs/) for more information on how to work with OAuth2 Proxy.
+Please refer to [the official documentation](https://oauth2-proxy.github.io/oauth2-proxy/) for more information on how to work with OAuth2 Proxy.
 
 <!--body:end-->
 

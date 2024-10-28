@@ -15,7 +15,7 @@
 <!--overview:start-->
 # Chainguard Image for step-issuer
 
-[step-issuer](https://smallstep.com/docs/step-issuer) is a certificate issuer for cert-manager using step certificates CA
+[step-issuer](https://smallstep.com/docs/platform/) is a certificate issuer for cert-manager using step certificates CA
 
 Chainguard Images are regularly-updated, minimal container images with low-to-zero CVEs.
 <!--overview:end-->

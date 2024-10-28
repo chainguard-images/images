@@ -40,7 +40,7 @@ encourage all users to test and verify the new version.
 
 You can test today by migrating to the `cgr.dev/chainguard/static:latest-glibc` image. From July 15, the `:latest` and `:latest-glibc` will point to the same image.
 
-Full details are in [this blog post](https://www.chainguard.dev/unchained/changes-to-static-git-and-busybox-developer-images-2).
+Full details are in [this blog post](https://www.chainguard.dev/unchained/changes-to-static-git-and-busybox-developer-images).
 
 ## Usage
 
@@ -148,7 +148,7 @@ docker run c-cgr
 Hello C users!
 ```
 
-Inspect this newly-built image as well. 
+Inspect this newly-built image as well.
 
 ```shell
 docker images c-cgr
