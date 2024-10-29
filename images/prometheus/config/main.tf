@@ -28,6 +28,13 @@ output "config" {
       "command" : "prometheus"
     },
     "accounts" : module.accts.block
+    "paths" = [
+      {
+        path        = "/data",
+        type        = "directory",
+        permissions = 511
+      }
+    ]
   })
 }
 
