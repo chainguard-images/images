@@ -26,6 +26,7 @@ locals {
     for k in local.components : k => "${local.mangled_repository}-${k}"
   }
   versions = { for k, v in module.versions.versions : k => {
+    eol       = v.eol
     is_latest = v.is_latest
     suffix    = replace(k, "kubernetes-csi-external-snapshotter", "")
   } }

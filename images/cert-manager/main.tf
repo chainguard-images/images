@@ -23,6 +23,7 @@ locals {
   ]...)
   components = toset(["acmesolver", "controller", "cainjector", "webhook"])
   versions = { for k, v in module.versions.versions : k => {
+    eol       = v.eol
     is_latest = v.is_latest
     suffix    = replace(k, "cert-manager", "")
   } }

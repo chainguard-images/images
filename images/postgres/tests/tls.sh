@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-
+apk add openssl-config
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 server_name="postgres_server-${RANDOM}"
 client_name="postgres_client-${RANDOM}"
 network_name="postgres_network-${RANDOM}"
-certs_dir="certs-${RANDOM}"
+certs_dir="/tmp/certs-${RANDOM}"
 postgres_password="secret"
 
 # Function to clean up resources in case of an error

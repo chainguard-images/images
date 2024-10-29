@@ -7,12 +7,19 @@ terraform {
 variable "extra_packages" {
   description = "The additional packages to install (e.g. postgresql-15)."
 }
+variable "run-as" {
+  description = "Passes values for run-as"
+}
+
+variable "id" {
+  description = "Passes values for uid and gid"
+}
 
 module "accts" {
   source = "../../../tflib/accts"
-  run-as = 0
-  uid    = 70
-  gid    = 70
+  run-as = var.run-as
+  uid    = var.id
+  gid    = var.id
   name   = "postgres"
 }
 

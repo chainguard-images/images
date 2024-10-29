@@ -52,7 +52,6 @@ module "versioned" {
 module "next" {
   build-dev = true
   config    = module.config-next.config
-  eol       = each.value.eol
   extra_dev_packages = [
     "yarn",
     "build-base",
