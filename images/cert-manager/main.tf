@@ -12,6 +12,7 @@ locals {
     for c in local.components : merge([
       for k, v in local.versions : {
         "${c}${v.suffix}" : {
+          eol       = v.eol
           is_latest = v.is_latest
           suffix    = v.suffix
           component = c
@@ -37,6 +38,7 @@ module "config" {
 module "versioned" {
   build-dev = true
   config    = module.config[each.key].config
+  eol       = each.value.eol
   extra_dev_packages = [
     each.value.suffix == "" ? "cmctl" : (
       # If the version is greater than 1.14, use the independently versioned cmctl package

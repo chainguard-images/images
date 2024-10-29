@@ -17,6 +17,7 @@ module "versioned" {
   build-dev         = true
   check-sbom        = false
   config            = module.config[each.key].config
+  eol               = each.value.eol
   for_each          = module.versions.versions
   main_package      = each.value.main
   name              = basename(path.module)

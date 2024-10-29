@@ -12,6 +12,7 @@ locals {
     for c in local.components : merge([
       for k, v in local.versions : {
         "kubernetes-csi-external-${c}${v.suffix}" : {
+          eol       = v.eol
           is_latest = v.is_latest
           suffix    = v.suffix
           component = c
@@ -40,6 +41,7 @@ module "config" {
 module "versioned" {
   build-dev         = true
   config            = module.config[each.key].config
+  eol               = each.value.eol
   for_each          = local.component_versions
   main_package      = each.key
   name              = basename(path.module)
