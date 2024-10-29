@@ -27,3 +27,6 @@ harbor-db
 jdk-lts
 jre-lts
 node-lts
+
+# pytorch-cuda12 removal - superseded by pytorch
+pytorch-cuda12
