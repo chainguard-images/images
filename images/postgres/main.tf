@@ -20,6 +20,9 @@ module "latest-config" {
     "libpq",
     "pgaudit",
   ]
+  run-as = 0
+  id     = 70
+
 }
 
 module "latest" {
@@ -28,6 +31,7 @@ module "latest" {
   target_repository = var.target_repository
   config            = module.latest-config.config
   build-dev         = true
+  main_package      = "postgresql"
 }
 
 module "test-latest" {
