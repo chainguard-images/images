@@ -40,6 +40,7 @@ module "helm_operator" {
   name      = "operator"
   chart     = "oci://ghcr.io/kube-logging/helm-charts/logging-operator"
   namespace = "operator"
+  wait      = true
 
   values = {
     testReceiver = {
@@ -54,6 +55,7 @@ module "helm_generator" {
   name      = "generator"
   chart     = "oci://ghcr.io/kube-logging/helm-charts/log-generator"
   namespace = "generator"
+  wait      = true
 }
 
 resource "imagetest_feature" "basic" {

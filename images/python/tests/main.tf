@@ -8,6 +8,11 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "warn_on_failure" {
+  description = "Whether to fail or warn if the test fails. Used only for EOL images."
+  default     = false
+}
+
 variable "check-dev" {
   default     = false
   description = "Whether to check for dev extensions"

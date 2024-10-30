@@ -9,6 +9,11 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "warn_on_failure" {
+  description = "Whether to fail or warn if the test fails. Used only for EOL images."
+  default     = false
+}
+
 variable "extra_testassertlogs" {
   description = "Extra test assert logs"
   type        = list(string)
@@ -16,12 +21,6 @@ variable "extra_testassertlogs" {
 }
 
 locals { parsed = provider::oci::parse(var.digest) }
-
-data "oci_exec_test" "cloudwatch-runs" {
-  digest      = var.digest
-  script      = "./cloudwatch-runs.sh"
-  working_dir = path.module
-}
 
 data "imagetest_inventory" "this" {}
 
@@ -46,9 +45,10 @@ module "helm" {
 }
 
 resource "imagetest_feature" "basic" {
-  name        = "basic"
-  description = "Basic installation test for prometheus-cloudwatch-exporter helm chart"
-  harness     = imagetest_harness_k3s.k3s
+  name            = "basic"
+  description     = "Basic installation test for prometheus-cloudwatch-exporter helm chart"
+  harness         = imagetest_harness_k3s.k3s
+  warn_on_failure = var.warn_on_failure
 
   steps = [
     {

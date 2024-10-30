@@ -34,16 +34,14 @@ module "accts" {
   name   = "fluent"
 }
 
+module "config-fluentd" {
+  source = "../../fluentd/config"
+}
+
 output "config" {
   value = jsonencode({
     contents = {
-      packages = concat(var.extra_packages, [
-        "libpq",
-        "fluent-plugin-tag-normaliser",
-        "fluent-plugin-detect-exceptions",
-        "fluent-plugin-label-router",
-        "fluent-plugin-prometheus",
-      ])
+      packages = concat(var.extra_packages, module.config-fluentd.plugins, ["libpq"])
     }
     accounts   = module.accts.block
     entrypoint = var.entrypoint
