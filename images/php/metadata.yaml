@@ -10,5 +10,6 @@ upstream_url: https://www.php.net/
 keywords:
   - base
   - featured
+tier: BASE
 aliases:
   - php:latest

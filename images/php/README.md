@@ -32,44 +32,25 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Image Variants
+## Compatibility Notes
 
-Check the [Tags](https://edu.chainguard.dev/chainguard/chainguard-images/reference/php/tags_history/) page for more details on available tags, and the [SBOM](https://images.chainguard.dev/directory/image/php/sbom) page for information about included packages per variant.
+The Chainguard PHP Image is comparable to the [official PHP Image from Docker Hub](https://hub.docker.com/_/php). However, the Chainguard image does not run as the root user and contains only the minimum set of tools and dependencies needed to function. This means it doesn't include things like a shell or a package manager.
 
-- `latest`: This is a distroless image for running command-line PHP applications.
-- `latest-fpm`: This is the distroless `php-fpm` image variant, designed to be used together with our [Nginx](https://edu.chainguard.dev/chainguard/chainguard-images/reference/nginx) image.
+Because PHP applications typically require the installation of third-party dependencies with Composer, using a fully distroless image for building your application would not work. In cases like this, it's recommended that you implement a [multi-stage Docker build](https://docs.docker.com/build/building/multi-stage/) that uses one of the PHP image's `-dev` variants to set up the application.
 
-### PHP Version
-This will automatically pull the image to your local system and execute the command `php --version`:
+Note that chainguard also offers a `php:latest-fpm` image. This is the distroless `php-fpm` image variant, designed to be used together with our [Nginx](https://images.chainguard.dev/directory/image/nginx/overview) image.
 
-```shell
-docker run --rm cgr.dev/chainguard/php --version
-```
 
-You should get output similar to this:
+## Getting Started
 
-```
-PHP 8.2.1 (cli) (built: Jan  1 1970 00:00:00) (NTS)
-Copyright (c) The PHP Group
-Zend Engine v4.2.1, Copyright (c) Zend Technologies
-```
+To better understand how you can work with the Chainguard PHP image, we encourage you to check out our guide on [getting started with PHP](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/php/). This resource demonstrates how you can use Chainguard's PHP Image to set up a distroless container image as a runtime to execute a command-line PHP application.
 
-## Running Composer
+When creating a Dockerfile to extend Chainguard's PHP images, the recommended approach is to set up a multi-stage build so that you're able to install your Composer dependencies on a separate environment and then copy the files over to a smaller production image.
 
-To install application dependencies from your host machine, you can use the `latest-dev` variant with a shared volume:
 
-```shell
-docker run --rm -v ${PWD}:/work --entrypoint composer --user root \
-    cgr.dev/chainguard/php:latest-dev \
-    install --working-dir=/work
-```
+### Command-line Scripts and Applications
 
-## Application Setup for End Users
-
-When creating a Dockerfile to extend from these images, the recommended approach is to set up a multi-stage build so that you're able to install your Composer dependencies on a separate environment and then copy the files over to a smaller production image.
-
-### CLI Scripts and Applications
-The following example demonstrates how to set up a multi-stage Dockerfile build in the context of command line PHP applications:
+The following example demonstrates how to set up a multi-stage Dockerfile build in the context of command-line PHP applications:
 
 ```Dockerfile
 FROM cgr.dev/chainguard/php:latest-dev AS builder
@@ -82,10 +63,12 @@ COPY --from=builder /app /app
 
 ENTRYPOINT [ "php", "/app/command" ]
 ```
-### Web Applications / APIs
+
+### Web Applications and APIs
+
 For web applications, you should follow the same principle, but using the `php-fpm` variant for the final image. You'll also need a custom `nginx.conf` file to set up your Nginx service with PHP-FPM.
 
-A good way to test your setup locally is by using [Docker Compose](https://docs.docker.com/compose/compose-file/). The following `docker-compose.yaml` file demonstrates how to create a web server environment using the [Nginx Chainguard Image](https://edu.chainguard.dev/chainguard/chainguard-images/reference/nginx) :
+A good way to test your setup locally is by using [Docker Compose](https://docs.docker.com/compose/compose-file/). The following `docker-compose.yaml` file demonstrates how to create a web server environment using the [Nginx Chainguard Image](https://images.chainguard.dev/directory/image/nginx/overview):
 
 ```yaml
 version: "3.7"
@@ -115,9 +98,9 @@ networks:
     driver: bridge
 ```
 
-You'll notice the Nginx service has a volume share to set up a custom config file. The following `nginx.conf` file sets up Nginx to serve pages from a `/app/public` folder and redirects requests to `.php` files to the `app` service on port `9000`.
+Notice that the Nginx service has a volume share to set up a custom config file. The following `nginx.conf` file sets up Nginx to serve pages from an `/app/public` folder and redirects requests to `.php` files to the `app` service on port `9000`.
 
-```
+```php
 events {
   worker_connections  1024;
 }
@@ -144,11 +127,18 @@ http {
 }
 ```
 
-For more detailed information on how to use these images, check the [Getting Started with the PHP Chainguard Images](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/php/) guide.
 
-## Detailed Environment Information
+## Configuration
 
-To obtain information about available modules, you can run:
+To install application dependencies from your host machine, you can use the `latest-dev` variant with a shared volume:
+
+```shell
+docker run --rm -v ${PWD}:/work --entrypoint composer --user root \
+    cgr.dev/chainguard/php:latest-dev \
+    install --working-dir=/work
+```
+
+To obtain information about modules available for the Chainguard PHP image, you can run the following command:
 
 ```shell
 docker run --rm --entrypoint php cgr.dev/chainguard/php:latest -m
@@ -161,6 +151,13 @@ For instance, to check for `curl` settings, you can run:
 ```shell
 docker run --rm cgr.dev/chainguard/php:latest --info | grep curl
 ```
+
+
+## Documentation and Resources
+
+* [Getting Started with the PHP Chainguard Image](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/php/)
+* [Migrating to PHP Chainguard Images](https://edu.chainguard.dev/chainguard/migration/migrating-php/)
+* [Vulnerability Comparison: php](https://edu.chainguard.dev/chainguard/chainguard-images/vuln-comparison/php/)
 <!--body:end-->
 
 ## Contact Support
