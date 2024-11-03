@@ -1,7 +1,6 @@
-terraform {
-  required_providers {
-    apko = { source = "chainguard-dev/apko" }
-  }
+variable "run-as" {
+  description = "The UID used to run the container."
+  default     = 65532
 }
 
 variable "extra_packages" {
@@ -15,6 +14,7 @@ variable "environment" {
 
 module "accts" {
   source = "../../../tflib/accts"
+  run-as = var.run-as
   name   = "java"
 }
 
