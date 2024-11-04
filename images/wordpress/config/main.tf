@@ -33,6 +33,7 @@ variable "base_packages" {
 
 variable "php_version" {
   description = "Major php version for all the deps"
+  default     = "php"
 }
 
 variable "dev_packages" {
