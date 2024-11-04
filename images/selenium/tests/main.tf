@@ -35,7 +35,7 @@ resource "imagetest_feature" "test" {
     name    = "basic test"
     workdir = "/tests"
     cmd     = <<EOF
-        ./smoke.sh
+        /tests/smoke.sh
       EOF
     },
   ]

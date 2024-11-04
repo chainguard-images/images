@@ -300,11 +300,6 @@ module "docker-cli" {
   target_repository = "${var.target_repository}/docker-cli"
 }
 
-module "docker-selenium" {
-  source            = "./images/docker-selenium"
-  target_repository = "${var.target_repository}/docker-selenium"
-}
-
 module "doppler-kubernetes-operator" {
   source            = "./images/doppler-kubernetes-operator"
   target_repository = "${var.target_repository}/doppler-kubernetes-operator"
@@ -1323,6 +1318,11 @@ module "secrets-store-csi-driver-provider-gcp" {
   target_repository = "${var.target_repository}/secrets-store-csi-driver-provider-gcp"
 }
 
+module "selenium" {
+  source            = "./images/selenium"
+  target_repository = "${var.target_repository}/selenium"
+}
+
 module "semgrep" {
   source            = "./images/semgrep"
   target_repository = "${var.target_repository}/semgrep"
@@ -1861,10 +1861,6 @@ output "summary_dive" {
 
 output "summary_docker-cli" {
   value = module.docker-cli.summary
-}
-
-output "summary_docker-selenium" {
-  value = module.docker-selenium.summary
 }
 
 output "summary_doppler-kubernetes-operator" {
@@ -2673,6 +2669,10 @@ output "summary_secrets-store-csi-driver" {
 
 output "summary_secrets-store-csi-driver-provider-gcp" {
   value = module.secrets-store-csi-driver-provider-gcp.summary
+}
+
+output "summary_selenium" {
+  value = module.selenium.summary
 }
 
 output "summary_semgrep" {

@@ -59,7 +59,7 @@ Access noVNC:
 http://localhost:7900/vnc.html`:
 ```
 
-* Login with the password `secret`.
+- Login with the password `secret`.
 
 Any WebDriver tests should point to Selenium on on port 4444.
 
