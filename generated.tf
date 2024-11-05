@@ -1233,11 +1233,6 @@ module "pytorch" {
   target_repository = "${var.target_repository}/pytorch"
 }
 
-module "pytorch-cuda12" {
-  source            = "./images/pytorch-cuda12"
-  target_repository = "${var.target_repository}/pytorch-cuda12"
-}
-
 module "qdrant" {
   source            = "./images/qdrant"
   target_repository = "${var.target_repository}/qdrant"
@@ -2601,10 +2596,6 @@ output "summary_python" {
 
 output "summary_pytorch" {
   value = module.pytorch.summary
-}
-
-output "summary_pytorch-cuda12" {
-  value = module.pytorch-cuda12.summary
 }
 
 output "summary_qdrant" {

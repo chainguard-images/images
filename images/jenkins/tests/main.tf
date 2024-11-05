@@ -13,6 +13,11 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "helm_chart_version" {
+  type    = string
+  default = ""
+}
+
 locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
@@ -32,7 +37,8 @@ resource "imagetest_harness_k3s" "this" {
 }
 
 module "helm_controller" {
-  source = "./controller"
+  source             = "./controller"
+  helm_chart_version = var.helm_chart_version
   values = {
     namespace        = local.namespace
     fullnameOverride = local.namespace
