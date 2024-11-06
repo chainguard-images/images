@@ -23,6 +23,8 @@ jobs:
               - ./generated.tf
               - ./go.mod
               - ./go.sum
+              - ./withdrawn-images.txt
+              - ./withdrawn-repos.txt
 
       - if: steps.changed.outputs.automated_any_modified == 'true'
         run: |
