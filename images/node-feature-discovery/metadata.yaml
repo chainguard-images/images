@@ -1,5 +1,5 @@
-name: node-feature-directory
-image: cgr.dev/chainguard/node-feature-directory
+name: node-feature-discovery
+image: cgr.dev/chainguard/node-feature-discovery
 logo: https://storage.googleapis.com/chainguard-academy/logos/node-feature-discovery.svg
 endoflife: ""
 console_summary: ""

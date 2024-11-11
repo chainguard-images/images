@@ -1,11 +1,11 @@
 <!--monopod:start-->
-# images/doppler-kubernetes-operator
+# doppler-kubernetes-operator
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/images/doppler-kubernetes-operator` |
+| **OCI Reference** | `cgr.dev/chainguard/doppler-kubernetes-operator` |
 
 
-* [View Image in the Chainguard Images Directory](https://images.chainguard.dev/directory/image/images/doppler-kubernetes-operator/overview).
+* [View Image in the Chainguard Images Directory](https://images.chainguard.dev/directory/image/doppler-kubernetes-operator/overview).
 * [View the Image Catalog](https://console.chainguard.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.
 
@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-# Chainguard Image for images/doppler-kubernetes-operator
+# Chainguard Image for doppler-kubernetes-operator
 
 Automatically sync secrets from Doppler to Kubernetes and auto-reload deployments when secrets change.
 
@@ -25,7 +25,7 @@ Chainguard Images are regularly-updated, minimal container images with low-to-ze
 This image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/ORGANIZATION/images/doppler-kubernetes-operator:latest
+docker pull cgr.dev/ORGANIZATION/doppler-kubernetes-operator:latest
 ```
 
 Be sure to replace the `ORGANIZATION` placeholder with the name used for your organization's private repository within the Chainguard registry.

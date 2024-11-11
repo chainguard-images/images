@@ -1,11 +1,11 @@
 <!--monopod:start-->
-# gitalb-pages
+# gitlab-pages
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/gitalb-pages` |
+| **OCI Reference** | `cgr.dev/chainguard/gitlab-pages` |
 
 
-* [View Image in the Chainguard Images Directory](https://images.chainguard.dev/directory/image/gitalb-pages/overview).
+* [View Image in the Chainguard Images Directory](https://images.chainguard.dev/directory/image/gitlab-pages/overview).
 * [View the Image Catalog](https://console.chainguard.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.
 
@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-# Chainguard Image for gitalb-pages
+# Chainguard Image for gitlab-pages
 
 Publish static websites directly from a repository in GitLab.
 
@@ -25,7 +25,7 @@ Chainguard Images are regularly-updated, minimal container images with low-to-ze
 This image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/ORGANIZATION/gitalb-pages:latest
+docker pull cgr.dev/ORGANIZATION/gitlab-pages:latest
 ```
 
 Be sure to replace the `ORGANIZATION` placeholder with the name used for your organization's private repository within the Chainguard registry.
