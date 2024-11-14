@@ -9,7 +9,10 @@ terraform {
 }
 
 variable "extra_packages" {
-  default     = ["kubeflow-pipelines-visualization-server"]
+  default     = [
+    "kubeflow-pipelines-visualization-server",
+    "wget",
+  ]
   description = "The additional packages to install"
 }
 
