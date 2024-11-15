@@ -9,7 +9,7 @@ terraform {
 }
 
 variable "extra_packages" {
-  default     = ["dotnet-runtime"]
+  default     = ["dotnet-9-runtime"]
   description = "The additional packages to install (e.g. dotnet-runtime)."
 }
 
