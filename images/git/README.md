@@ -47,21 +47,21 @@ encourage all users to test and verify the new versions.
 The affected tags are:
 
  - `latest`
- - `latest-root` 
- - `latest-dev` 
+ - `latest-root`
+ - `latest-dev`
  - `latest-root-dev`
 
 You can test today by migrating to one of the following images:
 
  - `latest-glibc`
- - `latest-glibc-root` 
- - `latest-glibc-dev` 
+ - `latest-glibc-root`
+ - `latest-glibc-dev`
  - `latest-glibc-root-dev`
 
 From July 15 the `glibc` tag and the corresponding tag without `glibc` will point to the same
 images.
 
-Full details are in [this blog post](https://www.chainguard.dev/unchained/changes-to-static-git-and-busybox-developer-images-2).
+Full details are in [this blog post](https://www.chainguard.dev/unchained/changes-to-static-git-and-busybox-developer-images).
 
 ## Usage
 

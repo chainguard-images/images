@@ -85,15 +85,14 @@ locals {
 
 module "this" {
   source  = "chainguard-dev/apko/publisher"
-  version = "0.0.15"
+  version = "0.0.16"
 
   target_repository = var.target_repository
   config            = yamlencode(local.updated_config)
   extra_packages    = var.extra_packages
 
-  check_sbom   = var.check-sbom
-  sbom_checker = "cgr.dev/chainguard/ntia-conformance-checker:latest@sha256:75c1f8dcdf53d365bf30cdd630f800fa7a3b5d572ffc58346da6e5f1360e0787"
-  spdx_image   = "cgr.dev/chainguard/spdx-tools:latest@sha256:cc4c0272f70ea9e8083c360787793fc7f847917942b49e80ed90d03199df0a55"
+  check_sbom = var.check-sbom
+  spdx_image = "cgr.dev/chainguard/spdx-tools:latest@sha256:cc4c0272f70ea9e8083c360787793fc7f847917942b49e80ed90d03199df0a55"
 }
 
 module "this-dev" {

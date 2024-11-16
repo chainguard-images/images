@@ -7,17 +7,11 @@ terraform {
 
 variable "target_repository" {}
 
-variable "digests" {
-  description = "The image digests to run tests over."
-  type = object({
-    alertmanager    = string
-    core            = string
-    mysqld-exporter = string
-    pushgateway     = string
-  })
+variable "digest" {
+  description = "The image digest to run tests over."
 }
 
-locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
+locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
@@ -41,18 +35,9 @@ module "helm" {
     prometheus = {
       prometheusSpec = {
         image = {
-          registry   = local.parsed["core"].registry
-          repository = local.parsed["core"].repo
-          sha        = trimprefix(local.parsed["core"].digest, "sha256:")
-        }
-      }
-    }
-    alertmanager = {
-      alertmanagerSpec = {
-        image = {
-          registry   = local.parsed["alertmanager"].registry
-          repository = local.parsed["alertmanager"].repo
-          sha        = trimprefix(local.parsed["alertmanager"].digest, "sha256:")
+          registry   = local.parsed.registry
+          repository = local.parsed.repo
+          sha        = trimprefix(local.parsed.digest, "sha256:")
         }
       }
     }
@@ -63,21 +48,6 @@ module "helm" {
         repository = "chainguard/kube-state-metrics"
         tag        = "latest"
       }
-    }
-  }
-}
-
-module "helm_pushgateway" {
-  source = "../../../tflib/imagetest/helm"
-
-  name  = "grafana-agent-operator"
-  repo  = "https://prometheus-community.github.io/helm-charts"
-  chart = "prometheus-pushgateway"
-
-  values = {
-    image = {
-      registry = local.parsed["pushgateway"].registry_repo
-      sha      = trimprefix(local.parsed["pushgateway"].digest, "sha256:")
     }
   }
 }
@@ -93,9 +63,59 @@ resource "imagetest_feature" "basic" {
       cmd  = module.helm.install_cmd
     },
     {
-      name = "Helm Install prometheus-pushgateway"
-      cmd  = module.helm_pushgateway.install_cmd
-    }
+      name = "Ensure we can run a vanilla install"
+      cmd  = <<EOF
+
+kubectl apply -f - <<EOm
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-server
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus-server
+  template:
+    metadata:
+      labels:
+        app: prometheus-server
+    spec:
+      containers:
+        - name: prometheus
+          image: ${var.digest}
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: config-volume
+              mountPath: /prometheus.yml
+              subPath: prometheus.yml
+      volumes:
+        - name: config-volume
+          configMap:
+            name: prometheus-server-conf
+            defaultMode: 420
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-server-conf
+  namespace: default
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+    scrape_configs:
+      - job_name: 'prometheus'
+        static_configs:
+          - targets: ['localhost:9090']
+EOm
+
+kubectl wait --for=condition=available deployment prometheus-server --timeout=120s
+      EOF
+    },
   ]
 
   labels = {
@@ -103,36 +123,3 @@ resource "imagetest_feature" "basic" {
   }
 }
 
-resource "imagetest_harness_docker" "docker" {
-  name      = "docker"
-  inventory = data.imagetest_inventory.this
-}
-
-resource "imagetest_feature" "image" {
-  name        = "image"
-  description = "Basic image test"
-  harness     = imagetest_harness_docker.docker
-
-  steps = [
-    {
-      name = "prometheus --version"
-      cmd  = "docker run --rm ${var.digests["core"]} --version"
-    },
-    {
-      name = "alertmanager --version"
-      cmd  = "docker run --rm ${var.digests["alertmanager"]} --version"
-    },
-    {
-      name = "mysqld-exporter --version"
-      cmd  = "docker run --rm ${var.digests["mysqld-exporter"]} --version"
-    },
-    {
-      name = "pushgateway --version"
-      cmd  = "docker run --rm ${var.digests["pushgateway"]} --version"
-    },
-  ]
-
-  labels = {
-    type = "container"
-  }
-}

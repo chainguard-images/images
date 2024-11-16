@@ -15,7 +15,7 @@
 <!--overview:start-->
 # Chainguard Image for gcc-glibc
 
-Minimal container image for building C applications (which require glibc).
+Minimal GCC (GNU Compiler Collection) image for building C applications compatible with glibc.
 
 Chainguard Images are regularly-updated, minimal container images with low-to-zero CVEs.
 <!--overview:end-->
@@ -32,52 +32,91 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Usage
+## Compatibility Notes
+The gcc-glibc Chainguard image was built to work as a drop-in replacement for the [gcc](https://hub.docker.com/_/gcc) official image from Docker Hub. 
 
-To build the C application in [examples/hello/main.c](https://github.com/chainguard-images/images/blob/main/images/gcc-glibc/examples/hello/main.c):
+Unlike many other Chainguard images, the gcc-glibc image includes a shell, allowing you to log into the container and run commands interactively. It also runs as the root user by default. Despite these two differences, the image is still designed to be secure and minimal, and does not include a package manager. If you need a package manager, you can use the `-dev` variant of this image.
 
+It's also worth noting that Chainguard's gcc-glibc image sets an entrypoint to `/usr/bin/gcc`, while the official gcc image lands on a shell by default when no arguments are passed to the `docker run` command. You can always use the `--entrypoint` argument with `docker run` to override the entrypoint if needed.
+
+## Getting Started
+You can use the gcc-glibc image both to compile and to run C applications that are compatible with the GNU C Library (glibc). Consider the following `hello.c` program:
+
+```c
+#include <stdio.h>
+
+int main() {
+    printf("Hello World!\n");
+    return 0;
+}
 ```
-$ docker run --rm -v "${PWD}:/work" cgr.dev/chainguard/gcc-glibc examples/hello/main.c -o hello
+
+To compile this program using the gcc-glibc Chainguard image, you can use the following command:
+
+```shell
+docker run --rm -v ${PWD}:/work cgr.dev/ORGANIZATION/gcc-glibc /work/hello.c -o hello
 ```
 
-This will write a Linux binary to `./hello`. If you're on Linux and have the glibc library, you
-should be able to run it directly. Otherwise you can run it in a container e.g:
+This will create a Linux binary called `hello` in your current folder. If your program has a Makefile, you can instead run `make` by replacing the image's entrypoint:
 
+```shell
+docker run --rm -v ${PWD}:/work --entrypoint make cgr.dev/ORGANIZATION/gcc-glibc
 ```
-$ docker run --rm -v "$PWD/hello:/hello" --platform linux/amd64 cgr.dev/chainguard/glibc-dynamic /hello
-Hello World!
+This will execute the application's Makefile in the container.
+
+### Using the gcc-glibc Image as a Runtime
+To run the compiled program using the gcc-glibc image, you can use the following command:
+
+```shell
+docker run --rm -v ${PWD}:/work --entrypoint /work/hello cgr.dev/ORGANIZATION/gcc-glibc
 ```
 
-Note: only `linux/amd64` is uspported at the moment.
+This will replace the default entrypoint of the image, which is `/usr/bin/gcc`, with the `hello` binary you just compiled. Although this works and is a straightforward way to test your compiled program after  building it, consider using instead the [Chainguard glibc-dynamic image](https://images.chainguard.dev/directory/image/glibc-dynamic/overview) to run your compiled C applications in a slimmer and more production-ready runtime environment for C programs. The [Getting Started with the C/C++ Chainguard Images](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/c/) guide on Chainguard Academy has detailed instructions on how to build multi-stage environments for C programs using both the gcc-glibc and glibc-dynamic images.
 
-We can also do this all in a multi-stage Dockerfile e.g:
+### Usage in a Dockerfile
+
+The following Dockerfile builds the example `hello.c` program and sets the entry point to the compiled binary:
 
 ```Dockerfile
-FROM cgr.dev/chainguard/gcc-glibc as build
+FROM cgr.dev/chainguard/gcc-glibc:latest
 
-COPY hello.c /work/hello.c
-RUN cc hello.c -o hello
+COPY hello.c /work
 
-FROM cgr.dev/chainguard/glibc-dynamic
+RUN gcc -o hello hello.c && \
+  cp /work/hello /usr/bin/hello 
+    
+USER 65532
 
-COPY --from=build /work/hello /hello
-CMD ["/hello"]
+ENTRYPOINT ["/usr/bin/hello"]
 ```
 
-And we can also compile statically to be used in environments without glibc:
-
+For production environments, consider using a combination of gcc-glibc and [glibc-dynamic](https://images.chainguard.dev/directory/image/glibc-dynamic/overview) to build a final distroless image containing only what's necessary to run your compiled binary. The following example shows how to create such an image in a multi-stage Dockerfile:
 
 ```Dockerfile
-FROM cgr.dev/chainguard/gcc-glibc as build
+FROM cgr.dev/chainguard/gcc-glibc:latest as builder
 
-COPY hello.c /work/hello.c
-RUN cc --static hello.c -o hello
+COPY hello.c /work
 
-FROM cgr.dev/chainguard/static
+RUN gcc -o hello hello.c 
 
-COPY --from=build /work/hello /hello
-CMD ["/hello"]
+FROM cgr.dev/chainguard/glibc-dynamic:latest
+
+COPY --from=builder /work/hello /usr/bin/
+
+USER 65532
+
+ENTRYPOINT ["/usr/bin/hello"]
 ```
+
+For more details, check our [Getting Started with the C/C++ Chainguard Images](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/c/) guide on Chainguard Academy.
+
+## Documentation and Resources
+
+- [Chainguard Academy: Choosing an Image for your Compiled Programs](https://edu.chainguard.dev/chainguard/chainguard-images/working-with-images/images-compiled-programs/compiled-programs/)
+- [Video: Getting Started with the C/C++ Chainguard Images](https://youtu.be/g7fCIRJ8_pE?feature=shared)
+- [Chainguard Academy: glibc vs musl](https://edu.chainguard.dev/chainguard/chainguard-images/working-with-images/images-compiled-programs/glibc-vs-musl/)
+- [Demos: glibc vs musl benchmarks](https://github.com/chainguard-dev/edu-images-demos/tree/main/glibc-vs-musl)
+
 <!--body:end-->
 
 ## Contact Support

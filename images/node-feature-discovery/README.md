@@ -1,11 +1,11 @@
 <!--monopod:start-->
-# node-feature-directory
+# node-feature-discovery
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/node-feature-directory` |
+| **OCI Reference** | `cgr.dev/chainguard/node-feature-discovery` |
 
 
-* [View Image in the Chainguard Images Directory](https://images.chainguard.dev/directory/image/node-feature-directory/overview).
+* [View Image in the Chainguard Images Directory](https://images.chainguard.dev/directory/image/node-feature-discovery/overview).
 * [View the Image Catalog](https://console.chainguard.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.
 
@@ -13,7 +13,7 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-# Chainguard Image for node-feature-directory
+# Chainguard Image for node-feature-discovery
 
 A minimal wolfi-based image for node-feature-discovery, Node feature discovery for Kubernetes
 
@@ -25,7 +25,7 @@ Chainguard Images are regularly-updated, minimal container images with low-to-ze
 This image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/ORGANIZATION/node-feature-directory:latest
+docker pull cgr.dev/ORGANIZATION/node-feature-discovery:latest
 ```
 
 Be sure to replace the `ORGANIZATION` placeholder with the name used for your organization's private repository within the Chainguard registry.

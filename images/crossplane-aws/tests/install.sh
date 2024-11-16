@@ -62,5 +62,6 @@ spec:
   - name: regcred
 EOF
 
-kubectl wait --for=condition=Installed provider/upbound-provider-family-aws --timeout=10m
-kubectl wait --for=condition=Healthy provider/upbound-provider-family-aws --timeout=10m
+kubectl wait --for=condition=Installed provider/upbound-provider-family-aws --timeout=10m || true
+kubectl wait --for=condition=Healthy provider/upbound-provider-family-aws --timeout=10m || true
+

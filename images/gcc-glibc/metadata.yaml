@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/gcc-glibc
 logo: https://storage.googleapis.com/chainguard-academy/logos/gcc-glibc.svg
 endoflife: ""
 console_summary: ""
-short_description: Minimal container image for building C applications (which require glibc).
+short_description: Minimal GCC (GNU Compiler Collection) image for building C applications compatible with glibc.
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://wolfi.dev

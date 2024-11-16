@@ -13,7 +13,7 @@ terraform {
 }
 
 variable "extra_packages" {
-  default     = ["tomcat-10.1-openjdk-17"]
+  default     = ["tomcat-11.0-openjdk-17"]
   description = "The additional packages to install (e.g. tomcat-10)."
 }
 

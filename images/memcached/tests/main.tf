@@ -47,7 +47,39 @@ resource "imagetest_feature" "basic" {
     {
       name = "Helm install"
       cmd  = module.helm.install_cmd
-    }
+    },
+    {
+      name = "Install netcat"
+      cmd  = "apk add --no-cache netcat-openbsd"
+    },
+    {
+      name = "Start port-forward to access Memcached service on localhost"
+      cmd  = "kubectl port-forward -n default svc/memcached 11211:11211 & "
+    },
+    {
+      name = "Wait for port-forwarding to establish"
+      cmd  = "sleep 5" # Give time for the connection to establish
+    },
+    {
+      name = "Test Memcached functionality using nc with localhost"
+      cmd  = <<-EOC
+        echo "Testing connection to Memcached at localhost:11211"
+        echo -e 'stats\nquit' | nc localhost 11211
+      EOC
+      assert = {
+        success = "STAT pid"
+        output_contains = [
+          "STAT pid",
+          "STAT uptime",
+          "STAT version",
+          "STAT curr_connections",
+          "STAT cmd_get",
+          "STAT bytes_read",
+          "STAT threads",
+          "STAT limit_maxbytes",
+        ]
+      }
+    },
   ]
 
   labels = {

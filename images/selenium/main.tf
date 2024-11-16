@@ -10,13 +10,18 @@ variable "target_repository" {
 
 module "config" {
   source         = "./config"
-  extra_packages = ["docker-selenium"]
+  extra_packages = ["docker-selenium-base"]
+}
+
+locals {
+  mangled_repository = replace(var.target_repository, "/selenium", "/docker-selenium")
+
 }
 
 module "latest" {
   source            = "../../tflib/publisher"
   name              = basename(path.module)
-  target_repository = var.target_repository
+  target_repository = local.mangled_repository
   config            = module.config.config
   build-dev         = true
 
@@ -30,7 +35,6 @@ module "latest" {
 
 module "test" {
   source = "./tests"
-
   digest = module.latest.image_ref
 }
 

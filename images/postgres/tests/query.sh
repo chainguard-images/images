@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-CONTAINER_NAME=${CONTAINER_NAME:-"postgres-${FREE_PORT}"}
+CONTAINER_NAME=${CONTAINER_NAME:-"postgres-${RANDOM}"}
 
 docker run -e POSTGRES_PASSWORD=password -d --name $CONTAINER_NAME $IMAGE_NAME
 sleep 10
@@ -40,3 +39,6 @@ docker exec $CONTAINER_NAME /usr/bin/psql -U postgres -h 127.0.0.1 -c "GRANT ALL
 # Drop the test database and user
 docker exec $CONTAINER_NAME /usr/bin/psql -U postgres -h 127.0.0.1 -c "DROP DATABASE testdb;"
 docker exec $CONTAINER_NAME /usr/bin/psql -U postgres -h 127.0.0.1 -c "DROP USER testuser;"
+
+docker exec $CONTAINER_NAME /usr/bin/psql -U postgres -t -c "show server_encoding;" | head -n 1 | grep UTF8
+

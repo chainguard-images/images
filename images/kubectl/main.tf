@@ -16,7 +16,7 @@ module "latest" {
   target_repository  = var.target_repository
   config             = module.latest-config.config
   build-dev          = true
-  extra_dev_packages = ["kustomize"]
+  extra_dev_packages = ["kustomize", "bash-completion"]
 }
 
 module "test-latest" {

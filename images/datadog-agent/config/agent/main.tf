@@ -32,7 +32,7 @@ output "config" {
       "CURL_CA_BUNDLE" : "/opt/datadog-agent/embedded/ssl/certs/cacert.pem",
       "DD_SECRET_BACKEND_COMMAND_ALLOW_GROUP_EXEC_PERM" : "true",
       "PATH" : "/opt/datadog-agent/bin/agent/:/opt/datadog-agent/embedded/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/jvm/java-11-openjdk/bin",
-      "PYTHONPATH" : "/usr/share/datadog-agent/lib/python3.11/site-packages",
+      "PYTHONPATH" : "/opt/datadog-agent/embedded/lib/python3.11/site-packages",
       "S6-LOGGING" : "0",
       "S6_BEHAVIOR_IF_STAGE2_FAILS" : "2",
       "S6_KEEP_ENV" : "1",

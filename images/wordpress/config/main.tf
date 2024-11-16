@@ -31,6 +31,11 @@ variable "base_packages" {
   ]
 }
 
+variable "php_version" {
+  description = "Major php version for all the deps"
+  default     = "php"
+}
+
 variable "dev_packages" {
   description = "The additional packages to install in the dev image."
   default     = ["wolfi-base", "wordpress-oci-entrypoint"]
@@ -55,7 +60,7 @@ module "accts" {
 output "config" {
   value = jsonencode({
     contents = {
-      packages = var.base_packages
+      packages = [for p in var.base_packages : replace(p, "php", var.php_version)]
     }
     accounts   = module.accts.block
     entrypoint = { command = "php-fpm" }

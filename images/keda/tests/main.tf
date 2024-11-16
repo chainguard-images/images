@@ -92,7 +92,8 @@ resource "imagetest_feature" "basic" {
         kubectl get --raw "/apis/external.metrics.k8s.io/v1beta1"
         kubectl get scaledobject test-deployment -n default -o jsonpath={.status.externalMetricNames}
         kubectl get --raw "/apis/external.metrics.k8s.io/v1beta1/namespaces/default/s0-cron-UTC-0,1xxxx-0,5xxxx?labelSelector=scaledobject.keda.sh%2Fname%3Dtest-deployment"
-        kubectl get scaledobject test-deployment -o jsonpath='{.status.health.*.status}' | grep Happy
+        kubectl wait --for=condition=Ready scaledobject test-deployment
+        kubectl wait --for=condition=Active scaledobject test-deployment
       EOF
     },
   ]

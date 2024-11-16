@@ -1,4 +1,4 @@
-name: gitalb-exporter
+name: gitlab-exporter
 image: cgr.dev/chainguard-private/gitlab-exporter
 logo: https://storage.googleapis.com/chainguard-academy/logos/gitlab.svg
 endoflife: ""

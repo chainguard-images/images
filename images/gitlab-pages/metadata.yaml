@@ -1,4 +1,4 @@
-name: gitalb-pages
+name: gitlab-pages
 image: cgr.dev/chainguard-private/gitlab-pages
 logo: https://storage.googleapis.com/chainguard-academy/logos/gitlab.svg
 endoflife: ""

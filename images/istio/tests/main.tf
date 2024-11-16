@@ -17,6 +17,11 @@ variable "digests" {
   })
 }
 
+variable "warn_on_failure" {
+  description = "Whether to fail or warn if the test fails. Used only for EOL images."
+  default     = false
+}
+
 variable "k3s_harness_image" {
   description = "The image to use for the k3s harness."
   # null specifically so it picks the provider default
@@ -180,9 +185,10 @@ module "helm_install-cni" {
 }
 
 resource "imagetest_feature" "this" {
-  harness     = module.cluster_harness.harness
-  name        = "istio"
-  description = "Test istio functionality of the various istio helm charts."
+  harness         = module.cluster_harness.harness
+  name            = "istio"
+  description     = "Test istio functionality of the various istio helm charts."
+  warn_on_failure = var.warn_on_failure
 
   steps = [
     {

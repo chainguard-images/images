@@ -15,7 +15,7 @@
 <!--overview:start-->
 # Chainguard Image for redis
 
-Minimalist Wolfi-based [Redis](https://github.com/redis/redis) image.
+Chainguard image for [Redis](https://github.com/redis/redis), an in-memory database that persists on disk. Redis is a key-value store, supporting an array of different values, including Strings, Lists, Sets, Sorted Sets, Hashes, Streams, HyperLogLogs, and Bitmaps.
 
 Chainguard Images are regularly-updated, minimal container images with low-to-zero CVEs.
 <!--overview:end-->
@@ -32,87 +32,111 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
+## Compatibility Notes
 
-## Important - license update
+The Chainguard Redis image is comparable to [the official Redis image on Docker Hub](https://hub.docker.com/_/redis). 
 
-Redis version 7.4 and subsequent releases are no longer licensed under
-BSD-3-Clause. A dual licensing model has been adopted, of which users have the
-choice to adopt either RSALv2 or SSPLv1.
+Unlike many other Chainguard images, the Redis image includes a shell, allowing you to interact with the Redis database using the Redis command-line interface, `redis-cli`. 
 
-Please give careful consideration to the licensing conditions when consuming
-redis. For more information, refer to the [upstream license information](https://github.com/redis/redis/blob/unstable/LICENSE.txt).
+By default this image runs as a non-root user named `redis` with a uid of `65532`. Typically, Redis does not have a default data directory and instead defaults to whatever the working directory is for the Redis process. The Chainguard Redis image provides a default working directory of `/data` that is writeable by the `redis` user.
 
-## Overview
+### Important license update
 
-Redis is an in-memory database that persists on disk.
+Redis version 7.4 and subsequent releases are no longer licensed under BSD-3-Clause; instead, the Redis project has adopted a dual licensing model. This means users have the choice to adopt either the Redis Source Available License v2 (RSALv2) or the Server Side Public License v1 (SSPLv1).
 
-The data model is key-value, but many different kind of values are supported: Strings, Lists, Sets, Sorted Sets, Hashes, Streams, HyperLogLogs, Bitmaps.
+Please give careful consideration to these licensing conditions when using Redis. For more details, refer to the [upstream license information](https://github.com/redis/redis/blob/unstable/LICENSE.txt).
 
-- [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/redis)
-- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/redis/provenance_info/)
-
-## Image Variants
-
-Our `latest` tag use the most recent build of the [Wolfi Redis](https://github.com/wolfi-dev/os/blob/main/redis.yaml) package.
-The `latest` tagged variant is a distroless image for running Redis.
+## Getting Started
 
 ## Redis Version
 This will automatically pull the image to your local system and execute the command `redis --version`:
 
-```shell
-docker run --rm cgr.dev/chainguard/redis --version
-```
-
-You should see output similar to this:
-
-```
-Redis server v=7.0.8 sha=00000000:0 malloc=libc bits=64 build=736cb94cbb0b299
-```
-
-## Using Redis
-
-The default redis port is 6379.
-To run with Docker using default configuration:
+To run the Chainguard Redis image with Docker using default configuration you could run the following command:
 
 ```sh
 docker run -p 6379:6379 --rm cgr.dev/chainguard/redis
-1:C 27 Dec 2022 16:42:20.647 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
-1:C 27 Dec 2022 16:42:20.647 # Redis version=7.0.7, bits=64, commit=00000000, modified=0, pid=1, just started
-1:C 27 Dec 2022 16:42:20.647 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
-1:M 27 Dec 2022 16:42:20.648 * monotonic clock: POSIX clock_gettime
-1:M 27 Dec 2022 16:42:20.648 * Running mode=standalone, port=6379.
-1:M 27 Dec 2022 16:42:20.648 # Server initialized
-1:M 27 Dec 2022 16:42:20.650 * Ready to accept connections
 ```
 
-## Users and Directories
-
-By default this image runs as a non-root user named `redis` with a uid of 65532.
-Redis does not have a default data directory, it defaults to whatever the working directory is for the process.
-We provide a default `WORKDIR` of `/data` that is writeable by the `redis` user.
-
-If you supply a different configuration file or change the user, UID, or `WORKDIR`, you'll need to ensure the user running the redis
-process has permissions to write to that directory.
-
-When running in Docker using a volume, that should also be taken care of automatically.
-Here's an example of using a host volume:
+This command forwards port `6379` (the default port for Redis) on the host machine to port `6379` on the container:
 
 ```
-% docker run -d -v $(pwd):/data -p 6379:6379 redis
-d029bfb291c7a00618342ab26702dc3788cfda24b85208de04464ccb06681797
+1:C 25 Oct 2024 17:12:32.419 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 25 Oct 2024 17:12:32.419 * Redis version=7.4.1, bits=64, commit=74b289a0, modified=1, pid=1, just started
+1:C 25 Oct 2024 17:12:32.419 # Warning: no config file specified, using the default config. In order to specify a config file use /usr/bin/redis-server /path/to/redis.conf
+1:M 25 Oct 2024 17:12:32.420 * monotonic clock: POSIX clock_gettime
+1:M 25 Oct 2024 17:12:32.420 * Running mode=standalone, port=6379.
+1:M 25 Oct 2024 17:12:32.421 * Server initialized
+1:M 25 Oct 2024 17:12:32.421 * Ready to accept connections tcp
+```
+
+Following that, you can open another terminal and use `redis-cli` locally. Any commands you run through it will be forwarded to the `redis` process in the container:
+
+```
+$ redis-cli set test 10
+OK
+$ redis-cli get test
+"10"
+$ redis-cli
+127.0.0.1:6379>
+```
+
+Alternatively, to test out Redis within the container, you can run the following command to access the container's shell:
+
+```sh
+docker run -it --entrypoint sh cgr.dev/chainguard/redis
+```
+
+Then run the `redis-server` command to start the `redis` process, and include the `--daemonize yes` option to prevent it from taking over the terminal:
+
+```
+/data $ redis-server --daemonize yes
+```
+
+Following that, you can run `redis-cli`, the Redis command-line interface, and begin testing the database:
+
+```
+/data $ redis-cli
+127.0.0.1:6379> set test 20
+OK
+127.0.0.1:6379> get test
+"20"
+```
+
+## Configuration
+
+If you supply a different configuration file or change the user, UID, or `WORKDIR` instruction, you'll need to ensure the user running the `redis` process has permissions to access the relevant `redis.conf` and `dumb.rb` files.
+
+When running in Docker using a volume, the Chainguard Redis image will automatically use a custom configuration instead of the default one. Here's an example that mounts a host volume containing a custom Redis configuration to the `/data` directory in the container:
+
+```sh
+docker run -d -v $(pwd):/data -p 6379:6379 cgr.dev/chainguard/redis
+```
+
+Again, this example forwards the local port `6379` to the container's port `6379`, the `redis` process's default port. 
+
+Following that, you can run `redis-cli` commands from your local machine which are then forwarded to the container:
+
+```
 $ redis-cli set foo bar
 OK
-$ redis-cli save
-OK
-$ redis-cli get foo
-"bar"
-$ docker kill d029bfb291c7a00618342ab26702dc3788cfda24b85208de04464ccb06681797
-d029bfb291c7a00618342ab26702dc3788cfda24b85208de04464ccb06681797
-$ docker run -d -v $(pwd):/data -p 6379:6379 redis
-29845f88b862d8e337cf8183e8fb6ac1bd9b43c4ec2de37111bfe08b227e1caa
 $ redis-cli get foo
 "bar"
 ```
+
+You can also open the `redis-cli` prompt locally and forward commands to the container from there:
+
+```
+$ redis-cli
+127.0.0.1:6379> get foo
+"bar"
+```
+
+## Documentation and Resources
+
+* [Official Redis Documentation](https://redis.io/docs/latest/)
+* (eBook) [How To Manage a Redis Database](https://www.digitalocean.com/community/books/how-to-manage-a-redis-database-ebook)
+* (Tutorial) [How to Port a Sample Application to Chainguard Images](https://edu.chainguard.dev/chainguard/migration/porting-apps-to-chainguard/) — this article works through porting a small but complete application (built on NodeJS and Redis) to use Chainguard Images
+* [Vulnerability Comparison: redis](https://edu.chainguard.dev/chainguard/chainguard-images/vuln-comparison/redis/) 
 <!--body:end-->
 
 ## Contact Support

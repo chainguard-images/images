@@ -7,6 +7,7 @@ locals {
         # `$component$version` when version data exists. We just smash the two
         # together to make it easier to access in subsequent modules.
         format("%s%s", component, lookup(version_metadata, "version", "")) : {
+          eol       = version_metadata.eol
           is_latest = version_metadata.is_latest
           component = component
 
@@ -47,6 +48,7 @@ module "config" {
 module "versioned" {
   build-dev         = true
   config            = module.config[each.key].config
+  eol               = each.value.eol
   for_each          = local.component_versions
   main_package      = each.value.main
   name              = basename(path.module)

@@ -24,12 +24,18 @@ variable "values" {
   }
 }
 
+variable "helm_chart_version" {
+  type    = string
+  default = ""
+}
+
 module "helm" {
   source = "../../../../tflib/imagetest/helm"
 
-  namespace = "jenkins"
-  chart     = "jenkins"
-  repo      = "https://charts.jenkins.io"
+  namespace     = "jenkins"
+  chart         = "jenkins"
+  repo          = "https://charts.jenkins.io"
+  chart_version = var.helm_chart_version
 
   values = var.values
 }

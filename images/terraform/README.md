@@ -32,6 +32,90 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
+We'll create a simple main.tf file for using chainguard terraform image. 
+```tf
+terraform {
+  required_providers {
+    random = {
+      source = "hashicorp/random"
+    }
+  }
+}
+
+provider "random" {}
+resource "random_string" "random" {
+  length = 16
+}
+
+output "random" {
+  value = random_string.random.result
+}
+```
+Save this file as main.tf in your current working directory.
+
+We'll now use chainguard terraform image to initialize the plugins and create the resource.
+```bash
+$ docker run --rm -v $(pwd):/test -w /test cgr.dev/chainguard/terraform:latest init
+Initializing the backend...
+Initializing provider plugins...
+- Finding latest version of hashicorp/random...
+- Installing hashicorp/random v3.6.3...
+- Installed hashicorp/random v3.6.3 (signed by HashiCorp)
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+```
+Once our plugins are initialized, we'll go ahead and create the resource.
+
+```bash
+$ docker run --rm -v $(pwd):/test -w /test cgr.dev/chainguard/terraform:latest apply -auto-approve
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # random_string.random will be created
+  + resource "random_string" "random" {
+      + id          = (known after apply)
+      + length      = 16
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + numeric     = true
+      + result      = (known after apply)
+      + special     = true
+      + upper       = true
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + random = (known after apply)
+random_string.random: Creating...
+random_string.random: Creation complete after 0s [id=PbPn(n:POB5tuPLn]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+random = "PbPn(n:POB5tuPLn"
+```
 <!--body:end-->
 
 ## Contact Support

@@ -300,11 +300,6 @@ module "docker-cli" {
   target_repository = "${var.target_repository}/docker-cli"
 }
 
-module "docker-selenium" {
-  source            = "./images/docker-selenium"
-  target_repository = "${var.target_repository}/docker-selenium"
-}
-
 module "doppler-kubernetes-operator" {
   source            = "./images/doppler-kubernetes-operator"
   target_repository = "${var.target_repository}/doppler-kubernetes-operator"
@@ -1173,6 +1168,11 @@ module "prometheus-mongodb-exporter" {
   target_repository = "${var.target_repository}/prometheus-mongodb-exporter"
 }
 
+module "prometheus-mysqld-exporter" {
+  source            = "./images/prometheus-mysqld-exporter"
+  target_repository = "${var.target_repository}/prometheus-mysqld-exporter"
+}
+
 module "prometheus-node-exporter" {
   source            = "./images/prometheus-node-exporter"
   target_repository = "${var.target_repository}/prometheus-node-exporter"
@@ -1186,6 +1186,11 @@ module "prometheus-operator" {
 module "prometheus-postgres-exporter" {
   source            = "./images/prometheus-postgres-exporter"
   target_repository = "${var.target_repository}/prometheus-postgres-exporter"
+}
+
+module "prometheus-pushgateway" {
+  source            = "./images/prometheus-pushgateway"
+  target_repository = "${var.target_repository}/prometheus-pushgateway"
 }
 
 module "prometheus-pushgateway-bitnami" {
@@ -1226,11 +1231,6 @@ module "python" {
 module "pytorch" {
   source            = "./images/pytorch"
   target_repository = "${var.target_repository}/pytorch"
-}
-
-module "pytorch-cuda12" {
-  source            = "./images/pytorch-cuda12"
-  target_repository = "${var.target_repository}/pytorch-cuda12"
 }
 
 module "qdrant" {
@@ -1311,6 +1311,11 @@ module "secrets-store-csi-driver" {
 module "secrets-store-csi-driver-provider-gcp" {
   source            = "./images/secrets-store-csi-driver-provider-gcp"
   target_repository = "${var.target_repository}/secrets-store-csi-driver-provider-gcp"
+}
+
+module "selenium" {
+  source            = "./images/selenium"
+  target_repository = "${var.target_repository}/selenium"
 }
 
 module "semgrep" {
@@ -1851,10 +1856,6 @@ output "summary_dive" {
 
 output "summary_docker-cli" {
   value = module.docker-cli.summary
-}
-
-output "summary_docker-selenium" {
-  value = module.docker-selenium.summary
 }
 
 output "summary_doppler-kubernetes-operator" {
@@ -2545,6 +2546,10 @@ output "summary_prometheus-mongodb-exporter" {
   value = module.prometheus-mongodb-exporter.summary
 }
 
+output "summary_prometheus-mysqld-exporter" {
+  value = module.prometheus-mysqld-exporter.summary
+}
+
 output "summary_prometheus-node-exporter" {
   value = module.prometheus-node-exporter.summary
 }
@@ -2555,6 +2560,10 @@ output "summary_prometheus-operator" {
 
 output "summary_prometheus-postgres-exporter" {
   value = module.prometheus-postgres-exporter.summary
+}
+
+output "summary_prometheus-pushgateway" {
+  value = module.prometheus-pushgateway.summary
 }
 
 output "summary_prometheus-pushgateway-bitnami" {
@@ -2587,10 +2596,6 @@ output "summary_python" {
 
 output "summary_pytorch" {
   value = module.pytorch.summary
-}
-
-output "summary_pytorch-cuda12" {
-  value = module.pytorch-cuda12.summary
 }
 
 output "summary_qdrant" {
@@ -2655,6 +2660,10 @@ output "summary_secrets-store-csi-driver" {
 
 output "summary_secrets-store-csi-driver-provider-gcp" {
   value = module.secrets-store-csi-driver-provider-gcp.summary
+}
+
+output "summary_selenium" {
+  value = module.selenium.summary
 }
 
 output "summary_semgrep" {

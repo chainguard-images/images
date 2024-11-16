@@ -32,105 +32,269 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Node Application Example
+## Compatibility Notes
 
-This brief example is derived from our [Getting Started with Node](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/getting-started-node/) guide which is itself based on the [Docker Node example](https://docs.docker.com/language/nodejs/containerize/). It involves setting up an example Node application, building the application into a container image using the Chainguard Node Image, and then testing the newly-built image.
+Where possible, the Node Chainguard Image is built for compatibility with the [Docker official image for Node](https://hub.docker.com/_/node/).
 
-### Setting up an example application
+The Node Chainguard Image runs as a nonroot user (`node`) by default. A `USER root` statement may be required before performing tasks requiring elevated permissions.
 
-You can set up our example Node application by cloning [the `node` directory](https://github.com/chainguard-dev/edu-images-demos/tree/main/node) from our [`edu-images-demos` repository](https://github.com/chainguard-dev/edu-images-demos).
+## Getting Started
 
-```sh
-git clone --sparse https://github.com/chainguard-dev/edu-images-demos.git
-```
+### Example: Distroless CLI Application
 
-Because the Node demo application code is stored in a repository with other examples, we don’t need to pull down every file from this repository. For this reason, this command includes the `--sparse` option. This will initialize a sparse-checkout file, causing the working directory to contain only the files in the root of the repository until the sparse-checkout configuration is modified.
+In this example, we'll write a `.js` script that prints a message, then prints the message reversed. The script will use one dependency, the [`text-reverse`](https://www.npmjs.com/package/text-reverse) package. The script will optionally take one positional argument—if no argument is passed, a default message will be printed and reversed, otherwise the passed argument will be printed and reversed.
 
-Navigate into the new directory.
+First, let's create a project structure for our example:
 
 ```sh
-cd edu-images-demos
+mkdir -p ~/node-reverse/bin && cd ~/node-reverse
 ```
 
-To retrieve the files you need for this sample application, run the following `git` command.
+This creates the following folder structure and sets our working directory to the root `node-reverse`folder:
+
+```
+node-reverse
+└── bin
+```
+
+Now let's create a `package.json` file, which provides metadata about the project, including dependencies:
 
 ```sh
-git sparse-checkout set node
+cat << 'EOF' > package.json
+{
+    "name": "linky_hello",
+    "version": "1.0.0",
+    "description": "Say hello to Linky",
+    "main": "bin",
+    "bin": {
+        "linky_hello": "./bin/index.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "text-reverse": "^1.0.0"
+    }
+}
+EOF
 ```
 
-This modifies the sparse-checkout configuration initialized in the previous `git clone` command so that the checkout only consists of the repo’s `node` directory.
+The above defines a package, `linky_hello`, that depends on `text-reverse`, and which whill run the code in `bin/index.js` on `npm run start`.
 
-Navigate into the new `node` directory.
+Let's create our application code now:
 
 ```sh
-cd node/
+cat << 'EOF' > bin/index.js
+#!/usr/bin/env node
+
+const reverse=require('text-reverse');
+
+const run_argument=process.argv[2]
+
+if (run_argument) {
+    console.log(run_argument)
+    console.log(reverse(run_argument))    
+} else {
+    const message="Hello, Linky!"
+    const reversed=reverse(message)
+    console.log(message  + "🐙")
+    console.log("🐙" + reversed)
+}
+EOF
 ```
 
-From within this directory, run the following command to create a new `package.json` file:
+This application code first looks at any arguments passed to the script. If a positional argument is passed when the script is run, it will print that argument, then print its reverse. If no argument is passed, a default message will be printed and reversed.
+
+Finally, let's create a `Dockerfile` for our image build:
 
 ```sh
-npm init -y
+cat << 'EOF' > Dockerfile
+FROM cgr.dev/chainguard/node:latest
+ENV NODE_ENV=production
+
+WORKDIR /app
+
+COPY --chown=node:node package.json .
+ADD ./bin ./bin
+RUN npm install
+
+ENTRYPOINT ["node", "bin/index.js"]
+EOF
 ```
 
-Next, install the application dependencies. Specifically, you'll need `ronin-server` and `ronin-mocks`. These will create a "mock" server that saves JSON data in memory and returns it in subsequent GET requests to the same endpoint.
+This `Dockerfile` sets the `file NODE_ENV` environment variable to `production`, copies our `package.json` and `bin` directory, installs our dependency with `npm install`, and runs our `.js` script.
+
+Build the image, tagging it `node-reverse`:
 
 ```sh
-npm install ronin-server ronin-mocks
+docker build . -t node-reverse
 ```
 
-### Building the application image
-
-After setting up the application, it can be built into a container image using the Dockerfile included in the example repository.
-
-This Dockerfile will perform the following actions:
-
-1. Start a new image based on the `cgr.dev/chainguard/node:latest` image;
-2. Set the work dir to `/app` inside the container;
-3. Copy application files from the current directory to the `/app` location in the container;
-4. Run `npm install` to install production-only dependencies;
-5. Set up additional arguments to the default entrypoint (`node`), specifying which script to run.
-
-Build the application image with the following command:
+Finally, run the container:
 
 ```sh
-docker build . -t wolfi-node-server
+docker run node-reverse
 ```
 
-### Testing the application
+You should see the following output:
 
-Once the build is finished, run the image:
+```
+Hello, Linky!🐙
+🐙!ykniL ,olleH
+```
+
+You can also pass an argument to the `docker run node-reverse` command to change the output:
 
 ```sh
-docker run --rm -it -p 8000:8000 wolfi-node-server
+docker run node-reverse "Hello, Chainguard User\!"
 ```
 
-Although the application is running from within a container, this command will cause it to block your terminal we set up a port redirect to receive requests on `localhost:8000` as the application waits for connections on port `8000`.
+This should produce the following output:
 
-From a new terminal window, run the following command. This will make a POST request to your application sending a JSON payload:
+```
+Hello, Chainguard User!
+!resU draugniahC ,olleH
+```
+
+## Example: Express.js Server
+
+In this example, we'll create an [Express.js](https://expressjs.com/) server that allows retrieval of a JSON-formatted list of animals and the addition of new animals via POST request.
+
+First, create a folder for our example:
 
 ```sh
-curl --request POST \
-  --url http://localhost:8000/test \
-  --header 'content-type: application/json' \
-  --data '{"msg": "testing node wolfi image" }'
+mkdir -p ~/node-express && cd $_
 ```
 
-If the connection is successful, you will receive output like this in the terminal where the application is running:
+Create a `package.json` file, which provides metadata about the project, including dependencies:
 
 ```sh
-2023-02-07T15:48:54:2450  INFO: POST /test
+cat << 'EOF' > package.json
+{
+  "name": "Express Server",
+  "version": "1.0.0",
+  "description": "A server that allows getting and posting dummy data in JSON format",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3"
+  }
+}
+EOF
 ```
 
-You can now query the same endpoint to receive the data that was stored in memory when you run the previous command:
+Next, add our server application code:
 
 ```sh
-curl http://localhost:8000/test
-```
-```sh
-{"code":"success","meta":{"total":1,"count":1},"payload":[{"msg":"testing node wolfi image","id":"6011f987-b9f8-4442-8253-d54166df5966","createDate":"2023-02-07T15:57:23.520Z"}]}
+cat << 'EOF' > server.js
+var express = require('express');
+var bodyParser = require('body-parser');
+var app = express();
+
+//Allow all requests from all domains
+app.all('/*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "POST, GET");
+  next();
+});
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+
+var animals = [
+    {
+        "id": "234kjw",
+        "text": "octopus"
+    },
+    {
+        "id": "as82w",
+        "text": "penguin"
+    },
+    {
+        "id": "234sk1",
+        "text": "whale"
+    }
+];
+
+
+app.get('/animals', function(req, res) {
+    console.log("GET From SERVER");
+    res.send(animals);
+});
+
+app.post('/animals', function(req, res) {
+    var animal = req.body;
+    console.log(req.body);
+    animals.push(animal);
+    res.status(200).send("Successfully posted animal\n");
+});
+
+console.log("🐙🐧🐋 Server running. Retreive animals from http://localhost:6069/animals")
+app.listen(6069);
+EOF
 ```
 
-When you're finished, you can close the application by pressing `CTRL+C` (`CMD+C` if you're using macOS).
+Finally, create a `Dockerfile` for our image build:
+
+```sh
+cat << 'EOF' > Dockerfile
+FROM cgr.dev/chainguard/node
+ENV NODE_ENV=production
+
+WORKDIR /app
+
+COPY --chown=node:node ["package.json", "server.js", "./"]
+
+RUN npm install --omit-dev
+
+CMD [ "server.js" ]
+EOF
+```
+
+Build the image:
+
+```sh
+docker build . -t node-express
+```
+
+Finally, run the server container:
+
+```sh
+ docker run --rm -p 6069:6069 node-express
+```
+
+You should see the following message:
+
+```
+🐙🐧🐋 Server running. Retreive animals from http://localhost:6069/animals
+```
+
+Visit [http://localhost:6069/animals](http://localhost:6069/animals) to view the served JSON data.
+
+You can post new data to the running application:
+
+```sh
+ curl -H 'Content-Type: application/json' \
+ -d '{ "id":9001,"text":"gnu"}' \
+ -X POST \
+ http://localhost:6069/animals
+```
+
+After posting, refresh the page on [http://localhost:6069/animals](http://localhost:6069/animals) to view the additional data.
+
+## Documentation and Resources
+
+- [Chainguard Academy: Getting Started with the Node Chainguard Image](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/node/)
+- [Chainguard Academy: How to Port a Sample Application to Chainguard Images](https://edu.chainguard.dev/chainguard/migration/porting-apps-to-chainguard/?utm_source=blog&utm_medium=website&utm_campaign=FY25-EC-Blog_sourced)
+- [Learning Lab: Chainguard's Node Image](https://www.chainguard.dev/events/chainguards-node-image)
+- [Blog: Migrating a Node.js application to Chainguard Images](https://www.chainguard.dev/unchained/migrating-a-node-js-application-to-chainguard-images)
 
 <!--body:end-->
 

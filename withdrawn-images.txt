@@ -1185,3 +1185,4 @@ cgr.dev/chainguard/sdk:wolfi-20230104
 cgr.dev/chainguard/jitsucom-bulker-bulker
 cgr.dev/chainguard/jitsucom-bulker-ingest
 cgr.dev/chainguard/jitsucom-bulker-syncctl
+cgr.dev/chainguard/kaniko:test

@@ -8,7 +8,7 @@ CONTAINER_NAME="docker-selenium-$(uuidgen)"
 
 SELENIUM_PORT="4444"
 NO_VNC_PORT="7900"
-VNC_PORT="5900"
+VNC_PORT="5900" 
 
 # Start container
 docker run \
@@ -17,6 +17,16 @@ docker run \
   -p "${NO_VNC_PORT}":7900 \
   -p "${VNC_PORT}":5900 \
   -e "SE_NO_VNC_PORT=${NO_VNC_PORT}" \
+  -e SE_ENABLE_TRACING="false" \
+  -e SE_NODE_HOST="localhost" \
+  -e CONFIG_FILE="/opt/selenium/config.toml" \
+  -e SE_SESSION_RETRY_INTERVAL="15" \
+  -e SE_SESSION_REQUEST_TIMEOUT="300" \
+  -e SE_RELAX_CHECKS="true" \
+  -e SE_HEALTHCHECK_INTERVAL="120" \
+  -e SE_HUB_HOST="localhost" \
+  -e "SE_BIND_HOST=true" \
+  -e "SE_ENABLE_BROWSER_LEFTOVERS_CLEANUP=false" \
   -e "SE_VNC_PORT=${VNC_PORT}" \
   --platform linux/x86_64 \
   --name "${CONTAINER_NAME}" \

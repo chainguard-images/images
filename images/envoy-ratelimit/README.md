@@ -38,7 +38,7 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 
 This image should be a drop-in replacement for the upstream `envoyproxy/ratelimit` image.
 
-The [`envoyproxy/ratelimit` GitHub repository](https://gateway.envoyproxy.io/latest/user/rate-limit.html) contains lots of useful information, as well as [several examples](https://github.com/envoyproxy/ratelimit#examples) showing how `ratelimit` works.
+The [`envoyproxy/ratelimit` GitHub repository](https://gateway.envoyproxy.io/docs/tasks/traffic/global-rate-limit/) contains lots of useful information, as well as [several examples](https://github.com/envoyproxy/ratelimit#examples) showing how `ratelimit` works.
 
 Additionally, the Envoy documentation has resources on [Global rate limiting](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/global_rate_limiting) and [Local rate limiting](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/local_rate_limiting).
 <!--body:end-->

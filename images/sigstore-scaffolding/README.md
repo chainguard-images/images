@@ -54,7 +54,7 @@ The stack also pulls in several support images:
 - (NYI) `mysql` - Currently sigstore relies on the nearly EOL `mysql` 5.7
 
 To see an example of how we substitute images into the `scaffold` Helm chart's
-`values.yaml` see our [`values.tf`](https://github.com/chainguard-images/images/blob/main/images/sigstore-scaffolding/tests/values.tf) example.
+`values.yaml` see our [`main.tf`](https://github.com/chainguard-images/images/blob/main/images/sigstore-scaffolding/tests/main.tf) example.
 <!--body:end-->
 
 ## Contact Support

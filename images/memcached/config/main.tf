@@ -1,9 +1,3 @@
-terraform {
-  required_providers {
-    apko = { source = "chainguard-dev/apko" }
-  }
-}
-
 module "accts" { source = "../../../tflib/accts" }
 
 variable "extra_packages" {

@@ -1,4 +1,4 @@
-name: images/doppler-kubernetes-operator
+name: doppler-kubernetes-operator
 image: cgr.dev/chainguard/images/doppler-kubernetes-operator
 logo: https://storage.googleapis.com/chainguard-academy/logos/images/doppler-kubernetes-operator.svg
 endoflife: ""

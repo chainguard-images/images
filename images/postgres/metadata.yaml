@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/postgres
 logo: https://storage.googleapis.com/chainguard-academy/logos/postgres.svg
 endoflife: ""
 console_summary: ""
-short_description: Minimal PostgreSQL image.
+short_description: Minimal image for PostgreSQL, an advanced object-relational database management system.
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://www.postgresql.org/
@@ -11,5 +11,6 @@ keywords:
   - application
   - ai
   - featured
+tier: APPLICATION
 aliases:
   - postgres:latest

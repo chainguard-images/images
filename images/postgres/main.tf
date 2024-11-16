@@ -20,6 +20,9 @@ module "latest-config" {
     "libpq",
     "pgaudit",
   ]
+
+  run-as = 0
+  id     = 70
 }
 
 module "latest" {

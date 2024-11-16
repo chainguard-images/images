@@ -1,6 +1,6 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -8,23 +8,53 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-locals { parsed = provider::oci::parse(var.digest) }
+data "imagetest_inventory" "this" {}
 
-data "oci_exec_test" "query" {
-  digest = var.digest
-  script = "${path.module}/query.sh"
+resource "imagetest_container_volume" "this" {
+  name      = "postgresql"
+  inventory = data.imagetest_inventory.this
 }
 
-data "oci_exec_test" "locale" {
-  # Avoid name/port collision
-  depends_on = [data.oci_exec_test.query]
+resource "imagetest_harness_docker" "this" {
+  name      = "postgresql-test"
+  inventory = data.imagetest_inventory.this
 
-  digest = var.digest
-  script = "${path.module}/locale.sh"
+  privileged = false
+
+  envs = {
+    IMAGE_NAME        = var.digest
+    VOLUME_ID         = imagetest_container_volume.this.id
+    POSTGRES_PASSWORD = "password"
+  }
+  mounts = [
+    {
+      source      = path.module
+      destination = "/tests"
+    }
+  ]
+  volumes = [
+    {
+      source      = imagetest_container_volume.this
+      destination = "/data"
+    }
+  ]
 }
 
-data "oci_exec_test" "tls" {
-  digest      = var.digest
-  script      = "./tls.sh"
-  working_dir = path.module
+resource "imagetest_feature" "postgres" {
+  name        = "psql"
+  description = "Test Postgresql functionalities"
+  harness     = imagetest_harness_docker.this
+
+  steps = [
+    {
+      name = "Database setup"
+      cmd  = "/tests/query.sh"
+    },
+    {
+      name = "TLS enabled Postgres"
+      cmd  = "/tests/tls.sh"
+    }
+  ]
+
+  labels = { type = "container" }
 }

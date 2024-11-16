@@ -19,6 +19,8 @@ output "config" {
         "docker-cli",
         "scap-security-guide",
         "chainguard-security-guide",
+        # oscap-docker hard codes /usr/bin/python3 as the interpreter
+        "python3",
       ], var.extra_packages)
     }
     //

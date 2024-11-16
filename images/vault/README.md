@@ -78,7 +78,7 @@ $ docker run --cap-add=IPC_LOCK -e 'VAULT_LOCAL_CONFIG={"storage": {"file": {"pa
 
 ### Helm Chart Usage
 
-This image and the [vault-k8s image](https://github.com/chainguard-images/images/tree/main/images/vault-k8s) can be used with the [Hashicorp Helm chart](https://github.com/hashicorp/vault-helm). To replace the official
+This image and the `vault-k8s` image can be used with the [Helm chart](https://github.com/hashicorp/vault-helm). To replace the official
 images with the Chainguard images, provide the chart with the following values:
 
 ```

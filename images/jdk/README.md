@@ -115,9 +115,9 @@ For a full reference on using various images in a Jenkins pipeline, please refer
 
 A less common, but powerful, use case for the JDK image is creating an optimized custom JRE for your Java application. This involves using `jdeps` to produce the information about the Java modules being used and subsequently using `jlink` to analyze your application to eliminate all module code not being used by your application. This can create a drastically smaller JRE for a particular application.
 
-Keep in mind that a JRE produced this way is a fit-for-purpose JRE, and is not broadly usable. 
+Keep in mind that a JRE produced this way is a fit-for-purpose JRE, and is not broadly usable.
 
-Our [`jlink` Springboot Demo](https://github.com/chainguard-dev/jlink-springboot-demo) shows how you can use the Chainguard JDK image to produce a custom JRE. For reference, here are two additional articles describing the use of `jlink` to create optimized application images:
+For reference, here are two additional articles describing the use of `jlink` to create optimized application images:
 
 - [Creating your own runtime using jlink](https://adoptium.net/en-GB/blog/2021/10/jlink-to-produce-own-runtime/)
 - [Creating a Custom JRE for your Java Applications](https://adriankodja.com/creating-a-custom-jre-for-your-java-applications)

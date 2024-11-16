@@ -16,7 +16,11 @@ locals {
 
   // Parse keywords out of from metadata.yaml
   metadata_filepath = "images/${var.name}/metadata.yaml"
-  keywords          = fileexists(local.metadata_filepath) ? yamldecode(file(local.metadata_filepath)).keywords : []
+  metadata_public   = fileexists(local.metadata_filepath) ? yamldecode(file(local.metadata_filepath)) : null
+
+  keywords = local.metadata_public != null ? local.metadata_public.keywords : []
+  aliases  = local.metadata_public != null ? lookup(local.metadata_public, "aliases", []) : []
+
 
   // If the repo name ends with "-fips", add "fips" as a keyword (if not already present)
   keywords_updated = (endswith(local.repo_name, "-fips") && !contains(local.keywords, "fips")) ? concat(local.keywords, ["fips"]) : local.keywords
@@ -40,4 +44,5 @@ resource "chainguard_image_repo" "repo" {
   name      = local.repo_name
   // keywords in the metadata file maps to bundles in the Chainguard API
   bundles = local.keywords_updated
+  aliases = local.aliases
 }

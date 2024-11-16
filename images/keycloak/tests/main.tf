@@ -23,12 +23,14 @@ variable "keycloak_version" {
   description = "The Keycloak version."
 }
 
+variable "keycloak-operator_version" {
+  description = "The Keycloak Operator version."
+}
+
 # Run the keycloak-operator image tests with this image.
 module "run-keycloak-tests" {
-  source = "../../keycloak-operator/tests"
-  # need to hardcode this for the time being to unblock the release of keylcoak operator and keycloak to version 25 which is not published yet
-  # due to release failures
-  digest           = "keycloak/keycloak-operator:25.0.2"
+  source           = "../../keycloak-operator/tests"
+  digest           = "keycloak/keycloak-operator:${var.keycloak-operator_version}"
   keycloak-image   = var.digest
   keycloak_version = var.keycloak_version
 }

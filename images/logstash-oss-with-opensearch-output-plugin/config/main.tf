@@ -11,9 +11,9 @@ variable "extra_packages" {
     # See the logstash package if you want to know more about this. The way
     # logstash does plugins is by using bundler to create an environment with
     # the right gems.
-    "logstash-with-output-opensearch",
-    "logstash-env2yaml",
-    "logstash-compat",
+    "logstash-8-with-output-opensearch",
+    "logstash-8-env2yaml",
+    "logstash-8-compat",
     # Logstash is basically composed of a bunch of wrapper scripts to set up an
     # environment and then execute the proper code. It fails with a bunch of
     # 'command not found' errors if busybox is missing and a 'docker-entrypoint

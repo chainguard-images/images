@@ -4,12 +4,13 @@ module "config-static" {
 }
 
 module "latest-static" {
-  source            = "../../tflib/publisher"
-  name              = basename(path.module)
-  target_repository = "${var.target_repository}-static"
-  config            = module.config-static.config
-  build-dev         = true
-  main_package      = "k3s-static"
+  source             = "../../tflib/publisher"
+  name               = basename(path.module)
+  target_repository  = "${var.target_repository}-static"
+  config             = module.config-static.config
+  build-dev          = true
+  main_package       = "k3s-static"
+  extra_dev_packages = ["bash-completion"]
 }
 
 # Statically linked checks are performed at the package level, so just verify

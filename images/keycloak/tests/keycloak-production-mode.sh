@@ -44,7 +44,7 @@ TEST_start_container() {
     -e KEYCLOAK_ADMIN=admin \
     -e KEYCLOAK_ADMIN_PASSWORD="${KEYSTORE_PASSWORD}" \
     "${IMAGE_NAME}" \
-    start --optimized \
+    start \
     --hostname="${KEYCLOAK_URL}" \
     --https-key-store-file="/opt/keycloak/conf/server.keystore" \
     --https-key-store-password="${KEYSTORE_PASSWORD}")

@@ -15,7 +15,7 @@
 <!--overview:start-->
 # Chainguard Image for opentofu
 
-[opentofu](https://github.com/opentofufoundation/opentofu) lets you declaratively manage your cloud infrastructure.
+[opentofu](https://github.com/opentofu/opentofu) lets you declaratively manage your cloud infrastructure.
 
 Chainguard Images are regularly-updated, minimal container images with low-to-zero CVEs.
 <!--overview:end-->

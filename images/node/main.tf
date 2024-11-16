@@ -34,6 +34,7 @@ module "versioned" {
   build-dev        = true
   check-apk-update = true
   config           = module.config[each.key].config
+  eol              = each.value.eol
   extra_dev_packages = [
     "yarn",
     "corepack",

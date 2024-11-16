@@ -1,8 +1,6 @@
 module "busl-config" {
-  source             = "./config"
-  extra_packages     = ["terraform"]
-  extra_repositories = ["https://packages.cgr.dev/extras"]
-  extra_keyring      = ["https://packages.cgr.dev/extras/chainguard-extras.rsa.pub"]
+  source         = "./config"
+  extra_packages = ["terraform"]
 }
 
 module "busl" {
@@ -12,6 +10,7 @@ module "busl" {
   config            = module.busl-config.config
   build-dev         = true
 }
+
 
 module "test-busl" {
   source = "./tests"

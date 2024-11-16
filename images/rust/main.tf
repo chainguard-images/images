@@ -16,6 +16,7 @@ module "config" {
 module "versioned" {
   build-dev          = true
   config             = module.config[each.key].config
+  eol                = each.value.eol
   extra_dev_packages = ["rustup"]
   for_each           = module.versions.versions
   main_package       = each.value.main
