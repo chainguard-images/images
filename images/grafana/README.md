@@ -33,16 +33,16 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 
 <!--body:start-->
 ## Upstream documentation
-For more information on grafana, refer to the [grafana documentation](https://grafana.com/docs/).
-Additionally the grafana GitHub reposiory can be [found here](https://github.com/grafana/grafana).
+For more information on Grafana, refer to the [Grafana documentation](https://grafana.com/docs/).
+Additionally, the Grafana GitHub repository can be [found here](https://github.com/grafana/grafana).
 
 ## Helm
-grafana can be deployed using the following helm chart:
+Grafana can be deployed using the following Helm chart:
 - [https://artifacthub.io/packages/helm/grafana/grafana](https://artifacthub.io/packages/helm/grafana/grafana)
 
-Follow the instructions in the link above to deploy grafana using helm. Note you
+Follow the instructions in the link above to deploy Grafana using Helm. Note you
 will need to override the default image and tag used, replacing with the
-chainguard image, example:
+Chainguard image, example:
 
 ```bash
 helm repo add grafana https://grafana.github.io/helm-charts
@@ -54,7 +54,7 @@ helm install grafana https://grafana.github.io/helm-charts \
   --set image.tag=latest
 ```
 
-You can also leverage the chainguard image for the sidecar images if you opt to use those as well:
+You can also leverage the Chainguard image for the sidecar images if you opt to use those as well:
 
 ```bash
   --set sidecar.image.registry=cgr.dev \
@@ -62,12 +62,12 @@ You can also leverage the chainguard image for the sidecar images if you opt to 
   --set sidecar.image.tag=latest
 ```
 
-Refer to the [helm chart documentation](https://artifacthub.io/packages/helm/grafana/grafana)
-for full instructions on how to use the helm chart.
+Refer to the [Helm chart documentation](https://artifacthub.io/packages/helm/grafana/grafana)
+for full instructions on how to use the Helm chart.
 
 ## Docker
-grafana can be launched using docker. Refer to the
-[grafana docker image documentation](https://grafana.com/docs/grafana/latest/setup-grafana/installation/docker)
+Grafana can be launched using Docker. Refer to the
+[Grafana Docker image documentation](https://grafana.com/docs/grafana/latest/setup-grafana/installation/docker)
 for full instructions.
 
 Example:
@@ -76,7 +76,7 @@ Example:
 docker run --name=local-grafana -p 3000:3000 cgr.dev/chainguard/grafana:latest
 ```
 
-The grafana Web UI would be accessible via:
+The Grafana Web UI would be accessible via:
 - [http://localhost:3000](http://localhost:3000)
 <!--body:end-->
 

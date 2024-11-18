@@ -45,7 +45,13 @@ variable "chart_versions" {
   }
 }
 
-locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) } }
+variable "use_operator" {
+  description = "Whether to install operator helm chart"
+  type        = bool
+}
+
+# this is only parsing images that are not empty strings as operator can be optional
+locals { parsed = { for k, v in var.digests : k => provider::oci::parse(v) if v != "" } }
 
 locals {
   namespace = "istio-system"
@@ -79,6 +85,7 @@ module "helm_base" {
 }
 
 module "helm_operator" {
+  count  = var.use_operator ? 1 : 0
   source = "./helm/operator"
   values = {
     name             = "operator"
@@ -190,45 +197,52 @@ resource "imagetest_feature" "this" {
   description     = "Test istio functionality of the various istio helm charts."
   warn_on_failure = var.warn_on_failure
 
-  steps = [
-    {
-      name = "Install base",
-      cmd  = module.helm_base.install_cmd
-    },
-    {
-      name = "Install operator",
-      cmd  = module.helm_operator.install_cmd
-    },
-    {
-      name = "Install istiod",
-      cmd  = module.helm_istiod.install_cmd
-    },
-    {
-      name = "Install gateway",
-      cmd  = module.helm_gateway.install_cmd
-    },
-    {
-      name = "Install CNI",
-      cmd  = module.helm_install-cni.install_cmd
-    },
-    {
-      name  = "Check install CNI worked",
-      cmd   = <<EOF
+  steps = concat(
+    [
+      {
+        name = "Install base",
+        cmd  = module.helm_base.install_cmd
+      },
+    ],
+    (
+      var.use_operator ? [
+        {
+          name = "Install operator",
+          cmd  = module.helm_operator[0].install_cmd
+        },
+      ] : []
+    ),
+    [
+      {
+        name = "Install istiod",
+        cmd  = module.helm_istiod.install_cmd
+      },
+      {
+        name = "Install gateway",
+        cmd  = module.helm_gateway.install_cmd
+      },
+      {
+        name = "Install CNI",
+        cmd  = module.helm_install-cni.install_cmd
+      },
+      {
+        name  = "Check install CNI worked",
+        cmd   = <<EOF
         kubectl rollout status daemonset -n ${local.namespace} istio-cni-node --timeout 60s
       EOF
-      retry = { attempts = 5, delay = "10s" }
-    },
-    {
-      name  = "Assert readiness"
-      cmd   = <<EOF
+        retry = { attempts = 5, delay = "10s" }
+      },
+      {
+        name  = "Assert readiness"
+        cmd   = <<EOF
 kubectl rollout status -n istio-system deploy/istiod
 kubectl get mutatingwebhookconfigurations istio-sidecar-injector
       EOF
-      retry = { attempts = 5, delay = "10s" }
-    },
-    {
-      name = "Test injection"
-      cmd  = <<EOF
+        retry = { attempts = 5, delay = "10s" }
+      },
+      {
+        name = "Test injection"
+        cmd  = <<EOF
 kubectl apply -f- <<YAML
 ---
 apiVersion: v1
@@ -259,10 +273,10 @@ if [[ "$(kubectl get pod -n ${local.test-namespace} bar -ojsonpath='{range .spec
     exit 1
 fi
       EOF
-    },
-    {
-      name = "Test Gateway"
-      cmd  = <<EOF
+      },
+      {
+        name = "Test Gateway"
+        cmd  = <<EOF
 kubectl apply -f- <<YAML
 ---
 apiVersion: networking.istio.io/v1beta1
@@ -335,8 +349,8 @@ YAML
 
 kubectl wait --for=condition=complete --timeout=120s -n ${local.test-namespace} job/istio-curl-check
       EOF
-    },
-  ]
+      },
+  ])
 
   labels = {
     type = "k8s"

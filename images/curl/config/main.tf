@@ -12,6 +12,7 @@ output "config" {
       packages = concat([
         "curl",
         "libcurl-rustls4",
+        "ncurses-terminfo",
       ], var.extra_packages)
     }
     accounts = module.accts.block
