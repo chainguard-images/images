@@ -49,6 +49,11 @@ variable "target_repository" {
   description = "The root repo into which the images should be published (e.g., cgr.dev/chainguard). Individual images will be published within this root repo."
 }
 
+variable "test_repository" {
+  description = "The docker repo root to use for sourcing test images."
+  default     = "cgr.dev/chainguard"
+}
+
 variable "extra_repositories" {
   type        = list(string)
   default     = []

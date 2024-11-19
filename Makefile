@@ -6,7 +6,7 @@ TERRAFORM ?= $(shell command -v terraform)
 TFGEN_SKIP ?= busybox,calico,git,graalvm-native,harbor,k3s,kubeflow,kubeflow-katib,maven,powershell,prometheus,static,terraform
 
 # These are the tfgen generators applied to this repo (in order)
-TFGEN_GENERATORS ?= Image01Outputs,Toplevel01Modules,Toplevel02Outputs
+TFGEN_GENERATORS ?= Image01Variables,Image02Outputs,Toplevel01Modules,Toplevel02Outputs
 
 .PHONY: apko-build
 apko-build:

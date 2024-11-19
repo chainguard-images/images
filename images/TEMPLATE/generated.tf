@@ -4,9 +4,3 @@ variable "test_repository" {
   description = "The docker repo root to use for sourcing test images."
 }
 
-output "summary" {
-  value = {
-    "tags" = merge(merge([for v in module.agent_tagger : v.imagetags]...), module.tagger.imagetags)
-  }
-}
-

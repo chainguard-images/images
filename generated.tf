@@ -3,1619 +3,1941 @@
 module "airflow" {
   source            = "./images/airflow"
   target_repository = "${var.target_repository}/airflow"
+  test_repository   = var.test_repository
 }
 
 module "apache-nifi" {
   source            = "./images/apache-nifi"
   target_repository = "${var.target_repository}/apache-nifi"
+  test_repository   = var.test_repository
 }
 
 module "apko" {
   source            = "./images/apko"
   target_repository = "${var.target_repository}/apko"
+  test_repository   = var.test_repository
 }
 
 module "argo" {
   source            = "./images/argo"
   target_repository = "${var.target_repository}/argo"
+  test_repository   = var.test_repository
 }
 
 module "argocd" {
   source            = "./images/argocd"
   target_repository = "${var.target_repository}/argocd"
+  test_repository   = var.test_repository
 }
 
 module "argocd-extension-installer" {
   source            = "./images/argocd-extension-installer"
   target_repository = "${var.target_repository}/argocd-extension-installer"
+  test_repository   = var.test_repository
 }
 
 module "aspnet-runtime" {
   source            = "./images/aspnet-runtime"
   target_repository = "${var.target_repository}/aspnet-runtime"
+  test_repository   = var.test_repository
 }
 
 module "atlantis" {
   source            = "./images/atlantis"
   target_repository = "${var.target_repository}/atlantis"
+  test_repository   = var.test_repository
 }
 
 module "aws-cli" {
   source            = "./images/aws-cli"
   target_repository = "${var.target_repository}/aws-cli"
+  test_repository   = var.test_repository
 }
 
 module "aws-cli-v2" {
   source            = "./images/aws-cli-v2"
   target_repository = "${var.target_repository}/aws-cli-v2"
+  test_repository   = var.test_repository
 }
 
 module "aws-ebs-csi-driver" {
   source            = "./images/aws-ebs-csi-driver"
   target_repository = "${var.target_repository}/aws-ebs-csi-driver"
+  test_repository   = var.test_repository
 }
 
 module "aws-efs-csi-driver" {
   source            = "./images/aws-efs-csi-driver"
   target_repository = "${var.target_repository}/aws-efs-csi-driver"
+  test_repository   = var.test_repository
 }
 
 module "aws-for-fluent-bit" {
   source            = "./images/aws-for-fluent-bit"
   target_repository = "${var.target_repository}/aws-for-fluent-bit"
+  test_repository   = var.test_repository
 }
 
 module "aws-load-balancer-controller" {
   source            = "./images/aws-load-balancer-controller"
   target_repository = "${var.target_repository}/aws-load-balancer-controller"
+  test_repository   = var.test_repository
 }
 
 module "az" {
   source            = "./images/az"
   target_repository = "${var.target_repository}/az"
+  test_repository   = var.test_repository
 }
 
 module "bank-vaults" {
   source            = "./images/bank-vaults"
   target_repository = "${var.target_repository}/bank-vaults"
+  test_repository   = var.test_repository
 }
 
 module "bash" {
   source            = "./images/bash"
   target_repository = "${var.target_repository}/bash"
+  test_repository   = var.test_repository
 }
 
 module "bazel" {
   source            = "./images/bazel"
   target_repository = "${var.target_repository}/bazel"
+  test_repository   = var.test_repository
 }
 
 module "boring-registry" {
   source            = "./images/boring-registry"
   target_repository = "${var.target_repository}/boring-registry"
+  test_repository   = var.test_repository
 }
 
 module "buck2" {
   source            = "./images/buck2"
   target_repository = "${var.target_repository}/buck2"
+  test_repository   = var.test_repository
 }
 
 module "buildkit" {
   source            = "./images/buildkit"
   target_repository = "${var.target_repository}/buildkit"
+  test_repository   = var.test_repository
 }
 
 module "caddy" {
   source            = "./images/caddy"
   target_repository = "${var.target_repository}/caddy"
+  test_repository   = var.test_repository
 }
 
 module "cadvisor" {
   source            = "./images/cadvisor"
   target_repository = "${var.target_repository}/cadvisor"
+  test_repository   = var.test_repository
 }
 
 module "cass-config-builder" {
   source            = "./images/cass-config-builder"
   target_repository = "${var.target_repository}/cass-config-builder"
+  test_repository   = var.test_repository
 }
 
 module "cass-operator" {
   source            = "./images/cass-operator"
   target_repository = "${var.target_repository}/cass-operator"
+  test_repository   = var.test_repository
 }
 
 module "cassandra" {
   source            = "./images/cassandra"
   target_repository = "${var.target_repository}/cassandra"
+  test_repository   = var.test_repository
 }
 
 module "cassandra-medusa" {
   source            = "./images/cassandra-medusa"
   target_repository = "${var.target_repository}/cassandra-medusa"
+  test_repository   = var.test_repository
 }
 
 module "cassandra-reaper" {
   source            = "./images/cassandra-reaper"
   target_repository = "${var.target_repository}/cassandra-reaper"
+  test_repository   = var.test_repository
 }
 
 module "cc-dynamic" {
   source            = "./images/cc-dynamic"
   target_repository = "${var.target_repository}/cc-dynamic"
+  test_repository   = var.test_repository
 }
 
 module "cedar" {
   source            = "./images/cedar"
   target_repository = "${var.target_repository}/cedar"
+  test_repository   = var.test_repository
 }
 
 module "cert-exporter" {
   source            = "./images/cert-exporter"
   target_repository = "${var.target_repository}/cert-exporter"
+  test_repository   = var.test_repository
 }
 
 module "cert-manager" {
   source            = "./images/cert-manager"
   target_repository = "${var.target_repository}/cert-manager"
+  test_repository   = var.test_repository
 }
 
 module "cert-manager-webhook-pdns" {
   source            = "./images/cert-manager-webhook-pdns"
   target_repository = "${var.target_repository}/cert-manager-webhook-pdns"
+  test_repository   = var.test_repository
 }
 
 module "cfssl" {
   source            = "./images/cfssl"
   target_repository = "${var.target_repository}/cfssl"
+  test_repository   = var.test_repository
 }
 
 module "chromium" {
   source            = "./images/chromium"
   target_repository = "${var.target_repository}/chromium"
+  test_repository   = var.test_repository
 }
 
 module "cilium" {
   source            = "./images/cilium"
   target_repository = "${var.target_repository}/cilium"
+  test_repository   = var.test_repository
 }
 
 module "clang" {
   source            = "./images/clang"
   target_repository = "${var.target_repository}/clang"
+  test_repository   = var.test_repository
 }
 
 module "clickhouse" {
   source            = "./images/clickhouse"
   target_repository = "${var.target_repository}/clickhouse"
+  test_repository   = var.test_repository
 }
 
 module "cluster-autoscaler" {
   source            = "./images/cluster-autoscaler"
   target_repository = "${var.target_repository}/cluster-autoscaler"
+  test_repository   = var.test_repository
 }
 
 module "cluster-proportional-autoscaler" {
   source            = "./images/cluster-proportional-autoscaler"
   target_repository = "${var.target_repository}/cluster-proportional-autoscaler"
+  test_repository   = var.test_repository
 }
 
 module "conda" {
   source            = "./images/conda"
   target_repository = "${var.target_repository}/conda"
+  test_repository   = var.test_repository
 }
 
 module "configmap-reload" {
   source            = "./images/configmap-reload"
   target_repository = "${var.target_repository}/configmap-reload"
+  test_repository   = var.test_repository
 }
 
 module "confluent-kafka" {
   source            = "./images/confluent-kafka"
   target_repository = "${var.target_repository}/confluent-kafka"
+  test_repository   = var.test_repository
 }
 
 module "consul" {
   source            = "./images/consul"
   target_repository = "${var.target_repository}/consul"
+  test_repository   = var.test_repository
 }
 
 module "coredns" {
   source            = "./images/coredns"
   target_repository = "${var.target_repository}/coredns"
+  test_repository   = var.test_repository
 }
 
 module "cortex" {
   source            = "./images/cortex"
   target_repository = "${var.target_repository}/cortex"
+  test_repository   = var.test_repository
 }
 
 module "cosign" {
   source            = "./images/cosign"
   target_repository = "${var.target_repository}/cosign"
+  test_repository   = var.test_repository
 }
 
 module "crane" {
   source            = "./images/crane"
   target_repository = "${var.target_repository}/crane"
+  test_repository   = var.test_repository
 }
 
 module "crossplane" {
   source            = "./images/crossplane"
   target_repository = "${var.target_repository}/crossplane"
+  test_repository   = var.test_repository
 }
 
 module "crossplane-aws" {
   source            = "./images/crossplane-aws"
   target_repository = "${var.target_repository}/crossplane-aws"
+  test_repository   = var.test_repository
 }
 
 module "crossplane-azure" {
   source            = "./images/crossplane-azure"
   target_repository = "${var.target_repository}/crossplane-azure"
+  test_repository   = var.test_repository
 }
 
 module "ctlog" {
   source            = "./images/ctlog"
   target_repository = "${var.target_repository}/ctlog"
+  test_repository   = var.test_repository
 }
 
 module "curl" {
   source            = "./images/curl"
   target_repository = "${var.target_repository}/curl"
+  test_repository   = var.test_repository
 }
 
 module "dask-gateway" {
   source            = "./images/dask-gateway"
   target_repository = "${var.target_repository}/dask-gateway"
+  test_repository   = var.test_repository
 }
 
 module "datadog-agent" {
   source            = "./images/datadog-agent"
   target_repository = "${var.target_repository}/datadog-agent"
+  test_repository   = var.test_repository
 }
 
 module "deno" {
   source            = "./images/deno"
   target_repository = "${var.target_repository}/deno"
+  test_repository   = var.test_repository
 }
 
 module "dependency-track" {
   source            = "./images/dependency-track"
   target_repository = "${var.target_repository}/dependency-track"
+  test_repository   = var.test_repository
 }
 
 module "dex" {
   source            = "./images/dex"
   target_repository = "${var.target_repository}/dex"
+  test_repository   = var.test_repository
 }
 
 module "dive" {
   source            = "./images/dive"
   target_repository = "${var.target_repository}/dive"
+  test_repository   = var.test_repository
 }
 
 module "docker-cli" {
   source            = "./images/docker-cli"
   target_repository = "${var.target_repository}/docker-cli"
+  test_repository   = var.test_repository
 }
 
 module "doppler-kubernetes-operator" {
   source            = "./images/doppler-kubernetes-operator"
   target_repository = "${var.target_repository}/doppler-kubernetes-operator"
+  test_repository   = var.test_repository
 }
 
 module "dotnet" {
   source            = "./images/dotnet"
   target_repository = "${var.target_repository}/dotnet"
+  test_repository   = var.test_repository
 }
 
 module "dragonfly" {
   source            = "./images/dragonfly"
   target_repository = "${var.target_repository}/dragonfly"
+  test_repository   = var.test_repository
 }
 
 module "dynamic-localpv-provisioner" {
   source            = "./images/dynamic-localpv-provisioner"
   target_repository = "${var.target_repository}/dynamic-localpv-provisioner"
+  test_repository   = var.test_repository
 }
 
 module "eck-operator" {
   source            = "./images/eck-operator"
   target_repository = "${var.target_repository}/eck-operator"
+  test_repository   = var.test_repository
 }
 
 module "envoy" {
   source            = "./images/envoy"
   target_repository = "${var.target_repository}/envoy"
+  test_repository   = var.test_repository
 }
 
 module "envoy-ratelimit" {
   source            = "./images/envoy-ratelimit"
   target_repository = "${var.target_repository}/envoy-ratelimit"
+  test_repository   = var.test_repository
 }
 
 module "erlang" {
   source            = "./images/erlang"
   target_repository = "${var.target_repository}/erlang"
+  test_repository   = var.test_repository
 }
 
 module "etcd" {
   source            = "./images/etcd"
   target_repository = "${var.target_repository}/etcd"
+  test_repository   = var.test_repository
 }
 
 module "external-dns" {
   source            = "./images/external-dns"
   target_repository = "${var.target_repository}/external-dns"
+  test_repository   = var.test_repository
 }
 
 module "external-secrets" {
   source            = "./images/external-secrets"
   target_repository = "${var.target_repository}/external-secrets"
+  test_repository   = var.test_repository
 }
 
 module "falco-no-driver" {
   source            = "./images/falco-no-driver"
   target_repository = "${var.target_repository}/falco-no-driver"
+  test_repository   = var.test_repository
 }
 
 module "falcoctl" {
   source            = "./images/falcoctl"
   target_repository = "${var.target_repository}/falcoctl"
+  test_repository   = var.test_repository
 }
 
 module "falcosidekick" {
   source            = "./images/falcosidekick"
   target_repository = "${var.target_repository}/falcosidekick"
+  test_repository   = var.test_repository
 }
 
 module "ffmpeg" {
   source            = "./images/ffmpeg"
   target_repository = "${var.target_repository}/ffmpeg"
+  test_repository   = var.test_repository
 }
 
 module "filebeat" {
   source            = "./images/filebeat"
   target_repository = "${var.target_repository}/filebeat"
+  test_repository   = var.test_repository
 }
 
 module "fluent-bit" {
   source            = "./images/fluent-bit"
   target_repository = "${var.target_repository}/fluent-bit"
+  test_repository   = var.test_repository
 }
 
 module "fluent-bit-plugin-loki" {
   source            = "./images/fluent-bit-plugin-loki"
   target_repository = "${var.target_repository}/fluent-bit-plugin-loki"
+  test_repository   = var.test_repository
 }
 
 module "fluent-operator" {
   source            = "./images/fluent-operator"
   target_repository = "${var.target_repository}/fluent-operator"
+  test_repository   = var.test_repository
 }
 
 module "fluentd" {
   source            = "./images/fluentd"
   target_repository = "${var.target_repository}/fluentd"
+  test_repository   = var.test_repository
 }
 
 module "flux" {
   source            = "./images/flux"
   target_repository = "${var.target_repository}/flux"
+  test_repository   = var.test_repository
 }
 
 module "fulcio" {
   source            = "./images/fulcio"
   target_repository = "${var.target_repository}/fulcio"
+  test_repository   = var.test_repository
 }
 
 module "gatekeeper" {
   source            = "./images/gatekeeper"
   target_repository = "${var.target_repository}/gatekeeper"
+  test_repository   = var.test_repository
 }
 
 module "gcc-glibc" {
   source            = "./images/gcc-glibc"
   target_repository = "${var.target_repository}/gcc-glibc"
+  test_repository   = var.test_repository
 }
 
 module "gha-runner-scale-set-controller" {
   source            = "./images/gha-runner-scale-set-controller"
   target_repository = "${var.target_repository}/gha-runner-scale-set-controller"
+  test_repository   = var.test_repository
 }
 
 module "gitlab-exporter" {
   source            = "./images/gitlab-exporter"
   target_repository = "${var.target_repository}/gitlab-exporter"
+  test_repository   = var.test_repository
 }
 
 module "gitlab-kas" {
   source            = "./images/gitlab-kas"
   target_repository = "${var.target_repository}/gitlab-kas"
+  test_repository   = var.test_repository
 }
 
 module "gitlab-pages" {
   source            = "./images/gitlab-pages"
   target_repository = "${var.target_repository}/gitlab-pages"
+  test_repository   = var.test_repository
 }
 
 module "gitlab-shell" {
   source            = "./images/gitlab-shell"
   target_repository = "${var.target_repository}/gitlab-shell"
+  test_repository   = var.test_repository
 }
 
 module "gitness" {
   source            = "./images/gitness"
   target_repository = "${var.target_repository}/gitness"
+  test_repository   = var.test_repository
 }
 
 module "glibc-dynamic" {
   source            = "./images/glibc-dynamic"
   target_repository = "${var.target_repository}/glibc-dynamic"
+  test_repository   = var.test_repository
 }
 
 module "go" {
   source            = "./images/go"
   target_repository = "${var.target_repository}/go"
+  test_repository   = var.test_repository
 }
 
 module "go-ipfs" {
   source            = "./images/go-ipfs"
   target_repository = "${var.target_repository}/go-ipfs"
+  test_repository   = var.test_repository
 }
 
 module "google-cloud-sdk" {
   source            = "./images/google-cloud-sdk"
   target_repository = "${var.target_repository}/google-cloud-sdk"
+  test_repository   = var.test_repository
 }
 
 module "gptscript" {
   source            = "./images/gptscript"
   target_repository = "${var.target_repository}/gptscript"
+  test_repository   = var.test_repository
 }
 
 module "gpu-feature-discovery" {
   source            = "./images/gpu-feature-discovery"
   target_repository = "${var.target_repository}/gpu-feature-discovery"
+  test_repository   = var.test_repository
 }
 
 module "gradle" {
   source            = "./images/gradle"
   target_repository = "${var.target_repository}/gradle"
+  test_repository   = var.test_repository
 }
 
 module "grafana" {
   source            = "./images/grafana"
   target_repository = "${var.target_repository}/grafana"
+  test_repository   = var.test_repository
 }
 
 module "grafana-agent-operator" {
   source            = "./images/grafana-agent-operator"
   target_repository = "${var.target_repository}/grafana-agent-operator"
+  test_repository   = var.test_repository
 }
 
 module "grafana-mimir" {
   source            = "./images/grafana-mimir"
   target_repository = "${var.target_repository}/grafana-mimir"
+  test_repository   = var.test_repository
 }
 
 module "grafana-operator" {
   source            = "./images/grafana-operator"
   target_repository = "${var.target_repository}/grafana-operator"
+  test_repository   = var.test_repository
 }
 
 module "grafana-rollout-operator" {
   source            = "./images/grafana-rollout-operator"
   target_repository = "${var.target_repository}/grafana-rollout-operator"
+  test_repository   = var.test_repository
 }
 
 module "grype" {
   source            = "./images/grype"
   target_repository = "${var.target_repository}/grype"
+  test_repository   = var.test_repository
 }
 
 module "guacamole-server" {
   source            = "./images/guacamole-server"
   target_repository = "${var.target_repository}/guacamole-server"
+  test_repository   = var.test_repository
 }
 
 module "haproxy" {
   source            = "./images/haproxy"
   target_repository = "${var.target_repository}/haproxy"
+  test_repository   = var.test_repository
 }
 
 module "haproxy-ingress" {
   source            = "./images/haproxy-ingress"
   target_repository = "${var.target_repository}/haproxy-ingress"
+  test_repository   = var.test_repository
 }
 
 module "helm" {
   source            = "./images/helm"
   target_repository = "${var.target_repository}/helm"
+  test_repository   = var.test_repository
 }
 
 module "helm-chartmuseum" {
   source            = "./images/helm-chartmuseum"
   target_repository = "${var.target_repository}/helm-chartmuseum"
+  test_repository   = var.test_repository
 }
 
 module "helm-operator" {
   source            = "./images/helm-operator"
   target_repository = "${var.target_repository}/helm-operator"
+  test_repository   = var.test_repository
 }
 
 module "http-echo" {
   source            = "./images/http-echo"
   target_repository = "${var.target_repository}/http-echo"
+  test_repository   = var.test_repository
 }
 
 module "hugo" {
   source            = "./images/hugo"
   target_repository = "${var.target_repository}/hugo"
+  test_repository   = var.test_repository
 }
 
 module "influxdb" {
   source            = "./images/influxdb"
   target_repository = "${var.target_repository}/influxdb"
+  test_repository   = var.test_repository
 }
 
 module "ingress-nginx-controller" {
   source            = "./images/ingress-nginx-controller"
   target_repository = "${var.target_repository}/ingress-nginx-controller"
+  test_repository   = var.test_repository
 }
 
 module "ip-masq-agent" {
   source            = "./images/ip-masq-agent"
   target_repository = "${var.target_repository}/ip-masq-agent"
+  test_repository   = var.test_repository
 }
 
 module "istio" {
   source            = "./images/istio"
   target_repository = "${var.target_repository}/istio"
+  test_repository   = var.test_repository
 }
 
 module "jdk" {
   source            = "./images/jdk"
   target_repository = "${var.target_repository}/jdk"
+  test_repository   = var.test_repository
 }
 
 module "jellyfin" {
   source            = "./images/jellyfin"
   target_repository = "${var.target_repository}/jellyfin"
+  test_repository   = var.test_repository
 }
 
 module "jenkins" {
   source            = "./images/jenkins"
   target_repository = "${var.target_repository}/jenkins"
+  test_repository   = var.test_repository
 }
 
 module "jitsucom-bulker" {
   source            = "./images/jitsucom-bulker"
   target_repository = "${var.target_repository}/jitsucom-bulker"
+  test_repository   = var.test_repository
 }
 
 module "jitsucom-jitsu" {
   source            = "./images/jitsucom-jitsu"
   target_repository = "${var.target_repository}/jitsucom-jitsu"
+  test_repository   = var.test_repository
 }
 
 module "jre" {
   source            = "./images/jre"
   target_repository = "${var.target_repository}/jre"
+  test_repository   = var.test_repository
 }
 
 module "k8s-sidecar" {
   source            = "./images/k8s-sidecar"
   target_repository = "${var.target_repository}/k8s-sidecar"
+  test_repository   = var.test_repository
 }
 
 module "k8sgpt" {
   source            = "./images/k8sgpt"
   target_repository = "${var.target_repository}/k8sgpt"
+  test_repository   = var.test_repository
 }
 
 module "k8sgpt-operator" {
   source            = "./images/k8sgpt-operator"
   target_repository = "${var.target_repository}/k8sgpt-operator"
+  test_repository   = var.test_repository
 }
 
 module "k8ssandra-operator" {
   source            = "./images/k8ssandra-operator"
   target_repository = "${var.target_repository}/k8ssandra-operator"
+  test_repository   = var.test_repository
 }
 
 module "kafka" {
   source            = "./images/kafka"
   target_repository = "${var.target_repository}/kafka"
+  test_repository   = var.test_repository
 }
 
 module "karpenter" {
   source            = "./images/karpenter"
   target_repository = "${var.target_repository}/karpenter"
+  test_repository   = var.test_repository
 }
 
 module "keda" {
   source            = "./images/keda"
   target_repository = "${var.target_repository}/keda"
+  test_repository   = var.test_repository
 }
 
 module "keycloak" {
   source            = "./images/keycloak"
   target_repository = "${var.target_repository}/keycloak"
+  test_repository   = var.test_repository
 }
 
 module "keycloak-operator" {
   source            = "./images/keycloak-operator"
   target_repository = "${var.target_repository}/keycloak-operator"
+  test_repository   = var.test_repository
 }
 
 module "kibana" {
   source            = "./images/kibana"
   target_repository = "${var.target_repository}/kibana"
+  test_repository   = var.test_repository
 }
 
 module "ko" {
   source            = "./images/ko"
   target_repository = "${var.target_repository}/ko"
+  test_repository   = var.test_repository
 }
 
 module "kor" {
   source            = "./images/kor"
   target_repository = "${var.target_repository}/kor"
+  test_repository   = var.test_repository
 }
 
 module "kube-bench" {
   source            = "./images/kube-bench"
   target_repository = "${var.target_repository}/kube-bench"
+  test_repository   = var.test_repository
 }
 
 module "kube-downscaler" {
   source            = "./images/kube-downscaler"
   target_repository = "${var.target_repository}/kube-downscaler"
+  test_repository   = var.test_repository
 }
 
 module "kube-fluentd-operator" {
   source            = "./images/kube-fluentd-operator"
   target_repository = "${var.target_repository}/kube-fluentd-operator"
+  test_repository   = var.test_repository
 }
 
 module "kube-logging-operator" {
   source            = "./images/kube-logging-operator"
   target_repository = "${var.target_repository}/kube-logging-operator"
+  test_repository   = var.test_repository
 }
 
 module "kube-logging-operator-fluentd" {
   source            = "./images/kube-logging-operator-fluentd"
   target_repository = "${var.target_repository}/kube-logging-operator-fluentd"
+  test_repository   = var.test_repository
 }
 
 module "kube-state-metrics" {
   source            = "./images/kube-state-metrics"
   target_repository = "${var.target_repository}/kube-state-metrics"
+  test_repository   = var.test_repository
 }
 
 module "kube-vip" {
   source            = "./images/kube-vip"
   target_repository = "${var.target_repository}/kube-vip"
+  test_repository   = var.test_repository
 }
 
 module "kube-webhook-certgen" {
   source            = "./images/kube-webhook-certgen"
   target_repository = "${var.target_repository}/kube-webhook-certgen"
+  test_repository   = var.test_repository
 }
 
 module "kubectl" {
   source            = "./images/kubectl"
   target_repository = "${var.target_repository}/kubectl"
+  test_repository   = var.test_repository
 }
 
 module "kubeflow-centraldashboard" {
   source            = "./images/kubeflow-centraldashboard"
   target_repository = "${var.target_repository}/kubeflow-centraldashboard"
+  test_repository   = var.test_repository
 }
 
 module "kubeflow-pipelines" {
   source            = "./images/kubeflow-pipelines"
   target_repository = "${var.target_repository}/kubeflow-pipelines"
+  test_repository   = var.test_repository
 }
 
 module "kubeflow-pipelines-visualization-server" {
   source            = "./images/kubeflow-pipelines-visualization-server"
   target_repository = "${var.target_repository}/kubeflow-pipelines-visualization-server"
+  test_repository   = var.test_repository
 }
 
 module "kuberay-operator" {
   source            = "./images/kuberay-operator"
   target_repository = "${var.target_repository}/kuberay-operator"
+  test_repository   = var.test_repository
 }
 
 module "kubernetes-autoscaler-addon-resizer" {
   source            = "./images/kubernetes-autoscaler-addon-resizer"
   target_repository = "${var.target_repository}/kubernetes-autoscaler-addon-resizer"
+  test_repository   = var.test_repository
 }
 
 module "kubernetes-csi-external-attacher" {
   source            = "./images/kubernetes-csi-external-attacher"
   target_repository = "${var.target_repository}/kubernetes-csi-external-attacher"
+  test_repository   = var.test_repository
 }
 
 module "kubernetes-csi-external-provisioner" {
   source            = "./images/kubernetes-csi-external-provisioner"
   target_repository = "${var.target_repository}/kubernetes-csi-external-provisioner"
+  test_repository   = var.test_repository
 }
 
 module "kubernetes-csi-external-resizer" {
   source            = "./images/kubernetes-csi-external-resizer"
   target_repository = "${var.target_repository}/kubernetes-csi-external-resizer"
+  test_repository   = var.test_repository
 }
 
 module "kubernetes-csi-external-snapshotter" {
   source            = "./images/kubernetes-csi-external-snapshotter"
   target_repository = "${var.target_repository}/kubernetes-csi-external-snapshotter"
+  test_repository   = var.test_repository
 }
 
 module "kubernetes-csi-livenessprobe" {
   source            = "./images/kubernetes-csi-livenessprobe"
   target_repository = "${var.target_repository}/kubernetes-csi-livenessprobe"
+  test_repository   = var.test_repository
 }
 
 module "kubernetes-csi-node-driver-registrar" {
   source            = "./images/kubernetes-csi-node-driver-registrar"
   target_repository = "${var.target_repository}/kubernetes-csi-node-driver-registrar"
+  test_repository   = var.test_repository
 }
 
 module "kubernetes-dashboard" {
   source            = "./images/kubernetes-dashboard"
   target_repository = "${var.target_repository}/kubernetes-dashboard"
+  test_repository   = var.test_repository
 }
 
 module "kubernetes-dns-node-cache" {
   source            = "./images/kubernetes-dns-node-cache"
   target_repository = "${var.target_repository}/kubernetes-dns-node-cache"
+  test_repository   = var.test_repository
 }
 
 module "kubernetes-event-exporter" {
   source            = "./images/kubernetes-event-exporter"
   target_repository = "${var.target_repository}/kubernetes-event-exporter"
+  test_repository   = var.test_repository
 }
 
 module "kubernetes-ingress-defaultbackend" {
   source            = "./images/kubernetes-ingress-defaultbackend"
   target_repository = "${var.target_repository}/kubernetes-ingress-defaultbackend"
+  test_repository   = var.test_repository
 }
 
 module "kubewatch" {
   source            = "./images/kubewatch"
   target_repository = "${var.target_repository}/kubewatch"
+  test_repository   = var.test_repository
 }
 
 module "kyverno" {
   source            = "./images/kyverno"
   target_repository = "${var.target_repository}/kyverno"
+  test_repository   = var.test_repository
 }
 
 module "kyverno-policy-reporter" {
   source            = "./images/kyverno-policy-reporter"
   target_repository = "${var.target_repository}/kyverno-policy-reporter"
+  test_repository   = var.test_repository
 }
 
 module "laravel" {
   source            = "./images/laravel"
   target_repository = "${var.target_repository}/laravel"
+  test_repository   = var.test_repository
 }
 
 module "litestream" {
   source            = "./images/litestream"
   target_repository = "${var.target_repository}/litestream"
+  test_repository   = var.test_repository
 }
 
 module "local-volume-node-cleanup" {
   source            = "./images/local-volume-node-cleanup"
   target_repository = "${var.target_repository}/local-volume-node-cleanup"
+  test_repository   = var.test_repository
 }
 
 module "local-volume-provisioner" {
   source            = "./images/local-volume-provisioner"
   target_repository = "${var.target_repository}/local-volume-provisioner"
+  test_repository   = var.test_repository
 }
 
 module "logstash-oss-with-opensearch-output-plugin" {
   source            = "./images/logstash-oss-with-opensearch-output-plugin"
   target_repository = "${var.target_repository}/logstash-oss-with-opensearch-output-plugin"
+  test_repository   = var.test_repository
 }
 
 module "loki" {
   source            = "./images/loki"
   target_repository = "${var.target_repository}/loki"
+  test_repository   = var.test_repository
 }
 
 module "malcontent" {
   source            = "./images/malcontent"
   target_repository = "${var.target_repository}/malcontent"
+  test_repository   = var.test_repository
 }
 
 module "management-api-for-apache-cassandra" {
   source            = "./images/management-api-for-apache-cassandra"
   target_repository = "${var.target_repository}/management-api-for-apache-cassandra"
+  test_repository   = var.test_repository
 }
 
 module "mariadb" {
   source            = "./images/mariadb"
   target_repository = "${var.target_repository}/mariadb"
+  test_repository   = var.test_repository
 }
 
 module "mdbook" {
   source            = "./images/mdbook"
   target_repository = "${var.target_repository}/mdbook"
+  test_repository   = var.test_repository
 }
 
 module "meilisearch" {
   source            = "./images/meilisearch"
   target_repository = "${var.target_repository}/meilisearch"
+  test_repository   = var.test_repository
 }
 
 module "melange" {
   source            = "./images/melange"
   target_repository = "${var.target_repository}/melange"
+  test_repository   = var.test_repository
 }
 
 module "memcached" {
   source            = "./images/memcached"
   target_repository = "${var.target_repository}/memcached"
+  test_repository   = var.test_repository
 }
 
 module "memcached-exporter" {
   source            = "./images/memcached-exporter"
   target_repository = "${var.target_repository}/memcached-exporter"
+  test_repository   = var.test_repository
 }
 
 module "memcached-exporter-bitnami" {
   source            = "./images/memcached-exporter-bitnami"
   target_repository = "${var.target_repository}/memcached-exporter-bitnami"
+  test_repository   = var.test_repository
 }
 
 module "metacontroller" {
   source            = "./images/metacontroller"
   target_repository = "${var.target_repository}/metacontroller"
+  test_repository   = var.test_repository
 }
 
 module "metallb" {
   source            = "./images/metallb"
   target_repository = "${var.target_repository}/metallb"
+  test_repository   = var.test_repository
 }
 
 module "metrics-server" {
   source            = "./images/metrics-server"
   target_repository = "${var.target_repository}/metrics-server"
+  test_repository   = var.test_repository
 }
 
 module "min-toolkit-debug" {
   source            = "./images/min-toolkit-debug"
   target_repository = "${var.target_repository}/min-toolkit-debug"
+  test_repository   = var.test_repository
 }
 
 module "minio" {
   source            = "./images/minio"
   target_repository = "${var.target_repository}/minio"
+  test_repository   = var.test_repository
 }
 
 module "ml-metadata-store-server" {
   source            = "./images/ml-metadata-store-server"
   target_repository = "${var.target_repository}/ml-metadata-store-server"
+  test_repository   = var.test_repository
 }
 
 module "mlflow" {
   source            = "./images/mlflow"
   target_repository = "${var.target_repository}/mlflow"
+  test_repository   = var.test_repository
 }
 
 module "mongodb" {
   source            = "./images/mongodb"
   target_repository = "${var.target_repository}/mongodb"
+  test_repository   = var.test_repository
 }
 
 module "multus-cni" {
   source            = "./images/multus-cni"
   target_repository = "${var.target_repository}/multus-cni"
+  test_repository   = var.test_repository
 }
 
 module "nats" {
   source            = "./images/nats"
   target_repository = "${var.target_repository}/nats"
+  test_repository   = var.test_repository
 }
 
 module "nemo" {
   source            = "./images/nemo"
   target_repository = "${var.target_repository}/nemo"
+  test_repository   = var.test_repository
 }
 
 module "netcat" {
   source            = "./images/netcat"
   target_repository = "${var.target_repository}/netcat"
+  test_repository   = var.test_repository
 }
 
 module "neuvector" {
   source            = "./images/neuvector"
   target_repository = "${var.target_repository}/neuvector"
+  test_repository   = var.test_repository
 }
 
 module "newrelic-fluent-bit-output" {
   license_key       = var.newrelic_license_key
   source            = "./images/newrelic-fluent-bit-output"
   target_repository = "${var.target_repository}/newrelic-fluent-bit-output"
+  test_repository   = var.test_repository
 }
 
 module "newrelic-infrastructure-bundle" {
   license_key       = var.newrelic_license_key
   source            = "./images/newrelic-infrastructure-bundle"
   target_repository = "${var.target_repository}/newrelic-infrastructure-bundle"
+  test_repository   = var.test_repository
 }
 
 module "newrelic-k8s-events-forwarder" {
   license_key       = var.newrelic_license_key
   source            = "./images/newrelic-k8s-events-forwarder"
   target_repository = "${var.target_repository}/newrelic-k8s-events-forwarder"
+  test_repository   = var.test_repository
 }
 
 module "newrelic-kube-events" {
   license_key       = var.newrelic_license_key
   source            = "./images/newrelic-kube-events"
   target_repository = "${var.target_repository}/newrelic-kube-events"
+  test_repository   = var.test_repository
 }
 
 module "newrelic-kubernetes" {
   license_key       = var.newrelic_license_key
   source            = "./images/newrelic-kubernetes"
   target_repository = "${var.target_repository}/newrelic-kubernetes"
+  test_repository   = var.test_repository
 }
 
 module "newrelic-nri-statsd" {
   license_key       = var.newrelic_license_key
   source            = "./images/newrelic-nri-statsd"
   target_repository = "${var.target_repository}/newrelic-nri-statsd"
+  test_repository   = var.test_repository
 }
 
 module "newrelic-prometheus" {
   license_key       = var.newrelic_license_key
   source            = "./images/newrelic-prometheus"
   target_repository = "${var.target_repository}/newrelic-prometheus"
+  test_repository   = var.test_repository
 }
 
 module "newrelic-prometheus-configurator" {
   license_key       = var.newrelic_license_key
   source            = "./images/newrelic-prometheus-configurator"
   target_repository = "${var.target_repository}/newrelic-prometheus-configurator"
+  test_repository   = var.test_repository
 }
 
 module "nfs-subdir-external-provisioner" {
   source            = "./images/nfs-subdir-external-provisioner"
   target_repository = "${var.target_repository}/nfs-subdir-external-provisioner"
+  test_repository   = var.test_repository
 }
 
 module "nginx" {
   source            = "./images/nginx"
   target_repository = "${var.target_repository}/nginx"
+  test_repository   = var.test_repository
 }
 
 module "node" {
   source            = "./images/node"
   target_repository = "${var.target_repository}/node"
+  test_repository   = var.test_repository
 }
 
 module "node-feature-discovery" {
   source            = "./images/node-feature-discovery"
   target_repository = "${var.target_repository}/node-feature-discovery"
+  test_repository   = var.test_repository
 }
 
 module "node-problem-detector" {
   source            = "./images/node-problem-detector"
   target_repository = "${var.target_repository}/node-problem-detector"
+  test_repository   = var.test_repository
 }
 
 module "nodetaint" {
   source            = "./images/nodetaint"
   target_repository = "${var.target_repository}/nodetaint"
+  test_repository   = var.test_repository
 }
 
 module "ntia-conformance-checker" {
   source            = "./images/ntia-conformance-checker"
   target_repository = "${var.target_repository}/ntia-conformance-checker"
+  test_repository   = var.test_repository
 }
 
 module "ntpd-rs" {
   source            = "./images/ntpd-rs"
   target_repository = "${var.target_repository}/ntpd-rs"
+  test_repository   = var.test_repository
 }
 
 module "nvidia-container-toolkit" {
   source            = "./images/nvidia-container-toolkit"
   target_repository = "${var.target_repository}/nvidia-container-toolkit"
+  test_repository   = var.test_repository
 }
 
 module "nvidia-device-plugin" {
   source            = "./images/nvidia-device-plugin"
   target_repository = "${var.target_repository}/nvidia-device-plugin"
+  test_repository   = var.test_repository
 }
 
 module "nvidia-gpu-driver" {
   source            = "./images/nvidia-gpu-driver"
   target_repository = "${var.target_repository}/nvidia-gpu-driver"
+  test_repository   = var.test_repository
 }
 
 module "oauth2-proxy" {
   source            = "./images/oauth2-proxy"
   target_repository = "${var.target_repository}/oauth2-proxy"
+  test_repository   = var.test_repository
 }
 
 module "octo-sts" {
   source            = "./images/octo-sts"
   target_repository = "${var.target_repository}/octo-sts"
+  test_repository   = var.test_repository
 }
 
 module "openai" {
   source            = "./images/openai"
   target_repository = "${var.target_repository}/openai"
+  test_repository   = var.test_repository
 }
 
 module "openscap" {
   source            = "./images/openscap"
   target_repository = "${var.target_repository}/openscap"
+  test_repository   = var.test_repository
 }
 
 module "opensearch" {
   source            = "./images/opensearch"
   target_repository = "${var.target_repository}/opensearch"
+  test_repository   = var.test_repository
 }
 
 module "opensearch-dashboards" {
   source            = "./images/opensearch-dashboards"
   target_repository = "${var.target_repository}/opensearch-dashboards"
+  test_repository   = var.test_repository
 }
 
 module "opentelemetry-collector" {
   source            = "./images/opentelemetry-collector"
   target_repository = "${var.target_repository}/opentelemetry-collector"
+  test_repository   = var.test_repository
 }
 
 module "opentelemetry-collector-contrib" {
   source            = "./images/opentelemetry-collector-contrib"
   target_repository = "${var.target_repository}/opentelemetry-collector-contrib"
+  test_repository   = var.test_repository
 }
 
 module "opentofu" {
   source            = "./images/opentofu"
   target_repository = "${var.target_repository}/opentofu"
+  test_repository   = var.test_repository
 }
 
 module "paranoia" {
   source            = "./images/paranoia"
   target_repository = "${var.target_repository}/paranoia"
+  test_repository   = var.test_repository
 }
 
 module "percona-server" {
   source            = "./images/percona-server"
   target_repository = "${var.target_repository}/percona-server"
+  test_repository   = var.test_repository
 }
 
 module "pgbouncer" {
   source            = "./images/pgbouncer"
   target_repository = "${var.target_repository}/pgbouncer"
+  test_repository   = var.test_repository
 }
 
 module "php" {
   source            = "./images/php"
   target_repository = "${var.target_repository}/php"
+  test_repository   = var.test_repository
 }
 
 module "php-fpm_exporter" {
   source            = "./images/php-fpm_exporter"
   target_repository = "${var.target_repository}/php-fpm_exporter"
+  test_repository   = var.test_repository
 }
 
 module "postgres" {
   source            = "./images/postgres"
   target_repository = "${var.target_repository}/postgres"
+  test_repository   = var.test_repository
 }
 
 module "postgres-helm-compat" {
   source            = "./images/postgres-helm-compat"
   target_repository = "${var.target_repository}/postgres-helm-compat"
+  test_repository   = var.test_repository
 }
 
 module "postgres-operator" {
   source            = "./images/postgres-operator"
   target_repository = "${var.target_repository}/postgres-operator"
+  test_repository   = var.test_repository
 }
 
 module "prometheus-adapter" {
   source            = "./images/prometheus-adapter"
   target_repository = "${var.target_repository}/prometheus-adapter"
+  test_repository   = var.test_repository
 }
 
 module "prometheus-alertmanager" {
   source            = "./images/prometheus-alertmanager"
   target_repository = "${var.target_repository}/prometheus-alertmanager"
+  test_repository   = var.test_repository
 }
 
 module "prometheus-blackbox-exporter" {
   source            = "./images/prometheus-blackbox-exporter"
   target_repository = "${var.target_repository}/prometheus-blackbox-exporter"
+  test_repository   = var.test_repository
 }
 
 module "prometheus-cloudwatch-exporter" {
   source            = "./images/prometheus-cloudwatch-exporter"
   target_repository = "${var.target_repository}/prometheus-cloudwatch-exporter"
+  test_repository   = var.test_repository
 }
 
 module "prometheus-config-reloader" {
   source            = "./images/prometheus-config-reloader"
   target_repository = "${var.target_repository}/prometheus-config-reloader"
+  test_repository   = var.test_repository
 }
 
 module "prometheus-elasticsearch-exporter" {
   source            = "./images/prometheus-elasticsearch-exporter"
   target_repository = "${var.target_repository}/prometheus-elasticsearch-exporter"
+  test_repository   = var.test_repository
 }
 
 module "prometheus-logstash-exporter" {
   source            = "./images/prometheus-logstash-exporter"
   target_repository = "${var.target_repository}/prometheus-logstash-exporter"
+  test_repository   = var.test_repository
 }
 
 module "prometheus-mongodb-exporter" {
   source            = "./images/prometheus-mongodb-exporter"
   target_repository = "${var.target_repository}/prometheus-mongodb-exporter"
+  test_repository   = var.test_repository
 }
 
 module "prometheus-mysqld-exporter" {
   source            = "./images/prometheus-mysqld-exporter"
   target_repository = "${var.target_repository}/prometheus-mysqld-exporter"
+  test_repository   = var.test_repository
 }
 
 module "prometheus-node-exporter" {
   source            = "./images/prometheus-node-exporter"
   target_repository = "${var.target_repository}/prometheus-node-exporter"
+  test_repository   = var.test_repository
 }
 
 module "prometheus-operator" {
   source            = "./images/prometheus-operator"
   target_repository = "${var.target_repository}/prometheus-operator"
+  test_repository   = var.test_repository
 }
 
 module "prometheus-postgres-exporter" {
   source            = "./images/prometheus-postgres-exporter"
   target_repository = "${var.target_repository}/prometheus-postgres-exporter"
+  test_repository   = var.test_repository
 }
 
 module "prometheus-pushgateway" {
   source            = "./images/prometheus-pushgateway"
   target_repository = "${var.target_repository}/prometheus-pushgateway"
+  test_repository   = var.test_repository
 }
 
 module "prometheus-pushgateway-bitnami" {
   source            = "./images/prometheus-pushgateway-bitnami"
   target_repository = "${var.target_repository}/prometheus-pushgateway-bitnami"
+  test_repository   = var.test_repository
 }
 
 module "prometheus-redis-exporter" {
   source            = "./images/prometheus-redis-exporter"
   target_repository = "${var.target_repository}/prometheus-redis-exporter"
+  test_repository   = var.test_repository
 }
 
 module "prometheus-statsd-exporter" {
   source            = "./images/prometheus-statsd-exporter"
   target_repository = "${var.target_repository}/prometheus-statsd-exporter"
+  test_repository   = var.test_repository
 }
 
 module "promtail" {
   source            = "./images/promtail"
   target_repository = "${var.target_repository}/promtail"
+  test_repository   = var.test_repository
 }
 
 module "proxysql" {
   source            = "./images/proxysql"
   target_repository = "${var.target_repository}/proxysql"
+  test_repository   = var.test_repository
 }
 
 module "pulumi" {
   source            = "./images/pulumi"
   target_repository = "${var.target_repository}/pulumi"
+  test_repository   = var.test_repository
 }
 
 module "python" {
   source            = "./images/python"
   target_repository = "${var.target_repository}/python"
+  test_repository   = var.test_repository
 }
 
 module "pytorch" {
   source            = "./images/pytorch"
   target_repository = "${var.target_repository}/pytorch"
+  test_repository   = var.test_repository
 }
 
 module "qdrant" {
   source            = "./images/qdrant"
   target_repository = "${var.target_repository}/qdrant"
+  test_repository   = var.test_repository
 }
 
 module "r-base" {
   source            = "./images/r-base"
   target_repository = "${var.target_repository}/r-base"
+  test_repository   = var.test_repository
 }
 
 module "rabbitmq" {
   source            = "./images/rabbitmq"
   target_repository = "${var.target_repository}/rabbitmq"
+  test_repository   = var.test_repository
 }
 
 module "rabbitmq-cluster-operator" {
   source            = "./images/rabbitmq-cluster-operator"
   target_repository = "${var.target_repository}/rabbitmq-cluster-operator"
+  test_repository   = var.test_repository
 }
 
 module "rabbitmq-default-user-credential-updater" {
   source            = "./images/rabbitmq-default-user-credential-updater"
   target_repository = "${var.target_repository}/rabbitmq-default-user-credential-updater"
+  test_repository   = var.test_repository
 }
 
 module "rabbitmq-messaging-topology-operator" {
   source            = "./images/rabbitmq-messaging-topology-operator"
   target_repository = "${var.target_repository}/rabbitmq-messaging-topology-operator"
+  test_repository   = var.test_repository
 }
 
 module "redis" {
   source            = "./images/redis"
   target_repository = "${var.target_repository}/redis"
+  test_repository   = var.test_repository
 }
 
 module "redis-bitnami" {
   source            = "./images/redis-bitnami"
   target_repository = "${var.target_repository}/redis-bitnami"
+  test_repository   = var.test_repository
 }
 
 module "redis-sentinel" {
   source            = "./images/redis-sentinel"
   target_repository = "${var.target_repository}/redis-sentinel"
+  test_repository   = var.test_repository
 }
 
 module "rekor" {
   source            = "./images/rekor"
   target_repository = "${var.target_repository}/rekor"
+  test_repository   = var.test_repository
 }
 
 module "rqlite" {
   source            = "./images/rqlite"
   target_repository = "${var.target_repository}/rqlite"
+  test_repository   = var.test_repository
 }
 
 module "rstudio" {
   source            = "./images/rstudio"
   target_repository = "${var.target_repository}/rstudio"
+  test_repository   = var.test_repository
 }
 
 module "ruby" {
   source            = "./images/ruby"
   target_repository = "${var.target_repository}/ruby"
+  test_repository   = var.test_repository
 }
 
 module "rust" {
   source            = "./images/rust"
   target_repository = "${var.target_repository}/rust"
+  test_repository   = var.test_repository
 }
 
 module "secrets-store-csi-driver" {
   source            = "./images/secrets-store-csi-driver"
   target_repository = "${var.target_repository}/secrets-store-csi-driver"
+  test_repository   = var.test_repository
 }
 
 module "secrets-store-csi-driver-provider-gcp" {
   source            = "./images/secrets-store-csi-driver-provider-gcp"
   target_repository = "${var.target_repository}/secrets-store-csi-driver-provider-gcp"
+  test_repository   = var.test_repository
 }
 
 module "selenium" {
   source            = "./images/selenium"
   target_repository = "${var.target_repository}/selenium"
+  test_repository   = var.test_repository
 }
 
 module "semgrep" {
   source            = "./images/semgrep"
   target_repository = "${var.target_repository}/semgrep"
+  test_repository   = var.test_repository
 }
 
 module "shadowsocks-rust" {
   source            = "./images/shadowsocks-rust"
   target_repository = "${var.target_repository}/shadowsocks-rust"
+  test_repository   = var.test_repository
 }
 
 module "sigstore-policy-controller" {
   source            = "./images/sigstore-policy-controller"
   target_repository = "${var.target_repository}/sigstore-policy-controller"
+  test_repository   = var.test_repository
 }
 
 module "sigstore-scaffolding" {
   source            = "./images/sigstore-scaffolding"
   target_repository = "${var.target_repository}/sigstore-scaffolding"
+  test_repository   = var.test_repository
 }
 
 module "skaffold" {
   source            = "./images/skaffold"
   target_repository = "${var.target_repository}/skaffold"
+  test_repository   = var.test_repository
 }
 
 module "smarter-device-manager" {
   source            = "./images/smarter-device-manager"
   target_repository = "${var.target_repository}/smarter-device-manager"
+  test_repository   = var.test_repository
 }
 
 module "solr" {
   source            = "./images/solr"
   target_repository = "${var.target_repository}/solr"
+  test_repository   = var.test_repository
 }
 
 module "sonar-scanner-cli" {
   source            = "./images/sonar-scanner-cli"
   target_repository = "${var.target_repository}/sonar-scanner-cli"
+  test_repository   = var.test_repository
 }
 
 module "spark-operator" {
   source            = "./images/spark-operator"
   target_repository = "${var.target_repository}/spark-operator"
+  test_repository   = var.test_repository
 }
 
 module "spdx-tools" {
   source            = "./images/spdx-tools"
   target_repository = "${var.target_repository}/spdx-tools"
+  test_repository   = var.test_repository
 }
 
 module "spire" {
   source            = "./images/spire"
   target_repository = "${var.target_repository}/spire"
+  test_repository   = var.test_repository
 }
 
 module "sqlpad" {
   source            = "./images/sqlpad"
   target_repository = "${var.target_repository}/sqlpad"
+  test_repository   = var.test_repository
 }
 
 module "squid-proxy" {
   source            = "./images/squid-proxy"
   target_repository = "${var.target_repository}/squid-proxy"
+  test_repository   = var.test_repository
 }
 
 module "stakater-reloader" {
   source            = "./images/stakater-reloader"
   target_repository = "${var.target_repository}/stakater-reloader"
+  test_repository   = var.test_repository
 }
 
 module "statsd" {
   source            = "./images/statsd"
   target_repository = "${var.target_repository}/statsd"
+  test_repository   = var.test_repository
 }
 
 module "step-ca" {
   source            = "./images/step-ca"
   target_repository = "${var.target_repository}/step-ca"
+  test_repository   = var.test_repository
 }
 
 module "step-cli" {
   source            = "./images/step-cli"
   target_repository = "${var.target_repository}/step-cli"
+  test_repository   = var.test_repository
 }
 
 module "step-issuer" {
   source            = "./images/step-issuer"
   target_repository = "${var.target_repository}/step-issuer"
+  test_repository   = var.test_repository
 }
 
 module "stunnel" {
   source            = "./images/stunnel"
   target_repository = "${var.target_repository}/stunnel"
+  test_repository   = var.test_repository
 }
 
 module "superset" {
   source            = "./images/superset"
   target_repository = "${var.target_repository}/superset"
+  test_repository   = var.test_repository
 }
 
 module "tekton" {
   source            = "./images/tekton"
   target_repository = "${var.target_repository}/tekton"
+  test_repository   = var.test_repository
 }
 
 module "telegraf" {
   source            = "./images/telegraf"
   target_repository = "${var.target_repository}/telegraf"
+  test_repository   = var.test_repository
 }
 
 module "teleport" {
   source            = "./images/teleport"
   target_repository = "${var.target_repository}/teleport"
+  test_repository   = var.test_repository
 }
 
 module "tempo" {
   source            = "./images/tempo"
   target_repository = "${var.target_repository}/tempo"
+  test_repository   = var.test_repository
 }
 
 module "temporal-admin-tools" {
   source            = "./images/temporal-admin-tools"
   target_repository = "${var.target_repository}/temporal-admin-tools"
+  test_repository   = var.test_repository
 }
 
 module "temporal-server" {
   source            = "./images/temporal-server"
   target_repository = "${var.target_repository}/temporal-server"
+  test_repository   = var.test_repository
 }
 
 module "temporal-ui-server" {
   source            = "./images/temporal-ui-server"
   target_repository = "${var.target_repository}/temporal-ui-server"
+  test_repository   = var.test_repository
 }
 
 module "tesseract" {
   source            = "./images/tesseract"
   target_repository = "${var.target_repository}/tesseract"
+  test_repository   = var.test_repository
 }
 
 module "thanos" {
   source            = "./images/thanos"
   target_repository = "${var.target_repository}/thanos"
+  test_repository   = var.test_repository
 }
 
 module "thanos-operator" {
   source            = "./images/thanos-operator"
   target_repository = "${var.target_repository}/thanos-operator"
+  test_repository   = var.test_repository
 }
 
 module "tigera-operator" {
   source            = "./images/tigera-operator"
   target_repository = "${var.target_repository}/tigera-operator"
+  test_repository   = var.test_repository
 }
 
 module "timestamp-authority" {
   source            = "./images/timestamp-authority"
   target_repository = "${var.target_repository}/timestamp-authority"
+  test_repository   = var.test_repository
 }
 
 module "timoni" {
   source            = "./images/timoni"
   target_repository = "${var.target_repository}/timoni"
+  test_repository   = var.test_repository
 }
 
 module "tomcat" {
   source            = "./images/tomcat"
   target_repository = "${var.target_repository}/tomcat"
+  test_repository   = var.test_repository
 }
 
 module "traefik" {
   source            = "./images/traefik"
   target_repository = "${var.target_repository}/traefik"
+  test_repository   = var.test_repository
 }
 
 module "trillian" {
   source            = "./images/trillian"
   target_repository = "${var.target_repository}/trillian"
+  test_repository   = var.test_repository
 }
 
 module "trino" {
   source            = "./images/trino"
   target_repository = "${var.target_repository}/trino"
+  test_repository   = var.test_repository
 }
 
 module "trust-manager" {
   source            = "./images/trust-manager"
   target_repository = "${var.target_repository}/trust-manager"
+  test_repository   = var.test_repository
 }
 
 module "valkey" {
   source            = "./images/valkey"
   target_repository = "${var.target_repository}/valkey"
+  test_repository   = var.test_repository
 }
 
 module "vault" {
   source            = "./images/vault"
   target_repository = "${var.target_repository}/vault"
+  test_repository   = var.test_repository
 }
 
 module "vector" {
   source            = "./images/vector"
   target_repository = "${var.target_repository}/vector"
+  test_repository   = var.test_repository
 }
 
 module "vela-cli" {
   source            = "./images/vela-cli"
   target_repository = "${var.target_repository}/vela-cli"
+  test_repository   = var.test_repository
 }
 
 module "velero" {
   source            = "./images/velero"
   target_repository = "${var.target_repository}/velero"
+  test_repository   = var.test_repository
 }
 
 module "velero-plugin-for-aws" {
   source            = "./images/velero-plugin-for-aws"
   target_repository = "${var.target_repository}/velero-plugin-for-aws"
+  test_repository   = var.test_repository
 }
 
 module "velero-restore-helper" {
   source            = "./images/velero-restore-helper"
   target_repository = "${var.target_repository}/velero-restore-helper"
+  test_repository   = var.test_repository
 }
 
 module "vertical-pod-autoscaler" {
   source            = "./images/vertical-pod-autoscaler"
   target_repository = "${var.target_repository}/vertical-pod-autoscaler"
+  test_repository   = var.test_repository
 }
 
 module "vt" {
   source            = "./images/vt"
   target_repository = "${var.target_repository}/vt"
+  test_repository   = var.test_repository
 }
 
 module "wait-for-it" {
   source            = "./images/wait-for-it"
   target_repository = "${var.target_repository}/wait-for-it"
+  test_repository   = var.test_repository
 }
 
 module "wasmer" {
   source            = "./images/wasmer"
   target_repository = "${var.target_repository}/wasmer"
+  test_repository   = var.test_repository
 }
 
 module "wasmtime" {
   source            = "./images/wasmtime"
   target_repository = "${var.target_repository}/wasmtime"
+  test_repository   = var.test_repository
 }
 
 module "wave" {
   source            = "./images/wave"
   target_repository = "${var.target_repository}/wave"
+  test_repository   = var.test_repository
 }
 
 module "wavefront-proxy" {
   source            = "./images/wavefront-proxy"
   target_repository = "${var.target_repository}/wavefront-proxy"
+  test_repository   = var.test_repository
 }
 
 module "wazero" {
   source            = "./images/wazero"
   target_repository = "${var.target_repository}/wazero"
+  test_repository   = var.test_repository
 }
 
 module "weaviate" {
   source            = "./images/weaviate"
   target_repository = "${var.target_repository}/weaviate"
+  test_repository   = var.test_repository
 }
 
 module "wolfi-base" {
   source            = "./images/wolfi-base"
   target_repository = "${var.target_repository}/wolfi-base"
+  test_repository   = var.test_repository
 }
 
 module "wordpress" {
   source            = "./images/wordpress"
   target_repository = "${var.target_repository}/wordpress"
+  test_repository   = var.test_repository
 }
 
 module "yara" {
   source            = "./images/yara"
   target_repository = "${var.target_repository}/yara"
+  test_repository   = var.test_repository
 }
 
 module "zig" {
   source            = "./images/zig"
   target_repository = "${var.target_repository}/zig"
+  test_repository   = var.test_repository
 }
 
 module "zookeeper" {
   source            = "./images/zookeeper"
   target_repository = "${var.target_repository}/zookeeper"
+  test_repository   = var.test_repository
 }
 
 module "zot" {
   source            = "./images/zot"
   target_repository = "${var.target_repository}/zot"
+  test_repository   = var.test_repository
 }
 
 output "summary_airflow" {
