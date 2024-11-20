@@ -30,6 +30,7 @@ module "versioned" {
   for_each          = module.versions.versions
   main_package      = replace(each.value.main, "gitlab-cng", "gitlab-exporter")
   name              = basename(path.module)
+  origin_package    = each.value.main
   source            = "../../tflib/publisher"
   target_repository = var.target_repository
   update-repo       = each.value.is_latest
