@@ -1,0 +1,41 @@
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        type: boolean
+        default: 'true'
+        description: If true, just log
+
+permissions:
+  contents: read
+
+jobs:
+  reinstate:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: step-security/harden-runner@91182cccc01eb5e619899d80e4e971d6181294a7 # v2.10.1
+        with:
+          egress-policy: audit
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
+      - uses: chainguard-dev/setup-chainctl@598499528905f95b94e62e4831cf42035e768933 # v0.2.3
+        with:
+          identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
+      - uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
+      - name: Reinstate images
+        env:
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+        run: |
+          set -x
+          for img in $(grep -v '\#' reinstated-images.txt); do
+            tag_ref="$(echo $img | cut -d@ -f1)"
+            digest_ref="$(echo $img | sed 's/:[^@]*@/@/')"
+            # Note: if "crane digest" passes, do not attempt to retag it
+            if [[ "$DRY_RUN" == "false" ]]; then
+              crane digest "$tag_ref" || crane tag "$digest_ref" "$tag_ref" || true
+            else
+              echo "DRY RUN: crane digest "$tag_ref" || crane tag "$digest_ref" "$tag_ref" || true"
+            fi
+          done

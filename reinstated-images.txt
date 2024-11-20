@@ -1,0 +1,3 @@
+# These 2 are just for testing
+cgr.dev/chainguard/curl:test1@sha256:8bf944b98bdef5ab6b4ef4bd6992d6a5ad5c008b51c119a78ffc385273a36eec
+cgr.dev/chainguard/curl:test1-dev@sha256:98e4086d13835d7355e6c833472deed831e118becfd65fb806f951f2900efa4c
