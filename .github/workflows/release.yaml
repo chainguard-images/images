@@ -6,6 +6,7 @@ on:
       - README.md
       - withdrawn-images.txt
       - withdrawn-repos.txt
+      - reinstated-images.txt
   schedule:
     - cron: "0 0 * * *"
   workflow_dispatch:
