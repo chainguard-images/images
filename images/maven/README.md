@@ -15,7 +15,7 @@
 <!--overview:start-->
 # Chainguard Image for maven
 
-Minimal image with Maven build system.
+Minimal image with the Maven build system.
 
 Chainguard Images are regularly-updated, minimal container images with low-to-zero CVEs.
 <!--overview:end-->
@@ -32,133 +32,130 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Using Maven
+## Compatibility Notes
 
-Chainguard Maven images come with different versions of OpenJDK, ensure you choose the correct image tag for your application needs.  In these examples we will use a Chainguard Maven image based on OpenJDK 17.
+The Maven Chainguard image was built to work as a drop-in replacement for the official [Maven image on Docker Hub](https://hub.docker.com/_/maven). Like most of Chainguard's images, the Maven image does not operate as the root user and includes only the minimum packages needed to function.
 
-Check the maven version
-```
-docker run --rm --platform=linux/amd64 cgr.dev/chainguard/maven:openjdk-17 --version
-```
+Chainguard Maven images come with different versions of OpenJDK. This means you will need to ensure that you choose the correct image tag for your application needs.
 
-### Examples
+## Getting Started
 
-#### SpringBoot
+To illustrate how you can use Chainguard's Maven image, you will need a Java application for the Maven image to build. This overview will use a Spring Boot example application found in [this GitHub repository](https://github.com/chainguard-dev/learning-labs-java).
 
-Visit https://start.spring.io
+Clone the repository to your local machine and navigate into the project directory:
 
-Select the following options:
-
-1. __Project__: select `Maven Project`
-2. __Spring Boot__: latest GA version, e.g. `2.7.5`
-3. __Project Metadata__: populate your application details
-4. __Packaging__: select your packaging. For this demo, we'll use `jar`
-5. __Java__: select Java version, e.g. `17` that matches the OpenJDK image version we are building with
-6. __Dependencies__: choose your dependencies, e.g. `Spring Web`
-7. __Generate__: Hit that generate button!
-
-![Spring Initializr](docs/png/spring_initializr.png)
-
-
-Go to your downloaded zip file, unzip
-```sh
-mkdir ~/chainguard-sb
-cd chainguard-sb
-mv ~/Downloads/demo.zip .
-unzip demo.zip
-cd demo
+```shell
+git clone https://github.com/chainguard-dev/learning-labs-java.git
+cd learning-labs-java/
 ```
 
-You now have your generated Spring Boot application souce code.  Now let's build it.
+The example's Dockerfile uses the default Maven image from Docker Hub. Overwrite this file with the following command to instead use the Chainguard Maven Image: 
 
-```sh
-docker run --platform=linux/amd64 --rm -v ${PWD}:/home/build cgr.dev/chainguard/maven:openjdk-17 clean install
-```
+```shell
+cat > Dockerfile <<EOF
+FROM cgr.dev/chainguard/maven
 
-Check to see your compiled `jar` file
-```sh
-find target -name "*.jar"
-```
-You should see...
-```
-target/demo-0.0.1-SNAPSHOT.jar
-```
+WORKDIR /work
 
-Let's run the application using the Chainguard OpenJDK JRE image.  _Note_ there's a few things happening here and this is just for test purposes, see section below for more real world scenarios.
+COPY src/ src/
+COPY pom.xml pom.xml
 
-Choose the Chainguard OpenJDK JRE image tag that matches your application's Java version selected when generating your Spring Boot application above.
+RUN mvn clean package
+RUN REPOSITORY=$(mvn help:evaluate -Dexpression=settings.localRepository -q -DforceStdout) && rm -rf ${REPOSITORY}
 
-```
-docker run --platform=linux/amd64 --rm -p 8080:8080 -v ${PWD}/target:/app/ cgr.dev/chainguard/jre:openjdk-17 -jar /app/demo-0.0.1-SNAPSHOT.jar
-```
+WORKDIR /app
 
-Now visit the Spring Boot Application in your browser using the same port mapped in the docker command above.
+RUN cp /work/target/java-demo-app-1.0.0.jar .
 
-e.g http://localhost:8080/
-
-![Spring Whitelabel](docs/png/spring_whitelabel.png)
-
-Note this is the expected Spring Whitelabel error page.
-
-
-#### Multistage Dockerfile
-
-The steps above are useful to test Chainguard images however, we can now create a multistage Dockerfile that will build a smaller image to run our demo application.
-
-First create a `.dockerignore` file so we don't copy the generated maven `./target` folder from the steps above into the multistage docker build.  This helps avoid any permission errors during the build.
-
-```sh
-cat <<EOF >>.dockerignore
-target/
+ENTRYPOINT ["java", "-jar", "java-demo-app-1.0.0.jar"]
 EOF
 ```
 
-Next create the multistage `Dockerfile`
+Then build an image using this Dockerfile with the following command:
 
-```dockerfile
-cat <<EOF >>Dockerfile
-FROM cgr.dev/chainguard/maven:openjdk-17
+```shell
+docker build -t maven-app .
+```
 
-WORKDIR /home/build
+This command tags the image as `maven-app`. Run this image:
 
-COPY . ./
+```shell
+docker run --rm -p 8080:8080 maven-app
+```
 
-RUN mvn install
+The app should now be running and you can interact with it by accessing it at [`localhost:8080/hello`](http://localhost:8080/hello), either in your browser or with `curl`, as in the following example:
 
-FROM cgr.dev/chainguard/jre:openjdk-17
+```shell
+curl localhost:8080/hello
+```
+```
+Hello, World! I love Chainguard!
+```
 
-COPY --from=0 /home/build/target/demo-*.jar /app/demo.jar
+This shows that the application is working as expected. You can stop the container by pressing `CTRL + C` in the terminal where it's running.
 
-CMD ["-jar", "/app/demo.jar"]
+
+### Using Chainguard's Maven image in a multi-stage build
+‍
+The image built in the previous example still includes build tooling and source code that aren't needed in the production image. Using a multi-stage build can reduce the number of dependencies.
+
+To try this out, create a new Dockerfile named `Dockerfile.multi-stage`:
+
+```shell
+cat > Dockerfile.multi-stage <<EOF
+FROM cgr.dev/chainguard/maven AS builder
+
+WORKDIR /work
+
+COPY src/ src/
+COPY pom.xml pom.xml
+
+RUN mvn clean package
+RUN REPOSITORY=$(mvn help:evaluate -Dexpression=settings.localRepository -q -DforceStdout) && rm -rf ${REPOSITORY}
+
+FROM cgr.dev/chainguard/jre AS runner
+
+WORKDIR /app
+
+COPY --from=builder /work/target/java-demo-app-1.0.0.jar .
+
+ENTRYPOINT ["java", "-jar", "java-demo-app-1.0.0.jar"]
 EOF
 ```
 
-Build your application image
-```sh
-docker build --platform=linux/amd64 -t my-chainguard-springboot-app .
+Note that there are two `FROM` lines, the first one creates the `builder` image much as before and the second (named `runner`) copies the built JAR from the builder step into the smaller `cgr.dev/chainguard/jre` image. The result is a container image that only contains the JRE and the built application.
+
+Using this multi-stage Dockerfile, build a new image:
+
+```shell
+docker build -f Dockerfile.multi-stage -t maven-app-multi-stage .
 ```
 
-Now run your application
-```sh
-docker run --platform=linux/amd64 --rm -p 8080:8080 my-chainguard-springboot-app
-```
-Again visit the Spring Boot Whitelabel page in your browser
+This command tags the image as `maven-app-multi-stage`. Run this image:
 
-e.g. http://localhost:8080/
-
-![Spring Whitelabel](docs/png/spring_whitelabel.png)
-
-### What's inside?
-
-Now let's take a closer look at your newly built image.
-
-Check the size of your image, as this is based on Chainguard images it will only contain the Linux packages required to run your application.  The reduces the number of packages that can be affected by CVEs.
-
-```sh
-docker images | grep my-chainguard-springboot-app
+```shell
+docker run --rm -p 8080:8080 maven-app-multi-stage
 ```
 
-You can also check for vulnerabilities using your favorite scanner.
+Again, the application will be accessible at [localhost:8080/hello](http://localhost:8080/hello):
+
+```shell
+curl localhost:8080/hello
+```
+```
+Hello, World! I love Chainguard!
+```
+
+Once again, press `CTRL + C` to stop the running container.
+
+## Documentation and Resources
+
+* [Learning Lab: Chainguard's Java Container Image](https://www.youtube.com/watch?v=8v8xlFnRHfs)
+* [Chainguard Blog: Building minimal and low CVE images for Java](https://www.chainguard.dev/unchained/building-minimal-and-low-cve-images-for-java)
+* [Video: Building Minimal Images for Applications with Runtimes](https://edu.chainguard.dev/chainguard/chainguard-images/videos/minimal-runtime-images/)
+* [Video: How to Migrate a Java Application to Chainguard Images](https://edu.chainguard.dev/chainguard/chainguard-images/videos/java-images/)
+* [Vulnerability Comparison: maven](https://edu.chainguard.dev/chainguard/chainguard-images/vuln-comparison/maven/)
+* [Apache Maven Project Site](https://maven.apache.org/)
 <!--body:end-->
 
 ## Contact Support
