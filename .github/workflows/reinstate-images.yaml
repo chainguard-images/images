@@ -31,11 +31,12 @@ jobs:
           set -x
           for img in $(grep -v '\#' reinstated-images.txt); do
             tag_ref="$(echo $img | cut -d@ -f1)"
+            tag="$(echo $tag_ref | cut -d: -f2)"
             digest_ref="$(echo $img | sed 's/:[^@]*@/@/')"
             # Note: if "crane digest" passes, do not attempt to retag it
             if [[ "$DRY_RUN" == "false" ]]; then
-              crane digest "$tag_ref" || crane tag "$digest_ref" "$tag_ref" || true
+              crane digest "$tag_ref" || crane tag "$digest_ref" "$tag" || true
             else
-              echo "DRY RUN: crane digest "$tag_ref" || crane tag "$digest_ref" "$tag_ref" || true"
+              echo "DRY RUN: crane digest "$tag_ref" || crane tag "$digest_ref" "$tag" || true"
             fi
           done
