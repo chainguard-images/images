@@ -5,3 +5,4 @@
 #
 
 cgr.dev/chainguard/opentelemetry-collector-contrib:latest@sha256:6c1e188e3c77c0e842401c0a88ef32c30c7a6895ef212fe614f714109006f0cf
+cgr.dev/chainguard/chromium:latest@sha256:81f4ed957ad24aeaec1b77eda4c35c6755e9b7c5c57b92b1528ee8077168fd1a
