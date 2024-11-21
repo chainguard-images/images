@@ -99,7 +99,7 @@ module "this" {
   extra_packages    = var.extra_packages
 
   check_sbom = var.check-sbom
-  spdx_image = "cgr.dev/chainguard/spdx-tools:latest@sha256:cc4c0272f70ea9e8083c360787793fc7f847917942b49e80ed90d03199df0a55"
+  spdx_image = "ghcr.io/wolfi-dev/spdx-tools:latest@sha256:884a57d646f24c7ac09f90b9049234e9d5a1e36ef8811676138d0f38dc3a23d6"
 }
 
 module "this-dev" {
@@ -121,7 +121,7 @@ module "this-dev" {
   ], var.extra_dev_packages)
 
   check_sbom = var.check-sbom
-  spdx_image = "cgr.dev/chainguard/spdx-tools:latest@sha256:cc4c0272f70ea9e8083c360787793fc7f847917942b49e80ed90d03199df0a55"
+  spdx_image = "ghcr.io/wolfi-dev/spdx-tools:latest@sha256:884a57d646f24c7ac09f90b9049234e9d5a1e36ef8811676138d0f38dc3a23d6"
 }
 
 data "oci_exec_test" "check-reproducibility" {
