@@ -1,9 +1,0 @@
-name: smoketest
-runtime:
-  name: python
-  options:
-    virtualenv: venv
-description: Python smoketest
-config:
-  name: '{{.name | default "smoketest"}}'
-  image: 'cgr.dev/chainguard/nginx:latest'

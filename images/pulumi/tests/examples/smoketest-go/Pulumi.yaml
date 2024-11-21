@@ -1,7 +1,0 @@
-name: smoketest
-runtime:
-  name: go
-description: Go smoketest
-config:
-  name: '{{.name | default "smoketest"}}'
-  image: 'cgr.dev/chainguard/nginx:latest'

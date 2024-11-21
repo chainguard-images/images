@@ -1,8 +1,0 @@
-{
-    "name": "smoketest-nodejs",
-    "main": "index.js",
-    "dependencies": {
-        "@pulumi/pulumi": "^3.66.0",
-        "@pulumi/kubernetes": "^3.26.0"
-    }
-}

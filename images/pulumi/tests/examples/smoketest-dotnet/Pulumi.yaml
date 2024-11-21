@@ -1,6 +1,0 @@
-name: smoketest
-runtime: dotnet
-description: Dotnet smoketest
-config:
-  name: '{{.name | default "smoketest"}}'
-  image: 'cgr.dev/chainguard/nginx:latest'

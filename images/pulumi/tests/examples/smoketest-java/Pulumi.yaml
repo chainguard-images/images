@@ -1,7 +1,0 @@
-name: smoketest
-runtime:
-  name: java
-description: Java smoketest
-config:
-  name: '{{.name | default "smoketest"}}'
-  image: 'cgr.dev/chainguard/nginx:latest'

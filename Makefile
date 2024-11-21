@@ -3,7 +3,7 @@ TERRAFORM ?= $(shell command -v terraform)
 
 # These images either do something with Alpine,
 # or are somehow incompatible with tfgen (still using tagger etc.)
-TFGEN_SKIP ?= busybox,calico,git,graalvm-native,harbor,k3s,kubeflow,kubeflow-katib,maven,powershell,prometheus,static,terraform
+TFGEN_SKIP ?= busybox,git,harbor,k3s,maven,static
 
 # These are the tfgen generators applied to this repo (in order)
 TFGEN_GENERATORS ?= Image01Variables,Image02Outputs,Toplevel01Modules,Toplevel02Outputs
