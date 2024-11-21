@@ -1186,3 +1186,7 @@ cgr.dev/chainguard/jitsucom-bulker-bulker
 cgr.dev/chainguard/jitsucom-bulker-ingest
 cgr.dev/chainguard/jitsucom-bulker-syncctl
 cgr.dev/chainguard/kaniko:test
+
+# Added for CI testing purposes
+cgr.dev/chainguard/curl:test1
+cgr.dev/chainguard/curl:test1-dev

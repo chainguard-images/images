@@ -51,6 +51,12 @@ variable "main_package" {
   description = "If set, this determines which package in the image will be used to generate version tags."
 }
 
+variable "origin_package" {
+  type        = string
+  description = "This determines which is the origin package in the image when it differs from the main package. e.g. kubectl origin package is kubernetes."
+  default     = ""
+}
+
 // Note: unused
 variable "eol" {
   type        = bool
@@ -78,6 +84,7 @@ locals {
       "org.opencontainers.image.url" : "https://images.chainguard.dev/directory/image/${var.name}/overview",
       "org.opencontainers.image.source" : "https://github.com/chainguard-images/images/tree/main/images/${var.name}",
       "org.opencontainers.image.vendor" : "Chainguard",
+      "dev.chainguard.package.main" : (var.origin_package == "" ? var.main_package : var.origin_package),
       },
     },
   )

@@ -6,8 +6,8 @@ To begin testing Chainguard's NiFi image, run it via Docker:
 docker run \
   -it --rm \
   -p <YOUR PORT>:<YOUR PORT> \
-  -e NIFI_WEB_HTTP_HOST="0.0.0.0" \
-  -e NIFI_WEB_HTTP_PORT="<YOUR PORT>" \
+  -e NIFI_WEB_HTTPS_HOST="0.0.0.0" \
+  -e NIFI_WEB_HTTPS_PORT="<YOUR PORT>" \
   -e SINGLE_USER_CREDENTIALS_USERNAME="<YOUR USERNAME>" \
   -e SINGLE_USER_CREDENTIALS_PASSWORD="<YOUR PASSWORD>" \
   --name <CONTAINER NAME> \
@@ -22,7 +22,7 @@ NiFi will take a moment to start up. Once it has successfully started, you'll se
 NiFi has started. The UI is available at the following URLs
 ```
 
-At this point, you can access the Web UI at `localhost:<YOUR PORT>`.
+At this point, you can access the Web UI at `https://localhost:<YOUR PORT>`.
 
 You will be greeted with a blank canvas, called a process group.
 
@@ -30,10 +30,34 @@ You will be greeted with a blank canvas, called a process group.
 
 NiFi provides various API endpoints that we can use. For the purposes of this test, we'll create a processor and validate it was created successfully.
 
+Nifi serves over https by default with a self-signed certificate. To make requests to the API, you'll need to include the `--insecure` flag in your curl requests.
+
+In production environments, you can use a non self-signed certificate or use a reverse proxy.
+
 The first thing we'll do is acquire info about the root process group (the first canvas you see when accessing NiFi's Web UI):
 
+Before you can make requests to the API, you'll need to generate a token. You can do this by sending a POST request to the following endpoint:
+
+The username and password below can be found in the Docker logs:
+
+Retrieve the username and password from startup logs:
+
 ```bash
-curl -s -X GET "http://localhost:<YOUR PORT>/nifi-api/flow/process-groups/root"
+docker logs nifi | grep Generated
+```
+
+Generate a token:
+```bash
+ACCESS_TOKEN=$(curl --silent --insecure --request POST \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "username=${USERNAME}&password=${PASSWD}" \
+  "https://localhost:${NIFI_PORT}/nifi-api/access/token")
+```
+
+Query the root process group:
+
+```bash
+curl --silent --insecure --request GET --header "Authorization: Bearer ${ACCESS_TOKEN}" "https://localhost:<YOUR PORT>/nifi-api/flow/process-groups/root"
 ```
 
 Take note of the ID. It will look like this:
@@ -47,9 +71,10 @@ We'll need this for a creating a processor within the root process group.
 Now that we have the ID of the root process group, we can create a processor:
 
 ```bash
-curl -s -X POST "http://localhost:<YOUR PORT>/nifi-api/process-groups/<ROOT PROCESS GROUP ID>/processors" \
-        -H "Content-Type: application/json" \
-        -d '{
+curl --silent --insecure --request POST --header "Authorization: Bearer ${ACCESS_TOKEN}" \
+        "https://localhost:<YOUR PORT>/nifi-api/process-groups/<ROOT PROCESS GROUP ID>/processors" \
+        --header "Content-Type: application/json" \
+        --data '{
                 "revision": {
                     "clientId": "test-client",
                     "version": 0
@@ -65,12 +90,12 @@ curl -s -X POST "http://localhost:<YOUR PORT>/nifi-api/process-groups/<ROOT PROC
 To validate the processor was successfully created, we can retrieve the processor details:
 
 ```bash
-curl -s -X GET "http://localhost:<YOUR PORT>/nifi-api/processors/<PROCESSOR ID>"
+curl --silent --insecure --request GET --header "Authorization: Bearer ${ACCESS_TOKEN}"  "http://localhost:<YOUR PORT>/nifi-api/processors/<PROCESSOR ID>"
 ```
 
 The processor's component name should be set to `GenerateFlowFile`.
 
-Alternatively, you may access the Web UI over `localhost:<YOUR PORT>`. The processor will be viewable on the canvas.
+Alternatively, you may access the Web UI over `https://localhost:<YOUR PORT>`. The processor will be viewable on the canvas.
 
 For more info on NiFi's API, see the [upstream API documentation](https://nifi.apache.org/docs/nifi-docs/rest-api/index.html).
 

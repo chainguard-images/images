@@ -33,7 +33,7 @@ output "config" {
     accounts = module.accts.block
     environment = merge({
       "LANG" : "en_US.UTF-8",
-      "JAVA_HOME" : "/usr/lib/jvm/java-11-openjdk"
+      "JAVA_HOME" : "/usr/lib/jvm/java-21-openjdk"
       "LANGUAGE" : "en_US:en"
       "LC_ALL" : "en_US.UTF-8"
       "NIFI_BASE_DIR" : "/usr/share/nifi"

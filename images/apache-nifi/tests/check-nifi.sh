@@ -11,11 +11,12 @@ PASSWD="ctsBtRBKHRAx69EqUghvvgEvjnaLjFEB"
 
 # Logs
 declare -a expected_logs=(
-  "Starting Apache NiFi"
+  "org.apache.nifi.runtime.Application Starting NiFi"
   "NiFi running with PID"
-  "Launched Apache NiFi with Process ID"
-  "NiFi has started"
-  "The UI is available at the following URLs"
+  "org.apache.nifi.py4j.Controller Listening for requests from Java side using Python Port"
+  "org.apache.nifi.web.server.JettyServer Started Server on"
+  "o.a.n.runtime.StandardManagementServer Started Management Server on"
+  "org.apache.nifi.runtime.Application Started Application"
 )
 declare -a missing_logs=()
 
@@ -23,8 +24,8 @@ declare -a missing_logs=()
 docker run \
   -d --rm \
   -p "${NIFI_PORT}":"${NIFI_PORT}" \
-  -e NIFI_WEB_HTTP_HOST="0.0.0.0" \
-  -e NIFI_WEB_HTTP_PORT="${NIFI_PORT}" \
+  -e NIFI_WEB_HTTPS_HOST="0.0.0.0" \
+  -e NIFI_WEB_HTTPS_PORT="${NIFI_PORT}" \
   -e SINGLE_USER_CREDENTIALS_USERNAME="${USERNAME}" \
   -e SINGLE_USER_CREDENTIALS_PASSWORD="${PASSWD}" \
   --name "${CONTAINER_NAME}" \
@@ -72,10 +73,10 @@ TEST_validate_container_logs() {
 TEST_http_response() {
   # Retries
   local request_retries=15
-  local retry_delay=5
+  local retry_delay=10
 
   for ((i=1; i<=${request_retries}; i++)); do
-    if [[ $(curl -sLo /dev/null -w "%{http_code}" "http://localhost:${NIFI_PORT}/nifi") -eq 200 ]]; then
+    if [[ $(curl --insecure --silent --location --output /dev/null -w "%{http_code}" "https://localhost:${NIFI_PORT}/nifi") -eq 200 ]]; then
       return 0
     fi
     sleep ${retry_delay}
@@ -87,22 +88,30 @@ TEST_http_response() {
 
 # Tests API by creating a processor in the root process group
 TEST_create_processor() {
-  apk add jq
+  # apk add jq
+  # Get API access token
+  local access_token=$(curl --silent --insecure --request POST \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "username=${USERNAME}&password=${PASSWD}" \
+  "https://localhost:${NIFI_PORT}/nifi-api/access/token")
 
   # Fetch root process group
-  local pg=$(curl -s -X GET "http://localhost:${NIFI_PORT}/nifi-api/flow/process-groups/root")
+  local pg=$(curl --insecure --silent --request GET --header "Authorization: Bearer ${access_token}" \
+            "https://localhost:${NIFI_PORT}/nifi-api/flow/process-groups/root")
   printf "Root process group:\n${pg}"
 
   # Extract root process group ID
-  local pg_id=$(echo "${pg}" | jq -r '.processGroupFlow.id')
+  local pg_id=$(echo "${pg}" | jq --raw-output '.processGroupFlow.id')
   echo "Root process group ID: ${pg_id}"
 
   # Create a processor
   local create_processor=$(\
-    curl -s -w "%{http_code}" \
-       -X POST "http://localhost:${NIFI_PORT}/nifi-api/process-groups/${pg_id}/processors" \
-       -H "Content-Type: application/json" \
-       -d '{
+    curl --insecure --silent --write-out "%{http_code}" \
+       --request POST \
+       --header "Authorization: Bearer ${access_token}" \
+       "https://localhost:${NIFI_PORT}/nifi-api/process-groups/${pg_id}/processors" \
+       --header "Content-Type: application/json" \
+       --data '{
             "revision": {
               "clientId": "test-client",
               "version": 0
@@ -125,15 +134,17 @@ TEST_create_processor() {
 
   # Fetch processor ID
   local processor=$(echo "${create_processor}" | sed "s/${http_code}//")
-  local processor_id=$(echo "${processor}" | jq -r '.component.id')
+  local processor_id=$(echo "${processor}" | jq --raw-output '.component.id')
   echo "Processor ID: ${processor_id}"
 
   # Fetch processor info
-  local processor_info=$(curl -s -X GET "http://localhost:${NIFI_PORT}/nifi-api/processors/${processor_id}")
+  local processor_info=$(curl --insecure --silent --request GET --header "Authorization: Bearer ${access_token}" "https://localhost:${NIFI_PORT}/nifi-api/processors/${processor_id}")
   printf "Processor info:\n${processor_info}"
 }
 
 # Run tests
 TEST_http_response
+# Sleep 5 seconds to ensure that all services start. In my testing this is more than enough time.
+sleep 5
 TEST_validate_container_logs
 TEST_create_processor

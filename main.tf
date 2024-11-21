@@ -97,6 +97,11 @@ module "calico" {
   target_repository = "${var.target_repository}/calico"
 }
 
+module "gomplate" {
+  source            = "./images/gomplate"
+  target_repository = "${var.target_repository}/gomplate"
+}
+
 module "git" {
   source            = "./images/git"
   target_repository = "${var.target_repository}/git"
