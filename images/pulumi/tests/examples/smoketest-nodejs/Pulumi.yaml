@@ -1,9 +1,0 @@
-name: smoketest
-runtime:
-  name: nodejs
-  options:
-    typescript: false
-description: Noejs smoketest
-config:
-  name: '{{.name | default "smoketest"}}'
-  image: 'cgr.dev/chainguard/nginx:latest'

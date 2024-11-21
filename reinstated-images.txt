@@ -1,0 +1,5 @@
+# Each line should be in the form $repo:$tag@$digest
+# Note: If tag already exists, it will NOT be retagged and must be first deleted by adding to withdrawn-images.txt
+# Example - add "test1" tag to curl repo pointing to sha257:8bf944...:
+# cgr.dev/chainguard/curl:test1@sha256:8bf944b98bdef5ab6b4ef4bd6992d6a5ad5c008b51c119a78ffc385273a36eec
+#

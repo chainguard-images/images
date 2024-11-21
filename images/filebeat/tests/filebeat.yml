@@ -1,9 +1,0 @@
-filebeat.inputs:
-- type: log
-  paths:
-    - /var/log/messages
-    - /var/log/*.log
-    - /tmp/*.log
-output.file:
-  path: "/tmp/"
-  filename: foobar

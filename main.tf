@@ -92,24 +92,9 @@ module "busybox" {
   target_repository = "${var.target_repository}/busybox"
 }
 
-module "calico" {
-  source            = "./images/calico"
-  target_repository = "${var.target_repository}/calico"
-}
-
 module "git" {
   source            = "./images/git"
   target_repository = "${var.target_repository}/git"
-}
-
-module "graalvm-native" {
-  source            = "./images/graalvm-native"
-  target_repository = "${var.target_repository}/graalvm-native"
-}
-
-module "harbor" {
-  source            = "./images/harbor"
-  target_repository = "${var.target_repository}/harbor"
 }
 
 module "k3s" {
@@ -117,37 +102,12 @@ module "k3s" {
   target_repository = "${var.target_repository}/k3s"
 }
 
-module "kubeflow" {
-  source            = "./images/kubeflow"
-  target_repository = "${var.target_repository}/kubeflow"
-}
-
-module "kubeflow-katib" {
-  source            = "./images/kubeflow-katib"
-  target_repository = "${var.target_repository}/kubeflow-katib"
-}
-
 module "maven" {
   source            = "./images/maven"
   target_repository = "${var.target_repository}/maven"
 }
 
-module "powershell" {
-  source            = "./images/powershell"
-  target_repository = "${var.target_repository}/powershell"
-}
-
-module "prometheus" {
-  source            = "./images/prometheus"
-  target_repository = "${var.target_repository}/prometheus"
-}
-
 module "static" {
   source            = "./images/static"
   target_repository = "${var.target_repository}/static"
-}
-
-module "terraform" {
-  source            = "./images/terraform"
-  target_repository = "${var.target_repository}/terraform"
 }
