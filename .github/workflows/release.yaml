@@ -20,7 +20,7 @@ on:
 concurrency: release
 
 env:
-  TOTAL_SHARDS: 12
+  TOTAL_SHARDS: 2
   TF_VAR_target_repository: cgr.dev/chainguard
 
 permissions:
