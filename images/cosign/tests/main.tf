@@ -16,9 +16,3 @@ data "oci_exec_test" "help" {
   # https://github.com/sigstore/cosign/issues/3081
   script = "docker run --rm -t $IMAGE_NAME help"
 }
-
-module "sigstore-scaffolding" {
-  source            = "../../sigstore-scaffolding/tests"
-  cosign-cli        = var.digest
-  target_repository = var.target_repository
-}

@@ -20,7 +20,7 @@ on:
 concurrency: release
 
 env:
-  TOTAL_SHARDS: 12
+  TOTAL_SHARDS: 40
   TF_VAR_target_repository: cgr.dev/chainguard
 
 permissions:
@@ -40,7 +40,7 @@ jobs:
         name: Shard
         shell: bash # bash math foo required
         run: |
-          images=($(find ./images -maxdepth 1 -type d -not -path "./images/TEMPLATE" | awk -F'/' '{print $3}' | sort -u))
+          images=($(find ./images -maxdepth 1 -type d -not -path "./images/TEMPLATE" | awk -F'/' '{print $3}' | sort -u | shuf))
 
           # n buckets to shard into
           n=${{ env.TOTAL_SHARDS }}
@@ -72,7 +72,7 @@ jobs:
       matrix: "${{steps.shard.outputs.matrix}}"
 
   build:
-    runs-on: ubuntu-latest-32-cores
+    runs-on: ubuntu-latest
     needs: shard
     strategy:
       fail-fast: false
