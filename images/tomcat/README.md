@@ -32,43 +32,37 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Usage
+## Compatibility Notes
 
-To run the `tomcat` program:
+The Chainguard Apache Tomcat image is meant to serve as a drop-in replacement for the official Tomcat image.
+
+Like most of Chainguard's images, this image does not operate as the root user and includes only the minimum packages needed to function.
+
+## Getting Started
+
+To start up the `tomcat` server:
 
 ```shell
-% docker run cgr.dev/chainguard/tomcat:latest
-02-Oct-2023 19:08:45.331 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/10.1.13
-02-Oct-2023 19:08:45.333 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Sep 20 2023 18:44:35 UTC
-02-Oct-2023 19:08:45.333 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 10.1.13.0
-02-Oct-2023 19:08:45.333 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Linux
-02-Oct-2023 19:08:45.333 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            6.3.13-linuxkit
-02-Oct-2023 19:08:45.333 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          aarch64
-02-Oct-2023 19:08:45.333 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             /usr/lib/jvm/java-17-openjdk
-02-Oct-2023 19:08:45.333 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           17.0.9+7-wolfi-r0
-02-Oct-2023 19:08:45.333 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            wolfi
-02-Oct-2023 19:08:45.333 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         /usr/share/tomcat
-02-Oct-2023 19:08:45.333 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         /usr/share/tomcat
-02-Oct-2023 19:08:45.337 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=/usr/local/tomcat/conf/logging.properties
-02-Oct-2023 19:08:45.337 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
-02-Oct-2023 19:08:45.337 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
-02-Oct-2023 19:08:45.337 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
-02-Oct-2023 19:08:45.337 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dorg.apache.catalina.security.SecurityListener.UMASK=0027
-02-Oct-2023 19:08:45.337 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED
-02-Oct-2023 19:08:45.338 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED
-02-Oct-2023 19:08:45.338 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED
-02-Oct-2023 19:08:45.338 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
-02-Oct-2023 19:08:45.338 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
-02-Oct-2023 19:08:45.338 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=/usr/local/tomcat
-02-Oct-2023 19:08:45.338 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=/usr/local/tomcat
-02-Oct-2023 19:08:45.338 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=/usr/local/tomcat/temp
-02-Oct-2023 19:08:45.339 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The Apache Tomcat Native library which allows using OpenSSL was not found on the java.library.path: [/usr/lib:/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib]
-02-Oct-2023 19:08:45.461 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
-02-Oct-2023 19:08:45.473 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [223] milliseconds
-02-Oct-2023 19:08:45.496 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
-02-Oct-2023 19:08:45.496 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/10.1.13]
-02-Oct-2023 19:08:45.501 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
-02-Oct-2023 19:08:45.508 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [35] milliseconds
+docker run cgr.dev/chainguard/tomcat:latest
+```
+
+This shows you the Apache Tomcat log output as the server boots, so you can check for any errors and confirm that Tomcat is running.
+
+If you are running this container on your local machine for testing, you can modify the original `docker run` by forwarding requests to a port on your host machine to one of the container's ports. This enables you to connect to the Tomcat server using your host computer's browser:
+
+```shell
+docker run -p 8080:8080 cgr.dev/chainguard/tomcat:latest
+```
+
+This again shows the Apache Tomcat log output as the server boots.
+
+Now browse to `http://localhost:8080` to see an Apache Tomcat 404 error page. Tomcat will return a 404 error because, by default, Tomcat ships with an empty `webapps` directory. Regardless, what you will see is a confirmation that the Tomcat server is running.
+
+
+## Documentation and Resources
+
+You can find the official Tomcat documentation on [the Apache Tomcat website](https://tomcat.apache.org/).
+
 <!--body:end-->
 
 ## Contact Support

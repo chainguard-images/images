@@ -75,7 +75,7 @@ output "config" {
 output "config-dev" {
   value = jsonencode({
     contents = {
-      packages = concat(var.base_packages, var.dev_packages)
+      packages = concat([for p in var.base_packages : replace(p, "php", var.php_version)], var.dev_packages)
     }
     accounts   = module.accts.block
     entrypoint = { command = "/usr/local/bin/docker-entrypoint.sh php-fpm" }

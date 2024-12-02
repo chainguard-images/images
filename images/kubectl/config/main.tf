@@ -8,7 +8,7 @@ variable "entrypoint" {
 }
 
 variable "command" {
-  default     = "/usr/bin/kubectl"
+  default     = "--help"
   description = "Image command"
 }
 
