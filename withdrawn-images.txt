@@ -1,7 +1,0 @@
-# Withdrawing these so we can reinstate it and sync them to Docker Hub
-cgr.dev/chainguard/opentelemetry-collector-contrib:latest
-cgr.dev/chainguard/chromium:latest
-cgr.dev/chainguard/configmap-reload:latest
-cgr.dev/chainguard/kubernetes-ingress-defaultbackend:latest
-cgr.dev/chainguard/az:latest-dev
-cgr.dev/chainguard/min-toolkit-debug:latest
