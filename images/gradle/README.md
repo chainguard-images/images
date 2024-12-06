@@ -15,7 +15,7 @@
 <!--overview:start-->
 # Chainguard Image for gradle
 
-Minimal image with [Gradle](https://gradle.org/) build system.
+Chainguard Image with [Gradle](https://gradle.org/), an open source build system for Java, Android, and Kotlin.
 
 Chainguard Images are regularly-updated, minimal container images with low-to-zero CVEs.
 <!--overview:end-->
@@ -32,37 +32,68 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Using gradle
+## Compatibility Notes
 
-Chainguard gradle images come with different versions of OpenJDK, ensure you choose the correct image tag for your application needs.  In these examples we will use a Chainguard gradle image based on OpenJDK 11.
+Chainguard's Gradle image is comparable to the [official Gradle image on Docker Hub](https://hub.docker.com/_/gradle). Like most other Chainguard images, the Gradle image has few-to-zero CVEs and does not run as the root user. Additionally, the Chainguard Gradle image's default entrypoint is `/usr/bin/gradle`. 
 
-__NOTE__: if you are running Docker on Mac M1 you may experience intermittent container high CPU and container / JVM crashes.  There have been [reports](https://github.com/metanorma/metanorma-docker/issues/126) of this behaviour and also affects non Chainguard images.  It is expected that using `arm` based images will address the problem which is in development for Chainguard images.  When running the examples below you might experince gradle builds hanging.  If you do, you can `docker ps` and `docker kill $PID` and retry.  This is not an ideal experience and will be improved.
+## Getting Started
 
-Check the gradle version
+Chainguard Gradle images come with different versions of OpenJDK; ensure you choose the correct image tag for your application needs.
+
+> [!NOTE]
+> If you are running Docker on Mac M1 you may experience intermittent container high CPU and container / JVM crashes.  There have been [reports](https://github.com/metanorma/metanorma-docker/issues/126) of this behavior, which is known to also affect non-Chainguard images. It is expected that using ARM based images, which are in development for Chainguard images, will address the problem.  When running the examples below you might experience Gradle builds hanging.  If you do, you can `docker ps` and `docker kill $PID` and retry.
+
+To use the Chainguard Gradle image with Docker, run commands that follow this syntax:
+
+```shell
+docker run cgr.dev/chainguard/gradle:latest-dev <gradle-task>
 ```
- % docker run gradle --version
 
-Welcome to Gradle 8.0.1-20230224000000+0000!
+For example, to run an existing project you have on your local machine, you could run a command like the following:
 
-Here are the highlights of this release:
- - Improvements to the Kotlin DSL
- - Fine-grained parallelism from the first build with configuration cache
- - Configurable Gradle user home cache cleanup
-
-
-------------------------------------------------------------
-Gradle 8.0.1-20230224000000+0000
-------------------------------------------------------------
-
-Build time:   2023-02-24 00:00:00 UTC
-Revision:     68959bf76cef4d28c678f2e2085ee84e8647b77a
-
-Kotlin:       1.8.10
-Groovy:       3.0.13
-Ant:          Apache Ant(TM) version 1.10.11 compiled on July 10 2021
-JVM:          11.0.18-internal (wolfi 11.0.18-internal+0-wolfi-r1)
-OS:           Linux 5.15.49-linuxkit aarch64
+```shell
+docker run -v "${PWD}":/home/build/project -w /home/build/project cgr.dev/chainguard/gradle:latest run
 ```
+
+To show the Gradle image building and running a sample application, we will use the `latest-dev` variant of the image, which includes a shell.
+
+First, run the image with the `-it` and `entrypoint=/bin/sh` arguments to access the shell:
+
+```shell
+docker run -it --entrypoint=/bin/sh cgr.dev/chainguard/gradle:latest-dev
+```
+
+From within the container, run the `init` task to build a `Hello World!` example application:
+
+```
+gradle init --type java-application --use-defaults
+```
+
+This example specifies that the `init` task should build a Java application with the default settings.
+
+```
+. . .
+
+BUILD SUCCESSFUL in 3s
+```
+
+Then, use the `run` task to run the newly built application:
+
+```
+gradle run
+```
+```
+. . .
+
+> Task :app:run
+Hello World!
+```
+
+
+## Documentation and Resources
+
+* [Gradle User Manual](https://docs.gradle.org/current/userguide/userguide.html)
+* [Gradle Build Tool GitHub Repository](https://github.com/gradle/gradle)
 <!--body:end-->
 
 ## Contact Support

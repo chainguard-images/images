@@ -12,6 +12,10 @@ variable "environment" {
   default = {}
 }
 
+variable "entrypoint-command" {
+  default = "/usr/bin/java"
+}
+
 module "accts" {
   source = "../../../tflib/accts"
   run-as = var.run-as
@@ -33,7 +37,7 @@ output "config" {
       "JAVA_HOME" : "/usr/lib/jvm/default-jvm"
     }, var.environment)
     entrypoint = {
-      command = "/usr/bin/java"
+      command = var.entrypoint-command
     }
   })
 }

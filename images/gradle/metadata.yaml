@@ -3,7 +3,7 @@ image: cgr.dev/chainguard/gradle
 logo: https://storage.googleapis.com/chainguard-academy/logos/gradle.svg
 endoflife: ""
 console_summary: ""
-short_description: Minimal image with [Gradle](https://gradle.org/) build system.
+short_description: Chainguard Image with [Gradle](https://gradle.org/), an open source build system for Java, Android, and Kotlin.
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/gradle/gradle
