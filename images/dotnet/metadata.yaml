@@ -23,3 +23,7 @@ keywords:
 aliases:
   - mcr.microsoft.com/dotnet/runtime:latest
   - mcr.microsoft.com/dotnet/sdk:latest
+  - mcr.microsoft.com/dotnet/runtime:8.0
+  - mcr.microsoft.com/dotnet/sdk:8.0
+  - mcr.microsoft.com/dotnet/runtime:9.0
+  - mcr.microsoft.com/dotnet/sdk:9.0
