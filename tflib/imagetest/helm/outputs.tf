@@ -9,3 +9,7 @@ output "uninstall_cmd" {
 output "release_name" {
   value = local.name
 }
+
+output "values_path" {
+  value = local.values_path
+}

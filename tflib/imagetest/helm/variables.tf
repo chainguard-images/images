@@ -55,3 +55,8 @@ variable "patches" {
   default     = []
   type        = list(string)
 }
+
+variable "dry" {
+  description = "Indicates whether Helm will be run in dry-run mode. Useful if all you want is to resolve the chart/values."
+  default     = false
+}

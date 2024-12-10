@@ -5,7 +5,8 @@ terraform {
 }
 
 locals {
-  name = var.name != "" ? var.name : random_pet.name.id
+  name        = var.name != "" ? var.name : random_pet.name.id
+  values_path = "/tmp/${local.name}-values.yaml"
 }
 
 resource "random_pet" "name" {}
@@ -43,6 +44,11 @@ chart=$repo_path/${var.chart}
 
 echo "Installing chart: $chart"
 
+# make a temporary file for the values
+cat > ${local.values_path} <<EOF
+${jsonencode(var.values)}
+EOF
+
 if ! helm install ${local.name} $chart \
   --namespace ${var.namespace} --create-namespace \
   %{if var.repo != ""}--repo ${var.repo}%{endif} \
@@ -51,7 +57,8 @@ if ! helm install ${local.name} $chart \
   %{if var.wait}--wait --wait-for-jobs%{endif} \
   --timeout ${var.timeout} \
   %{if length(var.values_files) != 0}--values ${join(",", var.values_files)}%{endif} \
-  --values <(echo '${jsonencode(var.values)}'); then
+  %{if var.dry}--dry-run%{endif} \
+  --values ${local.values_path}; then
 
   printf "\\nFailed to install helm chart\\n"
 
