@@ -33,6 +33,12 @@ endif
 all: init
 	$(TERRAFORM) apply $(TF_VARS)
 
+fmt:
+	$(TERRAFORM) fmt -check -recursive .
+
+validate:
+	$(TERRAFORM) validate
+
 image/%: init
 	$(TERRAFORM) apply $(TF_VARS) -target=module.$*
 
