@@ -1,55 +1,52 @@
-terraform {
-  required_providers {
-    oci = { source = "chainguard-dev/oci" }
-  }
-}
-
 variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
 module "php-versions" {
-  source  = "../../tflib/versions/"
   package = "php"
+  source  = "../../tflib/versions"
 }
 
 module "config" {
-  source      = "./config"
   php_version = [for k, v in module.php-versions.versions : k if v.is_latest][0]
+  source      = "./config"
 }
 
 module "latest" {
-  source            = "../../tflib/publisher"
-  name              = basename(path.module)
-  target_repository = var.target_repository
   config            = module.config.config
+  main_package      = "wordpress"
+  name              = basename(path.module)
+  source            = "../../tflib/publisher"
+  target_repository = var.target_repository
 }
 
 module "latest-dev" {
-  source            = "../../tflib/publisher"
-  name              = basename(path.module)
-  target_repository = var.target_repository
   config            = module.config.config-dev
+  main_package      = "wordpress"
+  name              = basename(path.module)
+  source            = "../../tflib/publisher"
+  target_repository = var.target_repository
 }
 
 module "test-latest" {
-  source = "./tests"
   digest = module.latest.image_ref
+  source = "./tests"
 }
 
 module "test-latest-dev" {
-  source = "./tests"
   digest = module.latest-dev.image_ref
+  source = "./tests"
 }
 
-resource "oci_tag" "latest" {
+module "tagger" {
   depends_on = [module.test-latest]
-  digest_ref = module.latest.image_ref
-  tag        = "latest"
+  source     = "../../tflib/tagger"
+  tags       = module.latest.latest_tag_map
 }
 
-resource "oci_tag" "latest-dev" {
+module "tagger-dev" {
   depends_on = [module.test-latest-dev]
-  digest_ref = module.latest-dev.image_ref
-  tag        = "latest-dev"
+  source     = "../../tflib/tagger"
+  tags       = module.latest-dev.latest_tag_map
 }
+

@@ -13,3 +13,4 @@ keywords:
 tier: APPLICATION
 aliases:
   - wordpress:latest
+public: true
