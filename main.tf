@@ -97,11 +97,6 @@ module "git" {
   target_repository = "${var.target_repository}/git"
 }
 
-module "k3s" {
-  source            = "./images/k3s"
-  target_repository = "${var.target_repository}/k3s"
-}
-
 module "maven" {
   source            = "./images/maven"
   target_repository = "${var.target_repository}/maven"

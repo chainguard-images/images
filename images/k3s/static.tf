@@ -1,31 +1,26 @@
 module "config-static" {
-  source         = "./config"
   extra_packages = ["k3s-static"]
+  source         = "./config"
 }
 
 module "latest-static" {
-  source             = "../../tflib/publisher"
-  name               = basename(path.module)
-  target_repository  = "${var.target_repository}-static"
-  config             = module.config-static.config
   build-dev          = true
-  main_package       = "k3s-static"
+  config             = module.config-static.config
   extra_dev_packages = ["bash-completion"]
+  main_package       = "k3s-static"
+  name               = basename(path.module)
+  source             = "../../tflib/publisher"
+  target_repository  = "${var.target_repository}-static"
 }
 
-# Statically linked checks are performed at the package level, so just verify
-# the same functionality as the regular image here.
 module "test-latest-static" {
-  source = "./tests"
   digest = module.latest-static.image_ref
+  source = "./tests"
 }
 
 module "tagger-static" {
-  source     = "../../tflib/tagger"
   depends_on = [module.test-latest-static]
-  tags = {
-    "latest" : module.latest-static.image_ref,
-    "latest-dev" : module.latest-static.dev_ref,
-  }
+  source     = "../../tflib/tagger"
+  tags       = module.latest-static.latest_tag_map
 }
 

@@ -1,6 +1,6 @@
 module "accts" {
-  source = "../../../tflib/accts"
   run-as = 0
+  source = "../../../tflib/accts"
 }
 
 variable "extra_packages" {
@@ -81,3 +81,4 @@ output "config" {
     }
   })
 }
+

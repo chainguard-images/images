@@ -12,3 +12,4 @@ data "oci_exec_test" "test" {
   digest = var.digest
   script = "${path.module}/smoke.sh"
 }
+

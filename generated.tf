@@ -108,6 +108,12 @@ module "jre" {
   test_repository   = var.test_repository
 }
 
+module "k3s" {
+  source            = "./images/k3s"
+  target_repository = "${var.target_repository}/k3s"
+  test_repository   = var.test_repository
+}
+
 module "ko" {
   source            = "./images/ko"
   target_repository = "${var.target_repository}/ko"
@@ -310,6 +316,10 @@ output "summary_jdk" {
 
 output "summary_jre" {
   value = module.jre.summary
+}
+
+output "summary_k3s" {
+  value = module.k3s.summary
 }
 
 output "summary_ko" {

@@ -6,7 +6,6 @@ uid="k3s-$FREE_PORT"
 TMPDIR=$uid
 mkdir -p $TMPDIR
 
-# Simple test to make sure the server comes up and has running pods after ~1m
 docker run --name "$uid" -d --rm -it --privileged \
 	-p $FREE_PORT:$FREE_PORT \
 	-v $(pwd)/$TMPDIR:/etc/rancher/k3s/ \

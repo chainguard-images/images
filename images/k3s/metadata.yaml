@@ -12,3 +12,4 @@ keywords:
 tier: APPLICATION
 aliases:
   - rancher/k3s:latest
+public: true

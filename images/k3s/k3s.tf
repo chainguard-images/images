@@ -1,29 +1,26 @@
 module "config" {
+  extra_packages = ["k3s", "containerd-shim-runc-v2~1"]
   source         = "./config"
-  extra_packages = ["k3s"]
 }
 
 module "latest" {
-  source             = "../../tflib/publisher"
-  name               = basename(path.module)
-  target_repository  = var.target_repository
-  config             = module.config.config
   build-dev          = true
-  main_package       = "k3s"
+  config             = module.config.config
   extra_dev_packages = ["bash-completion"]
+  main_package       = "k3s"
+  name               = basename(path.module)
+  source             = "../../tflib/publisher"
+  target_repository  = var.target_repository
 }
 
 module "test-latest" {
-  source = "./tests"
   digest = module.latest.image_ref
+  source = "./tests"
 }
 
 module "tagger" {
-  source     = "../../tflib/tagger"
   depends_on = [module.test-latest]
-  tags = {
-    "latest" : module.latest.image_ref,
-    "latest-dev" : module.latest.dev_ref,
-  }
+  source     = "../../tflib/tagger"
+  tags       = module.latest.latest_tag_map
 }
 
