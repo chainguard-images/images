@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-apk add openssl-config
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 server_name="postgres_server-${RANDOM}"
