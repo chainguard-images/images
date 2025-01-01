@@ -14,7 +14,7 @@ terraform {
 }
 
 variable "extra_packages" {
-  default     = ["dataplaneapi", "haproxy-2.9"]
+  default     = ["dataplaneapi", "haproxy"]
   description = "The additional packages to install."
 }
 
