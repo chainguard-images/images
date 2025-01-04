@@ -32,9 +32,13 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Usage
+## Compatibility Notes
 
-The `aspnet-runtime` Chainguard Image contains both the ASP.NET runtime and the .NET core runtime, allowing you to run ASP.NET applications. Note that if your use case depends on running `aspnet-runtime` with a package manager or shell, you can use the `:latest-dev` variant.
+Chainguard's aspnet-runtime image is comparable to the [.NET core tools found on GitHub](https://github.com/dotnet/core).
+
+The aspnet-runtime image contains both the ASP.NET runtime and the .NET core runtime, allowing you to run ASP.NET applications. Note that if your use case depends on running `aspnet-runtime` with a package manager or shell, you can use the `:latest-dev` variant.
+
+## Documentation and Resources
 
 For more information, please refer to the official [ASP.NET documentation](https://learn.microsoft.com/en-us/aspnet/core/?view=aspnetcore-8.0).
 <!--body:end-->

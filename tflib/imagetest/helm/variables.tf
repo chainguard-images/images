@@ -60,3 +60,9 @@ variable "dry" {
   description = "Indicates whether Helm will be run in dry-run mode. Useful if all you want is to resolve the chart/values."
   default     = false
 }
+
+variable "log_debug" {
+  description = "Indicates whether to print pod logs if the helm install fails."
+  type        = bool
+  default     = false
+}
