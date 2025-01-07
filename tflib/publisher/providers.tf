@@ -14,7 +14,7 @@ terraform {
     }
     chainguard = {
       source  = "chainguard-dev/chainguard"
-      version = ">= 0.1.24"
+      version = ">= 0.1.25"
     }
     imagetest = {
       source  = "chainguard-dev/imagetest"
