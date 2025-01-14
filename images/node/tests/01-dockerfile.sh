@@ -7,7 +7,7 @@ CONTAINER="node-example-${FREE_PORT}"
 
 function cleanup() {
   docker kill ${CONTAINER}
-  docker rmi ${TAG}
+  docker rmi -f ${TAG}
 }
 
 trap cleanup EXIT

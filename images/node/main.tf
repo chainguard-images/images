@@ -23,11 +23,12 @@ module "config" {
   source   = "./config"
 }
 
-module "config-next" {
+module "config-slim" {
   extra_packages = [
-    "nodejs"
+    each.key,
   ]
-  source = "./config"
+  for_each = module.versions.versions
+  source   = "./config"
 }
 
 module "versioned" {
@@ -36,10 +37,10 @@ module "versioned" {
   config           = module.config[each.key].config
   eol              = each.value.eol
   extra_dev_packages = [
-    "yarn",
+    "build-base",
     "corepack",
     "pnpm",
-    "build-base",
+    "yarn",
   ]
   for_each          = module.versions.versions
   main_package      = each.value.main
@@ -49,22 +50,16 @@ module "versioned" {
   update-repo       = each.value.is_latest
 }
 
-module "next" {
-  build-dev = true
-  config    = module.config-next.config
-  extra_dev_packages = [
-    "yarn",
-    "build-base",
-    "npm",
-    "corepack",
-    "pnpm",
-    "busybox",
-  ]
-  main_package      = ""
+module "versioned-slim" {
+  build-dev         = false
+  config            = module.config-slim[each.key].config
+  eol               = each.value.eol
+  for_each          = module.versions.versions
+  main_package      = each.value.main
   name              = basename(path.module)
   source            = "../../tflib/publisher"
   target_repository = var.target_repository
-  update-repo       = false
+  update-repo       = each.value.is_latest
 }
 
 module "test-versioned" {
@@ -74,21 +69,21 @@ module "test-versioned" {
   source     = "./tests"
 }
 
-module "test-next" {
-  dev-digest = module.next.dev_ref
-  digest     = module.next.image_ref
+module "test-versioned-slim" {
+  dev-digest = module.versioned[each.key].dev_ref
+  digest     = module.versioned-slim[each.key].image_ref
+  for_each   = module.versions.versions
   source     = "./tests"
 }
 
 module "tagger" {
-  depends_on = [module.test-versioned, module.test-next]
+  depends_on = [module.test-versioned, module.test-versioned-slim]
   source     = "../../tflib/tagger"
   tags = merge(
     {
-      "next"     = module.next.image_ref,
-      "next-dev" = module.next.dev_ref,
+      "latest-slim" = module.versioned-slim[module.versions.ordered_keys[0]].image_ref,
     },
-    [for v in module.versioned : v.latest_tag_map]...
+    [for k in module.versions.ordered_keys : module.versioned[k].latest_tag_map]...
   )
 }
 
