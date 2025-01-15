@@ -15,7 +15,7 @@
 <!--overview:start-->
 # Chainguard Image for dotnet
 
-Minimal image for .NET and the .NET Tools.
+Minimal container image for .NET and the .NET Tools.
 
 Chainguard Images are regularly-updated, minimal container images with low-to-zero CVEs.
 <!--overview:end-->
@@ -32,15 +32,36 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Usage
+## Compatibility Notes
 
-The dotnet-sdk image can be used directly for simple cases, or with a multi-stage build using the dotnet-sdk as the builder and dotnet-runtime as the final target container.
+Chainguard's .NET Images are comparable to the .NET images available from Microsoft.  Like most Chainguard images, the .NET images come with only the minimum dependencies needed to function and do not include things like a shell or package manager.
 
-To get started, go to your current dotnet application directory (or where you house your dotnet applications) and execute the following command. This command should be able to detect the dotnet project in your directory and create a base for the docker initialization.
+The Chainguard .NET images are available on `cgr.dev` as two variants: `dotnet-sdk` and `dotnet-runtime`. The SDK variant contains additional tooling to facilitate development and building, while the runtime variant contains only the runtime to execute .NET applications. Both the SDK and Runtime images also have `latest-dev` versions that contain a shell and various other tools for development.
 
-```docker init```
+To download the SDK image, you would run a command like the following:
+ 
+```shell
+docker pull cgr.dev/chainguard/dotnet-sdk:latest
+```
 
-This command should create the following files.
+And to download the Runtime image, you would run the following:
+
+```shell
+docker pull cgr.dev/chainguard/dotnet-runtime:latest
+```
+
+For simple cases, you can use the SDK image directly, or with a multi-stage build using the SDK image as the builder and the Runtime image as the final target container.
+
+
+## Getting Started
+
+Begin by going to your .NET application directory (or the location where you house your .NET applications) and execute the following command. This command will detect the .NET project in your directory and create a base for the Docker initialization:
+
+```shell
+docker init
+```
+
+This command will create the following files:
 
 ```
 Dockerfile
@@ -52,36 +73,44 @@ README.Docker.md
 After the files have been created, replace the contents within the created Dockerfile with the following
 
 ```Dockerfile
-FROM cgr.dev/chainguard/dotnet-sdk:latest AS build
+FROM cgr.dev/ORGANIZATION/dotnet-sdk:latest AS build
 
 COPY --chown=nonroot:nonroot . /source
 
-# If your project resides in a sub directory, make sure you are pointing to that directory. ex: If your project resided in a directory called 'app', you would set the destination to /source/app
 WORKDIR /source
 
 RUN dotnet publish --use-current-runtime --self-contained false -o Release
 
-# If you are running an ASPNET project, you can instead pull our ASPNET image cgr.dev/chainguard/aspnet-runtime:latest
-FROM cgr.dev/chainguard/dotnet-runtime:latest AS final
+# If you are running an ASPNET project, you can instead pull our ASPNET image cgr.dev/ORGANIZATION/aspnet-runtime:latest
+FROM cgr.dev/ORGANIZATION/dotnet-runtime:latest AS final
 WORKDIR /
 
-# Copy everything needed to run the app from the "build" stage.
 COPY --from=build source .
 
 ENTRYPOINT ["dotnet", "Release/dotnet.dll"]
 ```
 
+Note that if your project resides in a sub directory, make sure you are pointing to that directory. For example, if your project resided in a directory called 'app', you would set the destination to `/source/app`.
+
 This will build your application using the SDK image and then copy the built application over to the Runtime image which will then start.
 
-You can run and publish a local image with the following command
-```
+You can run and publish a local image with the following command:
+
+```shell
 docker compose up -d --build
 ```
 
-You can also remove the container using the following
-```
+You can also remove the container using the following command:
+
+```shell
 docker compose down
 ```
+
+## Documentation and Resources
+
+* [Microsoft .NET documentation](https://learn.microsoft.com/en-us/dotnet/)
+* [`microsoft/dotnet-sdk` Docker Hub entry](https://hub.docker.com/r/microsoft/dotnet-sdk)
+* [`microsoft/dotnet-runtime` Docker Hub entry](https://hub.docker.com/r/microsoft/dotnet-runtime) 
 <!--body:end-->
 
 ## Contact Support
