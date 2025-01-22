@@ -2,13 +2,8 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "php-versions" {
-  package = "php"
-  source  = "../../tflib/versions"
-}
-
 module "config" {
-  php_version = [for k, v in module.php-versions.versions : k if v.is_latest][0]
+  php_version = "php-8.4"
   source      = "./config"
 }
 
