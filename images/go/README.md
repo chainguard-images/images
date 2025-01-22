@@ -36,11 +36,11 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 
 Where possible, the Go Chainguard Image is built for compatibility with the [Docker official image for Golang](https://hub.docker.com/_/golang/). 
 
-The Go Chainguard Image uses the `glibc` implementation of the C standard library, while the Alpine version of the Golang official Docker Image uses `musl`. See our [article on glibc vs. musl](https://edu.chainguard.dev/chainguard/chainguard-images/working-with-images/images-compiled-programs/glibc-vs-musl/) on Chainguard Academy for an overview of the differences between these implementations.
+Unlike most other Chainguard images, the Go image contains a shell; namely, Bash. The reason for this is that this image is meant to be used as a build image, not a runtime image. The Go binary itself isn't very useful, so the Go Chainguard image contains Bash, along with tools like `make` and `gcc`, to allow users to build binaries.
 
+The Go Chainguard Image uses the `glibc` implementation of the C standard library, while the Alpine version of the Golang official Docker Image uses `musl`. See our [article on glibc vs. musl](https://edu.chainguard.dev/chainguard/chainguard-images/about/images-compiled-programs/glibc-vs-musl/) on Chainguard Academy for an overview of the differences between these implementations.
 
 The examples in this README recommend executing Go binaries from one of our runtime Chainguard Images, such as the `glibc-dynamic` or `static` Chainguard Images. If using the `static` Chainguard Image, make sure to build your Go binary with static linking. In most cases, this requires running `CGO_ENABLED=0 go build` when building the binary. If dynamic linking is needed, use the `glibc-dynamic` Chainguard Image or the Go Chainguard Image to run your application. 
-
 
 In Go 1.20, we default to using the new `GODEBUG` settings of `tarinsecurepath=0` and `zipinsecurepath=0`. These can be disabled by clearing the `GODEBUG` environment variable, or by setting them to `1`.
 
@@ -315,10 +315,10 @@ If you're building a web application with Go, consider the [nginx](https://image
 ## Documentation and Resources
 
 - [Chainguard Academy: Getting Started with the Go Chainguard Image](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/go/)
-- [Video: Migrating a Dockerfile for a Go application to use Chainguard Images](https://edu.chainguard.dev/chainguard/chainguard-images/videos/migrating_go/)
+- [Video: Migrating a Dockerfile for a Go application to use Chainguard Images](https://edu.chainguard.dev/chainguard/migration/migration-guides/migrating_go/)
 - [Blog Post: Statically Linking Go in 2022](https://mt165.co.uk/blog/static-link-go/)
 - [Blog Post: Building minimal and low CVE images for compiled languages](https://www.chainguard.dev/unchained/building-minimal-and-low-cve-images-for-compiled-languages)
-- [Chainguard Academy: glibc vs. musl](https://edu.chainguard.dev/chainguard/chainguard-images/working-with-images/images-compiled-programs/glibc-vs-musl/)
+- [Chainguard Academy: glibc vs. musl](https://edu.chainguard.dev/chainguard/chainguard-images/about/images-compiled-programs/glibc-vs-musl/)
 <!--body:end-->
 
 ## Contact Support
