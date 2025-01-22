@@ -34,7 +34,9 @@ resource "imagetest_feature" "basic" {
   labels = {
     type = "container"
     # Group this image into a pytorch only shard
-    "shard::group" = "pytorch"
+    "shard::group"         = "pytorch"
+    "gha::runs-on"         = "ubuntu-latest-32-cores"
+    "gha::timeout-minutes" = "240"
   }
 }
 

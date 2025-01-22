@@ -177,7 +177,7 @@ resource "terraform_data" "wait_for_completion" {
 
   provisioner "local-exec" {
     command = <<EOF
-max_retries=30
+max_retries=120
 wait=10
 retry_count=0
 
@@ -191,7 +191,7 @@ while [ $retry_count -lt $max_retries ]; do
     echo "Process failed."
     exit 1
   else
-    echo "Waiting for completion... (Attempt $((retry_count + 1))/$max_retries)"
+    echo "Waiting for completion... (Attempt $((retry_count + 1))/$max_retries ; status=$status)"
     sleep $wait
     retry_count=$((retry_count + 1))
   fi
