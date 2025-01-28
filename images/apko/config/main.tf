@@ -22,5 +22,6 @@ output "config" {
       command = "/usr/bin/apko"
     }
     cmd = "--help"
+    work-dir = "/work"
   })
 }
