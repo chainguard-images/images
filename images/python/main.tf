@@ -18,7 +18,8 @@ module "latest" {
   extra_dev_packages = [
     "build-base",
     "py3-pip",
-    "python3-dev"
+    "python3-dev",
+    "uv"
   ]
 }
 
