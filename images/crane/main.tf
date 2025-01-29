@@ -15,6 +15,7 @@ module "config" {
 
 module "versioned" {
   build-dev         = true
+  check-sbom        = true
   config            = module.config[each.key].config
   eol               = each.value.eol
   for_each          = module.versions.versions
