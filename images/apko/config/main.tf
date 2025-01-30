@@ -21,6 +21,7 @@ output "config" {
     entrypoint = {
       command = "/usr/bin/apko"
     }
-    cmd = "--help"
+    work-dir = "/work"
+    cmd      = "--help"
   })
 }

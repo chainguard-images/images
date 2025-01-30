@@ -14,3 +14,4 @@ public: true
 tier: BASE
 aliases:
   - golang:latest
+  - golang:alpine

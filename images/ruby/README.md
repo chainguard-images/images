@@ -42,7 +42,7 @@ Chainguard's Ruby image is meant to serve as a drop-in replacement for the offic
 * Environment variables, especially gem paths, sometimes differ from those in the official Ruby Image.
 * The Chainguard Ruby Image does not default to using `UTF-8`. You will need to specify this yourself.
 
-To better understand the differences between Chainguard's Ruby image and alternatives, it may be helpful to review the upstream's Dockerfiles. For example, you can review the [`alpine3.19` Dockerfile available for Ruby 3.3](https://github.com/docker-library/ruby/blob/master/3.3/alpine3.19/Dockerfile).
+To better understand the differences between Chainguard's Ruby image and alternatives, it may be helpful to review the upstream's Dockerfiles. For example, you can review the [`alpine3.21` Dockerfile available for Ruby 3.3](https://github.com/docker-library/ruby/blob/master/3.3/alpine3.21/Dockerfile).
 
 ## Getting Started
 
