@@ -1,5 +1,6 @@
 cfg?=images/static/configs/wolfi.apko.yaml
 TERRAFORM ?= $(shell command -v terraform)
+TF_PLUGIN_CACHE_DIR ?= "$(HOME)/.terraform.d/plugin-cache"
 
 # These images either do something with Alpine,
 # or are somehow incompatible with tfgen (still using tagger etc.)
