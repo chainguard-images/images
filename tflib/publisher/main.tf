@@ -76,6 +76,26 @@ variable "name" {
   description = "Name of the image, which gets used in the image annotations."
 }
 
+variable "reproduce_timeout" {
+  type        = number
+  description = "The timeout on the check-reproducibility test in seconds."
+
+  # TODO(jonjohnson): Make this faster!
+  # Currently some builds (e.g. golang) take more than the
+  # default 5m, so give them 10m
+  default = 600
+
+  # Ensure the value is a valid positive integer
+  validation {
+    condition     = tonumber(var.reproduce_timeout) == floor(var.reproduce_timeout)
+    error_message = "value should be an integer (seconds)"
+  }
+  validation {
+    condition     = var.reproduce_timeout >= 0
+    error_message = "value should be a positive integer (seconds)"
+  }
+}
+
 locals {
   build-dev = var.build-dev || length(var.extra_dev_packages) > 0
 }
@@ -132,13 +152,9 @@ module "this-dev" {
 }
 
 data "oci_exec_test" "check-reproducibility" {
-  digest = module.this.image_ref
-  script = "${path.module}/check-reproducibility.sh"
-
-  # TODO(jonjohnson): Make this faster!
-  # Currently some builds (e.g. golang) take more than the
-  # default 5m, so give them 10m
-  timeout_seconds = 600
+  digest          = module.this.image_ref
+  script          = "${path.module}/check-reproducibility.sh"
+  timeout_seconds = var.reproduce_timeout
 }
 
 data "oci_structure_test" "structure" {
