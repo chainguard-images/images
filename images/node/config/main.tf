@@ -32,7 +32,6 @@ output "config" {
     "work-dir" : "/app",
     "accounts" : module.accts.block,
     "environment" : {
-      "NODE_PORT" : "3000",
       "NPM_CONFIG_UPDATE_NOTIFIER" : "false",
       "PATH" : "/usr/sbin:/sbin:/usr/bin:/bin"
     },
