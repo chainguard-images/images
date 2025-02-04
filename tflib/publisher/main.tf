@@ -64,6 +64,13 @@ variable "eol" {
   description = "If provided, this image will be marked as EOL via attestation (predicateType: https://chainguard.dev/end-of-life)"
 }
 
+// Note: unused
+variable "tags_suffix" {
+  type        = string
+  default     = ""
+  description = "Suffix to append to all tags (except latest)."
+}
+
 variable "name" {
   type        = string
   description = "Name of the image, which gets used in the image annotations."

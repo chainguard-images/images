@@ -42,6 +42,12 @@ module "dive" {
   test_repository   = var.test_repository
 }
 
+module "docker-dind" {
+  source            = "./images/docker-dind"
+  target_repository = "${var.target_repository}/docker-dind"
+  test_repository   = var.test_repository
+}
+
 module "dotnet" {
   source            = "./images/dotnet"
   target_repository = "${var.target_repository}/dotnet"
@@ -272,6 +278,10 @@ output "summary_curl" {
 
 output "summary_dive" {
   value = module.dive.summary
+}
+
+output "summary_docker-dind" {
+  value = module.docker-dind.summary
 }
 
 output "summary_dotnet" {
