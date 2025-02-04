@@ -29,9 +29,10 @@ module "latest" {
 }
 
 module "test-latest" {
-  source       = "./tests"
-  digest       = module.latest.image_ref
-  java-version = "23"
+  source            = "./tests"
+  digest            = module.latest.image_ref
+  java-version      = "23"
+  target_repository = var.target_repository
 }
 
 resource "oci_tag" "latest" {

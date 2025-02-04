@@ -11,6 +11,7 @@ module "latest-wolfi" {
 }
 
 module "test-latest-wolfi" {
-  source = "./tests"
-  digest = module.latest-wolfi.image_ref
+  source            = "./tests"
+  digest            = module.latest-wolfi.image_ref
+  target_repository = var.target_repository
 }

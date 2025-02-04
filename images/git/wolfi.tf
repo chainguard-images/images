@@ -15,14 +15,15 @@ module "latest-wolfi" {
 }
 
 module "test-latest-wolfi" {
-  for_each = local.accounts
-  source   = "./tests"
-  digest   = module.latest-wolfi[each.key].image_ref
+  for_each          = local.accounts
+  source            = "./tests"
+  digest            = module.latest-wolfi[each.key].image_ref
+  target_repository = var.target_repository
 }
 
 module "test-latest-wolfi-dev" {
-  for_each  = local.accounts
-  source    = "./tests"
-  digest    = module.latest-wolfi[each.key].dev_ref
-  check-dev = true
+  for_each          = local.accounts
+  source            = "./tests"
+  digest            = module.latest-wolfi[each.key].dev_ref
+  target_repository = var.target_repository
 }

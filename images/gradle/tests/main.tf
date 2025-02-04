@@ -1,9 +1,3 @@
-terraform {
-  required_providers {
-    oci = { source = "chainguard-dev/oci" }
-  }
-}
-
 variable "digest" {
   description = "The image digest to run tests over."
 }
@@ -12,18 +6,28 @@ variable "java-version" {
   description = "Java version"
 }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --version"
+variable "target_repository" {}
+
+module "bash_sandbox" {
+  source            = "../../../tflib/imagetest/sandboxes/bash"
+  target_repository = var.target_repository
 }
 
-data "oci_exec_test" "build" {
-  digest = var.digest
-  script = "${path.module}/build.sh"
-  env = [
+module "dind_test" {
+  source = "../../../tflib/imagetest/tests/docker-in-docker"
+
+  images = { gradle = var.digest }
+
+  tests = [
     {
-      name  = "JAVA_VERSION"
-      value = var.java-version
+      name    = "smoke test"
+      image   = module.bash_sandbox.image_ref
+      content = [{ source = path.module }]
+      cmd     = "./test.sh"
+      envs = {
+        JAVA_VERSION = var.java-version
+      }
     }
   ]
 }
+

@@ -14,11 +14,6 @@ variable "images" {
   type        = map(string)
 }
 
-variable "dind_image" {
-  description = "The dind image to use."
-  default     = "cgr.dev/chainguard/docker-dind:latest"
-}
-
 variable "tests" {
   description = "The list of tests to run with the docker in docker driver."
   type = list(object({
@@ -32,18 +27,15 @@ variable "tests" {
   }))
 }
 
-resource "imagetest_tests" "dockerindocker" {
+resource "imagetest_tests" "k3sindocker" {
   name   = var.name
-  driver = "docker_in_docker"
+  driver = "k3s_in_docker"
 
   drivers = {
-    docker_in_docker = {
-      image = var.dind_image
-    }
+    k3s_in_docker = {}
   }
 
   images = var.images
 
   tests = var.tests
 }
-

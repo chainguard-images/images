@@ -8,28 +8,24 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME version"
+variable "target_repository" {
 }
 
-data "oci_exec_test" "manifest" {
-  digest = var.digest
-  script = "${path.module}/02-manifest.sh"
+module "bash_sandbox" {
+  source            = "../../../tflib/imagetest/sandboxes/bash"
+  target_repository = var.target_repository
 }
 
-data "oci_exec_test" "digest" {
-  digest = var.digest
-  script = "${path.module}/03-digest.sh"
-}
-
-data "oci_exec_test" "ls" {
-  digest = var.digest
-  script = "${path.module}/04-ls.sh"
-}
-
-data "oci_exec_test" "config" {
-  digest = var.digest
-  script = "${path.module}/05-config.sh"
+module "dind_test" {
+  images = { crane = var.digest }
+  source = "../../../tflib/imagetest/tests/docker-in-docker"
+  tests = [
+    {
+      name    = "smoke"
+      image   = module.bash_sandbox.image_ref
+      content = [{ source = path.module }]
+      cmd     = "./smoke.sh"
+    }
+  ]
 }
 

@@ -24,13 +24,15 @@ module "latest-dev" {
 }
 
 module "test-latest" {
-  digest = module.latest.image_ref
-  source = "./tests"
+  digest            = module.latest.image_ref
+  source            = "./tests"
+  target_repository = var.target_repository
 }
 
 module "test-latest-dev" {
-  digest = module.latest-dev.image_ref
-  source = "./tests"
+  digest            = module.latest-dev.image_ref
+  source            = "./tests"
+  target_repository = var.target_repository
 }
 
 module "tagger" {

@@ -1,6 +1,6 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -8,23 +8,24 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-variable "check-dev" {
-  default = false
+variable "target_repository" {}
+
+module "bash_sandbox" {
+  source            = "../../../tflib/imagetest/sandboxes/bash"
+  target_repository = var.target_repository
 }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --version"
-}
+module "dind_test" {
+  source = "../../../tflib/imagetest/tests/docker-in-docker"
 
-data "oci_exec_test" "submodule" {
-  count = var.check-dev ? 1 : 0
+  images = { git = var.digest }
 
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME submodule -h"
-}
-
-data "oci_exec_test" "clone" {
-  digest = var.digest
-  script = "${path.module}/repo-clone.sh"
+  tests = [
+    {
+      name    = "smoke"
+      image   = module.bash_sandbox.image_ref
+      content = [{ source = path.module }]
+      cmd     = "./smoke.sh"
+    }
+  ]
 }

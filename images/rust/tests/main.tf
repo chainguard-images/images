@@ -1,6 +1,6 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
   }
 }
 
@@ -13,14 +13,24 @@ variable "check-dev" {
   description = "Whether to check for dev extensions"
 }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --version"
+variable "target_repository" {
 }
 
-data "oci_exec_test" "dev" {
-  count  = var.check-dev ? 1 : 0
-  digest = var.digest
-  script = "docker run --rm --entrypoint rustup $IMAGE_NAME --version"
+module "bash_sandbox" {
+  source            = "../../../tflib/imagetest/sandboxes/bash"
+  target_repository = var.target_repository
+}
+
+module "dind_test" {
+  images = { rust = var.digest }
+  source = "../../../tflib/imagetest/tests/docker-in-docker"
+  tests = [
+    {
+      name    = "smoke"
+      image   = module.bash_sandbox.image_ref
+      content = [{ source = path.module }]
+      cmd     = "./smoke.sh"
+    }
+  ]
 }
 
