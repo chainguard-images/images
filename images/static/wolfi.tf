@@ -9,6 +9,7 @@ module "wolfi" {
 }
 
 module "test-wolfi" {
-  source = "./tests"
-  digest = module.wolfi.image_ref
+  source            = "./tests"
+  digest            = module.wolfi.image_ref
+  target_repository = var.target_repository
 }

@@ -1,14 +1,28 @@
-terraform {
-  required_providers {
-    oci = { source = "chainguard-dev/oci" }
-  }
-}
-
 variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "help" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME -help"
+variable "target_repository" {
+  description = "The repository to push transient test images to."
 }
+
+module "bash_sandbox" {
+  source            = "../../../tflib/imagetest/sandboxes/bash"
+  target_repository = var.target_repository
+}
+
+module "test" {
+  source = "../../../tflib/imagetest/tests/docker-in-docker"
+
+  images = { stunnel = var.digest }
+
+  tests = [
+    {
+      name    = "stunnel help test"
+      image   = module.bash_sandbox.image_ref
+      content = [{ source = path.module }]
+      cmd     = "./test.sh"
+    }
+  ]
+}
+

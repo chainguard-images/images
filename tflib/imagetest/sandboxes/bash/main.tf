@@ -13,6 +13,7 @@ data "apko_config" "sandbox" {
       packages = [
         "apk-tools",
         "bash",
+        "binutils",
         "busybox",
         "curl",
         "git",
