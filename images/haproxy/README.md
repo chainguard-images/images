@@ -32,7 +32,11 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Usage
+## Compatibility Notes
+
+Chainguard’s HAProxy image is a minimal, Wolfi-based container image. It comes in two variants: a `-slim` version that only contains the `haproxy` binary, as well as a regular version that contains a `docker-entrypoint.sh` script that is compatible with the external `docker-library/haproxy` image for use with Helm charts or established Docker based deployments.
+
+## Getting Started
 
 Similar to the `docker-library/haproxy` image, this image does not come with any default configuration.
 
@@ -41,13 +45,13 @@ Please refer to [upstream's excellent (and comprehensive) documentation](https:/
 Let say you have a `haproxy.cfg` config file is current working directory. To test that configuration file, you can run the following command
 
 ```
-docker run -it --rm -v "$(pwd):/etc/haproxy" --name haproxy-syntax-check cgr.dev/chainguard/haproxy haproxy -c -f /etc/haproxy/haproxy.cfg
+docker run -it --rm -v "$(pwd):/etc/haproxy" --name haproxy-syntax-check cgr.dev/ORGANIZATION/haproxy haproxy -c -f /etc/haproxy/haproxy.cfg
 ```
 
 In order for the container to work, you need to mount your custom `haproxy.cfg` file in the container. The following example runs HAProxy with a custom configuration file:
 
 ```
-docker run -it --rm -v "$(pwd):/etc/haproxy" cgr.dev/chainguard/haproxy haproxy -f /etc/haproxy/haproxy.cfg
+docker run -it --rm -v "$(pwd):/etc/haproxy" cgr.dev/ORGANIZATION/haproxy haproxy -f /etc/haproxy/haproxy.cfg
 ```
 
 ### Helm install

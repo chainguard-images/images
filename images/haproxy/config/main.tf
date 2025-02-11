@@ -1,7 +1,3 @@
-locals {
-  baseline_packages = ["haproxy-oci-entrypoint"]
-}
-
 module "accts" {
   name   = "haproxy"
   source = "../../../tflib/accts"
@@ -13,22 +9,25 @@ terraform {
   }
 }
 
+variable "slim" {
+  default     = false
+  description = "minimal (no bash) image"
+}
+
 variable "extra_packages" {
-  default     = ["dataplaneapi", "haproxy"]
+  default     = ["haproxy"]
   description = "The additional packages to install."
 }
 
 output "config" {
   value = jsonencode({
     "contents" : {
-      // TODO: remove the need for using hardcoded local.baseline_packages by plumbing
-      // these packages through var.extra_packages in all callers of this config module
-      "packages" : distinct(concat(local.baseline_packages, var.extra_packages))
+      "packages" : distinct(concat(var.extra_packages))
     },
     "entrypoint" : {
-      "command" : "/usr/local/bin/docker-entrypoint.sh"
+      "command" : var.slim == false ? "/usr/local/bin/docker-entrypoint.sh" : "/usr/sbin/haproxy"
     },
-    "cmd" : "haproxy -f /usr/local/etc/haproxy/haproxy.cfg",
+    "cmd" : var.slim == false ? "haproxy -f /usr/local/etc/haproxy/haproxy.cfg" : ""
     "accounts" : module.accts.block,
     "paths" : [
       {

@@ -54,7 +54,7 @@ This will automatically pull the image to your local system and execute the comm
 To run the Chainguard Redis image with Docker using default configuration you could run the following command:
 
 ```sh
-docker run -p 6379:6379 --rm cgr.dev/chainguard/redis
+docker run -p 6379:6379 --rm cgr.dev/ORGANIZATION/redis
 ```
 
 This command forwards port `6379` (the default port for Redis) on the host machine to port `6379` on the container:
@@ -83,7 +83,7 @@ $ redis-cli
 Alternatively, to test out Redis within the container, you can run the following command to access the container's shell:
 
 ```sh
-docker run -it --entrypoint sh cgr.dev/chainguard/redis
+docker run -it --entrypoint sh cgr.dev/ORGANIZATION/redis
 ```
 
 Then run the `redis-server` command to start the `redis` process, and include the `--daemonize yes` option to prevent it from taking over the terminal:
@@ -109,7 +109,7 @@ If you supply a different configuration file or change the user, UID, or `WORKDI
 When running in Docker using a volume, the Chainguard Redis image will automatically use a custom configuration instead of the default one. Here's an example that mounts a host volume containing a custom Redis configuration to the `/data` directory in the container:
 
 ```sh
-docker run -d -v $(pwd):/data -p 6379:6379 cgr.dev/chainguard/redis
+docker run -d -v $(pwd):/data -p 6379:6379 cgr.dev/ORGANIZATION/redis
 ```
 
 Again, this example forwards the local port `6379` to the container's port `6379`, the `redis` process's default port. 
