@@ -36,12 +36,6 @@ provider "imagetest" {
     include_by_label = var.tests_include_by_label
     exclude_by_label = var.tests_exclude_by_label
   }
-
-  log = {
-    file = {
-      directory = "imagetest-logs"
-    }
-  }
 }
 
 variable "target_repository" {

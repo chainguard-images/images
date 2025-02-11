@@ -48,15 +48,15 @@ output "config" {
     paths = [{
       path        = "/var/lib/postgresql/data"
       type        = "directory"
-      uid         = module.accts.block.run-as
-      gid         = module.accts.block.run-as
-      permissions = 511 // 0o777 (HCL explicitly does not support octal literals)
+      uid         = module.accts.uid
+      gid         = module.accts.gid
+      permissions = parseint("777", 8)
       }, {
       path        = "/var/run/postgresql"
       type        = "directory"
-      uid         = module.accts.block.run-as
-      gid         = module.accts.block.run-as
-      permissions = 511 // 0o777 (HCL explicitly does not support octal literals)
+      uid         = module.accts.uid
+      gid         = module.accts.gid
+      permissions = parseint("777", 8)
     }]
     }
   )
