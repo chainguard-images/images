@@ -1,0 +1,2 @@
+This file is used as a dummy kubeconfig. We mount the `test/` dir during harness tests,
+and later a new kubeconfig is written into this file to perform `kubectl` commands against the cluster.
