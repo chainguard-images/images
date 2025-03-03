@@ -23,6 +23,7 @@ data "apko_config" "sandbox" {
         "kustomize",
         "patch",
         "socat",
+        "tw",
         "wget",
         "yq",
       ]

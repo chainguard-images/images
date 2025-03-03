@@ -36,30 +36,10 @@ variable "extra_packages" {
   default     = []
 }
 
-variable "k3s_image" {
-  description = "The image to use for the k3s cluster."
-  # Null this means use the default set by the provider.
-  default = null
-}
-
-variable "resources" {
-  default = {
-    cpu = {
-      request = ""
-    }
-    memory = {
-      request = ""
-    }
-  }
-
-  type = object({
-    cpu = object({
-      request = string
-    })
-    memory = object({
-      request = string
-    })
-  })
+variable "use_data_volume" {
+  description = "Whether to create and use a module mounted in /data"
+  type        = bool
+  default     = false
 }
 
 variable "mounts" {
@@ -102,43 +82,65 @@ data "apko_config" "sandbox" {
   })
 }
 
-resource "apko_build" "sandbox" {
-  # NOTE: This uses the same repo as the image being tested, but since it is
-  # never tagged it is never synced downstream.
-  repo   = var.target_repository
-  config = data.apko_config.sandbox.config
-}
-
 module "test_libs" { source = "../../libs/" }
 
 data "imagetest_inventory" "this" {
   count = var.inventory != null ? 0 : 1
 }
 
-resource "imagetest_harness_k3s" "this" {
+resource "imagetest_container_volume" "volume" {
+  count     = var.use_data_volume ? 1 : 0
+  name      = "data-volume"
+  inventory = local.inventory
+}
+
+resource "imagetest_harness_docker" "this" {
   name      = local.name
   inventory = local.inventory
-  image     = var.k3s_image
 
-  resources = var.resources
+  packages = concat([
+    "apk-tools",
+    "bash",
+    "busybox",
+    "curl",
+    "git",
+    "helm",
+    "k9s",
+    "kubectl",
+    "kustomize",
+    "patch",
+    "wolfi-base",
+    "wget",
+  ], var.extra_packages)
 
-  sandbox = {
-    image = apko_build.sandbox.image_ref
-    # TODO: Replace these mounts (which are not concurent-safe) with an
-    # `oci_append` image which offers a truer workspace sandbox independent
-    # across tests.
-    mounts = concat([
+  volumes = concat([],
+    (var.use_data_volume ? [
       {
-        # Test directory
-        source      = var.cwd
-        destination = "/it/work"
+        source      = imagetest_container_volume.volume[0],
+        destination = "/data"
       },
-    ], module.test_libs.mounts, var.mounts)
+    ] : [])
+  )
 
-    envs = var.envs
-  }
+  mounts = concat([
+    {
+      source      = var.cwd
+      destination = "/it/work"
+    }
+  ], module.test_libs.mounts, var.mounts)
+
+  envs = merge(
+    {
+      "WORK" : "/it/work",
+      "LIBS" : "/it/lib",
+    },
+    (var.use_data_volume ? {
+      "DATA_VOLUME_ID" : imagetest_container_volume.volume[0].id
+    } : {}),
+    var.envs
+  )
 }
 
 output "harness" {
-  value = imagetest_harness_k3s.this
+  value = imagetest_harness_docker.this
 }
