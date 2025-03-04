@@ -22,9 +22,8 @@ module "latest" {
 }
 
 module "test-latest" {
-  source            = "./tests"
-  digest            = module.latest.image_ref
-  target_repository = var.target_repository
+  source = "./tests"
+  digest = module.latest.image_ref
 }
 
 resource "oci_tag" "latest" {
