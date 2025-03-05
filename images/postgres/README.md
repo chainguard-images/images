@@ -34,7 +34,7 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--body:start-->
 ## Compatibility Notes
 
-The Chainguard PostgreSQL Image is comparable to the [official PostgreSQL Image from Docker Hub](https://hub.docker.com/_/postgres). However, the Chainguard image does not run as the root user and contains only the minimum set of tools and dependencies needed to function; for example, it does not include a package manager. Unlike many other Chainguard images, though, the PostgreSQL image does include a shell, allowing you to manage databases interactively.
+The Chainguard PostgreSQL Image is comparable to its upstream counterpart, [the official PostgreSQL Image from Docker Hub](https://hub.docker.com/_/postgres). However, the Chainguard image does not run as the root user and contains only the minimum set of tools and dependencies needed to function; for example, it does not include a package manager. Unlike many other Chainguard images, though, the PostgreSQL image does include a shell, allowing you to manage databases interactively.
 
 ## Getting Started
 
@@ -118,6 +118,36 @@ You can also use all of PostgreSQL's internal meta-commands. For example, `\dt` 
  public | accounts | table | postgres
 (1 row)
 ```
+
+### Customizing PostgreSQL with environment variables
+
+You can extend Chainguard's Postgres image with environment variables. Chainguard's Postgres image is compatible with the environment variables available in the official PostgreSQL image, including the following:
+
+* `PGDATA`: This variable allows you to define another location for database files. The default data directory is `/var/lib/postgresql/data`.
+* `POSTGRES_PASSWORD`: This environment variable sets the superuser password for PostgreSQL. This variable is required to use the Postgres image.
+* `POSTGRES_USER`: This is used with the `POSTGRES_PASSWORD` variable to set a superuser for the database and its password. If not specified, you can use the default `postgres` user.
+*  `POSTGRES_DB`: Using this variable allows you to set a different name for the default database. If not specified, the default database will be `postgres` or the value set by `POSTGRES_USER`.
+* `POSTGRES_INITDB_ARGS`: This variable allows you to send arguments to `postgres initdb`.
+* `POSTGRES_INITDB_WALDIR`: You can set this variable to define the location for the PostgreSQL transaction log. By default, the transaction log is stored in a subdirectory of the main PostgresSQL data folder, which you can define with `PGDATA`.
+* `POSTGRES_HOST_AUTH_METHOD`: This variable allows you to control the `auth-method` used to authenticate when connecting to the database.
+
+Note that if you set the `POSTGRES_HOST_AUTH_METHOD` variable to `trust`, then the `POSTGRES_PASSWORD` variable is no longer required:
+
+```sh
+docker run --rm -e POSTGRES_HOST_AUTH_METHOD=trust -e POSTGRES_DB=linky -ti --name postgres-test cgr.dev/chainguard/postgres:latest
+```
+
+Additionally, be aware that the Docker specific variables will only have an effect if you start the container with an empty data directory; pre-existing databases won't be affected on container startup.
+
+### Running PostgreSQL with a custom configuration file
+
+You can also run the Chainguard Postgres image with a custom configuration file. The following example will mount a PostgreSQL configuration file named `my-postgres.conf` to the container. 
+
+```sh
+docker run --rm -v "$PWD/my-postgres.conf":/etc/postgresql/postgresql.conf -e POSTGRES_PASSWORD=password -ti --name postgres-test cgr.dev/chainguard/postgres:latest -c 'config_file=/etc/postgresql/postgresql.conf'
+```
+
+This command also uses the `postgres` server's `-c` flag to set the `config_file` runtime parameter.
 
 
 ## Documentation and Resources
