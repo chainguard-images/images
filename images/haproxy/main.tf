@@ -8,7 +8,10 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "config" { source = "./config" }
+module "config" {
+  source         = "./config"
+  extra_packages = ["haproxy", "haproxy-oci-entrypoint", "dataplaneapi"]
+}
 
 module "latest" {
   source = "../../tflib/publisher"

@@ -23,7 +23,7 @@ module "accts" {
 }
 
 variable "extra_packages" {
-  default     = ["dotnet-sdk"]
+  default     = ["dotnet-sdk", "tzdata"]
   description = "The additional packages to install (e.g. dotnet-sdk)."
 }
 

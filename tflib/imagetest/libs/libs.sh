@@ -34,3 +34,7 @@ retry_until() {
 	echo "Failed after $max_retries attempts."
 	return $exit_code
 }
+
+image_ref() {
+	
+}

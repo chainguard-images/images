@@ -23,7 +23,7 @@ module "accts" {
 }
 
 variable "extra_packages" {
-  default     = ["dotnet-runtime"]
+  default     = ["dotnet-runtime", "tzdata"]
   description = "The additional packages to install (e.g. dotnet-runtime)."
 }
 

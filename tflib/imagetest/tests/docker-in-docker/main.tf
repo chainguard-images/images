@@ -19,17 +19,31 @@ variable "dind_image" {
   default     = "cgr.dev/chainguard/docker-dind:latest"
 }
 
+variable "cwd" {
+  description = "Path to current module ; added to content for all test if provided"
+  default     = ""
+}
+
 variable "tests" {
   description = "The list of tests to run with the docker in docker driver."
   type = list(object({
     name  = string
     image = string
     cmd   = string
-    content = list(object({
+    content = optional(list(object({
       source = string
-    }))
+    })))
     envs = optional(map(string), null)
   }))
+}
+
+locals {
+  tests = [for test in var.tests : merge(test, {
+    content = concat(test.content != null ? test.content : [],
+      var.cwd != "" ? [{ source = var.cwd }] : [],
+      [{ source = "${path.module}/../../../../shelllibs" }],
+    )
+  })]
 }
 
 resource "imagetest_tests" "dockerindocker" {
@@ -44,6 +58,6 @@ resource "imagetest_tests" "dockerindocker" {
 
   images = var.images
 
-  tests = var.tests
+  tests = local.tests
 }
 
