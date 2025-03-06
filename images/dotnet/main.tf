@@ -9,7 +9,9 @@ variable "target_repository" {
 }
 
 module "test-latest" {
-  source = "./tests"
+  source          = "./tests"
+  test_repository = var.test_repository
+
   digests = {
     sdk     = module.sdk.image_ref
     runtime = module.runtime.image_ref
