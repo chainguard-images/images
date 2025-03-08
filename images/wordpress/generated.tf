@@ -6,7 +6,7 @@ variable "test_repository" {
 
 output "summary" {
   value = {
-    "tags" = merge(module.tagger.imagetags, module.tagger-dev.imagetags)
+    "tags" = merge({})
   }
 }
 
