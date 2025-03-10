@@ -32,17 +32,22 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-- [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/grype)
-- [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/grype/provenance_info/)
-<!-- TODO: add Getting Started Guide - [Getting Started Guide](https://edu.chainguard.dev/chainguard/chainguard-images/reference/grype/getting-started-grype/) -->
-
 ## Image Variants
 
 Our `latest` tag uses the most recent build of the [Wolfi grype](https://github.com/wolfi-dev/os/blob/main/grype.yaml) package. The following tagged variant is available without authentication:
 
 - `latest`: This is an image for running `grype` commands. It does not include a shell or other applications.
 
-### grype help
+### Compatibility Notes
+
+Chainguard's `grype` image is comparable to the [official grype Image.](hub.docker.com/r/anchore/grype) but with the following changes:
+* We use a different entrypoint `/usr/bin/grype` as compared to the upstream's endpoint `/grype`.
+* We use a different `CMD` which is `help` whereas the upstream leaves it unset.
+* We don't define any WorkingDir whereas the upstream sets it to `/tmp`.
+
+### Getting Started
+
+#### grype help
 This will automatically pull the image to your local system and execute the command `grype help`:
 
 ```shell
@@ -73,6 +78,12 @@ You can also pipe in Syft JSON directly:
 Usage:
   grype [command]
 ```
+
+### Documentation and Resources
+
+* [Grype's Official Getting Started](https://github.com/anchore/grype?tab=readme-ov-file#getting-started)
+* [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/grype)
+* [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/grype/provenance_info/)
 <!--body:end-->
 
 ## Contact Support

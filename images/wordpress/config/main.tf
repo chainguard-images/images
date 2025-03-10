@@ -65,9 +65,6 @@ output "config" {
     entrypoint = { command = "php-fpm" }
     work-dir   = "/var/www/html"
     paths      = var.wp-paths
-    environment = {
-      PATH = "/usr/sbin:/sbin:/usr/bin:/bin"
-    }
   })
 }
 
@@ -93,9 +90,6 @@ output "config-dev" {
       permissions = 493,
       }
     ])
-    environment = {
-      PATH = "/usr/sbin:/sbin:/usr/bin:/bin"
-    }
   })
 }
 
