@@ -2,8 +2,10 @@ name: crane
 image: cgr.dev/chainguard/crane
 logo: https://storage.googleapis.com/chainguard-academy/logos/crane.svg
 endoflife: ""
-console_summary: ""
-short_description: Minimalist Wolfi-based crane image for interacting with registries.
+console_summary: "Minimalist Wolfi-based crane image for interacting with registries."
+short_description: Minimalist Wolfi-based crane image to interact with container registries.
+                   Crane is used for inspecting and manipulating container images,
+                   allowing you to view manifests, verify image layers, and check cryptographic signatures.
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/google/go-containerregistry/tree/main/cmd/crane
@@ -12,4 +14,4 @@ keywords:
 public: true
 tier: APPLICATION
 aliases:
-  - alpine/crane:latest
+  - gcr.io/go-containerregistry/crane:latest
