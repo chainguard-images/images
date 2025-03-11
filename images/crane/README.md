@@ -34,8 +34,7 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--body:start-->
 ## Compatibility Notes
 
-Chainguard's `crane` image is comparable to the [official Crane Image.](gcr.io/go-containerregistry/crane). However, the Chainguard image contains only the minimum set of tools and dependencies needed to function. Additionally, it use a different endpoint (`/usr/bin/crane`) as compared to the upstream's endpoint (`/ko-app/crane`).
-
+Chainguard's `crane` image is comparable to the [official Crane image](gcr.io/go-containerregistry/crane). However, the Chainguard image contains only the minimum set of tools and dependencies needed to function. Additionally, it uses a different entrypoint, `/usr/bin/crane`, compared to upstream's entrypoint of `/ko-app/crane`.
 
 ## Getting started
 
@@ -71,7 +70,7 @@ When you run this command, you will receive output similar to the following:
 
 ## Documentation and Resources
 
-For more information, you can refer to the [official Crane Documentation](https://gocrane.io/docs/). You might also find this [Crane Commands Cheatsheet](https://github.com/google/go-containerregistry/blob/main/cmd/crane/doc/crane.md) to be useful.
+For more information, you can refer to the [official Crane documentation](https://gocrane.io/docs/). You might also find this [Crane CLI cheatsheet](https://github.com/google/go-containerregistry/blob/main/cmd/crane/doc/crane.md) to be useful.
 <!--body:end-->
 
 ## Contact Support
