@@ -29,7 +29,7 @@ data "apko_config" "sandbox" {
       ]
     }
     environment = {}
-    work-dir    = "/imagetest"
+    work-dir    = "/imagetest/work"
   })
 }
 
