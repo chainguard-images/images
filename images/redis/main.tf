@@ -8,7 +8,12 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "latest-config" { source = "./configs" }
+module "latest-config" {
+  source = "./configs"
+
+  extra_repositories = ["https://packages.cgr.dev/extras"]
+  extra_keyring      = ["https://packages.cgr.dev/extras/chainguard-extras.rsa.pub"]
+}
 
 module "latest" {
   source            = "../../tflib/publisher"

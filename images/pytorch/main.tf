@@ -15,6 +15,10 @@ module "config" {
     "CUDA_VERSION" : "${each.value.cuda}",
     "LD_LIBRARY_PATH" : "/usr/local/cuda-${each.value.cuda}/lib:/usr/local/cudnn-8.9/lib64",
   }
+
+  extra_repositories = ["https://packages.cgr.dev/extras"]
+  extra_keyring      = ["https://packages.cgr.dev/extras/chainguard-extras.rsa.pub"]
+
   extra_packages = [
     "py${each.value.python}-torchvision-cuda-${each.value.cuda}",
   ]
