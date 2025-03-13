@@ -12,33 +12,6 @@ variable "digest" {
 // NOTE: Until a time in the near future when we support GPU enabled harnesses,
 // the tests below are benign and only serve to signal to the sharder how to
 // handle this image.
-data "imagetest_inventory" "this" {}
-
-resource "imagetest_harness_docker" "this" {
-  name      = "pytorch"
-  inventory = data.imagetest_inventory.this
-}
-
-resource "imagetest_feature" "basic" {
-  harness     = imagetest_harness_docker.this
-  name        = "Placeholder"
-  description = "Placeholder"
-
-  steps = [
-    {
-      name = "Placeholder"
-      cmd  = "exit 0"
-    },
-  ]
-
-  labels = {
-    type = "container"
-    # Group this image into a pytorch only shard
-    "shard::group"         = "pytorch"
-    "gha::runs-on"         = "ubuntu-latest-32-cores"
-    "gha::timeout-minutes" = "240"
-  }
-}
 
 /*
 locals { parsed = provider::oci::parse(var.digest) }

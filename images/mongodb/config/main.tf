@@ -3,41 +3,42 @@ module "accts" {
   source = "../../../tflib/accts"
 }
 
-terraform {
-  required_providers {
-    apko = { source = "chainguard-dev/apko" }
-  }
-}
-
-variable "extra_packages" {
-  default     = []
-  description = "The additional packages to install (e.g. mongo, mongos)"
-}
-
 output "config" {
   value = jsonencode({
-    "contents" : {
-      "packages" : var.extra_packages
+    contents = {
+      repositories = ["https://packages.cgr.dev/extras"]
+      keyring      = ["https://packages.cgr.dev/extras/chainguard-extras.rsa.pub"]
+      packages     = ["mongod", "procps"]
     },
-    "entrypoint" : {
-      "command" : "/usr/bin/mongod"
+    entrypoint = {
+      command = "/usr/bin/mongod"
     },
-    "work-dir" : "/data",
-    "accounts" : module.accts.block,
-    "paths" : [
+    work-dir = "/data",
+    accounts = module.accts.block,
+    paths = [
       {
-        "path" : "/data",
-        "type" : "directory",
-        "uid" : 65532,
-        "gid" : 65532,
-        "permissions" : 493
+        path        = "/data",
+        type        = "directory",
+        uid         = module.accts.uid
+        gid         = module.accts.gid
+        permissions = parseint("755", 8)
+        recursive   = true
       },
       {
-        "path" : "/data/db",
-        "type" : "directory",
-        "uid" : 65532,
-        "gid" : 65532,
-        "permissions" : 493
+        path        = "/data/db",
+        type        = "directory",
+        uid         = module.accts.uid
+        gid         = module.accts.gid
+        permissions = parseint("755", 8)
+        recursive   = true
+      },
+      {
+        path        = "/data/db/journal",
+        type        = "directory",
+        uid         = module.accts.uid
+        gid         = module.accts.gid
+        permissions = parseint("755", 8)
+        recursive   = true
       }
     ]
   })
