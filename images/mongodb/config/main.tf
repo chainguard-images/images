@@ -8,7 +8,7 @@ output "config" {
     contents = {
       repositories = ["https://packages.cgr.dev/extras"]
       keyring      = ["https://packages.cgr.dev/extras/chainguard-extras.rsa.pub"]
-      packages     = ["mongod", "procps"]
+      packages     = ["mongod", "mongo", "procps"]
     },
     entrypoint = {
       command = "/usr/bin/mongod"
