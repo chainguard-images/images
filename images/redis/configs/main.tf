@@ -20,12 +20,12 @@ variable "extra_packages" {
 
 variable "extra_repositories" {
   description = "The additional repositores to install from (e.g. extras)."
-  default     = ["https://packages.cgr.dev/extras"]
+  default     = []
 }
 
 variable "extra_keyring" {
   description = "The additional keys to use (e.g. extras)."
-  default     = ["https://packages.cgr.dev/extras/chainguard-extras.rsa.pub"]
+  default     = []
 }
 
 output "config" {

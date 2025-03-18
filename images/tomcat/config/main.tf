@@ -40,7 +40,7 @@ output "config" {
       "CATALINA_HOME" : "/usr/local/tomcat",
       "JAVA_HOME" : "/usr/lib/jvm/default-jvm",
       "LD_LIBRARY_PATH" : "/usr/lib/tomcat-native",
-      "PATH" : "/usr/local/tomcat/bin:/usr/sbin:/sbin:/usr/bin:/bin"
+      "PATH" : "/usr/local/tomcat/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
     }, var.extra_environments)
     "paths" : [
       {

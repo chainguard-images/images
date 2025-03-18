@@ -1,0 +1,12 @@
+name: malcontent
+image: cgr.dev/chainguard/malcontent
+logo: https://github.com/chainguard-dev.png
+endoflife: ""
+console_summary: ""
+short_description: Enumerate binary capabilities, including malicious behaviors.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/chainguard-dev/malcontent
+keywords: []
+tier: APPLICATION
+public: true

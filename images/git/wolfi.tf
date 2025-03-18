@@ -12,6 +12,13 @@ module "latest-wolfi" {
   config            = module.wolfi[each.key].config
   check-sbom        = false # TODO: Not yet conformant: ncurses, libedit, openssh
   build-dev         = true
+  extra_packages = [
+    "dash-binsh",
+    // Default git signing tools - See https://github.com/git/git/blob/6a64ac7b014fa2cfa7a69af3c253bcd53a94b428/gpg-interface.c#L93-L124
+    "gpg",
+    "gpgsm",
+    "openssh-keygen",
+  ]
 }
 
 module "test-latest-wolfi" {

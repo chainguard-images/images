@@ -36,7 +36,12 @@ locals {
   tests = [for test in var.tests : merge(test, {
     content = concat(test.content != null ? test.content : [],
       var.cwd != "" ? [{ source = var.cwd }] : [],
-      [{ source = "${path.module}/../../../../shelllibs" }],
+      [
+        {
+          source = "${path.module}/../../libs"
+          target = "/imagetest/libs"
+        }
+      ],
     )
   })]
 }

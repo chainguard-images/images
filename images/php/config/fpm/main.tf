@@ -33,9 +33,6 @@ output "config" {
     },
     "work-dir" : "/app",
     "accounts" : module.accts.block,
-    "environment" : {
-      "PATH" : "/usr/sbin:/sbin:/usr/bin:/bin"
-    },
     "paths" : [
       {
         "path" : "/app",

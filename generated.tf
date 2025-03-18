@@ -138,6 +138,12 @@ module "laravel" {
   test_repository   = var.test_repository
 }
 
+module "malcontent" {
+  source            = "./images/malcontent"
+  target_repository = "${var.target_repository}/malcontent"
+  test_repository   = var.test_repository
+}
+
 module "mariadb" {
   source            = "./images/mariadb"
   target_repository = "${var.target_repository}/mariadb"
@@ -342,6 +348,10 @@ output "summary_kubectl" {
 
 output "summary_laravel" {
   value = module.laravel.summary
+}
+
+output "summary_malcontent" {
+  value = module.malcontent.summary
 }
 
 output "summary_mariadb" {

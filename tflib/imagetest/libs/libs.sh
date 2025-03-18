@@ -12,29 +12,38 @@
 # Example:
 #   retry_until 5 2 curl -s --fail http://example.com/nonexistent
 retry_until() {
-	local max_retries=$1
-	local delay=$2
-	local current_retry=0
-	local exit_code=0
+  local max_retries=$1
+  local delay=$2
+  local current_retry=0
+  local exit_code=0
 
-	shift 2
+  shift 2
 
-	while ((current_retry < max_retries)); do
-		if "$@"; then
-			return 0
-		else
-			exit_code=$?
-		fi
+  while ((current_retry < max_retries)); do
+    if "$@"; then
+      return 0
+    else
+      exit_code=$?
+    fi
 
-		current_retry=$((current_retry + 1))
-		echo "Attempt $current_retry failed with exit code $exit_code. Retrying in $delay seconds..."
-		sleep "$delay"
-	done
+    current_retry=$((current_retry + 1))
+    echo "Attempt $current_retry failed with exit code $exit_code. Retrying in $delay seconds..."
+    sleep "$delay"
+  done
 
-	echo "Failed after $max_retries attempts."
-	return $exit_code
+  echo "Failed after $max_retries attempts."
+  return $exit_code
 }
 
-image_ref() {
-	
+get_test_image() {
+  local name="${1:?Image name required}"
+  local type="${2:-ref}"
+  local image
+  image="$(echo "$IMAGES" | jq -r ".[\"$name\"].${type}")"
+  if [ "$image" = "" ]; then
+    echo >&2 "Image '$name' not provided"
+    return 1
+  fi
+  echo "$image"
 }
+

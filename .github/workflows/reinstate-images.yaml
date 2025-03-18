@@ -16,11 +16,11 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
+      - uses: step-security/harden-runner@4d991eb9b905ef189e4c376166672c3f2f230481 # v2.11.0
         with:
           egress-policy: audit
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - uses: chainguard-dev/setup-chainctl@8d93dcbef466d3cf3533f67084f52eb74ef9d262 # v0.2.4
+      - uses: chainguard-dev/setup-chainctl@2302a56a61228140753b428d1018cb0d0addbec6 # v0.3.0
         with:
           identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
       - uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4

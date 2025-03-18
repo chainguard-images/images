@@ -20,7 +20,7 @@ on:
 concurrency: release
 
 env:
-  TOTAL_SHARDS: 40
+  TOTAL_SHARDS: 60
   TF_VAR_target_repository: cgr.dev/chainguard
 
 permissions:
@@ -30,7 +30,7 @@ jobs:
   shard:
     runs-on: ubuntu-latest
     steps:
-      - uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
+      - uses: step-security/harden-runner@4d991eb9b905ef189e4c376166672c3f2f230481 # v2.11.0
         with:
           egress-policy: audit
 
@@ -84,7 +84,7 @@ jobs:
       contents: read
       actions: read
     steps:
-      - uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
+      - uses: step-security/harden-runner@4d991eb9b905ef189e4c376166672c3f2f230481 # v2.11.0
         with:
           egress-policy: audit
 
@@ -93,7 +93,7 @@ jobs:
           terraform_version: "1.8.*"
           terraform_wrapper: false
 
-      - uses: chainguard-dev/setup-chainctl@8d93dcbef466d3cf3533f67084f52eb74ef9d262 # v0.2.4
+      - uses: chainguard-dev/setup-chainctl@2302a56a61228140753b428d1018cb0d0addbec6 # v0.3.0
         with:
           # This allows chainguard-images/images-private to publish images to cgr.dev/chainguard-private
           # We maintain this identity here:
@@ -105,7 +105,7 @@ jobs:
           k3s-image: cgr.dev/chainguard/k3s:latest@sha256:78fe2d04d80c000306a075677b180e3ef857e3116b423daa119c0e63f02d7912
 
       # Make cosign/crane CLI available to the tests
-      - uses: sigstore/cosign-installer@dc72c7d5c4d10cd6bcb8cf6e3fd625a9e5e537da # v3.7.0
+      - uses: sigstore/cosign-installer@d7d6bc7722e3daa8354c50bcb52f4837da5e9b6a # v3.8.1
       - uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
 
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -139,14 +139,14 @@ jobs:
 
       - name: Upload terraform logs
         if: always()
-        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v3
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v3
         with:
           name: "mega-module-${{ matrix.shard.index }}.tf.json"
           path: /tmp/mega-module.tf.json
 
       - name: Upload imagetest logs
         if: always()
-        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v3
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v3
         with:
           name: "mega-module-${{ matrix.shard.index }}-imagetest-logs"
           path: imagetest-logs
@@ -174,12 +174,12 @@ jobs:
     needs: build
 
     steps:
-      - uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
+      - uses: step-security/harden-runner@4d991eb9b905ef189e4c376166672c3f2f230481 # v2.11.0
         with:
           egress-policy: audit
 
       - name: "Download shard logs"
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9
         with:
           path: /tmp/shard-logs
           pattern: mega-module-*

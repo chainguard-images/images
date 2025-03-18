@@ -15,7 +15,7 @@
 <!--overview:start-->
 # Chainguard Image for crane
 
-Minimalist Wolfi-based crane image for interacting with registries.
+Minimalist Wolfi-based crane image to interact with container registries. Crane is used for inspecting and manipulating container images, allowing you to view manifests, verify image layers, and check cryptographic signatures.
 
 Chainguard Images are regularly-updated, minimal container images with low-to-zero CVEs.
 <!--overview:end-->
@@ -32,13 +32,45 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Usage
+## Compatibility Notes
 
-Inspect the crane image manifest using the crane image:
+Chainguard's `crane` image is comparable to the [official Crane image](gcr.io/go-containerregistry/crane). However, the Chainguard image contains only the minimum set of tools and dependencies needed to function. Additionally, it uses a different entrypoint, `/usr/bin/crane`, compared to upstream's entrypoint of `/ko-app/crane`.
+
+## Getting started
+
+You can inspect the `crane` image manifest using the `crane` image with the following command. The manifest provides a summary of key metadata about the image, including the image layers, digest information, annotations, and more.
+
+```shell
+docker run --rm cgr.dev/ORGANIZATION/crane:latest manifest cgr.dev/ORGANIZATION/crane:latest --platform=linux/amd64
+```
+
+When you run this command, you will receive output similar to the following:
 
 ```
-docker run --rm cgr.dev/chainguard/crane:latest manifest cgr.dev/chainguard/crane:latest --platform=linux/amd64
+{
+  "schemaVersion": 2,
+  "mediaType": "application/vnd.oci.image.manifest.v1+json",
+  "config": {
+    "mediaType": "application/vnd.oci.image.config.v1+json",
+    "size": 968,
+    "digest": "sha256:xxxxx"
+  },
+  "layers": [
+    {
+      "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+      "size": 4990473,
+      "digest": "sha256:xxxxx"
+    }
+  ],
+  "annotations": {
+    ......
+  }
+}
 ```
+
+## Documentation and Resources
+
+For more information, you can refer to the [official Crane documentation](https://gocrane.io/docs/). You might also find this [Crane CLI cheatsheet](https://github.com/google/go-containerregistry/blob/main/cmd/crane/doc/crane.md) to be useful.
 <!--body:end-->
 
 ## Contact Support

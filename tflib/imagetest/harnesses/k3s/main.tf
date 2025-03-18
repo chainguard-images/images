@@ -71,6 +71,12 @@ variable "mounts" {
   default = []
 }
 
+variable "extra_post_start_hooks" {
+  description = "additional post_start hooks for the k3s cluster"
+  type        = list(string)
+  default     = []
+}
+
 locals {
   inventory = var.inventory != null ? var.inventory : data.imagetest_inventory.this[0]
   name      = var.name != "" ? var.name : basename(var.cwd)
@@ -136,6 +142,17 @@ resource "imagetest_harness_k3s" "this" {
     ], module.test_libs.mounts, var.mounts)
 
     envs = var.envs
+  }
+
+  hooks = {
+    # many drivers require using same mount as k3s, so make it shared
+    post_start = concat(
+      [
+        "mount --make-shared /var/lib/kubelet",
+        "mount --make-rshared /",
+      ],
+      var.extra_post_start_hooks
+    )
   }
 }
 

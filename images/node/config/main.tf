@@ -33,7 +33,6 @@ output "config" {
     "accounts" : module.accts.block,
     "environment" : {
       "NPM_CONFIG_UPDATE_NOTIFIER" : "false",
-      "PATH" : "/usr/sbin:/sbin:/usr/bin:/bin"
     },
     "paths" : [
       {

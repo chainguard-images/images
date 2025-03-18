@@ -42,9 +42,6 @@ output "config" {
         }
       ]
     },
-    "environment" : {
-      "PATH" : "/usr/sbin:/sbin:/usr/bin:/bin"
-    },
     "paths" : [
       {
         "path" : "/app",

@@ -1,3 +1,9 @@
+terraform {
+  required_providers {
+    oci = { source = "chainguard-dev/oci" }
+  }
+}
+
 variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
@@ -13,14 +19,7 @@ module "latest" {
   name              = basename(path.module)
   source            = "../../tflib/publisher"
   target_repository = var.target_repository
-}
-
-module "latest-dev" {
-  config            = module.config.config-dev
-  main_package      = "wordpress"
-  name              = basename(path.module)
-  source            = "../../tflib/publisher"
-  target_repository = var.target_repository
+  build-dev         = true
 }
 
 module "test-latest" {
@@ -30,20 +29,19 @@ module "test-latest" {
 }
 
 module "test-latest-dev" {
-  digest            = module.latest-dev.image_ref
+  digest            = module.latest.dev_ref
   source            = "./tests"
   target_repository = var.target_repository
 }
 
-module "tagger" {
+resource "oci_tag" "latest" {
   depends_on = [module.test-latest]
-  source     = "../../tflib/tagger"
-  tags       = module.latest.latest_tag_map
+  digest_ref = module.latest.image_ref
+  tag        = "latest"
 }
 
-module "tagger-dev" {
-  depends_on = [module.test-latest-dev]
-  source     = "../../tflib/tagger"
-  tags       = module.latest-dev.latest_tag_map
+resource "oci_tag" "latest-dev" {
+  depends_on = [module.test-latest, module.test-latest-dev]
+  digest_ref = module.latest.dev_ref
+  tag        = "latest-dev"
 }
-

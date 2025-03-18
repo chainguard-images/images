@@ -1,11 +1,11 @@
 <!--monopod:start-->
-# grype
+# malcontent
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/grype` |
+| **OCI Reference** | `cgr.dev/chainguard/malcontent` |
 
 
-* [View Image in the Chainguard Images Directory](https://images.chainguard.dev/directory/image/grype/overview).
+* [View Image in the Chainguard Images Directory](https://images.chainguard.dev/directory/image/malcontent/overview).
 * [View the Image Catalog](https://console.chainguard.dev/images/catalog) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.
 
@@ -13,9 +13,9 @@
 <!--monopod:end-->
 
 <!--overview:start-->
-# Chainguard Image for grype
+# Chainguard Image for malcontent
 
-A vulnerability scanner for container images and filesystems
+Enumerate binary capabilities, including malicious behaviors.
 
 Chainguard Images are regularly-updated, minimal container images with low-to-zero CVEs.
 <!--overview:end-->
@@ -25,65 +25,20 @@ Chainguard Images are regularly-updated, minimal container images with low-to-ze
 This image is available on `cgr.dev`:
 
 ```
-docker pull cgr.dev/ORGANIZATION/grype:latest
+docker pull cgr.dev/ORGANIZATION/malcontent:latest
 ```
 
 Be sure to replace the `ORGANIZATION` placeholder with the name used for your organization's private repository within the Chainguard registry.
 <!--getting:end-->
 
 <!--body:start-->
-## Image Variants
+## Usage
 
-Our `latest` tag uses the most recent build of the [Wolfi grype](https://github.com/wolfi-dev/os/blob/main/grype.yaml) package. The following tagged variant is available without authentication:
+Inspect the crane image manifest using the crane image:
 
-- `latest`: This is an image for running `grype` commands. It does not include a shell or other applications.
-
-### Compatibility Notes
-
-Chainguard's `grype` image is comparable to the [official grype Image.](hub.docker.com/r/anchore/grype) but with the following changes:
-* We use a different entrypoint `/usr/bin/grype` as compared to the upstream's endpoint `/grype`.
-* We use a different `CMD` which is `help` whereas the upstream leaves it unset.
-* We don't define any WorkingDir whereas the upstream sets it to `/tmp`.
-
-### Getting Started
-
-#### grype help
-This will automatically pull the image to your local system and execute the command `grype help`:
-
-```shell
-docker run --rm cgr.dev/chainguard/grype help
-
-
-A vulnerability scanner for container images, filesystems, and SBOMs.
-
-Supports the following image sources:
-    grype yourrepo/yourimage:tag             defaults to using images from a Docker daemon
-    grype path/to/yourproject                a Docker tar, OCI tar, OCI directory, SIF container, or generic filesystem directory
-
-You can also explicitly specify the scheme to use:
-    grype podman:yourrepo/yourimage:tag          explicitly use the Podman daemon
-    grype docker:yourrepo/yourimage:tag          explicitly use the Docker daemon
-    grype docker-archive:path/to/yourimage.tar   use a tarball from disk for archives created from "docker save"
-    grype oci-archive:path/to/yourimage.tar      use a tarball from disk for OCI archives (from Podman or otherwise)
-    grype oci-dir:path/to/yourimage              read directly from a path on disk for OCI layout directories (from Skopeo or otherwise)
-    grype singularity:path/to/yourimage.sif      read directly from a Singularity Image Format (SIF) container on disk
-    grype dir:path/to/yourproject                read directly from a path on disk (any directory)
-    grype sbom:path/to/syft.json                 read Syft JSON from path on disk
-    grype registry:yourrepo/yourimage:tag        pull image directly from a registry (no container runtime required)
-    grype purl:path/to/purl/file                 read a newline separated file of purls from a path on disk
-
-You can also pipe in Syft JSON directly:
-	syft yourimage:tag -o json | grype
-
-Usage:
-  grype [command]
 ```
-
-### Documentation and Resources
-
-* [Grype's Official Getting Started](https://github.com/anchore/grype?tab=readme-ov-file#getting-started)
-* [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/grype)
-* [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/grype/provenance_info/)
+docker run --rm cgr.dev/chainguard/crane:latest manifest cgr.dev/chainguard/crane:latest --platform=linux/amd64
+```
 <!--body:end-->
 
 ## Contact Support
