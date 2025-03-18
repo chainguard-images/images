@@ -13,7 +13,6 @@ variable "target_repository" {
 module "config" {
   environment = {
     "CUDA_VERSION" : "${each.value.cuda}",
-    "LD_LIBRARY_PATH" : "/usr/local/cuda-${each.value.cuda}/lib:/usr/local/cudnn-8.9/lib64",
   }
 
   extra_repositories = ["https://packages.cgr.dev/extras"]
