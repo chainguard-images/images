@@ -36,6 +36,12 @@ module "curl" {
   test_repository   = var.test_repository
 }
 
+module "dfc" {
+  source            = "./images/dfc"
+  target_repository = "${var.target_repository}/dfc"
+  test_repository   = var.test_repository
+}
+
 module "dive" {
   source            = "./images/dive"
   target_repository = "${var.target_repository}/dive"
@@ -280,6 +286,10 @@ output "summary_crane" {
 
 output "summary_curl" {
   value = module.curl.summary
+}
+
+output "summary_dfc" {
+  value = module.dfc.summary
 }
 
 output "summary_dive" {

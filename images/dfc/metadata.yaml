@@ -1,0 +1,13 @@
+name: dfc
+image: cgr.dev/chainguard/dfc
+logo: https://storage.googleapis.com/chainguard-academy/logos/dfc.svg
+endoflife: ""
+console_summary: ""
+short_description: 
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/chainguard-dev/dfc
+keywords: []
+tier: APPLICATION
+aliases: []
+public: true

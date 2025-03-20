@@ -1,0 +1,26 @@
+"accounts":
+  "groups":
+  - "gid": 65532
+    "groupname": "nonroot"
+  "run-as": 65532
+  "users":
+  - "gid": 65532
+    "uid": 65532
+    "username": "nonroot"
+"annotations":
+  "dev.chainguard.package.main": "dfc"
+  "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/"
+  "org.opencontainers.image.source": "https://github.com/chainguard-images/images-private/tree/main/images/dfc"
+  "org.opencontainers.image.url": "https://images.chainguard.dev/directory/image/dfc/overview"
+  "org.opencontainers.image.vendor": "Chainguard"
+"cmd": "--help"
+"contents":
+  "packages":
+  - "dfc"
+"entrypoint":
+  "command": "/usr/bin/dfc"
+"paths":
+- "path": "/work"
+  "permissions": 511
+  "type": "directory"
+"work-dir": "/work"
