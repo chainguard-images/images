@@ -36,6 +36,10 @@ module "latest" {
 module "test-latest" {
   source = "./tests"
   digest = module.latest.image_ref
+  # In refernced postgres test, we dynamically pass uid/gid for TLS test, hence we will have to handle it here too
+  # Extract UID/GID directly from the latest config
+  uid = jsondecode(module.latest-config.config).accounts.users[0].uid
+  gid = jsondecode(module.latest-config.config).accounts.users[0].gid
 }
 
 resource "oci_tag" "latest" {

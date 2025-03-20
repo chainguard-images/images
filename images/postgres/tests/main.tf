@@ -8,10 +8,25 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "uid" {
+  description = "The UID for running PostgreSQL"
+  type        = string
+}
+
+variable "gid" {
+  description = "The GID for running PostgreSQL"
+  type        = string
+}
+
 data "imagetest_inventory" "this" {}
 
-resource "imagetest_container_volume" "this" {
+resource "imagetest_container_volume" "data" {
   name      = "postgresql"
+  inventory = data.imagetest_inventory.this
+}
+
+resource "imagetest_container_volume" "certs" {
+  name      = "postgresql_certs"
   inventory = data.imagetest_inventory.this
 }
 
@@ -23,8 +38,12 @@ resource "imagetest_harness_docker" "this" {
 
   envs = {
     IMAGE_NAME        = var.digest
-    VOLUME_ID         = imagetest_container_volume.this.id
+    VOLUME_ID         = imagetest_container_volume.data.id
+    CERTS_VOLUME_ID   = imagetest_container_volume.certs.id
     POSTGRES_PASSWORD = "password"
+    # Pass UID and GID dynamically
+    POSTGRES_UID = var.uid
+    POSTGRES_GID = var.gid
   }
   mounts = [
     {
@@ -34,9 +53,13 @@ resource "imagetest_harness_docker" "this" {
   ]
   volumes = [
     {
-      source      = imagetest_container_volume.this
+      source      = imagetest_container_volume.data
       destination = "/data"
-    }
+    },
+    {
+      source      = imagetest_container_volume.certs
+      destination = "/certs"
+    },
   ]
 }
 

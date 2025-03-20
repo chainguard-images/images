@@ -16,21 +16,50 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# Generate root CA
+# Generate root CA (FIPS-compliant: 4096-bit RSA key)
 mkdir -p $certs_dir
-openssl genpkey -algorithm RSA -out $certs_dir/ca.key
+openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 -out $certs_dir/ca.key
 openssl req -x509 -new -nodes -key $certs_dir/ca.key -sha256 -days 1024 -out $certs_dir/ca.crt -subj "/CN=localhost"
 
-# Generate SSL certificates for server
-openssl genpkey -algorithm RSA -out $certs_dir/server.key
+# Generate SSL certificates for server (FIPS-compliant: 4096-bit RSA key)
+openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 -out $certs_dir/server.key
 openssl req -new -key $certs_dir/server.key -out $certs_dir/server.csr -subj "/CN=localhost"
 openssl x509 -req -in $certs_dir/server.csr -CA $certs_dir/ca.crt -CAkey $certs_dir/ca.key -CAcreateserial -out $certs_dir/server.crt -days 365
+
+# Ensure correct ownership
+chown -R $POSTGRES_UID:$POSTGRES_GID "$certs_dir"
+
+# Set correct file permissions
+chmod 600 "$certs_dir/server.key"  # PostgreSQL requires 600
+chmod 644 "$certs_dir/server.crt"
+chmod 644 "$certs_dir/ca.crt"
+
+chmod 700 /certs  # Restrict access
+
+# Move certs to the mounted volume
+cp -r "$certs_dir"/* /certs
+
+chown -R $POSTGRES_UID:$POSTGRES_GID /certs
+chmod 600 /certs/server.key
+chmod 644 /certs/server.crt
+chmod 644 /certs/ca.crt
 
 # Create a Docker network
 docker network create $network_name
 
 # Start the PostgreSQL server with TLS enabled
-docker run --rm -d --name $server_name --network $network_name -v $(pwd)/$certs_dir:/certs -e POSTGRES_PASSWORD="$postgres_password" -e POSTGRES_SSL_CERT_FILE=/certs/server.crt -e POSTGRES_SSL_KEY_FILE=/certs/server.key $IMAGE_NAME
+docker run -d --name "$server_name" --network "$network_name" \
+  -v "$CERTS_VOLUME_ID:/certs:rw" \
+  -e POSTGRES_DB=postgres \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD="$postgres_password" \
+  --user $POSTGRES_UID:$POSTGRES_GID \
+  "$IMAGE_NAME" \
+  -c ssl=on \
+  -c ssl_cert_file='/certs/server.crt' \
+  -c ssl_key_file='/certs/server.key' \
+  -c ssl_ca_file='/certs/ca.crt'
+
 sleep 10
 
 # Wait until the PostgreSQL server is ready to accept connections or timeout
@@ -45,14 +74,47 @@ for i in $(seq 1 10); do
   sleep 10
 done
 
-# Verify SSL configuration
-docker exec $server_name cat /var/lib/postgresql/data/postgresql.conf | grep ssl
-docker exec $server_name cat /var/lib/postgresql/data/pg_hba.conf | grep ssl
+# Internal check (Ensures PostgreSQL has SSL enabled)
+SSL_STATUS=$(docker exec "$server_name" psql -U postgres -t -A -c "SHOW ssl;")
+echo "PostgreSQL Internal SSL Status: $SSL_STATUS"
 
-# Run the client in another container on the same network
-docker run --rm --name $client_name --network $network_name -v $(pwd)/$certs_dir:/certs -e PGPASSWORD="$postgres_password" --entrypoint psql $IMAGE_NAME --host=$server_name --port=5432 --username=postgres --dbname=postgres --set=sslmode=require --set=sslcert=/certs/server.crt --set=sslkey=/certs/server.key --set=sslrootcert=/certs/ca.crt -c 'SELECT 1'
+if [[ "$SSL_STATUS" != "on" ]]; then
+    echo "SSL is NOT enabled in PostgreSQL! Exiting..."
+    exit 1
+fi
+echo "SSL is enabled inside PostgreSQL."
 
-# Additional queries to ensure database operations over SSL
-docker run --rm --name $client_name --network $network_name -v $(pwd)/$certs_dir:/certs -e PGPASSWORD="$postgres_password" --entrypoint psql $IMAGE_NAME --host=$server_name --port=5432 --username=postgres --dbname=postgres --set=sslmode=require --set=sslcert=/certs/server.crt --set=sslkey=/certs/server.key --set=sslrootcert=/certs/ca.crt -c 'CREATE TABLE test (id SERIAL PRIMARY KEY, name VARCHAR(50));'
-docker run --rm --name $client_name --network $network_name -v $(pwd)/$certs_dir:/certs -e PGPASSWORD="$postgres_password" --entrypoint psql $IMAGE_NAME --host=$server_name --port=5432 --username=postgres --dbname=postgres --set=sslmode=require --set=sslcert=/certs/server.crt --set=sslkey=/certs/server.key --set=sslrootcert=/certs/ca.crt -c "INSERT INTO test (name) VALUES ('example');"
-docker run --rm --name $client_name --network $network_name -v $(pwd)/$certs_dir:/certs -e PGPASSWORD="$postgres_password" --entrypoint psql $IMAGE_NAME --host=$server_name --port=5432 --username=postgres --dbname=postgres --set=sslmode=require --set=sslcert=/certs/server.crt --set=sslkey=/certs/server.key --set=sslrootcert=/certs/ca.crt -c 'SELECT * FROM test;'
+# External client check (Ensures SSL connections are accepted)
+client_output=$(docker run --rm --name "$client_name" --network "$network_name" -v "$CERTS_VOLUME_ID:/certs:rw" \
+    --user "$POSTGRES_UID:$POSTGRES_GID" \
+    -e PGPASSWORD="$postgres_password" --entrypoint psql "$IMAGE_NAME" \
+    --host="$server_name" --port=5432 --username=postgres --dbname=postgres  \
+    --set=sslmode=require --set=sslcert=/certs/server.crt --set=sslkey=/certs/server.key --set=sslrootcert=/certs/ca.crt \
+    -t -A -c 'SHOW ssl;')
+
+echo "PostgreSQL SSL Status from Client Perspective: $client_output"
+
+if [[ "$client_output" != "on" ]]; then
+    echo "Client could not establish an SSL connection! Exiting..."
+    exit 1
+fi
+echo "Client successfully connected via SSL."
+
+
+# Additional Queries to Ensure SSL Database Operations
+function run_ssl_query() {
+  local query="$1"
+  docker run --rm --name "$client_name" --network "$network_name" \
+    --user $POSTGRES_UID:$POSTGRES_GID \
+    -v "$CERTS_VOLUME_ID:/certs:rw" \
+    -e PGPASSWORD="$postgres_password" \
+    --entrypoint psql "$IMAGE_NAME" \
+    --host="$server_name" --port=5432 --username=postgres --dbname=postgres \
+    --set=sslmode=require --set=sslcert=/certs/server.crt --set=sslkey=/certs/server.key --set=sslrootcert=/certs/ca.crt \
+    -c "$query"
+}
+
+# Create a test table, insert a record, and verify retrieval over SSL
+run_ssl_query "CREATE TABLE IF NOT EXISTS test (id SERIAL PRIMARY KEY, name VARCHAR(50));"
+run_ssl_query "INSERT INTO test (name) VALUES ('example');"
+run_ssl_query "SELECT * FROM test;"
