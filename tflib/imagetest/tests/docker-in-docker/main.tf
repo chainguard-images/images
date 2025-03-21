@@ -32,6 +32,7 @@ variable "tests" {
     cmd   = string
     content = optional(list(object({
       source = string
+      target = optional(string)
     })))
     envs = optional(map(string), null)
   }))

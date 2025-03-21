@@ -3,18 +3,18 @@ module "fpm-config" {
   source   = "./config/fpm"
 
   extra_packages = [
-    "php-${each.key}-curl",
-    "php-${each.key}-openssl",
-    "php-${each.key}-iconv",
-    "php-${each.key}-mbstring",
-    "php-${each.key}-mysqlnd",
-    "php-${each.key}-pdo",
-    "php-${each.key}-pdo_sqlite",
-    "php-${each.key}-pdo_mysql",
-    "php-${each.key}-sodium",
-    "php-${each.key}-phar",
-    "php-${each.key}",
-    "php-${each.key}-fpm",
+    "${each.key}-curl",
+    "${each.key}-openssl",
+    "${each.key}-iconv",
+    "${each.key}-mbstring",
+    "${each.key}-mysqlnd",
+    "${each.key}-pdo",
+    "${each.key}-pdo_sqlite",
+    "${each.key}-pdo_mysql",
+    "${each.key}-sodium",
+    "${each.key}-phar",
+    "${each.key}",
+    "${each.key}-fpm",
   ]
 }
 
@@ -25,7 +25,7 @@ module "versioned-fpm" {
   target_repository  = var.target_repository
   config             = module.fpm-config[each.key].config
   extra_dev_packages = ["composer"]
-  main_package       = "php-${each.key}"
+  main_package       = each.key
 }
 
 module "test-fpm" {
@@ -43,15 +43,20 @@ module "test-fpm-dev" {
   check-fpm = true
 }
 
+# exclude the latest-dev bit, otherwise ends up with tags like `latest-dev-fpm-dev` and `latest-dev-fpm`
 module "fpm-tagger" {
   source     = "../../tflib/tagger"
   depends_on = [module.test-fpm, module.test-fpm-dev]
-  tags = merge(concat([
-    for v in local.versions : [
-      { for t in module.versioned-fpm[v].tag_list : "${t}-fpm" => module.versioned-fpm[v].image_ref },
-      { for t in module.versioned-fpm[v].tag_list : "${t}-fpm-dev" => module.versioned-fpm[v].dev_ref },
-      { latest-fpm = module.versioned-fpm[v].image_ref },
-      { latest-fpm-dev = module.versioned-fpm[v].dev_ref },
-    ]
-  ]...)...)
+  tags = merge([
+    for v in local.versions : merge(
+      {
+        for t in module.versioned-fpm[v].tag_list : "${t}-fpm" => module.versioned-fpm[v].image_ref
+        if t != "latest-dev"
+      },
+      {
+        for t in module.versioned-fpm[v].tag_list : "${t}-fpm-dev" => module.versioned-fpm[v].dev_ref
+        if t != "latest-dev"
+      }
+    )
+  ]...)
 }

@@ -3,8 +3,12 @@ variable "target_repository" {
 }
 
 locals {
-  # TODO: handle multiple versions
-  versions = ["8.2", "8.3"]
+  versions = [element(module.versions.ordered_keys, length(module.versions.ordered_keys) - 1)]
+}
+
+module "versions" {
+  source  = "../../../tflib/versions"
+  package = "php"
 }
 
 module "config" {
@@ -12,17 +16,17 @@ module "config" {
   source   = "./config"
 
   extra_packages = [
-    "php-${each.key}-curl",
-    "php-${each.key}-openssl",
-    "php-${each.key}-iconv",
-    "php-${each.key}-mbstring",
-    "php-${each.key}-mysqlnd",
-    "php-${each.key}-pdo",
-    "php-${each.key}-pdo_sqlite",
-    "php-${each.key}-pdo_mysql",
-    "php-${each.key}-sodium",
-    "php-${each.key}-phar",
-    "php-${each.key}"
+    "${each.key}-curl",
+    "${each.key}-openssl",
+    "${each.key}-iconv",
+    "${each.key}-mbstring",
+    "${each.key}-mysqlnd",
+    "${each.key}-pdo",
+    "${each.key}-pdo_sqlite",
+    "${each.key}-pdo_mysql",
+    "${each.key}-sodium",
+    "${each.key}-phar",
+    "${each.key}"
   ]
 }
 
@@ -33,7 +37,7 @@ module "versioned" {
   target_repository  = var.target_repository
   config             = module.config[each.key].config
   extra_dev_packages = ["composer"]
-  main_package       = "php-${each.key}"
+  main_package       = each.key
 }
 
 module "test-versioned" {
