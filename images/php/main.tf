@@ -7,7 +7,7 @@ locals {
 }
 
 module "versions" {
-  source  = "../../../tflib/versions"
+  source  = "../../tflib/versions"
   package = "php"
 }
 
