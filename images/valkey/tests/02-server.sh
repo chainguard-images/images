@@ -3,7 +3,7 @@
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
 # to prevent duplicate container name issues when we run similar tests for both versions within the configs/ folder.
-CONTAINER_NAME=${CONTAINER_NAME:-"valkey-smoketest-$(date +%s)-$(uuidgen)"}
+CONTAINER_NAME=${CONTAINER_NAME:-"valkey-smoketest-$(date +%s)-${RANDOM}"}
 
 # Run two containers on the same network (just use host for simplicity)
 # The server should start up and listen, and the client will run ping

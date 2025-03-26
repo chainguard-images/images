@@ -39,8 +39,8 @@ get_test_image() {
   local name="${1:?Image name required}"
   local type="${2:-ref}"
   local image
-  image="$(echo "$IMAGES" | jq -r ".[\"$name\"].${type}")"
-  if [ "$image" = "" ]; then
+  image="$(echo "$IMAGES" | jq --raw-output --exit-status ".[\"$name\"].${type}")"
+  if [ "$image" = "" ] || [ "$image" = "null" ]; then
     echo >&2 "Image '$name' not provided"
     return 1
   fi

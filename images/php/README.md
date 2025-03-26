@@ -5,30 +5,30 @@
 | **OCI Reference** | `cgr.dev/chainguard/php` |
 
 
-* [View Image in the Chainguard Images Directory](https://images.chainguard.dev/directory/image/php/overview).
-* [View the Image Catalog](https://console.chainguard.dev/images/catalog) for a full list of available tags.
-* [Contact Chainguard](https://www.chainguard.dev/chainguard-images) for enterprise support, SLAs, and access to older tags.
+* [View container image in the Chainguard Containers Directory](https://images.chainguard.dev/directory/image/php/overview).
+* [View the Container Catalog](https://console.chainguard.dev/images/catalog) for a full list of available tags.
+* [Contact Chainguard](https://www.chainguard.dev/contact?utm_source=readmes) for enterprise support, SLAs, and access to older tags.
 
 ---
 <!--monopod:end-->
 
 <!--overview:start-->
-# Chainguard Image for php
+# Chainguard Container for php
 
 Minimalist Wolfi-based PHP images for building and running PHP applications. Includes both `dev` and `fpm` variants.
 
-Chainguard Images are regularly-updated, minimal container images with low-to-zero CVEs.
+Chainguard Containers are regularly-updated, secure-by-default container images.
 <!--overview:end-->
 
 <!--getting:start-->
-## Download this Image
-This image is available on `cgr.dev`:
+## Download this Container Image
+For those with access, this container image is available on `cgr.dev`:
 
 ```
 docker pull cgr.dev/ORGANIZATION/php:latest
 ```
 
-Be sure to replace the `ORGANIZATION` placeholder with the name used for your organization's private repository within the Chainguard registry.
+Be sure to replace the `ORGANIZATION` placeholder with the name used for your organization's private repository within the Chainguard Registry.
 <!--getting:end-->
 
 <!--body:start-->
@@ -160,32 +160,30 @@ docker run --rm cgr.dev/chainguard/php:latest --info | grep curl
 * [Vulnerability Comparison: php](https://edu.chainguard.dev/chainguard/chainguard-images/vuln-comparison/php/)
 <!--body:end-->
 
-## Contact Support
+## What are Chainguard Containers?
 
-If you have a Zendesk account (typically set up for you by your Customer Success Manager) you can reach out to Chainguard's Customer Success team through our [Zendesk portal](https://support.chainguard.dev/hc/en-us).
+[Chainguard Containers](https://www.chainguard.dev/containers?utm_source=readmes) are minimal container images that are secure by default. 
 
-## What are Chainguard Images?
+In many cases, the Chainguard Containers tagged as `:latest` contain only an open-source application and its runtime dependencies. These minimal container images typically do not contain a shell or package manager. Chainguard Containers are built with [Wolfi](https://edu.chainguard.dev/open-source/wolfi/overview?utm_source=readmes), our Linux _[undistro](https://edu.chainguard.dev/open-source/wolfi/overview/#why-undistro)_ designed to produce container images that meet the requirements of a more secure software supply chain.
 
-[Chainguard Images](https://www.chainguard.dev/chainguard-images?utm_source=readmes) are a collection of container images designed for security and minimalism.
+The main features of Chainguard Containers include:
 
-Many Chainguard Images are [distroless](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started-distroless/); they contain only an open-source application and its runtime dependencies. These images do not even contain a shell or package manager. Chainguard Images are built with [Wolfi](https://edu.chainguard.dev/open-source/wolfi/overview), our Linux _undistro_ designed to produce container images that meet the requirements of a secure software supply chain.
+* Minimal design, without unnecessary software bloat
+* Daily builds to ensure container images are up-to-date with available security patches
+* [High quality build-time SBOMs](https://edu.chainguard.dev/chainguard/chainguard-images/working-with-images/retrieve-image-sboms/?utm_source=readmes) attesting to the provenance of all artifacts within the image
+* [Verifiable signatures](https://edu.chainguard.dev/chainguard/chainguard-images/working-with-images/retrieve-image-sboms/) provided by [Sigstore](https://edu.chainguard.dev/open-source/sigstore/cosign/an-introduction-to-cosign/?utm_source=readmes)
+* Reproducible builds with Cosign and apko ([read more about reproducibility](https://www.chainguard.dev/unchained/reproducing-chainguards-reproducible-image-builds?utm_source=readmes))
 
-The main features of Chainguard Images include:
+For cases where you need container images with shells and package managers to build or debug, most Chainguard Containers come paired with a `-dev` variant.
 
-* Minimal design, with no unnecessary software bloat
-* Automated nightly builds to ensure Images are completely up-to-date and contain all available security patches
-* [High quality build-time SBOMs](https://edu.chainguard.dev/chainguard/chainguard-images/working-with-images/retrieve-image-sboms/) (software bills of materials) attesting the provenance of all artifacts within the Image
-* [Verifiable signatures](https://edu.chainguard.dev/chainguard/chainguard-images/working-with-images/retrieve-image-sboms/) provided by [Sigstore](https://edu.chainguard.dev/open-source/sigstore/cosign/an-introduction-to-cosign/)
-* Reproducible builds with Cosign and apko ([read more about reproducibility](https://www.chainguard.dev/unchained/reproducing-chainguards-reproducible-image-builds))
-
-### `-dev` Variants
-
-As mentioned previously, Chainguard’s distroless Images have no shell or package manager by default. This is great for security, but sometimes you need these things, especially in builder images. For those cases, most (but not all) Chainguard Images come paired with a `-dev` variant which does include a shell and package manager.
-
-Although the `-dev` image variants have similar security features as their distroless versions, such as complete SBOMs and signatures, they feature additional software that is typically not necessary in production environments. The general recommendation is to use the `-dev` variants only to build the application and then copy all application artifacts into a distroless image, which will result in a final container image that has a minimal attack surface and won’t allow package installations or logins.
-
-That being said, it’s worth noting that `-dev` variants of Chainguard Images are completely fine to run in production environments. After all, the `-dev` variants are still **more secure** than many popular container images based on fully-featured operating systems such as Debian and Ubuntu since they carry less software, follow a more frequent patch cadence, and offer attestations for what they include.
+Although the `-dev` container image variants have similar security features as their more minimal versions, they feature additional software that is typically not necessary in production environments. We recommend using multi-stage builds to leverage the `-dev` variants, copying application artifacts into a final minimal container that offers a reduced attack surface that won’t allow package installations or logins.
 
 ## Learn More
 
-To better understand how to work with Chainguard Images, we encourage you to visit [Chainguard Academy](https://edu.chainguard.dev/), our documentation and education platform.
+To better understand how to work with Chainguard Containers, please visit [Chainguard Academy](https://edu.chainguard.dev/?utm_source=readmes) and [Chainguard Courses](https://courses.chainguard.dev/?utm_source=readmes).
+
+In addition to [Containers](https://www.chainguard.dev/containers?utm_source=readmes), Chainguard offers [VMs](https://www.chainguard.dev/vms?utm_source=readmes) and [Libraries](https://www.chainguard.dev/libraries?utm_source=readmes). [Contact Chainguard](https://www.chainguard.dev/contact?utm_source=readmes) to access additional products. 
+
+## Trademarks
+
+_This software listing is packaged by Chainguard. The trademarks set forth in this offering are owned by their respective companies, and use of them does not imply any affiliation, sponsorship, or endorsement by such companies._
