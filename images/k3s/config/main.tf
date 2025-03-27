@@ -76,7 +76,6 @@ output "config" {
       # /bin/aux is a "special" path upstream may use to store binaries it
       # wants to override. we currently don't keep any of these, but keep the
       # $PATH override just in case.
-      KUBECONFIG      = "/etc/rancher/k3s/k3s.yaml"
       PATH            = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/bin/aux"
       CRI_CONFIG_PATH = "/var/lib/rancher/k3s/agent/etc/crictl.yaml"
     }
