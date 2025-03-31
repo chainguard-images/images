@@ -20,7 +20,6 @@ on:
 concurrency: release
 
 env:
-  TOTAL_SHARDS: 50
   TF_VAR_target_repository: cgr.dev/chainguard
 
 permissions:
@@ -42,17 +41,12 @@ jobs:
         run: |
           images=($(find ./images -maxdepth 1 -type d -not -path "./images/TEMPLATE" | awk -F'/' '{print $3}' | sort -u | shuf))
 
-          # n buckets to shard into
-          n=${{ env.TOTAL_SHARDS }}
           total=${#images[@]}
-          base_size=$((total / n))
-          remainder=$((total % n))
 
+          # put each image module into its own shard
           declare -a bins
-          # Sequentially fill up each bin, and append any remainders to the last bin
           for ((i = 0; i < total; i++)); do
-            idx=$((i < (total - remainder) ? i / base_size : n - 1))
-            bins[$idx]+="${images[$i]} "
+            bins[$i]="${images[$i]}"
           done
 
           matrix=$(printf "%s\n" "${bins[@]}" | jq -cRnjr '[inputs] | [ range(0; length) as $i | { "index": $i | tostring, "images": .[$i] } ]')
