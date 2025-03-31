@@ -17,7 +17,9 @@ on:
         required: false
         default: ""
 
-concurrency: release
+concurrency:
+  group: ${{ inputs.only || 'release' }}
+  cancel-in-progress: false
 
 env:
   TOTAL_SHARDS: 50
