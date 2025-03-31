@@ -11,7 +11,7 @@ docker run --rm --entrypoint '' "$image" whoami | grep "^nonroot$"
 
 # The image contains many common utilities (some in /usr/bin and some in /bin)
 for cmd in awk basename cat chmod chown cp cut date dirname du echo egrep expr find grep head id ln ls mkdir mktemp mv printf pwd rm rmdir sed sh sort tail tar tee test touch tr uname uniq wc xargs; do
-  docker run --rm "$image" which "$cmd" | grep "/bin/$cmd$"
+  docker run --rm "$image" which "$cmd" || { echo "$cmd not in PATH"; exit 1; }
 done
 
 # The image can be used as a base image.
