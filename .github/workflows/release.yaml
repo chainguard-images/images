@@ -96,10 +96,6 @@ jobs:
           # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
           identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
 
-      - uses: chainguard-dev/actions/setup-k3d@ba1a9c9ffe799736883d58f31caff18d85b2800e # main
-        with:
-          k3s-image: cgr.dev/chainguard/k3s:latest@sha256:78fe2d04d80c000306a075677b180e3ef857e3116b423daa119c0e63f02d7912
-
       # Make cosign/crane CLI available to the tests
       - uses: sigstore/cosign-installer@d7d6bc7722e3daa8354c50bcb52f4837da5e9b6a # v3.8.1
       - uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
