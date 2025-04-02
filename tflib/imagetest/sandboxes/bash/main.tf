@@ -16,6 +16,7 @@ data "apko_config" "sandbox" {
         "binutils",
         "busybox",
         "curl",
+        "gettext",
         "git",
         "helm",
         "jq",
