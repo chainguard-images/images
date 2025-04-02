@@ -68,7 +68,7 @@ variable "extra_packages" {
 
 variable "archs" {
   type        = list(string)
-  default     = []
+  default     = ["x86_64", "aarch64"]
   description = "The architectures to build for. If empty, defaults to x86_64 and aarch64."
 }
 
@@ -76,7 +76,7 @@ provider "apko" {
   extra_repositories = concat(["https://packages.wolfi.dev/os"], var.extra_repositories)
   extra_keyring      = concat(["https://packages.wolfi.dev/os/wolfi-signing.rsa.pub"], var.extra_keyring)
   extra_packages     = concat(["wolfi-baselayout"], var.extra_packages)
-  default_archs      = length(var.archs) == 0 ? ["x86_64", "aarch64"] : var.archs
+  default_archs      = ["x86_64", "aarch64"]
 }
 
 variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
