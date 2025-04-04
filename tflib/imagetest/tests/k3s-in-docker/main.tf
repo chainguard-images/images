@@ -52,10 +52,22 @@ resource "imagetest_tests" "k3sindocker" {
   driver = "k3s_in_docker"
 
   drivers = {
-    k3s_in_docker = {}
+    k3s_in_docker = {
+      registries = {
+        "docker.io" = {
+          mirrors = {
+            endpoints = ["https://mirror.gcr.io"]
+          }
+        }
+      }
+    }
   }
 
   images = var.images
 
   tests = local.tests
+}
+
+output "tests" {
+  value = imagetest_tests.k3sindocker
 }

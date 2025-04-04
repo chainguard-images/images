@@ -58,7 +58,8 @@ resource "imagetest_tests" "dockerindocker" {
 
   drivers = {
     docker_in_docker = {
-      image = var.dind_image
+      image   = var.dind_image
+      mirrors = ["https://mirror.gcr.io"]
     }
   }
 
@@ -67,3 +68,6 @@ resource "imagetest_tests" "dockerindocker" {
   tests = local.tests
 }
 
+output "tests" {
+  value = imagetest_tests.dockerindocker
+}
