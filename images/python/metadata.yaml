@@ -12,9 +12,6 @@ keywords:
   - featured
 aliases:
   - bitnami/python:latest
-  - python:3.10
-  - python:3.11
-  - python:3.12
-  - python:3.8
-  - python:3.9
   - python:latest
+  - python:slim
+  - python:alpine
