@@ -15,7 +15,7 @@
 <!--overview:start-->
 # Chainguard Container for mongodb
 
-The MongoDB Database image
+[MongoDB](https://www.mongodb.com/) is a document-oriented database management system. MongoDB is a popular example of a NoSQL database, and stores data in JSON-like documents.
 
 Chainguard Containers are regularly-updated, secure-by-default container images.
 <!--overview:end-->
@@ -32,24 +32,51 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Using MongoDB
+## Compatibility Notes
+Chainguard's MongoDB container image is comparable to [the official `mongo` image](https://hub.docker.com/_/mongo) available on Docker Hub. 
+
+Like most of Chainguard's images, the MongoDB image does not operate as the root user and includes only the minimum packages needed to function. This means it doesn't include things like a shell or package manager.
+
+
+## Getting Started
+
+Here's one example of how Chainguard's MongoDB container image can be run:
+
 ```shell
-$ docker run cgr.dev/chainguard/mongodb
+docker run -d --rm -it -p 27017:27017 cgr.dev/chainguard/mongodb --bind_ip_all --noauth
 ```
 
-Connect to the MongoDB Deployment with mongosh and confirm your MongoDB instance is running by inserting a new document
+This example includes Docker's `-d` argument, which will cause the container to run in the background, as well as the `-p` argument, which publishes the container's port `27017` to the host machine's port `27017`. It also includes MongoDB's `--bind_ip_all` and `--noauth` arguments. These bind the `mongod` process to all IP addresses and instruct it to run without security, respectively. 
+
+> [!WARNING]
+> These selections are not recommended for production environments, but they are useful for testing that the MongoDB image is working properly.
+
+Following that, connect to the MongoDB deployment with `mongosh`, the MongoDB shell:
 
 ```shell
-$ mongosh --port 27017
-$test> db.products.insert( { item: "card", qty: 15 } )
+mongosh --port 27017
+```
+
+Once connected, you can interact with the running MongoDB instance. For example, you can insert a new document:
+
+```
+test> db.products.insertOne( { item: "card", qty: 15 } )
 {
   acknowledged: true,
   insertedIds: { '0': ObjectId('662141e9a1519b8bd2ac3fc4') }
 }
-$test> show collections
-products
+```
+
+You can also run `mongosh` methods and commands to interact with the MongoDB deployment. For example, `show collections` will list the collection you just created with the previous `insertOne` method:
 
 ```
+test> show collections
+products
+```
+
+## Documentation and Resources
+* [MongoDB Documentation](https://www.mongodb.com/docs/)
+* [Upstream `mongo` image](https://hub.docker.com/_/mongo)
 <!--body:end-->
 
 ## What are Chainguard Containers?
