@@ -47,3 +47,26 @@ get_test_image() {
   echo "$image"
 }
 
+# Function to wait until a flag file is present as a
+# simple mechanism for debugging test scripts
+#
+# When this function is called, create a file /tmp/CONTINUE
+# externally (i.e. via docker exec) to unpause the test.
+#
+# The flag file is removed after each invocation, so multiple
+# calls to this function can be used to debug tests.
+#
+# Usage: test_debug_pause [timeout]
+#
+# Arguments:
+#   timeout     - Maximum time to wait in seconds (defaults to 1200)
+#
+# Example:
+#   test_debug_pause
+test_debug_pause() {
+  local timeout="${1:-1200}"
+  echo >&2 "PAUSING TEST FOR DEBUGGING"
+  retry_until "${timeout}" 1 test -f /tmp/CONTINUE
+  rm -f /tmp/CONTINUE
+  echo >&2 "CONTINUING TESTS"
+}
