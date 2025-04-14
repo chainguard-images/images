@@ -35,6 +35,7 @@ trap "docker rm -f ${container_name}" EXIT
 # this variable.
 REBUILT_IMAGE_NAME=$(docker run --rm \
    --link "${container_name}" \
+   --user $(id -u):$(id -g) \
    -v "${TMP}:/tmp/latest.apko.json" \
    -v ${PWD}:${PWD}:ro -w ${PWD} \
    -v ${XDG_CACHE_HOME:-$HOME/.cache}:/cache \
