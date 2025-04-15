@@ -15,7 +15,7 @@ RUN corepack --version && \
     yarn --version
 
 RUN npm ci --omit=dev
-# Copy the the files you need
+# Copy the files you need
 COPY . ./
 # npm run build or whatever you need to do to build your app
 
