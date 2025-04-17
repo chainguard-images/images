@@ -14,6 +14,12 @@ variable "images" {
   type        = map(string)
 }
 
+variable "k3s-image" {
+  description = "k3s image that we should use"
+  type        = string
+  default     = "cgr.dev/chainguard/k3s:latest-dev"
+}
+
 variable "cwd" {
   description = "Path to current module ; added to content for all test if provided"
   default     = ""
@@ -53,6 +59,7 @@ resource "imagetest_tests" "k3sindocker" {
 
   drivers = {
     k3s_in_docker = {
+      image = "${var.k3s-image}"
       registries = {
         "docker.io" = {
           mirrors = {
