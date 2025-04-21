@@ -34,17 +34,15 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--body:start-->
 ## Compatibility Notes
 
-Chainguard’s HAProxy image is a minimal, Wolfi-based container image. It comes in two variants: a `-slim` version that only contains the `haproxy` binary, as well as a regular version that contains a `docker-entrypoint.sh` script that is compatible with the external `docker-library/haproxy` image for use with Helm charts or established Docker based deployments.
+Chainguard’s HAProxy container image is a minimal image that comes in two variants: a `-slim` version that only contains the `haproxy` binary, as well as a regular version that contains a `docker-entrypoint.sh` script that is compatible with the external `docker-library/haproxy` image for use with Helm charts or established Docker based deployments.
 
 ## Getting Started
 
-Similar to the `docker-library/haproxy` image, this image does not come with any default configuration.
+Similar to the `docker-library/haproxy` container image, this image does not come with any default configuration.
 
-Please refer to [upstream's excellent (and comprehensive) documentation](https://docs.haproxy.org/) on the subject of configuring HAProxy for your needs.
+Let say you have a `haproxy.cfg` config file in the current working directory. To test that configuration file, you can run the following command:
 
-Let say you have a `haproxy.cfg` config file is current working directory. To test that configuration file, you can run the following command
-
-```
+```shell
 docker run -it --rm -v "$(pwd):/etc/haproxy" --name haproxy-syntax-check cgr.dev/ORGANIZATION/haproxy haproxy -c -f /etc/haproxy/haproxy.cfg
 ```
 
@@ -69,6 +67,32 @@ haproxy:
       add:
         - NET_BIND_SERVICE
 ```
+
+### Note on adding users
+
+By default, the Chainguard HAProxy container image runs as the `haproxy` user and group, with a UID and GID of `65532`. You could represent this in an `haproxy.cfg` file as follows:
+
+```
+global
+  user  haproxy
+  group haproxy
+```
+
+In the Kubernetes security context, this information might look like this:
+
+```
+securityContext:
+  runAsUser: 65532
+  runAsGroup: 65532
+```
+
+If you add a user, make sure that you use the correct matching user in your `haproxy.cfg` file. If the user listed in your `haproxy.cfg` file doesn't match what's in the Kubernetes security context, it will result in errors. 
+
+
+## Documentation and Resources
+
+Please refer to [the HAProxy documentation](https://docs.haproxy.org/) for more information on configuring HAProxy for your needs.
+
 <!--body:end-->
 
 ## What are Chainguard Containers?
