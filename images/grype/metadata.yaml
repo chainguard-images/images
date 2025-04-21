@@ -1,6 +1,5 @@
 name: grype
 image: cgr.dev/chainguard/grype
-logo: https://storage.googleapis.com/chainguard-academy/logos/grype.svg
 endoflife: ""
 console_summary: ""
 short_description: A vulnerability scanner for container images and filesystems

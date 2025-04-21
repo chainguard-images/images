@@ -1,6 +1,5 @@
 name: mongodb
 image: cgr.dev/chainguard/mongodb
-logo: https://storage.googleapis.com/chainguard-academy/logos/mongodb.svg
 endoflife: ""
 console_summary: ""
 short_description: "[MongoDB](https://www.mongodb.com/) is a document-oriented database management system. MongoDB is a popular example of a NoSQL database, and stores data in JSON-like documents."

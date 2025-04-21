@@ -1,6 +1,5 @@
 name: wordpress
 image: cgr.dev/chainguard/wordpress
-logo: https://storage.googleapis.com/chainguard-academy/logos/wordpress/logo.svg
 endoflife: ""
 console_summary: ""
 short_description: Minimalist Wolfi-based WordPress images.

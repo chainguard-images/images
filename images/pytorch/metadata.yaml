@@ -1,6 +1,5 @@
 name: pytorch
 image: cgr.dev/chainguard/pytorch
-logo: https://storage.googleapis.com/chainguard-academy/logos/pytorch.svg
 endoflife: ""
 console_summary: ""
 short_description: |

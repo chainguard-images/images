@@ -1,6 +1,5 @@
 name: static
 image: cgr.dev/chainguard/static
-logo: https://storage.googleapis.com/chainguard-academy/logos/static.svg
 endoflife: ""
 console_summary: ""
 short_description: Base images with the minimum contents needed to run static binaries.

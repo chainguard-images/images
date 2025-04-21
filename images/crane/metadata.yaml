@@ -1,6 +1,5 @@
 name: crane
 image: cgr.dev/chainguard/crane
-logo: https://storage.googleapis.com/chainguard-academy/logos/crane.svg
 endoflife: ""
 console_summary: "Minimalist Wolfi-based crane image for interacting with registries."
 short_description: Minimalist Wolfi-based crane image to interact with container registries.

@@ -1,6 +1,5 @@
 name: helm
 image: cgr.dev/chainguard/helm
-logo: https://storage.googleapis.com/chainguard-academy/logos/helm.svg
 endoflife: ""
 console_summary: ""
 short_description: Minimal image with [helm](https://helm.sh) binary.

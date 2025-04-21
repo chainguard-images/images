@@ -1,6 +1,5 @@
 name: go
 image: cgr.dev/chainguard/go
-logo: https://storage.googleapis.com/chainguard-academy/logos/go.svg
 endoflife: ""
 console_summary: ""
 short_description: Container image for building Go applications.

@@ -1,6 +1,5 @@
 name: valkey
 image: cgr.dev/chainguard/valkey
-logo: https://storage.googleapis.com/chainguard-academy/logos/valkey.svg
 endoflife: ""
 console_summary: ""
 short_description: Minimalist Wolfi-based [Valkey](https://github.com/valkey-io/valkey) image.

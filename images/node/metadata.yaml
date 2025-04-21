@@ -1,6 +1,5 @@
 name: node
 image: cgr.dev/chainguard/node
-logo: https://storage.googleapis.com/chainguard-academy/logos/node.svg
 endoflife: ""
 console_summary: ""
 short_description: Minimal container image for running NodeJS apps

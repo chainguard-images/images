@@ -1,6 +1,5 @@
 name: gcc-glibc
 image: cgr.dev/chainguard/gcc-glibc
-logo: https://storage.googleapis.com/chainguard-academy/logos/gcc-glibc.svg
 endoflife: ""
 console_summary: ""
 short_description: Minimal GCC (GNU Compiler Collection) image for building C applications compatible with glibc.

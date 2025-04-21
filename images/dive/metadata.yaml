@@ -1,6 +1,5 @@
 name: dive
 image: cgr.dev/chainguard/dive
-logo: https://storage.googleapis.com/chainguard-academy/logos/dive.svg
 endoflife: ""
 console_summary: ""
 short_description: Minimal [dive](https://github.com/wagoodman/dive) container image.

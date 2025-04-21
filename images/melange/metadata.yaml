@@ -1,6 +1,5 @@
 name: melange
 image: cgr.dev/chainguard/melange
-logo: https://storage.googleapis.com/chainguard-academy/logos/melange.svg
 endoflife: ""
 console_summary: ""
 short_description: Container image for running [melange](https://github.com/chainguard-dev/melange) workflows to build APK packages.

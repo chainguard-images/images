@@ -1,6 +1,5 @@
 name: {{ .ModuleName }}
 image: cgr.dev/chainguard/{{ .ModuleName }}
-logo: https://storage.googleapis.com/chainguard-academy/logos/{{ .ModuleName }}.svg
 endoflife: ""
 console_summary: ""
 short_description: TODO

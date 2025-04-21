@@ -1,6 +1,5 @@
 name: openscap
 image: cgr.dev/chainguard/openscap
-logo: https://storage.googleapis.com/chainguard-academy/logos/openscap.svg
 endoflife: ""
 console_summary: ""
 short_description: "NIST Certified SCAP 1.2 toolkit"

@@ -1,6 +1,5 @@
 name: glibc-dynamic
 image: cgr.dev/chainguard/glibc-dynamic
-logo: https://storage.googleapis.com/chainguard-academy/logos/glibc-dynamic.svg
 endoflife: ""
 console_summary: ""
 short_description: Base image with just enough to run arbitrary glibc binaries.

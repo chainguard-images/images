@@ -1,6 +1,5 @@
 name: ko
 image: cgr.dev/chainguard/ko
-logo: https://storage.googleapis.com/chainguard-academy/logos/ko.svg
 endoflife: ""
 console_summary: ""
 short_description: Minimal image to build and deploy Go applications using [ko](https://ko.build/)

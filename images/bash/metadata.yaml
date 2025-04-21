@@ -1,6 +1,5 @@
 name: bash
 image: cgr.dev/chainguard/bash
-logo: https://storage.googleapis.com/chainguard-academy/logos/bash.svg
 endoflife: ""
 console_summary: ""
 short_description: Container image with only Bash and libc. Suitable for running any small scripts or binaries that need Bash instead of the BusyBox shell.

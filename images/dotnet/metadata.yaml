@@ -1,6 +1,5 @@
 name: dotnet
 image: cgr.dev/chainguard/dotnet
-logo: https://storage.googleapis.com/chainguard-academy/logos/dotnet.svg
 endoflife: ""
 console_summary: ""
 short_description: Minimal container image for .NET and the .NET Tools.

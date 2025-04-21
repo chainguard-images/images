@@ -1,6 +1,5 @@
 name: gradle
 image: cgr.dev/chainguard/gradle
-logo: https://storage.googleapis.com/chainguard-academy/logos/gradle.svg
 endoflife: ""
 console_summary: ""
 short_description: Chainguard Image with [Gradle](https://gradle.org/), an open source build system for Java, Android, and Kotlin.
