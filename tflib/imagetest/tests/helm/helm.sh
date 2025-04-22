@@ -47,6 +47,18 @@ if [[ -n "${IMAGETEST_HELM_CHART_VERSION}" ]]; then
   )
 fi
 
+# Prepare values file and inventory arguments
+inventory_output="/mnt/imagetest/artifacts/helm_values/inventory.json"
+mkdir -p "/mnt/imagetest/artifacts/helm_values"
+values_file=""
+inventory_args=(
+  --path "${inventory_output}"
+)
+
+# Install the helm-inventory plugin
+echo "Installing helm-inventory plugin..."
+helm plugin install ./inventory
+
 if [[ -n "${IMAGETEST_HELM_VALUES}" ]]; then
   # write the values to a temporary file as yaml
   values_file=$(mktemp)
@@ -54,6 +66,10 @@ if [[ -n "${IMAGETEST_HELM_VALUES}" ]]; then
   echo "${IMAGETEST_HELM_VALUES}" | yq -P >"${values_file}"
 
   helm_install_args+=(
+    --values "${values_file}"
+  )
+
+  inventory_args+=(
     --values "${values_file}"
   )
 fi
@@ -77,7 +93,7 @@ echo
 echo
 echo "=== Installing Helm chart ==="
 echo
-helm install "${helm_install_args[@]}"
+helm-inventory "${inventory_args[@]}" -- helm install "${helm_install_args[@]}"
 
 # If we succeeded, print out some useful info, but don't flag an error if any of this fails
 {
@@ -88,6 +104,12 @@ helm install "${helm_install_args[@]}"
 
   # Write the complete rendered manifests to a file
   helm get manifest "${IMAGETEST_HELM_NAME}" -n "${IMAGETEST_HELM_NS}" | tee /tmp/helm-post-install-manifests.yaml
+
+  # Display the generated inventory
+  echo
+  echo "=== Helm Inventory ==="
+  echo
+  cat "${inventory_output}" | jq .
 
   # List the images installed but don't enforce
   echo

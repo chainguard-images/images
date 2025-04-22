@@ -1,0 +1,5 @@
+name: "inventory"
+version: "0.0.1"
+usage: "inventory -- [HELM_COMMAND...]"
+description: "Wrap a helm install or upgrade command to produce an inventory of what was installed"
+command: "helm-inventory"
