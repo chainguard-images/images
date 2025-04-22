@@ -51,6 +51,7 @@ fi
 inventory_output="/mnt/imagetest/artifacts/helm_values/inventory.json"
 mkdir -p "/mnt/imagetest/artifacts/helm_values"
 values_file=""
+cg_values_file=""
 inventory_args=(
   --path "${inventory_output}"
 )
@@ -59,6 +60,7 @@ inventory_args=(
 echo "Installing helm-inventory plugin..."
 helm plugin install ./inventory
 
+# Process the regular values for helm install only
 if [[ -n "${IMAGETEST_HELM_VALUES}" ]]; then
   # write the values to a temporary file as yaml
   values_file=$(mktemp)
@@ -68,9 +70,23 @@ if [[ -n "${IMAGETEST_HELM_VALUES}" ]]; then
   helm_install_args+=(
     --values "${values_file}"
   )
+fi
 
+# Process the Chainguard values for both helm install and inventory
+if [[ -n "${IMAGETEST_HELM_CG_VALUES}" ]]; then
+  # write the CG values to a temporary file as yaml
+  cg_values_file=$(mktemp)
+  echo "Writing CG values to ${cg_values_file}"
+  echo "${IMAGETEST_HELM_CG_VALUES}" | yq -P >"${cg_values_file}"
+
+  # Add to helm install args
+  helm_install_args+=(
+    --values "${cg_values_file}"
+  )
+  
+  # Add ONLY the CG values to inventory args
   inventory_args+=(
-    --values "${values_file}"
+    --values "${cg_values_file}"
   )
 fi
 

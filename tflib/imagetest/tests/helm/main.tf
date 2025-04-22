@@ -3,8 +3,15 @@ variable "sandbox_ref" {
 }
 
 variable "values" {
-  type    = any
-  default = {}
+  type        = any
+  default     = {}
+  description = "Use this to specify test related values for the chart. Do not include Chainguard Image values here."
+}
+
+variable "cg_values" {
+  type        = any
+  default     = {}
+  description = "Values specified here will be exfiltrated from the test as a json inventory. Use this to define the Minimum Chainguard Values required for the chart."
 }
 
 variable "name" {}
@@ -63,6 +70,7 @@ output "test" {
     cmd = "./helm.sh"
     envs = {
       IMAGETEST_HELM_VALUES        = jsonencode(var.values)
+      IMAGETEST_HELM_CG_VALUES     = jsonencode(var.cg_values)
       IMAGETEST_HELM_CHART         = var.chart
       IMAGETEST_HELM_CHART_VERSION = var.chart_version
       IMAGETEST_HELM_GIT_REPO      = var.git_repo

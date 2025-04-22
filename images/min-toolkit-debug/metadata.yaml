@@ -1,0 +1,12 @@
+name: min-toolkit-debug
+image: cgr.dev/chainguard/min-toolkit-debug
+endoflife: ""
+console_summary: ""
+short_description: Wolfi container image with some debugging utilies included. Suitable for using as a debugging tool.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://wolfi.dev
+keywords:
+  - application
+tier: APPLICATION
+public: true

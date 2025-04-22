@@ -162,6 +162,12 @@ module "melange" {
   test_repository   = var.test_repository
 }
 
+module "min-toolkit-debug" {
+  source            = "./images/min-toolkit-debug"
+  target_repository = "${var.target_repository}/min-toolkit-debug"
+  test_repository   = var.test_repository
+}
+
 module "mongodb" {
   source            = "./images/mongodb"
   target_repository = "${var.target_repository}/mongodb"
@@ -370,6 +376,10 @@ output "summary_mariadb" {
 
 output "summary_melange" {
   value = module.melange.summary
+}
+
+output "summary_min-toolkit-debug" {
+  value = module.min-toolkit-debug.summary
 }
 
 output "summary_mongodb" {
