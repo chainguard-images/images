@@ -1,6 +1,7 @@
 terraform {
   required_providers {
-    oci = { source = "chainguard-dev/oci" }
+    imagetest = { source = "chainguard-dev/imagetest" }
+    oci       = { source = "chainguard-dev/oci" }
   }
 }
 
@@ -8,8 +9,33 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "runs" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME ls > /dev/null"
+variable "target_repository" {
+  description = "The docker repo into which the image and attestations should be published."
+}
+
+variable "test_repository" {
+  description = "The docker repo root to use for sourcing test images."
+}
+
+locals {
+  parsed = provider::oci::parse(var.digest)
+}
+
+module "bash_sandbox" {
+  source            = "../../../tflib/imagetest/sandboxes/bash/"
+  target_repository = var.target_repository
+}
+
+module "dind_test" {
+  cwd    = path.module
+  images = { min-toolkit-debug = var.digest }
+  source = "../../../tflib/imagetest/tests/docker-in-docker"
+  tests = [
+    {
+      name  = "basic functionality"
+      image = module.bash_sandbox.image_ref
+      cmd   = "./docker-test.sh"
+    }
+  ]
 }
 

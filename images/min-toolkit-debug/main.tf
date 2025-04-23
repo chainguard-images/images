@@ -3,10 +3,17 @@ variable "target_repository" {
 }
 
 module "latest-config" {
+  extra_packages = [
+    "crane",   # go toolchain
+    "grpcurl", # go toolchain
+    "oras",    # go toolchain
+    "yq"       # go toolchain
+  ]
   source = "./config"
 }
 
 module "latest" {
+  build-dev         = true
   config            = module.latest-config.config
   main_package      = ""
   name              = basename(path.module)
@@ -15,8 +22,10 @@ module "latest" {
 }
 
 module "test-latest" {
-  digest = module.latest.image_ref
-  source = "./tests"
+  digest            = module.latest.image_ref
+  source            = "./tests"
+  target_repository = var.target_repository
+  test_repository   = var.test_repository
 }
 
 module "tagger" {

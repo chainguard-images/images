@@ -32,6 +32,23 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
+## Getting Started
+This container image is useful for debugging various networking and DNS issues.
+
+To illustrate, start an interactive container using this image:
+
+```shell
+docker run --rm -it --entrypoint=bash cgr.dev/ORGANIZATION/min-toolkit-debug:latest
+```
+
+From the container's shell, you can run various diagnostic commands, like `ss`, `dig`, and `traceroute`:
+
+```
+bash-5.2# ss -tunlp
+bash-5.2# dig +short google.com
+bash-5.2# traceroute google.com
+```
+
 <!--body:end-->
 
 ## What are Chainguard Containers?

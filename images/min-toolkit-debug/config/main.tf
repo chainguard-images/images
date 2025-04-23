@@ -1,11 +1,35 @@
 locals {
-  baseline_packages = ["bash", "bind-tools", "busybox", "crane", "curl", "dhcping", "drill", "dstat", "fatrace", "git", "gperf", "grpcurl", "iproute2", "jq", "ltrace", "mycli", "net-tools", "ngrep", "nmap", "openssl", "oras", "py3-pgcli", "redis", "socat", "strace", "sysstat", "tcptraceroute", "yq"]
+  shared_packages = [
+    "bash",
+    "bind-tools",
+    "coreutils",
+    "curl",
+    "dhcping",
+    "drill",
+    "dstat",
+    "fatrace",
+    "git",
+    "gperf",
+    "iproute2",
+    "jq",
+    "ltrace",
+    "mycli",
+    "net-tools",
+    "ngrep",
+    "nmap",
+    "openssl",
+    "py3-pgcli",
+    "redis",
+    "socat",
+    "strace",
+    "sysstat",
+    "tcptraceroute",
+  ]
 }
 
-terraform {
-  required_providers {
-    apko = { source = "chainguard-dev/apko" }
-  }
+output "shared_packages" {
+  description = "The list of shared_packages b/w fips and non-fips image"
+  value       = local.shared_packages
 }
 
 variable "extra_packages" {
@@ -15,13 +39,11 @@ variable "extra_packages" {
 
 output "config" {
   value = jsonencode({
-    "contents" : {
-      // TODO: remove the need for using hardcoded local.baseline_packages by plumbing
-      // these packages through var.extra_packages in all callers of this config module
-      "packages" : distinct(concat(local.baseline_packages, var.extra_packages))
-    },
-    "entrypoint" : {
-      "command" : "/bin/bash -c"
+    "contents" = {
+      "packages" = concat(var.extra_packages, local.shared_packages)
+    }
+    "entrypoint" = {
+      "command" = "/bin/bash -c"
     }
   })
 }
