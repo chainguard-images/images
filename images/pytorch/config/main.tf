@@ -47,5 +47,9 @@ output "config" {
     }
     archs    = ["x86_64"]
     work-dir = "/work"
+    layering = {
+      strategy = "origin"
+      budget   = 10
+    }
   })
 }

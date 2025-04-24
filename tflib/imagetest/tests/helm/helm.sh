@@ -83,7 +83,7 @@ if [[ -n "${IMAGETEST_HELM_CG_VALUES}" ]]; then
   helm_install_args+=(
     --values "${cg_values_file}"
   )
-  
+
   # Add ONLY the CG values to inventory args
   inventory_args+=(
     --values "${cg_values_file}"
@@ -103,7 +103,7 @@ echo
 { helm show values "${chart_path}" ${IMAGETEST_HELM_REPO:+--repo "${IMAGETEST_HELM_REPO}"} | tee /tmp/helm-upstream-values.yaml; } || true
 
 # Render the templated manifests somewhere
-{ helm template "${helm_install_args[@]}" | tee /tmp/helm-pre-install-manifests.yaml; } || true
+{ helm template "${helm_install_args[@]}" >/tmp/helm-pre-install-manifests.yaml; } || true
 
 # Finally, run the install command
 echo
@@ -119,7 +119,7 @@ helm-inventory "${inventory_args[@]}" -- helm install "${helm_install_args[@]}"
   helm get values "${IMAGETEST_HELM_NAME}" -n "${IMAGETEST_HELM_NS}"
 
   # Write the complete rendered manifests to a file
-  helm get manifest "${IMAGETEST_HELM_NAME}" -n "${IMAGETEST_HELM_NS}" | tee /tmp/helm-post-install-manifests.yaml
+  helm get manifest "${IMAGETEST_HELM_NAME}" -n "${IMAGETEST_HELM_NS}" >/tmp/helm-post-install-manifests.yaml
 
   # Display the generated inventory
   echo
