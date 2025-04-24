@@ -18,6 +18,11 @@ variable "extra_packages" {
   description = "The additional packages to install (e.g. go, go-1.18, go-1.19)."
 }
 
+variable "environment" {
+  default     = {}
+  description = "The additional or different environment variables to set"
+}
+
 output "config" {
   value = jsonencode({
     "contents" : {
@@ -30,10 +35,10 @@ output "config" {
     },
     "cmd" : "help",
     "accounts" : module.accts.block,
-    "environment" : {
+    "environment" : merge({
       "GODEBUG" : "tarinsecurepath=0,zipinsecurepath=0",
       "GOTOOLCHAIN" : "local+auto"
-    }
+    }, var.environment)
   })
 }
 
