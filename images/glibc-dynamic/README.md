@@ -32,9 +32,70 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-This image is meant to be used as just a base image only. It does not contain any programs that can be run, other than `/sbin/ldconfig`.
+## Compatibility Notes
+This image is meant to be used as just a base image only. It does not contain any programs that can be run, other than `/sbin/ldconfig`. Unlike Chainguard's standard `glibc-dynamic` container image, the `glibc-dynamic` image also includes `libstdc++`, the GNU C++ standard library implementation.
 
 You must bring your own artifacts to use this image, e.g. with a Docker multi-stage build. If you want locale support other than `C.UTF-8`, you must bring your own locale data as well. This may change in the future based on user feedback.
+
+## Getting Started
+
+To illustrate how you can use Chainguard's `glibc-dynamic` container image, start by creating the following Go program:
+
+```shell
+cat > main.go <<EOF
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+func main() {
+	http.Get("http://www.google.com")
+	fmt.Println("Hello, world!")
+}
+EOF
+```
+
+This is a `Hello, world!` program, but it includes the line `http.Get("http://www.google.com")` which will require glibc.
+
+Next, create a Dockerfile that uses the Chainguard `glibc-dynamic` container as a base image:
+
+```shell
+cat > Dockerfile <<EOF
+FROM cgr.dev/chainguard/go AS builder
+ADD main.go .
+RUN CGO_ENABLED=1 go build -o /tmp/foo main.go
+
+# Use this image as a base image.
+FROM cgr.dev/chainguard/glibc-dynamic
+COPY --from=builder /tmp/foo /foo
+ENTRYPOINT ["/foo"]
+EOF
+```
+
+Using this Dockerfile, build an image:
+
+```shell
+docker build -t glibc-example .
+```
+
+Then run the newly-built image:
+
+```shell
+docker run --rm glibc-example
+```
+
+This will return the following output, indicating the program was run successfully and the `glibc-dynamic` base image worked as expected:
+
+```
+Hello, world!
+```
+
+## Documentation and Resources
+
+* [glibc Project Website](https://sourceware.org/glibc)
+* [Chainguard Academy: glibc vs. musl](https://edu.chainguard.dev/chainguard/chainguard-images/about/images-compiled-programs/glibc-vs-musl/#python-builds)
 <!--body:end-->
 
 ## What are Chainguard Containers?

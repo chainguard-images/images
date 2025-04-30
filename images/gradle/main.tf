@@ -11,8 +11,8 @@ variable "target_repository" {
 module "config" {
   source = "./config"
   extra_packages = [
-    "gradle-8",
-    "openjdk-23-default-jdk",
+    "gradle",
+    "openjdk-24-default-jdk",
     "busybox",
     "glibc-locale-en"
   ]
@@ -25,13 +25,13 @@ module "latest" {
 
   target_repository  = var.target_repository
   config             = module.config.config
-  extra_dev_packages = ["openjdk-23-jmods", "binutils"]
+  extra_dev_packages = ["binutils"]
 }
 
 module "test-latest" {
   source            = "./tests"
   digest            = module.latest.image_ref
-  java-version      = "23"
+  java-version      = "24"
   target_repository = var.target_repository
 }
 

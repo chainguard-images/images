@@ -77,6 +77,15 @@ variable "extra_post_start_hooks" {
   default     = []
 }
 
+variable "disable_network_policy" {
+  description = "When true, the builtin network policy controller will be disabled."
+  default     = false
+}
+variable "disable_cni" {
+  description = "When true, the builtin (flannel) CNI will be disabled."
+  default     = false
+}
+
 locals {
   inventory = var.inventory != null ? var.inventory : data.imagetest_inventory.this[0]
   name      = var.name != "" ? var.name : basename(var.cwd)
@@ -127,6 +136,9 @@ resource "imagetest_harness_k3s" "this" {
   image     = var.k3s_image
 
   resources = var.resources
+
+  disable_cni            = var.disable_cni
+  disable_network_policy = var.disable_network_policy
 
   sandbox = {
     image = apko_build.sandbox.image_ref
