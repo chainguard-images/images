@@ -24,6 +24,18 @@ variable "cwd" {
   default     = ""
 }
 
+variable "aws_eks_node_ami" {
+  description = "The AMI to use for the EKS nodes."
+  type        = string
+  default     = "" // Default is to use the EKS default node image.
+}
+
+variable "aws_region" {
+  description = "The AWS region to use for the tests."
+  type        = string
+  default     = "us-west-2"
+}
+
 variable "tests" {
   description = "The list of tests to run with the docker in docker driver."
   type = list(object({
@@ -59,7 +71,10 @@ resource "imagetest_tests" "ekswitheksctl" {
   repo = var.repo
 
   drivers = {
-    eks_with_eksctl = {}
+    eks_with_eksctl = {
+      node_ami = var.aws_eks_node_ami
+      region   = var.aws_region
+    }
   }
 
   images = var.images
