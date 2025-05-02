@@ -12,5 +12,6 @@ output "config" {
       packages = concat(["busybox"], var.extra_packages)
     }
     accounts = module.accts.block
+    layering = {}
   })
 }

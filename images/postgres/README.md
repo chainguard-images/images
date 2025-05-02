@@ -36,6 +36,12 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 
 The Chainguard PostgreSQL Image is comparable to its upstream counterpart, [the official PostgreSQL Image from Docker Hub](https://hub.docker.com/_/postgres). However, the Chainguard image does not run as the root user and contains only the minimum set of tools and dependencies needed to function; for example, it does not include a package manager. Unlike many other Chainguard images, though, the PostgreSQL image does include a shell, allowing you to manage databases interactively.
 
+### Migrating to the Chainguard PostgreSQL image
+
+When migrating an existing PostgresSQL database to use the Chainguard PostgreSQL Container it is likely that the collation version in the Chainguard container image will be different from the collation version in the original image that created the database.  This may be due to different glibc versions, use of a different implementation of the C standard library (musl in Alpine for example), or the use of different locale configuration.
+
+Chainguard recommends that you [re-index and refresh the collation version](https://wiki.postgresql.org/wiki/Locale_data_changes) when migrating to this image before the database is put back into production.
+
 ## Getting Started
 
 This section provides a high-level overview of how you can use Chainguard's PostgreSQL image. For a more in-depth walkthrough of how you can use the image in practice, please refer to our guide on [getting started with the PostgreSQL Chainguard Image](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/getting-started-postgres/). This getting started guide outlines how to set up and run a PHP application that stores its data in a PostgreSQL database running within a containerized environment.
