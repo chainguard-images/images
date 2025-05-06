@@ -18,7 +18,6 @@ locals {
     "mycli",
     "net-tools",
     "ngrep",
-    "nmap",
     "openssl",
     "py3-pgcli",
     "redis",

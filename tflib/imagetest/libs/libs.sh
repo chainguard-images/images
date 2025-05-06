@@ -35,6 +35,32 @@ retry_until() {
   return $exit_code
 }
 
+apk_add() {
+  local max_retries=6
+  local delay=20
+  local packages=()
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --retries=*)
+        max_retries="${1#*=}"
+        shift
+        ;;
+      --delay=*)
+        delay="${1#*=}"
+        shift
+        ;;
+      *)
+        # Everything else is a package
+        packages+=("$1")
+        shift
+        ;;
+    esac
+  done
+
+  retry_until $max_retries $delay apk add "${packages[@]}"
+}
+
 get_test_image() {
   local name="${1:?Image name required}"
   local type="${2:-ref}"
