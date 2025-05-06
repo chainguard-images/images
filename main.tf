@@ -2,6 +2,7 @@ terraform {
   required_providers {
     apko      = { source = "chainguard-dev/apko" }
     imagetest = { source = "chainguard-dev/imagetest" }
+    cosign    = { source = "chainguard-dev/cosign" }
   }
 
   # We don't take advantage of terraform.tfstate, so we don't need to save state anywhere.
@@ -99,4 +100,8 @@ module "maven" {
 module "static" {
   source            = "./images/static"
   target_repository = "${var.target_repository}/static"
+}
+
+provider "cosign" {
+  default_attestation_entry_type = "dsse"
 }
