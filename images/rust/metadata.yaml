@@ -7,9 +7,9 @@ compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://www.rust-lang.org/
 keywords:
-  - application
   - base
+  - featured
 public: true
-tier: APPLICATION
+tier: BASE
 aliases:
   - rust:latest
