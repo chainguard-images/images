@@ -32,57 +32,84 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Description
+## Compatibility Notes
 
-The `nginx` Chainguard Image provides a secure basis for serving static content, running a reverse proxy, or performing other common server tasks.
+Chainguard's `nginx` container image is comparable to both the `latest` and `alpine` versions of the [official nginx image](https://hub.docker.com/_/nginx) and, wherever possible, the Chainguard Container's configuration will align with the official image. However, Chainguard Images are built to be as minimal as possible, requiring a specific set of changes, which are outlined here.
 
-## Variants
+### Users
 
-We have two image variants available:
+The official Docker image starts as the root user and forks to a less privileged user. By contrast, the Chainguard `nginx` Container starts as a less privileged user named `nginx` and no forking is required. 
 
-- A minimal runtime variant that removes shells and package managers for additional security.
-- An `nginx:latest-dev` variant that contains the `apk` package manager and the `bash`, `ash`, and `sh` shells.
+Also note that the default `nginx` configuration file includes a user directive that will run the `nginx` process as the `nginx` user. See the following section on custom server blocks for more information.
 
-To pull the minimal runtime variant from `cgr.dev`:
+### Default port
 
-```sh
-docker pull cgr.dev/chainguard/nginx:latest
+The default port for the `nginx` Chainguard Container is `8080`, rather than `80`.
+
+### IPv6 Support
+
+The official nginx image checks for the existence of `/proc/net/if_inet6` and automatically listens on `[::]:80` if it exists. For simplicity, Chainguard's `nginx` container image only listens on IPv4, but you can add IPv6 support by mounting a configuration file with a section similar to the following:
+
 ```
-To pull the dev variant:
+server {
+    listen       8080;
+    listen  [::]:8080;
+    ...
 
-
-```sh
-docker pull cgr.dev/chainguard/nginx:latest-dev
 ```
 
-## Usage
+Note that the default configuration file in the Chainguard `nginx` Container includes the relevant section at `/etc/nginx/conf.d/default.conf`. 
 
-To try out the image, run:
+### Environment Variable Substitution
 
-```sh
+The official nginx image has support for setting environment variables that get substituted into the config file. Currently we do not have support for this.
+
+### User Directive Warning
+
+Starting the container gives the following warning:
+
+```shell
+ [warn] 1#1: the "user" directive makes sense only if the master process runs with super-user privileges, ignored in /etc/nginx/nginx.conf:2
+```
+
+This warning tells us that the container is already running as the user `nginx`, meaning that the directive has no effect because the default user is already `nginx`. If the container is run as root, it would switch to the `nginx` user to run the `nginx` process. We've included this directive in the default configuration for those running the container with a different user using the `--user` flag or equivalent.
+
+### Entrypoint
+
+The entrypoint for the `nginx` Chainguard Container is `/usr/sbin/nginx`. Commands run as part of `docker run` or a `CMD` statement in a Dockerfile will be passed as arguments to `nginx`.
+
+
+## Getting Started
+
+> [!NOTE]
+> For a hands-on example of how to use the `nginx` container image, we encourage you to check out our guide on [Getting Started with the nginx Chainguard Container](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/nginx/).
+
+The `nginx` Chainguard Container provides a secure basis for serving static content, running a reverse proxy, or performing other common server tasks. To try out the image, run:
+
+```shell
 docker run -p 8080:8080 cgr.dev/chainguard/nginx:latest
 ```
 
 After starting the container, navigate to `localhost:8080` in your web browser. You should find the default nginx welcome page.
 
-You can also use the nginx Image to serve your own custom content. As an example, first create a folder to contain static HTML that will be served by nginx:
+You can also use the `nginx` Container to serve your own custom content. As an example, first create a folder to contain static HTML that will be served by nginx:
 
-```sh
+```shell
 mkdir -p ~/html
 ```
 
 Next, create a file called `index.html` in the `html` folder:
 
-```sh
+```shell
 cat > ~/html/index.html <<EOF
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Nginx</title>
+  <title>nginx</title>
 </head>
 <body>
-  <h2>Hello World from Nginx!</h2>
+  <h2>Hello World from nginx!</h2>
 </body>
 </html>
 EOF
@@ -90,14 +117,14 @@ EOF
 
 You can then instruct the nginx Image to serve the `index.html` file:
 
-```sh
+```shell
 docker run \
  -v $(pwd)/html:/usr/share/nginx/html \
  -p 8080:8080 \
  cgr.dev/chainguard/nginx:latest
 ```
 
-If you navigate to `localhost:8080` in your web browser, it will return our custom HTML: `Hello World from Nginx!`.
+If you navigate to `localhost:8080` in your web browser, it will return our custom HTML: `Hello World from nginx!`.
 
 ## Adding a Custom Server Block
 
@@ -105,13 +132,13 @@ The default nginx configuration file checks for custom server blocks as files wi
 
 Create a folder to hold our block configuration:
 
-```sh
+```shell
 mkdir -p ~/conf.d
 ```
 
 Create a new server block configuration file within this folder:
 
-```sh
+```shell
 cat > ~/conf.d/static.conf <<EOF
 server {
   listen        4000;
@@ -128,7 +155,7 @@ The above is a server block that will be loaded within the default nginx configu
 
 The following command runs an nginx container, adding our `html` folder and the `conf.d` configuration folder as volumes
 
-```sh
+```shell
 docker run -p 4000:4000 \
  -v $(pwd)/html:/www/data \
  -v $(pwd)/conf.d:/etc/nginx/conf.d \
@@ -143,13 +170,13 @@ To replace the main nginx configuration file, you can mount a folder containing 
 
 First create a folder to contain our replacement configuration:
 
-```sh
+```shell
 mkdir -p nginx-conf
 ```
 
 Create a configuration file inside this folder:
 
-```sh
+```shell
 cat > ~/nginx-conf/nginx.conf <<EOF
 worker_processes  auto;
 
@@ -181,7 +208,7 @@ EOF
 Start a container with our created `html` and `nginx-config` folders as volumes.
 
 
-```sh
+```shell
 docker run -p 4000:4000 \
  -v $(pwd)/html:/www/data \
  -v $(pwd)/nginx-conf:/etc/nginx \
@@ -194,7 +221,7 @@ You should be able to view the contents of the `index.html` file in the `html` f
 
 If you want to serve files using a read-only filesystem, you will need to mount the `/var/run` and `/var/lib/nginx/tmp` directories. You can do this with the `--tmpfs` option:
 
-```sh
+```shell
 docker run \
  --read-only \
  --tmpfs /var/lib/nginx/tmp/ --tmpfs /var/run/ \
@@ -203,47 +230,52 @@ docker run \
  cgr.dev/chainguard/nginx
 ```
 
-## User Directive Warning
+You can also run the `nginx` container image in a read-only filesystem using Kubernetes. To do so, you could use a manifest like the following example:
 
-Starting the container gives the following warning:
-
-```sh
- [warn] 1#1: the "user" directive makes sense only if the master process runs with super-user privileges, ignored in /etc/nginx/nginx.conf:2
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  replicas: 1
+  selector:
+	matchLabels:
+  	app: nginx
+  template:
+	metadata:
+  	labels:
+    	app: nginx
+	spec:
+  	containers:
+  	- name: nginx
+    	image: cgr.dev/chainguard/nginx:latest
+    	ports:
+    	- containerPort: 8080
+    	securityContext:
+      	readOnlyRootFilesystem: true
+    	volumeMounts:
+    	- name: run
+      	mountPath: /var/run/
+    	- name: tmp
+      	mountPath: /var/lib/nginx/tmp/
+  	volumes:
+  	- name: run
+    	emptyDir: {}
+  	- name: tmp
+    	emptyDir: {}
+  	- name: conf
+    	configMap:
+      	name: nginx-conf
 ```
 
-This warning tells us that the container is already running as the user `nginx`, meaning that the directive has no effect because the default user is already `nginx`. If the container is run as root, it would switch to the `nginx` user to run the `nginx` process. We've included this directive in the default configuration for those running the container with a different user using the `--user` flag or equivalent.
 
-## Differences from [Official Docker Image](https://hub.docker.com/_/nginx)
+## Documentation and Resources
 
-Wherever possible, the Chainguard nginx Image tries to follow the same configuration as the official version hosted on Docker Hub. However, Chainguard Images are built to be as minimal as possible, requiring a specific set of changes. This section outlines the major differences between these images. 
-
-### Users
-
-The official Docker image starts as the root user and forks to a less privileged user. By contrast, the Chainguard nginx Image starts as a less privileged user named `nginx` and no forking is required. 
-
-Also note that the default `nginx` configuration file includes a user directive that will run the `nginx` process as the `nginx` user. See the above section on custom server blocks for more information.
-
-### Default port
-
-The default port for the `nginx` Chainguard Image is `8080`, rather than `80`.
-
-### IPv6 Support
-
-The official Docker image checks for the existence of `/proc/net/if_inet6` and automatically listens on `[::]:80` if it exists. For simplicity, we only listen on IPv4, but you can add IPv6 support by mounting a configuration file with a section similar to the following:
-
-```
-server {
-    listen       8080;
-    listen  [::]:8080;
-    ...
-
-```
-
-Note that the default configuration file in the Chainguard nginx Image includes the relevant section at `/etc/nginx/conf.d/default.conf`. 
-
-### Environment Variable Substitution
-
-The Docker official image has support for setting environment variables that get substituted into the config file. Currently we do not have support for this.
+* [Official nginx Documentation](https://nginx.org/en/docs/)
+* [Docker Hub: Official nginx Image](https://hub.docker.com/_/nginx)
+* [Chainguard Academy: Getting Started with the nginx Chainguard Container](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/nginx/)
+* [Video: Getting Started with the nginx Chainguard Container](https://www.youtube.com/watch?v=KirTeDMzzxk)
 <!--body:end-->
 
 ## What are Chainguard Containers?

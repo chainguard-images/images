@@ -39,7 +39,8 @@ variable "extra_packages" {
 variable "k3s_image" {
   description = "The image to use for the k3s cluster."
   # Null this means use the default set by the provider.
-  default = null
+  # TODO(joshrwolf): use our image once incident is resolved: https://chainguard-dev.slack.com/archives/C08RVPMBENP
+  default = "mirror.gcr.io/rancher/k3s:latest"
 }
 
 variable "resources" {

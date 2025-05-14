@@ -77,31 +77,14 @@ provider "apko" {
   extra_repositories = concat(["https://packages.wolfi.dev/os"], var.extra_repositories)
   extra_keyring      = concat(["https://packages.wolfi.dev/os/wolfi-signing.rsa.pub"], var.extra_keyring)
   extra_packages     = concat(["wolfi-baselayout"], var.extra_packages)
-  default_archs      = ["x86_64", "aarch64"]
+  default_archs      = var.archs
+
+  default_layering = {
+    budget   = 10
+    strategy = "origin"
+  }
 }
 
 variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
 
-module "busybox" {
-  source            = "./images/busybox"
-  target_repository = "${var.target_repository}/busybox"
-}
-
-module "git" {
-  source            = "./images/git"
-  target_repository = "${var.target_repository}/git"
-}
-
-module "maven" {
-  source            = "./images/maven"
-  target_repository = "${var.target_repository}/maven"
-}
-
-module "static" {
-  source            = "./images/static"
-  target_repository = "${var.target_repository}/static"
-}
-
-provider "cosign" {
-  default_attestation_entry_type = "dsse"
-}
+provider "cosign" { default_attestation_entry_type = "dsse" }

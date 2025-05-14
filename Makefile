@@ -2,9 +2,7 @@ cfg?=images/static/configs/wolfi.apko.yaml
 TERRAFORM ?= $(shell command -v terraform)
 TF_PLUGIN_CACHE_DIR ?= "$(HOME)/.terraform.d/plugin-cache"
 
-# These images either do something with Alpine,
-# or are somehow incompatible with tfgen (still using tagger etc.)
-TFGEN_SKIP ?= busybox,git,harbor,maven,static
+TFGEN_SKIP ?= 
 
 # These are the tfgen generators applied to this repo (in order)
 TFGEN_GENERATORS ?= Image01Variables,Image02Outputs,Toplevel01Modules,Toplevel02Outputs

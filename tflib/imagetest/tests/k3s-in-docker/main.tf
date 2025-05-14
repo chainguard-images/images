@@ -17,7 +17,8 @@ variable "images" {
 variable "k3s-image" {
   description = "k3s image that we should use"
   type        = string
-  default     = "cgr.dev/chainguard/k3s:latest-dev"
+  # TODO(joshrwolf): use our image once incident is resolved: https://chainguard-dev.slack.com/archives/C08RVPMBENP
+  default = "mirror.gcr.io/rancher/k3s:latest"
 }
 
 variable "cwd" {

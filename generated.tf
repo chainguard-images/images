@@ -18,6 +18,12 @@ module "bash" {
   test_repository   = var.test_repository
 }
 
+module "busybox" {
+  source            = "./images/busybox"
+  target_repository = "${var.target_repository}/busybox"
+  test_repository   = var.test_repository
+}
+
 module "cosign" {
   source            = "./images/cosign"
   target_repository = "${var.target_repository}/cosign"
@@ -63,6 +69,12 @@ module "dotnet" {
 module "gcc-glibc" {
   source            = "./images/gcc-glibc"
   target_repository = "${var.target_repository}/gcc-glibc"
+  test_repository   = var.test_repository
+}
+
+module "git" {
+  source            = "./images/git"
+  target_repository = "${var.target_repository}/git"
   test_repository   = var.test_repository
 }
 
@@ -156,6 +168,12 @@ module "mariadb" {
   test_repository   = var.test_repository
 }
 
+module "maven" {
+  source            = "./images/maven"
+  target_repository = "${var.target_repository}/maven"
+  test_repository   = var.test_repository
+}
+
 module "melange" {
   source            = "./images/melange"
   target_repository = "${var.target_repository}/melange"
@@ -234,6 +252,12 @@ module "rust" {
   test_repository   = var.test_repository
 }
 
+module "static" {
+  source            = "./images/static"
+  target_repository = "${var.target_repository}/static"
+  test_repository   = var.test_repository
+}
+
 module "stunnel" {
   source            = "./images/stunnel"
   target_repository = "${var.target_repository}/stunnel"
@@ -282,6 +306,10 @@ output "summary_bash" {
   value = module.bash.summary
 }
 
+output "summary_busybox" {
+  value = module.busybox.summary
+}
+
 output "summary_cosign" {
   value = module.cosign.summary
 }
@@ -312,6 +340,10 @@ output "summary_dotnet" {
 
 output "summary_gcc-glibc" {
   value = module.gcc-glibc.summary
+}
+
+output "summary_git" {
+  value = module.git.summary
 }
 
 output "summary_glibc-dynamic" {
@@ -374,6 +406,10 @@ output "summary_mariadb" {
   value = module.mariadb.summary
 }
 
+output "summary_maven" {
+  value = module.maven.summary
+}
+
 output "summary_melange" {
   value = module.melange.summary
 }
@@ -424,6 +460,10 @@ output "summary_ruby" {
 
 output "summary_rust" {
   value = module.rust.summary
+}
+
+output "summary_static" {
+  value = module.static.summary
 }
 
 output "summary_stunnel" {
