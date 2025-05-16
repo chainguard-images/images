@@ -57,6 +57,11 @@ variable "sources" {
   }))
 }
 
+variable "enforce_registry" {
+  default     = false
+  description = "When enabled, will enforce all images in var.namespace must be sourced from var.target_repository."
+}
+
 output "test" {
   value = {
     name  = "helm install"
@@ -69,16 +74,17 @@ output "test" {
     )
     cmd = "./helm.sh"
     envs = {
-      IMAGETEST_HELM_VALUES        = jsonencode(var.values)
-      IMAGETEST_HELM_CG_VALUES     = jsonencode(var.cg_values)
-      IMAGETEST_HELM_CHART         = var.chart
-      IMAGETEST_HELM_CHART_VERSION = var.chart_version
-      IMAGETEST_HELM_GIT_REPO      = var.git_repo
-      IMAGETEST_HELM_REPO          = var.repo
-      IMAGETEST_HELM_PATCHES       = jsonencode(var.patches)
-      IMAGETEST_HELM_NAME          = var.name
-      IMAGETEST_HELM_NS            = var.namespace
-      IMAGETEST_HELM_WAIT          = var.wait
+      IMAGETEST_HELM_VALUES           = jsonencode(var.values)
+      IMAGETEST_HELM_CG_VALUES        = jsonencode(var.cg_values)
+      IMAGETEST_HELM_CHART            = var.chart
+      IMAGETEST_HELM_CHART_VERSION    = var.chart_version
+      IMAGETEST_HELM_GIT_REPO         = var.git_repo
+      IMAGETEST_HELM_REPO             = var.repo
+      IMAGETEST_HELM_PATCHES          = jsonencode(var.patches)
+      IMAGETEST_HELM_NAME             = var.name
+      IMAGETEST_HELM_NS               = var.namespace
+      IMAGETEST_HELM_WAIT             = var.wait
+      IMAGETEST_HELM_ENFORCE_REGISTRY = var.enforce_registry
     }
   }
 }

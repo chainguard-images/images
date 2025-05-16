@@ -15,6 +15,6 @@ docker run -d --rm --name dummy-registry --network my-network -p 5002:5002 \
 
 registry_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' dummy-registry)
 
-docker run --rm --network my-network "${image}" cp cgr.dev/chainguard/static ${registry_ip}:5002/chainguard/static --insecure
+docker run --rm --network my-network "${image}" cp cgr.dev/chainguard/static ${registry_ip}:5002/chainguard/static 
 
-docker run --rm --network my-network "${image}" manifest ${registry_ip}:5002/chainguard/static --insecure | grep image.manifest.v1+json
+docker run --rm --network my-network "${image}" manifest ${registry_ip}:5002/chainguard/static| grep image.manifest.v1+json

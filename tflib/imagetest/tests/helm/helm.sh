@@ -131,5 +131,9 @@ helm-inventory "${inventory_args[@]}" -- helm install "${helm_install_args[@]}"
   echo
   echo "=== Images installed ==="
   echo
-  kimages -n "${IMAGETEST_HELM_NS}"
+  if [[ "${IMAGETEST_HELM_ENFORCE_REGISTRY}" == "true" ]]; then
+    kimages -n "${IMAGETEST_HELM_NS}" --enforce-registry "${IMAGETEST_REGISTRY}"
+  else
+    kimages -n "${IMAGETEST_HELM_NS}"
+  fi
 } || true
