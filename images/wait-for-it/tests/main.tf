@@ -31,5 +31,16 @@ resource "imagetest_feature" "docker" {
         set -o errexit -o nounset -o errtrace -o pipefail -x -x
         docker run --rm $IMAGE_NAME -h google.com -p 80
       EOF
+    },
+    {
+      name = "negative test on wrong port"
+      cmd  = <<EOF
+        docker run --rm $IMAGE_NAME www.google.com:81 --timeout=1 --strict -- echo "google is up"
+        exit_status=$?
+        if [ $exit_status -ne 124 ]  ; then
+          echo "Expected exit code 124, but got $exit_status"
+          exit 1
+        fi
+      EOF
   }]
 }

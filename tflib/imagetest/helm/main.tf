@@ -15,7 +15,7 @@ locals {
   install_cmd = <<-EOinstall
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-apk add helm
+apk add helm=~3.17
 
 chart=${var.chart}
 

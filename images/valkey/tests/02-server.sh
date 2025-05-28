@@ -19,3 +19,12 @@ sleep 15
 
 # Check if the command passed
 grep -q "myvalue"  ${CONTAINER_NAME}_${FREE_PORT}.txt
+
+# Now use the valkey client to set a counter
+docker exec $CONTAINER_NAME  valkey-cli SET key1 1
+
+# Increment the counter
+docker exec $CONTAINER_NAME  valkey-cli INCR key1
+
+# Read and verify that it's now 2
+docker exec $CONTAINER_NAME  valkey-cli get key1 | grep 2

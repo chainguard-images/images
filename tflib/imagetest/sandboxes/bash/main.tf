@@ -18,7 +18,7 @@ data "apko_config" "sandbox" {
         "curl",
         "gettext",
         "git",
-        "helm",
+        "helm<3.18",
         "jq",
         "kubectl",
         "kustomize",
