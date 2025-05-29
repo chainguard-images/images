@@ -3,5 +3,3 @@
 # Example - add "test1" tag to curl repo pointing to sha257:8bf944...:
 # cgr.dev/chainguard/curl:test1@sha256:8bf944b98bdef5ab6b4ef4bd6992d6a5ad5c008b51c119a78ffc385273a36eec
 #
-
-cgr.dev/chainguard/opentelemetry-collector-contrib:latest@sha256:6c1e188e3c77c0e842401c0a88ef32c30c7a6895ef212fe614f714109006f0cf

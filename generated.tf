@@ -210,6 +210,12 @@ module "openscap" {
   test_repository   = var.test_repository
 }
 
+module "opentelemetry-collector-contrib" {
+  source            = "./images/opentelemetry-collector-contrib"
+  target_repository = "${var.target_repository}/opentelemetry-collector-contrib"
+  test_repository   = var.test_repository
+}
+
 module "php" {
   source            = "./images/php"
   target_repository = "${var.target_repository}/php"
@@ -432,6 +438,10 @@ output "summary_node" {
 
 output "summary_openscap" {
   value = module.openscap.summary
+}
+
+output "summary_opentelemetry-collector-contrib" {
+  value = module.opentelemetry-collector-contrib.summary
 }
 
 output "summary_php" {
