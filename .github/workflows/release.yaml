@@ -128,7 +128,7 @@ jobs:
       - name: Collect TF diagnostics
         if: ${{ always() }}
         id: tf-diag
-        uses: chainguard-dev/actions/terraform-diag@be6c67b5b374ed43d908ac017ff9b04c271ad3d8 # v1.0.3
+        uses: chainguard-dev/actions/terraform-diag@ce51233d303aed2394a9976e7f5642fd2158f693 # v1.1.1
         with:
           json-file: /tmp/mega-module.tf.json
 
