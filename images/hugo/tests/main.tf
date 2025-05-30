@@ -69,9 +69,11 @@ resource "imagetest_feature" "basic" {
               cgr.dev/chainguard/git:latest-glibc-dev submodule add https://github.com/theNewDynamic/gohugo-theme-ananke "themes/ananke"
 
         docker run --rm -v "${random_pet.suffix.id}:/hugo/quickstart" --workdir=/hugo/quickstart \
-              cgr.dev/chainguard/busybox:latest-glibc /bin/sh -c "echo \"theme = 'ananke'\" >> config.toml"
+              cgr.dev/chainguard/busybox:latest-glibc /bin/sh -c "echo \"theme = 'ananke'\" >> hugo.toml"
 
         # Start the container with a name, and detach so we can then poke at it.
+        #
+        # Note: the server command will invoke a site build under the hood
         docker run --name "${random_pet.suffix.id}" --network ${random_pet.suffix.id} --detach -v "${random_pet.suffix.id}:/hugo/quickstart" \
           --workdir /hugo/quickstart \
           "${var.digest}" \
@@ -82,6 +84,23 @@ resource "imagetest_feature" "basic" {
 
         # Check that it's up!
         docker run --rm --network ${random_pet.suffix.id} cgr.dev/chainguard/curl -v http://${random_pet.suffix.id}:8080
+
+        # Create a page and ensure that it gets built and served
+        docker exec "${random_pet.suffix.id}" hugo new content content/about.md
+
+        # Create it locally (the container doesn't have a shell)
+        echo -e "+++\ntitle = \"chainguard-images hugo\"\ndraft = false\ndate = 2025-05-22T17:39:00+01:00\n+++\n\nThis site was generated with the chainguard-images hugo image" > about.md
+
+        # Copy into the container
+        docker cp about.md "${random_pet.suffix.id}:/hugo/quickstart/content/about.md"
+        rm -f about.md
+
+        # Give it a moment to publish
+        sleep 5
+
+        # Use curl to fetch the page and verify that the expected content is there
+        docker run --rm --network ${random_pet.suffix.id} cgr.dev/chainguard/curl -v http://${random_pet.suffix.id}:8080/about/ | grep  "generated with the chainguard-images hugo"
+
         EOT
     }
   ]
