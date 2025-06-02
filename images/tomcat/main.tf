@@ -55,6 +55,8 @@ module "test" {
   source   = "./tests"
 
   digest = module.versioned[each.key].image_ref
+
+  image_version = each.key
 }
 
 module "tagger" {

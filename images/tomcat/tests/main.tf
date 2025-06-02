@@ -13,10 +13,12 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "image_version" {}
+
 data "imagetest_inventory" "this" {}
 
 resource "imagetest_harness_k3s" "this" {
-  name      = "tomcat_k3s"
+  name      = "${var.image_version}-k3s"
   inventory = data.imagetest_inventory.this
 
   sandbox = {
@@ -44,7 +46,7 @@ resource "imagetest_feature" "k3s" {
 }
 
 resource "imagetest_harness_docker" "this" {
-  name      = "tomcat_docker"
+  name      = "${var.image_version}-docker"
   inventory = data.imagetest_inventory.this
 
   mounts = [{
