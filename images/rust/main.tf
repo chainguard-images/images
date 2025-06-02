@@ -29,6 +29,7 @@ module "versioned" {
 module "test-versioned" {
   digest            = module.versioned[each.key].image_ref
   for_each          = module.versions.versions
+  image_version     = each.key
   source            = "./tests"
   target_repository = var.target_repository
 }
@@ -37,6 +38,7 @@ module "test-versioned-dev" {
   check-dev         = true
   digest            = module.versioned[each.key].dev_ref
   for_each          = module.versions.versions
+  image_version     = each.key
   source            = "./tests"
   target_repository = var.target_repository
 }
