@@ -8,7 +8,7 @@ module "versions" {
 }
 
 module "config" {
-  extra_packages = [each.key]
+  extra_packages = [each.key, "build-base", "busybox", "cargo-auditable", "rust-audit-info"]
   for_each       = module.versions.versions
   source         = "./config"
 }

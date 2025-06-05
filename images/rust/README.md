@@ -41,8 +41,10 @@ This includes:
 
 * `rustc`
 * `cargo`
+* `cargo-auditable` wrapper
 * `rustdoc`
 * `rustlldb`
+* `rust-audit-info`
 * And more!
 
 This image also includes a shell for compatibility with most `cargo` package installations.
@@ -60,6 +62,12 @@ You should get output similar to this:
 ```
 rustc 1.67.1 (d5a82bbd2 2023-02-07) (built from a source tarball)
 ```
+
+### Cargo Auditable
+
+By default `/usr/local/bin/cargo` contains a wrapper to always call `cargo auditable` which generates and embeds build time crate information in the compiled binaries. This enables inspecting compiled rust binaries with `rust-audit-info` which is also included in this image. Many security scanners also know how to parse this information for the purpose of detecting security vulnerabilities. For more information see [Cargo Auditable](https://github.com/rust-secure-code/cargo-auditable?tab=readme-ov-file#cargo-auditable) project.
+
+Building without audit information is possible by invoking `/usr/bin/cargo` directly, however doing that will evade scanner support in the resulting binaries.
 
 ## Application Setup for End Users
 
