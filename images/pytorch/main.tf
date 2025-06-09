@@ -14,10 +14,7 @@ module "config" {
   environment = {
     "CUDA_VERSION" : "${each.value.cuda}",
   }
-
-  extra_repositories = ["https://packages.cgr.dev/extras"]
-  extra_keyring      = ["https://packages.cgr.dev/extras/chainguard-extras.rsa.pub"]
-
+  extra_repositories = ["https://apk.cgr.dev/extra-packages"]
   extra_packages = [
     "py${each.value.python}-torchvision-cuda-${each.value.cuda}",
   ]

@@ -6,8 +6,7 @@ module "accts" {
 output "config" {
   value = jsonencode({
     contents = {
-      repositories = ["https://packages.cgr.dev/extras"]
-      keyring      = ["https://packages.cgr.dev/extras/chainguard-extras.rsa.pub"]
+      repositories = ["https://apk.cgr.dev/extra-packages"]
       packages     = ["mongod", "mongo", "procps"]
     },
     entrypoint = {

@@ -74,8 +74,8 @@ variable "archs" {
 }
 
 provider "apko" {
-  extra_repositories = concat(["https://packages.wolfi.dev/os"], var.extra_repositories)
-  extra_keyring      = concat(["https://packages.wolfi.dev/os/wolfi-signing.rsa.pub"], var.extra_keyring)
+  extra_repositories = concat(["https://apk.cgr.dev/chainguard"], var.extra_repositories)
+  extra_keyring      = var.extra_keyring
   extra_packages     = concat(["wolfi-baselayout"], var.extra_packages)
   default_archs      = var.archs
 

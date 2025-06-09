@@ -11,8 +11,7 @@ variable "target_repository" {
 module "latest-config" {
   source = "./configs"
 
-  extra_repositories = ["https://packages.cgr.dev/extras"]
-  extra_keyring      = ["https://packages.cgr.dev/extras/chainguard-extras.rsa.pub"]
+  extra_repositories = ["https://apk.cgr.dev/extra-packages"]
 }
 
 module "latest" {
