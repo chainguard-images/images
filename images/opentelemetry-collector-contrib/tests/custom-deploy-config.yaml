@@ -1,4 +1,4 @@
-# Configuration adapted from https://github.com/open-telemetry/opentelemetry-helm-charts/blob/07993512215d76b57807468db6bdbf450230e8a6/charts/opentelemetry-collector/examples/deployment-only/rendered/configmap.yaml
+# Configuration adapted from https://github.com/open-telemetry/opentelemetry-helm-charts/blob/502bb158cddb8d033371d93cf9b82eb835ffff94/charts/opentelemetry-collector/examples/deployment-only/rendered/configmap.yaml
 # Removes the logging exporter that seems to not work anymore with v0.94.0 of opentelemetry-collector
 exporters:
   debug: {}
@@ -73,4 +73,9 @@ service:
         - zipkin
   telemetry:
     metrics:
-      address: ${env:MY_POD_IP}:8888
+      readers:
+      - pull:
+          exporter:
+            prometheus:
+              host: ${env:MY_POD_IP}
+              port: 8888

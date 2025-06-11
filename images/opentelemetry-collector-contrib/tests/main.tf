@@ -107,6 +107,12 @@ module "helm-otelc-daemonset" {
       digest     = local.parsed.digest
       repository = local.parsed.registry_repo
     }
+    resources = {
+      limits = {
+        cpu    = "250m"
+        memory = "512Mi"
+      }
+    }
     command = {
       extraArgs = [
         "--config=/conf/custom-config.yaml"
@@ -125,7 +131,7 @@ module "helm-otelc-daemonset" {
           name : "otelc-daemonset"
           items : [
             {
-              key : "custom-deploy-config.yaml"
+              key : "custom-ds-config.yaml"
               path : "custom-config.yaml"
             }
           ]

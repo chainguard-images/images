@@ -80,15 +80,12 @@ extensions:
     endpoint: :1888
   zpages:
     endpoint: :55679
-  memory_ballast:
-    size_in_percentage: 5
 
 service:
   extensions:
     - pprof
     - zpages
     - health_check
-    - memory_ballast
   pipelines:
     metrics:
       receivers:
