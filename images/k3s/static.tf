@@ -19,7 +19,7 @@ module "test-latest-static" {
 }
 
 module "tagger-static" {
-  depends_on = [module.test-latest-static]
+  depends_on = [module.test-latest, module.test-latest-static]
   source     = "../../tflib/tagger"
   tags       = module.latest-static.latest_tag_map
 }
