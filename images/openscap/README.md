@@ -31,7 +31,48 @@ docker pull cgr.dev/ORGANIZATION/openscap:latest
 Be sure to replace the `ORGANIZATION` placeholder with the name used for your organization's private repository within the Chainguard Registry.
 <!--getting:end-->
 
-<!--body:start--><!--body:end-->
+<!--body:start-->
+## Compatibility Notes
+
+The Chainguard `openscap` image is designed to be a drop-in replacement for the upstream [OpenSCAP toolkit](https://github.com/OpenSCAP/openscap).
+
+## Getting Started
+
+To retrieve information about a SCAP data stream, run a command like the following:
+
+```shell
+docker run --rm cgr.dev/ORGANIZATION/openscap:latest info /usr/share/xml/scap/ssg/content/ssg-chainguard-gpos-ds.xml
+```
+```
+Document type: Source Data Stream
+Imported: 2025-06-12T21:40:52
+Stream: scap_org.open-scap_datastream_from_xccdf_all-resolved-xccdf-v3r2.xml
+[... additional document information ...]
+```
+
+If you have SCAP content files that you want to evaluate, you can first create a directory to store the files:
+
+```shell
+mkdir -p scap-content
+```
+
+Then evaluate SCAP content by mounting the content directory. In the following example, we run an evaluation on the file /scap-content/your-oval-file.xml..."
+
+```shell
+docker run --rm \
+  -v $(pwd)/scap-content:/scap-content \
+  cgr.dev/ORGANIZATION/openscap:latest \
+  oval eval --results /scap-content/results.xml /scap-content/your-oval-file.xml
+```
+
+> [!NOTE]
+> Many security scanning operations require elevated privileges or access to host system information. Consider using `--privileged` or specific capability flags when performing system scans.
+
+## Documentation and Resources
+
+- [OpenSCAP User Manual](https://static.open-scap.org/openscap-1.3/oscap_user_manual.html)
+- [NIST SCAP Documentation](https://csrc.nist.gov/projects/security-content-automation-protocol)
+<!--body:end-->
 
 ## What are Chainguard Containers?
 

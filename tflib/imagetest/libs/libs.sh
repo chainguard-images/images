@@ -96,3 +96,21 @@ test_debug_pause() {
   rm -f /tmp/CONTINUE
   echo >&2 "CONTINUING TESTS"
 }
+
+# Function to print info lines with dash separators
+# Usage: line_info [message]
+#
+# Arguments:
+#   message     - Optional message to wrap with dashes
+#
+# Examples:
+#   line_info                    # Prints: ----
+#   line_info "Starting tests"   # Prints: ---- Starting tests ----
+line_info() {
+  local message="$1"
+  if [ -z "$message" ]; then
+    echo "----"
+  else
+    echo "---- $message ----"
+  fi
+}

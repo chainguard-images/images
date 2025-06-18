@@ -47,7 +47,7 @@ Be aware that you can always pull the latest version of the Image available, by 
 docker pull cgr.dev/chainguard/curl:latest
 ```
 
-After downloading the image, you can run it the image with the `--version` flag to make sure the Image is functional:
+After downloading the image, you can run it with the `--version` flag to verify it's working correctly:
 
 ```shell
 docker run -it --rm cgr.dev/chainguard/curl --version
