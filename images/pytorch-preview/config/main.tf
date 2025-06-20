@@ -9,7 +9,22 @@ variable "extra_packages" {
   type        = list(string)
 
   # torchvision is currently built on top of torch and should include all the packages we expect from it
-  default = ["torchvision-cuda12"]
+  default = [""]
+}
+
+variable "cuda_version" {
+  description = "CUDA toolkit version"
+  default     = "12.4"
+}
+
+variable "cudnn_version" {
+  description = "CuDNN version"
+  default     = "9"
+}
+
+variable "python_version" {
+  description = "Python version"
+  default     = "3"
 }
 
 variable "extra_repositories" {
@@ -26,6 +41,12 @@ variable "environment" {
   default = {}
 }
 
+variable "archs" {
+  description = "The architectures to build for."
+  type        = list(string)
+  default     = ["amd64"]
+}
+
 module "accts" {
   source = "../../../tflib/accts"
 }
@@ -39,13 +60,13 @@ output "config" {
     }
     accounts = module.accts.block
     environment = merge({
-      "PATH" : "/work:/usr/share/torchvision/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/nvidia/bin:/usr/local/cuda/bin",
-      "CUDA_VERSION" : "12.3",
+      "PATH" : "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/cuda-${var.cuda_version}/bin",
+      "CUDA_VERSION" : "${var.cuda_version}",
     }, var.environment)
     entrypoint = {
-      command = "/usr/share/torchvision/.venv/bin/python3"
+      command = "/usr/bin/python${var.python_version}"
     }
-    archs    = ["x86_64"]
+    archs    = var.archs
     work-dir = "/work"
     layering = {
       strategy = "origin"

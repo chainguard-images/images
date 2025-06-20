@@ -33,6 +33,14 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
+## Compatibility Notes
+
+Chainguard’s PyTorch image is similar to the [pytorch/pytorch image](https://hub.docker.com/r/pytorch/pytorch), with several key differences:
+
+* Chainguard images are using Wolfi Linux distribution, the `pytorch/pytorch` images are based on Ubuntu 22.04
+* Chainguard images are running as `nonroot` user with home in `/home/nonroot` directory, while the `pytorch/pytorch` images are running as root user
+* Chainguard images do not ship a full shell by default and it's entrypoint is Python, while `pytorch/pytorch` uses Bash as entrypoint
+  (**NOTE**: Chainguard also provides a `-dev` images that have a full shell and entrypoint can be set to `/bin/sh` or `/bin/bash` for such images)
 
 ## Running pytorch
 

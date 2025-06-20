@@ -12,11 +12,77 @@ variable "digest" {
 // NOTE: Until a time in the near future when we support GPU enabled harnesses,
 // the tests below are benign and only serve to signal to the sharder how to
 // handle this image.
+data "imagetest_inventory" "this" {}
+
+resource "imagetest_harness_docker" "this" {
+  name      = "pytorch"
+  inventory = data.imagetest_inventory.this
+
+  envs = {
+    IMAGE_NAME : var.digest
+  }
+}
+
+resource "imagetest_feature" "basic" {
+  harness     = imagetest_harness_docker.this
+  name        = "test-python-pytorch"
+  description = "Test entrypoint and torch package"
+
+  timeouts = {
+    create = "120m"
+  }
+
+  steps = [
+    {
+      name = "Test default Python entrypoint works"
+      cmd  = <<EOT
+docker run --rm $IMAGE_NAME --version | grep Python
+EOT
+    },
+    {
+      name = "Test python symlink works"
+      cmd  = <<EOT
+docker run --entrypoint /usr/bin/python --rm $IMAGE_NAME --version | grep Python
+EOT
+    },
+    {
+      name = "Test python3 symlink works"
+      cmd  = <<EOT
+docker run --entrypoint /usr/bin/python3 --rm $IMAGE_NAME --version | grep Python
+EOT
+    },
+    {
+      name = "Test torch package can be loaded"
+      cmd  = <<EOT
+docker run --rm $IMAGE_NAME -c 'import torch'
+EOT
+    },
+    {
+      name = "Test torch.rand function"
+      cmd  = <<EOT
+docker run --rm $IMAGE_NAME -c 'import torch ; print(torch.rand(5, 3))' | grep tensor
+EOT
+    },
+  ]
+
+  labels = {
+    type = "container"
+    # Group this image into a pytorch only shard
+    "shard::group"         = "pytorch"
+    "gha::runs-on"         = "ubuntu-latest-64-cores"
+    "gha::timeout-minutes" = "240"
+  }
+}
+
+//
+// The following test has been commented out since inception, and currently
+// fails with:
+// ⚠ ERROR: Original containers have been substituted for unrecognized ones.
+// It needs to be debugged or removed.
+//
 
 /*
 locals { parsed = provider::oci::parse(var.digest) }
-
-data "imagetest_inventory" "this" {}
 
 resource "imagetest_harness_k3s" "this" {
   name      = "pytorch"
@@ -65,9 +131,9 @@ module "helm" {
   }
 }
 
-resource "imagetest_feature" "basic" {
+resource "imagetest_feature" "basic_helm" {
   harness     = imagetest_harness_k3s.this
-  name        = "Basic"
+  name        = "Basic Helm"
   description = "Basic functionality of the Pytorch Helm chart."
 
   steps = [

@@ -47,6 +47,11 @@ if [[ -n "${IMAGETEST_HELM_CHART_VERSION}" ]]; then
   )
 fi
 
+if [[ -n "${IMAGETEST_HELM_GIT_REPO}" ]]; then
+    helm_install_args+=(
+        --dependency-update
+    )
+fi
 # Prepare values file and inventory arguments
 inventory_output="/mnt/imagetest/artifacts/helm_values/inventory.json"
 mkdir -p "/mnt/imagetest/artifacts/helm_values"
