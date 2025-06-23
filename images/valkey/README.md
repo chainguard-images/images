@@ -41,11 +41,6 @@ The data model is key-value, but many different kind of values are supported: St
 - [Documentation](https://edu.chainguard.dev/chainguard/chainguard-images/reference/valkey)
 - [Provenance Information](https://edu.chainguard.dev/chainguard/chainguard-images/reference/valkey/provenance_info/)
 
-## Image Variants
-
-Our `latest` tag use the most recent build of the [Wolfi Valkey](https://github.com/wolfi-dev/os/blob/main/valkey.yaml) package.
-The `latest` tagged variant is a distroless image for running Valkey.
-
 ## Valkey Version
 This will automatically pull the image to your local system and execute the command `valkey --version`:
 

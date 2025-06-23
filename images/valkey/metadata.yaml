@@ -11,3 +11,4 @@ keywords:
 tier: APPLICATION
 aliases:
   - valkey/valkey:latest
+public: true

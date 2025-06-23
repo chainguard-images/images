@@ -1,36 +1,41 @@
-terraform {
-  required_providers {
-    oci = { source = "chainguard-dev/oci" }
-  }
-}
-
 variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "latest-config" { source = "./configs" }
+module "versions" {
+  package = "valkey"
+  source  = "../../tflib/versions"
+}
 
-module "latest" {
-  source            = "../../tflib/publisher"
-  name              = basename(path.module)
-  target_repository = var.target_repository
-  config            = module.latest-config.config
+module "config" {
+  extra_packages = [each.key, "${each.key}-cli"]
+  for_each       = module.versions.versions
+  source         = "./configs"
+}
+
+module "versioned" {
   build-dev         = true
+  config            = module.config[each.key].config
+  eol               = each.value.eol
+  for_each          = module.versions.versions
+  main_package      = each.value.main
+  name              = basename(path.module)
+  source            = "../../tflib/publisher"
+  target_repository = var.target_repository
+  update-repo       = each.value.is_latest
 }
 
-module "test-latest" {
-  source = "./tests"
-  digest = module.latest.image_ref
+module "test-versioned" {
+  digest   = module.versioned[each.key].image_ref
+  for_each = module.versions.versions
+  source   = "./tests"
 }
 
-resource "oci_tag" "latest" {
-  depends_on = [module.test-latest]
-  digest_ref = module.latest.image_ref
-  tag        = "latest"
+module "tagger" {
+  depends_on = [module.test-versioned]
+  source     = "../../tflib/tagger"
+  tags = merge(
+    [for k in module.versions.ordered_keys : module.versioned[k].latest_tag_map]...
+  )
 }
 
-resource "oci_tag" "latest-dev" {
-  depends_on = [module.test-latest]
-  digest_ref = module.latest.dev_ref
-  tag        = "latest-dev"
-}
