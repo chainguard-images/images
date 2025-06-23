@@ -1,7 +1,3 @@
-locals {
-  baseline_packages = ["busybox"]
-}
-
 module "accts" {
   name   = "valkey"
   source = "../../../tflib/accts"
@@ -14,16 +10,14 @@ terraform {
 }
 
 variable "extra_packages" {
-  default     = ["valkey", "valkey-cli"]
+  default     = [""]
   description = "The additional packages to install"
 }
 
 output "config" {
   value = jsonencode({
     "contents" : {
-      // TODO: remove the need for using hardcoded local.baseline_packages by plumbing
-      // these packages through var.extra_packages in all callers of this config module
-      "packages" : distinct(concat(local.baseline_packages, var.extra_packages))
+      "packages" : distinct(concat(var.extra_packages))
     },
     "entrypoint" : {
       "command" : "/usr/bin/valkey-server"
