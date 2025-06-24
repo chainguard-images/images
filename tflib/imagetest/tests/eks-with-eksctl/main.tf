@@ -50,6 +50,12 @@ variable "tests" {
   }))
 }
 
+variable "driver_config" {
+  description = "Optional ekswitheksctl driver configuration. The full supported configuration is documented here: https://registry.terraform.io/providers/chainguard-dev/imagetest/latest/docs/resources/tests#nested-schema-for-driverseks_with_eksctl"
+  type        = any
+  default     = {}
+}
+
 locals {
   tests = [for test in var.tests : merge(test, {
     content = concat(test.content != null ? test.content : [],
@@ -71,10 +77,10 @@ resource "imagetest_tests" "ekswitheksctl" {
   repo = var.repo
 
   drivers = {
-    eks_with_eksctl = {
+    eks_with_eksctl = merge({
       node_ami = var.aws_eks_node_ami
       region   = var.aws_region
-    }
+    }, var.driver_config)
   }
 
   images = var.images

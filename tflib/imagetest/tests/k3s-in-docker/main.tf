@@ -39,6 +39,12 @@ variable "tests" {
   }))
 }
 
+variable "driver_config" {
+  description = "Optional k3s driver configuration. The full supported configuration is documented here: https://registry.terraform.io/providers/chainguard-dev/imagetest/latest/docs/resources/tests#nested-schema-for-driversk3s_in_docker"
+  type        = any
+  default     = {}
+}
+
 locals {
   tests = [for test in var.tests : merge(test, {
     content = concat(test.content != null ? test.content : [],
@@ -58,8 +64,8 @@ resource "imagetest_tests" "k3sindocker" {
   driver = "k3s_in_docker"
 
   drivers = {
-    k3s_in_docker = {
-      image = "${var.k3s-image}"
+    k3s_in_docker = merge({
+      image = var.k3s-image
       registries = {
         "docker.io" = {
           mirrors = {
@@ -67,7 +73,7 @@ resource "imagetest_tests" "k3sindocker" {
           }
         }
       }
-    }
+    }, var.driver_config)
   }
 
   images = var.images

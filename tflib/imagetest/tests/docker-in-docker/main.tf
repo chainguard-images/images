@@ -38,6 +38,12 @@ variable "tests" {
   }))
 }
 
+variable "driver_config" {
+  description = "Optional dind driver configuration. The full supported configuration is documented here: https://registry.terraform.io/providers/chainguard-dev/imagetest/latest/docs/resources/tests#nested-schema-for-driversdocker_in_docker"
+  type        = any
+  default     = {}
+}
+
 locals {
   tests = [for test in var.tests : merge(test, {
     content = concat(test.content != null ? test.content : [],
@@ -57,10 +63,10 @@ resource "imagetest_tests" "dockerindocker" {
   driver = "docker_in_docker"
 
   drivers = {
-    docker_in_docker = {
+    docker_in_docker = merge({
       image   = var.dind_image
       mirrors = ["https://mirror.gcr.io"]
-    }
+    }, var.driver_config)
   }
 
   images = var.images
