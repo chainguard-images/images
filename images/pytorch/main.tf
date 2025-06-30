@@ -76,7 +76,7 @@ module "versioned" {
   for_each          = local.full_versions
   source            = "../../tflib/publisher"
   name              = basename(path.module)
-  target_repository = replace(var.target_repository, "-preview", "")
+  target_repository = var.target_repository
   config            = module.config[each.key].config
   build-dev         = false # TODO(wojciechka): re-enable once CI is working consistently
   main_package      = "py${each.value.python}-torch-cuda-${each.value.cuda}-bin"
@@ -103,6 +103,6 @@ module "tagger" {
   depends_on = [module.test]
   tags = merge(
     { "latest" = module.versioned[local.latest_version].image_ref },
-    { "latest-dev" = module.versioned[local.latest_version].dev_ref }
+    { "latest-dev" = module.versioned[local.latest_version].dev_ref },
   )
 }

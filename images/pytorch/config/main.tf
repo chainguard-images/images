@@ -14,7 +14,7 @@ variable "extra_packages" {
 
 variable "cuda_version" {
   description = "CUDA toolkit version"
-  default     = "12.4"
+  default     = "12.6"
 }
 
 variable "cudnn_version" {

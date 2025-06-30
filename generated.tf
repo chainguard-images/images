@@ -234,9 +234,9 @@ module "python" {
   test_repository   = var.test_repository
 }
 
-module "pytorch-preview" {
-  source            = "./images/pytorch-preview"
-  target_repository = "${var.target_repository}/pytorch-preview"
+module "pytorch" {
+  source            = "./images/pytorch"
+  target_repository = "${var.target_repository}/pytorch"
   test_repository   = var.test_repository
 }
 
@@ -456,8 +456,8 @@ output "summary_python" {
   value = module.python.summary
 }
 
-output "summary_pytorch-preview" {
-  value = module.pytorch-preview.summary
+output "summary_pytorch" {
+  value = module.pytorch.summary
 }
 
 output "summary_redis" {
