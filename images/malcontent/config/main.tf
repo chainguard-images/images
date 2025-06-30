@@ -9,7 +9,7 @@ terraform {
 }
 
 variable "extra_packages" {
-  default     = ["malcontent"]
+  default     = [""]
   description = "The additional packages to install (e.g. malcontent)."
 }
 

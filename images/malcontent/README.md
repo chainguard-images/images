@@ -32,13 +32,33 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Usage
+## Compatibility Notes
 
-Inspect the crane image manifest using the crane image:
+The Chainguard's `malcontent` image provides the official containerized distribution of [`malcontent`](https://github.com/chainguard-dev/malcontent), a tool developed and maintained by Chainguard to analyze ELF binaries and container images for malicious behavior and risky capabilities. It runs as a non-root user by default and adheres to Chainguard's security-focused best practices.
+
+## Getting Started
+
+You can use the official `malcontent` image to analyze local binaries or container images with ease:
+
+To analyze a local binary file:
+```bash
+docker run --rm \
+    -v $(pwd)/target:/scan \
+    cgr.dev/ORGANIZATION/malcontent analyze /scan/binary
+```
+
+To scan a container image for potentially malicious behaviors:
+```bash
+docker run --rm cgr.dev/ORGANIZATION/malcontent --image alpine:latest
+```
+
+To perform a diff between two binaries:
+```bash
+docker run --rm -v $(pwd):/work cgr.dev/ORGANIZATION/malcontent diff /work/binary1 /work/binary2
 
 ```
-docker run --rm cgr.dev/chainguard/crane:latest manifest cgr.dev/chainguard/crane:latest --platform=linux/amd64
-```
+## Documentation and Resources
+For more details about malcontent, visit the upstream project’s GitHub repository: [malcontent](https://github.com/chainguard-dev/malcontent)
 <!--body:end-->
 
 ## What are Chainguard Containers?

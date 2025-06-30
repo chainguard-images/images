@@ -6,6 +6,7 @@ short_description: Enumerate binary capabilities, including malicious behaviors.
 compatibility_notes: ""
 readme_file: README.md
 upstream_url: https://github.com/chainguard-dev/malcontent
-keywords: []
+keywords:
+  - application
 tier: APPLICATION
 public: true
