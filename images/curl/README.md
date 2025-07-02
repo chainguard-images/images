@@ -34,26 +34,18 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--body:start-->
 ## Compatibility Notes
 
-The Chainguard curl image is meant to serve as a drop-in replacement for the [official curl image from Docker Hub](https://hub.docker.com/r/curlimages/curl). Like most other Chainguard Images, the cURL image has few-to-zero CVEs and does not run as the root user.
-
+The Chainguard `curl` image is a drop-in replacement for the upstream [curlimages/curl](https://hub.docker.com/r/curlimages/curl) image. It supports all core functionality and is designed to be a minimal, secure alternative and runs as a non-root user. Switching to this image should not require any changes to your existing deployment configuration.
 
 ## Getting Started
 
-The Chainguard curl Image allows you to run ordinary `curl` commands in CI/CD pipelines as well as locally with Docker.
-
-Be aware that you can always pull the latest version of the Image available, by downloading it from the public `cgr.dev/chainguard/curl` repository:
+You can use chaingaurd `curl` image to run standard curl commands in a secure, containerized environment:
 
 ```shell
-docker pull cgr.dev/chainguard/curl:latest
+docker pull cgr.dev/ORGANISATION/curl:latest
+docker run --rm cgr.dev/ORGANISATION/curl --version
 ```
 
-After downloading the image, you can run it with the `--version` flag to verify it's working correctly:
-
-```shell
-docker run -it --rm cgr.dev/chainguard/curl --version
-```
-
-This will return output similar to the following:
+This will return the below output similar to the following:
 
 ```shell
 curl 8.9.0 (x86_64-pc-linux-gnu) libcurl/8.9.0-DEV rustls-ffi/0.13.0/rustls/0.23.4 zlib/1.3.1 brotli/1.1.0 libpsl/0.21.5 nghttp2/1.62.1
@@ -62,16 +54,17 @@ Protocols: dict file ftp ftps gopher gophers http https imap imaps ipfs ipns mqt
 Features: alt-svc AsynchDNS brotli HSTS HTTP2 HTTPS-proxy IPv6 Largefile libz PSL SSL threadsafe UnixSockets
 ```
 
-You can also run it as you would any other `curl` command. The following example runs `curl` on the URL `cheat.sh/curl`. `cheat.sh` is a site that hosts simplified documentation for a number of command-line utilities:
+You can also use it to run any curl command, such as:
 
 ```shell
-docker run -it --rm cgr.dev/chainguard/curl cheat.sh/curl
+docker run --rm cgr.dev/ORGANISATION/curl https://cheat.sh/curl
 ```
 
 ## Documentation and Resources
 
 * (Chainguard Academy) [Vulnerability Comparison: curl](https://edu.chainguard.dev/chainguard/chainguard-images/vuln-comparison/curl/)
-* (Blog post) [Chainguard’s response to CVE-2023-38545 and CVE-2023-38546 in curl](https://www.chainguard.dev/unchained/chainguards-response-to-cve-2023-38545-and-cve-2023-38546-in-curl) 
+* (Blog post) [Chainguard’s response to CVE-2023-38545 and CVE-2023-38546 in curl](https://www.chainguard.dev/unchained/chainguards-response-to-cve-2023-38545-and-cve-2023-38546-in-curl)
+
 <!--body:end-->
 
 ## What are Chainguard Containers?

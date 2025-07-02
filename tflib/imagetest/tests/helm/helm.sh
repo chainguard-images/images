@@ -11,6 +11,11 @@ if [[ -n "${IMAGETEST_HELM_GIT_REPO}" ]]; then
   # Clone the repo
   git clone "${IMAGETEST_HELM_GIT_REPO}" "${tempdir}/helm-repo"
 
+  if [[ -n "${IMAGETEST_HELM_GIT_REF}" ]]; then
+    echo "Checking out to ref ${IMAGETEST_HELM_GIT_REF}..."
+    (cd "${tempdir}/helm-repo" && git checkout "${IMAGETEST_HELM_GIT_REF}")
+  fi
+
   # Apply any patches
   patchfiles=($(echo "${IMAGETEST_HELM_PATCHES}" | jq -r '.[]'))
   for patchfile in "${patchfiles[@]}"; do

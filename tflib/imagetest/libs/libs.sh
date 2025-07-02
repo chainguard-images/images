@@ -12,8 +12,8 @@
 # Example:
 #   retry_until 5 2 curl -s --fail http://example.com/nonexistent
 retry_until() {
-  local max_retries=$1
-  local delay=$2
+  local max_retries=${1:-6}
+  local delay=${2:-20}
   local current_retry=0
   local exit_code=0
 

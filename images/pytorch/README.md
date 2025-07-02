@@ -42,6 +42,20 @@ Chainguard’s PyTorch image is similar to the [pytorch/pytorch image](https://h
 * Chainguard images do not ship a full shell by default and it's entrypoint is Python, while `pytorch/pytorch` uses Bash as entrypoint
   (**NOTE**: Chainguard also provides a `-dev` images that have a full shell and entrypoint can be set to `/bin/sh` or `/bin/bash` for such images)
 
+### Compatibility Package
+
+If you're running an older version of CUDA not supported by the container, you have the option to install CUDA compatibility packages.
+
+First, install the compatibility package for your specific host OS using the NVIDIA package repository. Make sure to install the package specific to your current version of CUDA.
+
+Once the compatibility package has been installed, you can run the container in compatibility mode:
+
+```sh
+docker run --rm -it \
+ -e LD_LIBRARY_PATH="/usr/local/cuda-12.4/compat" \
+ cgr.dev/chainguard/pytorch
+```
+
 ## Running pytorch
 
 PyTorch has some prerequisites which need to be configured in the environment
@@ -79,12 +93,12 @@ True
 
 ## Testing PyTorch
 
-As a quick intro, we will use PyTorch to create a very simple deep learning model with two linear layers and an activation function. We’ll create an instance of it and ask it to report on its parameters. Running the below will fetch a [model_builder.py](https://github.com/chainguard-images/images/blob/main/images/pytorch/model_builder.py) script from the Chainguard Images repository, place it in a folder on your host machine, and run the script in a pytorch container from a volume.
+As a quick intro, we will use PyTorch to create a very simple deep learning model with two linear layers and an activation function. We’ll create an instance of it and ask it to report on its parameters. Running the below will fetch a [model_builder.py](https://github.com/chainguard-dev/pytorch-getting-started/blob/main/model_builder.py) script from the Chainguard Images repository, place it in a folder on your host machine, and run the script in a pytorch container from a volume.
 
 ```bash
-mkdir pytorch-test &&\
- curl https://raw.githubusercontent.com/chainguard-images/images/main/images/pytorch/model_builder.py > pytorch-test/model_builder.py &&\
- docker run --rm -it -v "$PWD/pytorch-test:/tmp/pytorch-test" --gpus all cgr.dev/chainguard/pytorch:latest -c "python /tmp/pytorch-test/model_builder.py"
+mkdir -p pytorch-test &&\
+ curl https://raw.githubusercontent.com/chainguard-dev/pytorch-getting-started/refs/heads/main/model_builder.py > pytorch-test/model_builder.py &&\
+ docker run --rm -it -v "$PWD/pytorch-test:/tmp/pytorch-test" cgr.dev/chainguard/pytorch:latest /tmp/pytorch-test/model_builder.py
 ```
 
 You may also consider running this [quickstart script](https://github.com/chainguard-images/images/blob/main/images/pytorch/tests/quickstart.py) based on the [official PyTorch quickstart tutorial](https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html) using the same approach as above.

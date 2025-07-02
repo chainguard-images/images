@@ -32,36 +32,62 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Usage
+## Compatibility Notes
 
+Chainguard's `dive` container image is comparable to the [upstream image](https://github.com/wagoodman/dive), with the following differences:
+
+* Like all other Chainguard Containers, `dive` features a stripped down, minimal design
+* It has few-to-zero CVEs
+* It does not run as the root user
+
+## Getting started
+
+You need to mount the Docker socket so Dive can access your local images:
 ```
-This tool provides a way to discover and explore the contents of a docker image. Additionally the tool estimates
-the amount of wasted space and identifies the offending files from the image.
-
-Usage:
-  dive [IMAGE] [flags]
-  dive [command]
-
-Available Commands:
-  build       Builds and analyzes a docker image from a Dockerfile (this is a thin wrapper for the `docker build` command).
-  help        Help about any command
-  version     print the version number and exit (also --version)
-
-Flags:
-      --ci                                Skip the interactive TUI and validate against CI rules (same as env var CI=true)
-      --ci-config string                  If CI=true in the environment, use the given yaml to drive validation rules. (default ".dive-ci")
-      --config string                     config file (default is $HOME/.dive.yaml, ~/.config/dive/*.yaml, or $XDG_CONFIG_HOME/dive.yaml)
-  -h, --help                              help for dive
-      --highestUserWastedPercent string   (only valid with --ci given) highest allowable percentage of bytes wasted (as a ratio between 0-1), otherwise CI validation will fail. (default "0.1")
-      --highestWastedBytes string         (only valid with --ci given) highest allowable bytes wasted, otherwise CI validation will fail. (default "disabled")
-  -i, --ignore-errors                     ignore image parsing errors and run the analysis anyway
-  -j, --json string                       Skip the interactive TUI and write the layer analysis statistics to a given file.
-      --lowestEfficiency string           (only valid with --ci given) lowest allowable image efficiency (as a ratio between 0-1), otherwise CI validation will fail. (default "0.9")
-      --source string                     The container engine to fetch the image from. Allowed values: docker, podman, docker-archive (default "docker")
-  -v, --version                           display version number
-
-Use "dive [command] --help" for more information about a command.
+docker run --rm -it \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  cgr.dev/ORGANIZATION/dive:latest <your-image-tag>
 ```
+
+If the image is not present locally, Dive will pull it from the registry
+
+### Output
+This outputs a summary including image efficiency and wasted space, suitable for automated pipelines
+```
+Analyzing image...
+  efficiency: 99.0268 %
+  wastedBytes: 3569864 bytes (3.6 MB)
+  userWastedPercent: 3.5550 %
+Inefficient Files:
+Count  Wasted Space  File Path
+    2        1.6 MB  /var/cache/debconf/templates.dat
+    2        1.5 MB  /var/cache/debconf/templates.dat-old
+    2        201 kB  /var/lib/dpkg/status
+    2        201 kB  /var/lib/dpkg/status-old
+    2         21 kB  /var/cache/debconf/config.dat
+    2         20 kB  /var/cache/debconf/config.dat-old
+    2         18 kB  /etc/ld.so.cache
+    2         13 kB  /var/lib/apt/extended_states
+    2         11 kB  /var/log/apt/eipp.log.xz
+    2        1.7 kB  /etc/passwd
+    2        1.7 kB  /etc/passwd-
+    2         968 B  /etc/shadow
+    2         881 B  /etc/group
+    2         868 B  /etc/group-
+    2         738 B  /etc/gshadow
+    2           0 B  /var/lib/dpkg/triggers/Lock
+    2           0 B  /var/lib/dpkg/triggers/Unincorp
+    2           0 B  /var/lib/dpkg/lock
+Results:
+  PASS: highestUserWastedPercent
+  SKIP: highestWastedBytes: rule disabled
+  PASS: lowestEfficiency
+Result:PASS [Total:3] [Passed:2] [Failed:0] [Warn:0] [Skipped:1]
+```
+
+## Documentation and Resources
+**[Github Repository](https://github.com/wagoodman/dive)**
+
 <!--body:end-->
 
 ## What are Chainguard Containers?

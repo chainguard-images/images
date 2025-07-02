@@ -30,6 +30,11 @@ variable "git_repo" {
   default     = ""
 }
 
+variable "git_ref" {
+  description = "The branch or tag to use chart from"
+  default     = ""
+}
+
 variable "chart" {
   description = "The chart to install. When installing from an oci registry, this is the oci://repo of the chart."
 }
@@ -79,6 +84,7 @@ output "test" {
       IMAGETEST_HELM_CHART            = var.chart
       IMAGETEST_HELM_CHART_VERSION    = var.chart_version
       IMAGETEST_HELM_GIT_REPO         = var.git_repo
+      IMAGETEST_HELM_GIT_REF          = var.git_ref
       IMAGETEST_HELM_REPO             = var.repo
       IMAGETEST_HELM_PATCHES          = jsonencode(var.patches)
       IMAGETEST_HELM_NAME             = var.name
