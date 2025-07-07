@@ -126,7 +126,7 @@ module "this" {
   extra_packages    = var.extra_packages
 
   check_sbom = var.check-sbom
-  spdx_image = "ghcr.io/wolfi-dev/spdx-tools:latest@sha256:5c1c7fd70600193753ddd9c9c825849ebe777647c67607cc19d3e37b5ab38a5e"
+  spdx_image = "ghcr.io/wolfi-dev/spdx-tools:latest@sha256:884a57d646f24c7ac09f90b9049234e9d5a1e36ef8811676138d0f38dc3a23d6"
 }
 
 module "this-dev" {
@@ -148,7 +148,7 @@ module "this-dev" {
   ], var.extra_dev_packages)
 
   check_sbom = var.check-sbom
-  spdx_image = "ghcr.io/wolfi-dev/spdx-tools:latest@sha256:5c1c7fd70600193753ddd9c9c825849ebe777647c67607cc19d3e37b5ab38a5e"
+  spdx_image = "ghcr.io/wolfi-dev/spdx-tools:latest@sha256:884a57d646f24c7ac09f90b9049234e9d5a1e36ef8811676138d0f38dc3a23d6"
 }
 
 data "oci_exec_test" "check-reproducibility" {

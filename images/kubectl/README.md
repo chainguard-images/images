@@ -40,14 +40,16 @@ The `kubectl` Chainguard Image provides a low-to-zero CVE environment for [`kube
 
 To load your own global configuration file, you can set the `KUBECONFIG` environment variable and mount a configuration file on your host machine to the specified location on the container using a volume.
 
-The command below sets the `KUBECONFIG` environment variable to `.kube/config` within the `nonroot` home folder, initializes a volume at that location, and runs the container with a command that prints the current configuration. Make sure to replace $ORGANIZATION with the name of your organization.
+The command below sets the `KUBECONFIG` environment variable to `.kube/config` within the `nonroot` home folder, initializes a volume at that location, and runs the container with a command that prints the current configuration.
 
 ```sh
 docker run \
  -e KUBECONFIG=/home/nonroot/.kube/config \
  -v $PWD/config:/home/nonroot/.kube/config \
- cgr.dev/$ORGANIZATION/kubectl:latest-dev config view
+ cgr.dev/ORGANIZATION/kubectl:latest-dev config view
 ```
+
+Make sure to replace `ORGANIZATION` with the name of your organization.
 
 If you would prefer to test this command without using your own configuration file, you can create a default `config` file in your current working directory as below:
 
@@ -101,13 +103,9 @@ kubectl create secret generic cgsecret \
  --type=kubernetes.io/dockerconfigjson
 ```
 
-Next, we'll run a shell command to create a configuration for the pod for our `kubectl ` Chainguard Image container. First, set your organization name as an environment variable:
+Next, we'll run a shell command to create a configuration for the pod for our `kubectl ` Chainguard Image container. 
 
-```sh
-ORGANIZATION=my-organization
-```
-
-Then run the following command to create the pod configuration file:
+Run the following command to create the pod configuration file:
 
 
 ```sh
@@ -119,7 +117,7 @@ metadata:
 spec:
   containers:
   - name: kubectl-container
-    image: cgr.dev/$ORGANIZATION/kubectl
+    image: cgr.dev/ORGANIZATION/kubectl
     command: ["/usr/bin/kubectl", "version"]
   imagePullSecrets:
   - name: cgsecret
@@ -156,8 +154,8 @@ IPs:
 Containers:
   kubectl-container:
     Container ID:  containerd://e9bc0e28ae161ff9ce84842f560478728c5986ff2dc2a41f02e90b49a3919211
-    Image:         cgr.dev/$ORGANIZATION/kubectl
-    Image ID:      cgr.dev/$ORGANIZATION/kubectl@sha256:034d5e90723d49a31e6e98ad9ad787946143e9ea7a3728bfb38645d99305dc52
+    Image:         cgr.dev/ORGANIZATION/kubectl
+    Image ID:      cgr.dev/ORGANIZATION/kubectl@sha256:034d5e90723d49a31e6e98ad9ad787946143e9ea7a3728bfb38645d99305dc52
     Port:          <none>
     Host Port:     <none>
     Command:
