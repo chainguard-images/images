@@ -1,5 +1,5 @@
 locals {
-  baseline_packages = ["alpine-keys", "bubblewrap", "wolfi-keys"]
+  baseline_packages = ["bubblewrap", "wolfi-keys"]
 }
 
 terraform {

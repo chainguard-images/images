@@ -8,7 +8,6 @@ output "config" {
   value = jsonencode({
     contents = {
       packages = concat(var.extra_packages, [
-        "alpine-keys",
         "wolfi-keys",
       ])
     }
