@@ -31,6 +31,9 @@ module "test-latest" {
 module "tagger" {
   depends_on = [module.test-latest]
   source     = "../../tflib/tagger"
-  tags       = { "latest" = module.latest.image_ref }
+  tags = merge(
+    { "latest" = module.latest.image_ref },
+    { "latest-dev" = module.latest.dev_ref },
+  )
 }
 
