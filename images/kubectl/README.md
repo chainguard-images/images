@@ -73,7 +73,7 @@ In this example, we'll add the Kubectl Chainguard Image to a Kubernetes cluster.
 
 
 - [`kind`](https://kind.sigs.k8s.io/docs/user/quick-start#installation). 
-- [`chainctl`](https://edu.chainguard.dev/chainguard/administration/how-to-install-chainctl)
+- [`chainctl`](https://edu.chainguard.dev/chainguard/chainctl-usage/how-to-install-chainctl/)
 - [`kubectl`]( https://kubernetes.io/docs/tasks/tools/)
 
 Once the `kind` utility for creating local Kubernetes clusters is installed and on your path, create a new cluster with the following command:
@@ -84,7 +84,7 @@ kind create cluster
 
 This will create a cluster with the default name `kind`.
 
-Next, we'll need to download a pull token using Chainguard's [`chainctl`](https://edu.chainguard.dev/chainguard/administration/how-to-install-chainctl) utility. This will allow us to access your organization's Chainguard Images in environments that do not support OIDC, such as a Kubernetes cluster.
+Next, we'll need to download a pull token using Chainguard's [`chainctl`](https://edu.chainguard.dev/chainguard/chainctl-usage/how-to-install-chainctl/) utility. This will allow us to access your organization's Chainguard Images in environments that do not support OIDC, such as a Kubernetes cluster.
 
 Run the following to generate a pull token:
 
