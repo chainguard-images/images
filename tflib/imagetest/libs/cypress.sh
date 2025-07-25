@@ -66,8 +66,13 @@ spec:
           volumeMounts:
             - name: configmap
               mountPath: /cypress
+              readOnly: false
             - name: output
               mountPath: /cypress/videos
+              readOnly: false
+            - name: screenshots
+              mountPath: /cypress/screenshots
+              readOnly: false
           env:
             - name: POD_NAME
               valueFrom:
@@ -85,6 +90,8 @@ spec:
       - name: output
         persistentVolumeClaim:
           claimName: "${name}-output"
+      - name: screenshots
+        emptyDir: {}
 EOF
 
   if ! kubectl wait --for=condition=complete --timeout="${timeout}" -n default "job/${name}" ; then
