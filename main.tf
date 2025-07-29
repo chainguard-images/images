@@ -51,7 +51,7 @@ variable "test_repository" {
 
 variable "scratch_repository" {
   description = "The docker repo root to use for writing scratch/temporary test images, without worrying about them being confused with real Chainguard images."
-  default     = "cgr.dev/chainguard-private/test-tmp"
+  default     = "cgr.dev/chainguard/test-tmp"
 }
 
 variable "extra_repositories" {
