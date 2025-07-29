@@ -4,6 +4,10 @@ variable "test_repository" {
   description = "The docker repo root to use for sourcing test images."
 }
 
+variable "scratch_repository" {
+  description = "The docker repo root to use for writing scratch/temporary test images, without worrying about them being confused with real Chainguard images."
+}
+
 output "summary" {
   value = {
     "tags" = merge(module.tagger.imagetags)

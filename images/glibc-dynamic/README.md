@@ -33,7 +33,7 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 
 <!--body:start-->
 ## Compatibility Notes
-This image is meant to be used as just a base image only. It does not contain any programs that can be run, other than `/sbin/ldconfig`. Unlike Chainguard's standard `glibc-dynamic` container image, the `glibc-dynamic` image also includes `libstdc++`, the GNU C++ standard library implementation.
+This image is meant to be used as just a base image only. It does not contain any programs that can be run, other than `/sbin/ldconfig`. Unlike Chainguard's standard `glibc` container image, the `glibc-dynamic` image also includes `libstdc++`, the GNU C++ standard library implementation.
 
 You must bring your own artifacts to use this image, e.g. with a Docker multi-stage build. If you want locale support other than `C.UTF-8`, you must bring your own locale data as well. This may change in the future based on user feedback.
 
@@ -77,13 +77,13 @@ EOF
 Using this Dockerfile, build an image:
 
 ```shell
-docker build -t glibc-example .
+docker build -t glibc-dynamic-example .
 ```
 
 Then run the newly-built image:
 
 ```shell
-docker run --rm glibc-example
+docker run --rm glibc-dynamic-example
 ```
 
 This will return the following output, indicating the program was run successfully and the `glibc-dynamic` base image worked as expected:

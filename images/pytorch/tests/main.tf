@@ -14,12 +14,28 @@ variable "digest" {
 // handle this image.
 data "imagetest_inventory" "this" {}
 
+resource "imagetest_container_volume" "volume" {
+  name      = "pytorch-volume"
+  inventory = data.imagetest_inventory.this
+}
+
 resource "imagetest_harness_docker" "this" {
   name      = "pytorch"
   inventory = data.imagetest_inventory.this
 
+  mounts = [{
+    source      = path.module
+    destination = "/tests"
+  }]
+
+  volumes = [{
+    source      = imagetest_container_volume.volume
+    destination = "/test"
+  }]
+
   envs = {
-    IMAGE_NAME : var.digest
+    IMAGE_NAME = var.digest
+    VOLUME_ID  = imagetest_container_volume.volume.id
   }
 }
 
@@ -33,6 +49,19 @@ resource "imagetest_feature" "basic" {
   }
 
   steps = [
+    {
+      name = "copy test files into workspace"
+      cmd  = <<EOF
+        cp -r /tests/* /test
+        chown -R 65532:65532 /test
+      EOF
+    },
+    {
+      name = "Is this an expected CUDA variant for this PyTorch release?"
+      cmd  = <<EOT
+docker run --rm -v $VOLUME_ID:/test $IMAGE_NAME /test/expected-cuda-variant.py
+EOT
+    },
     {
       name = "Test default Python entrypoint works"
       cmd  = <<EOT
