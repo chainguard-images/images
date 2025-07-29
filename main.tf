@@ -30,7 +30,8 @@ variable "tests_exclude_by_label" {
 }
 
 provider "imagetest" {
-  repo = "${var.target_repository}/imagetest"
+  repo        = "${var.target_repository}/imagetest"
+  extra_repos = [var.test_repository, var.scratch_repository]
 
   test_execution = {
     skip_all_tests   = var.tests_skip_all
