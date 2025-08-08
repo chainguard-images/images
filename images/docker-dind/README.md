@@ -71,6 +71,10 @@ docker exec -it my-dind docker run --rm cgr.dev/chainguard/busybox echo "Hello f
 
 <!--body:end-->
 
+## Get this image as a Chainguard VM
+
+This image is also available as a Chainguard VM, available to deploy on Amazon AWS EC2, Google Cloud Compute Engine, Microsoft Azure and On-Prem through VMware, KVM and QEMU virtualization. Complete our [registration form](https://get.chainguard.dev/vmearlyaccesswaitlist?utm_source=readmes) to get access to Chainguard VMs and try it out for yourself.
+
 ## What are Chainguard Containers?
 
 [Chainguard Containers](https://www.chainguard.dev/containers?utm_source=readmes) are minimal container images that are secure by default. 

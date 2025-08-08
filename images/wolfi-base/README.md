@@ -113,6 +113,10 @@ docker run myredis
 To learn more, we encourage you to visit [Chainguard Academy](https://edu.chainguard.dev) which contains extensive documentation on [getting started with Wolfi](https://edu.chainguard.dev/open-source/wolfi/overview/).
 <!--body:end-->
 
+## Get this image as a Chainguard VM
+
+This image is also available as a Chainguard VM, available to deploy on Amazon AWS EC2, Google Cloud Compute Engine, Microsoft Azure and On-Prem through VMware, KVM and QEMU virtualization. Complete our [registration form](https://get.chainguard.dev/vmearlyaccesswaitlist?utm_source=readmes) to get access to Chainguard VMs and try it out for yourself.
+
 ## What are Chainguard Containers?
 
 [Chainguard Containers](https://www.chainguard.dev/containers?utm_source=readmes) are minimal container images that are secure by default. 

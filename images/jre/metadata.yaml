@@ -1,5 +1,6 @@
 name: jre
 image: cgr.dev/chainguard/jre
+has_vms: true
 endoflife: ""
 console_summary: ""
 short_description: Minimalist Wolfi-based Java JRE image using [OpenJDK](https://openjdk.org/projects/jdk/). Used for running Java applications.

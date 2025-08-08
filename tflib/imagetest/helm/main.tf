@@ -15,7 +15,7 @@ locals {
   install_cmd = <<-EOinstall
 set -o errexit -o nounset -o errtrace -o pipefail -x
 
-apk add helm=~3.17
+apk add helm
 
 chart=${var.chart}
 
@@ -34,7 +34,10 @@ git clone --depth 1 ${var.git_repo} $repo_path
       exit 1
     fi
     echo "Applying patch: $patchfile..."
-    patch '-p1' < $patchfile || echo "Failed to apply patch: $patchfile" && exit
+    if ! patch -p1 < "$patchfile"; then
+      echo "Failed to apply patch: $patchfile"
+      exit 1
+    fi
   done
 )
 %{endif}

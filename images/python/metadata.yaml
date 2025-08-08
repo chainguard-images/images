@@ -1,5 +1,6 @@
 name: python
 image: cgr.dev/chainguard/python
+has_vms: true
 endoflife: ""
 console_summary: ""
 short_description: Minimal Python image based on Wolfi.

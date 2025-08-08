@@ -1,5 +1,6 @@
 name: wolfi-base
 image: cgr.dev/chainguard/wolfi-base
+has_vms: true
 endoflife: ""
 console_summary: ""
 short_description: Base image for the [Wolfi Linux Distribution](https://wolfi.dev).

@@ -1,5 +1,6 @@
 name: docker-dind
 image: cgr.dev/chainguard/docker-dind
+has_vms: true
 endoflife: "A secure and lightweight Docker-in-Docker (dind) image for containerized development and CI/CD."
 console_summary: "Run Docker within containers efficiently with this secure and optimized dind image."
 short_description: "Chainguard image for Docker in Docker (DinD), allowing you to run Docker within a container."
