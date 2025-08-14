@@ -4,6 +4,35 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 
 chart_path="${IMAGETEST_HELM_CHART}"
 
+# If app_version is set, discover the chart version
+if [[ -n "${IMAGETEST_HELM_APP_VERSION}" ]]; then
+  if [[ -z "${IMAGETEST_HELM_REPO}" ]]; then
+    echo "ERROR: app_version requires repo to be set for chart version discovery"
+    exit 1
+  fi
+  
+  echo "Discovering chart version for app_version: ${IMAGETEST_HELM_APP_VERSION}"
+  
+  # Add the repo
+  helm repo add temp-repo "${IMAGETEST_HELM_REPO}" || true
+  helm repo update
+  
+  # Find the chart version that matches the app_version
+  discovered_version=$(helm search repo -l "temp-repo/${IMAGETEST_HELM_CHART}" -o json | \
+    jq -r --arg app_version "${IMAGETEST_HELM_APP_VERSION}" \
+    'first(.[] | select(.app_version == $app_version) | .version) // empty')
+  
+  if [[ -z "${discovered_version}" ]]; then
+    echo "ERROR: Could not find chart version for app_version: ${IMAGETEST_HELM_APP_VERSION}"
+    echo "Available app_versions:"
+    helm search repo -l "temp-repo/${IMAGETEST_HELM_CHART}" -o json | jq -r '.[].app_version' | head -10
+    exit 1
+  fi
+  
+  echo "Discovered chart version: ${discovered_version} for app_version: ${IMAGETEST_HELM_APP_VERSION}"
+  IMAGETEST_HELM_CHART_VERSION="${discovered_version}"
+fi
+
 # If git repo is set, handle it and any patches
 if [[ -n "${IMAGETEST_HELM_GIT_REPO}" ]]; then
   tempdir=$(mktemp -d)
@@ -70,6 +99,34 @@ inventory_args=(
 echo "Installing helm-inventory plugin..."
 helm plugin install ./inventory
 
+# Run pre-install script if provided
+if [[ -n "${IMAGETEST_HELM_PRE_INSTALL_SCRIPT}" ]]; then
+  echo "Running pre-install script: ${IMAGETEST_HELM_PRE_INSTALL_SCRIPT}"
+  
+  # Create a directory for the pre-install script to write values files
+  PRE_INSTALL_VALUES_DIR=$(mktemp -d)
+  export PRE_INSTALL_VALUES_DIR
+  
+  echo "Pre-install script can write values files to: ${PRE_INSTALL_VALUES_DIR}"
+  
+  # Run the pre-install script
+  bash "${IMAGETEST_HELM_PRE_INSTALL_SCRIPT}"
+  
+  # Check for any values files written by the pre-install script
+  if ls "${PRE_INSTALL_VALUES_DIR}"/*.yaml &>/dev/null || ls "${PRE_INSTALL_VALUES_DIR}"/*.yml &>/dev/null; then
+    echo "Found values files from pre-install script:"
+    ls -la "${PRE_INSTALL_VALUES_DIR}"/*.y*ml 2>/dev/null || true
+    
+    # Add each values file to helm install args
+    for values_file in "${PRE_INSTALL_VALUES_DIR}"/*.yaml "${PRE_INSTALL_VALUES_DIR}"/*.yml; do
+      if [[ -f "${values_file}" ]]; then
+        echo "Adding values file: ${values_file}"
+        helm_install_args+=(--values "${values_file}")
+      fi
+    done
+  fi
+fi
+
 # Process the regular values for helm install only
 if [[ -n "${IMAGETEST_HELM_VALUES}" ]]; then
   # write the values to a temporary file as yaml
@@ -104,6 +161,13 @@ if [[ "${IMAGETEST_HELM_WAIT}" == "true" ]]; then
   helm_install_args+=(
     --wait
   )
+  
+  # Add timeout if wait is enabled
+  if [[ -n "${IMAGETEST_HELM_TIMEOUT}" ]]; then
+    helm_install_args+=(
+      --timeout "${IMAGETEST_HELM_TIMEOUT}"
+    )
+  fi
 fi
 
 # Show the charts upstream values

@@ -1,39 +1,25 @@
-terraform {
-  required_providers {
-    oci = { source = "chainguard-dev/oci" }
-  }
-}
-
 variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "test-latest" {
+module "versions" {
+  package = "dotnet"
+  source  = "../../tflib/versions"
+}
+
+module "runtime-version" {
+  for_each             = module.versions.versions
+  source               = "./runtime-version"
+  dotnet_major_version = each.value.version
+}
+
+module "test-things" {
+  for_each        = module.versions.versions
   source          = "./tests"
   test_repository = var.test_repository
 
   digests = {
-    sdk     = module.sdk.image_ref
-    runtime = module.runtime.image_ref
+    runtime = module.runtime-versioned[each.key].image_ref
+    sdk     = module.sdk-versioned[each.key].image_ref
   }
-}
-
-resource "oci_tag" "latest" {
-  depends_on = [module.test-latest]
-  for_each = {
-    "runtime" : module.runtime.image_ref,
-    "sdk" : module.sdk.image_ref,
-  }
-  digest_ref = each.value
-  tag        = "latest"
-}
-
-resource "oci_tag" "latest-dev" {
-  depends_on = [module.test-latest]
-  for_each = {
-    "runtime" : module.runtime.dev_ref,
-    "sdk" : module.sdk.dev_ref,
-  }
-  digest_ref = each.value
-  tag        = "latest-dev"
 }

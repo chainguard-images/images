@@ -79,6 +79,16 @@ output "config" {
         permissions = 511 // 0777
         recursive   = false
       },
+      {
+        # The pid path was switched from /var/run/nginx.pid to /run/nginx.pid here
+        # https://github.com/wolfi-dev/os/pull/62917
+        path        = "/run"
+        uid         = var.uid
+        gid         = var.gid
+        type        = "directory"
+        permissions = 511 // 0777
+        recursive   = false
+      },
     ], var.extra_paths)
 
     entrypoint = {

@@ -1,21 +1,6 @@
-terraform {
-  required_providers {
-    apko = { source = "chainguard-dev/apko" }
-  }
-}
-
-data "apko_config" "package-info" {
-  config_contents = jsonencode({
-    contents = {
-      packages = var.extra_packages
-    }
-  })
-}
-
-locals {
-  package_conf                  = [for p in data.apko_config.package-info.config.contents.packages : p if startswith(p, "aspnet")][0]
-  full_package_version          = split("=", local.package_conf)[1]
-  package_version_without_epoch = split("-", local.full_package_version)[0] // This extracts the version without the epoch
+variable "dotnet_runtime_version" {
+  description = "The .NET runtime version."
+  type        = string
 }
 
 variable "extra_packages" {
@@ -41,8 +26,8 @@ output "config" {
       APP_UID                     = module.accts.uid,
       ASPNETCORE_HTTP_PORTS       = 8080,
       DOTNET_RUNNING_IN_CONTAINER = true,
-      DOTNET_VERSION              = local.package_version_without_epoch,
-      ASPNET_VERSION              = local.package_version_without_epoch,
+      DOTNET_VERSION              = var.dotnet_runtime_version
+      ASPNET_VERSION              = var.dotnet_runtime_version
     }
   })
 }

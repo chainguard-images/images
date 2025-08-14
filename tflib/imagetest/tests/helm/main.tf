@@ -44,8 +44,18 @@ variable "chart_version" {
   default     = ""
 }
 
+variable "app_version" {
+  description = "When specified, will discover the chart version that matches this app version"
+  default     = ""
+}
+
 variable "wait" {
   default = true
+}
+
+variable "timeout" {
+  description = "Time to wait for helm install to complete (e.g., '30m', '1h')"
+  default     = "5m"
 }
 
 variable "patches" {
@@ -60,6 +70,11 @@ variable "sources" {
     source = string
     target = optional(string, null)
   }))
+}
+
+variable "pre_install_script" {
+  description = "Path to a script to run before helm install. The script should output additional helm values as YAML to stdout."
+  default     = ""
 }
 
 variable "enforce_registry" {
@@ -79,18 +94,21 @@ output "test" {
     )
     cmd = "./helm.sh"
     envs = {
-      IMAGETEST_HELM_VALUES           = jsonencode(var.values)
-      IMAGETEST_HELM_CG_VALUES        = jsonencode(var.cg_values)
-      IMAGETEST_HELM_CHART            = var.chart
-      IMAGETEST_HELM_CHART_VERSION    = var.chart_version
-      IMAGETEST_HELM_GIT_REPO         = var.git_repo
-      IMAGETEST_HELM_GIT_REF          = var.git_ref
-      IMAGETEST_HELM_REPO             = var.repo
-      IMAGETEST_HELM_PATCHES          = jsonencode(var.patches)
-      IMAGETEST_HELM_NAME             = var.name
-      IMAGETEST_HELM_NS               = var.namespace
-      IMAGETEST_HELM_WAIT             = var.wait
-      IMAGETEST_HELM_ENFORCE_REGISTRY = var.enforce_registry
+      IMAGETEST_HELM_VALUES             = jsonencode(var.values)
+      IMAGETEST_HELM_CG_VALUES          = jsonencode(var.cg_values)
+      IMAGETEST_HELM_CHART              = var.chart
+      IMAGETEST_HELM_CHART_VERSION      = var.chart_version
+      IMAGETEST_HELM_APP_VERSION        = var.app_version
+      IMAGETEST_HELM_GIT_REPO           = var.git_repo
+      IMAGETEST_HELM_GIT_REF            = var.git_ref
+      IMAGETEST_HELM_REPO               = var.repo
+      IMAGETEST_HELM_PATCHES            = jsonencode(var.patches)
+      IMAGETEST_HELM_NAME               = var.name
+      IMAGETEST_HELM_NS                 = var.namespace
+      IMAGETEST_HELM_WAIT               = var.wait
+      IMAGETEST_HELM_TIMEOUT            = var.timeout
+      IMAGETEST_HELM_ENFORCE_REGISTRY   = var.enforce_registry
+      IMAGETEST_HELM_PRE_INSTALL_SCRIPT = var.pre_install_script
     }
   }
 }

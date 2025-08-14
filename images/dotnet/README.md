@@ -41,13 +41,13 @@ The Chainguard .NET images are available on `cgr.dev` as two variants: `dotnet-s
 To download the SDK image, you would run a command like the following:
  
 ```shell
-docker pull cgr.dev/chainguard/dotnet-sdk:latest
+docker pull cgr.dev/$ORGANIZATION/dotnet-sdk:latest
 ```
 
 And to download the Runtime image, you would run the following:
 
 ```shell
-docker pull cgr.dev/chainguard/dotnet-runtime:latest
+docker pull cgr.dev/$ORGANIZATION/dotnet-runtime:latest
 ```
 
 For simple cases, you can use the SDK image directly, or with a multi-stage build using the SDK image as the builder and the Runtime image as the final target container.

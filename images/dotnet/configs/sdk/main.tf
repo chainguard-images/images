@@ -22,6 +22,11 @@ module "accts" {
   source = "../../../../tflib/accts"
 }
 
+variable "dotnet_runtime_version" {
+  description = "The .NET runtime version."
+  type        = string
+}
+
 variable "extra_packages" {
   default     = ["dotnet-sdk", "tzdata"]
   description = "The additional packages to install (e.g. dotnet-sdk)."
@@ -40,8 +45,8 @@ output "config" {
       APP_UID                            = module.accts.uid
       ASPNETCORE_HTTP_PORTS              = 8080
       DOTNET_RUNNING_IN_CONTAINER        = true,
-      DOTNET_VERSION                     = local.package_version_without_epoch,
-      ASPNET_VERSION                     = local.package_version_without_epoch
+      DOTNET_VERSION                     = var.dotnet_runtime_version
+      ASPNET_VERSION                     = var.dotnet_runtime_version
       DOTNET_GENERATE_ASPNET_CERTIFICATE = false,
       DOTNET_NOLOGO                      = true,
       DOTNET_SDK_VERSION                 = local.package_version_without_epoch,
