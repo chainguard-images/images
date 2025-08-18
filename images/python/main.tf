@@ -24,14 +24,19 @@ module "latest" {
 }
 
 module "test-latest" {
-  source = "./tests"
-  digest = module.latest.image_ref
+  source            = "./tests"
+  digest            = module.latest.image_ref
+  target_repository = var.target_repository
+  image_type        = "python-latest-prod"
 }
 
 module "test-latest-dev" {
-  source    = "./tests"
-  check-dev = true # Check for PIP in dev variants.
-  digest    = module.latest.dev_ref
+  source            = "./tests"
+  check-dev         = true # Check for PIP in dev variants.
+  digest            = module.latest.dev_ref
+  prod_digest       = module.latest.image_ref
+  target_repository = var.target_repository
+  image_type        = "python-latest-dev"
 }
 
 resource "oci_tag" "latest" {

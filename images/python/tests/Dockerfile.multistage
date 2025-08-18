@@ -1,0 +1,40 @@
+ARG DEV_IMAGE_NAME
+ARG PROD_IMAGE_NAME
+
+# Build stage: Use dev image to install dependencies and build application  
+FROM ${DEV_IMAGE_NAME} AS builder
+
+WORKDIR /app
+
+# Create virtual environment for better isolation
+RUN python -m venv /app/venv
+
+# Activate virtual environment and upgrade pip
+ENV PATH="/app/venv/bin:$PATH"
+RUN pip install --upgrade pip
+
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY hello-multistage.py hello.py
+
+# Validate the application can import all dependencies
+RUN python -c "import flask, numpy; print('All dependencies available')"
+
+# Production stage: Use minimal image for runtime
+FROM ${PROD_IMAGE_NAME} AS production
+
+WORKDIR /app
+
+# Copy only the virtual environment and application from builder
+COPY --from=builder /app/venv /app/venv
+COPY --from=builder /app/hello.py /app/hello.py
+
+# Ensure virtual environment is in PATH
+ENV PATH="/app/venv/bin:$PATH"
+
+EXPOSE 5000
+
+ENTRYPOINT ["python", "-m", "flask", "--app", "/app/hello.py", "run", "--host", "0.0.0.0"]

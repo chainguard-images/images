@@ -18,26 +18,40 @@ variable "check-dev" {
   description = "Whether to check for dev extensions"
 }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --version"
+variable "prod_digest" {
+  description = "The production (non-dev) image digest for multistage testing."
+  default     = ""
 }
 
-data "oci_exec_test" "check-pip" {
-  count  = var.check-dev ? 1 : 0
-  digest = var.digest
-  script = "${path.module}/02-check-pip.sh"
+variable "target_repository" {
+  description = "The target repository for the test harness"
 }
 
-data "oci_exec_test" "check-numpy" {
-  count  = var.check-dev ? 1 : 0
-  digest = var.digest
-  script = "${path.module}/03-check-numpy.sh"
+variable "image_type" {
+  description = "The type of the Python image being tested (dev vs non-dev)"
 }
 
-data "oci_exec_test" "check-build" {
-  count       = var.check-dev ? 1 : 0
-  digest      = var.digest
-  script      = "./04-build.sh"
-  working_dir = path.module
+module "bash_sandbox" {
+  source            = "../../../tflib/imagetest/sandboxes/bash"
+  target_repository = var.target_repository
+}
+
+module "dind_test" {
+  source = "../../../tflib/imagetest/tests/docker-in-docker"
+  name   = var.image_type
+
+  images = {
+    python      = var.digest
+    python_prod = var.prod_digest != "" ? var.prod_digest : var.digest
+  }
+
+  tests = [
+    {
+      name    = "comprehensive"
+      image   = module.bash_sandbox.image_ref
+      content = [{ source = path.module }]
+      cmd     = "./comprehensive-tests.sh"
+      envs    = var.check-dev ? {} : { SKIP_TEST = "true" }
+    },
+  ]
 }
