@@ -27,7 +27,7 @@ module "test-latest" {
   source            = "./tests"
   digest            = module.latest.image_ref
   target_repository = var.target_repository
-  image_type        = "python-latest-prod"
+  name              = "python-latest-prod"
 }
 
 module "test-latest-dev" {
@@ -36,7 +36,7 @@ module "test-latest-dev" {
   digest            = module.latest.dev_ref
   prod_digest       = module.latest.image_ref
   target_repository = var.target_repository
-  image_type        = "python-latest-dev"
+  name              = "python-latest-dev"
 }
 
 resource "oci_tag" "latest" {

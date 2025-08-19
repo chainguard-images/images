@@ -27,8 +27,9 @@ variable "target_repository" {
   description = "The target repository for the test harness"
 }
 
-variable "image_type" {
-  description = "The type of the Python image being tested (dev vs non-dev)"
+variable "name" {
+  description = "The name to use for the test harness"
+  default     = "python-test"
 }
 
 module "bash_sandbox" {
@@ -38,7 +39,7 @@ module "bash_sandbox" {
 
 module "dind_test" {
   source = "../../../tflib/imagetest/tests/docker-in-docker"
-  name   = var.image_type
+  name   = var.name
 
   images = {
     python      = var.digest
