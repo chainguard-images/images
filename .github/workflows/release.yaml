@@ -95,7 +95,7 @@ jobs:
           terraform_version: "1.8.*"
           terraform_wrapper: false
 
-      - uses: chainguard-dev/setup-chainctl@f4ed65b781b048c44d4f033ae854c025c5531c19 # v0.3.2
+      - uses: chainguard-dev/setup-chainctl@be0acd273acf04bfdf91f51198327e719f6af978 # v0.4.0
         with:
           # This allows chainguard-images/images-private to publish images to cgr.dev/chainguard-private
           # We maintain this identity here:
@@ -173,7 +173,7 @@ jobs:
       - name: Collect TF diagnostics
         if: ${{ always() }}
         id: tf-diag
-        uses: chainguard-dev/actions/terraform-diag@708219d4822f33611ac1a2653815cc10e1ab54a6 # v1.4.7
+        uses: chainguard-dev/actions/terraform-diag@de82dfd62f186b1b55bd0cdf084f484496d88ee3 # v1.4.11
         with:
           json-file: /tmp/mega-module.tf.json
 
