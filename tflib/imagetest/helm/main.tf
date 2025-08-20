@@ -58,6 +58,7 @@ if ! helm install ${local.name} $chart \
   %{if var.git_repo != ""}--dependency-update%{endif} \
   %{if var.chart_version != ""}--version ${var.chart_version}%{endif} \
   %{if var.wait}--wait --wait-for-jobs%{endif} \
+  %{if var.skip_schema_validation}--skip-schema-validation%{endif} \
   --timeout ${var.timeout} \
   %{if length(var.values_files) != 0}--values ${join(",", var.values_files)}%{endif} \
   %{if var.dry}--dry-run%{endif} \

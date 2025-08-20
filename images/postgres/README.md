@@ -34,7 +34,7 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--body:start-->
 ## Compatibility Notes
 
-The Chainguard PostgreSQL Image is comparable to its upstream counterpart, [the official PostgreSQL Image from Docker Hub](https://hub.docker.com/_/postgres). However, the Chainguard image does not run as the root user and contains only the minimum set of tools and dependencies needed to function; for example, it does not include a package manager. Unlike many other Chainguard images, though, the PostgreSQL image does include a shell, allowing you to manage databases interactively.
+The Chainguard PostgreSQL Image is comparable to its upstream counterpart, [the official PostgreSQL Image from Docker Hub](https://hub.docker.com/_/postgres). However, the Chainguard image contains only the minimum set of tools and dependencies needed to function; for example, it does not include a package manager. Unlike many other Chainguard images, though, the PostgreSQL image does include a shell, allowing you to manage databases interactively.
 
 ### Migrating to the Chainguard PostgreSQL image
 

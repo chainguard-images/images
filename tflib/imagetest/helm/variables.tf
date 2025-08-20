@@ -45,6 +45,12 @@ variable "wait" {
   default     = true
 }
 
+variable "skip_schema_validation" {
+  description = "Indicates whether Helm will be run with --skip-schema-validation or not."
+  type        = bool
+  default     = false
+}
+
 variable "git_repo" {
   description = "A git repository to fetch the chart from instead of a chart index. Cannot be specified alongside --repo"
   default     = ""
