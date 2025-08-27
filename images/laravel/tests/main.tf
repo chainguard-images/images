@@ -18,9 +18,26 @@ data "oci_exec_test" "version" {
   script = "docker run --entrypoint php --rm $IMAGE_NAME --version"
 }
 
-data "oci_exec_test" "fpm-server" {
-  digest = var.digest
-  script = "${path.module}/01-fpm-server.sh"
+variable "target_repository" {}
+
+module "bash_sandbox" {
+  source            = "../../../tflib/imagetest/sandboxes/bash"
+  target_repository = var.target_repository
+}
+
+module "fpm-server-test" {
+  source = "../../../tflib/imagetest/tests/docker-in-docker/"
+
+  images = { laravel = var.digest }
+
+  tests = concat(
+    [{
+      name    = "fmp server test"
+      image   = module.bash_sandbox.image_ref
+      content = [{ source = path.module }]
+      cmd     = "./01-fpm-server.sh"
+    }],
+  )
 }
 
 data "oci_exec_test" "fpm-shutdown" {

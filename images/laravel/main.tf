@@ -21,12 +21,16 @@ module "latest" {
 module "test-latest" {
   source = "./tests"
   digest = module.latest.image_ref
+
+  target_repository = var.target_repository
 }
 
 module "test-latest-dev" {
   source    = "./tests"
   check-dev = true
   digest    = module.latest.dev_ref
+
+  target_repository = var.target_repository
 }
 
 resource "oci_tag" "latest" {
