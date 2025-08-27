@@ -1,0 +1,5 @@
+variable "update_active_tags" {
+  description = "Whether to update the active tags in the Chainguard repo."
+  type        = bool
+  default     = true
+}

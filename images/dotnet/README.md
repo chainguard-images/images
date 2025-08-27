@@ -52,6 +52,17 @@ docker pull cgr.dev/$ORGANIZATION/dotnet-runtime:latest
 
 For simple cases, you can use the SDK image directly, or with a multi-stage build using the SDK image as the builder and the Runtime image as the final target container.
 
+### Supported SDK Feature Bands
+
+TL;DR: Chainguard's .NET SDK images provide `1xx` feature bands exclusively. We are looking into providing tags for our SDK images with other feature bands, but due to technical limitations, we aren't doing so today.
+
+Each release of the .NET project is versioned according to the runtime (i.e `9.0.8`) and each release includes one or more 'feature bands' of the SDK (i.e `9.0.109`, `9.0.304`). [The download page for .NET 9.0 illustrates this](https://dotnet.microsoft.com/en-us/download/dotnet/9.0).
+
+The SDK images provided by Microsoft are tagged such that the SDK is tagged with the version of the most recent feature band (i.e `mcr.microsoft.com/dotnet/sdk:9.0.304`).
+
+It has been difficult for Chainguard to reliably provide additional feature bands for various technical reasons. And Microsoft has, in some cases, changed how they tag their source code repositories, disrupting how our packages are versioned and, resultantly, how our images are tagged.
+
+We are working on changes to provide additional feature bands with our .NET SDK image (i.e `9.0.109`, `9.0.304`). However, until those changes are implemented, our `dotnet-sdk` image will include, and will be tagged exclusively, with the version of the `1xx` feature band (i.e `9.0.109`).
 
 ## Getting Started
 

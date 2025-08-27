@@ -1,9 +1,3 @@
-terraform {
-  required_providers {
-    oci = { source = "chainguard-dev/oci" }
-  }
-}
-
 variable "tags" {
   // Input is tag name -> fully qualified digest ref.
   // e.g., "latest": "ttl.sh/foo/image@sha256:deadbeef"
@@ -21,6 +15,12 @@ variable "exclude" {
   description = "A list of tags to exclude from the tagger."
   type        = list(string)
   default     = []
+}
+
+variable "update_active_tags" {
+  description = "Whether to update the active tags in the Chainguard repo."
+  type        = bool
+  default     = false
 }
 
 locals { parsed = { for k, v in var.tags : k => provider::oci::parse(v) } }

@@ -38,11 +38,11 @@ The Chainguard `curl` image is a drop-in replacement for the upstream [curlimage
 
 ## Getting Started
 
-You can use chaingaurd `curl` image to run standard curl commands in a secure, containerized environment:
+You can use Chainguard `curl` image to run standard curl commands in a secure, containerized environment:
 
 ```shell
-docker pull cgr.dev/ORGANISATION/curl:latest
-docker run --rm cgr.dev/ORGANISATION/curl --version
+docker pull cgr.dev/ORGANIZATION/curl:latest
+docker run --rm cgr.dev/ORGANIZATION/curl --version
 ```
 
 This will return the below output similar to the following:
@@ -57,7 +57,7 @@ Features: alt-svc AsynchDNS brotli HSTS HTTP2 HTTPS-proxy IPv6 Largefile libz PS
 You can also use it to run any curl command, such as:
 
 ```shell
-docker run --rm cgr.dev/ORGANISATION/curl https://cheat.sh/curl
+docker run --rm cgr.dev/ORGANIZATION/curl https://cheat.sh/curl
 ```
 
 ## Documentation and Resources
