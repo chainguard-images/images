@@ -41,13 +41,16 @@ data "chainguard_image_repo" "repo" {
 }
 
 // Update the repo metadata.
-resource "chainguard_image_repo" "repo" {
-  count       = var.update_active_tags ? 1 : 0
-  depends_on  = [oci_tags.this] # Only update if the tags got successfully pushed.
+module "repo" {
+  source     = "../../tflib/repo"
+  count      = var.update_active_tags ? 1 : 0
+  depends_on = [oci_tags.this] # Only update if the tags got successfully pushed.
+
   parent_id   = local.group_is_uidp ? local.group : (local.is_chainguard_prod ? local.groups_prod[local.group] : local.groups_staging[local.group])
   name        = data.chainguard_image_repo.repo[0].name
   readme      = data.chainguard_image_repo.repo[0].items[0].readme
   bundles     = data.chainguard_image_repo.repo[0].items[0].bundles
+  tier        = data.chainguard_image_repo.repo[0].items[0].tier
   aliases     = data.chainguard_image_repo.repo[0].items[0].aliases
   active_tags = keys(local.tags)
 }

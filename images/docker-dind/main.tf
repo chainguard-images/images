@@ -13,6 +13,7 @@ module "config" {
     "dockerd-oci-entrypoint",
     "docker",
     "mount",
+    "docker-dind-compat",
   ]
   for_each = module.versions.versions
   source   = "./config"

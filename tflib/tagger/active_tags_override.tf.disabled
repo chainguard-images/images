@@ -1,6 +1,3 @@
-# This overrides the active tags variable to be enabled by default
-# rather than disabled.
-# See https://developer.hashicorp.com/terraform/language/files/override
 variable "update_active_tags" {
   description = "Whether to update the active tags in the Chainguard repo."
   type        = bool
