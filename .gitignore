@@ -20,3 +20,6 @@ sbom-*.cdx
 .DS_Store
 
 imagetest-logs/
+
+# This file should only be created by process.
+tflib/tagger/active_tags_override.tf
