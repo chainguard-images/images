@@ -162,6 +162,10 @@ jobs:
           env | grep '^TF_VAR_'
 
           make init-upgrade
+
+          # Enable active tag updates
+          make enable-active-tag-update
+
           targets=""
           for image in ${{ matrix.shard.images }}; do
             targets+=' -target='module."${image}"''
