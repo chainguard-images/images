@@ -25,8 +25,10 @@ module "test-latest" {
   target_repository = var.target_repository
 }
 
-resource "oci_tag" "latest" {
+module "tagger" {
   depends_on = [module.test-latest]
-  digest_ref = module.latest.image_ref
-  tag        = "latest"
+  source     = "../../tflib/tagger"
+  tags = {
+    "latest" = module.latest.image_ref
+  }
 }

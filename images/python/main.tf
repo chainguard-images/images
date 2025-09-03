@@ -39,14 +39,11 @@ module "test-latest-dev" {
   name              = "python-latest-dev"
 }
 
-resource "oci_tag" "latest" {
-  depends_on = [module.test-latest]
-  digest_ref = module.latest.image_ref
-  tag        = "latest"
-}
-
-resource "oci_tag" "latest-dev" {
-  depends_on = [module.test-latest-dev]
-  digest_ref = module.latest.dev_ref
-  tag        = "latest-dev"
+module "tagger" {
+  depends_on = [module.test-latest, module.test-latest-dev]
+  source     = "../../tflib/tagger"
+  tags = {
+    "latest"     = module.latest.image_ref
+    "latest-dev" = module.latest.dev_ref
+  }
 }

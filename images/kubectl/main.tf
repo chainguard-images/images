@@ -24,14 +24,11 @@ module "test-latest" {
   digest = module.latest.image_ref
 }
 
-resource "oci_tag" "latest" {
+module "tagger" {
   depends_on = [module.test-latest]
-  digest_ref = module.latest.image_ref
-  tag        = "latest"
-}
-
-resource "oci_tag" "latest-dev" {
-  depends_on = [module.test-latest]
-  digest_ref = module.latest.dev_ref
-  tag        = "latest-dev"
+  source     = "../../tflib/tagger"
+  tags = {
+    "latest"     = module.latest.image_ref
+    "latest-dev" = module.latest.dev_ref
+  }
 }

@@ -24,8 +24,10 @@ module "test-latest" {
   digest = module.latest.image_ref
 }
 
-resource "oci_tag" "latest" {
+module "tagger" {
   depends_on = [module.test-latest]
-  digest_ref = module.latest.image_ref
-  tag        = "latest"
+  source     = "../../tflib/tagger"
+  tags = {
+    "latest" = module.latest.image_ref
+  }
 }

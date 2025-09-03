@@ -24,14 +24,11 @@ module "test" {
   digest = module.melange.image_ref
 }
 
-resource "oci_tag" "latest" {
+module "tagger" {
   depends_on = [module.test]
-  digest_ref = module.melange.image_ref
-  tag        = "latest"
-}
-
-resource "oci_tag" "latest-dev" {
-  depends_on = [module.test]
-  digest_ref = module.melange.dev_ref
-  tag        = "latest-dev"
+  source     = "../../tflib/tagger"
+  tags = {
+    "latest"     = module.melange.image_ref
+    "latest-dev" = module.melange.dev_ref
+  }
 }
