@@ -18,9 +18,9 @@ locals {
   metadata_filepath = "images/${var.name}/metadata.yaml"
   metadata_public   = fileexists(local.metadata_filepath) ? yamldecode(file(local.metadata_filepath)) : null
 
-  keywords = local.metadata_public != null ? local.metadata_public.keywords : []
-  aliases  = local.metadata_public != null ? lookup(local.metadata_public, "aliases", []) : []
-
+  keywords     = local.metadata_public != null ? local.metadata_public.keywords : []
+  aliases      = local.metadata_public != null ? lookup(local.metadata_public, "aliases", []) : []
+  catalog_tier = local.metadata_public != null ? lookup(local.metadata_public, "tier", "BASE") : "BASE"
 
   // If the repo name ends with "-fips", add "fips" as a keyword (if not already present)
   keywords_updated = (endswith(local.repo_name, "-fips") && !contains(local.keywords, "fips")) ? concat(local.keywords, ["fips"]) : local.keywords
@@ -35,14 +35,26 @@ data "chainguard_group" "group" {
   name  = local.group
 }
 
+// Look up the repo so that we don't lose active_tags.
+// Note that this is using the plural source to allow for the repo to not exist yet.
+data "chainguard_image_repos" "existing" {
+  count     = local.should_run_repo_update ? 1 : 0
+  parent_id = local.group_is_uidp ? local.group : (local.should_run_group_lookup ? data.chainguard_group.group[0].id : local.groups[local.group])
+  name      = local.repo_name
+}
+
 // Create or update the repo metadata.
-resource "chainguard_image_repo" "repo" {
-  count = local.should_run_repo_update ? 1 : 0
-  // Use either the known group ID, or the one we looked up.
+module "repo" {
+  source = "../../tflib/repo"
+  count  = local.should_run_repo_update ? 1 : 0
+
+  // If the group is a UIDP, use it directly. Otherwise use known value or value from the group lookup
   parent_id = local.group_is_uidp ? local.group : (local.should_run_group_lookup ? data.chainguard_group.group[0].id : local.groups[local.group])
   readme    = file(local.readme_filepath)
   name      = local.repo_name
   // keywords in the metadata file maps to bundles in the Chainguard API
-  bundles = local.keywords_updated
-  aliases = local.aliases
+  bundles     = local.keywords_updated
+  tier        = local.catalog_tier
+  aliases     = local.aliases
+  active_tags = length(data.chainguard_image_repos.existing) > 0 && length(data.chainguard_image_repos.existing[0].items) > 0 ? data.chainguard_image_repos.existing[0].items[0].active_tags : [] // Use existing active tags if available, otherwise start with an empty list
 }
