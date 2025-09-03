@@ -8,5 +8,6 @@ readme_file: README.md
 upstream_url: https://github.com/gradle/gradle
 keywords:
   - application
+tier: APPLICATION
 aliases:
   - gradle:latest

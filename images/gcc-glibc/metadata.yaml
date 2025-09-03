@@ -9,5 +9,6 @@ upstream_url: https://wolfi.dev
 keywords:
   - application
   - base
+tier: APPLICATION
 aliases:
   - gcc:latest

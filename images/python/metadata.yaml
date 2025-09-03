@@ -10,6 +10,7 @@ upstream_url: https://www.python.org/
 keywords:
   - base
   - featured
+tier: BASE
 aliases:
   - bitnami/python:latest
   - python:latest

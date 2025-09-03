@@ -10,8 +10,8 @@ upstream_url: https://www.pytorch.org/
 keywords:
   - ai
   - base
-  - ai-gpu
   - featured
+tier: AI
 public: true
 aliases:
   - pytorch/pytorch:latest

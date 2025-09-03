@@ -10,5 +10,6 @@ upstream_url: https://github.com/openjdk/jdk
 keywords:
   - base
   - featured
+tier: BASE
 aliases:
   - openjdk:latest

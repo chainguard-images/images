@@ -8,3 +8,4 @@ readme_file: README.md
 upstream_url: https://github.com/sigstore/cosign
 keywords:
   - application
+tier: APPLICATION

@@ -9,5 +9,6 @@ upstream_url: https://www.ruby-lang.org
 keywords:
   - base
   - featured
+tier: BASE
 aliases:
   - ruby:latest

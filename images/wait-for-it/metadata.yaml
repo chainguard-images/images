@@ -8,5 +8,6 @@ readme_file: README.md
 upstream_url: https://github.com/vishnubob/wait-for-it
 keywords:
   - application
+tier: APPLICATION
 aliases:
   - willwill/wait-for-it:latest

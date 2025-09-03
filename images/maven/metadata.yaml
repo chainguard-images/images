@@ -8,5 +8,6 @@ readme_file: README.md
 upstream_url: https://maven.apache.org/
 keywords:
   - application
+tier: APPLICATION
 aliases:
   - maven:latest

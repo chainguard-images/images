@@ -8,5 +8,6 @@ readme_file: README.md
 upstream_url: https://github.com/curl/curl
 keywords:
   - application
+tier: APPLICATION
 aliases:
   - curlimages/curl:latest
