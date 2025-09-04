@@ -13,7 +13,10 @@ variable "dotnet_major_version" {
 data "apko_config" "pkgconf" {
   config_contents = jsonencode({
     contents = {
-      packages = ["dotnet-${var.dotnet_major_version}"]
+      packages = [
+        // If no major version provided, use default/latest version
+        var.dotnet_major_version == "" ? "dotnet" : "dotnet-${var.dotnet_major_version}",
+      ]
     }
   })
 }

@@ -48,12 +48,6 @@ init-upgrade:
 	$(TERRAFORM) init -upgrade
 	$(TERRAFORM) providers lock -platform=darwin_arm64 -platform=linux_amd64
 
-enable-active-tag-update:
-	cp ./tflib/tagger/active_tags_override.tf.disabled ./tflib/tagger/active_tags_override.tf
-
-disable-active-tag-update:
-	rm ./tflib/tagger/active_tags_override.tf
-
 LOCAL_REGISTRY_NAME := k3d.localhost
 LOCAL_REGISTRY_PORT := 5005
 K3S_IMAGE := cgr.dev/chainguard/k3s:latest@sha256:f7744ba2a461d88e0ebe9e4ac18914fd79033a1d066ff095a303d832c78c5cee

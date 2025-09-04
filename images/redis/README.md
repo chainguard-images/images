@@ -34,8 +34,56 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--body:start-->
 ## Compatibility Notes
 
-The Chainguard Redis image is comparable to [the official Redis image on Docker Hub](https://hub.docker.com/_/redis). 
+The Chainguard Redis image is comparable to [the official Redis image on Docker Hub](https://hub.docker.com/_/redis), with some important differences:
 
+### Entrypoint Differences
+- **Upstream Redis (redis:8.x)**: Uses `docker-entrypoint.sh` script as entrypoint with `redis-server` as the default command. This wrapper script provides additional functionality such as automatic configuration file handling and initialization.
+- **Chainguard Redis**: Uses `/usr/bin/redis-server` directly as the entrypoint, without a wrapper script. This provides a more minimal and secure approach but requires explicit configuration file specification when needed.
+
+### Redis Module Loading
+
+Due to the entrypoint differences, module loading behavior differs significantly:
+
+- **Upstream Redis**: The `docker-entrypoint.sh` script automatically scans `/usr/local/lib/redis/modules/` directory and loads all `.so` files found there using the `--loadmodule` flag when starting Redis.
+- **Chainguard Redis**: Modules are not automatically loaded since the image uses the Redis server binary directly. You must explicitly load modules via command-line flags or configuration file.
+
+**Important:** Module support in Chainguard Redis images is only available for Redis 8.0 and 8.2 releases. Other versions do not include module support.
+
+#### Loading Modules in Chainguard Redis
+
+**Option 1: Using command-line flags**
+```sh
+docker run cgr.dev/ORGANIZATION/redis --loadmodule /usr/lib/redis/modules/mymodule.so
+```
+
+**Option 2: Using a configuration file**
+
+Create a `redis.conf` file:
+```conf
+# Enable dynamic module commands (Redis 7.0+)
+# Required for using MODULE LOAD command at runtime
+enable-module-command yes
+# Alternative: restrict to local connections only
+# enable-module-command local
+
+# Load modules at startup (recommended approach)
+loadmodule /usr/lib/redis/modules/rejson.so
+loadmodule /usr/lib/redis/modules/redisearch.so
+
+# Standard Redis configurations
+port 6379
+bind 0.0.0.0
+protected-mode no
+```
+
+Mount and use the configuration:
+```sh
+docker run -v $(pwd)/redis.conf:/etc/redis.conf cgr.dev/ORGANIZATION/redis /etc/redis.conf
+```
+
+**Security Note:** Starting with Redis 7.0, the `MODULE` command is disabled by default. The `enable-module-command` directive must be set in the configuration file to allow dynamic module loading at runtime.
+
+### Other Key Differences
 Unlike many other Chainguard images, the Redis image includes a shell, allowing you to interact with the Redis database using the Redis command-line interface, `redis-cli`. 
 
 By default this image runs as a non-root user named `redis` with a uid of `65532`. Typically, Redis does not have a default data directory and instead defaults to whatever the working directory is for the Redis process. The Chainguard Redis image provides a default working directory of `/data` that is writeable by the `redis` user.
