@@ -2,45 +2,40 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "versions" {
-  package = "dotnet"
-  source  = "../../tflib/versions"
+variable "dotnet_major_version" {
+  description = "The major version of .NET (e.g., '6', '8')."
+  type        = string
+  default     = "9"
 }
 
 module "runtime-version" {
-  for_each             = module.versions.versions
   source               = "../dotnet/runtime-version"
-  dotnet_major_version = each.value.version
+  dotnet_major_version = var.dotnet_major_version
 }
 
 module "config" {
-  for_each               = module.versions.versions
   source                 = "./config"
-  dotnet_runtime_version = module.runtime-version[each.key].dotnet_runtime_version
-  extra_packages         = ["aspnet-${each.value.version}-runtime", "tzdata"]
+  dotnet_runtime_version = module.runtime-version.dotnet_runtime_version
+  extra_packages         = ["aspnet-${var.dotnet_major_version}-runtime", "tzdata"]
 }
 
 module "versioned" {
-  for_each = module.versions.versions
-  source   = "../../tflib/publisher"
+  source = "../../tflib/publisher"
 
   name              = basename(path.module)
   target_repository = var.target_repository
-  config            = module.config[each.key].config
+  config            = module.config.config
   build-dev         = true
-  main_package      = each.key
+  main_package      = "aspnet-${var.dotnet_major_version}-runtime"
 }
 
 module "test" {
-  for_each = module.versions.versions
-  source   = "./tests"
-  digest   = module.versioned[each.key].image_ref
+  source = "./tests"
+  digest = module.versioned.image_ref
 }
 
 module "tagger" {
   source     = "../../tflib/tagger"
   depends_on = [module.test]
-  tags = merge(
-    [for k in module.versions.ordered_keys : module.versioned[k].latest_tag_map]...
-  )
+  tags       = module.versioned.latest_tag_map
 }
