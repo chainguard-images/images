@@ -52,9 +52,3 @@ module "test-versioned-dev" {
   digest    = module.versioned[each.key].dev_ref
   check-dev = true
 }
-
-module "tagger" {
-  source     = "../../tflib/tagger"
-  depends_on = [module.test-versioned, module.test-versioned-dev]
-  tags       = merge([for v in local.versions : module.versioned[v].latest_tag_map]...)
-}

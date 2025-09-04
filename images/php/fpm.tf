@@ -42,21 +42,3 @@ module "test-fpm-dev" {
   check-dev = true
   check-fpm = true
 }
-
-# exclude the latest-dev bit, otherwise ends up with tags like `latest-dev-fpm-dev` and `latest-dev-fpm`
-module "fpm-tagger" {
-  source     = "../../tflib/tagger"
-  depends_on = [module.test-fpm, module.test-fpm-dev]
-  tags = merge([
-    for v in local.versions : merge(
-      {
-        for t in module.versioned-fpm[v].tag_list : "${t}-fpm" => module.versioned-fpm[v].image_ref
-        if t != "latest-dev"
-      },
-      {
-        for t in module.versioned-fpm[v].tag_list : "${t}-fpm-dev" => module.versioned-fpm[v].dev_ref
-        if t != "latest-dev"
-      }
-    )
-  ]...)
-}

@@ -10,7 +10,7 @@ variable "scratch_repository" {
 
 output "summary" {
   value = {
-    "tags" = merge(module.fpm-tagger.imagetags, module.tagger.imagetags)
+    "tags" = merge(module.tagger.imagetags)
   }
 }
 
