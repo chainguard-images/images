@@ -2,40 +2,61 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-variable "dotnet_major_version" {
-  description = "The major version of .NET (e.g., '6', '8')."
-  type        = string
-  default     = "9"
+module "versions" {
+  package = "dotnet"
+  source  = "../../tflib/versions"
 }
 
 module "runtime-version" {
+  dotnet_major_version = each.value.version
+  for_each             = module.versions.versions
   source               = "../dotnet/runtime-version"
-  dotnet_major_version = var.dotnet_major_version
 }
 
 module "config" {
-  source                 = "./config"
-  dotnet_runtime_version = module.runtime-version.dotnet_runtime_version
-  extra_packages         = ["aspnet-${var.dotnet_major_version}-runtime", "tzdata"]
+  dotnet_runtime_version = module.runtime-version[each.key].dotnet_runtime_version
+  extra_packages = [
+    // If no version provided, use default/latest version
+    each.value.version == "" ? "aspnet-runtime" : "aspnet-${each.value.version}-runtime",
+    "tzdata",
+  ]
+  for_each = module.versions.versions
+  source   = "./config"
 }
 
 module "versioned" {
-  source = "../../tflib/publisher"
-
-  name              = basename(path.module)
-  target_repository = var.target_repository
-  config            = module.config.config
   build-dev         = true
-  main_package      = "aspnet-${var.dotnet_major_version}-runtime"
+  config            = module.config[each.key].config
+  for_each          = module.versions.versions
+  main_package      = each.key
+  name              = basename(path.module)
+  source            = "../../tflib/publisher"
+  target_repository = var.target_repository
 }
 
 module "test" {
-  source = "./tests"
-  digest = module.versioned.image_ref
+  digest   = module.versioned[each.key].image_ref
+  for_each = module.versions.versions
+  source   = "./tests"
+}
+
+module "tags" {
+  depends_on             = [module.test]
+  dev_ref                = module.versioned[each.key].dev_ref
+  dotnet_major_version   = each.value.version
+  dotnet_runtime_version = module.runtime-version[each.key].dotnet_runtime_version
+  dotnet_stream          = module.runtime-version[each.key].dotnet_stream
+  for_each               = module.versions.versions
+  image_ref              = module.versioned[each.key].image_ref
+  is_latest              = each.value.is_latest
+  source                 = "../dotnet/tags"
 }
 
 module "tagger" {
-  source     = "../../tflib/tagger"
   depends_on = [module.test]
-  tags       = module.versioned.latest_tag_map
+  source     = "../../tflib/tagger"
+  tags = merge(
+    [for k in module.versions.ordered_keys : module.tags[k].latest_tag_map]...
+  )
 }
+

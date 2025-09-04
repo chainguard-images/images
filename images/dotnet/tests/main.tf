@@ -1,8 +1,7 @@
-
 terraform {
   required_providers {
-    imagetest = { source = "chainguard-dev/imagetest" }
     apko      = { source = "chainguard-dev/apko" }
+    imagetest = { source = "chainguard-dev/imagetest" }
     oci       = { source = "chainguard-dev/oci" }
   }
 }
@@ -19,42 +18,39 @@ variable "test_repository" {
   description = "The docker repo root to use for sourcing test images."
 }
 
-data "imagetest_inventory" "inventory" {}
+data "imagetest_inventory" "inventory" {
+}
 
 resource "imagetest_container_volume" "volume" {
-  name      = "container-volume"
   inventory = data.imagetest_inventory.inventory
+  name      = "container-volume"
 }
 
 resource "imagetest_harness_docker" "docker" {
-  name      = "docker"
-  inventory = data.imagetest_inventory.inventory
-
   envs = {
     SDK_IMAGE : var.digests.sdk
     RUNTIME_IMAGE : var.digests.runtime
     VOLUME_ID : imagetest_container_volume.volume.id
   }
-
-  volumes = [
-    {
-      source      = imagetest_container_volume.volume
-      destination = "/data"
-    }
-  ]
-
+  inventory = data.imagetest_inventory.inventory
   mounts = [
     {
       source      = path.module
       destination = "/tests"
     }
   ]
+  name = "docker"
+  volumes = [
+    {
+      source      = imagetest_container_volume.volume
+      destination = "/data"
+    }
+  ]
 }
 
 resource "imagetest_feature" "test" {
-  name    = "docker-test"
   harness = imagetest_harness_docker.docker
-
+  name    = "docker-test"
   steps = [
     {
       name = "setup"
@@ -70,3 +66,4 @@ resource "imagetest_feature" "test" {
     }
   ]
 }
+

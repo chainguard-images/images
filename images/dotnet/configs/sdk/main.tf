@@ -13,9 +13,9 @@ data "apko_config" "package-info" {
 }
 
 locals {
-  package_conf                  = [for p in data.apko_config.package-info.config.contents.packages : p if startswith(p, "dotnet")][0]
   full_package_version          = split("=", local.package_conf)[1]
-  package_version_without_epoch = split("-", local.full_package_version)[0] // This extracts the version without the epoch
+  package_conf                  = [for p in data.apko_config.package-info.config.contents.packages : p if startswith(p, "dotnet")][0]
+  package_version_without_epoch = split("-", local.full_package_version)[0]
 }
 
 module "accts" {

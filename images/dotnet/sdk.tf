@@ -1,23 +1,38 @@
-module "sdk-config" {
-  source = "./configs/sdk"
+locals {
+  default_latest_version = "9"
+}
 
-  dotnet_runtime_version = module.runtime-version.dotnet_runtime_version
-  extra_packages         = ["dotnet-${var.dotnet_major_version}-sdk", "busybox", "tzdata"]
+module "sdk-config" {
+  dotnet_runtime_version = module.runtime-version[each.key].dotnet_runtime_version
+  extra_packages = [
+    // When being used from public image build, each.key is missing the version number.
+    // Inject the default latest version when missing
+    each.key == "dotnet" ? "${each.key}-${local.default_latest_version}-sdk" : "${each.key}-sdk",
+    "busybox",
+    "tzdata",
+  ]
+  for_each = module.versions.versions
+  source   = "./configs/sdk"
 }
 
 module "sdk-versioned" {
-  source            = "../../tflib/publisher"
-  name              = basename(path.module)
-  target_repository = "${var.target_repository}-sdk"
-  config            = module.sdk-config.config
   build-dev         = true
-  main_package      = "dotnet-${var.dotnet_major_version}-sdk"
-  origin_package    = "dotnet-${var.dotnet_major_version}"
-  update-repo       = true
+  config            = module.sdk-config[each.key].config
+  eol               = each.value.eol
+  for_each          = module.versions.versions
+  main_package      = "${each.key}-sdk"
+  name              = basename(path.module)
+  origin_package    = each.key
+  source            = "../../tflib/publisher"
+  target_repository = "${var.target_repository}-sdk"
+  update-repo       = each.value.is_latest
 }
 
 module "sdk-tagger" {
-  source     = "../../tflib/tagger"
   depends_on = [module.test-things]
-  tags       = module.sdk-versioned.latest_tag_map
+  source     = "../../tflib/tagger"
+  tags = merge(
+    [for k in module.versions.ordered_keys : module.sdk-versioned[k].latest_tag_map]...
+  )
 }
+

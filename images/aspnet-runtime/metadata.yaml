@@ -10,3 +10,6 @@ keywords:
   - base
   - featured
 tier: BASE
+aliases:
+  - mcr.microsoft.com/dotnet/aspnet:latest
+public: true

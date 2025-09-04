@@ -2,23 +2,24 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-variable "dotnet_major_version" {
-  description = "The major version of .NET (e.g., '6', '8')."
-  type        = string
-  default     = "9"
+module "versions" {
+  package = "dotnet"
+  source  = "../../tflib/versions"
 }
 
 module "runtime-version" {
+  dotnet_major_version = each.value.version
+  for_each             = module.versions.versions
   source               = "./runtime-version"
-  dotnet_major_version = var.dotnet_major_version
 }
 
 module "test-things" {
+  digests = {
+    runtime = module.runtime-versioned[each.key].image_ref
+    sdk     = module.sdk-versioned[each.key].image_ref
+  }
+  for_each        = module.versions.versions
   source          = "./tests"
   test_repository = var.test_repository
-
-  digests = {
-    runtime = module.runtime-versioned.image_ref
-    sdk     = module.sdk-versioned.image_ref
-  }
 }
+

@@ -4,12 +4,14 @@ variable "dotnet_runtime_version" {
 }
 
 variable "extra_packages" {
+  default     = ["dotnet-9", "dotnet-9-runtime", "aspnet-9-runtime"]
   description = "Additional packages to install."
   type        = list(string)
-  default     = ["dotnet-9", "dotnet-9-runtime", "aspnet-9-runtime"]
 }
 
-module "accts" { source = "../../../tflib/accts" }
+module "accts" {
+  source = "../../../tflib/accts"
+}
 
 output "config" {
   value = jsonencode({
@@ -31,3 +33,4 @@ output "config" {
     }
   })
 }
+

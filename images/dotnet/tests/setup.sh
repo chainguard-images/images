@@ -14,5 +14,4 @@ else
   UNAME="linux-arm64"
 fi
 
-# need this for dotnet 6 to figure out standalone release target
 printf "$UNAME" > /tmp/arch
