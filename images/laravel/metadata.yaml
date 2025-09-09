@@ -9,3 +9,9 @@ upstream_url: https://www.laravel.com/
 keywords:
   - base
 tier: BASE
+
+# resource requests for v2 image builds
+resources:
+  cpu: 10
+  memory: 10Gi
+  storage: 6Gi

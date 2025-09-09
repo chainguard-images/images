@@ -12,3 +12,9 @@ tier: APPLICATION
 aliases:
   - rancher/k3s:latest
 public: true
+
+# resource requests for v2 image builds
+resources:
+  cpu: 20
+  memory: 10Gi
+  storage: 6Gi

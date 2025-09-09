@@ -3,7 +3,7 @@ variable "extra_packages" {
   default     = ["grype"]
 }
 
-module "accts" { source = "../../../../tflib/accts" }
+module "accts" { source = "../../../tflib/accts" }
 
 output "config" {
   value = jsonencode({

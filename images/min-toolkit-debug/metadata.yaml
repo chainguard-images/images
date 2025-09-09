@@ -10,3 +10,9 @@ keywords:
   - application
 tier: APPLICATION
 public: true
+
+# resource requests for v2 image builds
+resources:
+  cpu: 12
+  memory: 10Gi
+  storage: 6Gi

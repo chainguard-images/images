@@ -9,3 +9,9 @@ upstream_url: https://github.com/wolfi-dev/os
 keywords:
   - base
 tier: BASE
+
+# resource requests for v2 image builds
+resources:
+  cpu: 14
+  memory: 8Gi
+  storage: 8Gi

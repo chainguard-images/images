@@ -3,7 +3,7 @@ locals {
 }
 
 module "accts" {
-  source = "../../../../tflib/accts"
+  source = "../../../tflib/accts"
 }
 
 terraform {

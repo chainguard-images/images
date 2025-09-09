@@ -12,3 +12,9 @@ tier: APPLICATION
 aliases:
   - alpine/helm:latest
   - quay.io/coreos/helm:latest
+
+# resource requests for v2 image builds
+resources:
+  cpu: 12
+  memory: 8Gi
+  storage: 6Gi

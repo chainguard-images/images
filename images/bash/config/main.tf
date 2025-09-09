@@ -5,7 +5,7 @@ variable "extra_packages" {
 }
 
 module "accts" {
-  source = "../../../../tflib/accts"
+  source = "../../../tflib/accts"
   run-as = 0
 }
 
