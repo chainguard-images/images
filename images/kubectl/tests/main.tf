@@ -80,7 +80,7 @@ resource "imagetest_feature" "functional_tests" {
     },
     {
       name = "Create Unique K3d Cluster"
-      cmd  = "k3d cluster create $PET_SUFFIX --network $PET_SUFFIX-network"
+      cmd  = "k3d cluster create $PET_SUFFIX --network $PET_SUFFIX-network --k3s-arg='--snapshotter=native@all'"
     },
     {
       name = "Extract K3d Kubeconfig"
