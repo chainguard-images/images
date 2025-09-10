@@ -10,30 +10,30 @@ if [[ -n "${IMAGETEST_HELM_APP_VERSION}" ]]; then
     echo "ERROR: app_version requires repo to be set for chart version discovery"
     exit 1
   fi
-  
+
   echo "Discovering chart version for app_version: ${IMAGETEST_HELM_APP_VERSION}"
-  
+
   # Add the repo
   helm repo add temp-repo "${IMAGETEST_HELM_REPO}" || true
   helm repo update
-  
+
   # Find the chart version that matches the app_version
-  discovered_version=$(helm search repo -l "temp-repo/${IMAGETEST_HELM_CHART}" -o json | \
+  discovered_version=$(helm search repo -l "temp-repo/${IMAGETEST_HELM_CHART}" -o json |
     jq -r --arg app_version "${IMAGETEST_HELM_APP_VERSION}" \
-    'first(.[] | select(.app_version == $app_version) | .version) // empty')
-  
+      'first(.[] | select(.app_version == $app_version) | .version) // empty')
+
   if [[ -z "${discovered_version}" ]]; then
     echo "ERROR: Could not find chart version for app_version: ${IMAGETEST_HELM_APP_VERSION}"
     echo "Available app_versions:"
     helm search repo -l "temp-repo/${IMAGETEST_HELM_CHART}" -o json | jq -r '.[].app_version' | head -10
     exit 1
   fi
-  
+
   echo "Discovered chart version: ${discovered_version} for app_version: ${IMAGETEST_HELM_APP_VERSION}"
   IMAGETEST_HELM_CHART_VERSION="${discovered_version}"
 fi
 
-# If git repo is set, handle it and any patches
+# Handle different chart sources
 if [[ -n "${IMAGETEST_HELM_GIT_REPO}" ]]; then
   tempdir=$(mktemp -d)
 
@@ -46,7 +46,7 @@ if [[ -n "${IMAGETEST_HELM_GIT_REPO}" ]]; then
   fi
 
   # Apply any patches
-  patchfiles=($(echo "${IMAGETEST_HELM_PATCHES}" | jq -r '.[]'))
+  mapfile -t patchfiles < <(echo "${IMAGETEST_HELM_PATCHES}" | jq -r '.[]')
   for patchfile in "${patchfiles[@]}"; do
     echo "Applying patch ${patchfile}..."
     patch '-p1' -d "${tempdir}/helm-repo" <"${patchfile}"
@@ -54,6 +54,33 @@ if [[ -n "${IMAGETEST_HELM_GIT_REPO}" ]]; then
 
   # Set the chart to the cloned repo
   chart_path="${tempdir}/helm-repo/${IMAGETEST_HELM_CHART}"
+
+elif [[ ! -e "${chart_path}" ]]; then
+  echo "Pulling remote chart to local cache..."
+  tempdir=$(mktemp -d)
+
+  pull_args=(
+    "${chart_path}"
+    --destination "${tempdir}"
+  )
+
+  if [[ -n "${IMAGETEST_HELM_REPO}" ]]; then
+    pull_args+=(--repo "${IMAGETEST_HELM_REPO}")
+  fi
+
+  if [[ -n "${IMAGETEST_HELM_CHART_VERSION}" ]]; then
+    pull_args+=(--version "${IMAGETEST_HELM_CHART_VERSION}")
+  fi
+
+  shu retry --attempts 3 --delay 5s -- helm pull "${pull_args[@]}"
+
+  chart_path=$(find "${tempdir}" -name "*.tgz" -type f | head -1)
+  if [[ -z "${chart_path}" ]]; then
+    echo "ERROR: Failed to pull chart"
+    exit 1
+  fi
+
+  echo "Chart cached locally at: ${chart_path}"
 fi
 
 helm_install_args=(
@@ -69,22 +96,10 @@ if [[ -n "${IMAGETEST_HELM_NS}" ]]; then
   )
 fi
 
-if [[ -n "${IMAGETEST_HELM_REPO}" ]]; then
-  helm_install_args+=(
-    --repo "${IMAGETEST_HELM_REPO}"
-  )
-fi
-
-if [[ -n "${IMAGETEST_HELM_CHART_VERSION}" ]]; then
-  helm_install_args+=(
-    --version "${IMAGETEST_HELM_CHART_VERSION}"
-  )
-fi
-
 if [[ -n "${IMAGETEST_HELM_GIT_REPO}" ]]; then
-    helm_install_args+=(
-        --dependency-update
-    )
+  helm_install_args+=(
+    --dependency-update
+  )
 fi
 # Prepare values file and inventory arguments
 inventory_output="/mnt/imagetest/artifacts/helm_values/inventory.json"
@@ -102,21 +117,21 @@ helm plugin install ./inventory
 # Run pre-install script if provided
 if [[ -n "${IMAGETEST_HELM_PRE_INSTALL_SCRIPT}" ]]; then
   echo "Running pre-install script: ${IMAGETEST_HELM_PRE_INSTALL_SCRIPT}"
-  
+
   # Create a directory for the pre-install script to write values files
   PRE_INSTALL_VALUES_DIR=$(mktemp -d)
   export PRE_INSTALL_VALUES_DIR
-  
+
   echo "Pre-install script can write values files to: ${PRE_INSTALL_VALUES_DIR}"
-  
+
   # Run the pre-install script
   bash "${IMAGETEST_HELM_PRE_INSTALL_SCRIPT}"
-  
+
   # Check for any values files written by the pre-install script
   if ls "${PRE_INSTALL_VALUES_DIR}"/*.yaml &>/dev/null || ls "${PRE_INSTALL_VALUES_DIR}"/*.yml &>/dev/null; then
     echo "Found values files from pre-install script:"
     ls -la "${PRE_INSTALL_VALUES_DIR}"/*.y*ml 2>/dev/null || true
-    
+
     # Add each values file to helm install args
     for values_file in "${PRE_INSTALL_VALUES_DIR}"/*.yaml "${PRE_INSTALL_VALUES_DIR}"/*.yml; do
       if [[ -f "${values_file}" ]]; then
@@ -161,7 +176,7 @@ if [[ "${IMAGETEST_HELM_WAIT}" == "true" ]]; then
   helm_install_args+=(
     --wait
   )
-  
+
   # Add timeout if wait is enabled
   if [[ -n "${IMAGETEST_HELM_TIMEOUT}" ]]; then
     helm_install_args+=(
@@ -174,7 +189,7 @@ fi
 echo
 echo "=== Upstream chart values ==="
 echo
-{ helm show values "${chart_path}" ${IMAGETEST_HELM_REPO:+--repo "${IMAGETEST_HELM_REPO}"} | tee /tmp/helm-upstream-values.yaml; } || true
+{ helm show values "${chart_path}" | tee /tmp/helm-upstream-values.yaml; } || true
 
 # Render the templated manifests somewhere
 { helm template "${helm_install_args[@]}" >/tmp/helm-pre-install-manifests.yaml; } || true

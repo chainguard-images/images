@@ -9,7 +9,7 @@ mkdir -p $TMPDIR
 docker run --name "$uid" -d --rm -it --privileged \
 	-p $FREE_PORT:$FREE_PORT \
 	-v $(pwd)/$TMPDIR:/etc/rancher/k3s/ \
-	$IMAGE_NAME server --https-listen-port $FREE_PORT --write-kubeconfig-mode 0644
+	$IMAGE_NAME server --snapshotter=fuse-overlayfs --https-listen-port $FREE_PORT --write-kubeconfig-mode 0644
 
 cleanup() {
 	rm -rf $TMPDIR
