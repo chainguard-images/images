@@ -34,7 +34,7 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--body:start-->
 ## Compatibility Notes
 
-Chainguard's `crane` image is comparable to the [official Crane image](gcr.io/go-containerregistry/crane). However, the Chainguard image contains only the minimum set of tools and dependencies needed to function. Additionally, it uses a different entrypoint, `/usr/bin/crane`, compared to upstream's entrypoint of `/ko-app/crane`.
+Chainguard's `crane` image is comparable to the [official Crane image](https://gcr.io/go-containerregistry/crane). However, the Chainguard image contains only the minimum set of tools and dependencies needed to function. Additionally, it uses a different entrypoint, `/usr/bin/crane`, compared to upstream's entrypoint of `/ko-app/crane`.
 
 ## Getting started
 
