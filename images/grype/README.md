@@ -40,7 +40,7 @@ Our `latest` tag uses the most recent build of the [Wolfi grype](https://github.
 
 ### Compatibility Notes
 
-Chainguard's `grype` image is comparable to the [official grype Image.](hub.docker.com/r/anchore/grype) but with the following changes:
+Chainguard's `grype` image is comparable to the [official grype Image.](https://hub.docker.com/r/anchore/grype) but with the following changes:
 * We use a different entrypoint `/usr/bin/grype` as compared to the upstream's endpoint `/grype`.
 * We use a different `CMD` which is `help` whereas the upstream leaves it unset.
 * We don't define any WorkingDir whereas the upstream sets it to `/tmp`.
