@@ -20,8 +20,9 @@ module "melange" {
 }
 
 module "test" {
-  source = "./tests"
-  digest = module.melange.image_ref
+  source            = "./tests"
+  digest            = module.melange.image_ref
+  target_repository = var.target_repository
 }
 
 module "tagger" {
