@@ -35,9 +35,10 @@ module "versioned" {
 }
 
 module "test" {
-  digest   = module.versioned[each.key].image_ref
-  for_each = module.versions.versions
-  source   = "./tests"
+  digests           = { aspnet-runtime = module.versioned[each.key].image_ref }
+  for_each          = module.versions.versions
+  source            = "./tests"
+  target_repository = var.target_repository
 }
 
 module "tags" {
