@@ -1,11 +1,11 @@
 <!--monopod:start-->
-# REPO_NAME
+# python
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/REPO_NAME` |
+| **OCI Reference** | `cgr.dev/chainguard/python` |
 
 
-* [View container image in the Chainguard Containers Directory](https://images.chainguard.dev/directory/image/REPO_NAME/versions) for a full list of available tags.
+* [View container image in the Chainguard Containers Directory](https://images.chainguard.dev/directory/image/python/versions) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/contact?utm_source=readmes) for enterprise support, SLAs, and access to older tags.
 
 ---

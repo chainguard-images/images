@@ -1,11 +1,11 @@
 <!--monopod:start-->
-# REPO_NAME
+# openscap
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/REPO_NAME` |
+| **OCI Reference** | `cgr.dev/chainguard/openscap` |
 
 
-* [View container image in the Chainguard Containers Directory](https://images.chainguard.dev/directory/image/REPO_NAME/versions) for a full list of available tags.
+* [View container image in the Chainguard Containers Directory](https://images.chainguard.dev/directory/image/openscap/versions) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/contact?utm_source=readmes) for enterprise support, SLAs, and access to older tags.
 
 ---

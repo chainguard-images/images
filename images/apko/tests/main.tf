@@ -4,27 +4,29 @@ terraform {
   }
 }
 
-variable "digest" {
-  description = "The image digest to run tests over."
+variable "digests" {
+  description = "The image digests to run tests over."
+  type = object({
+    apko = string
+  })
 }
 
-data "imagetest_inventory" "inventory" {}
-
-resource "imagetest_harness_docker" "docker" {
-  name      = "docker"
-  inventory = data.imagetest_inventory.inventory
-
-  envs = {
-    IMAGE_NAME : var.digest
-  }
+variable "target_repository" {
+  description = "The target repository for test images."
 }
 
-resource "imagetest_feature" "test" {
-  name    = "test"
-  harness = imagetest_harness_docker.docker
+module "bash_sandbox" {
+  source            = "../../../tflib/imagetest/sandboxes/bash"
+  target_repository = var.target_repository
+}
 
-  steps = [{
-    name = "basic test"
-    cmd  = "docker run --rm $IMAGE_NAME version"
+module "dind_test" {
+  source = "../../../tflib/imagetest/tests/docker-in-docker"
+  images = { apko = var.digests.apko }
+  tests = [{
+    name    = "apko-version"
+    image   = module.bash_sandbox.image_ref
+    content = [{ source = path.module }]
+    cmd     = "./test.sh"
   }]
 }

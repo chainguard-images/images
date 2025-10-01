@@ -1,11 +1,11 @@
 <!--monopod:start-->
-# REPO_NAME
+# glibc-dynamic
 | | |
 | - | - |
-| **OCI Reference** | `cgr.dev/chainguard/REPO_NAME` |
+| **OCI Reference** | `cgr.dev/chainguard/glibc-dynamic` |
 
 
-* [View container image in the Chainguard Containers Directory](https://images.chainguard.dev/directory/image/REPO_NAME/versions) for a full list of available tags.
+* [View container image in the Chainguard Containers Directory](https://images.chainguard.dev/directory/image/glibc-dynamic/versions) for a full list of available tags.
 * [Contact Chainguard](https://www.chainguard.dev/contact?utm_source=readmes) for enterprise support, SLAs, and access to older tags.
 
 ---
