@@ -8,22 +8,34 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
-data "oci_exec_test" "usage" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME"
+variable "target_repository" {
+  description = "The target repository for the test harness"
 }
 
-data "oci_exec_test" "irb-version" {
-  digest = var.digest
-  script = "docker run --rm --entrypoint irb $IMAGE_NAME -v"
+variable "name" {
+  description = "The name to use for the test harness"
+  default     = "ruby-test"
 }
 
-data "oci_exec_test" "hello-world" {
-  digest = var.digest
-  script = "${path.module}/02-hello-world.sh"
+module "bash_sandbox" {
+  source            = "../../../tflib/imagetest/sandboxes/bash"
+  target_repository = var.target_repository
 }
 
-data "oci_exec_test" "base-image" {
-  digest = var.digest
-  script = "${path.module}/03-base-image.sh"
+module "docker_test" {
+  source = "../../../tflib/imagetest/tests/docker-in-docker"
+  name   = var.name
+
+  images = {
+    ruby = var.digest
+  }
+
+  tests = [
+    {
+      name    = "comprehensive"
+      image   = module.bash_sandbox.image_ref
+      content = [{ source = path.module }]
+      cmd     = "./comprehensive-tests.sh"
+    }
+  ]
 }
