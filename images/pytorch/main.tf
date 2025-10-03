@@ -11,13 +11,13 @@ locals {
   // These could be eventually generated with setproduct
   // TODO(pnasrat): move to version streams
   full_versions = {
-    "py3.13-cuda12.6" : { "cuda" : "12.6", "python" : "3.13" },
+    "py3.13-cuda12.8" : { "cuda" : "12.8", "python" : "3.13" },
   }
 
   versions = keys(local.full_versions)
   // Manually specify latest_version
   // pytorch versions are complicated by the matrix of cuda and cudnn support
-  latest_version = "py3.13-cuda12.6"
+  latest_version = "py3.13-cuda12.8"
 
   full_version_packages = {
     for k, v in local.full_versions : k => [
@@ -86,7 +86,7 @@ module "versioned" {
     "python-${each.value.python}",
     "py${each.value.python}-torchvision-cuda-${each.value.cuda}",
   ]
-  extra_dev_packages = ["bash", "cuda-toolkit-${each.value.cuda}-dev", "libtorchvision-cuda-${each.value.cuda}-dev", "py${each.value.python}-torch-cuda-${each.value.cuda}-dev"]
+  extra_dev_packages = ["bash", "cuda-toolkit-${each.value.cuda}-dev", "libtorchvision-cuda-${each.value.cuda}-dev", "py${each.value.python}-torch-cuda-${each.value.cuda}-dev", "py${each.value.python}-pip", "uv"]
   update-repo        = each.key == local.latest_version
   // These images are huge. Given them 40 minutes to pass the repro check
   reproduce_timeout = 2400
