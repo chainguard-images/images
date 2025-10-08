@@ -1,0 +1,8 @@
+[fips_sect]
+activate = 1
+install-version = 1
+conditional-errors = 1
+security-checks = 1
+tls1-prf-ems-check = 0
+drbg-no-trunc-md = 1
+module-mac = 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00

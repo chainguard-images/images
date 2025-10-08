@@ -31,7 +31,7 @@ variable "tests_exclude_by_label" {
 
 provider "imagetest" {
   repo        = "${var.target_repository}/imagetest"
-  extra_repos = [var.test_repository, var.scratch_repository]
+  extra_repos = [var.test_repository, local.scratch_repository]
 
   test_execution = {
     skip_all_tests   = var.tests_skip_all
@@ -52,7 +52,11 @@ variable "test_repository" {
 
 variable "scratch_repository" {
   description = "The docker repo root to use for writing scratch/temporary test images, without worrying about them being confused with real Chainguard images."
-  default     = "cgr.dev/chainguard/test-tmp"
+  default     = ""
+}
+
+locals {
+  scratch_repository = var.scratch_repository != "" ? var.scratch_repository : "${var.target_repository}/test-tmp"
 }
 
 variable "extra_repositories" {
