@@ -8,9 +8,13 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
+locals {
+  java_version = "25"
+}
+
 module "config" {
   source         = "./config"
-  extra_packages = ["maven", "openjdk-23-default-jdk", "busybox", "glibc-locale-en"]
+  extra_packages = ["maven", "openjdk-${local.java_version}-default-jdk", "busybox", "glibc-locale-en"]
 }
 
 module "maven" {
@@ -19,7 +23,7 @@ module "maven" {
   target_repository  = var.target_repository
   config             = module.config.config
   build-dev          = true
-  extra_dev_packages = ["openjdk-23-jmods", "binutils"]
+  extra_dev_packages = ["openjdk-${local.java_version}-jmods", "binutils"]
 }
 
 module "test" {

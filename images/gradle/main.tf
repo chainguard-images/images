@@ -8,11 +8,15 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
+locals {
+  java_version = "25"
+}
+
 module "config" {
   source = "./config"
   extra_packages = [
     "gradle",
-    "openjdk-24-default-jdk",
+    "openjdk-${local.java_version}-default-jdk",
     "busybox",
     "glibc-locale-en"
   ]
@@ -31,7 +35,7 @@ module "latest" {
 module "test-latest" {
   source            = "./tests"
   digest            = module.latest.image_ref
-  java-version      = "24"
+  java-version      = local.java_version
   target_repository = var.target_repository
 }
 

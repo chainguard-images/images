@@ -62,6 +62,8 @@ output "config" {
     environment = merge({
       "PATH" : "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/cuda-${var.cuda_version}/bin",
       "CUDA_VERSION" : "${var.cuda_version}",
+      "NVIDIA_VISIBLE_DEVICES" : "all",
+      "NVIDIA_DRIVER_CAPABILITIES" : "compute,utility",
     }, var.environment)
     entrypoint = {
       command = "/usr/bin/python${var.python_version}"
