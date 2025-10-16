@@ -10,6 +10,7 @@ PyTorchLatestStableCudaVariants = [
     ('2.6.', '+cu118'), # for request-5190 arm64
     ('2.7.', '+cu126'), # CUDA 12.6
     ('2.8.', '+cu128'), # CUDA 12.8
+    ('2.9.', '+cu128'), # CUDA 12.8
 ]
 
 if __name__ == '__main__':
