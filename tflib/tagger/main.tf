@@ -23,12 +23,30 @@ variable "update_active_tags" {
   default     = false
 }
 
-locals { parsed = { for k, v in var.tags : k => provider::oci::parse(v) } }
+variable "v_prefix" {
+  description = "Create duplicate tags with 'v' prefix for version tags (e.g., '1.0' becomes both '1.0' and 'v1.0')"
+  type        = bool
+  default     = false
+}
+
+locals {
+  # Parse input tags to convert the fully qualified digest into an object with
+  # properties such as: registry, repo, digest
+  parsed_input = { for k, v in var.tags : k => provider::oci::parse(v) }
+}
+
+locals {
+  # Add v-prefix to any eglible tag unless it is disabled
+  parsed = var.v_prefix ? merge(
+    local.parsed_input,
+    { for k, v in local.parsed_input : "v${k}" => v if can(regex("^[0-9]", k)) }
+  ) : local.parsed_input
+}
 
 locals {
   repos     = toset([for k, v in local.parsed : "${v.registry}/${v.repo}"])
   repo      = tolist(local.repos)[0] # TODO: support more than one repo per tagger invocation?
-  tags      = { for t, dr in var.tags : t => split("@", dr)[1] if !contains(var.exclude, t) }
+  tags      = { for t, p in local.parsed : t => p.digest if !contains(var.exclude, t) }
   images    = distinct([for tag, ref in local.tags : ref])
   imagetags = { for image in local.images : "${local.repo}@${image}" => compact([for tag, ref in local.tags : image == ref ? tag : null]) }
 }

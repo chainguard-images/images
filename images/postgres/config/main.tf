@@ -46,17 +46,19 @@ output "config" {
     }
     work-dir = "/home/postgres"
     paths = [{
-      path        = "/var/lib/postgresql/data"
+      path        = "/var/lib/postgresql"
       type        = "directory"
       uid         = module.accts.uid
       gid         = module.accts.gid
-      permissions = parseint("777", 8)
+      permissions = parseint("0777", 8)
+      recursive   = true
       }, {
       path        = "/var/run/postgresql"
       type        = "directory"
       uid         = module.accts.uid
       gid         = module.accts.gid
       permissions = parseint("777", 8)
+      recursive   = true
     }]
     }
   )

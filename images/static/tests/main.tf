@@ -1,5 +1,6 @@
 variable "digest" {
   description = "The image digest to run tests over."
+  type        = string
 }
 
 variable "target_repository" {
