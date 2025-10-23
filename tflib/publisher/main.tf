@@ -111,6 +111,9 @@ locals {
       "org.opencontainers.image.url" : "https://images.chainguard.dev/directory/image/${var.name}/overview",
       "org.opencontainers.image.source" : "https://github.com/chainguard-images/images/tree/main/images/${var.name}",
       "org.opencontainers.image.vendor" : "Chainguard",
+      "org.opencontainers.image.title" : "${var.name}",
+      // duplicated in case customer overrides the other one
+      "dev.chainguard.image.title" : "${var.name}",
       "dev.chainguard.package.main" : (var.origin_package == "" ? var.main_package : var.origin_package),
       },
     },
@@ -191,6 +194,14 @@ data "oci_structure_test" "structure" {
     precondition {
       condition     = module.this.config.annotations["org.opencontainers.image.vendor"] == "Chainguard"
       error_message = "image.vendor annotation must be Chainguard (got '${module.this.config.annotations["org.opencontainers.image.vendor"]}')"
+    }
+    precondition {
+      condition     = module.this.config.annotations["org.opencontainers.image.title"] != ""
+      error_message = "image.title annotation must not be empty (got '${module.this.config.annotations["org.opencontainers.image.title"]}')"
+    }
+    precondition {
+      condition     = module.this.config.annotations["org.opencontainers.image.title"] == module.this.config.annotations["dev.chainguard.image.title"]
+      error_message = "image.title annotation must be the same for org.opencontainers and dev.chainguard (got '${module.this.config.annotations["org.opencontainers.image.title"]}' and '${module.this.config.annotations["dev.chainguard.image.title"]}')"
     }
   }
 }

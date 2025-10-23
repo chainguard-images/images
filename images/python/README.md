@@ -35,29 +35,6 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 
 The `python` Chainguard Image provides a minimal Python runtime suitable for workloads such as web applications, CLI utilities, interfacing with APIs, or other tasks.
 
-### Experimental JIT
-
-Starting with our Python 3.14 image, you can activate the experimental
-free-threaded JIT by exporting `PYTHON_JIT=1` before launching `python`:
-
-```sh
-export PYTHON_JIT=1
-python ...
-```
-
-Python uses its standard interpreter when launched without the `PYTHON_JIT`
-environment variable being set to 1. No additional binary or image is required.
-
-You can verify that the JIT is operating by examining the `sys._jit` module:
-
-```py
-import sys
-
-assert sys._jit.is_available
-assert sys._jit.is_enabled
-assert sys._jit.is_active
-```
-
 ## Variants
 
 We have two image variants available:
@@ -97,7 +74,7 @@ We recommend against using the root user in a production environment.
 
 ## Packages
 
-If you require additional packages that can be installed with the `pip` package manager, we recommend using a multistage build. This process involves installing packages in a virtual environment using the `latest-dev` variant, then copying this environment over to the minimal runtime image.
+If you require additional packages that can be installed with the `pip` package manager, we recommend using a multistage build. This process involves installing packages in a virtual environment using the `latest-dev` variant, then copying this environment over to the minimal runtime image. 
 
 The following is a minimal example of a Dockerfile that uses a multistage build to run an `app.py` script after installing dependencies listed in a `requirements.txt` file.
 
@@ -170,7 +147,7 @@ To use Custom Assembly in the Chainguard Console: navigate to the image you'd li
 ## Learn More
 
 Refer to our Chainguard Containers documentation on [Chainguard Academy](https://edu.chainguard.dev/?utm_source=readmes). Chainguard also offers [VMs](https://www.chainguard.dev/vms?utm_source=readmes) and [Libraries](https://www.chainguard.dev/libraries?utm_source=readmes) — [contact us](https://www.chainguard.dev/contact?utm_source=readmes) for access.
-
+ 
 
 ## Trademarks
 
