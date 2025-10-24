@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: test
+  namespace: minio
+spec:
+  backoffLimit: 5
+  template:
+    spec:
+      restartPolicy: Never
+      initContainers:
+      - name: create-bucket
+        image: MC_IMAGE
+        args:
+          - mb
+          - --ignore-existing
+          - minio/bucket
+        env:
+        - name: MC_HOST_minio
+          value: "http://defaultuser:defaultpass@minio.minio.svc.cluster.local"
+      containers:
+      - name: stat-bucket
+        image: MC_IMAGE
+        args:
+          - stat
+          - minio/bucket
+        env:
+        - name: MC_HOST_minio
+          value: "http://defaultuser:defaultpass@minio.minio.svc.cluster.local"

@@ -76,6 +76,13 @@ variable "name" {
   description = "Name of the image, which gets used in the image annotations."
 }
 
+// Note: unused
+variable "banned_license_exceptions" {
+  type        = list(string)
+  default     = []
+  description = "List of license exceptions to ignore when checking licenses in the SBOM."
+}
+
 variable "reproduce_timeout" {
   type        = number
   description = "The timeout on the check-reproducibility test in seconds."

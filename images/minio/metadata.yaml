@@ -1,0 +1,21 @@
+name: minio
+image: cgr.dev/chainguard/minio
+endoflife: ""
+console_summary: ""
+short_description: Minimal image with Minio.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/minio/minio
+keywords:
+  - application
+aliases:
+  - minio/minio:latest
+  - rapidfort/minio-ib:latest
+tier: APPLICATION
+public: true
+
+# resource requests for v2 image builds
+resources:
+  cpu: 12
+  memory: 12Gi
+  storage: 10Gi

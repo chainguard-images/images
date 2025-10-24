@@ -217,6 +217,13 @@ module "min-toolkit-debug" {
   test_repository    = var.test_repository
 }
 
+module "minio" {
+  scratch_repository = local.scratch_repository
+  source             = "./images/minio"
+  target_repository  = "${var.target_repository}/minio"
+  test_repository    = var.test_repository
+}
+
 module "mongodb" {
   scratch_repository = local.scratch_repository
   source             = "./images/mongodb"
@@ -472,6 +479,10 @@ output "summary_melange" {
 
 output "summary_min-toolkit-debug" {
   value = module.min-toolkit-debug.summary
+}
+
+output "summary_minio" {
+  value = module.minio.summary
 }
 
 output "summary_mongodb" {
