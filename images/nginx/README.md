@@ -35,6 +35,8 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 
 Chainguard's `nginx` container image is comparable to both the `latest` and `alpine` versions of the [official nginx image](https://hub.docker.com/_/nginx) and, wherever possible, the Chainguard Container's configuration will align with the official image. However, Chainguard Images are built to be as minimal as possible, requiring a specific set of changes, which are outlined here.
 
+Note: just as with the [official nginx image](https://hub.docker.com/_/nginx), the `latest` tag will always be an Nginx `mainline` rather than `stable` release.
+
 ### Users
 
 The official Docker image starts as the root user and forks to a less privileged user. By contrast, the Chainguard `nginx` Container starts as a less privileged user named `nginx` and no forking is required. 

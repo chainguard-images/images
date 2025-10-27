@@ -2,6 +2,14 @@
 
 This module provides a reusable test for verifying FIPS compliance by intentionally breaking the FIPS configuration and ensuring the application fails appropriately.
 
+## When To Use This Module
+
+Use this module for images that rely on OpenSSL FIPS configuration via `fipsmodule.cnf`. This includes any image that pulls in the `openssl-config-fipshardened` package.
+
+This module should not be used for:
+- Applications using Bouncy Castle FIPS (BCFIPS) - these use Java-based FIPS and do not depend on OpenSSL's `fipsmodule.cnf`
+- Applications with custom FIPS implementations that don't rely on OpenSSL's configuration file
+
 ## How It Works
 
 The test:
