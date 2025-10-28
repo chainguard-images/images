@@ -154,6 +154,10 @@ docker run --rm -v "$PWD/my-postgres.conf":/etc/postgresql/postgresql.conf -e PO
 
 This command also uses the `postgres` server's `-c` flag to set the `config_file` runtime parameter.
 
+### Initial SQL script
+
+The path for initial load sql script should be same as per application docs `/docker-entrypoint-initdb.d/init.sql` except for PostgreSQL 14 which needs to be mounted at `/var/lib/postgres/initdb/init.sql`.
+
 
 ## Documentation and Resources
 
