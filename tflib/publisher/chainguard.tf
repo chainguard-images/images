@@ -20,6 +20,7 @@ locals {
 
   keywords     = local.metadata_public != null ? local.metadata_public.keywords : []
   aliases      = local.metadata_public != null ? lookup(local.metadata_public, "aliases", []) : []
+  deployment   = local.metadata_public != null ? lookup(local.metadata_public, "deployment", null) : null
   catalog_tier = local.metadata_public != null ? lookup(local.metadata_public, "tier", "BASE") : "BASE"
 
   // If the repo name ends with "-fips", add "fips" as a keyword (if not already present)
@@ -56,5 +57,6 @@ module "repo" {
   bundles     = local.keywords_updated
   tier        = local.catalog_tier
   aliases     = local.aliases
+  deployment  = local.deployment
   active_tags = length(data.chainguard_image_repos.existing) > 0 && length(data.chainguard_image_repos.existing[0].items) > 0 ? data.chainguard_image_repos.existing[0].items[0].active_tags : [] // Use existing active tags if available, otherwise start with an empty list
 }

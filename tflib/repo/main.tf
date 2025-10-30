@@ -38,6 +38,17 @@ variable "aliases" {
   type        = list(string)
 }
 
+variable "deployment" {
+  description = "The deployment configuration with helm charts for the image repository. Each chart requires a 'repo' URL and optionally a 'source' URL for the chart source code."
+  type = object({
+    charts = list(object({
+      source = optional(string)
+      repo   = string
+    }))
+  })
+  default = null
+}
+
 variable "active_tags" {
   description = "The list of active tags for the image repository"
   type        = list(string)
@@ -51,4 +62,12 @@ resource "chainguard_image_repo" "repo" {
   tier        = var.tier
   aliases     = var.aliases
   active_tags = var.active_tags
+}
+
+resource "chainguard_image_repo_deployment" "deployment" {
+  count = var.deployment != null ? 1 : 0
+
+  id            = chainguard_image_repo.repo.id
+  charts        = var.deployment.charts
+  ignore_errors = true # Allow graceful failure - don't block image builds if deployment fails
 }

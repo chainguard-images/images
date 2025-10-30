@@ -26,7 +26,7 @@ variable "update_active_tags" {
 variable "v_prefix" {
   description = "Create duplicate tags with 'v' prefix for version tags (e.g., '1.0' becomes both '1.0' and 'v1.0')"
   type        = bool
-  default     = false
+  default     = true
 }
 
 locals {
