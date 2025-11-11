@@ -14,7 +14,7 @@
 <!--overview:start-->
 # Chainguard Container for REPO_NAME
 
-Minimal image with MinIO.
+Minimal image with Minio.
 
 Chainguard Containers are regularly-updated, secure-by-default container images.
 <!--overview:end-->
@@ -31,9 +31,9 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Using MinIO
+## Using Minio
 
-The Chainguard MinIO image contains the `minio` server binary.
+The Chainguard Minio image contains the `minio` server binary.
 The default entrypoint just runs the `minio` binary without any flags.
 
 ```shell
@@ -62,7 +62,7 @@ VERSION:
   DEVELOPMENT.2023-03-24T21-41-23Z
 ```
 
-To start MinIO in a server configuration, make sure to override the `MINIO_ROOT_USER` and `MINIO_ROOT_PASSWORD` environment variables,
+To start minio in a server configuration, make sure to override the `MINIO_ROOT_USER` and `MINIO_ROOT_PASSWORD` environment variables,
 and pass a data volume to the `server` command.
 
 ```shell
