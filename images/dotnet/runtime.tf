@@ -21,6 +21,7 @@ module "runtime-versioned" {
 module "runtime-tags" {
   depends_on             = [module.test-things]
   dev_ref                = module.runtime-versioned[each.key].dev_ref
+  dotnet_epoch           = module.runtime-version[each.key].dotnet_epoch
   dotnet_major_version   = each.value.version
   dotnet_runtime_version = module.runtime-version[each.key].dotnet_runtime_version
   dotnet_stream          = module.runtime-version[each.key].dotnet_stream

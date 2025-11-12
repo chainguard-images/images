@@ -10,6 +10,10 @@ variable "dotnet_stream" {
   description = "The .NET stream."
 }
 
+variable "dotnet_epoch" {
+  description = "The .NET package epoch"
+}
+
 variable "is_latest" {
   description = "Whether or not the version is latest."
 }
@@ -43,6 +47,10 @@ locals {
     // And do the same for the major version of .NET
     "${var.dotnet_major_version}"     = var.image_ref
     "${var.dotnet_major_version}-dev" = var.dev_ref
+
+    // And add the full package version with epoch
+    "${var.dotnet_runtime_version}-${var.dotnet_epoch}"     = var.image_ref
+    "${var.dotnet_runtime_version}-${var.dotnet_epoch}-dev" = var.dev_ref
   }
 }
 

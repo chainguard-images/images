@@ -44,6 +44,7 @@ module "test" {
 module "tags" {
   depends_on             = [module.test]
   dev_ref                = module.versioned[each.key].dev_ref
+  dotnet_epoch           = module.runtime-version[each.key].dotnet_epoch
   dotnet_major_version   = each.value.version
   dotnet_runtime_version = module.runtime-version[each.key].dotnet_runtime_version
   dotnet_stream          = module.runtime-version[each.key].dotnet_stream

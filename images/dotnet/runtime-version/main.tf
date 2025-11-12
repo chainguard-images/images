@@ -20,6 +20,7 @@ data "apko_config" "pkgconf" {
 }
 
 locals {
+  dotnet_epoch            = split("-", local.dotnet_sdk_full_version)[1]
   dotnet_pkgconf          = [for p in data.apko_config.pkgconf.config.contents.packages : p if startswith(p, "dotnet-")][0]
   dotnet_sdk_full_version = split("=", local.dotnet_pkgconf)[1]
   dotnet_sdk_version      = split("-", local.dotnet_sdk_full_version)[0]
@@ -40,5 +41,9 @@ output "dotnet_runtime_version" {
 
 output "dotnet_stream" {
   value = local.dotnet_stream
+}
+
+output "dotnet_epoch" {
+  value = local.dotnet_epoch
 }
 
