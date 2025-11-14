@@ -90,6 +90,23 @@ True
 'Tesla V100-SXM2-16GB'
 ```
 
+### Adjusting LD_LIBRARY_PATH
+
+If `torch` is unable to access connected GPUs, you may need to adjust your
+`LD_LIBRARY_PATH` environment variable before launching Python. CUDA libraries
+injected into your runtime environment are often not found where Chainguard
+images expect them.
+
+For example, if you've got CUDA 12.8 libraries installed through non-Chainguard
+packages:
+
+```sh
+LD_LIBRARY_PATH=/usr/local/cuda-12.8/lib64:/usr/local/nvidia/lib64:/usr/lib/x86_64-linux-gnu
+```
+
+Chainguard's libraries install to `/usr/lib`, so anything outside of that will
+need to be added to the `LD_LIBRARY_PATH`.
+
 ## Testing PyTorch
 
 As a quick intro, we will use PyTorch to create a very simple deep learning model with two linear layers and an activation function. We’ll create an instance of it and ask it to report on its parameters. Running the below will fetch a [model_builder.py](https://github.com/chainguard-dev/pytorch-getting-started/blob/main/model_builder.py) script from the Chainguard Images repository, place it in a folder on your host machine, and run the script in a pytorch container from a volume.
