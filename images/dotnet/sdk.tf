@@ -1,5 +1,5 @@
 locals {
-  default_latest_version = "9"
+  default_latest_version = "10"
 }
 
 module "sdk-config" {
