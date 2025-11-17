@@ -10,7 +10,6 @@ keywords:
   - application
 aliases:
   - minio/minio:latest
-  - rapidfort/minio-ib:latest
 tier: APPLICATION
 public: true
 
