@@ -2,8 +2,12 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
+locals {
+  default_latest_version = "10"
+}
+
 module "versions" {
-  package = "dotnet"
+  package = "dotnet-${local.default_latest_version}"
   source  = "../../tflib/versions"
 }
 

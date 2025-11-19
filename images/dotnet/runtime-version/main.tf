@@ -1,3 +1,7 @@
+locals {
+  default_latest_version = "10"
+}
+
 terraform {
   required_providers {
     apko = { source = "chainguard-dev/apko" }
@@ -13,7 +17,7 @@ data "apko_config" "pkgconf" {
     contents = {
       packages = [
         // If no major version provided, use default/latest version
-        var.dotnet_major_version == "" ? "dotnet" : "dotnet-${var.dotnet_major_version}",
+        var.dotnet_major_version == "" ? "dotnet-${local.default_latest_version}" : "dotnet-${var.dotnet_major_version}",
       ]
     }
   })

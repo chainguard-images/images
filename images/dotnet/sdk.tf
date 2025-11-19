@@ -1,7 +1,3 @@
-locals {
-  default_latest_version = "10"
-}
-
 module "sdk-config" {
   dotnet_runtime_version = module.runtime-version[each.key].dotnet_runtime_version
   extra_packages = [

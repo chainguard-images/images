@@ -8,7 +8,7 @@ variable "dotnet_runtime_version" {
 }
 
 variable "extra_packages" {
-  default     = ["dotnet-runtime", "tzdata"]
+  type        = list(string)
   description = "The additional packages to install (e.g. dotnet-runtime)."
 }
 
