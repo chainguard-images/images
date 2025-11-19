@@ -1,3 +1,7 @@
+locals {
+  default_latest_version = "10"
+}
+
 variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
@@ -17,7 +21,7 @@ module "config" {
   dotnet_runtime_version = module.runtime-version[each.key].dotnet_runtime_version
   extra_packages = [
     // If no version provided, use default/latest version
-    each.value.version == "" ? "aspnet-runtime" : "aspnet-${each.value.version}-runtime",
+    each.value.version == "" ? "aspnet-${local.default_latest_version}-runtime" : "aspnet-${each.value.version}-runtime",
     "tzdata",
   ]
   for_each = module.versions.versions
