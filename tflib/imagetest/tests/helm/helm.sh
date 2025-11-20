@@ -37,8 +37,9 @@ fi
 if [[ -n "${IMAGETEST_HELM_GIT_REPO}" ]]; then
   tempdir=$(mktemp -d)
 
-  # Clone the repo
-  git clone "${IMAGETEST_HELM_GIT_REPO}" "${tempdir}/helm-repo"
+  # Clone the repo with retry logic
+  shu retry --attempts 5 --delay 10s -- \
+    git clone "${IMAGETEST_HELM_GIT_REPO}" "${tempdir}/helm-repo"
 
   if [[ -n "${IMAGETEST_HELM_GIT_REF}" ]]; then
     echo "Checking out to ref ${IMAGETEST_HELM_GIT_REF}..."
