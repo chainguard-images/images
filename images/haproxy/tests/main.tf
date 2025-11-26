@@ -7,6 +7,20 @@ terraform {
 
 variable "target_repository" {}
 
+variable "test_repository" {}
+
+variable "is_slim" {
+  description = "Whether to run tests for the slim variant of the image."
+  type        = bool
+  default     = false
+}
+
+variable "no_caps" {
+  description = "Whether to run tests for the nocaps variant of the image."
+  type        = bool
+  default     = false
+}
+
 variable "digest" {
   description = "The image digest to run tests over."
 }
@@ -15,17 +29,25 @@ locals { parsed = provider::oci::parse(var.digest) }
 
 data "imagetest_inventory" "this" {}
 
-module "cluster_harness" {
-  source = "../../../tflib/imagetest/harnesses/k3s/"
-
-  inventory         = data.imagetest_inventory.this
-  name              = basename(path.module)
+module "bash_sandbox" {
+  source            = "../../../tflib/imagetest/sandboxes/bash"
   target_repository = var.target_repository
-  cwd               = path.module
 }
 
-module "helm" {
-  source = "../../../tflib/imagetest/helm"
+module "bash_sandbox_nocaps" {
+  source            = "../../../tflib/imagetest/sandboxes/bash"
+  target_repository = var.target_repository
+}
+
+module "bash_sandbox_slim" {
+  source            = "../../../tflib/imagetest/sandboxes/bash"
+  target_repository = var.target_repository
+}
+
+module "k8s_helm" {
+  count       = (!var.is_slim && !var.no_caps) ? 1 : 0
+  source      = "../../../tflib/imagetest/tests/helm/"
+  sandbox_ref = module.bash_sandbox.image_ref
 
   name      = "haproxy-redis"
   namespace = "haproxy-system"
@@ -52,24 +74,72 @@ module "helm" {
   }
 }
 
-resource "imagetest_feature" "basic" {
-  name        = "basic"
-  description = "Basic installation test"
-  harness     = module.cluster_harness.harness
+module "k8s_test" {
+  count  = (!var.is_slim && !var.no_caps) ? 1 : 0
+  source = "../../../tflib/imagetest/tests/k3s-in-docker/"
 
-  steps = [
-    {
-      name = "Install with helm"
-      cmd  = module.helm.install_cmd
-    },
+  images = { haproxy = var.digest }
+  cwd    = path.module
+
+  tests = [
+    module.k8s_helm[0].test
   ]
+}
 
-  labels = {
-    type = "k8s"
-  }
+module "k8s_helm_nocaps" {
+  count       = var.no_caps ? 1 : 0
+  source      = "../../../tflib/imagetest/tests/helm/"
+  sandbox_ref = module.bash_sandbox_nocaps.image_ref
 
-  timeouts = {
-    # The redis-ha rollout is painfully slow and prone to fruitless polling
-    create = "15m"
+  name      = "haproxy-redis"
+  namespace = "haproxy-system"
+  repo      = "https://dandydeveloper.github.io/charts"
+  chart     = "redis-ha"
+
+  values = {
+    image = {
+      registry = "cgr.dev/chainguard/redis"
+      tag      = "latest"
+    }
+    hardAntiAffinity = false
+    haproxy = {
+      enabled          = true
+      hardAntiAffinity = false
+      image = {
+        repository = local.parsed.registry_repo
+        tag        = local.parsed.pseudo_tag
+      }
+    }
   }
+}
+
+module "k8s_test_nocaps" {
+  count  = var.no_caps ? 1 : 0
+  source = "../../../tflib/imagetest/tests/k3s-in-docker/"
+
+  images = { haproxy = var.digest }
+  cwd    = path.module
+
+  tests = [
+    module.k8s_helm_nocaps[0].test
+  ]
+}
+
+module "test_slim" {
+  count  = var.is_slim ? 1 : 0
+  source = "../../../tflib/imagetest/tests/k3s-in-docker/"
+
+  cwd    = path.module
+  images = { haproxy = var.digest }
+  tests = [
+    {
+      name  = "test"
+      image = module.bash_sandbox_slim.image_ref
+      envs = {
+        NGINX_IMAGE = "${var.test_repository}/nginx:latest"
+        CURL_IMAGE  = "${var.test_repository}/curl:latest"
+      }
+      cmd = "./k8s-slim.sh"
+    }
+  ]
 }

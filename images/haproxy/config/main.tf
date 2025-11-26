@@ -47,4 +47,3 @@ output "config" {
     ]
   })
 }
-
