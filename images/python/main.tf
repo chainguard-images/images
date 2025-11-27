@@ -17,8 +17,8 @@ module "latest" {
   config            = module.latest-config.config
   extra_dev_packages = [
     "build-base",
-    "py3-pip",
-    "python3-dev",
+    "py3.14-pip",
+    "python-3.14-dev",
     "uv"
   ]
 }
