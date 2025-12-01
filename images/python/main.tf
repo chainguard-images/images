@@ -8,7 +8,14 @@ variable "target_repository" {
   description = "The docker repo into which the image and attestations should be published."
 }
 
-module "latest-config" { source = "./config" }
+locals {
+  python_version = "3.14"
+}
+
+module "latest-config" {
+  source         = "./config"
+  extra_packages = ["python-${local.python_version}"]
+}
 
 module "latest" {
   source            = "../../tflib/publisher"
@@ -17,8 +24,8 @@ module "latest" {
   config            = module.latest-config.config
   extra_dev_packages = [
     "build-base",
-    "py3.14-pip",
-    "python-3.14-dev",
+    "py${local.python_version}-pip",
+    "python-${local.python_version}-dev",
     "uv"
   ]
 }

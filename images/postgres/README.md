@@ -37,7 +37,7 @@ The Chainguard PostgreSQL Image is comparable to its upstream counterpart, [the 
 
 ### Migrating to the Chainguard PostgreSQL image
 
-When migrating an existing PostgresSQL database to use the Chainguard PostgreSQL Container it is likely that the collation version in the Chainguard container image will be different from the collation version in the original image that created the database.  This may be due to different glibc versions, use of a different implementation of the C standard library (musl in Alpine for example), or the use of different locale configuration.
+When migrating an existing postgresql database to use the Chainguard PostgreSQL Container it is likely that the collation version in the Chainguard container image will be different from the collation version in the original image that created the database.  This may be due to different glibc versions, use of a different implementation of the C standard library (musl in Alpine for example), or the use of different locale configuration.
 
 Chainguard recommends that you [re-index and refresh the collation version](https://wiki.postgresql.org/wiki/Locale_data_changes) when migrating to this image before the database is put back into production.
 
@@ -133,7 +133,7 @@ You can extend Chainguard's Postgres image with environment variables. Chainguar
 * `POSTGRES_USER`: This is used with the `POSTGRES_PASSWORD` variable to set a superuser for the database and its password. If not specified, you can use the default `postgres` user.
 *  `POSTGRES_DB`: Using this variable allows you to set a different name for the default database. If not specified, the default database will be `postgres` or the value set by `POSTGRES_USER`.
 * `POSTGRES_INITDB_ARGS`: This variable allows you to send arguments to `postgres initdb`.
-* `POSTGRES_INITDB_WALDIR`: You can set this variable to define the location for the PostgreSQL transaction log. By default, the transaction log is stored in a subdirectory of the main PostgresSQL data folder, which you can define with `PGDATA`.
+* `POSTGRES_INITDB_WALDIR`: You can set this variable to define the location for the PostgreSQL transaction log. By default, the transaction log is stored in a subdirectory of the main postgresql data folder, which you can define with `PGDATA`.
 * `POSTGRES_HOST_AUTH_METHOD`: This variable allows you to control the `auth-method` used to authenticate when connecting to the database.
 
 Note that if you set the `POSTGRES_HOST_AUTH_METHOD` variable to `trust`, then the `POSTGRES_PASSWORD` variable is no longer required:

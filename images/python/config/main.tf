@@ -9,7 +9,7 @@ terraform {
 }
 
 variable "extra_packages" {
-  default     = ["python-3"]
+  default     = []
   description = "The additional packages to install (e.g. python-3.11)."
 }
 
