@@ -33,7 +33,10 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--body:start-->
 ## Compatibility Notes
 
-Chainguard’s HAProxy container image is a minimal image that comes in two variants: a `-slim` version that only contains the `haproxy` binary, as well as a regular version that contains a `docker-entrypoint.sh` script that is compatible with the external `docker-library/haproxy` image for use with Helm charts or established Docker based deployments.
+Chainguard’s HAProxy container image is a minimal image that comes in three variants:
+- a `-slim` version that only contains the `haproxy` binary,
+- a regular version that contains a `docker-entrypoint.sh` script that is compatible with the external `docker-library/haproxy` image for use with Helm charts or established Docker based deployments. The version comes with extended capability which allows it to listen on system ports (<1024).
+- there is also another version `-nocaps`, which is same as regular version, but is without extended capability.
 
 ## Getting Started
 
@@ -53,7 +56,8 @@ docker run -it --rm -v "$(pwd):/etc/haproxy" cgr.dev/ORGANIZATION/haproxy haprox
 
 ### Helm install
 
-When installing in Kubernetes, `securityContexts` that drop `[ "ALL" ]` capabilities interfere with the `setcap` privileged `haproxy`. In order to support Kubernetes based installs which default to dropping `ALL` capabilities, the necessary modifications must be made to add back `NET_ADMIN` capabilities.
+Helm charts with `securityContexts` that drops `[ "ALL" ]` capabilities should use `-nocaps` image.
+The regular version of the image needs extended capability, and needs below modifications in `securityContexts`, to add `NET_ADMIN` capabilities.
 
 For example, in the `ha-redis` chart used by `argocd`, the `values.yaml` becomes:
 

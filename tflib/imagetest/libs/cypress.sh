@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -o errexit -o nounset -o errtrace -o pipefail -x
 
 # Function to run Cypress tests
 #
@@ -34,7 +35,7 @@ run_cypress_tests() {
   update_cypress_video_config "${tempdir}/"
 
   # delete job in case we're retrying
-  kubectl delete job -n default "${name}" || true
+  kubectl delete job -n default "${name}" --ignore-not-found=true
   kubectl create configmap -n default "${name}" --from-file "${tempdir}"
   kubectl apply -f - <<EOF
 apiVersion: v1
@@ -96,7 +97,7 @@ EOF
 
   if ! kubectl wait --for=condition=complete --timeout="${timeout}" -n default "job/${name}" ; then
     # retrieve videos, read logs for all pods and exit
-    retrieve_cypress_videos "$name"
+    retrieve_cypress_videos "$name" "$timeout"
     for pod in $(kubectl get pods -n default -l "batch.kubernetes.io/job-name=${name}" -o name) ; do
       echo >&2 "Logs for $pod:"
       kubectl logs -n default "${pod}" >&2
@@ -133,44 +134,50 @@ update_cypress_video_config() {
 retrieve_cypress_videos() {
   local name="${1:?Name required}"
   local busybox_image="cgr.dev/chainguard/busybox:latest"
+  local pod_name="${name}-video-retriever"
 
   if [ "${IMAGETEST_ARTIFACTS:-}" = "" ] ; then
     echo "Not preserving artifacts - IMAGETEST_ARTIFACTS not set"
     return 0
   fi
 
+  kubectl delete pod -n default "${pod_name}" --ignore-not-found=true
+
   kubectl apply -f - <<EOF
-apiVersion: batch/v1
-kind: Job
+apiVersion: v1
+kind: Pod
 metadata:
   namespace: default
-  name: "${name}-retrieve-videos"
+  name: "${pod_name}"
 spec:
-  backoffLimit: 0
-  template:
-    spec:
-      restartPolicy: Never
-      containers:
-        - name: busybox
-          image: $busybox_image
-          volumeMounts:
-            - name: output
-              mountPath: /cypress/videos
-          command:
-            - sh
-            - -c
-            - 'tar -C /cypress/videos -c . | base64'
-      volumes:
-      - name: output
-        persistentVolumeClaim:
-          claimName: "${name}-output"
+  restartPolicy: Never
+  containers:
+    - name: retriever
+      image: $busybox_image
+      command: ["sleep", "300"]
+      volumeMounts:
+        - name: output
+          mountPath: /videos
+  volumes:
+    - name: output
+      persistentVolumeClaim:
+        claimName: "${name}-output"
 EOF
 
-  if ! kubectl wait --for=condition=complete --timeout="${timeout}" -n default "job/${name}-retrieve-videos" ; then
-    echo >&2 "WARNING: unable to retrieve videos:"
-    kubectl logs -n default "job/${name}-retrieve-videos" >&2
-  else
-    mkdir -p "$IMAGETEST_ARTIFACTS/${name}"
-    kubectl logs -n default --tail=-1 "job/${name}-retrieve-videos" 2>/dev/null | base64 -d | tar -C "$IMAGETEST_ARTIFACTS/${name}" -x
+  if ! kubectl wait --for=condition=ready --timeout=60s -n default "pod/${pod_name}" ; then
+    echo >&2 "WARNING: unable to start video retrieval pod"
+    kubectl describe pod -n default "${pod_name}" >&2
+    kubectl delete pod -n default "${pod_name}" --ignore-not-found=true
+    return 0
   fi
+
+  mkdir -p "$IMAGETEST_ARTIFACTS/${name}"
+
+  if kubectl cp -n default "${pod_name}:/videos/." "$IMAGETEST_ARTIFACTS/${name}/" ; then
+    echo "Cypress videos retrieved to $IMAGETEST_ARTIFACTS/${name}/"
+  else
+    echo >&2 "WARNING: failed to copy videos from pod"
+  fi
+
+  kubectl delete pod -n default "${pod_name}" --ignore-not-found=true
 }

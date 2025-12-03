@@ -17,3 +17,6 @@ resources:
   cpu: 14
   memory: 6Gi
   storage: 6Gi
+
+deployment:
+  # no supported charts found
