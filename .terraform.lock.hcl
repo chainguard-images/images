@@ -2,16 +2,16 @@
 # Manual edits may be lost in future updates.
 
 provider "registry.terraform.io/chainguard-dev/apko" {
-  version     = "0.30.20"
+  version     = "0.30.28"
   constraints = ">= 0.29.10"
   hashes = [
-    "h1:CM3xFKHwgiD8TXahpPS3nyHX0XUv0NrPPjEpj8fBy3s=",
-    "h1:bOci+e0aKf+s0AErVytpEdaUdSY224X5envgItwLWjw=",
-    "zh:3471640f2dff8bbda23e9d6cde963bc8c2b8673fd248953327f28f28b7518ace",
-    "zh:394f46babe0a79929f2565da5ce2d5049ca88bf119ca76577fa06cf0780efd87",
-    "zh:3cd49c404e6afab96b5d0c0dad497ba4c54878d14bd1d1891ec05fe167cf7331",
-    "zh:46c78b25581a82d0067d6e00831a9122f9865e4efab2550283db1b399ac098a7",
+    "h1:aSyezJdEi9VrfvzBKiMNi80bmXcGSQZfIyWl9t7tOKo=",
+    "h1:pK4kQYTVPyTUZnESy+2peZNfbreTiSka2dy/ZSKA2xQ=",
+    "zh:7ab120752f1d9a96b617a3a87e77e88204c69b58c12ee75c89846853be5e3942",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
+    "zh:dd9d9e36fd5cc164da0bc7164dc1b036a782531211a2a6f7a38f4e3913e617e8",
+    "zh:f751ba04599726b28a07962510a165c2b8c2c399c8b92e946ca20576ffdcb422",
+    "zh:f9bba66ce934156e7cc51a80a5638262a114b2cad1ecbaf997b753838cd6852e",
   ]
 }
 
@@ -44,15 +44,15 @@ provider "registry.terraform.io/chainguard-dev/cosign" {
 }
 
 provider "registry.terraform.io/chainguard-dev/imagetest" {
-  version = "0.0.105"
+  version = "0.0.106"
   hashes = [
-    "h1:axYG+WowvtUmZ23QhDeZSE4Cc9p5Sz76MVT6wPwV/bQ=",
-    "h1:wvaOVyhj++1B6RLnw5d+iEIOHvm6EwADyBq/mP64B7g=",
-    "zh:3dde0e7a1d184508f24b3568689d92ab86c5bf97b6792708822ac7a1d9a3184b",
-    "zh:6e0a319f37c410a44cef81ccee11a69ffebe35b30fa6b90c967b2148a03792d7",
+    "h1:PZ3QsRo3vJceWBmmlSkBX4UT3qZN8hdv1dMIRj3LB08=",
+    "h1:UmNOj+10iufM1VMtNsIyIpHMEfss3ELjcg1Cvc/ATdk=",
+    "zh:03c8739f9d6ad5fac3d75ba323cb66c938b1093aa94565e87314e30ed961fee7",
+    "zh:10bee6815d1567be1d3bc89362f65a59bf3bd21b994cc71bbd3a0bd9156ab48c",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
-    "zh:b9a7dd4d9762f4875e3cced312eb546bf66a95df5985ee5d3096158128c4bffa",
-    "zh:c6b9c48ebd64e4649770b541c35ca7ec05bce5ab0e9ecbc2cb1ca6bfe69590c4",
+    "zh:98c2abc5698f0e116249b2dabae44aa640ed64d540ac29a2dad2cdcab60b2c9b",
+    "zh:d165cca03ce91fcd6f7f9035270666868b8ce6490891b7b67dd5b102f885e024",
   ]
 }
 
