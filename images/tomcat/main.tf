@@ -51,12 +51,11 @@ module "versioned" {
 }
 
 module "test" {
-  for_each = module.versions.versions
-  source   = "./tests"
-
-  digest = module.versioned[each.key].image_ref
-
-  image_version = each.key
+  for_each          = module.versions.versions
+  source            = "./tests"
+  digest            = module.versioned[each.key].image_ref
+  target_repository = var.target_repository
+  image_version     = each.key
 }
 
 module "tagger" {
