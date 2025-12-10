@@ -10,6 +10,10 @@ variable "digest" {
 
 variable "target_repository" {}
 
+variable "test_repository" {}
+
+variable "image_version" {}
+
 module "bash_sandbox" {
   source            = "../../../tflib/imagetest/sandboxes/bash"
   target_repository = var.target_repository
@@ -17,8 +21,11 @@ module "bash_sandbox" {
 
 module "dind_test" {
   source = "../../../tflib/imagetest/tests/docker-in-docker"
+  name   = var.image_version
 
-  images = { "curl" = var.digest }
+  images = {
+    "curl" = var.digest
+  }
 
   tests = [
     {
@@ -26,6 +33,9 @@ module "dind_test" {
       image   = module.bash_sandbox.image_ref
       content = [{ source = path.module }]
       cmd     = "./test.sh"
+      envs = {
+        PYTHON_IMAGE = "${var.test_repository}/python:latest-dev"
+      }
     }
   ]
 }
