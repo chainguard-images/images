@@ -9,6 +9,8 @@ variable "target_repository" {}
 
 variable "test_repository" {}
 
+variable "image_version" {}
+
 variable "is_slim" {
   description = "Whether to run tests for the slim variant of the image."
   type        = bool
@@ -55,10 +57,6 @@ module "k8s_helm" {
   chart     = "redis-ha"
 
   values = {
-    image = {
-      registry = "cgr.dev/chainguard/redis"
-      tag      = "latest"
-    }
     hardAntiAffinity = false
     haproxy = {
       enabled          = true
@@ -77,6 +75,7 @@ module "k8s_helm" {
 module "k8s_test" {
   count  = (!var.is_slim && !var.no_caps) ? 1 : 0
   source = "../../../tflib/imagetest/tests/k3s-in-docker/"
+  name   = var.image_version
 
   images = { haproxy = var.digest }
   cwd    = path.module
@@ -97,10 +96,6 @@ module "k8s_helm_nocaps" {
   chart     = "redis-ha"
 
   values = {
-    image = {
-      registry = "cgr.dev/chainguard/redis"
-      tag      = "latest"
-    }
     hardAntiAffinity = false
     haproxy = {
       enabled          = true
@@ -116,6 +111,7 @@ module "k8s_helm_nocaps" {
 module "k8s_test_nocaps" {
   count  = var.no_caps ? 1 : 0
   source = "../../../tflib/imagetest/tests/k3s-in-docker/"
+  name   = "no-caps-${var.image_version}"
 
   images = { haproxy = var.digest }
   cwd    = path.module
@@ -128,6 +124,7 @@ module "k8s_test_nocaps" {
 module "test_slim" {
   count  = var.is_slim ? 1 : 0
   source = "../../../tflib/imagetest/tests/k3s-in-docker/"
+  name   = "slim-${var.image_version}"
 
   cwd    = path.module
   images = { haproxy = var.digest }
