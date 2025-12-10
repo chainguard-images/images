@@ -1,98 +1,51 @@
 terraform {
   required_providers {
     imagetest = { source = "chainguard-dev/imagetest" }
+    aws       = { source = "hashicorp/aws" }
+    cloudinit = { source = "hashicorp/cloudinit" }
   }
-}
-
-variable "name" {
-  description = "The name of the test."
-  default     = null
-}
-
-variable "images" {
-  description = "The map of images to test."
-  type        = map(string)
-}
-
-variable "repo" {
-  description = "The repository to push the images to. Should normally be ECR for this driver."
-  type        = string
-}
-
-variable "cwd" {
-  description = "Path to current module ; added to content for all test if provided"
-  default     = ""
-}
-
-variable "instance_type" {
-  description = "Type of the instance that will be used"
-  default     = "g5g.2xlarge"
-}
-
-variable "aws_ec2_ami" {
-  description = "The AMI to use for the EC2 virtual machine."
-  type        = string
-  # Canonical's Ubuntu 24.04, arm64
-  default = "ami-0a19bfd91e88a454b"
-}
-
-variable "aws_region" {
-  description = "The AWS region to use for the tests."
-  type        = string
-  default     = "us-west-2"
-}
-
-variable "tests" {
-  description = "The list of tests to run with the docker in docker driver."
-  type = list(object({
-    name  = string
-    image = string
-    cmd   = string
-    content = optional(list(object({
-      source = string
-      target = optional(string)
-    })))
-    envs = optional(map(string), null)
-  }))
-}
-
-variable "driver_config" {
-  description = "Optional ec2 driver configuration. The full supported configuration is documented here: https://registry.terraform.io/providers/chainguard-dev/imagetest/latest/docs/resources/tests#nested-schema-for-driversec2"
-  type        = any
-  default     = {}
 }
 
 locals {
   tests = [for test in var.tests : merge(test, {
-    content = concat(test.content != null ? test.content : [],
+    content = concat(
+      test.content != null ? test.content : [],
       var.cwd != "" ? [{ source = var.cwd }] : [],
-      [
-        {
-          source = "${path.module}/../../libs"
-          target = "/imagetest/libs"
-        }
-      ],
+      [{ source = "${path.module}/../../libs", target = "/imagetest/libs" }],
     )
+    # Use per-test timeout if specified, otherwise fall back to module timeout
+    timeout = test.timeout != null ? test.timeout : var.timeout
   })]
 }
-
 
 resource "imagetest_tests" "ec2" {
   name   = var.name
   driver = "ec2"
 
   drivers = {
-    ec2 = merge({
-      ami            = var.aws_ec2_ami
-      instance_type  = var.instance_type
-      mount_all_gpus = true
-      region         = var.aws_region
-    }, var.driver_config)
+    ec2 = {
+      ami                   = local.resolved_ami
+      instance_type         = var.instance_type
+      region                = var.aws_region
+      vpc_id                = var.vpc_id
+      root_volume_size      = var.root_volume_size
+      gpus                  = var.gpu ? "all" : ""
+      user_data             = local.resolved_user_data
+      setup_commands        = var.setup_commands
+      ssh_user              = local.resolved_ssh_user
+      volume_mounts         = var.volume_mounts
+      device_mounts         = var.device_mounts
+      env                   = var.env
+      instance_profile_name = var.instance_profile_name
+    }
   }
 
-  repo = var.repo
+  repo    = var.repo
+  images  = var.images
+  tests   = local.tests
+  timeout = var.timeout
+}
 
-  images = var.images
-
-  tests = local.tests
+output "tests" {
+  value = imagetest_tests.ec2
 }
