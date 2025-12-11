@@ -79,6 +79,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: RANCHER_VERSION
+              value: "${RANCHER_VERSION:-unknown}"
           command:
             - cypress
             - run

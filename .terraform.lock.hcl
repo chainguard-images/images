@@ -16,16 +16,16 @@ provider "registry.terraform.io/chainguard-dev/apko" {
 }
 
 provider "registry.terraform.io/chainguard-dev/chainguard" {
-  version = "0.1.42"
+  version = "0.1.43"
   hashes = [
-    "h1:8HyYSO6zk/1/xkP4ydWNiQ9uwUjA4p607SYadYUWMbc=",
-    "h1:xrOdZoDiWDYHZMJF1MivNshqg0+OO+BNBxuCx9ltBfA=",
-    "zh:1a3df146807dab4d60325c963a575e0a9a40ff1d229bb0382ba3139f3e72110b",
-    "zh:1f6bbd414fa1ccd093714cd42bccf9286d5c3d591786ff28470489eb926124ce",
-    "zh:43e79e31261062bfd1816da76510163947e01af63e1ea4b31d3b1647aa31657e",
-    "zh:485990c37e78b371bd2405a7ed5972993568fc1392ed4fecf004a170e5766f3f",
-    "zh:8715cd101d4115f92df7d0dbf50a38a8cebd6d7e92af7f92a3ef5cde7b9ffd9b",
-    "zh:8df1668e069726c8430eef28cedff8d78c23450aaf69bc6900a9bbdea263a1f9",
+    "h1:3g8BuYrg71yDHah7jzOG4/gUYAHr2IL8B33NxEgGD/Y=",
+    "h1:pz4Am5IIaNkPA2qmjE9N9T8rk38FkZ5J1OW03PxC8uY=",
+    "zh:0b6762585c1f160a085b11b12df370aa7faeda98b21831a0140b923ea300c634",
+    "zh:1f4dd58ad8889364359aa90611cbba9c2bef6c350e5fd9d8234336f4d0dc6175",
+    "zh:c21ed9579120b0b6e69284148d4c64dfc2c7f3fa7dd542f70ee121d5d795d11a",
+    "zh:df2471f4a014129741b4f25487cef72c1a237e2831b0e65a94b6a298c2c2e57a",
+    "zh:e11f692f3ba716eb0ed8e72371e62069552c294f363316c6ce16ff9921b81aa6",
+    "zh:f45aa842ebf6fce1fb415a7ade87171fc3441418467b2d243a2782429efefeb3",
     "zh:f809ab383cca0a5f83072981c64208cbd7fa67e986a86ee02dd2c82333221e32",
   ]
 }
@@ -44,15 +44,15 @@ provider "registry.terraform.io/chainguard-dev/cosign" {
 }
 
 provider "registry.terraform.io/chainguard-dev/imagetest" {
-  version = "0.0.107"
+  version = "0.0.108"
   hashes = [
-    "h1:QpO9isq2tAo5KooeVjJu5g7ecwn3jwXmIiDfQ/zV4UU=",
-    "h1:TcWudXkZoGTifV07JxG2kDii5s+mwWmqKz6hS6ZqGno=",
-    "zh:0500f428116c257d9281e468d1072ecd5a70fa5d5868d2e3247aac544c557c71",
-    "zh:26fb31ca9776bdedebf2d80669dc2ed95c9ac650385494308148ab41527de0dc",
-    "zh:5ef0f26f84f29e3e966f68b25352b37d20a04fc2b0d73d769722c74814e2a098",
+    "h1:4Xtiq1SPsu4PtWrEKGo4sHBpa7jTychwHkx7rwPF+6s=",
+    "h1:Dq7YF9PVoCtLVF4TUK7VLMNkmU+uYdH4ZfN3z1aHWwE=",
+    "zh:46e49e804f53f306167d177543897d2b15ce730ad0411c4fd008235068bf98ba",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
-    "zh:aed47b758b9a574ee184f0b4d484ab07d7c2adf876982dc5f326f1745d6fa029",
+    "zh:b292cc6518fa9d1ec15f3a1bdd02754f5ec59806fb01db8c2a361a409848fe08",
+    "zh:caffa6c175e3b6c2aa2eb8687a8122c141fd5b3ba1d132fb09e87fbb999fd57f",
+    "zh:d892cb482ee282ad0eba84759a2a5c94b9d4a2e7c437a46a2d1d3b38f3549266",
   ]
 }
 
