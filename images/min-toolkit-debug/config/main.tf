@@ -39,9 +39,15 @@ variable "extra_packages" {
   description = "The additional packages to install."
 }
 
+variable "extra_repositories" {
+  description = "The additional repositores to install from (e.g. extras)."
+  default     = []
+}
+
 output "config" {
   value = jsonencode({
     "contents" = {
+      "repositories" : var.extra_repositories,
       "packages" = concat(var.extra_packages, local.shared_packages)
     }
     "entrypoint" = {

@@ -9,7 +9,8 @@ module "latest-config" {
     "oras",    # go toolchain
     "yq"       # go toolchain
   ]
-  source = "./config"
+  source             = "./config"
+  extra_repositories = ["https://apk.cgr.dev/extra-packages"]
 }
 
 module "latest" {
