@@ -190,7 +190,7 @@ fi
 echo
 echo "=== Upstream chart values ==="
 echo
-{ helm show values "${chart_path}" | tee /tmp/helm-upstream-values.yaml; } || true
+{ helm show values "${chart_path}" >/tmp/helm-upstream-values.yaml; } || true
 
 # Render the templated manifests somewhere
 { helm template "${helm_install_args[@]}" >/tmp/helm-pre-install-manifests.yaml; } || true

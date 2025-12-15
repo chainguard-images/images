@@ -42,6 +42,7 @@ variable "deployment" {
   description = "The deployment configuration with helm charts for the image repository. Each chart requires a 'repo' URL and optionally a 'source' URL for the chart source code."
   type = object({
     charts = list(object({
+      chart  = optional(string)
       source = optional(string)
       repo   = string
     }))

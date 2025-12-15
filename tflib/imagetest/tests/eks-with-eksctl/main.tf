@@ -56,6 +56,12 @@ variable "driver_config" {
   default     = {}
 }
 
+variable "timeout" {
+  description = "The maximum amount of time to wait for all tests to complete. This includes the time it takes to create and destroy the EKS cluster."
+  type        = string
+  default     = "30m"
+}
+
 locals {
   tests = [for test in var.tests : merge(test, {
     content = concat(test.content != null ? test.content : [],
@@ -85,5 +91,6 @@ resource "imagetest_tests" "ekswitheksctl" {
 
   images = var.images
 
-  tests = local.tests
+  tests   = local.tests
+  timeout = var.timeout
 }

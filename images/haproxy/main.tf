@@ -28,7 +28,7 @@ module "test-latest" {
   digest            = module.latest.image_ref
   target_repository = var.target_repository
   test_repository   = var.test_repository
-  image_version     = each.key
+  image_version     = "haproxy-latest"
 }
 
 module "tagger" {
