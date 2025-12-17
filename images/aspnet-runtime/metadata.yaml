@@ -14,11 +14,5 @@ aliases:
   - mcr.microsoft.com/dotnet/aspnet:latest
 public: true
 
-# resource requests for v2 image builds
-resources:
-  cpu: 12
-  memory: 8Gi
-  storage: 6Gi
-
 deployment:
   # no supported charts found

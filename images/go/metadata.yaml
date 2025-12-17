@@ -15,8 +15,3 @@ aliases:
   - golang:latest
   - golang:alpine
 
-# resource requests for v2 image builds
-resources:
-  cpu: 14
-  memory: 32Gi
-  storage: 10Gi

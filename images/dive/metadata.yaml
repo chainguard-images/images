@@ -12,11 +12,5 @@ tier: APPLICATION
 aliases:
   - wagoodman/dive:latest
 
-# resource requests for v2 image builds
-resources:
-  cpu: 14
-  memory: 6Gi
-  storage: 6Gi
-
 deployment:
   # no supported charts found

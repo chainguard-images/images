@@ -18,8 +18,3 @@ aliases:
 tier: BASE
 public: true
 
-# resource requests for v2 image builds
-resources:
-  cpu: 12
-  memory: 20Gi
-  storage: 10Gi
