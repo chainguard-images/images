@@ -81,6 +81,8 @@ spec:
                   fieldPath: metadata.name
             - name: RANCHER_VERSION
               value: "${RANCHER_VERSION:-unknown}"
+            - name: DEBUG_LOGS
+              value: "${DEBUG_LOGS:-false}"
           command:
             - cypress
             - run

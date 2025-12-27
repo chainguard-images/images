@@ -33,17 +33,20 @@ module "fips_break_test" {
 
   digest                 = var.digest
   name                   = "myapp-break-openssl"
-  entrypoint             = "/usr/local/bin/myapp --flag=value"
+  entrypoint             = "/usr/local/bin/myapp"
+  args                   = "--flag1 --flag2 value1"
   expected_panic_message = "opensslcrypto: FIPS mode requested"
   bash_sandbox_image     = module.bash_sandbox.image_ref
 }
-```
+``` 
 
 ## Variables
 
 - `digest` (required): The image digest to test
 - `name` (required): The name of the test harness
-- `entrypoint` (optional): Command to run after breaking FIPS. If empty, uses image default. Default: ""
+- `entrypoint` (optional): Command to run instead of the default entrypoint
+- `entrypoint_args` (optional): Args to pass to the entrypoint
+- `env_vars` (optional): Environment variables to pass to the image
 - `expected_panic_message` (optional): Expected error message. Default: "FIPS"
 - `container_name` (optional): Container name. Default: "fips-break-test"
 - `bash_sandbox_image` (optional): Custom bash sandbox image. Default: "cgr.dev/chainguard/bash:latest-dev"

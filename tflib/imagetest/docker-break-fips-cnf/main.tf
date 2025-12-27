@@ -18,6 +18,7 @@ resource "imagetest_tests" "fips_break" {
 
   images = {
     test_image = var.digest
+    # dev_image  = var.dev_digest
   }
 
   tests = [
@@ -35,6 +36,8 @@ resource "imagetest_tests" "fips_break" {
         }
       ]
       envs = {
+        ENTRYPOINT_ARGS        = var.entrypoint_args
+        ENV_VARS               = var.env_vars
         CONTAINER_NAME         = var.container_name
         ENTRYPOINT             = var.entrypoint
         EXPECTED_PANIC_MESSAGE = var.expected_panic_message

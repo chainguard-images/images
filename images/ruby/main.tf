@@ -9,7 +9,7 @@ variable "target_repository" {
 }
 
 locals {
-  version = "3.4"
+  version = "4.0"
 }
 
 module "latest-config" {
