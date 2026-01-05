@@ -4,7 +4,7 @@ locals {
 
 module "accts" {
   name   = "mysql"
-  source = "../../../tflib/accts"
+  source = "../../../../tflib/accts"
 }
 
 terraform {

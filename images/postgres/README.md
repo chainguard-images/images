@@ -33,30 +33,30 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--body:start-->
 ## Compatibility Notes
 
-The Chainguard PostgreSQL Image is comparable to its upstream counterpart, [the official PostgreSQL Image from Docker Hub](https://hub.docker.com/_/postgres). However, the Chainguard image contains only the minimum set of tools and dependencies needed to function; for example, it does not include a package manager. Unlike many other Chainguard images, though, the PostgreSQL image does include a shell, allowing you to manage databases interactively.
+The Chainguard `postgres` container image is comparable [the official PostgreSQL Image from Docker Hub](https://hub.docker.com/_/postgres). However, the Chainguard image contains only the minimum set of tools and dependencies needed to function; for example, it does not include a package manager. Unlike many other Chainguard images, though, the `postgres` image does include a shell, allowing you to manage databases interactively.
 
-### Migrating to the Chainguard PostgreSQL image
+### Migrating to the Chainguard postgresql container image
 
-When migrating an existing postgresql database to use the Chainguard PostgreSQL Container it is likely that the collation version in the Chainguard container image will be different from the collation version in the original image that created the database.  This may be due to different glibc versions, use of a different implementation of the C standard library (musl in Alpine for example), or the use of different locale configuration.
+When migrating an existing PostgreSQL database to use the Chainguard `postgres` image it is likely that the collation version in the Chainguard container image will be different from the collation version in the original image that created the database.  This may be due to different glibc versions, use of a different implementation of the C standard library (musl in Alpine for example), or the use of different locale configuration.
 
 Chainguard recommends that you [re-index and refresh the collation version](https://wiki.postgresql.org/wiki/Locale_data_changes) when migrating to this image before the database is put back into production.
 
 ## Getting Started
 
-This section provides a high-level overview of how you can use Chainguard's PostgreSQL image. For a more in-depth walkthrough of how you can use the image in practice, please refer to our guide on [getting started with the PostgreSQL Chainguard Image](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/getting-started-postgres/). This getting started guide outlines how to set up and run a PHP application that stores its data in a PostgreSQL database running within a containerized environment.
+This section provides a high-level overview of how you can use Chainguard's `postgres` image. For a more in-depth walkthrough of how you can use the image in practice, please refer to our guide on [getting started with the PostgreSQL Chainguard Image](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/getting-started-postgres/). This getting started guide outlines how to set up and run a PHP application that stores its data in a PostgreSQL database running within a containerized environment.
 
-You can test the PostgreSQL Image by running the following command:
+You can test the `postgres` image by running the following command:
 
 ```sh
-docker run --rm -e POSTGRES_PASSWORD=password -ti --name postgres-test cgr.dev/chainguard/postgres:latest
+docker run --rm -e POSTGRES_PASSWORD=password -ti --name postgres-test cgr.dev/ORGANIZATION/postgres:latest
 ```
 
-Note that the only mandatory environment variable needed by the PostgreSQL Image is `POSTGRES_PASSWORD`. 
+Note that the only mandatory environment variable needed by the `postgres` image is `POSTGRES_PASSWORD`. 
 
-This command will run the Image, but no data within the PostgreSQL database will persist after the Image stops running. To persist PostgreSQL data you can mount a volume mapped to the container's data folder:
+This command will run the container image, but no data within the PostgreSQL database will persist after the Image stops running. To persist PostgreSQL data you can mount a volume mapped to the container's data folder:
 
 ```sh
-docker run --rm -d -v $PWD/data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=password -ti --name postgres-test cgr.dev/chainguard/postgres:latest
+docker run --rm -d -v $PWD/data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=password -ti --name postgres-test cgr.dev/ORGANIZATION/postgres:latest
 ```
 
 This command includes the `-d` flag, which causes the container to run in the background and keeps it from taking over your terminal like the previous example.
@@ -139,20 +139,20 @@ You can extend Chainguard's Postgres image with environment variables. Chainguar
 Note that if you set the `POSTGRES_HOST_AUTH_METHOD` variable to `trust`, then the `POSTGRES_PASSWORD` variable is no longer required:
 
 ```sh
-docker run --rm -e POSTGRES_HOST_AUTH_METHOD=trust -e POSTGRES_DB=linky -ti --name postgres-test cgr.dev/chainguard/postgres:latest
+docker run --rm -e POSTGRES_HOST_AUTH_METHOD=trust -e POSTGRES_DB=linky -ti --name postgres-test cgr.dev/ORGANIZATION/postgres:latest
 ```
 
 Additionally, be aware that the Docker specific variables will only have an effect if you start the container with an empty data directory; pre-existing databases won't be affected on container startup.
 
 ### Running PostgreSQL with a custom configuration file
 
-You can also run the Chainguard Postgres image with a custom configuration file. The following example will mount a PostgreSQL configuration file named `my-postgres.conf` to the container. 
+You can also run the Chainguard `postgres` image with a custom configuration file. The following example will mount a PostgreSQL configuration file named `my-postgres.conf` to the container. 
 
 ```sh
-docker run --rm -v "$PWD/my-postgres.conf":/etc/postgresql/postgresql.conf -e POSTGRES_PASSWORD=password -ti --name postgres-test cgr.dev/chainguard/postgres:latest -c 'config_file=/etc/postgresql/postgresql.conf'
+docker run --rm -v "$PWD/my-postgres.conf":/etc/postgresql/postgresql.conf -e POSTGRES_PASSWORD=password -ti --name postgres-test cgr.dev/ORGANIZATION/postgres:latest -c 'config_file=/etc/postgresql/postgresql.conf'
 ```
 
-This command also uses the `postgres` server's `-c` flag to set the `config_file` runtime parameter.
+This command also uses the PostgreSQL server's `-c` flag to set the `config_file` runtime parameter.
 
 ### Initial SQL script
 
@@ -161,7 +161,7 @@ The path for initial load sql script should be same as per application docs `/do
 
 ## Documentation and Resources
 
-* [Getting Started with the PostgreSQL Chainguard Image](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/postgres/)
+* [Getting Started with the PostgreSQL Chainguard Container](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/postgres/)
 * [Vulnerability Comparison: postgres](https://edu.chainguard.dev/chainguard/chainguard-images/vuln-comparison/postgres/)
 * [Blog: How to Use the Postgres Docker Official Image](https://www.docker.com/blog/how-to-use-the-postgres-docker-official-image/)
 <!--body:end-->

@@ -58,7 +58,7 @@ apk_add() {
     esac
   done
 
-  retry_until $max_retries $delay apk add "${packages[@]}"
+  retry_until "$max_retries" "$delay" apk add "${packages[@]}"
 }
 
 get_test_image() {
@@ -113,4 +113,21 @@ line_info() {
   else
     echo "---- $message ----"
   fi
+}
+
+# Function to verify package presence in image attestation
+# Usage: verify_package_present <package_name> [image_ref]
+#
+# Arguments:
+#   package_name - Package name to check for
+#   image_ref    - Image reference (defaults to $IMAGE_REF if not provided)
+#
+# Examples:
+#   verify_package_present "monit"
+#   verify_package_present "nginx" "cgr.dev/chainguard/nginx:latest"
+verify_package_present() {
+  local package="${1:?Package name required}"
+  local image="${2:-${IMAGE_REF:?IMAGE_REF not set and no image provided}}"
+  apk_add cosign jq
+  cosign download attestation "$image" | jq -r .payload | base64 -d | jq .predicate.contents.packages | grep "$package"
 }
