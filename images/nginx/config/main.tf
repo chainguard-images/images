@@ -40,7 +40,7 @@ variable "gid" {
 }
 
 module "accts" {
-  source = "../../../../tflib/accts"
+  source = "../../../tflib/accts"
   name   = "nginx"
   uid    = var.uid
   gid    = var.gid
