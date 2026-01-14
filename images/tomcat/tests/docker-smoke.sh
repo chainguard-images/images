@@ -9,7 +9,7 @@ IMAGE="$(get_test_image "tomcat")"
 
 TMPDIR="$(mktemp -d)"
 
-apk_add curl wait-for-it
+apk_add wait-for-it
 
 curl -sSL -o "$TMPDIR/sample.war" "${WAR_URL}"
 

@@ -5,7 +5,7 @@ set -xeuo pipefail
 # shellcheck disable=SC1091
 source ../libs/libs.sh
 
-apk_add curl wait-for-it
+apk_add wait-for-it
 
 IMAGE="$(get_test_image "tomcat")"
 NAMESPACE="tomcat"
