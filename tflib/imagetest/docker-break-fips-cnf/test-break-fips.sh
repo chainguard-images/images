@@ -28,7 +28,7 @@ test_break_fips_config() {
   docker_cmd=(docker run --rm -v "$(pwd)/fipsmodule.cnf:/etc/ssl/fipsmodule.cnf")
 
   if [ -n "${ENV_VARS:-}" ]; then
-    docker_cmd+=("${ENV_VARS}")
+    docker_cmd+=(${ENV_VARS})
   fi
 
   if [ -n "${ENTRYPOINT:-}" ]; then
