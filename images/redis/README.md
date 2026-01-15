@@ -39,6 +39,8 @@ The Chainguard Redis image is comparable to [the official Redis image on Docker 
 - **Upstream Redis (redis:8.x)**: Uses `docker-entrypoint.sh` script as entrypoint with `redis-server` as the default command. This wrapper script provides additional functionality such as automatic configuration file handling and initialization.
 - **Chainguard Redis**: Uses `/usr/bin/redis-server` directly as the entrypoint, without a wrapper script. This provides a more minimal and secure approach but requires explicit configuration file specification when needed.
 
+Chainguard also provides a `-slim` variant of the Redis image, without a shell, for more secure production use cases.
+
 ### Redis Module Loading
 
 Due to the entrypoint differences, module loading behavior differs significantly:

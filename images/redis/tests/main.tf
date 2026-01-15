@@ -8,23 +8,48 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+# this test is skipped for v6.x defined in the request-2234 image
 variable "test_activedefrag" {
   default = true
 }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --version"
+variable "target_repository" {
+  description = "The docker repo into which the image and attestations should be published."
 }
 
-data "oci_exec_test" "server" {
-  digest = var.digest
-  script = "${path.module}/02-server.sh"
+module "bash_sandbox" {
+  source            = "../../../tflib/imagetest/sandboxes/bash/"
+  target_repository = var.target_repository
 }
 
-data "oci_exec_test" "activedefrag" {
-  count = var.test_activedefrag ? 1 : 0
+module "basic-dind-test" {
+  source = "../../../tflib/imagetest/tests/docker-in-docker"
 
-  digest = var.digest
-  script = "${path.module}/03-server-activedefrag.sh"
+  images = { redis = var.digest }
+  cwd    = path.module
+
+  tests = [
+    {
+      name  = "basic functionality"
+      image = module.bash_sandbox.image_ref
+      cmd   = "./01-docker-test.sh"
+    }
+  ]
+}
+
+
+module "server-activedefrag-dind-test" {
+  count  = var.test_activedefrag ? 1 : 0
+  source = "../../../tflib/imagetest/tests/docker-in-docker"
+
+  images = { redis = var.digest }
+  cwd    = path.module
+
+  tests = [
+    {
+      name  = "basic functionality"
+      image = module.bash_sandbox.image_ref
+      cmd   = "./02-server-activedefrag.sh"
+    }
+  ]
 }
