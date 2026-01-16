@@ -17,10 +17,8 @@ if ! cosign download attestation \
   exit 0
 fi
 
-# TODO(mattmoor): switch this to cgr.dev/chainguard/crane registry serve
-# once we cut a release to make this listen on more than loopback.
 container_name="registry-$(hexdump -vn16 -e'4/4 "%08x" 1 "\n"' /dev/urandom).local"
-docker run -d --name "${container_name}" registry:2
+docker run -d --name "${container_name}" cgr.dev/chainguard/crane registry serve --address 0.0.0.0:5000
 
 trap "docker rm -f ${container_name}" EXIT
 
