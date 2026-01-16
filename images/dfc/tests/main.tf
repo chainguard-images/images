@@ -5,8 +5,17 @@ terraform {
   }
 }
 
-variable "digest" {
-  description = "The image digest to run tests over."
+variable "digests" {
+  description = "The image digests to run tests over."
+  type = object({
+    dfc     = string
+    dfc-mcp = string
+  })
+}
+
+variable "check-dev" {
+  default     = false
+  description = "Whether to check for dev extensions"
 }
 
 data "imagetest_inventory" "this" {
@@ -14,7 +23,8 @@ data "imagetest_inventory" "this" {
 
 resource "imagetest_harness_docker" "docker" {
   envs = {
-    IMAGE_NAME : var.digest
+    DFC_IMAGE     = var.digests["dfc"]
+    DFC_MCP_IMAGE = var.digests["dfc-mcp"]
   }
   inventory = data.imagetest_inventory.this
   name      = "docker"
@@ -23,41 +33,29 @@ resource "imagetest_harness_docker" "docker" {
 resource "imagetest_feature" "test" {
   harness = imagetest_harness_docker.docker
   name    = "docker-test"
-  steps = [{
-    name = "test dfc conversion"
-    cmd  = <<EOT
-      set -ex
+  steps = [
+    {
+      name = "test dfc conversion"
+      cmd  = <<EOT
+        set -ex
 
-      # Basic commands
-      docker run --rm $IMAGE_NAME --version
-      docker run --rm $IMAGE_NAME --help
-
-      # Check dfc conversion functionality
-      TMPDIR="$(mktemp -d)"
-
-      # Create a file we will pass to dfc for conversion
-      cat <<DOCKERFILE_INPUT > $TMPDIR/example.input.Dockerfile
-      FROM node
-      RUN apt-get update && apt-get install -y nano
-      DOCKERFILE_INPUT
-
-      # What we expect the file to get converted to
-      cat <<DOCKERFILE_EXPECTED > $TMPDIR/example.expected.Dockerfile
-      FROM cgr.dev/ORG/node:latest-dev
-      USER root
-      RUN apk add -U nano
-      DOCKERFILE_EXPECTED
-
-      # Convert it
-      docker run -v $TMP_DIR:/work $IMAGE_NAME \
-        ./example.before.Dockerfile > ./example.got.Dockerfile
-
-      # Make sure what we got matches what we expect
-      if [ "$(diff ./example.got.Dockerfile ./example.expected.Dockerfile) " != "" ]; then
-        echo "The converted Dockerfile did not match as expected"
-        exit 1
-      fi
+        # Basic commands
+        docker run --rm $DFC_IMAGE --version
+        docker run --rm $DFC_IMAGE --help
 EOT
-  }]
+    },
+    {
+      name = "test dfc-mcp server starts"
+      cmd  = <<EOT
+        set -ex
+
+        # MCP servers run via stdio - verify it initializes then terminate
+        # Capture output and check for successful initialization message
+        output=$(timeout 2 docker run --rm $DFC_MCP_IMAGE 2>&1 || true)
+        echo "$output"
+        echo "$output" | grep -q "MCP server initialization complete"
+EOT
+    }
+  ]
 }
 

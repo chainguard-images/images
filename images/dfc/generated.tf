@@ -10,7 +10,7 @@ variable "scratch_repository" {
 
 output "summary" {
   value = {
-    "tags" = merge(module.tagger.imagetags)
+    "tags" = merge(merge([for v in module.tagger : v.imagetags]...))
   }
 }
 

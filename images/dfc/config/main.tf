@@ -1,7 +1,17 @@
 variable "extra_packages" {
-  default     = ["dfc"]
   description = "The additional packages to install"
   type        = list(string)
+}
+
+variable "entrypoint" {
+  description = "The entrypoint command for the image"
+  type        = string
+}
+
+variable "cmd" {
+  description = "The default command arguments"
+  type        = string
+  default     = ""
 }
 
 module "accts" {
@@ -14,7 +24,7 @@ module "accts" {
 output "config" {
   value = jsonencode({
     contents = {
-      packages = concat([], var.extra_packages)
+      packages = var.extra_packages
     }
     paths = [{
       path : "/work",
@@ -23,10 +33,10 @@ output "config" {
     }]
     accounts = module.accts.block
     entrypoint = {
-      command = "/usr/bin/dfc"
+      command = var.entrypoint
     }
     work-dir = "/work"
-    cmd      = "--help"
+    cmd      = var.cmd
   })
 }
 
