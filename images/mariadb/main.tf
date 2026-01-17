@@ -21,8 +21,10 @@ module "latest" {
 }
 
 module "test-latest" {
-  source = "./tests"
-  digest = module.latest.image_ref
+  source            = "./tests"
+  digest            = module.latest.image_ref
+  target_repository = var.target_repository
+  test_repository   = var.test_repository
 }
 
 module "tagger" {

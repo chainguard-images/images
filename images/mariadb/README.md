@@ -31,6 +31,14 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
+## Compatibility Notes
+
+The [MariaDB DockrHub image](https://hub.docker.com/_/mariadb) includes
+`/etc/mysql/my.cnf` with an `!includedir /etc/mysql/conf.d/` directive, allowing
+configuration to be added by dropping files into `/etc/mysql/conf.d/`. The
+Chainguard image uses MariaDB's default configuration paths (`/etc/my.cnf`,
+`/etc/mysql/my.cnf`, `~/.my.cnf`) without the additional `conf.d` include.
+
 ## Using MariaDb
 
 The default MariaDB port is 3306.
@@ -111,6 +119,40 @@ networks:
   wolfi:
     driver: bridge
 ```
+
+## Deploying with mariadb-operator
+
+Use a `values.yaml` to override images:
+
+```yaml
+image:
+  repository: cgr.dev/ORGANIZATION/mariadb-operator
+  tag: latest
+config:
+  mariadbImage: cgr.dev/ORGANIZATION/mariadb:latest
+```
+
+When deploying with TLS enabled, pass SSL paths via `args` to work around the
+missing `conf.d` include (see [Compatibility Notes](#compatibility-notes)):
+
+```yaml
+spec:
+  tls:
+    enabled: true
+  args:
+    - "--ssl-cert=/etc/pki/server.crt"
+    - "--ssl-key=/etc/pki/server.key"
+    - "--ssl-ca=/etc/pki/ca.crt"
+```
+
+Install with Helm:
+
+```bash
+helm repo add mariadb-operator https://helm.mariadb.com/mariadb-operator
+helm install mariadb-operator-crds mariadb-operator/mariadb-operator-crds -n mariadb-system --create-namespace
+helm install mariadb-operator mariadb-operator/mariadb-operator -n mariadb-system -f values.yaml
+```
+
 <!--body:end-->
 
 ## What are Chainguard Containers?
