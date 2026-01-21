@@ -220,12 +220,12 @@ You should be able to view the contents of the `index.html` file in the `html` f
 
 ## Run in a read-only File System
 
-If you want to serve files using a read-only filesystem, you will need to mount the `/var/run` and `/var/lib/nginx/tmp` directories. You can do this with the `--tmpfs` option:
+If you want to serve files using a read-only filesystem, you will need to mount the `/run` and `/var/lib/nginx/tmp` directories. You can do this with the `--tmpfs` option:
 
 ```shell
 docker run \
  --read-only \
- --tmpfs /var/lib/nginx/tmp/ --tmpfs /var/run/ \
+ --tmpfs /var/lib/nginx/tmp/ --tmpfs /run/ \
  --cap-drop=ALL \
  -p 8080:8080 \
  cgr.dev/chainguard/nginx
@@ -257,7 +257,7 @@ spec:
       	readOnlyRootFilesystem: true
     	volumeMounts:
     	- name: run
-      	mountPath: /var/run/
+      	mountPath: /run/
     	- name: tmp
       	mountPath: /var/lib/nginx/tmp/
   	volumes:
