@@ -35,6 +35,10 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 
 The Chainguard `postgres` container image is comparable [the official PostgreSQL Image from Docker Hub](https://hub.docker.com/_/postgres). However, the Chainguard image contains only the minimum set of tools and dependencies needed to function; for example, it does not include a package manager. Unlike many other Chainguard images, though, the `postgres` image does include a shell, allowing you to manage databases interactively.
 
+Chainguard's `postgres` container image also provides a `-slim` variant that is even more minimal than the standard variant and contains only the critical files necessary to run PostgreSQL. As such, it doesn't include a shell, package manager, debuggers, or utility tools.
+
+The `-slim` variant is best suited for advanced users who want maximum security and the smallest possible footprint. They're ideal for locked-down production environments or cases with strict compliance requirements, but users give up conveniences like shell access or running shell-based entrypoint scripts.
+
 ### Migrating to the Chainguard postgresql container image
 
 When migrating an existing PostgreSQL database to use the Chainguard `postgres` image it is likely that the collation version in the Chainguard container image will be different from the collation version in the original image that created the database.  This may be due to different glibc versions, use of a different implementation of the C standard library (musl in Alpine for example), or the use of different locale configuration.
@@ -158,6 +162,46 @@ This command also uses the PostgreSQL server's `-c` flag to set the `config_file
 
 The path for initial load sql script should be same as per application docs `/docker-entrypoint-initdb.d/init.sql` except for PostgreSQL 14 which needs to be mounted at `/var/lib/postgres/initdb/init.sql`.
 
+## Using the Slim Variant
+
+The `-slim` variant is designed for production environments where security and minimal footprint are priorities. You'll need to use a two-step approach to set up and run PostgreSQL.
+
+### Initializing the Database with the Slim Dev Variant
+
+Use the `-slim-dev` variant to initialize the database, then use the `-slim` variant to run the PostgreSQL server.
+
+**Step 1: Initialize the database**
+
+Create a Docker volume for persistent data:
+
+```sh
+docker volume create postgres-data
+```
+
+Initialize the database using the `-slim-dev` image:
+
+```sh
+docker run --rm \
+  -v postgres-data:/var/lib/postgresql/data \
+  --user 65532:65532 \
+  --entrypoint initdb \
+  cgr.dev/ORGANIZATION/postgres:18-slim-dev \
+  -D /var/lib/postgresql/data --locale=C --encoding=UTF8
+```
+
+**Step 2: Start the PostgreSQL server**
+
+Run the PostgreSQL server using the `-slim` image:
+
+```sh
+docker run -d \
+  --name postgres-slim \
+  -v postgres-data:/var/lib/postgresql/data \
+  --user 65532:65532 \
+  --entrypoint postgres \
+  cgr.dev/ORGANIZATION/postgres:18-slim \
+  -D /var/lib/postgresql/data
+```
 
 ## Documentation and Resources
 

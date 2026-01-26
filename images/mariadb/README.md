@@ -153,6 +153,14 @@ helm install mariadb-operator-crds mariadb-operator/mariadb-operator-crds -n mar
 helm install mariadb-operator mariadb-operator/mariadb-operator -n mariadb-system -f values.yaml
 ```
 
+## Resources and Documentation
+
+* [MariaDB Documentation](https://mariadb.com/kb/en/)
+* [MariaDB Security](https://mariadb.com/kb/en/securing-mariadb/)
+* [TLS/SSL Configuration](https://mariadb.com/kb/en/securing-connections-for-client-and-server/)
+* [MariaDB Server GitHub](https://github.com/MariaDB/server)
+* [MariaDB Foundation](https://mariadb.org/)
+
 <!--body:end-->
 
 ## What are Chainguard Containers?
