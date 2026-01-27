@@ -7,8 +7,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "jsonwebtoken": "^9.0.2",
-    "ronin-mocks": "^0.1.11",
-    "ronin-server": "^0.1.3"
+    "express": "^5.2.1"
   }
 }

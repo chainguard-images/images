@@ -83,6 +83,8 @@ spec:
               value: "${RANCHER_VERSION:-unknown}"
             - name: DEBUG_LOGS
               value: "${DEBUG_LOGS:-false}"
+            - name: APP_VERSION
+              value: "${APP_VERSION:-}"
           command:
             - cypress
             - run

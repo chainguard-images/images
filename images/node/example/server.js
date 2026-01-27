@@ -1,7 +1,9 @@
-const ronin = require('ronin-server')
-const mocks = require('ronin-mocks')
+const express = require('express')
 
-const server = ronin.server()
+const app = express()
 
-server.use('/', mocks.server(server.Router(), false, true))
-server.start()
+app.get('/test', (req, res) => {
+  res.send('payload')
+})
+
+app.listen(8000)
