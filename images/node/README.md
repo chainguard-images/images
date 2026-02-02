@@ -78,7 +78,7 @@ cat << 'EOF' > package.json
 EOF
 ```
 
-The above defines a package, `linky_hello`, that depends on `text-reverse`, and which whill run the code in `bin/index.js` on `npm run start`.
+The above defines a package, `linky_hello`, that depends on `text-reverse`, and which will run the code in `bin/index.js` on `npm run start`.
 
 Let's create our application code now:
 
@@ -235,7 +235,7 @@ app.post('/animals', function(req, res) {
     res.status(200).send("Successfully posted animal\n");
 });
 
-console.log("🐙🐧🐋 Server running. Retreive animals from http://localhost:6069/animals")
+console.log("🐙🐧🐋 Server running. Retrieve animals from http://localhost:6069/animals")
 app.listen(6069);
 EOF
 ```
@@ -272,7 +272,7 @@ Finally, run the server container:
 You should see the following message:
 
 ```
-🐙🐧🐋 Server running. Retreive animals from http://localhost:6069/animals
+🐙🐧🐋 Server running. Retrieve animals from http://localhost:6069/animals
 ```
 
 Visit [http://localhost:6069/animals](http://localhost:6069/animals) to view the served JSON data.
