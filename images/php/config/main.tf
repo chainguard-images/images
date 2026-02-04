@@ -42,3 +42,37 @@ output "config" {
   })
 }
 
+// Note: this all copied from config/fpm/main.tf but consolidated
+// here to work properly with curcomp during CUE migration
+
+variable "fpm-extra_packages" {
+  default     = ["php", "php-fpm"]
+  description = "The additional packages to install (e.g. php-fpm)."
+}
+
+output "fpm-config" {
+  value = jsonencode({
+    "contents" : {
+      // TODO: remove the need for using hardcoded local.baseline_packages by plumbing
+      // these packages through var.extra_packages in all callers of this config module
+      "packages" : distinct(concat(local.baseline_packages, var.fpm-extra_packages))
+    },
+    "entrypoint" : {
+      "type" : "service-bundle",
+      "services" : {
+        "php-fpm" : "/usr/sbin/php-fpm"
+      }
+    },
+    "work-dir" : "/app",
+    "accounts" : module.accts.block,
+    "paths" : [
+      {
+        "path" : "/app",
+        "type" : "directory",
+        "uid" : 65532,
+        "gid" : 65532,
+        "permissions" : 511
+      }
+    ]
+  })
+}

@@ -28,6 +28,21 @@ module "config" {
     "${each.key}-phar",
     "${each.key}"
   ]
+
+  fpm-extra_packages = [
+    "${each.key}-curl",
+    "${each.key}-openssl",
+    "${each.key}-iconv",
+    "${each.key}-mbstring",
+    "${each.key}-mysqlnd",
+    "${each.key}-pdo",
+    "${each.key}-pdo_sqlite",
+    "${each.key}-pdo_mysql",
+    "${each.key}-sodium",
+    "${each.key}-phar",
+    "${each.key}",
+    "${each.key}-fpm",
+  ]
 }
 
 module "versioned" {
