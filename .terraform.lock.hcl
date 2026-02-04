@@ -6,6 +6,7 @@ provider "registry.terraform.io/chainguard-dev/apko" {
   constraints = ">= 0.29.10"
   hashes = [
     "h1:X0fuVtoOcxoAjB3D6ssIHmMMTfkJ8ZrDnC57acFgue8=",
+    "h1:hx+oo4clrcsowgs3ibKrnzV+iET+m76dDGH/MimTC5g=",
     "zh:40acf8f6eed9049d800dfa8e0a9aaa9add7467fb84a7ff5b5990fb865438932f",
     "zh:807f891edb1f4a9e6a76858d7a4e8a202569421e9b1c8faac00344d66dfe398b",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
