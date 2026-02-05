@@ -104,7 +104,7 @@ jobs:
 
       # Make cosign/crane CLI available to the tests
       - uses: sigstore/cosign-installer@faadad0cce49287aee09b3a48701e75088a2c6ad # v4.0.0
-      - uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
+      - uses: imjasonh/setup-crane@6da1ae018866400525525ce74ff892880c099987 # v0.5
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
@@ -177,7 +177,7 @@ jobs:
       - name: Collect TF diagnostics
         if: ${{ always() }}
         id: tf-diag
-        uses: chainguard-dev/actions/terraform-diag@fac81f8edade777ac0bedfa9f4a42591accab9c8 # v1.5.14
+        uses: chainguard-dev/actions/terraform-diag@6f74cdeee55d70b03fa220746d6739dbbb3e9421 # v1.5.15
         with:
           json-file: /tmp/mega-module.tf.json
 
