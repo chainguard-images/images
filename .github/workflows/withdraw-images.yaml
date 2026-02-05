@@ -26,7 +26,7 @@ jobs:
       - uses: chainguard-dev/setup-chainctl@c125f765e82b09a42af3185f3214465314d75c5d # v0.5.0
         with:
           identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
-      - uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
+      - uses: imjasonh/setup-crane@6da1ae018866400525525ce74ff892880c099987 # v0.5
       - run: |
           for img in $(grep -v '\#' withdrawn-images.txt); do
             if [[ "${{ github.event.inputs.dry_run }}" == "false" ]]; then
