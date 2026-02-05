@@ -8,6 +8,10 @@ variable "digest" {
   description = "The image digest to run tests over."
 }
 
+variable "target_repository" {
+  description = "The docker repo into which the image and attestations should be published."
+}
+
 variable "uid" {
   description = "The UID for running PostgreSQL"
   type        = string
@@ -18,66 +22,38 @@ variable "gid" {
   type        = string
 }
 
-data "imagetest_inventory" "this" {}
+variable "image_version" {}
 
-resource "imagetest_container_volume" "data" {
-  name      = "postgresql"
-  inventory = data.imagetest_inventory.this
+module "bash_sandbox" {
+  source            = "../../../tflib/imagetest/sandboxes/bash/"
+  target_repository = var.target_repository
 }
 
-resource "imagetest_container_volume" "certs" {
-  name      = "postgresql_certs"
-  inventory = data.imagetest_inventory.this
-}
+module "dind_test" {
+  source = "../../../tflib/imagetest/tests/docker-in-docker"
+  name   = var.image_version
 
-resource "imagetest_harness_docker" "this" {
-  name      = "postgresql-test"
-  inventory = data.imagetest_inventory.this
+  images = { postgres = var.digest }
+  cwd    = path.module
 
-  privileged = false
-
-  envs = {
-    IMAGE_NAME        = var.digest
-    VOLUME_ID         = imagetest_container_volume.data.id
-    CERTS_VOLUME_ID   = imagetest_container_volume.certs.id
-    POSTGRES_PASSWORD = "password"
-    # Pass UID and GID dynamically
-    POSTGRES_UID = var.uid
-    POSTGRES_GID = var.gid
-  }
-  mounts = [
+  tests = [
     {
-      source      = path.module
-      destination = "/tests"
+      name  = "database setup"
+      image = module.bash_sandbox.image_ref
+      cmd   = "./query.sh"
+      envs = {
+        POSTGRES_UID = var.uid
+        POSTGRES_GID = var.gid
+      }
+    },
+    {
+      name  = "tls enabled postgres"
+      image = module.bash_sandbox.image_ref
+      cmd   = "./tls.sh"
+      envs = {
+        POSTGRES_UID = var.uid
+        POSTGRES_GID = var.gid
+      }
     }
   ]
-  volumes = [
-    {
-      source      = imagetest_container_volume.data
-      destination = "/data"
-    },
-    {
-      source      = imagetest_container_volume.certs
-      destination = "/certs"
-    },
-  ]
-}
-
-resource "imagetest_feature" "postgres" {
-  name        = "psql"
-  description = "Test Postgresql functionalities"
-  harness     = imagetest_harness_docker.this
-
-  steps = [
-    {
-      name = "Database setup"
-      cmd  = "/tests/query.sh"
-    },
-    {
-      name = "TLS enabled Postgres"
-      cmd  = "/tests/tls.sh"
-    }
-  ]
-
-  labels = { type = "container" }
 }
