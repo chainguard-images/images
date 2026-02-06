@@ -42,7 +42,7 @@ image/%: init
 	$(TERRAFORM) apply $(TF_VARS) -target=module.$*
 
 init:
-	$(TERRAFORM) init -lockfile=readonly || $(TERRAFORM) init
+	$(TERRAFORM) init -lockfile=readonly
 
 init-upgrade:
 	$(TERRAFORM) init -upgrade
