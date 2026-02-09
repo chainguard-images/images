@@ -34,7 +34,7 @@ jobs:
       contents: read
 
     steps:
-      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9 # v2.14.1
+      - uses: step-security/harden-runner@5ef0c079ce82195b2a36a210272d6b661572d83e # v2.14.2
         with:
           egress-policy: audit
 
@@ -86,7 +86,7 @@ jobs:
       actions: read
 
     steps:
-      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9 # v2.14.1
+      - uses: step-security/harden-runner@5ef0c079ce82195b2a36a210272d6b661572d83e # v2.14.2
         with:
           egress-policy: audit
 
@@ -177,7 +177,7 @@ jobs:
       - name: Collect TF diagnostics
         if: ${{ always() }}
         id: tf-diag
-        uses: chainguard-dev/actions/terraform-diag@6f74cdeee55d70b03fa220746d6739dbbb3e9421 # v1.5.15
+        uses: chainguard-dev/actions/terraform-diag@eba358c567c5b091e34187d905258baebdd2a4ec # v1.5.16
         with:
           json-file: /tmp/mega-module.tf.json
 
@@ -226,7 +226,7 @@ jobs:
       contents: read
 
     steps:
-      - uses: step-security/harden-runner@e3f713f2d8f53843e71c69a996d56f51aa9adfb9 # v2.14.1
+      - uses: step-security/harden-runner@5ef0c079ce82195b2a36a210272d6b661572d83e # v2.14.2
         with:
           egress-policy: audit
 
