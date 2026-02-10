@@ -1,6 +1,10 @@
 cfg?=images/static/configs/wolfi.apko.yaml
 TERRAFORM ?= $(shell command -v terraform)
-TF_PLUGIN_CACHE_DIR ?= "$(HOME)/.terraform.d/plugin-cache"
+
+# Terraform plugin cache directory for faster provider downloads
+TF_PLUGIN_CACHE_DIR ?= $(HOME)/.terraform.d/plugin-cache
+$(shell mkdir -p $(TF_PLUGIN_CACHE_DIR))
+export TF_PLUGIN_CACHE_DIR
 
 TFGEN_SKIP ?= 
 
