@@ -133,6 +133,13 @@ module "helm" {
   test_repository    = var.test_repository
 }
 
+module "hollywood" {
+  scratch_repository = local.scratch_repository
+  source             = "./images/hollywood"
+  target_repository  = "${var.target_repository}/hollywood"
+  test_repository    = var.test_repository
+}
+
 module "hugo" {
   scratch_repository = local.scratch_repository
   source             = "./images/hugo"
@@ -431,6 +438,10 @@ output "summary_haproxy" {
 
 output "summary_helm" {
   value = module.helm.summary
+}
+
+output "summary_hollywood" {
+  value = module.hollywood.summary
 }
 
 output "summary_hugo" {

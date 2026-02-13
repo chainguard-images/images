@@ -1,0 +1,13 @@
+name: hollywood
+image: cgr.dev/chainguard/hollywood
+endoflife: ""
+console_summary: ""
+short_description: A fun, demo-only container image for [Hollywood](https://github.com/dustinkirkland/hollywood), which fills your terminal with busy technobabble -- as seen on Saturday Night Live, Netflix, CNBC, and more.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://github.com/dustinkirkland/hollywood
+keywords:
+  - application
+tier: APPLICATION
+aliases:
+  - hollywood:latest
