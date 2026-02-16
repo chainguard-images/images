@@ -71,11 +71,12 @@ module "k8s_helm_operator" {
   repo      = "https://helm.mariadb.com/mariadb-operator"
 
   values = {
-    image = {
-      repository = "${var.test_repository}/mariadb-operator"
-      tag        = "latest"
-      pullPolicy = "IfNotPresent"
-    }
+    # can't use this image here, because this image is not public
+    # image = {
+    #   repository = "${var.test_repository}/mariadb-operator"
+    #   tag        = "latest"
+    #   pullPolicy = "IfNotPresent"
+    # }
 
     webhook = {
       enabled = false
