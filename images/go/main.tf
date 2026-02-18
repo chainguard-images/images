@@ -3,7 +3,7 @@ variable "target_repository" {
 }
 
 module "versions" {
-  package = "go"
+  package = "go-1.26"
   source  = "../../tflib/versions"
 }
 
