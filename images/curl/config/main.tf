@@ -11,7 +11,6 @@ output "config" {
     contents = {
       packages = concat([
         "curl",
-        "libcurl-rustls4",
         "ncurses-terminfo",
       ], var.extra_packages)
     }

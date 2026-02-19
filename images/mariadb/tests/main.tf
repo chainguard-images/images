@@ -39,9 +39,14 @@ module "dind_test" {
 
   tests = [
     {
-      name  = "database and tls"
+      name  = "database test"
       image = module.bash_sandbox.image_ref
-      cmd   = "./run-tests.sh"
+      cmd   = "./docker-db-test.sh"
+    },
+    {
+      name  = "tls test"
+      image = module.bash_sandbox.image_ref
+      cmd   = "./docker-tls-test.sh"
     }
   ]
 }
