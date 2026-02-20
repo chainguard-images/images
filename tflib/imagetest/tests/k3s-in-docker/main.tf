@@ -35,7 +35,8 @@ variable "tests" {
       source = string
       target = optional(string)
     })))
-    envs = optional(map(string), null)
+    envs       = optional(map(string), null)
+    on_failure = optional(list(string), null)
   }))
 }
 
@@ -46,6 +47,18 @@ variable "driver_config" {
 }
 
 locals {
+  # System namespaces to exclude from on_failure diagnostics
+  excluded_ns = "kube-system|kube-node-lease|kube-public"
+
+  default_on_failure = [
+    "kubectl get pods -A -l '!dev.chainguard.imagetest' --field-selector metadata.namespace!=kube-system -o wide",
+    "kubectl get events -A --field-selector metadata.namespace!=kube-system --sort-by='.lastTimestamp'",
+    "kubectl get ns --no-headers -o custom-columns=:metadata.name | grep -vE '${local.excluded_ns}' | xargs -I{} kubectl logs -n {} -l '!dev.chainguard.imagetest' --all-containers --tail=50 --prefix",
+    "kubectl get ns --no-headers -o custom-columns=:metadata.name | grep -vE '${local.excluded_ns}' | xargs -I{} kubectl logs -n {} -l '!dev.chainguard.imagetest' --all-containers --tail=50 --prefix --previous",
+    "kubectl get svc,endpoints -A -l '!dev.chainguard.imagetest' --field-selector metadata.namespace!=kube-system",
+    "helm list -A",
+  ]
+
   tests = [for test in var.tests : merge(test, {
     content = concat(test.content != null ? test.content : [],
       var.cwd != "" ? [{ source = var.cwd }] : [],
@@ -56,6 +69,7 @@ locals {
         }
       ],
     )
+    on_failure = test.on_failure != null ? test.on_failure : local.default_on_failure
   })]
 }
 

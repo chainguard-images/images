@@ -12,3 +12,4 @@ tier: BASE
 
 deployment:
   # no supported charts found
+skip_validation: true

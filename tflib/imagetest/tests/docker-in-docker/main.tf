@@ -34,7 +34,8 @@ variable "tests" {
       source = string
       target = optional(string)
     })))
-    envs = optional(map(string), null)
+    envs       = optional(map(string), null)
+    on_failure = optional(list(string), null)
   }))
 }
 
@@ -45,6 +46,11 @@ variable "driver_config" {
 }
 
 locals {
+  default_on_failure = [
+    "docker ps -a",
+    "docker ps -a --filter status=exited --filter status=dead -q | xargs -r docker logs --tail 50",
+  ]
+
   tests = [for test in var.tests : merge(test, {
     content = concat(test.content != null ? test.content : [],
       var.cwd != "" ? [{ source = var.cwd }] : [],
@@ -55,6 +61,7 @@ locals {
         }
       ],
     )
+    on_failure = test.on_failure != null ? test.on_failure : local.default_on_failure
   })]
 }
 
