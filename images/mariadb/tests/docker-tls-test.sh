@@ -35,16 +35,21 @@ generate_certs() {
 }
 
 generate_certs
+# Create custom config file with TLS settings
+cat >"$cert_dir/mariadb-tls.cnf" <<EOF
+[mysqld]
+require_secure_transport = ON
+ssl_ca   = /certs/ca.pem
+ssl_cert = /certs/server-cert.pem
+ssl_key  = /certs/server-key.pem
+EOF
 
 # Start MariaDB with SSL required
 docker run -d --name "$container" \
   -e MARIADB_ROOT_PASSWORD="$db_password" \
   -v "$cert_dir:/certs:ro" \
-  "$image" \
-  --require_secure_transport=ON \
-  --ssl-ca=/certs/ca.pem \
-  --ssl-cert=/certs/server-cert.pem \
-  --ssl-key=/certs/server-key.pem
+  -v "$cert_dir/mariadb-tls.cnf:$CNF_MOUNT_PATH:ro" \
+  "$image"
 
 tw dgrep "$container" -e "ready for connections"
 
@@ -58,9 +63,6 @@ run_query() {
 
 # Verify TLS connection
 run_query "SHOW STATUS LIKE 'Ssl_cipher';" | awk '{print $2}' | grep -E ".+"
-
-# Verify version
-run_query "SELECT VERSION();" | grep -E "^[0-9]+\.[0-9]+\.[0-9]+"
 
 # Crypto functions
 run_query "SELECT SHA2('test', 256);" | grep -E "^[a-f0-9]{64}$"

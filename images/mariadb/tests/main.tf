@@ -47,6 +47,11 @@ module "dind_test" {
       name  = "tls test"
       image = module.bash_sandbox.image_ref
       cmd   = "./docker-tls-test.sh"
+      envs = {
+        # extracting this variable to reuse the test for iamguarded
+        # which has a different cnf path
+        "CNF_MOUNT_PATH" = "/etc/my.cnf"
+      }
     }
   ]
 }
