@@ -44,15 +44,15 @@ provider "registry.terraform.io/chainguard-dev/cosign" {
 }
 
 provider "registry.terraform.io/chainguard-dev/imagetest" {
-  version = "0.0.120"
+  version = "0.0.121"
   hashes = [
-    "h1:Gys6Y4OkaiN2Cjy/VIhKIXc8pA+Qiq3apS0luCL4dDA=",
-    "h1:PIIwbEMwyKzmEY8rs/zEnjBR5wFvFRzJkCcCOttdQwA=",
-    "zh:3be5de572587e0b0efa9ada1e3540cdf2e638f4c6d616c6edf8c615010573083",
-    "zh:5fc9810330083867616b8c377cc2581330192bb65bc5e31d9c91613d067ee893",
+    "h1:J3QompnL+EpXrhtqYxblaO2b75nU8RyZARLe4IrH+G8=",
+    "h1:YRCz0cBwcQo6C1b+oWW63Iw6q+gk3XZaXQnIRUoon0U=",
+    "zh:2cc12d17aecc8b47d4dd7e163158788d3974d80f3b00313c2b9ae2c23f9b1b1d",
+    "zh:521c11db95f06a4bdf224f6ff9368662851bbbe5d9339aa488c1686912d8cbb5",
+    "zh:81de67ec0f01be4620c96833d7e8e57fd5207a72a4451a7ee956f8c8b65cbc50",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
-    "zh:c6df09ed19d3bcdc905266de5a86d5e857c519b6bd3e75b1062d26e663f6721c",
-    "zh:ce3364f3129ce9805a9e32a38595213e43993678245207659aa969f5874bbe16",
+    "zh:ec57ff96b13491e3bf257bce3f4f34bcaab98eaa21f2df580df8de1122a2e463",
   ]
 }
 

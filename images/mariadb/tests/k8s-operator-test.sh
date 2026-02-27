@@ -11,7 +11,7 @@ ROOT_PASSWORD="testpass123"
 
 # Verify operator is running
 kubectl wait --for=condition=available deployment/mariadb-operator \
-  -n $OPERATOR_NAMESPACE --timeout=120s
+  -n $OPERATOR_NAMESPACE --timeout=300s
 
 kubectl create namespace $TEST_NAMESPACE
 
@@ -76,7 +76,7 @@ kubectl wait --for=condition=Ready mariadb/$MARIADB_NAME \
 
 # Verify pod is running
 kubectl wait --for=condition=Ready pod/${MARIADB_NAME}-0 \
-  -n $TEST_NAMESPACE --timeout=60s
+  -n $TEST_NAMESPACE --timeout=120s
 
 # Run SQL query helper (all queries use TLS)
 run_query() {

@@ -31,6 +31,7 @@ data "apko_config" "sandbox" {
         "kustomize",
         "patch",
         "socat",
+        "stern",
         "tw",
         "wget",
         "yq",

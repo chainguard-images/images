@@ -53,7 +53,7 @@ locals {
   default_on_failure = [
     "kubectl get pods -A -l '!dev.chainguard.imagetest' --field-selector metadata.namespace!=kube-system -o wide",
     "kubectl get events -A --field-selector metadata.namespace!=kube-system --sort-by='.lastTimestamp'",
-    "kubectl get ns --no-headers -o custom-columns=:metadata.name | grep -vE '${local.excluded_ns}' | xargs -I{} kubectl logs -n {} -l '!dev.chainguard.imagetest' --all-containers --tail=50 --prefix",
+    "kubectl get ns --no-headers -o custom-columns=:metadata.name | grep -vE '${local.excluded_ns}' | xargs -I{} stern -n {} -l '!dev.chainguard.imagetest' --no-follow --tail 50",
     "kubectl get ns --no-headers -o custom-columns=:metadata.name | grep -vE '${local.excluded_ns}' | xargs -I{} kubectl logs -n {} -l '!dev.chainguard.imagetest' --all-containers --tail=50 --prefix --previous",
     "kubectl get svc,endpoints -A -l '!dev.chainguard.imagetest' --field-selector metadata.namespace!=kube-system",
     "helm list -A",
