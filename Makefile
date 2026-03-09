@@ -50,7 +50,7 @@ init:
 
 init-upgrade:
 	$(TERRAFORM) init -upgrade
-	$(TERRAFORM) providers lock -platform=darwin_arm64 -platform=linux_amd64
+	$(TERRAFORM) providers lock -platform=darwin_arm64 -platform=linux_amd64 -platform=linux_arm64
 
 enable-active-tag-update:
 	cp ./tflib/tagger/active_tags_override.tf.disabled ./tflib/tagger/active_tags_override.tf
