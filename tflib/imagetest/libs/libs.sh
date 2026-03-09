@@ -131,3 +131,37 @@ verify_package_present() {
   apk_add cosign jq
   cosign download attestation "$image" | jq -r .payload | base64 -d | jq .predicate.contents.packages | grep "$package"
 }
+
+# Retag an image from one repository to another using crane copy.
+# Sets up crane auth from the imagetest-docker-config secret.
+#
+# Usage: retag <source_ref> <target_repository> <image_name>
+#
+# Arguments:
+#   source_ref        - Full source image reference (e.g. "registry/repo/image:tag")
+#   target_repository - Target repository base (e.g. "registry/repo")
+#   image_name        - Image name for the destination tag (e.g. "crossplane-aws")
+#
+# Example:
+#   retag "${TEST_REPOSITORY}/crossplane-aws:latest" "${TARGET_REPOSITORY}" "crossplane-aws"
+retag() {
+  local source_ref="${1:?Source image reference required}"
+  local target_repository="${2:?Target repository required}"
+  local image_name="${3:?Image name required}"
+  local dest="${target_repository}/${image_name}:latest"
+
+  apk_add crane
+
+  local docker_config="/tmp/retag-crane/.docker"
+  mkdir -p "${docker_config}"
+
+  local secret_data
+  secret_data=$(kubectl get secret "imagetest-docker-config" -n "imagetest" \
+    -o jsonpath='{.data.\.dockerconfigjson}') || return $?
+  echo "${secret_data}" | base64 -d > "${docker_config}/config.json"
+
+  DOCKER_CONFIG="${docker_config}" crane copy "${source_ref}" "${dest}"
+
+  # Verify the image is accessible at the destination
+  DOCKER_CONFIG="${docker_config}" crane manifest "${dest}" > /dev/null || return $?
+}

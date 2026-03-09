@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: localstack
+  namespace: ${LOCALSTACK_NAMESPACE}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: localstack
+  template:
+    metadata:
+      labels:
+        app: localstack
+    spec:
+      containers:
+      - name: localstack
+        image: ${LOCALSTACK_IMAGE}
+        ports:
+        - containerPort: 4566
+        env:
+        - name: SERVICES
+          value: "${LOCALSTACK_SERVICES}"
+        - name: DEBUG
+          value: "0"
+        - name: AWS_DEFAULT_REGION
+          value: "${LOCALSTACK_REGION}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: localstack
+  namespace: ${LOCALSTACK_NAMESPACE}
+spec:
+  selector:
+    app: localstack
+  ports:
+  - port: 4566
+    targetPort: 4566
