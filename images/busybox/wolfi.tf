@@ -7,7 +7,6 @@ module "latest-wolfi" {
 
   target_repository = var.target_repository
   config            = module.wolfi.config
-  check-sbom        = false # TODO(jason): Temporarily disabled.
 }
 
 module "test-latest-wolfi" {

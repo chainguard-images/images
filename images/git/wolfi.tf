@@ -10,7 +10,6 @@ module "latest-wolfi" {
   name              = basename(path.module)
   target_repository = var.target_repository
   config            = module.wolfi[each.key].config
-  check-sbom        = false # TODO: Not yet conformant: ncurses, libedit, openssh
   build-dev         = true
   extra_packages = [
     "dash-binsh",

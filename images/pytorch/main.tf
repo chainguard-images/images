@@ -80,7 +80,6 @@ module "versioned" {
   config            = module.config[each.key].config
   build-dev         = false # TODO(wojciechka): re-enable once CI is working consistently
   main_package      = "py${each.value.python}-torch-cuda-${each.value.cuda}-bin"
-  check-sbom        = false
   # pytorch:TAG-dev is an AI training image
   extra_packages = [
     "python-${each.value.python}",

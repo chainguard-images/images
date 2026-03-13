@@ -21,11 +21,6 @@ locals {
   parsed = provider::oci::parse(var.digest)
 }
 
-data "oci_exec_test" "version" {
-  digest = var.digest
-  script = "docker run --rm $IMAGE_NAME --version"
-}
-
 module "bash_sandbox" {
   source            = "../../../tflib/imagetest/sandboxes/bash/"
   target_repository = var.target_repository
@@ -38,6 +33,11 @@ module "dind_test" {
   cwd    = path.module
 
   tests = [
+    {
+      name  = "version"
+      image = module.bash_sandbox.image_ref
+      cmd   = "./version.sh"
+    },
     {
       name  = "database test"
       image = module.bash_sandbox.image_ref
