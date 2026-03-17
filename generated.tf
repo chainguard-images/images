@@ -28,6 +28,13 @@ module "busybox" {
   test_repository    = var.test_repository
 }
 
+module "chainctl" {
+  scratch_repository = local.scratch_repository
+  source             = "./images/chainctl"
+  target_repository  = "${var.target_repository}/chainctl"
+  test_repository    = var.test_repository
+}
+
 module "cosign" {
   scratch_repository = local.scratch_repository
   source             = "./images/cosign"
@@ -378,6 +385,10 @@ output "summary_bash" {
 
 output "summary_busybox" {
   value = module.busybox.summary
+}
+
+output "summary_chainctl" {
+  value = module.chainctl.summary
 }
 
 output "summary_cosign" {

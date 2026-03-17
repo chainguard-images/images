@@ -1,0 +1,14 @@
+name: chainctl
+image: cgr.dev/chainctl/chainctl
+endoflife: ""
+console_summary: ""
+short_description: "Chainguard’s chainctl (Chainguard Control) is a command-line interface that provides comprehensive control over your Chainguard resources"
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: "https://edu.chainguard.dev/chainguard/chainctl"
+keywords:
+  - application
+tier: APPLICATION
+deployment:
+  # no supported charts found
+skip_validation: true
