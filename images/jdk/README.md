@@ -31,6 +31,10 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
+## Looking for Java 26?
+
+As signatories for Java TCK / JCK, we are awaiting publication of the testsuite and validating the builds prior to making them available in our images. It will be available soon.
+
 ## Compatibility Notes
 
 Like most available alternatives, Chainguard's JDK image is built directly from the [OpenJDK project](https://openjdk.org/). The Chainguard JDK image has few-to-zero CVEs and does not run as the root user.
