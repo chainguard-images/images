@@ -200,7 +200,7 @@ jobs:
           name: "mega-module-${{ matrix.shard.index }}-imagetest-logs"
           path: imagetest-logs
 
-      - uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
+      - uses: step-security/action-slack-notify@e04c77a65bae8b6c0373478a1cb8fd7e012637e6 # v2.3.5
         if: ${{ failure() && github.event_name == 'schedule' }}
         env:
           SLACK_ICON: http://github.com/chainguard-dev.png?size=48
