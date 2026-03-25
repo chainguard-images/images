@@ -27,8 +27,9 @@ module "maven" {
 }
 
 module "test" {
-  source = "./tests"
-  digest = module.maven.image_ref
+  source            = "./tests"
+  digest            = module.maven.image_ref
+  target_repository = var.scratch_repository
 }
 
 module "tagger" {
