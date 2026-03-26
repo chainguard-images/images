@@ -33,7 +33,7 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--body:start-->
 ## Compatibility Notes
 
-The Chainguard `postgres` container image is comparable [the official PostgreSQL Image from Docker Hub](https://hub.docker.com/_/postgres). However, the Chainguard image contains only the minimum set of tools and dependencies needed to function; for example, it does not include a package manager. Unlike many other Chainguard images, though, the `postgres` image does include a shell, allowing you to manage databases interactively.
+The Chainguard `postgres` container image is comparable to [the official PostgreSQL Image from Docker Hub](https://hub.docker.com/_/postgres). However, the Chainguard image contains only the minimum set of tools and dependencies needed to function; for example, it does not include a package manager. Unlike many other Chainguard images, though, the `postgres` image does include a shell, allowing you to manage databases interactively.
 
 Chainguard's `postgres` container image also provides a `-slim` variant that is even more minimal than the standard variant and contains only the critical files necessary to run PostgreSQL. As such, it doesn't include a shell, package manager, debuggers, or utility tools.
 
@@ -44,6 +44,26 @@ The `-slim` variant is best suited for advanced users who want maximum security 
 When migrating an existing PostgreSQL database to use the Chainguard `postgres` image it is likely that the collation version in the Chainguard container image will be different from the collation version in the original image that created the database.  This may be due to different glibc versions, use of a different implementation of the C standard library (musl in Alpine for example), or the use of different locale configuration.
 
 Chainguard recommends that you [re-index and refresh the collation version](https://wiki.postgresql.org/wiki/Locale_data_changes) when migrating to this image before the database is put back into production.
+
+Additionally, note that Chainguard's `postgres` container image uses a different data directory than the official PostgreSQL image. The following commands show data directory for Chainguard's `postgres` image:
+
+```
+docker run -it --entrypoint sh cgr.dev/ORGANIZATION/postgres
+/home/postgres # echo $PGDATA
+/var/lib/postgresql/data
+```
+
+And these show the public image's data directory:
+
+```
+docker run -it --entrypoint sh postgres
+# echo $PGDATA
+/var/lib/postgresql/18/docker
+```
+
+As this output shows, the `$PGDATA` directory path in the public image includes the version number of PostgreSQL that's used by the image. If you've hardcoded this directory anywhere in your application, you will need to update it when you upgrade to a newer version of PostgreSQL. The data directory in Chainguard's `postgres` image remains consistent across versions.
+
+In most cases it's recommended that you use the `$PGDATA` environment variable instead of hardcoding the path, as this will work regardless of what version of PostgreSQL you're using. 
 
 ## Getting Started
 
@@ -83,7 +103,7 @@ As the `postgres` user, run the `createdb` wrapper to create a test database:
 createdb test
 ```
 
-Then use the PostgreSQL client to Connect to the new database: 
+Then use the PostgreSQL client to connect to the new database: 
 
 ```sh
 psql test
