@@ -2,6 +2,12 @@
 
 set -o errexit -o nounset -o errtrace -o pipefail
 
+# Default APKO image used to rebuild for reproducibility checks.
+# Update this with the latest APKO once it is rebuilt.
+# Note: APKO_IMAGE is only a variable so that it can be overridden when
+# the tf-apko version is being overridden using developer overrides.
+: "${APKO_IMAGE:=ghcr.io/wolfi-dev/apko:latest@sha256:ef8acf06ef7a08cc198dbfbc7a2994528a5a0799dc10565afea4c26556a6df87}"
+
 TMP=$(mktemp)
 
 if ! cosign download attestation \
@@ -22,15 +28,9 @@ docker run -d --name "${container_name}" cgr.dev/chainguard/crane registry serve
 
 trap "docker rm -f ${container_name}" EXIT
 
-# Update this with the latest APKO once it is rebuilt.
 # Mount the host's APK cache into the container to improve performance
 # and avoid reliability problems due to refetching APKs we already have
 # on the host.
-# Note: APKO_IMAGE is only a variable so that it can be overridden when
-# the tf-apko version is being overridden using developer overrides as
-# we do in the tf-apko version to test reproducibility with real-world
-# examples presubmit.  Basically nowhere else should we be setting
-# this variable.
 REBUILT_IMAGE_NAME=$(docker run --rm \
    --link "${container_name}" \
    --user $(id -u):$(id -g) \
@@ -38,7 +38,7 @@ REBUILT_IMAGE_NAME=$(docker run --rm \
    -v ${PWD}:${PWD}:ro -w ${PWD} \
    -v ${XDG_CACHE_HOME:-$HOME/.cache}:/cache \
    -e XDG_CACHE_HOME=/cache \
-   ${APKO_IMAGE:-ghcr.io/wolfi-dev/apko:latest@sha256:ef8acf06ef7a08cc198dbfbc7a2994528a5a0799dc10565afea4c26556a6df87} \
+   "${APKO_IMAGE}" \
    publish /tmp/latest.apko.json ${container_name}:5000/reproduction
 )
 
