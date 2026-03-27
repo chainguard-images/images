@@ -6,7 +6,7 @@ set -o errexit -o nounset -o errtrace -o pipefail
 # Update this with the latest APKO once it is rebuilt.
 # Note: APKO_IMAGE is only a variable so that it can be overridden when
 # the tf-apko version is being overridden using developer overrides.
-: "${APKO_IMAGE:=ghcr.io/wolfi-dev/apko:latest@sha256:045f6a7ebadf2885785bd728b73644b69aca297bda762f2f78be9bb1fdc86e48"
+: "${APKO_IMAGE:=ghcr.io/wolfi-dev/apko:latest@sha256:045f6a7ebadf2885785bd728b73644b69aca297bda762f2f78be9bb1fdc86e48}"
 
 TMP=$(mktemp)
 
