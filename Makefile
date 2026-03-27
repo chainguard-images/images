@@ -60,7 +60,7 @@ disable-active-tag-update:
 
 LOCAL_REGISTRY_NAME := k3d.localhost
 LOCAL_REGISTRY_PORT := 5005
-K3S_IMAGE := cgr.dev/chainguard/k3s:latest@sha256:f7744ba2a461d88e0ebe9e4ac18914fd79033a1d066ff095a303d832c78c5cee
+K3S_IMAGE := cgr.dev/chainguard/k3s:latest@sha256:fb8c6e42d917a0693ceddad268458035c0d0afb2a72a09bd74dab331ea9bec5a
 
 k3d-registry:
 	@# Create a local registry managed by k3d only if it doesn't exist
