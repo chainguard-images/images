@@ -15,6 +15,7 @@ module "tagger" {
 
   depends_on = [
     module.test-latest-wolfi,
+    module.test-latest-static,
   ]
 
   tags = merge(
