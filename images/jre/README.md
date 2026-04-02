@@ -39,6 +39,33 @@ Like most available alternatives, Chainguard's JRE image is built directly from 
 
 A JRE is the standard runtime for a Java application and is used for running an already developed and packaged Java application. Generally, you will combine your application with the Chainguard JRE image and Docker or a build tool like [Maven](https://maven.apache.org/) or [Gradle](https://gradle.org/)
 
+## New changes starting Java 25
+
+* SUN provider no longer loaded by default
+* MD5 enabled for non-security purposes only from the BC-FIPS provider
+   * For reasoning see https://edu.chainguard.dev/chainguard/fips/non-approved-algorithms/
+   * Can be controlled with security property setting to opt-out
+   * Note MD5 is required to be enabled for maven to work in most configurations
+* JKS trust store format is read-only by default
+* All FIPS-specific environment variables removed
+   * Instead default arguments are included in the runtime image
+* Kernel entropy java.security policy snippet dropped
+* Non-approved usage java.security policy snippet dropped
+* Access to BC-FIPS libraries requires add-modules imports
+   * Previously classpath was exported that forced bc-fips into the unnamed module, contrary to the Modular Java requirements
+   * Now JDK_JAVAC_OPTIONS is set to `--module-path=/usr/share/java/bouncycastle-fips --add-modules org.bouncycastle.fips.core`, for your convenience
+   * If your codebases uses bc-fips library APIs directly, you may need to add appropriate `--add-modules` in your build system to access `org.bouncycastle.crypto.fips.FipsStatus`, BC-TLS, BC-PGP and other modules
+   * Please provide feedback if JDK_JAVAC_OPTIONS is useful or redundant
+* Trust store format is explicitly set to JKS
+* Key store format is explicitly set to BCFKS
+* Loading trusted CA certificates supported
+   * Via Custom Assembly, ask your account rep to enable
+   * Via `update-ca-certs`
+   * Via `keytool` with explicit provider set to SUN
+
+Known Issues:
+* There are some warnings in the form "[warning][cds] This file is not the one used while building the shared archive file" that we are investigating to fix these.
+
 ### Using Jib to build a JRE-based application image
 
 Using Maven or Gradle, you can compile and package your application. [Jib](https://github.com/GoogleContainerTools/jib/tree/master) is a tool from Google Container Tools which builds optimized Docker and OCI images for Java applications. It's available as a plugin for both Maven and Gradle, as well as a Java library. 

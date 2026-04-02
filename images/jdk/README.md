@@ -31,9 +31,9 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-## Looking for Java 26?
+## Java 26 is here!
 
-As signatories for Java TCK / JCK, we are awaiting publication of the testsuite and validating the builds prior to making them available in our images. It will be available soon.
+After verifying and validating the latest Java release against the JCK testsuite, we are pleased to announce the general availability of our Java 26 images! Only a few minor regressions were found in the JCK test (see [this link](https://bugs.java/bugdatabase/JDK-8374371) for more information about the underlying cause of the failures we encountered), but the image is considered to be production-ready and we will keep working with upstream to get everything fixed in the meantime.
 
 ## Compatibility Notes
 

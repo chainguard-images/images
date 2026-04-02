@@ -180,7 +180,8 @@ This command also uses the PostgreSQL server's `-c` flag to set the `config_file
 
 ### Initial SQL script
 
-The path for initial load sql script should be same as per application docs `/docker-entrypoint-initdb.d/init.sql` except for PostgreSQL 14 which needs to be mounted at `/var/lib/postgres/initdb/init.sql`.
+The path for initial load sql script should be same as per application docs `/docker-entrypoint-initdb.d/init.sql` for versions up to and including PostgreSQL 13.
+For PostgreSQL 14 and above, the initial load script needs to be mounted at `/var/lib/postgres/initdb/init.sql`.
 
 ## Using the Slim Variant
 

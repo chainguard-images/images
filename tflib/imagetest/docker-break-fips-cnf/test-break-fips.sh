@@ -28,7 +28,8 @@ test_break_fips_config() {
   docker_cmd=(docker run --rm -v "$(pwd)/fipsmodule.cnf:/etc/ssl/fipsmodule.cnf")
 
   if [ -n "${ENV_VARS:-}" ]; then
-    docker_cmd+=(${ENV_VARS})
+    read -ra env_arr <<< "${ENV_VARS}"
+    docker_cmd+=("${env_arr[@]}")
   fi
 
   if [ -n "${ENTRYPOINT:-}" ]; then
@@ -42,7 +43,8 @@ test_break_fips_config() {
   docker_cmd+=("$image")
 
   if [ -n "${ENTRYPOINT_ARGS:-}" ]; then
-    docker_cmd+=(${ENTRYPOINT_ARGS})
+    read -ra args_arr <<< "${ENTRYPOINT_ARGS}"
+    docker_cmd+=("${args_arr[@]}")
   fi
 
   output=$("${docker_cmd[@]}" 2>&1 || true)

@@ -14,6 +14,7 @@ ensure_pod_logs() {
   local pod_name="${1}"
   local namespace="${2:-default}"
 
+  # shellcheck disable=SC2154 # expected_logs is a global array set by the caller.
   if (( ${#expected_logs[@]} == 0 )); then
   	echo >&2 "expected_logs is empty. source your expected_logs definition."
   	exit 1

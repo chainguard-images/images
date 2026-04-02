@@ -26,7 +26,8 @@ run_cypress_tests() {
   local timeout="${3:-10m}"
   local retries="${4:-3}"
 
-  local tempdir="$(mktemp -d)"
+  local tempdir
+  tempdir="$(mktemp -d)"
 
   # create a copy of the path, as placeholder to extend / apply
   # changes to configuration in the future

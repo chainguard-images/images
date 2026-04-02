@@ -32,7 +32,7 @@ corrupt_bcfips_jar() {
   # apk add --no-cache bouncycastle-fips
 
   # extract the bc-fips.jar
-  docker cp $(docker create --rm $test_image):/usr/share/java/bouncycastle-fips/bc-fips.jar ./bc-fips.jar
+  docker cp "$(docker create --rm "$test_image")":/usr/share/java/bouncycastle-fips/bc-fips.jar ./bc-fips.jar
 
   unzip bc-fips.jar -d bc-fips-extracted
   cp HMAC.SHA256 bc-fips-extracted/META-INF/HMAC.SHA256
@@ -59,7 +59,8 @@ test_break_bcfips_jar() {
   docker_cmd=(docker run --rm -v "$(pwd)/bc-fips.jar:/usr/share/java/bouncycastle-fips/bc-fips.jar")
 
   if [ -n "${ENV_VARS:-}" ]; then
-    docker_cmd+=("${ENV_VARS}")
+    read -ra env_arr <<< "${ENV_VARS}"
+    docker_cmd+=("${env_arr[@]}")
   fi
   
   if [ -n "${ENTRYPOINT:-}" ]; then
@@ -73,7 +74,8 @@ test_break_bcfips_jar() {
   docker_cmd+=("$image")
 
   if [ -n "${ENTRYPOINT_ARGS:-}" ]; then
-    docker_cmd+=($ENTRYPOINT_ARGS)
+    read -ra args_arr <<< "${ENTRYPOINT_ARGS}"
+    docker_cmd+=("${args_arr[@]}")
   fi
 
   output=$("${docker_cmd[@]}" 2>&1 || true)
