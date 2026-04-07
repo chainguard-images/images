@@ -25,12 +25,12 @@ variable "gid" {
 variable "image_version" {}
 
 module "bash_sandbox" {
-  source            = "../../../tflib/imagetest/sandboxes/bash/"
+  source            = "../../../../tflib/imagetest/sandboxes/bash/"
   target_repository = var.target_repository
 }
 
 module "dind_test" {
-  source = "../../../tflib/imagetest/tests/docker-in-docker"
+  source = "../../../../tflib/imagetest/tests/docker-in-docker"
   name   = var.image_version
 
   images = { postgres = var.digest }
