@@ -94,6 +94,12 @@ variable "pod_identity_associations" {
   default = []
 }
 
+variable "node_vm_size" {
+  description = "The Azure VM size used by the AKS cluster nodes."
+  type        = string
+  default     = "Standard_B2s"
+}
+
 variable "driver_config" {
   description = "Optional AKS driver configuration. The full supported configuration is documented here: https://registry.terraform.io/providers/chainguard-dev/imagetest/latest/docs/resources/tests#nested-schema-for-driversaks"
   type        = any
@@ -126,13 +132,25 @@ resource "imagetest_tests" "aks" {
 
   drivers = {
     aks = merge({
-      location                      = var.azure_location
-      resource_group                = var.azure_resource_group
-      attached_acrs                 = var.attached_acrs
-      subscription_id               = var.azure_subscription_id
-      aks_node_resource_group       = var.aks_node_resource_group
-      cluster_identity_associations = var.cluster_identity_associations
-      pod_identity_associations     = var.pod_identity_associations
+      location                = var.azure_location
+      resource_group          = var.azure_resource_group
+      attached_acrs           = var.attached_acrs
+      subscription_id         = var.azure_subscription_id
+      aks_node_resource_group = var.aks_node_resource_group
+      cluster_identity_associations = concat(
+        # Always grant the kubelet Contributor at subscription scope so it can
+        # manage disks and other resources in the dynamically created node RG.
+        [{
+          identity_name = "kubeletidentity"
+          role_assignments = [{
+            scope              = "/subscriptions/${var.azure_subscription_id}"
+            role_definition_id = "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+          }]
+        }],
+        var.cluster_identity_associations,
+      )
+      pod_identity_associations = var.pod_identity_associations
+      node_vm_size              = var.node_vm_size
     }, var.driver_config)
   }
 

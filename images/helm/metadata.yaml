@@ -1,5 +1,5 @@
 name: helm
-image: cgr.dev/chainguard/helm
+image: cgr.dev/ORGANIZATION/helm
 endoflife: ""
 console_summary: ""
 short_description: Minimal image with [helm](https://helm.sh) binary.

@@ -1,5 +1,5 @@
 name: dive
-image: cgr.dev/chainguard/dive
+image: cgr.dev/ORGANIZATION/dive
 endoflife: ""
 console_summary: ""
 short_description: Minimal [dive](https://github.com/wagoodman/dive) container image.

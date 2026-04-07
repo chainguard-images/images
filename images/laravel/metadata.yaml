@@ -1,5 +1,5 @@
 name: laravel
-image: cgr.dev/chainguard/laravel
+image: cgr.dev/ORGANIZATION/laravel
 endoflife: ""
 console_summary: ""
 short_description: Minimalist Wolfi-based Laravel images for developing, building, and running Laravel applications.

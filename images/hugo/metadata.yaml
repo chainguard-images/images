@@ -1,5 +1,5 @@
 name: hugo
-image: cgr.dev/chainguard/hugo
+image: cgr.dev/ORGANIZATION/hugo
 endoflife: ""
 console_summary: ""
 short_description: This is a minimal [Hugo](https://gohugo.io/) image.
