@@ -48,7 +48,7 @@ variable "driver_config" {
 locals {
   default_on_failure = [
     "docker ps -a",
-    "docker ps -a --filter status=exited --filter status=dead -q | xargs -r docker logs --tail 50",
+    "docker ps -aq | xargs -r -n1 docker logs --tail 50",
   ]
 
   tests = [for test in var.tests : merge(test, {
