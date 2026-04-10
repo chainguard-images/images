@@ -8,7 +8,7 @@ server_name="postgres_server-${RANDOM}"
 client_name="postgres_client-${RANDOM}"
 network_name="postgres_network-${RANDOM}"
 certs_dir="/tmp/certs-${RANDOM}"
-postgres_password="secret"
+postgres_password="secret1234567890abcdef"
 
 trap "docker logs $server_name" EXIT
 
@@ -30,17 +30,35 @@ chmod 600 "$certs_dir/server.key"
 docker network create "$network_name"
 
 # Start the PostgreSQL server with TLS enabled
-docker run -d --name "$server_name" --network "$network_name" \
-  -v "$certs_dir:/certs:rw" \
-  -e POSTGRES_DB=postgres \
-  -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD="$postgres_password" \
-  --user "$POSTGRES_UID:$POSTGRES_GID" \
-  "$image" \
-  -c ssl=on \
-  -c ssl_cert_file='/certs/server.crt' \
-  -c ssl_key_file='/certs/server.key' \
-  -c ssl_ca_file='/certs/ca.crt'
+case $POSTGRES_VERSION in
+postgresql-18-*)
+    docker run -d --name "$server_name" --network "$network_name" \
+        -v "$certs_dir:/certs:rw" \
+        -e POSTGRES_DB=postgres \
+        -e POSTGRES_USER=postgres \
+        -e POSTGRES_PASSWORD="$postgres_password" \
+        --user "$POSTGRES_UID:$POSTGRES_GID" \
+        "$image" \
+        -c ssl=on \
+        -c ssl_cert_file='/certs/server.crt' \
+        -c ssl_key_file='/certs/server.key' \
+        -c ssl_ca_file='/certs/ca.crt' \
+        -c ssl_groups='?X25519:?secp384r1:prime256v1'
+    ;;
+*)
+    docker run -d --name "$server_name" --network "$network_name" \
+        -v "$certs_dir:/certs:rw" \
+        -e POSTGRES_DB=postgres \
+        -e POSTGRES_USER=postgres \
+        -e POSTGRES_PASSWORD="$postgres_password" \
+        --user "$POSTGRES_UID:$POSTGRES_GID" \
+        "$image" \
+        -c ssl=on \
+        -c ssl_cert_file='/certs/server.crt' \
+        -c ssl_key_file='/certs/server.key' \
+        -c ssl_ca_file='/certs/ca.crt'
+    ;;
+esac
 
 # Wait until the PostgreSQL server is ready to accept connections
 tw dgrep "$server_name" -e "database system is ready to accept connections"

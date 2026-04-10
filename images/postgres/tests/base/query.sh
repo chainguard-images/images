@@ -6,7 +6,7 @@ source /imagetest/libs/libs.sh
 image="$(get_test_image "postgres")"
 container="postgres-${RANDOM}"
 
-docker run -e POSTGRES_PASSWORD=password -d --name "$container" "$image"
+docker run -e POSTGRES_PASSWORD=secret1234567890abcdef -d --name "$container" "$image"
 
 trap "docker logs $container" EXIT
 

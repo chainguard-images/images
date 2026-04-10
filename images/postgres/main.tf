@@ -34,7 +34,7 @@ module "latest" {
 }
 
 module "test-latest" {
-  source = "./tests"
+  source = "./tests/base"
   digest = module.latest.image_ref
   # In refernced postgres test, we dynamically pass uid/gid for TLS test, hence we will have to handle it here too
   # Extract UID/GID directly from the latest config

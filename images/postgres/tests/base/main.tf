@@ -51,8 +51,9 @@ module "dind_test" {
       image = module.bash_sandbox.image_ref
       cmd   = "./tls.sh"
       envs = {
-        POSTGRES_UID = var.uid
-        POSTGRES_GID = var.gid
+        POSTGRES_UID     = var.uid
+        POSTGRES_GID     = var.gid
+        POSTGRES_VERSION = var.image_version
       }
     }
   ]

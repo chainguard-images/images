@@ -49,6 +49,12 @@ locals {
   tags      = { for t, p in local.parsed : t => p.digest if !contains(var.exclude, t) }
   images    = distinct([for tag, ref in local.tags : ref])
   imagetags = { for image in local.images : "${local.repo}@${image}" => compact([for tag, ref in local.tags : image == ref ? tag : null]) }
+
+  expected_tags_file = "${path.root}/.expected_tags"
+  has_expected_tags  = fileexists(local.expected_tags_file)
+  expected_tags_raw  = local.has_expected_tags ? jsondecode(file(local.expected_tags_file)) : {}
+  expected_tags      = { for k, v in local.expected_tags_raw : element(split("@", k), 1) => toset(v) }
+  actual_tags        = { for k, v in local.imagetags : element(split("@", k), 1) => toset(v) }
 }
 
 resource "oci_tags" "this" {
@@ -59,6 +65,11 @@ resource "oci_tags" "this" {
     precondition {
       condition     = length(local.repos) == 1
       error_message = "All of the digests passed to tagger must have the same repository name: ${join(",", local.repos)}."
+    }
+
+    precondition {
+      condition     = !local.has_expected_tags || local.expected_tags == local.actual_tags
+      error_message = "Tag map does not match expected set from test job."
     }
   }
 }
