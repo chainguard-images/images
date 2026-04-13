@@ -4,7 +4,7 @@ set -o errexit -o nounset -o errtrace -o pipefail -x
 
 image=$(echo "$IMAGES" | jq -r '.wordpress.ref')
 
-container_id=$(docker run --detach --rm "$image")
+container_id=$(docker run --detach "$image")
 
 max_attempts=15
 attempt=1

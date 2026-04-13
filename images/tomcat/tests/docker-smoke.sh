@@ -13,7 +13,7 @@ apk_add wait-for-it
 
 curl -sSL -o "$TMPDIR/sample.war" "${WAR_URL}"
 
-CONTAINER_ID="$(docker run -d --rm --network host -v "${TMPDIR}/sample.war:/usr/share/tomcat/webapps/sample.war" "$IMAGE")"
+CONTAINER_ID="$(docker run -d --network host -v "${TMPDIR}/sample.war:/usr/share/tomcat/webapps/sample.war" "$IMAGE")"
 trap 'docker kill "${CONTAINER_ID}"' EXIT
 
 wait-for-it localhost:8080

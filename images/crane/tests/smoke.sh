@@ -10,7 +10,7 @@ docker run --rm "${image}" config cgr.dev/chainguard/static | grep sha256:
 
 docker network create my-network
 
-docker run -d --rm --name dummy-registry --network my-network -p 5002:5002 \
+docker run -d --name dummy-registry --network my-network -p 5002:5002 \
   "${image}" registry serve --address :5002
 
 registry_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' dummy-registry)
