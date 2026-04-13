@@ -1,0 +1,29 @@
+{
+ "imageLocks": {
+  "busybox-public": {
+   "configs": {
+    "amd64": "{\"config\": {\"accounts\":{\"groups\":[{\"gid\":65532,\"groupname\":\"nonroot\",\"members\":[]}],\"run-as\":\"65532\",\"users\":[{\"gid\":65532,\"homedir\":\"\",\"shell\":\"\",\"uid\":65532,\"username\":\"nonroot\"}]},\"annotations\":{\"dev.chainguard.image.title\":\"busybox\",\"org.opencontainers.image.authors\":\"Chainguard Team https://www.chainguard.dev/\",\"org.opencontainers.image.source\":\"https://github.com/chainguard-images/images-private/tree/main/images/busybox\",\"org.opencontainers.image.title\":\"busybox\",\"org.opencontainers.image.url\":\"https://images.chainguard.dev/directory/image/busybox/overview\",\"org.opencontainers.image.vendor\":\"Chainguard\"},\"archs\":[\"amd64\"],\"cmd\":\"\",\"contents\":{\"build_repositories\":[],\"keyring\":[],\"packages\":[\"busybox=1.37.0-r57\",\"ca-certificates-bundle=20251003-r4\",\"glibc-locale-posix=2.43-r6\",\"glibc=2.43-r6\",\"ld-linux=2.43-r6\",\"libcrypt1=2.43-r6\",\"libgcc=15.2.0-r11\",\"libxcrypt=4.5.2-r2\",\"wolfi-baselayout=20230201-r28\"],\"repositories\":[\"https://apk.cgr.dev/chainguard\"],\"runtime_repositories\":[]},\"entrypoint\":{\"command\":\"\",\"services\":{},\"shell-fragment\":\"\",\"type\":\"\"},\"environment\":{},\"include\":\"\",\"layering\":null,\"paths\":[],\"stop-signal\":\"\",\"vcs-url\":\"\",\"volumes\":[],\"work-dir\":\"\"}}",
+    "arm64": "{\"config\": {\"accounts\":{\"groups\":[{\"gid\":65532,\"groupname\":\"nonroot\",\"members\":[]}],\"run-as\":\"65532\",\"users\":[{\"gid\":65532,\"homedir\":\"\",\"shell\":\"\",\"uid\":65532,\"username\":\"nonroot\"}]},\"annotations\":{\"dev.chainguard.image.title\":\"busybox\",\"org.opencontainers.image.authors\":\"Chainguard Team https://www.chainguard.dev/\",\"org.opencontainers.image.source\":\"https://github.com/chainguard-images/images-private/tree/main/images/busybox\",\"org.opencontainers.image.title\":\"busybox\",\"org.opencontainers.image.url\":\"https://images.chainguard.dev/directory/image/busybox/overview\",\"org.opencontainers.image.vendor\":\"Chainguard\"},\"archs\":[\"arm64\"],\"cmd\":\"\",\"contents\":{\"build_repositories\":[],\"keyring\":[],\"packages\":[\"busybox=1.37.0-r57\",\"ca-certificates-bundle=20251003-r4\",\"glibc-locale-posix=2.43-r6\",\"glibc=2.43-r6\",\"ld-linux=2.43-r6\",\"libcrypt1=2.43-r6\",\"libgcc=15.2.0-r11\",\"libxcrypt=4.5.2-r2\",\"wolfi-baselayout=20230201-r28\"],\"repositories\":[\"https://apk.cgr.dev/chainguard\"],\"runtime_repositories\":[]},\"entrypoint\":{\"command\":\"\",\"services\":{},\"shell-fragment\":\"\",\"type\":\"\"},\"environment\":{},\"include\":\"\",\"layering\":null,\"paths\":[],\"stop-signal\":\"\",\"vcs-url\":\"\",\"volumes\":[],\"work-dir\":\"\"}}",
+    "index": "{\"config\": {\"accounts\":{\"groups\":[{\"gid\":65532,\"groupname\":\"nonroot\",\"members\":[]}],\"run-as\":\"65532\",\"users\":[{\"gid\":65532,\"homedir\":\"\",\"shell\":\"\",\"uid\":65532,\"username\":\"nonroot\"}]},\"annotations\":{\"dev.chainguard.image.title\":\"busybox\",\"org.opencontainers.image.authors\":\"Chainguard Team https://www.chainguard.dev/\",\"org.opencontainers.image.source\":\"https://github.com/chainguard-images/images-private/tree/main/images/busybox\",\"org.opencontainers.image.title\":\"busybox\",\"org.opencontainers.image.url\":\"https://images.chainguard.dev/directory/image/busybox/overview\",\"org.opencontainers.image.vendor\":\"Chainguard\"},\"archs\":[\"amd64\",\"arm64\"],\"cmd\":\"\",\"contents\":{\"build_repositories\":[],\"keyring\":[],\"packages\":[\"busybox=1.37.0-r57\",\"ca-certificates-bundle=20251003-r4\",\"glibc-locale-posix=2.43-r6\",\"glibc=2.43-r6\",\"ld-linux=2.43-r6\",\"libcrypt1=2.43-r6\",\"libgcc=15.2.0-r11\",\"libxcrypt=4.5.2-r2\",\"wolfi-baselayout=20230201-r28\"],\"repositories\":[\"https://apk.cgr.dev/chainguard\"],\"runtime_repositories\":[]},\"entrypoint\":{\"command\":\"\",\"services\":{},\"shell-fragment\":\"\",\"type\":\"\"},\"environment\":{},\"include\":\"\",\"layering\":null,\"paths\":[],\"stop-signal\":\"\",\"vcs-url\":\"\",\"volumes\":[],\"work-dir\":\"\"}}"
+   },
+   "devConfigs": {},
+   "eol": false,
+   "latest": false,
+   "main": "",
+   "repo": "public/busybox",
+   "tags": [
+    "latest",
+    "latest-glibc"
+   ]
+  }
+ },
+ "repoTags": {
+  "public/busybox": {
+   "busybox-public": [
+    "latest",
+    "latest-glibc"
+   ]
+  }
+ },
+ "tests": {}
+}
