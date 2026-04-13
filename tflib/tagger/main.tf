@@ -69,7 +69,11 @@ resource "oci_tags" "this" {
 
     precondition {
       condition     = !local.has_expected_tags || local.expected_tags == local.actual_tags
-      error_message = "Tag map does not match expected set from test job."
+      error_message = <<-EOT
+        Tag map does not match expected set from test job.
+        Expected (from ${local.expected_tags_file}): ${jsonencode(local.expected_tags)}
+        Actual (from tagger inputs): ${jsonencode(local.actual_tags)}
+      EOT
     }
   }
 }
