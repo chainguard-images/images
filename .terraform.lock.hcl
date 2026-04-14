@@ -33,44 +33,44 @@ provider "registry.terraform.io/chainguard-dev/chainguard" {
 }
 
 provider "registry.terraform.io/chainguard-dev/cosign" {
-  version = "0.3.4"
+  version = "0.2.7"
   hashes = [
-    "h1:4EOfHrndCjuzzYY+7vzOEuUGP3g7or9TwRrVC/7N6c8=",
-    "h1:5WzQ2BxhaAa/WYsxe/byFgUjAUQVyVcK2uOioHMTqPc=",
-    "h1:uzGwtBrCpOcnmM0WKwj9nx+Nd1xiDwYebxrI05IoPF4=",
-    "zh:0e011aadd8c57aaf5fb145f0249e67a2b1347ec466a6645a64ae405695083a71",
-    "zh:1dc28fc9288d5562e1c2b394778c493fa72a93a5d5db557fab3be8ee21eba516",
-    "zh:7e6c3a40f313b39b2c297e983cf948f824bac63c1f2706ceedf001fbd6964bbf",
+    "h1:VbrSFf1B/+9OrcbkEhc0ytu0AEtX/ItTiiG1tQ+bGdo=",
+    "h1:lWKfhH0S0S+QxAK5MyUyVsGNw4LRzmW9RJ0p7XlpTJc=",
+    "h1:pffOtolsw87R1dmVK2p2HQKjr4zLxieO5DrnTA2AcWw=",
+    "zh:551bb349cf0bcb174278cec3c88ae204b543de2ccfc929c86e18541b6d2bd3b5",
+    "zh:5e64021481b8d95931227fc197adccce3faf18b8bf750adc56e6bab7a1940d88",
+    "zh:690d982a7c452955f9c55ad5c7a87a342b746dce3b587f486f67ae302fa41f19",
+    "zh:80639168f95e1b6f771da6298b2092471d12dc450fc118fdc87ab96c0210a811",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
-    "zh:d01c03ce675b959960565b6e7af959e35053be890c7c5abe7af494e412dad814",
   ]
 }
 
 provider "registry.terraform.io/chainguard-dev/imagetest" {
-  version = "0.0.134"
+  version = "0.0.132"
   hashes = [
-    "h1:QG6vVKd1zOtGroPvPFeENh0MgPLqJkfD4zEoORY4Sck=",
-    "h1:oFsaqZxuuY1k22Euo85WkQuJ+bP68FJpF5YNWjp65E4=",
-    "h1:qlgWU+WSpPp4Rl8/S7UKuv3uYdGOCs2kjUXg+GV3mVA=",
-    "zh:15c3a02b12f658d57348746afd1191cc2cd4cf1b85065e0a4dbd05c0c042b26f",
-    "zh:5566bee78f8373b9ed1857218f63b6657a845960d93190a841159f44344f3aa5",
+    "h1:EW6PHfdGkQi/jcSIaqCuI4fnTDJCJOmYTdos6JLelqo=",
+    "h1:gDf1ddaPBGBYe7GIA9vAX+bcXMlsIV3FqojDmmGWdBU=",
+    "h1:rmALDKNPMf2H1GKodI4XRiuUrexqlmxJgjVwRV8G+gg=",
+    "zh:42aa709f51bcabd9cbcb2433d00b6943e7b515aac81361b9d6e0735422063566",
+    "zh:63b99d49c1c16750bf76eb381b664ed916d2cb1518ee37e01f91e705cbaee5f2",
+    "zh:8791850b088fa7dbf0a4985d7dab75740afb016fac11c4a94b2302eb6fa792d2",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
-    "zh:8e991831c59ededd143adcf598e513256c2b74a8c24331812dfa727718386abf",
-    "zh:bdfb7985428ef4842305f007b37662ecc4776d38fb4f8a96137868e0b8b31753",
+    "zh:d66b2f5c277d883288b36f2dce903d9ab662dad85a4e795a187ba1a6ed1b7765",
   ]
 }
 
 provider "registry.terraform.io/chainguard-dev/oci" {
-  version = "0.1.2"
+  version = "0.0.29"
   hashes = [
-    "h1:GrHBse2svwCn1VZXb9xVT5kKFvRCFtSy7gfw+a9nqhM=",
-    "h1:IuovICG8KWFZeiqURmDstC9o7PxmRMTiiotnssdacMk=",
-    "h1:giW2ff9ALDZFbFV3EVY/eJk4bN8hFkn/qZTWVsSKrBk=",
-    "zh:3aa013464fad96e37b1402c6c3d00c832d5829d6291083e23475126133d936aa",
-    "zh:7be40e53529439a8c5526555065b78becf8a7fdd262e30a27ae5b488c8e8bf38",
+    "h1:FRsBoNGw1yFxC4RI06qOYgx2hi0cpG7gS2aH26rD+UA=",
+    "h1:QaEsHogogu+p1MfMKpVpjL+flZu7EhRweB7nXCetB+w=",
+    "h1:tHNbmd5NcW3vd0iMH7vXiiYBPSwa9jko+x8NFrIQqSI=",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
-    "zh:91e72fd6b7a586b49803a79f0ae0c90d43482dddd035be3c4935b91501b91e68",
-    "zh:c6307ba01ca3e840f353d606865c1272f86547cffa988ebdf295be90ab813bf7",
+    "zh:bb47edef3e02312e728af25500e984abbedd54cffae2fb374d98ba85f723e16b",
+    "zh:d9a37379e20c3c9f83643ef9972e69251050317903ce27ab8c771e8389a94b07",
+    "zh:ebfc0705e4fb3e51f59ae01c69ab7a3422cf8e6f21547661812f772c338a31b7",
+    "zh:fc6794db9faf1b44f427fd84a295e7c3db17c25092b900ab4144127ae4100026",
   ]
 }
 
