@@ -23,5 +23,10 @@
    ]
   }
  },
- "tests": {}
+ "tests": {
+  "gradle-public": {
+   "digest": "gradle-public",
+   "java-version": "26"
+  }
+ }
 }
