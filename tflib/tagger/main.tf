@@ -53,8 +53,12 @@ locals {
   expected_tags_file = "${path.root}/.expected_tags"
   has_expected_tags  = fileexists(local.expected_tags_file)
   expected_tags_raw  = local.has_expected_tags ? jsondecode(file(local.expected_tags_file)) : {}
-  expected_tags      = { for k, v in local.expected_tags_raw : element(split("@", k), 1) => toset(v) }
-  actual_tags        = { for k, v in local.imagetags : element(split("@", k), 1) => toset(v) }
+
+  # The expected tags file contains entries for all components in the module,
+  # but each tagger invocation only handles one. Filter by repo name suffix.
+  expected_tags_repo = { for k, v in local.expected_tags_raw : k => v if endswith(split("@", k)[0], "/${local.repo_name}") }
+  expected_tags      = { for k, v in local.expected_tags_repo : split("@", k)[1] => toset(v) }
+  actual_tags        = { for k, v in local.imagetags : split("@", k)[1] => toset(v) }
 }
 
 resource "oci_tags" "this" {
