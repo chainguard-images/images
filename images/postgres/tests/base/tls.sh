@@ -31,7 +31,7 @@ docker network create "$network_name"
 
 # Start the PostgreSQL server with TLS enabled
 case $POSTGRES_VERSION in
-postgresql-18-*)
+*-18-*)
     docker run -d --name "$server_name" --network "$network_name" \
         -v "$certs_dir:/certs:rw" \
         -e POSTGRES_DB=postgres \
