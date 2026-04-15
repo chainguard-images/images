@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  TF_VAR_target_repository: chainreg.biz/chainguard-cue-public
+  TF_VAR_target_repository: cgr.dev/scratch-images/locked-public-validation
 
 permissions: {}
 
@@ -90,9 +90,6 @@ jobs:
           terraform_version: "1.8.*"
           terraform_wrapper: false
 
-      - uses: chainguard-dev/setup-chainctl@2cddd35a2f120d9973e58094dc6878c93cf58c28 # v0.5.1
-        with:
-          identity: e4670617ad8ebe9b7268c32598f96921a57d19ee/dfda71087f27ea61
 
       - uses: sigstore/cosign-installer@cad07c2e89fa2edd6e2d7bab4c1aa38e53f76003 # v4.1.1
       - uses: imjasonh/setup-crane@6da1ae018866400525525ce74ff892880c099987 # v0.5
