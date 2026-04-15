@@ -36,7 +36,18 @@ variable "tests" {
     })))
     envs       = optional(map(string), null)
     on_failure = optional(list(string), null)
+    timeout    = optional(string, null)
+    retry = optional(object({
+      attempts = number
+      delay    = optional(string, "5s")
+    }), null)
   }))
+}
+
+variable "timeout" {
+  description = "The maximum time budget for all tests in this resource. Overrides the provider default of 30m."
+  type        = string
+  default     = null
 }
 
 variable "driver_config" {
@@ -66,8 +77,9 @@ locals {
 }
 
 resource "imagetest_tests" "dockerindocker" {
-  name   = var.name
-  driver = "docker_in_docker"
+  name    = var.name
+  driver  = "docker_in_docker"
+  timeout = var.timeout
 
   drivers = {
     docker_in_docker = merge({
