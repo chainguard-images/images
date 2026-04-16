@@ -10,7 +10,7 @@ locals {
 
   groups = {
     "chainguard" : "720909c9f5279097d847ad02a2f24ba8f59de36a",
-    "chainguard-cue-public" : "e4670617ad8ebe9b7268c32598f96921a57d19ee",
+    "scratch-images" : "4fdb48f3679017671e7c99ca09b1dd98b43758c9",
   }
 
   readme_filepath = "images/${var.name}/README.md"
