@@ -15,6 +15,7 @@ variable "target_repository" {
 module "bash_sandbox" {
   source            = "../../../tflib/imagetest/sandboxes/bash/"
   target_repository = var.target_repository
+  extra_packages    = ["netcat-openbsd"]
 }
 
 module "basic-dind-test" {

@@ -8,8 +8,6 @@ image="$(get_test_image "redis")"
 container="redis-smoketest-${RANDOM}"
 volume="redis-data-${RANDOM}"
 
-apk_add netcat-openbsd
-
 # --- Utility functions ---
 
 redis_cli() {
