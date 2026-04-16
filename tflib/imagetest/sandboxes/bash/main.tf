@@ -6,9 +6,48 @@ terraform {
 
 variable "target_repository" {}
 
+variable "extra_packages" {
+  description = "Additional APK packages to bake into the sandbox at build time, replacing runtime apk_add calls."
+  type        = list(string)
+  default     = []
+}
+
+variable "enable_runtime_packages" {
+  description = "Include apk-tools to allow runtime apk add. Set to false to lock down the sandbox."
+  type        = bool
+  default     = true
+}
+
 locals {
-  # Skip building sandbox when imagetest tests are being skipped
   skip_build = fileexists("${path.root}/.skip_imagetest")
+
+  # overlay2 caps at 127 layers; apko adds a top layer on top of budget.
+  layer_budget = 125
+
+  base_packages = [
+    "bash",
+    "binutils",
+    "busybox",
+    "curl",
+    "gettext",
+    "git",
+    "helm<3.18",
+    "jq",
+    "kubectl",
+    "kustomize",
+    "patch",
+    "socat",
+    "stern",
+    "tw",
+    "wget",
+    "yq",
+  ]
+
+  packages = concat(
+    local.base_packages,
+    var.enable_runtime_packages ? ["apk-tools"] : [],
+    var.extra_packages,
+  )
 }
 
 data "apko_config" "sandbox" {
@@ -17,32 +56,21 @@ data "apko_config" "sandbox" {
   config_contents = jsonencode({
     accounts = { run-as = 0 }
     contents = {
-      packages = [
-        "apk-tools",
-        "bash",
-        "binutils",
-        "busybox",
-        "curl",
-        "gettext",
-        "git",
-        "helm<3.18",
-        "jq",
-        "kubectl",
-        "kustomize",
-        "patch",
-        "socat",
-        "stern",
-        "tw",
-        "wget",
-        "yq",
-      ]
+      packages = local.packages
     }
     environment = {}
     work-dir    = "/imagetest/work"
+
+    # Origin layering: one layer per source project. Budget of 125 is the
+    # practical max (overlay2 caps at 127; apko adds a top layer). Actual
+    # layer count is min(distinct_origins, 125) + 1.
+    layering = {
+      strategy = "origin"
+      budget   = local.layer_budget
+    }
   })
 }
 
-# Build cache for the sandbox image, same pattern as x/cue/tflib/publisher/cache.tf
 locals {
   cache_key = local.skip_build ? "" : sha256(jsonencode(data.apko_config.sandbox[0].config))
 }
