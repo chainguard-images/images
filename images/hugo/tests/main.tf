@@ -60,13 +60,17 @@ resource "imagetest_feature" "basic" {
         # Use the hugo application to bootstrap a directory structure for us.
         docker run --rm -v "${random_pet.suffix.id}:/hugo/quickstart" "${var.digest}" new site quickstart
 
-        # Link in the "ananke" theme (per the quickstart)
-        # We do this via containers because volume permissions are a nightmare.
+        # Pin the ananke theme to v2.12.1. The ananke main branch added custom
+        # mounts in config/_default/module.toml which broke the git-submodule
+        # approach (layouts are no longer discovered). Using Hugo Modules would
+        # fix this but requires Go, which isn't in the image.
+        # TODO: Once the image ships Go, switch to Hugo Modules per:
+        # https://github.com/davidsneighbour/gohugo-theme-ananke-documentation/blob/main/en/installation/gohugo-module.md
         docker run --rm -v "${random_pet.suffix.id}:/hugo/quickstart" --workdir=/hugo/quickstart \
               cgr.dev/chainguard/git:latest-glibc init
 
         docker run --rm -v "${random_pet.suffix.id}:/hugo/quickstart" --workdir=/hugo/quickstart \
-              cgr.dev/chainguard/git:latest-glibc-dev submodule add https://github.com/theNewDynamic/gohugo-theme-ananke "themes/ananke"
+              cgr.dev/chainguard/git:latest-glibc-dev clone --branch v2.12.1 --depth 1 https://github.com/theNewDynamic/gohugo-theme-ananke "themes/ananke"
 
         docker run --rm -v "${random_pet.suffix.id}:/hugo/quickstart" --workdir=/hugo/quickstart \
               cgr.dev/chainguard/busybox:latest-glibc /bin/sh -c "echo \"theme = 'ananke'\" >> hugo.toml"
