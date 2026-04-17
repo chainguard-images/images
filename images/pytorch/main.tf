@@ -89,6 +89,9 @@ module "versioned" {
   update-repo        = each.key == local.latest_version
   // These images are huge. Given them 40 minutes to pass the repro check
   reproduce_timeout = 2400
+
+  # TODO: Set to false until LicenseRef migration is complete.
+  check-sbom = false
 }
 
 module "test" {
