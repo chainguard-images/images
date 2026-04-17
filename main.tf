@@ -97,4 +97,7 @@ provider "apko" {
 
 variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
 
-provider "cosign" { default_attestation_entry_type = "dsse" }
+provider "cosign" {
+  default_attestation_entry_type = "dsse"
+  timeout                        = "10m"
+}
