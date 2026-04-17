@@ -33,30 +33,30 @@ provider "registry.terraform.io/chainguard-dev/chainguard" {
 }
 
 provider "registry.terraform.io/chainguard-dev/cosign" {
-  version = "0.3.4"
+  version = "0.4.0"
   hashes = [
-    "h1:4EOfHrndCjuzzYY+7vzOEuUGP3g7or9TwRrVC/7N6c8=",
-    "h1:5WzQ2BxhaAa/WYsxe/byFgUjAUQVyVcK2uOioHMTqPc=",
-    "h1:uzGwtBrCpOcnmM0WKwj9nx+Nd1xiDwYebxrI05IoPF4=",
-    "zh:0e011aadd8c57aaf5fb145f0249e67a2b1347ec466a6645a64ae405695083a71",
-    "zh:1dc28fc9288d5562e1c2b394778c493fa72a93a5d5db557fab3be8ee21eba516",
-    "zh:7e6c3a40f313b39b2c297e983cf948f824bac63c1f2706ceedf001fbd6964bbf",
+    "h1:AXOQyXkTB5bCtIC3AOACWlmxSWy8PewX/6L9+Nd4NZU=",
+    "h1:QG1I8JDx0P7Vhyqq27NEyyq+9j1hgG3w4nHqA3mIrrY=",
+    "h1:VptM9hIhNwvFG9efYAxCciENSHcmad8wHh+2Vc5DuPw=",
+    "zh:191b79a740c22e50a722f60039db831ab9a4279bf81a6c36608e5e7f50d6ddb0",
+    "zh:3b1045a5c49752350422c1609fa2660052128826f1f06547809352a03449ff69",
+    "zh:71e55f550bc6c8d53df364845dfc0c100bafbe7d6662ec77f61af1f65639aa55",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
-    "zh:d01c03ce675b959960565b6e7af959e35053be890c7c5abe7af494e412dad814",
+    "zh:a0f8f9dad3182b6ae322ba6c2247bec547aff5b891abc085805283c63e82a0c4",
   ]
 }
 
 provider "registry.terraform.io/chainguard-dev/imagetest" {
-  version = "0.0.134"
+  version = "0.0.135"
   hashes = [
-    "h1:QG6vVKd1zOtGroPvPFeENh0MgPLqJkfD4zEoORY4Sck=",
-    "h1:oFsaqZxuuY1k22Euo85WkQuJ+bP68FJpF5YNWjp65E4=",
-    "h1:qlgWU+WSpPp4Rl8/S7UKuv3uYdGOCs2kjUXg+GV3mVA=",
-    "zh:15c3a02b12f658d57348746afd1191cc2cd4cf1b85065e0a4dbd05c0c042b26f",
-    "zh:5566bee78f8373b9ed1857218f63b6657a845960d93190a841159f44344f3aa5",
+    "h1:P+kI2VIt/4QHl2XtJwilkDixt5W9Q09mJzmD29w0p4k=",
+    "h1:dJ0iBkkeQjILsoXQDieXKsQLdGGobR2poIHD6KAcnpU=",
+    "h1:jA56azABThbJFlHcR8fVp4Hu88N5mXkNS6fiFIT64Ww=",
+    "zh:0687f749273be9e91ede0f3d825065fb5346187f2b8de183023ae74eaf415cb1",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
-    "zh:8e991831c59ededd143adcf598e513256c2b74a8c24331812dfa727718386abf",
-    "zh:bdfb7985428ef4842305f007b37662ecc4776d38fb4f8a96137868e0b8b31753",
+    "zh:ad3e84498bfb2ba631038bcc6cb159bda7c30a9b70d97aebda8c37fcb597aa6e",
+    "zh:b02bbebf9f8a48f6b595caf43317f819970ac49ec6992b353f61fe8cdc115ce8",
+    "zh:edfdfaeebcbac6894d331cfd38365af6c5204e965f9ec13ca644afa112e1b934",
   ]
 }
 
