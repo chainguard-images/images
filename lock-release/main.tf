@@ -103,15 +103,14 @@ module "build-dev" {
   check-sbom        = local.check_sbom
 }
 
+// Single tagger merges both base and dev tags.
 module "tagger" {
   for_each = var.skip-tagging ? {} : local.locks
   source   = "../tflib/tagger"
-  tags     = { for tag in each.value.tags : tag => module.build[each.key].image_ref }
-}
-
-# Dev tags are the prod tags with a "-dev" suffix appended.
-module "tagger-dev" {
-  for_each = var.skip-tagging ? {} : local.dev_locks
-  source   = "../tflib/tagger"
-  tags     = { for tag in local.locks[each.key].tags : "${tag}-dev" => module.build-dev[each.key].image_ref }
+  tags = merge(
+    { for tag in each.value.tags : tag => module.build[each.key].image_ref },
+    contains(keys(local.dev_locks), each.key)
+    ? { for tag in each.value.tags : "${tag}-dev" => module.build-dev[each.key].image_ref }
+    : {},
+  )
 }
