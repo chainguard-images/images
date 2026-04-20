@@ -2,11 +2,8 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - README.md
-      - withdrawn-images.txt
-      - withdrawn-repos.txt
-      - reinstated-images.txt
+    paths:
+      - 'images/**/locked_config.json'
   schedule:
     - cron: "0 0 * * *"
   workflow_dispatch:
@@ -42,24 +39,23 @@ jobs:
 
       - id: shard
         name: Shard
-        shell: bash # bash math foo required
+        shell: bash
         run: |
-          images=($(find ./images -maxdepth 1 -type d -not -path "./images/TEMPLATE" | awk -F'/' '{print $3}' | sort -u | shuf))
+          images=($(find ./images -maxdepth 2 -name "locked_config.json" | awk -F'/' '{print $3}' | sort -u | shuf))
 
           total=${#images[@]}
 
-          # put each image module into its own shard
           declare -a bins
           for ((i = 0; i < total; i++)); do
             bins[$i]="${images[$i]}"
           done
 
-          matrix=$(printf "%s\n" "${bins[@]}" | jq -cRnjr '[inputs] | [ range(0; length) as $i | { "index": $i | tostring, "images": .[$i] } ]')
+          matrix=$(printf "%s\n" "${bins[@]}" | jq -cRnjr '[inputs] | [ range(0; length) as $i | { "index": $i | tostring, "image": .[$i] } ]')
           echo "matrix=${matrix}" >> $GITHUB_OUTPUT
 
           # Overwrite the output above if workflow_dispatch'd with `only`
           if [ -n "${{ inputs.only }}" ]; then
-            shard='[{"index": 0, "images": "${{ inputs.only }}"}]'
+            shard='[{"index": 0, "image": "${{ inputs.only }}"}]'
             echo "matrix=${shard}" >> $GITHUB_OUTPUT
           fi
 
@@ -67,7 +63,6 @@ jobs:
         run: echo '${{ steps.shard.outputs.matrix }}'
 
     outputs:
-      # This is of the format [{"index": 0, "images": "a b c"}, {"index": 1, "images": "d e f"}, ...]
       matrix: "${{steps.shard.outputs.matrix}}"
 
   build:
@@ -95,14 +90,7 @@ jobs:
           terraform_version: "1.8.*"
           terraform_wrapper: false
 
-      - uses: chainguard-dev/setup-chainctl@2cddd35a2f120d9973e58094dc6878c93cf58c28 # v0.5.1
-        with:
-          # This allows chainguard-images/images-private to publish images to cgr.dev/chainguard-private
-          # We maintain this identity here:
-          # https://github.com/chainguard-dev/mono/blob/main/env/chainguard-images/iac/images-pusher.tf
-          identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
 
-      # Make cosign/crane CLI available to the tests
       - uses: sigstore/cosign-installer@cad07c2e89fa2edd6e2d7bab4c1aa38e53f76003 # v4.1.1
       - uses: imjasonh/setup-crane@6da1ae018866400525525ce74ff892880c099987 # v0.5
 
@@ -110,10 +98,12 @@ jobs:
         with:
           persist-credentials: false
 
-      # note this step takes a long time, thus only do it when we
-      # really need lots of disk space, ie. for pytorch
+      - uses: chainguard-dev/setup-chainctl@2cddd35a2f120d9973e58094dc6878c93cf58c28 # v0.5.1
+        with:
+          identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
+
       - name: Disk cleanup
-        if: ${{ contains(matrix.shard.images, 'pytorch') }}
+        if: ${{ contains(matrix.shard.image, 'pytorch') }}
         run: |
           ## All disk reclaim actions look sus and are not actively
           ## maintained, doing it by hand as per https://dev.to/mathio/squeezing-disk-space-from-github-actions-runners-an-engineers-guide-3pjg#6-how-to-automate-cleanup-in-your-ci
@@ -157,22 +147,18 @@ jobs:
 
       - name: Terraform apply
         timeout-minutes: 60
+        env:
+          TF_VAR_image_name: ${{ matrix.shard.image }}
         run: |
           set -exo pipefail
           env | grep '^TF_VAR_'
 
-          make init-upgrade
-
-          # Enable active tag updates
           make enable-active-tag-update
 
-          targets=""
-          for image in ${{ matrix.shard.images }}; do
-            targets+=' -target='module."${image}"''
-          done
-
-          terraform plan ${targets} -out mega-module.tfplan
-          terraform apply ${targets} -auto-approve --parallelism=$(nproc) -json mega-module.tfplan | tee /tmp/mega-module.tf.json | jq -r '.["@message"]'
+          cd lock-release
+          terraform init -upgrade
+          terraform plan -out lock-release.tfplan
+          terraform apply -auto-approve --parallelism=$(nproc) -json lock-release.tfplan | tee /tmp/mega-module.tf.json | jq -r '.["@message"]'
 
       - name: Collect TF diagnostics
         if: ${{ always() }}
@@ -181,24 +167,12 @@ jobs:
         with:
           json-file: /tmp/mega-module.tf.json
 
-      - name: Collect K8s diagnostics and upload
-        if: ${{ failure() }}
-        run: |
-          echo 'This step is deprecated. Please use the imagetest provider and reference the imagetest logs'
-
       - name: Upload terraform logs
         if: always()
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: "mega-module-${{ matrix.shard.index }}.tf.json"
           path: /tmp/mega-module.tf.json
-
-      - name: Upload imagetest logs
-        if: always()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
-        with:
-          name: "mega-module-${{ matrix.shard.index }}-imagetest-logs"
-          path: imagetest-logs
 
       - uses: step-security/action-slack-notify@e04c77a65bae8b6c0373478a1cb8fd7e012637e6 # v2.3.5
         if: ${{ failure() && github.event_name == 'schedule' }}
@@ -210,14 +184,14 @@ jobs:
           SLACK_CHANNEL: chainguard-images-alerts
           SLACK_COLOR: "#8E1600"
           MSG_MINIMAL: "true"
-          SLACK_TITLE: "[images] release failed (shard ${{ matrix.shard.index }} of ${{ env.TOTAL_SHARDS }})"
+          SLACK_TITLE: "[images] release failed (shard ${{ matrix.shard.index }})"
           SLACK_MESSAGE: |
             https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
             ${{ steps.tf-diag.outputs.errors }}
 
   summary:
-    name: "Build Summary"
+    name: "Lock Release Summary"
     runs-on: ubuntu-latest
     if: ${{ always() }}
     needs: build
@@ -236,7 +210,6 @@ jobs:
           path: /tmp/shard-logs
           pattern: mega-module-*
 
-      # Cat all the files into one, while maintaining their shard
       - run: |
           find '/tmp/shard-logs' -name 'mega-module.tf.json' | while read file; do
             shard_index=$(echo "$file" | sed -E 's/.*mega-module-([0-9]+)\.tf\.json.*/\1/')
@@ -244,17 +217,13 @@ jobs:
             jq -cr --arg shard_index "$shard_index" '. + {"shard_index":$shard_index}' $file >> logs.tf.json
           done
 
-      # process the logs
       - run: |
-          # Create a file just for errors
           jq -r 'select(.["@level"]=="error")' logs.tf.json > errors.tf.json
 
-      # Build the markdown table
       - run: |
           echo "| Status | Shard | Image | Summary | Address |" >> $GITHUB_STEP_SUMMARY
           echo "| :-:    | ----- | ----- | ------- | ------- |" >> $GITHUB_STEP_SUMMARY
 
-          # append the rows to the table
           export rows="$(jq -r '"| ❌ | " + .shard_index + " | " + (.diagnostic.address | split(".")[1]) + " | ```" + .diagnostic.summary + "``` | ```" + .diagnostic.address + "``` |"' errors.tf.json)"
           echo "${rows}"
 
@@ -264,5 +233,4 @@ jobs:
 
       - name: Error Details
         run: |
-          # Print the errors as expandable groups
           jq -r '"::group:: shard: " + .shard_index + " | " + (.diagnostic.address | split(".")[1]) + "\nresource: " + .diagnostic.address + "\n\nsummary: " + .diagnostic.summary + "\n\ndetails:\n\n" + .diagnostic.detail + "\n::endgroup::"' errors.tf.json || true
