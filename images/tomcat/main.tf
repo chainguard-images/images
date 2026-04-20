@@ -30,7 +30,7 @@ variable "target_repository" {
 }
 
 locals {
-  latest_jdk = "26"
+  latest_jdk = "25"
 }
 
 module "config" {
