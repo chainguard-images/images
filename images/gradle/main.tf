@@ -9,7 +9,7 @@ variable "target_repository" {
 }
 
 locals {
-  java_version = "25"
+  java_version = "26"
 }
 
 module "config" {
