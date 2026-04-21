@@ -62,12 +62,20 @@ locals {
   lock  = jsondecode(file("${path.module}/../images/${var.image_name}/locked_config.json"))
   locks = local.lock.imageLocks
 
-  # Only entries that have a populated devConfigs map.
+  // Only entries that have a populated devConfigs map.
   dev_locks = { for k, v in local.locks : k => v if can(v.devConfigs) && length(v.devConfigs) > 0 }
 
-  # Optional per-image overrides. 
-  # If public/images/<name>/lock-release.config.json exists, 
-  # its fields override the defaults below.
+  // Some images split across multiple imageLocks entries that publish to a
+  // single repo (e.g. git-public + git-root-public both target public/git).
+  // Required for 1 tagger per repo.
+  module_keys_by_repo = {
+    for repo in distinct([for k, v in local.locks : v.repo]) :
+    repo => [for k, v in local.locks : k if v.repo == repo]
+  }
+
+  // Optional per-image overrides.
+  // If public/images/<name>/lock-release.config.json exists,
+  // its fields override the defaults below.
   overrides_path = "${path.module}/../images/${var.image_name}/lock-release.config.json"
   overrides      = fileexists(local.overrides_path) ? jsondecode(file(local.overrides_path)) : {}
   check_sbom     = try(local.overrides.check_sbom, var.check-sbom)
@@ -77,9 +85,9 @@ module "build" {
   for_each = local.locks
   source   = "../tflib/publisher"
 
-  # configs["index"] is a JSON string of {"config": {<apko config>}}.
-  # We decode to extract the inner config object, then re-encode as JSON
-  # (valid YAML) for the publisher's yamldecode() call.
+  // configs["index"] is a JSON string of {"config": {<apko config>}}.
+  // We decode to extract the inner config object, then re-encode as JSON
+  // (valid YAML) for the publisher's yamldecode() call.
   config = jsonencode(jsondecode(each.value.configs["index"]).config)
 
   target_repository = "${var.target_repository}/${split("/", each.value.repo)[1]}"
@@ -103,14 +111,12 @@ module "build-dev" {
   check-sbom        = local.check_sbom
 }
 
-// Single tagger merges both base and dev tags.
+// Single tagger merges both base and dev tags including all variants.
 module "tagger" {
-  for_each = var.skip-tagging ? {} : local.locks
+  for_each = var.skip-tagging ? {} : local.module_keys_by_repo
   source   = "../tflib/tagger"
-  tags = merge(
-    { for tag in each.value.tags : tag => module.build[each.key].image_ref },
-    contains(keys(local.dev_locks), each.key)
-    ? { for tag in each.value.tags : "${tag}-dev" => module.build-dev[each.key].image_ref }
-    : {},
-  )
+  tags = merge(concat(
+    [for k in each.value : { for tag in local.locks[k].tags : tag => module.build[k].image_ref }],
+    [for k in each.value : { for tag in local.locks[k].tags : "${tag}-dev" => module.build-dev[k].image_ref } if contains(keys(local.dev_locks), k)],
+  )...)
 }
