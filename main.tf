@@ -59,7 +59,7 @@ provider "apko" {
 provider "cosign" { default_attestation_entry_type = "dsse" }
 
 locals {
-  lock  = jsondecode(file("${path.module}/../images/${var.image_name}/locked_config.json"))
+  lock  = jsondecode(file("${path.module}/images/${var.image_name}/locked_config.json"))
   locks = local.lock.imageLocks
 
   // Only entries that have a populated devConfigs map.
@@ -74,16 +74,16 @@ locals {
   }
 
   // Optional per-image overrides.
-  // If public/images/<name>/lock-release.config.json exists,
+  // If images/<name>/lock-release.config.json exists,
   // its fields override the defaults below.
-  overrides_path = "${path.module}/../images/${var.image_name}/lock-release.config.json"
+  overrides_path = "${path.module}/images/${var.image_name}/lock-release.config.json"
   overrides      = fileexists(local.overrides_path) ? jsondecode(file(local.overrides_path)) : {}
   check_sbom     = try(local.overrides.check_sbom, var.check-sbom)
 }
 
 module "build" {
   for_each = local.locks
-  source   = "../tflib/publisher"
+  source   = "./tflib/publisher"
 
   // configs["index"] is a JSON string of {"config": {<apko config>}}.
   // We decode to extract the inner config object, then re-encode as JSON
@@ -101,7 +101,7 @@ module "build" {
 // Only builds if devConfigs are populated in the lock file.
 module "build-dev" {
   for_each = local.dev_locks
-  source   = "../tflib/publisher"
+  source   = "./tflib/publisher"
 
   config = jsonencode(jsondecode(each.value.devConfigs["index"]).config)
 
@@ -116,7 +116,7 @@ module "build-dev" {
 // Single tagger merges both base and dev tags including all variants.
 module "tagger" {
   for_each = var.skip-tagging ? {} : local.module_keys_by_repo
-  source   = "../tflib/tagger"
+  source   = "./tflib/tagger"
   tags = merge(concat(
     [for k in each.value : { for tag in local.locks[k].tags : tag => module.build[k].image_ref }],
     [for k in each.value : { for tag in local.locks[k].tags : "${tag}-dev" => module.build-dev[k].image_ref } if contains(keys(local.dev_locks), k)],
