@@ -1,80 +1,28 @@
 terraform {
   required_providers {
-    apko      = { source = "chainguard-dev/apko" }
-    imagetest = { source = "chainguard-dev/imagetest" }
-    cosign    = { source = "chainguard-dev/cosign" }
+    apko       = { source = "chainguard-dev/apko" }
+    oci        = { source = "chainguard-dev/oci" }
+    cosign     = { source = "chainguard-dev/cosign" }
+    chainguard = { source = "chainguard-dev/chainguard" }
   }
 
-  # We don't take advantage of terraform.tfstate, so we don't need to save state anywhere.
-  #
-  # The default "local" backend has pathological performance as state gets large, see:
-  # https://github.com/opentofu/opentofu/issues/578
-  #
-  # Consider removing this if that's ever fixed and/or if we want to use tfstate.
   backend "inmem" {}
-}
-
-variable "tests_skip_all" {
-  type    = bool
-  default = false
-}
-
-variable "tests_include_by_label" {
-  type    = map(string)
-  default = {}
-}
-
-variable "tests_exclude_by_label" {
-  type    = map(string)
-  default = {}
-}
-
-provider "imagetest" {
-  repo        = "${var.target_repository}/imagetest"
-  extra_repos = [var.test_repository, local.scratch_repository]
-
-  test_execution = {
-    skip_all_tests   = var.tests_skip_all
-    include_by_label = var.tests_include_by_label
-    exclude_by_label = var.tests_exclude_by_label
-  }
 }
 
 variable "target_repository" {
   type        = string
-  description = "The root repo into which the images should be published (e.g., cgr.dev/chainguard). Individual images will be published within this root repo."
+  description = "Root registry for image publication."
 }
 
-variable "test_repository" {
-  description = "The docker repo root to use for sourcing test images."
-  default     = "cgr.dev/chainguard"
+variable "image_name" {
+  type        = string
+  description = "Image directory name to build. Must have a locked_config.json in images/<image_name>/."
 }
 
-variable "scratch_repository" {
-  description = "The docker repo root to use for writing scratch/temporary test images, without worrying about them being confused with real Chainguard images."
-  default     = ""
-}
-
-locals {
-  scratch_repository = var.scratch_repository != "" ? var.scratch_repository : "${var.target_repository}/test-tmp"
-}
-
-variable "extra_repositories" {
-  type        = list(string)
-  default     = []
-  description = "Extra repositories to look for when finding packages."
-}
-
-variable "extra_keyring" {
-  type        = list(string)
-  default     = []
-  description = "Extra keyrings to use when finding packages."
-}
-
-variable "extra_packages" {
-  type        = list(string)
-  default     = []
-  description = "Extra packages to install in all images."
+variable "skip-tagging" {
+  type        = bool
+  default     = false
+  description = "Whether to skip tagging after builds."
 }
 
 variable "archs" {
@@ -83,21 +31,94 @@ variable "archs" {
   description = "The architectures to build for. If empty, defaults to x86_64 and aarch64."
 }
 
-provider "apko" {
-  extra_repositories = concat(["https://apk.cgr.dev/chainguard"], var.extra_repositories)
-  extra_keyring      = var.extra_keyring
-  extra_packages     = concat(["wolfi-baselayout"], var.extra_packages)
-  default_archs      = var.archs
+variable "extra_keyring" {
+  type        = list(string)
+  default     = []
+  description = "Extra keyrings to use when finding packages."
+}
 
-  default_layering = {
-    budget   = 10
-    strategy = "origin"
+// Mirrors the publisher variable
+variable "check-sbom" {
+  type        = bool
+  default     = true
+  description = "Whether to run the NTIA conformance checker over the images we produce prior to attesting the SBOMs. Can be overridden per-image via lock-release.config.json."
+}
+
+provider "apko" {
+  default_archs = var.archs
+  extra_keyring = var.extra_keyring
+
+  size_limits = {
+    apk_control_max_size            = -1
+    apk_data_max_size               = -1
+    apk_index_decompressed_max_size = -1
+    http_response_max_size          = -1
   }
 }
 
-variable "newrelic_license_key" { default = "foo" } # set something valid to avoid targetted local runs
+provider "cosign" { default_attestation_entry_type = "dsse" }
 
-provider "cosign" {
-  default_attestation_entry_type = "dsse"
-  timeout                        = "10m"
+locals {
+  lock  = jsondecode(file("${path.module}/../images/${var.image_name}/locked_config.json"))
+  locks = local.lock.imageLocks
+
+  // Only entries that have a populated devConfigs map.
+  dev_locks = { for k, v in local.locks : k => v if can(v.devConfigs) && length(v.devConfigs) > 0 }
+
+  // Some images split across multiple imageLocks entries that publish to a
+  // single repo (e.g. git-public + git-root-public both target public/git).
+  // Required for 1 tagger per repo.
+  module_keys_by_repo = {
+    for repo in distinct([for k, v in local.locks : v.repo]) :
+    repo => [for k, v in local.locks : k if v.repo == repo]
+  }
+
+  // Optional per-image overrides.
+  // If public/images/<name>/lock-release.config.json exists,
+  // its fields override the defaults below.
+  overrides_path = "${path.module}/../images/${var.image_name}/lock-release.config.json"
+  overrides      = fileexists(local.overrides_path) ? jsondecode(file(local.overrides_path)) : {}
+  check_sbom     = try(local.overrides.check_sbom, var.check-sbom)
+}
+
+module "build" {
+  for_each = local.locks
+  source   = "../tflib/publisher"
+
+  // configs["index"] is a JSON string of {"config": {<apko config>}}.
+  // We decode to extract the inner config object, then re-encode as JSON
+  // (valid YAML) for the publisher's yamldecode() call.
+  config = jsonencode(jsondecode(each.value.configs["index"]).config)
+
+  target_repository = "${var.target_repository}/${split("/", each.value.repo)[1]}"
+  name              = split("/", each.value.repo)[1]
+  main_package      = ""
+  build-dev         = false
+  update-repo       = false
+  check-sbom        = local.check_sbom
+}
+
+// Only builds if devConfigs are populated in the lock file.
+module "build-dev" {
+  for_each = local.dev_locks
+  source   = "../tflib/publisher"
+
+  config = jsonencode(jsondecode(each.value.devConfigs["index"]).config)
+
+  target_repository = "${var.target_repository}/${split("/", each.value.repo)[1]}"
+  name              = split("/", each.value.repo)[1]
+  main_package      = ""
+  build-dev         = false
+  update-repo       = false
+  check-sbom        = local.check_sbom
+}
+
+// Single tagger merges both base and dev tags including all variants.
+module "tagger" {
+  for_each = var.skip-tagging ? {} : local.module_keys_by_repo
+  source   = "../tflib/tagger"
+  tags = merge(concat(
+    [for k in each.value : { for tag in local.locks[k].tags : tag => module.build[k].image_ref }],
+    [for k in each.value : { for tag in local.locks[k].tags : "${tag}-dev" => module.build-dev[k].image_ref } if contains(keys(local.dev_locks), k)],
+  )...)
 }

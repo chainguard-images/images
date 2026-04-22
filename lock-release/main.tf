@@ -92,6 +92,7 @@ module "build" {
 
   target_repository = "${var.target_repository}/${split("/", each.value.repo)[1]}"
   name              = split("/", each.value.repo)[1]
+  main_package      = ""
   build-dev         = false
   update-repo       = false
   check-sbom        = local.check_sbom
@@ -106,6 +107,7 @@ module "build-dev" {
 
   target_repository = "${var.target_repository}/${split("/", each.value.repo)[1]}"
   name              = split("/", each.value.repo)[1]
+  main_package      = ""
   build-dev         = false
   update-repo       = false
   check-sbom        = local.check_sbom
