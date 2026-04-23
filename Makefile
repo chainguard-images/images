@@ -1,15 +1,9 @@
-cfg?=images/static/configs/wolfi.apko.yaml
 TERRAFORM ?= $(shell command -v terraform)
 
 # Terraform plugin cache directory for faster provider downloads
 TF_PLUGIN_CACHE_DIR ?= $(HOME)/.terraform.d/plugin-cache
 $(shell mkdir -p $(TF_PLUGIN_CACHE_DIR))
 export TF_PLUGIN_CACHE_DIR
-
-TFGEN_SKIP ?= 
-
-# These are the tfgen generators applied to this repo (in order)
-TFGEN_GENERATORS ?= Image01Variables,Image02Outputs,Toplevel01Modules,Toplevel02Outputs
 
 .PHONY: apko-build
 apko-build:
@@ -25,25 +19,11 @@ apko-build-alpine:
 	--repository-append https://dl-cdn.alpinelinux.org/alpine/edge/main \
 	--package-append    ca-certificates-bundle
 
-TF_AUTO_APPROVE ?= 1
-TF_VARS :=
-
-ifeq ($(TF_AUTO_APPROVE),1)
-TF_VARS += --auto-approve
-endif
-
-.PHONY: all
-all: init
-	$(TERRAFORM) apply $(TF_VARS)
-
 fmt:
 	$(TERRAFORM) fmt -check -recursive .
 
 validate:
 	$(TERRAFORM) validate
-
-image/%: init
-	$(TERRAFORM) apply $(TF_VARS) -target=module.$*
 
 init:
 	$(TERRAFORM) init -lockfile=readonly
@@ -85,27 +65,3 @@ k3d: k3d-registry
 k3d-clean:
 	@# Destroy the k3d cluster, but keep the registry around since it can safely persist across clusters
 	k3d cluster delete
-
-# Run the tfgen used in CI check, regenerate all generated.tf files)
-.PHONY: tfgen
-tfgen:
-	(w="$(shell pwd)" && cd ../ && go run ./monopod tfgen "$${w}" --skip=$(TFGEN_SKIP) --generators=$(TFGEN_GENERATORS))
-
-# Run tfgen for just one or more images (e.g. "make tfgen/img1,img2,img3")
-tfgen/%:
-	(w="$(shell pwd)" && cd ../ && go run ./monopod tfgen "$${w}" --skip=$(TFGEN_SKIP) --generators=$(TFGEN_GENERATORS) --only=$*)
-
-# In some cases the list of images may be too large for Make to handle,
-# so do the above but get the list from the environment variable TFGEN_IMAGES
-# instead of passing them on the command line
-tfgen-env:
-	(w="$(shell pwd)" && cd ../ && go run ./monopod tfgen "$${w}" --skip=$(TFGEN_SKIP) --generators=$(TFGEN_GENERATORS) --only=${TFGEN_IMAGES})
-
-# Clean up all generated.tf files created by tfgen
-.PHONY: tfgen-clean
-tfgen-clean:
-	rm -f generated.tf images/**/generated.tf
-
-.PHONY: monopod
-monopod:
-	(cd monopod && go install .) && which monopod && monopod version
