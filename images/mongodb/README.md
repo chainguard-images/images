@@ -36,6 +36,10 @@ Chainguard's MongoDB container image is comparable to [the official `mongo` imag
 
 Like most of Chainguard's images, the MongoDB image does not operate as the root user and includes only the minimum packages needed to function. This means it doesn't include things like a shell or package manager.
 
+### Entrypoint Differences
+
+The Chainguard image's entrypoint is `/usr/bin/mongod` directly; the upstream `docker-entrypoint.sh` wrapper is not shipped. As a result, the `MONGO_INITDB_ROOT_*` / `MONGO_INITDB_DATABASE` environment variables and `/docker-entrypoint-initdb.d/` scripts are not available. Pass `mongod` flags directly or initialize the database out-of-band.
+
 
 ## Getting Started
 
