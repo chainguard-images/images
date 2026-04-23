@@ -41,22 +41,22 @@ jobs:
         name: Shard
         shell: bash
         run: |
-          images=($(find ./images -maxdepth 2 -name "locked_config.json" | awk -F'/' '{print $3}' | sort -u | shuf))
+          mapfile -t images < <(find ./images -maxdepth 2 -name "locked_config.json" | awk -F'/' '{print $3}' | sort -u | shuf)
 
           total=${#images[@]}
 
           declare -a bins
           for ((i = 0; i < total; i++)); do
-            bins[$i]="${images[$i]}"
+            bins[i]="${images[i]}"
           done
 
           matrix=$(printf "%s\n" "${bins[@]}" | jq -cRnjr '[inputs] | [ range(0; length) as $i | { "index": $i | tostring, "image": .[$i] } ]')
-          echo "matrix=${matrix}" >> $GITHUB_OUTPUT
+          echo "matrix=${matrix}" >> "$GITHUB_OUTPUT"
 
           # Overwrite the output above if workflow_dispatch'd with `only`
           if [ -n "${{ inputs.only }}" ]; then
             shard='[{"index": 0, "image": "${{ inputs.only }}"}]'
-            echo "matrix=${shard}" >> $GITHUB_OUTPUT
+            echo "matrix=${shard}" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Shard Results
@@ -155,10 +155,9 @@ jobs:
 
           make enable-active-tag-update
 
-          cd lock-release
           terraform init -upgrade
           terraform plan -out lock-release.tfplan
-          terraform apply -auto-approve --parallelism=$(nproc) -json lock-release.tfplan | tee /tmp/mega-module.tf.json | jq -r '.["@message"]'
+          terraform apply -auto-approve --parallelism="$(nproc)" -json lock-release.tfplan | tee /tmp/mega-module.tf.json | jq -r '.["@message"]'
 
       - name: Collect TF diagnostics
         if: ${{ always() }}
@@ -211,23 +210,24 @@ jobs:
           pattern: mega-module-*
 
       - run: |
-          find '/tmp/shard-logs' -name 'mega-module.tf.json' | while read file; do
+          find '/tmp/shard-logs' -name 'mega-module.tf.json' | while IFS= read -r file; do
             shard_index=$(echo "$file" | sed -E 's/.*mega-module-([0-9]+)\.tf\.json.*/\1/')
-            echo $shard_index
-            jq -cr --arg shard_index "$shard_index" '. + {"shard_index":$shard_index}' $file >> logs.tf.json
+            echo "$shard_index"
+            jq -cr --arg shard_index "$shard_index" '. + {"shard_index":$shard_index}' "$file" >> logs.tf.json
           done
 
       - run: |
           jq -r 'select(.["@level"]=="error")' logs.tf.json > errors.tf.json
 
       - run: |
-          echo "| Status | Shard | Image | Summary | Address |" >> $GITHUB_STEP_SUMMARY
-          echo "| :-:    | ----- | ----- | ------- | ------- |" >> $GITHUB_STEP_SUMMARY
+          echo "| Status | Shard | Image | Summary | Address |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| :-:    | ----- | ----- | ------- | ------- |" >> "$GITHUB_STEP_SUMMARY"
 
-          export rows="$(jq -r '"| ❌ | " + .shard_index + " | " + (.diagnostic.address | split(".")[1]) + " | ```" + .diagnostic.summary + "``` | ```" + .diagnostic.address + "``` |"' errors.tf.json)"
+          rows="$(jq -r '"| ❌ | " + .shard_index + " | " + (.diagnostic.address | split(".")[1]) + " | ```" + .diagnostic.summary + "``` | ```" + .diagnostic.address + "``` |"' errors.tf.json)"
+          export rows
           echo "${rows}"
 
-          cat >> $GITHUB_STEP_SUMMARY <<EOR
+          cat >> "$GITHUB_STEP_SUMMARY" <<EOR
           ${rows}
           EOR
 
