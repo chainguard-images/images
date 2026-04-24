@@ -132,6 +132,58 @@ verify_package_present() {
   cosign download attestation "$image" | jq -r .payload | base64 -d | jq .predicate.contents.packages | grep "$package"
 }
 
+# Fetch a URL from outside the cluster.
+#
+# Curl flags are standardized here so every external fetch in tests gets the
+# same retry/fail behavior: fail on HTTP errors, follow redirects, and retry
+# transient failures including network blips. Use this for any curl call
+# leaving the cluster (GitHub, upstream release hosts, etc.) — NOT for
+# in-cluster service checks, where retries mask real breakage.
+#
+# Retries are atomic with respect to output: when no -o/-O is given, the body
+# is first downloaded to a tempfile and then streamed to stdout, so pipe
+# consumers (yq, sed, kubectl apply -f -, bash -s, ...) only ever see bytes
+# from a complete transfer — never a partial+retry concatenation. With -o/-O
+# the caller's file gets curl's native behavior, which already truncates on
+# retry.
+#
+# Usage: curl_external <url> [extra curl args...]
+#
+# Examples:
+#   curl_external https://example.com/file.yaml | kubectl apply -f -
+#   curl_external https://example.com/script.sh | bash
+#   curl_external https://example.com/archive.tgz -o archive.tgz
+curl_external() {
+  local url="${1:?URL required}"
+  shift
+
+  local a has_output=0
+  for a in "$@"; do
+    case "$a" in
+      -o|--output|-O|--remote-name|--output=*) has_output=1; break ;;
+    esac
+  done
+
+  if [ "${has_output}" -eq 1 ]; then
+    curl --fail --silent --show-error --location \
+      --retry 5 --retry-delay 10 --retry-all-errors \
+      "$@" "${url}"
+    return
+  fi
+
+  local tmp
+  tmp="$(mktemp)"
+  if ! curl --fail --silent --show-error --location \
+    --retry 5 --retry-delay 10 --retry-all-errors \
+    "$@" -o "${tmp}" \
+    "${url}"; then
+    rm -f "${tmp}"
+    return 1
+  fi
+  cat "${tmp}"
+  rm -f "${tmp}"
+}
+
 # Retag an image from one repository to another using crane copy.
 # Sets up crane auth from the imagetest-docker-config secret.
 #
