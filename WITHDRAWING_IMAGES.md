@@ -5,7 +5,7 @@ Sometimes an image needs to be removed from the repository because it was errone
 To do so:
 
 - Add the full image refs that need to be removed to `withdrawn-images.txt`
-- Run the ["Withdraw Images"](https://github.com/chainguard-images/images/os/blob/main/.github/workflows/withdraw-images.yaml) workflow on GitHub.
+- Run the ["Withdraw Images"](https://github.com/chainguard-images/images/blob/main/.github/workflows/withdraw-images.yaml) workflow on GitHub.
 
 This ensures that these operations are only done using the Chainguard identity with permission, and not by any human user directly. This also provides an audit trail of such operations.
 
@@ -23,6 +23,6 @@ Sometimes an image repo needs to be removed entirely because it was erroneously 
 To do so:
 
 - Add the repo basename that need to be removed to `withdrawn-repos.txt`
-- Run the ["Withdraw Repos"](https://github.com/chainguard-images/images/os/blob/main/.github/workflows/withdraw-repos.yaml) workflow on GitHub.
+- Run the ["Withdraw Repos"](https://github.com/chainguard-images/images/blob/main/.github/workflows/withdraw-repos.yaml) workflow on GitHub.
 
 This ensures that these operations are only done using the Chainguard identity with permission, and not by any human user directly. This also provides an audit trail of such operations.
