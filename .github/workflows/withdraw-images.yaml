@@ -28,7 +28,7 @@ jobs:
           identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
       - uses: imjasonh/setup-crane@6da1ae018866400525525ce74ff892880c099987 # v0.5
       - run: |
-          for img in $(grep -v '\#' withdrawn-images.txt); do
+          while IFS= read -r img; do
             if [[ "${{ github.event.inputs.dry_run }}" == "false" ]]; then
               crane delete "$img" || true
               crane delete "$img-dev" || true
@@ -36,4 +36,4 @@ jobs:
               echo "DRY RUN: crane delete $img || true"
               echo "DRY RUN: crane delete $img-dev || true"
             fi
-          done
+          done < <(grep -v '\#' withdrawn-images.txt)

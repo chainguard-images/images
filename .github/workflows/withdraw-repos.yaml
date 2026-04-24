@@ -29,10 +29,10 @@ jobs:
         with:
           identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
       - run: |
-          for repo in $(grep -v '\#' withdrawn-repos.txt); do
+          while IFS= read -r repo; do
             if [[ "${{ github.event.inputs.dry_run }}" == "false" ]]; then
-              chainctl image repo rm $repo || true
+              chainctl image repo rm "$repo" || true
             else
               echo "DRY RUN: chainctl image repo rm $repo || true"
             fi
-          done
+          done < <(grep -v '\#' withdrawn-repos.txt)
