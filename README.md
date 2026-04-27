@@ -43,7 +43,6 @@ You can reproduce a build on your own machine using `apko` and the `locked_confi
 | Path | Purpose |
 | --- | --- |
 | `images/<name>/` | Per-image build config, tests, and README |
-| `policies/` | Policy definitions applied to published images |
 | `tflib/` | Shared Terraform modules used by the release driver |
 | `.github/workflows/release.yaml` | Workflow that runs the release |
 
