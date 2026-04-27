@@ -97,7 +97,7 @@ variable "pod_identity_associations" {
 variable "node_vm_size" {
   description = "The Azure VM size used by the AKS cluster nodes."
   type        = string
-  default     = "Standard_D2ds_v4"
+  default     = "Standard_D2ds_v6"
 }
 
 variable "driver_config" {
