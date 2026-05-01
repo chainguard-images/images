@@ -1,4 +1,5 @@
 terraform {
+  required_version = ">= 1.4, < 1.15"
   required_providers {
     apko       = { source = "chainguard-dev/apko" }
     oci        = { source = "chainguard-dev/oci" }
