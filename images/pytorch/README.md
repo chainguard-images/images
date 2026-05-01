@@ -117,7 +117,7 @@ mkdir -p pytorch-test &&\
  docker run --rm -it -v "$PWD/pytorch-test:/tmp/pytorch-test" cgr.dev/chainguard/pytorch:latest /tmp/pytorch-test/model_builder.py
 ```
 
-You may also consider running this [quickstart script](https://github.com/chainguard-images/images/blob/main/images/pytorch/tests/quickstart.py) based on the [official PyTorch quickstart tutorial](https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html) using the same approach as above.
+To explore further, the [official PyTorch quickstart tutorial](https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html) can be run using the same approach shown above.
 
 ### Using Helm charts
 
