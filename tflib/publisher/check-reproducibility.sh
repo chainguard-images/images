@@ -12,7 +12,7 @@ TMP=$(mktemp)
 
 if ! cosign download attestation \
    --predicate-type https://apko.dev/image-configuration \
-  "${IMAGE_NAME}" | jq -r .payload | base64 -d | jq .predicate > "${TMP}" ; then
+  "${IMAGE_NAME}" | jq -r '.dsseEnvelope.payload // .payload' | base64 -d | jq .predicate > "${TMP}" ; then
   if env | grep ACTIONS_ID_TOKEN_REQUEST_URL ; then
     # The ID token endpoint in actions is available, so things SHOULD fail.
     exit 1
