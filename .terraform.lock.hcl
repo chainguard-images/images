@@ -2,17 +2,17 @@
 # Manual edits may be lost in future updates.
 
 provider "registry.terraform.io/chainguard-dev/apko" {
-  version     = "1.2.8"
+  version     = "1.2.9"
   constraints = ">= 0.29.10"
   hashes = [
-    "h1:4dVu2M/uC5/oX0nvohzm0++Krvj1mQp7wFHeqshVDmA=",
-    "h1:U1KYrQi2ZSaHQZaTwZiiD85+veL42FJrdgWlFxrcrOU=",
-    "h1:fS+1zxwd2qX4K71pqe5A0r1KMR9AX9QrbH/gc2xP7eU=",
-    "zh:0027ede9ecece882a378f15b3e68cd81615cec4ebf14863cb0755970ce3f39bc",
-    "zh:700b9f9f00ff28c010e6a45239d3ce6777c510320f6c9b8e974d2fc5f2cecb7b",
-    "zh:86b728382ad3d44ba696e8abea8401523e398396720b975970fa653c2feea297",
+    "h1:0ywon6zw4tjleR2dAsrgGseM1VK1wOrvfpyHhWMrd1A=",
+    "h1:Uz+9a1S5wSPOnvCJxci4MtWyPu8GhDPIS4wepK1Ufl8=",
+    "h1:e36CP+PL30JYmVWBOctZAlUBR3fMZxsSGUnz9j4t3+A=",
+    "zh:009899909596a7255738d11588cb5f4d5c402ed1ee7466b7563258922e967d86",
+    "zh:7c179c320fba6f1e4af33c0d5fb95671489c04a32e8f2feec8fe1ea19217fcfc",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
-    "zh:8a06e89e0fa8e5b5895870bb0f45f0bcc8ac2e53797579e3d7971c67f911dc5c",
+    "zh:b82f9f52ad3ab9469bdccd6b7d2c8707cf74f4783df1901ce7ef72c68281b081",
+    "zh:e544b221d5383f83242ffd0b1eff5444eb22d921fce7214f0f8bded0257b4155",
   ]
 }
 
@@ -61,16 +61,16 @@ provider "registry.terraform.io/chainguard-dev/imagetest" {
 }
 
 provider "registry.terraform.io/chainguard-dev/oci" {
-  version = "0.1.5"
+  version = "0.1.6"
   hashes = [
-    "h1:LV5SGBXU7Gwf5KjgQSR/tE8IZ4bqUuYQBc1adR/ja1c=",
-    "h1:fIGai4nI0Uc7LnKIV+gDwfquU8A4eOu7/MXHVO0GAIs=",
-    "h1:xbGVj1C6NWuecgaP135UG3i6z1owYgNs9EaCNcz+WE0=",
-    "zh:23747376979d26fb7547f03c3f3651c02b1582b5feccc6451ea660391961e072",
-    "zh:3d7912c048ec768e9c513631a7890ab529999b89b31855b5d1bde8984c4285b6",
-    "zh:4a5cdc2bec4dfb8fa7a2779d767d8b6e6ded45fce8cd0644923727c0f64409ae",
-    "zh:520d489f80da7af9c222d2180649551978d91b1afb8a7d1a7179827584ab6174",
+    "h1:8HKc93k8kj0mqgogVonTm0FQWSjKBQHEE2lc37NfMZM=",
+    "h1:cUOzR94JmGwQStVcoIon57RPUtKX1LIwZudmJVSrx3M=",
+    "h1:gx6bJYZyZta2Q0VS19iYwuqd+7FNMwlXB9NTzsD90JE=",
+    "zh:114354e40a8edb5a4a63ffc783504d34eee7222b185972e67a3ee27d7f280da0",
     "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
+    "zh:94d13e598a469ad5b3db555f958b6f021ae915d0f41a8c6e1e0294eebc66790f",
+    "zh:ba1d080e5daf845290214f560a77fb8970936946d95716d8ccc237589c73f35b",
+    "zh:d16165946cf54c8c2e6d5e890f4b125e6e7754b539a06967d0b0f263b40892bd",
   ]
 }
 
