@@ -8,6 +8,7 @@
    },
    "devConfigs": {},
    "eol": false,
+   "fullConfigs": {},
    "latest": false,
    "main": "",
    "repo": "public/gradle",
