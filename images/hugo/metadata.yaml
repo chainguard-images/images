@@ -15,3 +15,5 @@ aliases:
 deployment:
   # no supported charts found
 skip_validation: true
+labels:
+  runs-on: ubuntu-latest-8-cores
