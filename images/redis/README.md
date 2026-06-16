@@ -48,7 +48,7 @@ Due to the entrypoint differences, module loading behavior differs significantly
 - **Upstream Redis**: The `docker-entrypoint.sh` script automatically scans `/usr/local/lib/redis/modules/` directory and loads all `.so` files found there using the `--loadmodule` flag when starting Redis.
 - **Chainguard Redis**: Modules are not automatically loaded since the image uses the Redis server binary directly. You must explicitly load modules via command-line flags or configuration file.
 
-**Important:** Module support in Chainguard Redis images is only available for Redis 8.0 and 8.2 releases. Other versions do not include module support.
+> **Note:** The `/usr/local/lib/redis/modules/` path above is specific to the upstream Docker image's entrypoint and does **not** exist in Chainguard Redis images. Chainguard's bundled modules (RedisBloom, RediSearch, ReJSON, RedisTimeSeries) are located at `/usr/lib/redis/modules/`.
 
 #### Loading Modules in Chainguard Redis
 
