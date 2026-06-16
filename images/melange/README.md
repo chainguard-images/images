@@ -31,7 +31,7 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 <!--getting:end-->
 
 <!--body:start-->
-To build the melange workflow in [examples](https://github.com/chainguard-images/images/blob/main/images/melange/tests/minimal.yaml):
+To build the melange workflow in [examples](https://github.com/chainguard-dev/melange/blob/main/examples/minimal.yaml):
 
 ```
 docker run --privileged -v "$PWD":/work cgr.dev/chainguard/melange build /work/tests/minimal.yaml
