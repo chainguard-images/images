@@ -1,4 +1,7 @@
 name: helm
+resources:
+  cpu: 6
+  memory: 6Gi
 image: cgr.dev/ORGANIZATION/helm
 endoflife: ""
 console_summary: ""

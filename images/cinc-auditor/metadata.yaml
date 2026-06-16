@@ -1,0 +1,13 @@
+name: cinc-auditor
+image: cgr.dev/chainguard/cinc-auditor
+endoflife: ""
+console_summary: ""
+short_description: "Open source toolkit for applying Chef Inspec audit and test profiles."
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: "https://cinc.sh/start/auditor/"
+keywords: []
+public: true
+tier: APPLICATION
+aliases:
+  - cincproject/auditor:latest

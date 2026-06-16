@@ -1,4 +1,7 @@
 name: static
+resources:
+  cpu: 4
+  memory: 5Gi
 image: cgr.dev/ORGANIZATION/static
 endoflife: ""
 console_summary: ""

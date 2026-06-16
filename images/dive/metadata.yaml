@@ -1,4 +1,7 @@
 name: dive
+resources:
+  cpu: 4
+  memory: 7Gi
 image: cgr.dev/ORGANIZATION/dive
 endoflife: ""
 console_summary: ""

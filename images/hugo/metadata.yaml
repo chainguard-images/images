@@ -1,4 +1,7 @@
 name: hugo
+resources:
+  cpu: 5
+  memory: 6Gi
 image: cgr.dev/ORGANIZATION/hugo
 endoflife: ""
 console_summary: ""
