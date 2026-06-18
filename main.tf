@@ -1,10 +1,10 @@
 terraform {
   required_version = ">= 1.4, < 1.15"
   required_providers {
-    apko       = { source = "chainguard-dev/apko" }
-    oci        = { source = "chainguard-dev/oci" }
-    cosign     = { source = "chainguard-dev/cosign" }
-    chainguard = { source = "chainguard-dev/chainguard" }
+    apko       = { source = "chainguard-dev/apko", version = "1.2.11" }
+    oci        = { source = "chainguard-dev/oci", version = "0.1.6" }
+    cosign     = { source = "chainguard-dev/cosign", version = "0.4.5" }
+    chainguard = { source = "chainguard-dev/chainguard", version = "0.2.11" }
   }
 
   backend "inmem" {}
@@ -74,6 +74,13 @@ locals {
     repo => [for k, v in local.locks : k if v.repo == repo]
   }
 
+  // One metadata writer per repo (first lock key) so each repo syncs once;
+  // avoids double-writes on multi-lock repos (git, php).
+  metadata_writer_keys = toset([
+    for repo, keys in local.module_keys_by_repo : keys[0]
+    if fileexists("${path.module}/images/${var.image_name}/README.md")
+  ])
+
   // Optional per-image overrides.
   // If images/<name>/lock-release.config.json exists,
   // its fields override the defaults below.
@@ -93,9 +100,10 @@ module "build" {
 
   target_repository = "${var.target_repository}/${split("/", each.value.repo)[1]}"
   name              = split("/", each.value.repo)[1]
+  metadata_dir      = var.image_name
   main_package      = ""
   build-dev         = false
-  update-repo       = false
+  update-repo       = contains(local.metadata_writer_keys, each.key)
   check-sbom        = local.check_sbom
 }
 

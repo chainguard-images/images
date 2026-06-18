@@ -76,6 +76,12 @@ variable "name" {
   description = "Name of the image, which gets used in the image annotations."
 }
 
+variable "metadata_dir" {
+  type        = string
+  default     = ""
+  description = "Image module dir under images/ to source README.md and metadata.yaml from. Defaults to var.name."
+}
+
 // Note: unused
 variable "banned_license_exceptions" {
   type        = list(string)

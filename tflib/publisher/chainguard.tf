@@ -13,10 +13,13 @@ locals {
     "scratch-images" : "4fdb48f3679017671e7c99ca09b1dd98b43758c9",
   }
 
-  readme_filepath = "images/${var.name}/README.md"
+  // Source metadata from the image module dir so a module's repos share its
+  // README/metadata (e.g. dotnet -> dotnet-runtime, dotnet-sdk).
+  metadata_dir    = var.metadata_dir != "" ? var.metadata_dir : var.name
+  readme_filepath = "images/${local.metadata_dir}/README.md"
 
   // Parse keywords out of from metadata.yaml
-  metadata_filepath = "images/${var.name}/metadata.yaml"
+  metadata_filepath = "images/${local.metadata_dir}/metadata.yaml"
   metadata_public   = fileexists(local.metadata_filepath) ? yamldecode(file(local.metadata_filepath)) : null
 
   keywords     = local.metadata_public != null ? local.metadata_public.keywords : []
