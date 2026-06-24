@@ -1,0 +1,9 @@
+issuer: https://token.actions.githubusercontent.com
+subject: repo:chainguard-dev/stereo:ref:refs/heads/main
+claim_pattern:
+  job_workflow_ref: chainguard-dev/stereo/.github/workflows/public-copy-containers.yaml@refs/heads/main
+
+permissions:
+  contents: write
+  pull_requests: write
+  workflows: write
