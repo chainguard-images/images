@@ -28,9 +28,11 @@ jobs:
       - uses: chainguard-dev/setup-chainctl@2cddd35a2f120d9973e58094dc6878c93cf58c28 # v0.5.1
         with:
           identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
-      - run: |
+      - env:
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+        run: |
           while IFS= read -r repo; do
-            if [[ "${{ github.event.inputs.dry_run }}" == "false" ]]; then
+            if [[ "$DRY_RUN" == "false" ]]; then
               chainctl image repo rm "$repo" || true
             else
               echo "DRY RUN: chainctl image repo rm $repo || true"
