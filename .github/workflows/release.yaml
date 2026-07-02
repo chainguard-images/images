@@ -42,6 +42,8 @@ jobs:
       - id: shard
         name: Shard
         shell: bash
+        env:
+          INPUTS_ONLY: ${{ inputs.only }}
         run: |
           mapfile -t images < <(find ./images -maxdepth 2 -name "locked_config.json" | awk -F'/' '{print $3}' | sort -u | shuf)
 
@@ -56,13 +58,15 @@ jobs:
           echo "matrix=${matrix}" >> "$GITHUB_OUTPUT"
 
           # Overwrite the output above if workflow_dispatch'd with `only`
-          if [ -n "${{ inputs.only }}" ]; then
-            shard='[{"index": 0, "image": "${{ inputs.only }}"}]'
+          if [ -n "${INPUTS_ONLY}" ]; then
+            shard="[{\"index\": 0, \"image\": \"${INPUTS_ONLY}\"}]"
             echo "matrix=${shard}" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Shard Results
-        run: echo '${{ steps.shard.outputs.matrix }}'
+        env:
+          MATRIX: ${{ steps.shard.outputs.matrix }}
+        run: echo "$MATRIX"
 
     outputs:
       matrix: "${{steps.shard.outputs.matrix}}"
