@@ -1,10 +1,10 @@
 terraform {
   required_version = ">= 1.4, < 1.15"
   required_providers {
-    apko       = { source = "chainguard-dev/apko", version = "1.2.11" }
+    apko       = { source = "chainguard-dev/apko", version = "1.2.14" }
     oci        = { source = "chainguard-dev/oci", version = "0.1.6" }
     cosign     = { source = "chainguard-dev/cosign", version = "0.4.5" }
-    chainguard = { source = "chainguard-dev/chainguard", version = "0.3.1" }
+    chainguard = { source = "chainguard-dev/chainguard", version = "0.2.13" }
   }
 
   backend "inmem" {}
