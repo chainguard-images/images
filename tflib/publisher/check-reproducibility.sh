@@ -23,7 +23,8 @@ if ! cosign download attestation \
   exit 0
 fi
 
-container_name="registry-$(hexdump -vn16 -e'4/4 "%08x" 1 "\n"' /dev/urandom).local"
+# .localhost, not .local: ggcr only treats .localhost as insecure/HTTP since google/go-containerregistry#2281.
+container_name="registry-$(hexdump -vn16 -e'4/4 "%08x" 1 "\n"' /dev/urandom).localhost"
 docker run -d --name "${container_name}" cgr.dev/chainguard/crane registry serve --address 0.0.0.0:5000
 
 trap "docker rm -f ${container_name}" EXIT
