@@ -1,15 +1,27 @@
+name: Withdraw Repos
+
 on:
   workflow_dispatch:
     inputs:
       dry_run:
         type: boolean
         default: true
-        description: If true, just log
+        description: Execute as dry run, only log details
+      skip_safety_check:
+        type: boolean
+        default: false
+        description: Bypass the customer-repo source count safety check
+  push:
+    branches: [main]
+    paths:
+      - "withdrawn-repos.txt"
 
 permissions: {}
 
 jobs:
   withdraw:
+    if: github.repository == 'chainguard-images/images'
+
     runs-on: ubuntu-latest
 
     permissions:
@@ -28,11 +40,28 @@ jobs:
       - uses: chainguard-dev/setup-chainctl@2cddd35a2f120d9973e58094dc6878c93cf58c28 # v0.5.1
         with:
           identity: 720909c9f5279097d847ad02a2f24ba8f59de36a/b6461e99e132298f
-      - run: |
-          while IFS= read -r repo; do
-            if [[ "${{ github.event.inputs.dry_run }}" == "false" ]]; then
-              chainctl image repo rm "$repo" || true
-            else
-              echo "DRY RUN: chainctl image repo rm $repo || true"
-            fi
-          done < <(grep -v '\#' withdrawn-repos.txt)
+
+      - name: Withdraw repos
+        env:
+          # A push to main (the mirror sync of withdrawn-repos.txt from
+          # chainguard-dev/stereo containers/public/) runs live; manual
+          # dispatch defaults to a dry run.
+          DRY_RUN: ${{ github.event.inputs.dry_run == 'true' }}
+          SKIP_SAFETY_CHECK: ${{ github.event.inputs.skip_safety_check == 'true' }}
+        run: |
+          set -eu -o pipefail
+          ./hack/withdraw-repos.sh
+
+      - uses: step-security/action-slack-notify@e4cdee14a905d9da46ba47ad9309704407d8cd79 # v2.4.0
+        if: failure()
+        env:
+          SLACK_ICON: http://github.com/chainguard-dev.png?size=48
+          SLACK_USERNAME: guardian
+          SLACK_WEBHOOK: ${{ secrets.DISTROLESS_SLACK_WEBHOOK }}
+          SLACK_MSG_AUTHOR: chainguardian
+          SLACK_CHANNEL: chainguard-images-alerts
+          SLACK_COLOR: "#8E1600"
+          MSG_MINIMAL: "true"
+          SLACK_TITLE: "[withdraw-repos] failure: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          SLACK_MESSAGE: |
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
