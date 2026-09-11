@@ -5,9 +5,9 @@ set -eu -o pipefail
 #
 # Reads the repo-root withdrawn-repos.txt, which is mirrored from
 # chainguard-dev/stereo containers/public/withdrawn-repos.txt.
-# Each non-comment, non-empty line is either:
-#   - a bare repo name, resolved as a direct child of the public org, or
-#   - a full repo UIDP (for nested repos that cannot be addressed by name).
+# Each non-comment, non-empty line is a bare repo name, resolved as a
+# direct child of the public org. Nested repos are an invalid state
+# (DeleteRepo does not cascade) and must be cleaned up manually by UIDP.
 #
 # Ported from chainguard-dev/stereo containers/hack/withdraw-repos.sh
 # (CON-1963), adapted for the public org. Failures are accumulated and
@@ -23,21 +23,16 @@ withdrawn_file="$(realpath "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/..
 
 unsafe=0
 failed=0
-for entry in $(grep -v '\#' "$withdrawn_file"); do
-    if [[ "$entry" =~ ^[0-9a-f]{40}(/[0-9a-f]{16})+$ ]]; then
-        # Full repo UIDP: it must live under the public org.
-        if [[ "$entry" != "$parent_id"/* ]]; then
-            echo "ERROR: $entry: repo UIDP is not under the public org $parent_id"
-            failed=1
-            continue
-        fi
-        repo_id="$entry"
-    else
-        repo_json=$(chainctl images repos list --parent "$parent_id" --repo "$entry" -o json) \
-            || { echo "ERROR: $entry: failed to look up repo"; exit 1; }
-        repo_id=$(echo "$repo_json" | jq -r '.items[0].id // empty')
-        if [[ -z "$repo_id" ]]; then echo "WARNING: skipping $entry (repo not found)"; continue; fi
+for entry in $(grep -v '#' "$withdrawn_file"); do
+    if [[ "$entry" == */* ]]; then
+        echo "ERROR: $entry: not a bare repo name; nested repos are an invalid state, remove them manually by UIDP"
+        failed=1
+        continue
     fi
+    repo_json=$(chainctl images repos list --parent "$parent_id" --repo "$entry" -o json) \
+        || { echo "ERROR: $entry: failed to look up repo"; exit 1; }
+    repo_id=$(echo "$repo_json" | jq -r '.items[0].id // empty')
+    if [[ -z "$repo_id" ]]; then echo "WARNING: skipping $entry (repo not found)"; continue; fi
 
     # Safety check: ensure no customer repos are sourced from this repo.
     if [[ "${SKIP_SAFETY_CHECK:-false}" != "true" ]]; then
