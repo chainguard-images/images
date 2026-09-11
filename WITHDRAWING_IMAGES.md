@@ -3,11 +3,13 @@
 Sometimes an image or an entire image repo needs to be removed because it was
 erroneously added.
 
-Withdrawals are **no longer run from this repository**. This repo is public, so
-the withdraw lists and workflows now live in the private
-[chainguard-dev/stereo](https://github.com/chainguard-dev/stereo) repository
-(CON-2865). Withdrawals for both the public (`cgr.dev/chainguard`) and private
-(`cgr.dev/chainguard-private`) catalogs run from there.
+Withdrawals are **no longer run from this repository** — the workflows live in
+the private [chainguard-dev/stereo](https://github.com/chainguard-dev/stereo)
+repository (CON-2865), covering both the public (`cgr.dev/chainguard`) and
+private (`cgr.dev/chainguard-private`) catalogs. The `withdrawn-images.txt` and
+`withdrawn-repos.txt` files at this repo's root remain as read-only mirrors of
+the stereo lists, published here for community visibility — edit them in
+stereo, not here.
 
 ## Withdrawing Images (tags)
 
