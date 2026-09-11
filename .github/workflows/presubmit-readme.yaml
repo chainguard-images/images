@@ -30,8 +30,6 @@ jobs:
               - ./generated.tf
               - ./go.mod
               - ./go.sum
-              - ./withdrawn-images.txt
-              - ./withdrawn-repos.txt
               - ./reinstated-images.txt
 
       - if: ${{ steps.changed.outputs.automated == 'true' }}

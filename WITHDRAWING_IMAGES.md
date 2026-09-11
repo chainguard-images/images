@@ -1,28 +1,32 @@
 # Withdrawing Chainguard Images
 
-Sometimes an image needs to be removed from the repository because it was erroneously added.
+Sometimes an image or an entire image repo needs to be removed because it was
+erroneously added.
 
-To do so:
+Withdrawals are **no longer run from this repository**. This repo is public, so
+the withdraw lists and workflows now live in the private
+[chainguard-dev/stereo](https://github.com/chainguard-dev/stereo) repository
+(CON-2865). Withdrawals for both the public (`cgr.dev/chainguard`) and private
+(`cgr.dev/chainguard-private`) catalogs run from there.
 
-- Add the full image refs that need to be removed to `withdrawn-images.txt`
-- Run the ["Withdraw Images"](https://github.com/chainguard-images/images/blob/main/.github/workflows/withdraw-images.yaml) workflow on GitHub.
+## Withdrawing Images (tags)
 
-This ensures that these operations are only done using the Chainguard identity with permission, and not by any human user directly. This also provides an audit trail of such operations.
-
-You can add items to the list with `crane`. For example:
-
-```
-echo "# uhoh tags were added by mistake" >> withdrawn-images.txt
-crane ls cgr.dev/chainguard/foo --full-ref | grep uhoh >> withdrawn-images.txt
-```
+- Add the full image refs to `containers/public/withdrawn-images.txt` in
+  chainguard-dev/stereo (the private catalog uses
+  `containers/withdrawn-images.txt`).
+- Run the "Withdraw Images (containers)" workflow
+  (`.github/workflows/withdraw-images-containers.yaml`) in chainguard-dev/stereo.
 
 ## Withdrawing Entire Repos
 
-Sometimes an image repo needs to be removed entirely because it was erroneously added.
+- Add the repo basename to `containers/public/withdrawn-repos.txt` in
+  chainguard-dev/stereo. **Bare repo names only** — slashed entries (nested
+  repos or UIDPs) are rejected and fail the run; nested repos are cleaned up
+  manually. (The private catalog uses `containers/withdrawn-repos.txt`, where
+  slashed entries are subgroup paths.)
+- Run the "Withdraw Repos (containers)" workflow
+  (`.github/workflows/withdraw-repos-containers.yaml`) in chainguard-dev/stereo.
 
-To do so:
-
-- Add the repo basename that need to be removed to `withdrawn-repos.txt`
-- Run the ["Withdraw Repos"](https://github.com/chainguard-images/images/blob/main/.github/workflows/withdraw-repos.yaml) workflow on GitHub.
-
-This ensures that these operations are only done using the Chainguard identity with permission, and not by any human user directly. This also provides an audit trail of such operations.
+Running withdrawals through these workflows ensures the operations are only
+done using the Chainguard identity with permission, not by any human user
+directly, and provides an audit trail.
