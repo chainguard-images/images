@@ -292,7 +292,6 @@ After posting, refresh the page on [http://localhost:6069/animals](http://localh
 
 - [Chainguard Academy: Getting Started with the Node Chainguard Image](https://edu.chainguard.dev/chainguard/chainguard-images/getting-started/node/)
 - [Chainguard Academy: How to Port a Sample Application to Chainguard Images](https://edu.chainguard.dev/chainguard/migration/porting-apps-to-chainguard/?utm_source=blog&utm_medium=website&utm_campaign=FY25-EC-Blog_sourced)
-- [Learning Lab: Chainguard's Node Image](https://www.chainguard.dev/events/chainguards-node-image)
 - [Blog: Migrating a Node.js application to Chainguard Images](https://www.chainguard.dev/unchained/migrating-a-node-js-application-to-chainguard-images)
 
 <!--body:end-->
