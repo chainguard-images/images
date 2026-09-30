@@ -7,6 +7,7 @@ caddy-fips
 cassandra
 cassandra-fips
 flyway
+glibc-dynamic-tzdata
 imagetest
 jitsucom-bulker-bulker-dev
 jitsucom-bulker-ingest-dev
@@ -17,5 +18,6 @@ livekit-server-fips
 mysql
 mysql-client
 mysql-fips
+static-tzdata
 test-tmp
 tomcat-fips
