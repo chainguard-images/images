@@ -1,5 +1,21 @@
 # OctoSTS policies
 
+## Public-copy production handover
+
+The legacy `stereo-public-copy.sts.yaml` grant for stereo's GitHub Actions
+publisher is retired after the production `public-copy-containers` reconciler
+has completed its controlled handover. The replacement policy,
+`public-copy-containers-production.sts.yaml`, must already trust the verified
+numeric Google subject of the production runtime and grant only `contents: write`.
+
+Before merging the legacy-policy removal, verify that stereo's old workflow is
+removed and all of its runs are drained. Require evidence of a signed production
+publication, an unchanged-input no-op, a watched-path push and an hourly resync
+from the replacement. Follow the
+[production handover runbook](https://github.com/chainguard-dev/mono/blob/main/env/enforce.dev/iac/400-public-copy-containers/README.md)
+for ordering and rollback. Restoring Actions requires pausing and draining the
+reconciler first; never authorize concurrent publishers.
+
 ## Public-copy staging
 
 `public-copy-containers-staging.sts.yaml` grants `contents: read` to
