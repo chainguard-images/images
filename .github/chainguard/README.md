@@ -8,18 +8,18 @@
 issuer `https://accounts.google.com` and only numeric subject
 `108056566238059936936`.
 
-The initial `contents: read` grant lets the production reconciler read this
-repository as the destination base for full-tree dry-run comparisons against
-`chainguard-dev/stereo`. Keep its producers paused and dry-run enabled while
-installing and validating trust. A separate reviewed change grants only
-`contents: write` after Actions is disabled and drained.
+The `contents: write` grant permits the production reconciler to publish this
+repository from `chainguard-dev/stereo`. Its source policy remains read-only.
+Finish the production dry-run parity and read-only token checks, then disable
+and drain Actions before installing this write grant. Keep reconciler producers
+paused and drain the queue before deploying the separate worker write-mode
+configuration. Verify a controlled signed publication and an unchanged-input
+no-op before unpausing producers.
 
-Retire the legacy `stereo-public-copy.sts.yaml` Actions policy only after the
-production reconciler has completed its controlled handover. Before merging
-this removal, verify that the replacement policy grants only `contents: write`,
-stereo's old workflow is removed and all of its runs are drained. Require evidence
-of a signed production publication, an unchanged-input no-op, a watched-path push
-and an hourly resync from the replacement.
+The legacy `stereo-public-copy.sts.yaml` Actions policy is absent. Its absence
+does not drain previously issued tokens or workflow runs. Require evidence of a
+signed production publication, an unchanged-input no-op, a watched-path push and
+an hourly resync before retiring the disabled Actions workflow.
 
 Follow the
 [production handover runbook](https://github.com/chainguard-dev/mono/blob/main/env/enforce.dev/iac/400-public-copy-containers/README.md)
