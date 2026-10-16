@@ -53,5 +53,14 @@
    ]
   }
  },
- "tests": {}
+ "tests": {
+  "k3s-public": {
+   "digest": "k3s-public",
+   "k3s_stream": "1.37"
+  },
+  "k3s-static-public": {
+   "digest": "k3s-static-public",
+   "k3s_stream": "1.37"
+  }
+ }
 }
