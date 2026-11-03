@@ -171,6 +171,13 @@ data "oci_exec_test" "check-reproducibility" {
   digest          = module.this.image_ref
   script          = "${path.module}/check-reproducibility.sh"
   timeout_seconds = var.reproduce_timeout
+
+  # The locked index config, which is what the image-configuration attestation
+  # holds, passed directly so the check does not need a signed attestation.
+  env = [{
+    name  = "APKO_CONFIG_JSON"
+    value = jsonencode(module.this.config)
+  }]
 }
 
 data "oci_structure_test" "structure" {
