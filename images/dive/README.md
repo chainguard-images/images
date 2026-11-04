@@ -39,7 +39,7 @@ Chainguard's `dive` container image is comparable to the [upstream image](https:
 * It has few-to-zero CVEs
 * It does not run as the root user
 
-## Getting started
+## Getting Started
 
 You need to mount the Docker socket so Dive can access your local images:
 ```
