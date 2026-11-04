@@ -35,7 +35,7 @@ Be sure to replace the `ORGANIZATION` placeholder with the name used for your or
 
 Chainguard's `crane` image is comparable to the [official Crane image](https://gcr.io/go-containerregistry/crane). However, the Chainguard image contains only the minimum set of tools and dependencies needed to function. Additionally, it uses a different entrypoint, `/usr/bin/crane`, compared to upstream's entrypoint of `/ko-app/crane`.
 
-## Getting started
+## Getting Started
 
 You can inspect the `crane` image manifest using the `crane` image with the following command. The manifest provides a summary of key metadata about the image, including the image layers, digest information, annotations, and more.
 
