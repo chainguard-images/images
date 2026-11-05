@@ -48,21 +48,6 @@ provider "registry.terraform.io/chainguard-dev/cosign" {
   ]
 }
 
-provider "registry.terraform.io/chainguard-dev/imagetest" {
-  version     = "0.3.13"
-  constraints = "0.3.13"
-  hashes = [
-    "h1:05KWqXgauFI7UN4TpgIEtLERE5tKB695Z3wA8WH0rb8=",
-    "h1:dVtfjQCGcXYKheoPEckyVeGXSZhhsW2tUIKFl3x9i0Q=",
-    "h1:skVja+pgP2LiFKEMS8VVwwJGhaxCQw7oIv7GIoP1Bpw=",
-    "zh:075ba53f523f8a57646b67c751caadc0369d8eb92a1d694a4bebcc0837833719",
-    "zh:6ea5771d6102274ae9abac35b51a9deedb1b22ebe2df3cde964be3a9780ba6e1",
-    "zh:77a99408d6f01b1a0ff5f81e22d07661a0ae47ff2e223873f8173c126f087da2",
-    "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
-    "zh:9e02d47a7206706232edcd2a6503942117ec858fb6cbf584d162ca7188ed6960",
-  ]
-}
-
 provider "registry.terraform.io/chainguard-dev/oci" {
   version     = "0.2.5"
   constraints = "0.2.5"
