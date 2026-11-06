@@ -173,7 +173,7 @@ jobs:
           name: "mega-module-${{ matrix.shard.index }}.tf.json"
           path: /tmp/mega-module.tf.json
 
-      - uses: step-security/action-slack-notify@e4cdee14a905d9da46ba47ad9309704407d8cd79 # v2.4.0
+      - uses: chainguard-actions/rtCamp-action-slack-notify@0aa974ffa7b70fef9dbfa9542fe07276b68ab674 # v2.4.0
         if: ${{ failure() && github.event_name == 'schedule' }}
         env:
           SLACK_ICON: http://github.com/chainguard-dev.png?size=48
