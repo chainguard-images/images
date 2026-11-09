@@ -24,7 +24,7 @@ jobs:
     name: Action lint
     runs-on: ubuntu-latest
     steps:
-      - uses: step-security/harden-runner@b09bb98e06d4d774595224525879c09bc6e98c40 # v2.20.1
+      - uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
         with:
           egress-policy: block
           allowed-endpoints: >
@@ -48,7 +48,7 @@ jobs:
           echo "files=${yamls[*]}" >> "${GITHUB_OUTPUT}"
 
       - name: Action lint
-        uses: chainguard-actions/reviewdog-action-actionlint@7fdc349a3d37b6ea23d25c799de469d96bef3068 # v1.79.1
+        uses: chainguard-actions/reviewdog-action-actionlint@592699cb54a09521fb3beb334fec60540619ca80 # v1.83.0
         env:
           SHELLCHECK_OPTS: "--exclude=SC2129"
         with:
