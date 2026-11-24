@@ -1,0 +1,13 @@
+name: lean
+image: cgr.dev/chainguard/lean
+endoflife: ""
+console_summary: ""
+short_description: Lean 4 programming language and proof assistant, with a variant that includes the Mathlib math library, ready to use with no download.
+compatibility_notes: ""
+readme_file: README.md
+upstream_url: https://lean-lang.org/
+keywords:
+  - base
+public: true
+tier: BASE
+aliases: []
