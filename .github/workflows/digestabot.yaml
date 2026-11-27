@@ -18,7 +18,7 @@ jobs:
       id-token: write # To gitsign and federate
 
     steps:
-    - uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
+    - uses: step-security/harden-runner@aebdcf6156ab6691adf63218240e476564a1ed4c # v2.23.0
       with:
         egress-policy: audit
 
@@ -30,7 +30,7 @@ jobs:
         scope: ${{ github.repository }}
         identity: digestabot
 
-    - uses: chainguard-dev/digestabot@33d0b78e580aa0c83fe188eb3dfad6611b662479 # v1.3.2
+    - uses: chainguard-dev/digestabot@3e895adcf935bab7a21ebef6173d7cd4375822ab # v1.3.3
       with:
         token: ${{ steps.octo-sts.outputs.token }}
         working-dir: .github
